@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 26.07.20 17:22
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
 <resources>
-	<color name="colorPrimary">#6200EE</color>
-	<color name="colorPrimaryDark">#3700B3</color>
-	<color name="colorAccent">#03DAC5</color>
+	<color name="colorPrimary">#084177</color>
+	<color name="colorOnPrimary">#ffffff</color>
+
+	<color name="colorSecondary">#fcbf1e</color>
+	<color name="colorOnSecondary">#000000</color>
+
+	<color name="colorError">#7D1900</color>
+	<color name="colorOnError">#ffffff</color>
+
+	<color name="colorSurface">#ffffff</color>
+	<color name="colorOnSurface">#000000</color>
+
+	<color name="colorBackground">#ffffff</color>
+	<color name="colorOnBackground">#000000</color>
+
+	<color name="colorPrimaryLight">#476ba6</color>
+	<color name="colorPrimaryDark">#001b4b</color>
+	<color name="colorSecondaryLight">#fff159</color>
+	<color name="colorSecondaryDark">#c48f00</color>
+
 </resources>

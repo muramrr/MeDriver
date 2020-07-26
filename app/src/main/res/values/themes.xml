@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 26.07.20 18:56
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<!-- Themes & ThemeOverlays -->
+
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+		<!-- The color displayed most frequently across your app’s screens and components. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<!-- A tonal variation of the primary color. -->
+		<item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+		<item name="colorOnPrimary">@color/colorOnPrimary</item>
+
+		<!-- The secondary branding color, usually an accented complement to the primary branding color. -->
+		<item name="colorSecondary">@color/colorSecondary</item>
+		<!-- A tonal variation of the secondary color. -->
+		<item name="colorSecondaryVariant">@color/colorSecondaryDark</item>
+		<item name="colorOnSecondary">@color/colorOnSecondary</item>
+
+		<!-- Color affect surfaces of components, such as cards, sheets, and menus. -->
+		<item name="colorSurface">@color/colorSurface</item>
+		<item name="colorOnSurface">@color/colorOnSurface</item>
+
+		<!-- Error color indicates errors states, for components such as text fields -->
+		<item name="colorError">@color/colorError</item>
+		<item name="colorOnError">@color/colorOnError</item>
+
+		<!-- The background color appears behind scrollable content. -->
+		<item name="android:colorBackground">@color/colorBackground</item>
+		<item name="colorOnBackground">@color/colorOnBackground</item>
+
+
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<item name="android:statusBarColor">?attr/colorPrimary</item>
+
+
+		<!-- text appearances -->
+		<item name="android:textViewStyle">@style/My.Widget.TextView</item>
+		<item name="textAppearanceHeadline1">@style/My.TA.Headline1</item>
+		<item name="textAppearanceHeadline2">@style/My.TA.Headline2</item>
+		<item name="textAppearanceHeadline3">@style/My.TA.Headline3</item>
+		<item name="textAppearanceHeadline4">@style/My.TA.Headline4</item>
+		<item name="textAppearanceHeadline5">@style/My.TA.Headline5</item>
+		<item name="textAppearanceHeadline6">@style/My.TA.Headline6</item>
+		<item name="textAppearanceSubtitle1">@style/My.TA.Subtitle1</item>
+		<item name="textAppearanceSubtitle2">@style/My.TA.Subtitle2</item>
+		<item name="textAppearanceBody1">@style/My.TA.Body1</item>
+		<item name="textAppearanceBody2">@style/My.TA.Body2</item>
+		<item name="textAppearanceCaption">@style/My.TA.Caption</item>
+		<item name="textAppearanceButton">@style/My.TA.Button</item>
+		<item name="textAppearanceOverline">@style/My.TA.Overline</item>
+
+	</style>
+
+
+</resources>

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 15:05
+  ~ Last modified 26.07.20 19:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,5 +9,5 @@
   -->
 
 <resources>
-	<string name="app_name">MeDriver</string>
+	<string name="app_name">medriver</string>
 </resources>

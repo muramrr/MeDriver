@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 18:55
+  ~ Last modified 26.07.20 21:06
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,11 +16,12 @@
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
+		android:name=".core.MedriverApp"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:fullBackupContent="@xml/backup_descriptor">
-		<activity android:name=".MainActivity">
+		<activity android:name=".presentation.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

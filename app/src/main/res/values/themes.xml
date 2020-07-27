@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 18:56
+  ~ Last modified 27.07.20 20:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<!-- A tonal variation of the primary color. -->
 		<item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorOnPrimary">@color/colorOnPrimary</item>
 
 		<!-- The secondary branding color, usually an accented complement to the primary branding color. -->
@@ -40,10 +41,14 @@
 		<item name="android:colorBackground">@color/colorBackground</item>
 		<item name="colorOnBackground">@color/colorOnBackground</item>
 
-
+		<!-- system colors -->
 		<item name="android:navigationBarColor">@android:color/transparent</item>
-		<item name="android:statusBarColor">?attr/colorPrimary</item>
+		<!-- or it can be set by providing <item name="colorPrimaryDark">@color/colorPrimaryDark</item> -->
+		<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
+		<!-- widgets styles -->
+		<item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface</item>
+		<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
 
 		<!-- text appearances -->
 		<item name="android:textViewStyle">@style/My.Widget.TextView</item>

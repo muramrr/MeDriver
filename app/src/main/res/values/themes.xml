@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 27.07.20 20:16
+  ~ Last modified 27.07.20 21:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,14 +19,13 @@
 		<!-- The color displayed most frequently across your app’s screens and components. -->
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<!-- A tonal variation of the primary color. -->
-		<item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
 		<item name="colorOnPrimary">@color/colorOnPrimary</item>
 
 		<!-- The secondary branding color, usually an accented complement to the primary branding color. -->
 		<item name="colorSecondary">@color/colorSecondary</item>
 		<!-- A tonal variation of the secondary color. -->
-		<item name="colorSecondaryVariant">@color/colorSecondaryDark</item>
+		<item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
 		<item name="colorOnSecondary">@color/colorOnSecondary</item>
 
 		<!-- Color affect surfaces of components, such as cards, sheets, and menus. -->
@@ -44,10 +43,9 @@
 		<!-- system colors -->
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<!-- or it can be set by providing <item name="colorPrimaryDark">@color/colorPrimaryDark</item> -->
-		<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+		<item name="android:statusBarColor">@color/colorStatusBar</item>
 
 		<!-- widgets styles -->
-		<item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface</item>
 		<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
 
 		<!-- text appearances -->

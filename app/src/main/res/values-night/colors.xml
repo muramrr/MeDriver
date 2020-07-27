@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 17:22
+  ~ Last modified 27.07.20 21:22
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,16 @@
 
 <resources>
 
-	<color name="colorPrimary">#ff5200</color>
+<!-- Night colors following by material guidelines -->
+
+<!-- see: https://material.io/design/color/dark-theme.html#ui-application -->
+
+	<color name="colorPrimary">#4CA2F3</color>
+	<color name="colorPrimaryVariant">@color/colorPrimaryDark</color>
 	<color name="colorOnPrimary">#000000</color>
 
-	<color name="colorSecondary">#0779e4</color>
+	<color name="colorSecondary">#fcbf1e</color>
+	<color name="colorSecondaryVariant">@color/colorSecondary</color>
 	<color name="colorOnSecondary">#000000</color>
 
 	<color name="colorError">#FF3737</color>
@@ -23,14 +29,15 @@
 	<color name="colorSurface">#121212</color>
 	<color name="colorOnSurface">#ffffff</color>
 
-	<color name="colorBackground">#000000</color>
+	<color name="colorBackground">#121212</color>
 	<color name="colorOnBackground">#ffffff</color>
 
-	<color name="colorPrimaryLight">#ff863c</color>
-	<color name="colorPrimaryDark">#c31200</color>
-	<color name="colorSecondaryLight">#63a7ff</color>
-	<color name="colorSecondaryDark">#004eb1</color>
+	<color name="colorPrimaryLight">#476ba6</color>
+	<color name="colorPrimaryDark">#001b4b</color>
+	<color name="colorSecondaryLight">#fff159</color>
+	<color name="colorSecondaryDark">#c48f00</color>
 
+	<color name="colorStatusBar">#000000</color>
 
 
 </resources>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 19:04
+ * Last modified 27.07.20 20:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.mmdev.me.driver.databinding.ActivityMainBinding
+import com.mmdev.me.driver.presentation.utils.ThemeHelper
 
 class MainActivity: AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,5 +36,10 @@ class MainActivity: AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		val binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
+
+		binding.switcher.setOnCheckedChangeListener { _, b ->
+			if (b) ThemeHelper.applyTheme(ThemeHelper.ThemeMode.DARK_MODE)
+			else ThemeHelper.applyTheme(ThemeHelper.ThemeMode.LIGHT_MODE)
+		}
 	}
 }

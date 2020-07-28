@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 18:55
+  ~ Last modified 28.07.20 21:02
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,5 +13,13 @@
 	<style name="My.Widget.TextView" parent="@style/Widget.MaterialComponents.TextView">
 		<item name="android:textAppearance">@style/My.TA.Body1</item>
 	</style>
+
+	<style name="BaseSwitcher">
+		<item name="switcher_width">@dimen/switcher_width</item>
+		<item name="switcher_height">@dimen/switcher_height</item>
+		<item name="elevation">@dimen/switcher_elevation</item>
+	</style>
+
+	<style name="Switcher" parent="BaseSwitcher"/>
 
 </resources>

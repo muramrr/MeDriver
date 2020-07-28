@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 27.07.20 21:24
+  ~ Last modified 28.07.20 20:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,12 +32,28 @@
 			app:layout_constraintBottom_toTopOf="@id/bottomNavMain"
 			/>
 
-		<com.google.android.material.switchmaterial.SwitchMaterial
+		<com.mmdev.me.driver.presentation.ui.custom.components.Switcher
 			android:id="@+id/switcher"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 
 			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+
+		<com.google.android.material.switchmaterial.SwitchMaterial
+			android:id="@+id/switcherMaterial"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+
+
+			android:text="Не понятно"
+			android:textAppearance="@style/My.TA.Headline4"
+
+
+			app:layout_constraintTop_toBottomOf="@id/switcher"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"

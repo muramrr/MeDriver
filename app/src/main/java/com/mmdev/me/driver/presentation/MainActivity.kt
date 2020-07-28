@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 20:38
+ * Last modified 28.07.20 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,7 +37,7 @@ class MainActivity: AppCompatActivity() {
 		val binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-		binding.switcher.setOnCheckedChangeListener { _, b ->
+		binding.switcher.setOnCheckedChangeListener { b ->
 			if (b) ThemeHelper.applyTheme(ThemeHelper.ThemeMode.DARK_MODE)
 			else ThemeHelper.applyTheme(ThemeHelper.ThemeMode.LIGHT_MODE)
 		}

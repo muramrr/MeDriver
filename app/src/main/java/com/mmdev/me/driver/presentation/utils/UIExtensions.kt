@@ -11,5 +11,3 @@
 package com.mmdev.me.driver.presentation.utils
 
 
-fun lerp(a: Float, b: Float, t: Float): Float =
-	a + (b - a) * t

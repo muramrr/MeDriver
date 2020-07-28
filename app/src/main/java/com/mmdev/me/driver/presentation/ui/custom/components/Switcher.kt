@@ -24,18 +24,18 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
 import androidx.core.graphics.withTranslation
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.presentation.ui.custom.components.switcher.BounceInterpolator
-import com.mmdev.me.driver.presentation.utils.lerp
 
 /**
  *
  */
 
-class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
-                                         defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+class Switcher @JvmOverloads constructor(
+	context: Context, attrs:
+	AttributeSet? = null,
+	defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
 	companion object {
 		private const val SWITCHER_ANIMATION_DURATION = 800L
@@ -75,7 +75,7 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 	private val iconClipPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-	private var animatorSet: AnimatorSet? = AnimatorSet()
+	private var animatorSet: AnimatorSet = AnimatorSet()
 
 	private var shadowOffset = 0f
 
@@ -95,11 +95,11 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 			if (field != value) {
 				field = value
 
-				val iconOffset = lerp(0f, iconRadius - iconCollapsedWidth / 2, value)
+				val iconOffset = linearInterpolation(0f, iconRadius - iconCollapsedWidth / 2, value)
 				iconRect.left = width - switcherCornerRadius - iconCollapsedWidth / 2 - iconOffset
 				iconRect.right = width - switcherCornerRadius + iconCollapsedWidth / 2 + iconOffset
 
-				val clipOffset = lerp(0f, iconClipRadius, value)
+				val clipOffset = linearInterpolation(0f, iconClipRadius, value)
 				iconClipRect.set(
 						iconRect.centerX() - clipOffset,
 						iconRect.centerY() - clipOffset,
@@ -130,7 +130,7 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 	init {
 		attrs?.let { retrieveAttributes(attrs, defStyleAttr) }
-		setOnClickListener { setChecked(!isChecked) }
+		setOnClickListener { toggle() }
 	}
 
 	private fun retrieveAttributes(attrs: AttributeSet, defStyleAttr: Int) {
@@ -151,8 +151,7 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 		iconColor = typedArray.getColor(R.styleable.Switcher_switcher_icon_color, Color.WHITE)
 
-		isChecked = typedArray.getBoolean(R.styleable.Switcher_android_checked, true)
-
+		isChecked = typedArray.getBoolean(R.styleable.Switcher_android_checked, false)
 		if (!isChecked) iconProgress = 1f
 
 		currentColor = if (isChecked) onColor else offColor
@@ -236,84 +235,94 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 		}
 	}
 
-	private fun animateSwitch() {
-		animatorSet?.cancel()
-		animatorSet = AnimatorSet()
-
-		onClickOffset = ON_CLICK_RADIUS_OFFSET
-
-		var amplitude = BOUNCE_ANIM_AMPLITUDE_IN
-		var frequency = BOUNCE_ANIM_FREQUENCY_IN
-		var iconTranslateA = 0f
-		var iconTranslateB = -(width - shadowOffset - switcherCornerRadius * 2)
-		var newProgress = 1f
-
-		if (isChecked) {
-			amplitude = BOUNCE_ANIM_AMPLITUDE_OUT
-			frequency = BOUNCE_ANIM_FREQUENCY_OUT
-			iconTranslateA = iconTranslateB
-			iconTranslateB = -shadowOffset
-			newProgress = 0f
-		}
-
-		val switcherAnimator = ValueAnimator.ofFloat(iconProgress, newProgress).apply {
-			addUpdateListener { iconProgress = it.animatedValue as Float }
-			interpolator = BounceInterpolator(amplitude, frequency)
-			duration = SWITCHER_ANIMATION_DURATION
-		}
-
-		val translateAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-			addUpdateListener {
-				val value = it.animatedValue as Float
-				iconTranslateX = lerp(iconTranslateA, iconTranslateB, value)
-			}
-			doOnEnd { onClickOffset = 0f }
-			duration = TRANSLATE_ANIMATION_DURATION
-		}
-
+	private fun animateBackgroundColor() : ValueAnimator {
 		val toColor = if (isChecked) onColor else offColor
 
 		iconClipPaint.color = toColor
 
-		val colorAnimator = ValueAnimator().apply {
+		return ValueAnimator().apply {
 			addUpdateListener { currentColor = it.animatedValue as Int }
 			setIntValues(currentColor, toColor)
 			setEvaluator(ArgbEvaluator())
 			duration = COLOR_ANIMATION_DURATION
 		}
+	}
 
-		animatorSet?.apply {
-			doOnStart { listener?.invoke(isChecked) }
-			playTogether(switcherAnimator, translateAnimator, colorAnimator)
-			start()
+	private fun animateIconTranslation(): ValueAnimator {
+		//initial pos will translate from left to right -> (left to right)
+		var startPos = 0f
+		var endPos = -(width - shadowOffset - switcherCornerRadius * 2)
+
+		if (isChecked) {
+			//if checked start from endPos <- (right to left)
+			startPos = endPos
+			endPos = -shadowOffset
+		}
+
+		return ValueAnimator.ofFloat(0f, 1f).apply {
+			addUpdateListener {
+				val value = it.animatedValue as Float
+				iconTranslateX = linearInterpolation(startPos, endPos, value)
+			}
+			doOnEnd { onClickOffset = 0f }
+			duration = TRANSLATE_ANIMATION_DURATION
 		}
 	}
 
-	private var listener: ((isChecked: Boolean) -> Unit)? = null
+	private fun animateIconChange() : ValueAnimator {
+		var amplitude = BOUNCE_ANIM_AMPLITUDE_IN
+		var frequency = BOUNCE_ANIM_FREQUENCY_IN
 
-	/**
-	 * Register a callback to be invoked when the isChecked state of this switch
-	 * changes.
-	 *
-	 * @param listener the callback to call on isChecked state change
-	 */
-	fun setOnCheckedChangeListener(listener: (isChecked: Boolean) -> Unit) {
-		this.listener = listener
+		var newProgress = 1f
+
+		if (isChecked) {
+			amplitude = BOUNCE_ANIM_AMPLITUDE_OUT
+			frequency = BOUNCE_ANIM_FREQUENCY_OUT
+			newProgress = 0f
+		}
+
+		return ValueAnimator.ofFloat(iconProgress, newProgress).apply {
+			addUpdateListener { iconProgress = it.animatedValue as Float }
+			interpolator = BounceInterpolator(amplitude, frequency)
+			duration = SWITCHER_ANIMATION_DURATION
+		}
+	}
+
+	private fun animateSwitch() {
+		animatorSet.cancel()
+		animatorSet = AnimatorSet()
+
+		onClickOffset = ON_CLICK_RADIUS_OFFSET
+
+
+		val colorBackgroundAnimator = animateBackgroundColor()
+
+		val translateIconAnimator = animateIconTranslation()
+
+		val iconAnimator = animateIconChange()
+
+		animatorSet.apply {
+			//doOnStart { listener?.invoke(this@Switcher, isChecked) }
+			playTogether(colorBackgroundAnimator, translateIconAnimator, iconAnimator)
+			start()
+			//guarantee that animation will play smoothly if Activity or Fragment recreated
+			//invoke after animation successfully played
+
+			doOnEnd { listener?.invoke(this@Switcher, isChecked) }
+		}
 	}
 
 	/**
 	 * <p>Changes the isChecked state of this switch.</p>
 	 *
 	 * @param checked true to check the switch, false to uncheck it
-	 * @param withAnimation use animation
 	 */
-	private fun setChecked(checked: Boolean, withAnimation: Boolean = true) {
-		if (this.isChecked != checked) {
-			this.isChecked = checked
-			if (withAnimation && width != 0) {
-				animateSwitch()
-			} else {
-				animatorSet?.cancel()
+	private fun setChecked(checked: Boolean) {
+		if (isChecked != checked) {
+			isChecked = checked
+			if (width != 0) { animateSwitch() }
+			else {
+				animatorSet.cancel()
 				if (!checked) {
 					currentColor = offColor
 					iconProgress = 1f
@@ -323,31 +332,59 @@ class Switcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 					iconProgress = 0f
 					iconTranslateX = -shadowOffset
 				}
-				listener?.invoke(isChecked)
+				listener?.invoke(this, isChecked)
 			}
 		}
 	}
 
+	private var listener: ((view: Switcher, isChecked: Boolean) -> Unit)? = null
+
+	/**
+	 * Register a callback to be invoked when the isChecked state of this switch
+	 * changes.
+	 *
+	 * @param listener the callback to call on isChecked state change
+	 */
+	fun setOnCheckedChangeListener(listener: (view: Switcher, isChecked: Boolean) -> Unit) {
+		this.listener = listener
+	}
+
+	fun isChecked(): Boolean = isChecked
+
+	fun toggle() { setChecked(!isChecked) }
+
 	override fun onSaveInstanceState(): Parcelable {
 		super.onSaveInstanceState()
 		return Bundle().apply {
-			putBoolean(KEY_CHECKED, isChecked)
 			putParcelable(STATE, super.onSaveInstanceState())
+			putBoolean(KEY_CHECKED, isChecked)
 		}
 	}
 
 	override fun onRestoreInstanceState(state: Parcelable?) {
 		if (state is Bundle) {
-			super.onRestoreInstanceState(state.getParcelable(STATE))
+
 			isChecked = state.getBoolean(KEY_CHECKED)
-			if (!isChecked) forceUncheck()
+			restoreSwitchState(isChecked)
+
+			super.onRestoreInstanceState(state.getParcelable(STATE))
 		}
 	}
 
-	private fun forceUncheck() {
-		currentColor = offColor
-		iconProgress = 1f
-		iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
+	private fun restoreSwitchState(checked: Boolean) {
+		if (!checked) {
+			currentColor = offColor
+			iconProgress = 1f
+			iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
+		}
+		else {
+			currentColor = onColor
+			iconProgress = 0f
+			iconTranslateX = -shadowOffset
+		}
+
 	}
+
+	private fun linearInterpolation(a: Float, b: Float, x: Float): Float = a + (b - a) * x
 
 }

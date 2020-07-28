@@ -37,7 +37,7 @@ class MainActivity: AppCompatActivity() {
 		val binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-		binding.switcher.setOnCheckedChangeListener { b ->
+		binding.switcher.setOnCheckedChangeListener { _, b ->
 			if (b) ThemeHelper.applyTheme(ThemeHelper.ThemeMode.DARK_MODE)
 			else ThemeHelper.applyTheme(ThemeHelper.ThemeMode.LIGHT_MODE)
 		}

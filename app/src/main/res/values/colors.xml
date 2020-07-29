@@ -24,7 +24,7 @@
 	<color name="colorSurface">#ffffff</color>
 	<color name="colorOnSurface">#000000</color>
 
-	<color name="colorBackground">#ffffff</color>
+	<color name="colorBackground">#F0F0F0</color>
 	<color name="colorOnBackground">#000000</color>
 
 	<color name="colorPrimaryLight">#476ba6</color>

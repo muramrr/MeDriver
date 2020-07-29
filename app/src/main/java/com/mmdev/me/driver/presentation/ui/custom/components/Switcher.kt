@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.07.20 21:01
+ * Last modified 29.07.20 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,14 +38,14 @@ class Switcher @JvmOverloads constructor(
 	defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
 	companion object {
-		private const val SWITCHER_ANIMATION_DURATION = 800L
+		private const val SWITCHER_ANIMATION_DURATION = 600L
 		private const val COLOR_ANIMATION_DURATION = 300L
 		private const val TRANSLATE_ANIMATION_DURATION = 200L
 		private const val ON_CLICK_RADIUS_OFFSET = 2f
-		private const val BOUNCE_ANIM_AMPLITUDE_IN = 0.2
-		private const val BOUNCE_ANIM_AMPLITUDE_OUT = 0.15
-		private const val BOUNCE_ANIM_FREQUENCY_IN = 14.5
-		private const val BOUNCE_ANIM_FREQUENCY_OUT = 12.0
+		private const val BOUNCE_ANIM_AMPLITUDE_IN = 0.3
+		private const val BOUNCE_ANIM_AMPLITUDE_OUT = 0.2
+		private const val BOUNCE_ANIM_FREQUENCY_IN = 16.5
+		private const val BOUNCE_ANIM_FREQUENCY_OUT = 15.0
 
 		private const val STATE = "switch_state"
 		private const val KEY_CHECKED = "checked"
@@ -144,10 +144,10 @@ class Switcher @JvmOverloads constructor(
 		switchElevation = typedArray.getDimension(R.styleable.Switcher_elevation, 0f)
 
 		onColor = typedArray.getColor(R.styleable.Switcher_switcher_on_color,
-		                              Color.parseColor("#48ea8b"))
+		                              Color.parseColor("#48EA8B"))
 
 		offColor = typedArray.getColor(R.styleable.Switcher_switcher_off_color,
-		                               Color.parseColor("#ff4651"))
+		                               Color.parseColor("#d62828"))
 
 		iconColor = typedArray.getColor(R.styleable.Switcher_switcher_icon_color, Color.WHITE)
 
@@ -192,7 +192,7 @@ class Switcher @JvmOverloads constructor(
 
 		iconRadius = switcherCornerRadius * 0.6f
 		iconClipRadius = iconRadius / 2.25f
-		iconCollapsedWidth = iconRadius - iconClipRadius
+		iconCollapsedWidth = iconRadius - iconClipRadius / 2
 
 		iconHeight = iconRadius * 2f
 

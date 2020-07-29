@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 29.07.20 20:58
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/navigation_main"
+	app:startDestination="@id/homeFragment">
+
+
+	<action android:id="@+id/bottomNavMainHome"
+		app:destination="@id/homeFragment"
+		app:enterAnim="@anim/fragment_fade_enter"
+		app:exitAnim="@anim/fragment_fade_exit"
+		app:launchSingleTop="true"
+		/>
+
+	<action android:id="@+id/bottomNavMainCare"
+		app:destination="@id/careFragment"
+		app:enterAnim="@anim/fragment_fade_enter"
+		app:exitAnim="@anim/fragment_fade_exit"
+		app:launchSingleTop="true"
+		/>
+
+	<action android:id="@+id/bottomNavMainMyCar"
+		app:destination="@id/myCarFragment"
+		app:enterAnim="@anim/fragment_fade_enter"
+		app:exitAnim="@anim/fragment_fade_exit"
+		app:launchSingleTop="true"
+		/>
+
+	<action android:id="@+id/bottomNavMainFuel"
+		app:destination="@id/fuelFragment"
+		app:enterAnim="@anim/fragment_fade_enter"
+		app:exitAnim="@anim/fragment_fade_exit"
+		app:launchSingleTop="true"
+		/>
+
+	<action android:id="@+id/bottomNavMainSettings"
+		app:destination="@id/settingsFragment"
+		app:enterAnim="@anim/fragment_fade_enter"
+		app:exitAnim="@anim/fragment_fade_exit"
+		app:launchSingleTop="true"
+		/>
+
+
+	<fragment android:id="@+id/homeFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.home.HomeFragment"
+		android:label="HomeFragment"
+		tools:layout="@layout/fragment_home"
+		/>
+
+	<fragment android:id="@+id/careFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.care.CareFragment"
+		android:label="CareFragment"
+		tools:layout="@layout/fragment_care"
+		/>
+
+	<fragment android:id="@+id/myCarFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.mycar.MyCarFragment"
+		android:label="MyCarFragment"
+		tools:layout="@layout/fragment_mycar"
+		/>
+
+	<fragment android:id="@+id/fuelFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.fuel.FuelFragment"
+		android:label="FuelFragment"
+		tools:layout="@layout/fragment_fuel"
+		/>
+
+	<fragment android:id="@+id/settingsFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.settings.SettingsFragment"
+		android:label="SettingsFragment"
+		tools:layout="@layout/fragment_settings"
+		/>
+
+
+
+</navigation>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 29.07.20 20:58
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+
+<!--	<data>-->
+<!--		<variable-->
+<!--			name="viewModel"-->
+<!--			type="com.mmdev.me.driver.presentation.ui.home.HomeViewModel" />-->
+<!--	</data>-->
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+
+		>
+
+
+
+		<ImageView
+			android:id="@+id/car"
+			android:layout_width="0dp"
+			android:layout_height="200dp"
+
+			android:scaleType="centerInside"
+			android:src="@drawable/cuv"
+
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -2,62 +2,44 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.07.20 20:53
+  ~ Last modified 29.07.20 20:31
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<layout>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	>
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		tools:context=".presentation.MainActivity"
+
+		app:applySystemWindowInsetsMarginTop="@{true}"
+
+
+		tools:context=".presentation.ui.MainActivity"
 		>
 
-		<androidx.fragment.app.FragmentContainerView
+		<fragment
 			android:id="@+id/navHostMain"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			android:name="androidx.navigation.fragment.NavHostFragment"
+
 			app:defaultNavHost="true"
+			app:navGraph="@navigation/navigation_main"
 
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintBottom_toTopOf="@id/bottomNavMain"
+			tools:ignore="FragmentTagUsage"
 			/>
 
-		<com.mmdev.me.driver.presentation.ui.custom.components.Switcher
-			android:id="@+id/switcher"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
-
-		<com.google.android.material.switchmaterial.SwitchMaterial
-			android:id="@+id/switcherMaterial"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-
-
-			android:text="Не понятно"
-			android:textAppearance="@style/My.TA.Headline4"
-
-
-			app:layout_constraintTop_toBottomOf="@id/switcher"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
 
 		<com.google.android.material.bottomnavigation.BottomNavigationView
 			android:id="@+id/bottomNavMain"

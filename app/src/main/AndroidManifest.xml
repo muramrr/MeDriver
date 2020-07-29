@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 21:06
+  ~ Last modified 29.07.20 19:29
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:fullBackupContent="@xml/backup_descriptor">
-		<activity android:name=".presentation.MainActivity">
+		<activity android:name=".presentation.ui.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

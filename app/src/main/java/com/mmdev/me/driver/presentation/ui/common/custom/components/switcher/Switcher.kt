@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 15:53
+ * Last modified 29.07.20 18:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.custom.components
+package com.mmdev.me.driver.presentation.ui.common.custom.components.switcher
 
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
@@ -26,7 +26,6 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.graphics.withTranslation
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.presentation.ui.custom.components.switcher.BounceInterpolator
 
 /**
  *

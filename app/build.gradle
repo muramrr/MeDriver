@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 21:09
+ * Last modified 29.07.20 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -64,6 +64,7 @@ dependencies {
 	kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 	//di viewModels
 	implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+	kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 	
 	//navigation
 	implementation "androidx.navigation:navigation-ui-ktx:2.3.0"

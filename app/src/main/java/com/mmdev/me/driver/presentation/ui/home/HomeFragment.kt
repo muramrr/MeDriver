@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.presentation.ui.home
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
@@ -19,12 +20,12 @@ import com.mmdev.me.driver.presentation.ui.common.base.BaseFragment
  *
  */
 
-//@AndroidEntryPoint
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
 
 	override val viewModel: HomeViewModel by viewModels()
 	override fun setupViews() {
 		binding.pbOilUsageLeft.updateProgress(21f)
+		Log.wtf("mylogs", "${viewModel.vehicleByVIN}")
 	}
 
 

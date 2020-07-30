@@ -10,13 +10,29 @@
 
 package com.mmdev.me.driver.presentation.ui.home
 
-import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.domain.VehicleByVIN
+import com.mmdev.me.driver.domain.vin.IVINRepository
 import com.mmdev.me.driver.presentation.ui.common.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  *
  */
 
-class HomeViewModel @ViewModelInject constructor(
+class HomeViewModel constructor(private val repository: IVINRepository
 	//@Assisted private val savedStateHandle: SavedStateHandle
-): BaseViewModel()
+): BaseViewModel() {
+
+	val vehicleByVIN : MutableLiveData<VehicleByVIN> = MutableLiveData()
+
+	fun getVehicleByVIN(VINCode: String) = viewModelScope.launch {
+		withContext(Dispatchers.IO) {
+			repository.getVehicleByVIN(VINCode)
+		}
+	}
+
+}

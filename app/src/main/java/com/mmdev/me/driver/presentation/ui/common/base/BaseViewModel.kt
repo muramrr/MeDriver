@@ -11,24 +11,29 @@
 package com.mmdev.me.driver.presentation.ui.common.base
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 /**
- * generic class for viewmodels
+ * generic class for viewModels
  */
 
 abstract class BaseViewModel: ViewModel() {
 
 	protected val TAG = "mylogs_" + javaClass.simpleName
 
-	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
-		return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-			emitSource(block())
+//	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
+//		return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
+//			emitSource(block())
+//		}
+//	}
+
+	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> Unit) {
+		viewModelScope.launch(Dispatchers.IO) {
+			block()
 		}
 	}
 

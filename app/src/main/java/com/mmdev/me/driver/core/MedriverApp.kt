@@ -11,9 +11,30 @@
 package com.mmdev.me.driver.core
 
 import android.app.Application
+import com.mmdev.me.driver.core.di.DataSourceModule
+import com.mmdev.me.driver.core.di.NetworkModule
+import com.mmdev.me.driver.core.di.RepositoryModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 /**
  *
  */
 
-class MedriverApp : Application()
+class MedriverApp : Application() {
+
+
+	override fun onCreate() {
+		super.onCreate()
+		startKoin {
+			androidContext(this@MedriverApp)
+			androidLogger()
+			modules(listOf(
+					NetworkModule,
+					DataSourceModule,
+					RepositoryModule
+			))
+		}
+	}
+}

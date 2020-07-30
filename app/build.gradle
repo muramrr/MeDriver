@@ -59,7 +59,8 @@ dependencies {
 	implementation 'com.google.android.material:material:1.3.0-alpha02'
 
 	//di
-
+	implementation "org.koin:koin-androidx-viewmodel:2.1.6"
+	implementation "org.koin:koin-androidx-fragment:2.1.6"
 	
 	//navigation
 	implementation "androidx.navigation:navigation-ui-ktx:2.3.0"

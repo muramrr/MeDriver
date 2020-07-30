@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.07.20 18:33
+ * Last modified 30.07.20 20:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -153,10 +153,14 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 			style = Paint.Style.FILL
 			textSize = progressTextSize
 			textAlign = Paint.Align.CENTER
-			typeface = ResourcesCompat.getFont(context, R.font.m_plus_rounded1c_regular)
+			typeface = ResourcesCompat.getFont(context, R.font.m_plus_rounded1c_medium)
 			getTextBounds(text, 0, text.length, progressTextBounds)
 		}
-		canvas.drawText(text, circleBounds.centerX(), circleBounds.centerY() + progressTextBounds
-			.height() / 2, paint)
+		canvas.drawText(
+				text,
+				circleBounds.centerX(),
+				circleBounds.centerY() + progressTextBounds.height() / 2,
+				paint
+		)
 	}
 }

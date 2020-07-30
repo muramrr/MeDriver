@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 20:46
+ * Last modified 30.07.20 18:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId =
 
 	override val viewModel: HomeViewModel by viewModels()
 	override fun setupViews() {
+		binding.pbOilUsageLeft.updateProgress(21f)
 	}
 
 

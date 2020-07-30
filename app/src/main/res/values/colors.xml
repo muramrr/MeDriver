@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 27.07.20 21:04
+  ~ Last modified 30.07.20 20:12
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,5 +33,7 @@
 	<color name="colorSecondaryDark">#c48f00</color>
 
 	<color name="colorStatusBar">@color/colorPrimaryDark</color>
+
+	<color name="surface3dpImitation">@color/colorSurface</color>
 
 </resources>

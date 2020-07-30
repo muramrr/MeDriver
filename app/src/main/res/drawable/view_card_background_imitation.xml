@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 30.07.20 20:10
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!-- margin bottom +3 -->
+	<!-- Drop Shadow Stack -->
+
+	<item>
+		<shape>
+			<padding android:top="1dp"
+				android:right="1dp"
+				android:bottom="1dp"
+				android:left="1dp" />
+			<solid android:color="#15000000" />
+			<corners android:radius="17dp" />
+		</shape>
+	</item>
+	<item>
+		<shape>
+			<padding android:bottom="1dp" />
+			<solid android:color="#20000000" />
+			<corners android:radius="17dp" />
+		</shape>
+	</item>
+	<item>
+		<shape>
+			<padding android:bottom="1dp" />
+			<solid android:color="#25000000" />
+			<corners android:radius="16dp" />
+		</shape>
+	</item>
+
+	<!-- Background -->
+	<item>
+		<shape>
+			<solid android:color="@color/surface3dpImitation" />
+			<corners android:radius="16dp" />
+		</shape>
+	</item>
+</layer-list>

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.07.20 19:21
+  ~ Last modified 30.07.20 18:29
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
   -->
 
 <resources>
+
 	<declare-styleable name="Switcher">
 		<attr name="elevation" />
 		<attr name="switcher_width" format="dimension"/>
@@ -19,4 +20,11 @@
 		<attr name="switcher_off_color" format="color" />
 		<attr name="switcher_icon_color" format="color" />
 	</declare-styleable>
+
+	<declare-styleable name="CircularProgressBar">
+		<attr name="barBackgroundColor" format="color|reference" />
+		<attr name="barForegroundColor" format="color|reference" />
+		<attr name="android:textColor" />
+	</declare-styleable>
+
 </resources>

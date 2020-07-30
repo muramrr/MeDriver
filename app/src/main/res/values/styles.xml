@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 15:50
+  ~ Last modified 30.07.20 18:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,5 +23,14 @@
 	</style>
 
 	<style name="Switcher" parent="BaseSwitcher"/>
+
+	<style name="BaseProgress">
+		<item name="barBackgroundColor">#e1e7e9</item>
+		<item name="barForegroundColor">@color/colorSecondary</item>
+		<item name="android:textColor">?attr/colorOnBackground</item>
+
+	</style>
+
+	<style name="CircularProgress" parent="BaseProgress"/>
 
 </resources>

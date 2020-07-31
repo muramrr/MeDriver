@@ -17,9 +17,9 @@
 	<style name="BaseSwitcher">
 		<item name="switcher_off_color">#d62828</item>
 		<item name="switcher_on_color">#1FF678</item>
-		<item name="switcher_width">@dimen/switcher_width</item>
-		<item name="switcher_height">@dimen/switcher_height</item>
-		<item name="elevation">@dimen/switcher_elevation</item>
+		<item name="switcher_width">50dp</item>
+		<item name="switcher_height">30dp</item>
+		<item name="elevation">2dp</item>
 	</style>
 
 	<style name="Switcher" parent="BaseSwitcher"/>

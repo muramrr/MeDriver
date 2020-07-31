@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="home_tvCurrentCar_textSize">30sp</dimen>
+	<dimen name="home_ivCar_height">120dp</dimen>
+	<dimen name="home_cards_width">180dp</dimen>
+	<dimen name="home_cards_height">220dp</dimen>
+	<dimen name="home_circularProgress_size">80dp</dimen>
+</resources>

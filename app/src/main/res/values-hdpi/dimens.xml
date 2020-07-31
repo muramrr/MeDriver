@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="home_ivCar_height">100dp</dimen>
+	<dimen name="home_cards_width">150dp</dimen>
+	<dimen name="home_cards_height">200dp</dimen>
+	<dimen name="home_circularProgress_size">60dp</dimen>
+</resources>

@@ -1,6 +1,16 @@
+/*
+ * Created by Andrii Kovalchuk
+ * Copyright (c) 2020. All rights reserved.
+ * Last modified 31.07.20 20:13
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.mmdev.me.driver.data.api
 
-import com.mmdev.me.driver.domain.VehicleByVIN
+import com.mmdev.me.driver.domain.VinCodeResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -17,6 +27,6 @@ interface VINCodeApi {
 	}
 
 	@GET("$VINCODE_URL{VINCode}?format=json")
-	suspend fun getVehicleByVINCodeFromApi(@Path("VINCode") VINCode: String): VehicleByVIN
+	suspend fun getVehicleByVINCodeFromApi(@Path("VINCode") VINCode: String): VinCodeResponse
 
 }

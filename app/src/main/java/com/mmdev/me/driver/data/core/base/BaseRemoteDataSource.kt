@@ -8,17 +8,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.remote
+package com.mmdev.me.driver.data.core.base
 
 import com.mmdev.me.driver.data.core.ResponseState
-import com.mmdev.me.driver.domain.VinCodeResponse
 
 /**
- * This is the documentation block about the class
+ *
  */
 
-interface IVINDataSource {
+open class BaseRemoteDataSource {
 
-	suspend fun getVehicleByVINCode(VINCode: String) : ResponseState<VinCodeResponse>
-
+	suspend fun <T: Any> safeCallResponse(call: suspend ()-> T,
+	                                      errorMessage: String) : ResponseState<T> =
+		try {
+			val callResult = call.invoke()
+			ResponseState.Success(callResult)
+		}
+		catch (t: Throwable) {
+			ResponseState.Error(errorMessage, t)
+		}
 }

@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 15:54
+ * Last modified 31.07.20 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.common.base
+package com.mmdev.me.driver.presentation.core.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,6 +67,8 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	}
 
 	abstract fun setupViews()
+
+	//abstract fun renderState(state: IViewState)
 
 //	protected inline fun <reified VM : ViewModel> getViewModel(): VM =
 //		if (isViewModelActivityHosted) {

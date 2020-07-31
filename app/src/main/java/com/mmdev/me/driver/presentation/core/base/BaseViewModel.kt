@@ -1,18 +1,18 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 20:12
+ * Last modified 31.07.20 21:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.common.base
+package com.mmdev.me.driver.presentation.core.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.core.utils.logInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -38,7 +38,7 @@ abstract class BaseViewModel: ViewModel() {
 	}
 
 	override fun onCleared() {
-		Log.wtf(TAG, "${javaClass.simpleName} on cleared called")
+		logInfo(TAG, "${javaClass.simpleName} on cleared called")
 		super.onCleared()
 	}
 }

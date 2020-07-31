@@ -16,7 +16,10 @@ import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.ui.home.HomeViewModel.VINViewState
+import com.mmdev.me.driver.presentation.utils.setDebounceClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.random.Random
 
 /**
  *
@@ -25,25 +28,38 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
 
 	override val viewModel: HomeViewModel by viewModel()
+
+//	private val viewModel by lazy {
+//		requireParentFragment().getViewModel<MyViewModel>()
+//	}
+
 	override fun setupViews() {
-		binding.pbOilUsageLeft.updateProgress(21f)
+
+
 //		Log.wtf("mylogs", "${viewModel.vehicleByVIN}")
 		viewModel.getVehicleByVIN("2S3DA417576128786")
 		viewModel.vehicleByVIN.observe(this, Observer {
-			when (it) {
-				is ViewState.Success -> {
-					logWtf(message = "${it.data}")
-				}
-				is ViewState.Loading -> {
-					logWtf(message = "loading")
-
-				}
-				is ViewState.Error -> {
-					logWtf(message = it.errorMessage)
-				}
-			}
-			//renderState(it)
+			renderState(it)
 		})
+
+		binding.pbOilUsageLeft.setDebounceClick (1000L) {
+			updateProgress(Random.nextInt(0, 100).toFloat())
+		}
+	}
+
+	override fun renderState(state: ViewState) {
+		when (state) {
+			is VINViewState.Success -> {
+				logWtf(message = "${state.data}")
+			}
+			is VINViewState.Loading -> {
+				logWtf(message = "loading")
+
+			}
+			is VINViewState.Error -> {
+				logWtf(message = state.errorMessage)
+			}
+		}
 
 	}
 

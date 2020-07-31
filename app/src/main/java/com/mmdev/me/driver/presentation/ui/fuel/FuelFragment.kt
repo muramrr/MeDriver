@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.fuel
 
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
+import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 
 /**
@@ -26,5 +27,7 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 	override fun setupViews() {
 	}
 
+	override fun renderState(state: ViewState) {
 
+	}
 }

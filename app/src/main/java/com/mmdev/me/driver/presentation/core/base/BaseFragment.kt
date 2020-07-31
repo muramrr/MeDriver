@@ -19,6 +19,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.mmdev.me.driver.BR
+import com.mmdev.me.driver.presentation.core.ViewState
+import com.mmdev.me.driver.presentation.ui.SharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  * This is the documentation block about the class
@@ -33,7 +37,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	protected lateinit var navController: NavController
 	protected val TAG = "mylogs_" + javaClass.simpleName
 
-	//protected val sharedViewModel: SharedViewModel by viewModels()
+	protected val sharedViewModel: SharedViewModel by sharedViewModel()
 
 
 	protected abstract val viewModel: VM
@@ -50,7 +54,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 		return DataBindingUtil.inflate<Binding>(inflater, layoutId, container, false)
 			.apply {
 				lifecycleOwner = viewLifecycleOwner
-				//setVariable(BR.viewModel, viewModel)
+				setVariable(BR.viewModel, viewModel)
 				binding = this
 			}.root
 	}
@@ -63,27 +67,11 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 		navController = findNavController()
-		//(associatedViewModel as BaseViewModel).showErrorDialog(this, context)
 	}
 
 	abstract fun setupViews()
 
-	//abstract fun renderState(state: IViewState)
-
-//	protected inline fun <reified VM : ViewModel> getViewModel(): VM =
-//		if (isViewModelActivityHosted) {
-//			activity?.run {
-//				ViewModelProvider(this, factory)[VM::class.java]
-//			} ?: throw Exception("Invalid Activity")
-//		}
-//		else ViewModelProvider(this, factory)[VM::class.java]
-
-	//get actual class from parameterized <T>
-	//CAUTION: REFLECTION USED
-	//use at own risk
-//	private fun getTClass(): Class<T> =
-//		(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<T>
-
+	abstract fun renderState(state: ViewState)
 
 
 }

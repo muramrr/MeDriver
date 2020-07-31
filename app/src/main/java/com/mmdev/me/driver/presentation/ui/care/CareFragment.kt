@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.care
 
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentCareBinding
+import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 
 /**
@@ -26,5 +27,7 @@ class CareFragment : BaseFragment<CareViewModel, FragmentCareBinding>(
 	override fun setupViews() {
 	}
 
+	override fun renderState(state: ViewState) {
 
+	}
 }

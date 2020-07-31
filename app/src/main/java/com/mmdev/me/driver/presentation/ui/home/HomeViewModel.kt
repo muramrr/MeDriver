@@ -27,21 +27,27 @@ class HomeViewModel(private val repository: IVINRepository): BaseViewModel() {
 
 
 
-	val vehicleByVIN: MutableLiveData<ViewState<VehicleByVIN>> = MutableLiveData()
+	val vehicleByVIN: MutableLiveData<VINViewState> = MutableLiveData()
+
+	sealed class VINViewState: ViewState {
+		object Loading : VINViewState()
+		data class Success(val data: VehicleByVIN) : VINViewState()
+		data class Error(val errorMessage: String) : VINViewState()
+	}
 
 	fun getVehicleByVIN(VINCode: String) {
 
 		viewModelScope.launch {
 
-			vehicleByVIN.postValue(ViewState.Loading)
+			vehicleByVIN.postValue(VINViewState.Loading)
 
 			when (val result = repository.getVehicleByVIN(VINCode)) {
 
 				is RepositoryState.Success ->
-					vehicleByVIN.postValue(ViewState.Success(data = result.data))
+					vehicleByVIN.postValue(VINViewState.Success(data = result.data))
 
 				is RepositoryState.Error ->
-					vehicleByVIN.postValue(ViewState.Error(result.errorMessage))
+					vehicleByVIN.postValue(VINViewState.Error(result.errorMessage))
 
 			}
 		}

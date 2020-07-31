@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.settings
 
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
+import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.utils.ThemeHelper
 
@@ -32,5 +33,7 @@ class SettingsFragment: BaseFragment<SettingsViewModel, FragmentSettingsBinding>
 		}
 	}
 
+	override fun renderState(state: ViewState) {
 
+	}
 }

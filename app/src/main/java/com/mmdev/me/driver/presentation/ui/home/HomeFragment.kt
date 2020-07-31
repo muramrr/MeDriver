@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.07.20 18:40
+ * Last modified 31.07.20 17:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,12 @@
 
 package com.mmdev.me.driver.presentation.ui.home
 
-import android.util.Log
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.presentation.ui.common.base.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  *
@@ -22,10 +23,15 @@ import com.mmdev.me.driver.presentation.ui.common.base.BaseFragment
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
 
-	override val viewModel: HomeViewModel by viewModels()
+	override val viewModel: HomeViewModel by viewModel()
 	override fun setupViews() {
 		binding.pbOilUsageLeft.updateProgress(21f)
-		Log.wtf("mylogs", "${viewModel.vehicleByVIN}")
+//		Log.wtf("mylogs", "${viewModel.vehicleByVIN}")
+		viewModel.getVehicleByVIN("2S3DA417576128786")
+		viewModel.vehicleByVIN.observe(this, Observer {
+			logDebug(message = "$it")
+		})
+
 	}
 
 

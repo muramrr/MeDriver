@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 21:11
+ * Last modified 31.07.20 15:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,13 +10,11 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
-import androidx.hilt.lifecycle.ViewModelInject
+
 import com.mmdev.me.driver.presentation.ui.common.base.BaseViewModel
 
 /**
  *
  */
 
-class FuelViewModel @ViewModelInject constructor(
-		//@Assisted private val savedStateHandle: SavedStateHandle
-): BaseViewModel()
+class FuelViewModel : BaseViewModel()

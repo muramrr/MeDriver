@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 21:11
+ * Last modified 31.07.20 15:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 
@@ -26,7 +25,7 @@ import androidx.navigation.fragment.findNavController
  */
 
 
-abstract class BaseFragment<VM: ViewModel, Binding: ViewDataBinding>(
+abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	val isViewModelActivityHosted: Boolean = false,
 	private val layoutId: Int
 ) : Fragment() {

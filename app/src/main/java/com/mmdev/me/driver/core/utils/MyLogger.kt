@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 16:58
+ * Last modified 31.07.20 19:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,13 +22,38 @@ interface MyLogger {
 	 * @param tag used to identify the source of a log message.
 	 * @param message the message to be logged.
 	 */
-	fun log(tag: String, message: String)
+	fun logWarn(tag: String, message: String)
+
+	fun logError(tag: String, message: String)
+
+	fun logDebug(tag: String, message: String)
+
+	fun logInfo(tag: String, message: String)
+
+	fun logWtf(tag: String, message: String)
 
 	/**
 	 * Debug implementation of [MyLogger].
 	 */
 	object Debug : MyLogger {
-		override fun log(tag: String, message: String) {
+
+		override fun logWarn(tag: String, message: String) {
+			Log.w(tag, message)
+		}
+
+		override fun logError(tag: String, message: String) {
+			Log.e(tag, message)
+		}
+
+		override fun logDebug(tag: String, message: String) {
+			Log.d(tag, message)
+		}
+
+		override fun logInfo(tag: String, message: String) {
+			Log.i(tag, message)
+		}
+
+		override fun logWtf(tag: String, message: String) {
 			Log.wtf(tag, message)
 		}
 	}
@@ -38,6 +63,10 @@ interface MyLogger {
 	 * No messages to Logcat
 	 */
 	object Default : MyLogger {
-		override fun log(tag: String, message: String) {}
+		override fun logWarn(tag: String, message: String) {}
+		override fun logError(tag: String, message: String) {}
+		override fun logDebug(tag: String, message: String) {}
+		override fun logInfo(tag: String, message: String) {}
+		override fun logWtf(tag: String, message: String) {}
 	}
 }

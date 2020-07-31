@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 19:29
+  ~ Last modified 31.07.20 15:58
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.mmdev.me.driver">
+
+	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
 		android:allowBackup="true"

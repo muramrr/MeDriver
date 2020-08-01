@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 21:06
+ * Last modified 01.08.20 18:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,8 +36,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId =
 	override fun setupViews() {
 
 
-//		Log.wtf("mylogs", "${viewModel.vehicleByVIN}")
-		viewModel.getVehicleByVIN("2S3DA417576128786")
+		//viewModel.getVehicleByVIN("WF0FXXWPDF3K73412")
+		
 		viewModel.vehicleByVIN.observe(this, Observer {
 			renderState(it)
 		})

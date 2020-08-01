@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 21:05
+ * Last modified 01.08.20 18:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,10 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 
 
-abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
-	val isViewModelActivityHosted: Boolean = false,
-	private val layoutId: Int
-) : Fragment() {
+abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(private val layoutId: Int) : Fragment() {
 
 	protected lateinit var navController: NavController
 	protected val TAG = "mylogs_" + javaClass.simpleName

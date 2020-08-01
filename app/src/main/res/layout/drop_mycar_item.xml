@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 01.08.20 19:50
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+	
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleImageView
+		android:id="@+id/ivDropCarBrand"
+		android:layout_width="60dp"
+		android:layout_height="0dp"
+		android:layout_margin="4dp"
+		
+		app:layout_constraintTop_toTopOf="@id/tvDropCar"
+		app:layout_constraintBottom_toBottomOf="@id/tvDropCar"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toStartOf="@id/tvDropCar"
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvDropCar"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		android:ellipsize="end"
+		
+		android:maxLines="1"
+		
+		android:textAppearance="?textAppearanceHeadline6"
+		
+		app:autoSizeTextType="uniform"
+		app:autoSizeMinTextSize="18sp"
+		app:autoSizeMaxTextSize="24sp"
+		
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toEndOf="@id/ivDropCarBrand"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

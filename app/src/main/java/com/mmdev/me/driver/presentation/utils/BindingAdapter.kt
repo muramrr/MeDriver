@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 20:06
+ * Last modified 01.08.20 20:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,9 @@
 package com.mmdev.me.driver.presentation.utils
 
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+
 
 /**
  *
@@ -44,6 +46,12 @@ object BindingAdapterUtils {
 	                                   applyRight: Boolean,
 	                                   applyBottom: Boolean) =
 		view.applySystemWindowInsetsMargins(applyLeft, applyTop, applyRight, applyBottom)
-
+	
+	
+	@JvmStatic
+	@BindingAdapter("android:src")
+	fun setImageResource(imageView: ImageView, resource: Int) {
+		imageView.setImageResource(resource)
+	}
 
 }

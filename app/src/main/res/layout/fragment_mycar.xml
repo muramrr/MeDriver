@@ -2,35 +2,159 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 21:10
+  ~ Last modified 01.08.20 20:06
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
-
+	
+	<data>
+		<variable
+			name="viewModel"
+			type="com.mmdev.me.driver.presentation.ui.mycar.MyCarViewModel"
+			/>
+	</data>
+	
 	<androidx.constraintlayout.widget.ConstraintLayout
-
+		
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		>
-
-		<ImageView
-			android:id="@+id/car"
-			android:layout_width="0dp"
-			android:layout_height="200dp"
-
-			android:scaleType="centerInside"
-			android:src="@drawable/motorcycle"
-
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
+		
+		<!-- drop car chooser-->
+		<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/layoutMyCarChooseCar"
+		android:layout_height="wrap_content"
+		android:layout_width="0dp"
+		android:background="?colorPrimary"
+		
+		android:minHeight="?attr/actionBarSize"
+		app:boxStrokeWidth="0dp"
+		
+		app:endIconTint="?colorOnPrimary"
+		app:hintEnabled="false"
+		
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+		
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		>
+		
+		<com.google.android.material.textfield.MaterialAutoCompleteTextView
+			android:id="@+id/dropMyCarChooseCar"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			
+			android:background="@null"
+			android:cursorVisible="false"
+			
+			android:focusable="false"
+			android:imeOptions="actionDone"
+			android:inputType="textNoSuggestions"
+			
+			android:text="Choose car"
+			android:textAppearance="?attr/textAppearanceHeadline6"
+			android:textColor="?colorOnPrimary"
 			/>
-
+	
+	</com.google.android.material.textfield.TextInputLayout>
+		
+		<ImageView
+			android:id="@+id/imageView"
+			android:layout_height="0dp"
+			android:layout_width="0dp"
+			
+			android:src="@{viewModel.myCar.brandIcon}"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
+			app:layout_constraintBottom_toBottomOf="@id/tvMyCarModel"
+			app:layout_constraintStart_toEndOf="@id/barrier2"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMyCarBrand"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			
+			android:text="Brand: "
+			android:textAppearance="?textAppearanceHeadline5"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
+			app:layout_constraintBottom_toTopOf="@id/tvMyCarModel"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			/>
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMyCarModel"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			
+			android:text="Model: "
+			android:textAppearance="?textAppearanceHeadline5"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvMyCarBrand"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMyCarBrandValue"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			
+			android:text="@{viewModel.myCar.carBrand}"
+			android:textAppearance="?textAppearanceHeadline5"
+			android:textStyle="bold"
+			
+			app:layout_constraintTop_toTopOf="@id/tvMyCarBrand"
+			app:layout_constraintBottom_toBottomOf="@id/tvMyCarBrand"
+			app:layout_constraintStart_toEndOf="@id/tvMyCarBrand"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMyCarModelValue"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			
+			android:text="@{viewModel.myCar.carModel}"
+			android:textAppearance="?textAppearanceHeadline5"
+			android:textStyle="bold"
+			
+			app:layout_constraintTop_toTopOf="@id/tvMyCarModel"
+			app:layout_constraintBottom_toBottomOf="@id/tvMyCarModel"
+			app:layout_constraintStart_toEndOf="@id/tvMyCarModel"
+			/>
+		
+		
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineStart"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_begin="8dp"
+			/>
+		
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineEnd"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_end="8dp"
+			/>
+		
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrier2"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			app:barrierDirection="end"
+			app:constraint_referenced_ids="tvMyCarBrandValue,tvMyCarModelValue"
+			/>
+		
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

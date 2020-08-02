@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 20:58
+  ~ Last modified 02.08.20 20:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,11 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
 
-<!--	<data>-->
-<!--		<variable-->
-<!--			name="viewModel"-->
-<!--			type="com.mmdev.me.driver.presentation.ui.home.HomeViewModel" />-->
-<!--	</data>-->
+	<data>
+		<variable
+			name="viewModel"
+			type="com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel" />
+	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 
@@ -27,22 +27,27 @@
 
 		>
 
-
-
-		<ImageView
-			android:id="@+id/car"
-			android:layout_width="0dp"
-			android:layout_height="200dp"
-
-			android:scaleType="centerInside"
-			android:src="@drawable/hatchback"
-
-			app:layout_constraintTop_toTopOf="parent"
+		
+		
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelType100"
+			android:layout_height="50dp"
+			android:layout_width="50dp"
+			android:layout_margin="16dp"
+			
+			android:maxLines="1"
+			app:backgroundTint="@color/btn_fuel_tint"
+			android:textColor="@color/btn_fuel_text_tint"
+			android:text="100"
+			
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
 			/>
 
-
+		
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

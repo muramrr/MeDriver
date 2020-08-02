@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 16:47
+ * Last modified 02.08.20 19:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class FuelViewModel (private val repository: IFuelRepository) : BaseViewModel() {
 	
-	
+	val fuelTypesList: List<FuelType> = FuelType.values().toList()
 	val fuelInfo: MutableLiveData<FuelViewState> = MutableLiveData()
 	
 	sealed class FuelViewState: ViewState {

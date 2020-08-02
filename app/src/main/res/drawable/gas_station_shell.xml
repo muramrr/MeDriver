@@ -1,0 +1,32 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 02.08.20 18:03
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="577dp"
+    android:height="535dp"
+    android:viewportWidth="577"
+    android:viewportHeight="535">
+  <path
+      android:pathData="M288.495,526.223C268.505,526.223 258.231,513.187 258.231,513.187C241.803,512.473 113.41,512.83 113.41,512.83L100.91,407.321C100.91,407.321 21.83,351.58 15.401,345.152C-22.558,172.946 114.647,8.777 288.5,8.777C462.353,8.777 599.558,172.946 561.599,345.152C555.171,351.58 476.09,407.321 476.09,407.321L463.59,512.83C463.59,512.83 335.197,512.473 318.769,513.187C318.769,513.187 308.495,526.223 288.495,526.223z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="1"
+      android:fillColor="#ED1C24"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M288.681,365.763L276.549,61.202C261.918,58.216 224.595,61.799 204.589,76.728L262.814,366.958C262.814,366.958 183.389,88.672 183.389,88.672C164.349,88.439 125.928,120.632 123.074,130.176L238.927,377.11C238.927,377.11 108.742,151.376 108.742,151.376C95.902,156.153 67.835,207.809 72.314,213.811C72.314,213.811 217.428,391.442 217.428,391.442L68.133,239.758C68.133,239.758 48.725,269.319 61.382,319.389L145.711,380.287L156.268,463.487L259.658,463.487C259.658,463.487 276.573,479.521 288.575,479.521C300.577,479.521 317.492,463.487 317.492,463.487L420.882,463.487L431.439,380.287L515.768,319.389C528.425,269.319 509.017,239.758 509.017,239.758L359.722,391.442C359.722,391.442 504.836,213.811 504.836,213.811C509.315,207.809 481.248,156.153 468.408,151.376C468.408,151.376 338.223,377.11 338.223,377.11L454.076,130.176C451.222,120.632 412.801,88.439 393.761,88.672C393.761,88.672 314.336,366.958 314.336,366.958L372.561,76.728C352.555,61.799 315.232,58.216 300.601,61.202L288.681,365.763z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="1"
+      android:fillColor="#FFD500"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
+</vector>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 20:38
+ * Last modified 02.08.20 20:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.presentation.ui.common
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -54,7 +55,7 @@ abstract class BaseAdapter<T>: RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolde
 		init {
 			mClickListener?.let { mClickListener ->
 				itemView.setOnClickListener {
-					mClickListener.onItemClick(getItem(adapterPosition), adapterPosition)
+					mClickListener.onItemClick(getItem(adapterPosition), adapterPosition, binding.root)
 				}
 			}
 		}
@@ -67,7 +68,7 @@ abstract class BaseAdapter<T>: RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolde
 
 	// parent fragment will override this method to respond to click events
 	interface OnItemClickListener<T> {
-		fun onItemClick(item: T, position: Int)
+		fun onItemClick(item: T, position: Int, view: View)
 	}
 
 	interface BindableAdapter<T> {

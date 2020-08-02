@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 20:02
+ * Last modified 02.08.20 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,8 @@ package com.mmdev.me.driver.presentation.utils
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.mmdev.me.driver.presentation.ui.common.BaseAdapter.BindableAdapter
 
 
 /**
@@ -52,6 +54,15 @@ object BindingAdapterUtils {
 	@BindingAdapter("android:src")
 	fun setImageResource(imageView: ImageView, resource: Int) {
 		imageView.setImageResource(resource)
+	}
+	
+	@JvmStatic
+	@BindingAdapter("app:bindData")
+	@Suppress("UNCHECKED_CAST")
+	fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, data: T) {
+		if (recyclerView.adapter is BindableAdapter<*>) {
+			(recyclerView.adapter as BindableAdapter<T>).setData(data)
+		}
 	}
 
 }

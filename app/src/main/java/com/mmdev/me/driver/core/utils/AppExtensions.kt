@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 19:22
+ * Last modified 02.08.20 16:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,8 @@
 package com.mmdev.me.driver.core.utils
 
 import com.mmdev.me.driver.core.MedriverApp
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 /**
  *
@@ -31,3 +33,12 @@ internal fun logInfo(tag: String = "mylogs", message: String) =
 
 internal fun logWtf(tag: String = "mylogs", message: String) =
 	MedriverApp.debug.logger.logWtf(tag, message)
+
+
+// @see https://stackoverflow.com/questions/58658630/parallel-request-with-retrofit-coroutines-and-suspend-functions
+// Flow.toMap()
+suspend fun <K, V> Flow<Pair<K, V>>.toMap(): Map<K, V> {
+	val result = mutableMapOf<K, V>()
+	collect { (k, v) -> result[k] = v }
+	return result
+}

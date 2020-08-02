@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 19:51
+ * Last modified 02.08.20 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,14 +28,14 @@ import com.mmdev.me.driver.presentation.ui.mycar.MyCarFragment.CarInDropDown
 
 
 internal class DropAdapter(context: Context, private val data: ArrayList<CarInDropDown>):
-		ArrayAdapter<CarInDropDown>(context, R.layout.drop_mycar_item, data) {
+		ArrayAdapter<CarInDropDown>(context, R.layout.item_drop_mycar, data) {
 	
 	
 	
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 		val car: CarInDropDown = getItem(position)
 		val childView : View = convertView ?:
-		                       LayoutInflater.from(context).inflate(R.layout.drop_mycar_item, null)
+		                       LayoutInflater.from(context).inflate(R.layout.item_drop_mycar, null)
 		
 		childView.findViewById<TextView>(R.id.tvDropCar).text = car.getFullCarTitle()
 		childView.findViewById<ImageView>(R.id.ivDropCarBrand).setImageResource(car.brandIcon)

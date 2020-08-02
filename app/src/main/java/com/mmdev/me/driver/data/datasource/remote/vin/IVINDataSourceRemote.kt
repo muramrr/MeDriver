@@ -1,23 +1,23 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 20:38
+ * Last modified 02.08.20 15:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.remote
+package com.mmdev.me.driver.data.datasource.remote.vin
 
 import com.mmdev.me.driver.data.core.ResponseState
-import com.mmdev.me.driver.domain.VinCodeResponse
+import com.mmdev.me.driver.domain.vin.VinCodeResponse
 
 /**
  * This is the documentation block about the class
  */
 
-interface IVINDataSource {
+interface IVINDataSourceRemote {
 
 	suspend fun getVehicleByVINCode(VINCode: String) : ResponseState<VinCodeResponse>
 

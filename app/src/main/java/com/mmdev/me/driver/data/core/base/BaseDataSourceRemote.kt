@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 20:38
+ * Last modified 02.08.20 15:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.core.ResponseState
  *
  */
 
-open class BaseRemoteDataSource {
+open class BaseDataSourceRemote {
 
 	suspend fun <T: Any> safeCallResponse(call: suspend ()-> T,
 	                                      errorMessage: String) : ResponseState<T> =

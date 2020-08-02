@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 20:13
+ * Last modified 02.08.20 14:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.api
 
-import com.mmdev.me.driver.domain.VinCodeResponse
+import com.mmdev.me.driver.domain.vin.VinCodeResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

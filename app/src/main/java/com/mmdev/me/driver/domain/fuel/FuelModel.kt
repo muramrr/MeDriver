@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 16:29
+ * Last modified 02.08.20 18:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,7 +35,7 @@ data class FuelSummary(
 )
 
 enum class FuelType (val code: Int) {
-	AI100(1), AI95PLUS(2), AI95(3), AI92(4), DIESEL(5), GAS(6)
+	A100(1), A95PLUS(2), A95(3), A92(4), DT(5), GAS(6)
 }
 
 

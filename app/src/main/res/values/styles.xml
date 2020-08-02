@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.07.20 18:32
+  ~ Last modified 02.08.20 20:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,5 +32,32 @@
 	</style>
 
 	<style name="CircularProgress" parent="BaseProgress"/>
-
+	
+	<!-- button with icon at center
+	button size should be x2 than icon size you provided in
+	-->
+	<style name="My.Widget.Button.IconOnly.Rounded" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+	
+	</style>
+	
+	<!-- button with letter at center -->
+	<style name="My.Widget.Button.LetterOnly.Rounded" parent="Widget.MaterialComponents.Button.Icon">
+		
+		<item name="android:padding">1dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+	
+	</style>
+	
 </resources>

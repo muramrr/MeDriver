@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.07.20 21:05
+ * Last modified 03.08.20 16:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,13 +17,13 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 
-fun View.showToast(text: String, length: Int = Toast.LENGTH_LONG) =
+fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 	Toast.makeText(this.context, text, length).show()
 
 /**
  * Show a snackbar with [messageRes]
  */
-fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_LONG) =
+fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
 	snack(messageRes, length) {}
 
 /**
@@ -31,7 +31,7 @@ fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_LON
  * buttonSubmit.snack(R.string.name_submitted, Snackbar.LENGTH_LONG, { action() })
  */
 inline fun View.snack(@StringRes messageRes: Int,
-                      length: Int = Snackbar.LENGTH_LONG,
+                      length: Int = Snackbar.LENGTH_SHORT,
                       f: Snackbar.() -> Unit) {
 	val snack = Snackbar.make(this, messageRes, length)
 	snack.f()

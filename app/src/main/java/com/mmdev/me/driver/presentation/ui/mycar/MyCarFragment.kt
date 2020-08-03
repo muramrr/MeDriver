@@ -30,7 +30,7 @@ class MyCarFragment : BaseFragment<MyCarViewModel, FragmentMycarBinding>(R.layou
 		fun getFullCarTitle(): String = "$carBrand $carModel"
 	}
 	
-	override val viewModel: MyCarViewModel = MyCarViewModel()
+	override val mViewModel: MyCarViewModel = MyCarViewModel()
 	
 	private val list : ArrayList<CarInDropDown> = arrayListOf(
 			CarInDropDown("Ford", "Focus",
@@ -42,7 +42,7 @@ class MyCarFragment : BaseFragment<MyCarViewModel, FragmentMycarBinding>(R.layou
 	)
 	
 	override fun setupViews() {
-		viewModel.myCar.observe(this, Observer {
+		mViewModel.myCar.observe(this, Observer {
 			binding.dropMyCarChooseCar.setText(it.getFullCarTitle(), false)
 		})
 		
@@ -52,7 +52,7 @@ class MyCarFragment : BaseFragment<MyCarViewModel, FragmentMycarBinding>(R.layou
 			
 			setOnItemClickListener { _, _, position, _ ->
 				if (position != adapter.count - 1)
-					viewModel.myCar.value = adapter.getItem(position)
+					mViewModel.myCar.value = adapter.getItem(position)
 				else binding.dropMyCarChooseCar.setText("Choose car", false)
 				
 			}

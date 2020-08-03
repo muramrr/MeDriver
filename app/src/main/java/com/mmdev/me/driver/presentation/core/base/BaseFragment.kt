@@ -37,7 +37,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(private
 	protected val sharedViewModel: SharedViewModel by sharedViewModel()
 
 
-	protected abstract val viewModel: VM
+	protected abstract val mViewModel: VM
 
 	protected lateinit var binding: Binding
 		private set
@@ -51,7 +51,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(private
 		return DataBindingUtil.inflate<Binding>(inflater, layoutId, container, false)
 			.apply {
 				lifecycleOwner = viewLifecycleOwner
-				setVariable(BR.viewModel, viewModel)
+				setVariable(BR.viewModel, mViewModel)
 				binding = this
 			}.root
 	}

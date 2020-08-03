@@ -23,7 +23,7 @@ class CareFragment : BaseFragment<CareViewModel, FragmentCareBinding>(
 		layoutId = R.layout.fragment_care
 ) {
 
-	override val viewModel: CareViewModel = CareViewModel()
+	override val mViewModel: CareViewModel = CareViewModel()
 	override fun setupViews() {
 	}
 

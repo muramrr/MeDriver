@@ -27,7 +27,7 @@ import kotlin.random.Random
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
 
-	override val viewModel: HomeViewModel by viewModel()
+	override val mViewModel: HomeViewModel by viewModel()
 
 //	private val viewModel by lazy {
 //		requireParentFragment().getViewModel<MyViewModel>()
@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId =
 
 		//viewModel.getVehicleByVIN("WF0FXXWPDF3K73412")
 		
-		viewModel.vehicleByVIN.observe(this, Observer {
+		mViewModel.vehicleByVIN.observe(this, Observer {
 			renderState(it)
 		})
 

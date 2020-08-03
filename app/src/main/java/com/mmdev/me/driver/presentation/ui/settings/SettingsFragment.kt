@@ -24,7 +24,7 @@ class SettingsFragment: BaseFragment<SettingsViewModel, FragmentSettingsBinding>
 		layoutId = R.layout.fragment_settings
 ) {
 
-	override val viewModel: SettingsViewModel = SettingsViewModel()
+	override val mViewModel: SettingsViewModel = SettingsViewModel()
 
 	override fun setupViews() {
 		binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->

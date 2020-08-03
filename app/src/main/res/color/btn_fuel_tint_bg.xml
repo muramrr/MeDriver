@@ -2,18 +2,16 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.08.20 20:38
+  ~ Last modified 02.08.20 20:37
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<selector
-	
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	
-	<item android:color="?colorOnSecondary" android:state_selected="true"/>
-	<item android:color="?colorOnPrimary"/>
-	
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:alpha="0.08" android:color="?attr/colorPrimary" android:state_checked="true"/>
+	<item android:color="?colorPrimaryVariant" android:state_selected="true"/>
+	<item android:color="@android:color/transparent"/>
+
 </selector>

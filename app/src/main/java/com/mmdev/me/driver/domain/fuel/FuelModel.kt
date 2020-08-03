@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.domain.fuel
 
 import com.google.gson.annotations.SerializedName
+import com.mmdev.me.driver.presentation.ui.fuel.FuelProvidersMap
 
 /**
  *
@@ -18,7 +19,7 @@ import com.google.gson.annotations.SerializedName
 
 data class FuelProvider(
 	@SerializedName("value")
-	val price: Double,
+	val price: Float = 0f,
 	@SerializedName("marka")
 	val brand: String,
 	val slug: String
@@ -49,3 +50,16 @@ data class FuelModel (
 	@SerializedName("total")
 	val fuelSummaryResponse: List<FuelSummary>
 )
+
+data class FuelProviderUI (
+	val price: String = "",
+	val brandTitle: String,
+	val slug: String,
+	val brandIcon: Int =
+		if (FuelProvidersMap.fuelProvidersMap.containsKey(slug))
+			FuelProvidersMap.fuelProvidersMap.getValue(slug)
+		else 0
+)
+
+fun FuelProvider.toUI() = FuelProviderUI(price.toString(), brand, slug)
+

@@ -36,7 +36,7 @@ class FuelViewModel (private val repository: IFuelRepository) : BaseViewModel() 
 		data class Error(val errorMessage: String) : FuelViewState()
 	}
 	
-	fun getFuelInfo(date: String, fuelType: FuelType, region: Int = 3) {
+	fun getFuelInfo(date: String, region: Int = 3) {
 		
 		viewModelScope.launch {
 			

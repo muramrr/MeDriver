@@ -5,4 +5,5 @@
 	<dimen name="home_cards_width">150dp</dimen>
 	<dimen name="home_cards_height">200dp</dimen>
 	<dimen name="home_circularProgress_size">60dp</dimen>
+	<dimen name="item_fuel_provider_btn_fuel_type_size">35dp</dimen>
 </resources>

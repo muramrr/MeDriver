@@ -48,7 +48,7 @@
 	</style>
 	
 	<!-- button with letter at center -->
-	<style name="My.Widget.Button.LetterOnly.Rounded" parent="Widget.MaterialComponents.Button.Icon">
+	<style name="My.Widget.Button.LetterOnly.Rounded" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
 		
 		<item name="android:padding">1dp</item>
 		<item name="android:insetLeft">0dp</item>

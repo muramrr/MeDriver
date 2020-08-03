@@ -1,21 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
 
-	android:layout_height="match_parent"
-	android:layout_width="match_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
 
-	<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
-		android:layout_width="150dp"
-		android:layout_height="150dp"
+	<data>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.fuel.FuelProviderUI"
+			/>
+	</data>
 
-		android:src="@drawable/gas_station_amic"
+	<com.google.android.material.card.MaterialCardView
 
-		app:cornerRadius="24dp"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		/>
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+		app:cardCornerRadius="12dp"
+		app:cardElevation="4dp"
+
+		>
+
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			>
+
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+				android:id="@+id/ivFuelProviderImg"
+				android:layout_width="100dp"
+				android:layout_height="100dp"
+
+				android:src="@{bindItem.brandIcon}"
+
+				app:imgCornerRadius="12dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				/>
+
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvFuelProviderTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+
+				android:text="@{bindItem.brandTitle}"
+				android:textAppearance="?textAppearanceHeadline6"
+
+				app:layout_constraintStart_toEndOf="@id/ivFuelProviderImg"
+				app:layout_constraintTop_toTopOf="@id/ivFuelProviderImg"
+				/>
+
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvFuelProviderPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+
+				android:text="@{bindItem.price}"
+				android:textAppearance="?textAppearanceBody1"
+
+				app:layout_constraintStart_toEndOf="@id/tvFuelProviderTitle"
+				app:layout_constraintTop_toTopOf="@id/ivFuelProviderImg"
+				/>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProviderGas"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="gas"
+				android:textSize="12sp"
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:backgroundTint="@color/btn_fuel_tint_bg"
+				app:iconTint="@color/btn_fuel_tint_text"
+
+				app:layout_constraintStart_toEndOf="@id/ivFuelProviderImg"
+				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeProviderDT"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProviderDT"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="DT"
+
+				android:textSize="12sp"
+
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:layout_constraintStart_toEndOf="@id/btnFuelTypeProviderGas"
+				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeProvider92"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProvider92"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="92"
+				android:textSize="12sp"
+
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:layout_constraintStart_toEndOf="@id/btnFuelTypeProviderDT"
+				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeProvider95"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProvider95"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="95"
+				android:textSize="12sp"
+
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:layout_constraintStart_toEndOf="@id/btnFuelTypeProvider92"
+				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeProvider95PLUS"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProvider95PLUS"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="95+"
+				android:textSize="12sp"
+
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:layout_constraintStart_toEndOf="@id/btnFuelTypeProvider95"
+				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeProvider100"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeProvider100"
+				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_margin="4dp"
+
+				android:text="100"
+				android:textSize="12sp"
+
+
+				style="@style/My.Widget.Button.LetterOnly.Rounded"
+
+				app:layout_constraintStart_toEndOf="@id/btnFuelTypeProvider95PLUS"
+				app:layout_constraintTop_toBottomOf="@id/tvFuelProviderTitle"
+				/>
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</com.google.android.material.card.MaterialCardView>
+</layout>

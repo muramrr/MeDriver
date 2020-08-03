@@ -10,14 +10,19 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
+import com.mmdev.me.driver.domain.fuel.FuelProviderUI
+import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.toUI
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel.FuelViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,22 +35,20 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		layoutId = R.layout.fragment_fuel
 ) {
 
-	override val viewModel: FuelViewModel by viewModel()
+	override val mViewModel: FuelViewModel by viewModel()
+
+	private val mFuelProvidersAdapter = FuelProvidersAdapter()
 	
 	override fun setupViews() {
-		
-		//viewModel.getFuelInfo("2020-08-02", 3)
-		
-		binding.btnFuelType100.setOnClickListener {
-			it.isSelected = true
-			val anim: Animation = ScaleAnimation(1f, 1f,
-			                                     1.5f, 1.5f)
-			anim.fillAfter = true // Needed to keep the result of the animation
-			
-			it.startAnimation(anim)
+		binding.rvFuelProviders.apply {
+			adapter = mFuelProvidersAdapter
+			layoutManager = LinearLayoutManager(requireContext())
+			addItemDecoration(LinearItemDecoration())
 		}
+		
+		mViewModel.getFuelInfo("2020-08-03")
 	
-		viewModel.fuelInfo.observe(this, Observer {
+		mViewModel.fuelInfo.observe(this, Observer {
 			renderState(it)
 		})
 	}
@@ -54,6 +57,10 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		when (state) {
 			is FuelViewState.Success -> {
 				logWtf(message = "${state.data}")
+				mFuelProvidersAdapter.setNewData(
+						state.data[FuelType.A95]!!.result.fuelProviders.map { it.toUI() }
+				)
+
 			}
 			is FuelViewState.Loading -> {
 				logWtf(message = "loading")
@@ -65,5 +72,9 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		}
 		
 	}
+
+	private class FuelProvidersAdapter (data: List<FuelProviderUI> = emptyList(),
+	                                    @LayoutRes layoutId: Int = R.layout.item_fuel_provider) :
+			BaseAdapter<FuelProviderUI>(data, layoutId)
 	
 }

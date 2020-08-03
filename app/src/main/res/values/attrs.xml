@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.07.20 18:29
+  ~ Last modified 03.08.20 21:22
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,10 @@
   -->
 
 <resources>
+
+	<declare-styleable name="RoundedImageView">
+		<attr name="imgCornerRadius" format="dimension" />
+	</declare-styleable>
 
 	<declare-styleable name="Switcher">
 		<attr name="elevation" />

@@ -40,4 +40,5 @@ inline fun <T: View> T.setDebounceClick(debounceTime: Long = 1000L,
 inline fun <T: View> T.setSingleClick(crossinline block: T.() -> Unit) = setOnClickListener {
 	block()
 	it.isClickable = false
+	setOnClickListener(null)
 }

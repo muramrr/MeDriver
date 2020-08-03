@@ -14,7 +14,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mmdev.me.driver.presentation.ui.common.BaseAdapter.BindableAdapter
+import com.mmdev.me.driver.presentation.ui.common.BindableAdapter
 
 
 /**
@@ -59,9 +59,9 @@ object BindingAdapterUtils {
 	@JvmStatic
 	@BindingAdapter("app:bindData")
 	@Suppress("UNCHECKED_CAST")
-	fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, data: T) {
+	fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, newData: T) {
 		if (recyclerView.adapter is BindableAdapter<*>) {
-			(recyclerView.adapter as BindableAdapter<T>).setData(data)
+			(recyclerView.adapter as BindableAdapter<T>).setNewData(newData)
 		}
 	}
 

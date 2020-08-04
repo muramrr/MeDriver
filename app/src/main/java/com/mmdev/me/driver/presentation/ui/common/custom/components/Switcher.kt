@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 18:57
+ * Last modified 04.08.20 16:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.common.custom.components.switcher
+package com.mmdev.me.driver.presentation.ui.common.custom.components
 
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
@@ -22,10 +22,13 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.Interpolator
 import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.graphics.withTranslation
 import com.mmdev.me.driver.R
+import kotlin.math.cos
+import kotlin.math.pow
 
 /**
  *
@@ -350,7 +353,7 @@ class Switcher @JvmOverloads constructor(
 
 	fun isChecked(): Boolean = isChecked
 
-	fun toggle() { setChecked(!isChecked) }
+	private fun toggle() { setChecked(!isChecked) }
 
 	override fun onSaveInstanceState(): Parcelable {
 		super.onSaveInstanceState()
@@ -386,4 +389,16 @@ class Switcher @JvmOverloads constructor(
 
 	private fun linearInterpolation(a: Float, b: Float, x: Float): Float = a + (b - a) * x
 
+	 /**
+	 * Created by Evgenii Neumerzhitckii
+	 * (read more on https://evgenii.com/blog/spring-button-animation-on-android/)
+	 */
+	private class BounceInterpolator(private val amplitude: Double, private val frequency: Double) :
+			Interpolator {
+		
+		override fun getInterpolation(time: Float): Float =
+			(-1 * Math.E.pow(-time / amplitude) * cos(frequency * time) + 1).toFloat()
+		
+	}
+	
 }

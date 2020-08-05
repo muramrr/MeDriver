@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 18:08
+ * Last modified 04.08.20 20:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel.VINViewState
 import com.mmdev.me.driver.presentation.utils.setDebounceClick
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.random.Random
 
@@ -35,6 +36,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId =
 
 	override fun setupViews() {
 
+		binding.loadingView.setOnClickListener {
+			loadingView.toggleAnimation()
+		}
 
 		//viewModel.getVehicleByVIN("WF0FXXWPDF3K73412")
 		

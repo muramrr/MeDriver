@@ -1,5 +1,16 @@
+/*
+ * Created by Andrii Kovalchuk
+ * Copyright (c) 2020. All rights reserved.
+ * Last modified 04.08.20 15:50
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.mmdev.me.driver.presentation.utils
 
+import android.content.res.Resources
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
@@ -42,3 +53,7 @@ inline fun <T: View> T.setSingleClick(crossinline block: T.() -> Unit) = setOnCl
 	it.isClickable = false
 	setOnClickListener(null)
 }
+
+fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()

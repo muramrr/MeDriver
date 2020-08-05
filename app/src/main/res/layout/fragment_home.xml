@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.07.20 20:50
+  ~ Last modified 04.08.20 20:13
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -402,6 +402,19 @@
 		</HorizontalScrollView>
 
 
+		<com.mmdev.me.driver.presentation.ui.common.custom.components.LoadingView
+			android:id="@+id/loadingView"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			
+			app:loadStrokeColor="@android:color/black"
+			app:loadStrokeWidth="6dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/nsvCardsInfo"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
 
 
 

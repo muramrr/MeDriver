@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.08.20 20:32
+  ~ Last modified 04.08.20 17:14
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,6 +32,11 @@
 	</style>
 
 	<style name="CircularProgress" parent="BaseProgress"/>
+	
+	<style name="LoadingView">
+		<item name="loadStrokeColor">@android:color/white</item>
+		<item name="loadStrokeWidth">4dp</item>
+	</style>
 	
 	<!-- button with icon at center
 	button size should be x2 than icon size you provided in

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 19:08
+ * Last modified 05.08.20 16:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import com.mmdev.me.driver.domain.fuel.IFuelRepository
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
 /**
  *
@@ -42,7 +43,10 @@ class FuelViewModel (private val repository: IFuelRepository) : BaseViewModel() 
 			
 			fuelInfo.postValue(FuelViewState.Loading)
 			
-			when (val result = repository.getFuelInfo(date, region)) {
+			when (val result =
+				withTimeout(30000) {
+					repository.getFuelInfo(date, region)
+				}) {
 				
 				is RepositoryState.Success ->
 					fuelInfo.postValue(FuelViewState.Success(data = result.data))

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 15:35
+ * Last modified 05.08.20 17:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@
 package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.data.api.FuelApi
-import com.mmdev.me.driver.data.api.VINCodeApi
+import com.mmdev.me.driver.data.datasource.remote.api.FuelApi
+import com.mmdev.me.driver.data.datasource.remote.api.VINCodeApi
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Companion.invoke
 import okhttp3.OkHttpClient

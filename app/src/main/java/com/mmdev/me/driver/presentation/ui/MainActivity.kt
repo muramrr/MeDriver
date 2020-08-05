@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 20:58
+ * Last modified 05.08.20 16:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,16 +10,26 @@
 
 package com.mmdev.me.driver.presentation.ui
 
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
+	
+	private val sharedViewModel: SharedViewModel by viewModel()
+	
 	override fun onCreate(savedInstanceState: Bundle?) {
 
 		window.apply {
@@ -73,6 +83,24 @@ class MainActivity: AppCompatActivity() {
 			return@setOnNavigationItemSelectedListener true
 		}
 
+		val loadingDialog = setLoadingDialog(this@MainActivity)
 
+		sharedViewModel.showLoading.observe(this, Observer {
+			if (it) loadingDialog.show()
+			else loadingDialog.dismiss()
+		})
+	}
+	
+	private fun setLoadingDialog(context: Context): Dialog {
+		val dialog = Dialog(context)
+		
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog.setCancelable(false)
+		dialog.setContentView(R.layout.dialog_loading)
+		dialog.window?.apply {
+			setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			setDimAmount(0.9f)
+		}
+		return dialog
 	}
 }

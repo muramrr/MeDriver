@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 20:44
+ * Last modified 05.08.20 16:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,7 +46,7 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 			addItemDecoration(LinearItemDecoration())
 		}
 		
-		mViewModel.getFuelInfo("2020-08-03")
+		//mViewModel.getFuelInfo("2020-08-03")
 	
 		mViewModel.fuelInfo.observe(this, Observer {
 			renderState(it)
@@ -58,15 +58,17 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 			is FuelViewState.Success -> {
 				logWtf(message = "${state.data}")
 				mFuelProvidersAdapter.setNewData(
-						state.data[FuelType.A95]!!.result.fuelProviders.map { it.toUI() }
+						(state.data[FuelType.A100] ?: error("")).result.fuelProviders.map { it.toUI() }
 				)
+				sharedViewModel.showLoading.value = false
 
 			}
 			is FuelViewState.Loading -> {
 				logWtf(message = "loading")
-				
+				sharedViewModel.showLoading.value = true
 			}
 			is FuelViewState.Error -> {
+				sharedViewModel.showLoading.value = false
 				logWtf(message = state.errorMessage)
 			}
 		}

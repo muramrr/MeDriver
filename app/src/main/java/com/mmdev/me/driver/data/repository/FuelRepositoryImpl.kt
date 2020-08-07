@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 17:49
+ * Last modified 07.08.20 16:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.repository
 
 import com.mmdev.me.driver.data.core.ResponseState
+import com.mmdev.me.driver.data.datasource.local.fuel.IFuelLocalDataSource
 import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelRemoteDataSource
 import com.mmdev.me.driver.domain.core.RepositoryState
 import com.mmdev.me.driver.domain.fuel.IFuelRepository
@@ -19,7 +20,9 @@ import com.mmdev.me.driver.domain.fuel.IFuelRepository
  *
  */
 
-class FuelRepositoryImpl (private val dataSourceRemote: IFuelRemoteDataSource) : IFuelRepository {
+class FuelRepositoryImpl (private val dataSourceRemote: IFuelRemoteDataSource,
+                          private val datasourceLocal: IFuelLocalDataSource) :
+		IFuelRepository {
 	
 	override suspend fun getFuelInfo(date: String, region: Int) =
 		

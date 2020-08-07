@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 16:48
+ * Last modified 07.08.20 16:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import org.koin.core.context.startKoin
  * Contains dependency modules
  * From top to bottom representing DI tree
  * For example: [ViewModelsModule] depends on [RepositoryModule]
- * [RepositoryModule] depends on [DataSourceModule]
+ * [RepositoryModule] depends on [DataSourceLocalModule] and [DataSourceRemoteModule]
  * and so on.
  */
 
@@ -55,7 +55,7 @@ class MedriverApp : Application() {
 			modules(listOf(
 					ViewModelsModule,
 					RepositoryModule,
-					DataSourceModule,
+					DataSourceRemoteModule, DataSourceLocalModule,
 					NetworkModule, DatabaseModule
 			))
 		}

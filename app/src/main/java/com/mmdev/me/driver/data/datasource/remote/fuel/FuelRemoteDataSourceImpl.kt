@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 17:51
+ * Last modified 07.08.20 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,17 +21,15 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 
 /**
- *
+ * [IFuelRemoteDataSource] implementation
  */
 
 class FuelRemoteDataSourceImpl(private val fuelApi: FuelApi) : IFuelRemoteDataSource, BaseRemoteDataSource() {
 	
 	override suspend fun getFuelInfo(date: String, fuelType: Int,
 	                                 region: Int): ResponseState<Map<FuelType, FuelModelResponse>> =
-		safeCallResponse(call = {
-			fetchItems(date, FuelType.values().asIterable(), region)
-		},
-		                 errorMessage = "Remote Fuel Error"
+		safeCallResponse(call = { fetchItems(date, FuelType.values().asIterable(), region) },
+		                 errorMessage = "Fuel RemoteSource Error"
 		)
 	
 	private suspend fun fetchItems(

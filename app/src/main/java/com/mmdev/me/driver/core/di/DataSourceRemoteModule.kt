@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 17:49
+ * Last modified 07.08.20 16:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,10 +20,10 @@ import org.koin.dsl.module
 
 
 /**
- * This is the documentation block about the class
+ * module provides RemoteDataSource instances
  */
 
-val DataSourceModule = module {
+val DataSourceRemoteModule = module {
 
 	single { provideVinDSRemote(vinCodeApi = get()) }
 	single { provideFuelDSRemote(fuelApi = get()) }

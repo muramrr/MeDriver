@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.08.20 13:58
+ * Last modified 07.08.20 18:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
-import com.mmdev.me.driver.domain.fuel.FuelProviderUI
+import com.mmdev.me.driver.domain.fuel.FuelProvider
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
@@ -57,7 +57,7 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 			is FuelViewState.Success -> {
 				logWtf(message = "${state.data}")
 				mFuelProvidersAdapter.setNewData(
-						(state.data[FuelType.A100] ?: error("")).result.fuelProviders.map { it.toUI() }
+						(state.data[FuelType.A100] ?: error("")).result.networkFuelProviders.map { it.toUI() }
 				)
 				sharedViewModel.showLoading.value = false
 
@@ -74,8 +74,8 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		
 	}
 
-	private class FuelProvidersAdapter (data: List<FuelProviderUI> = emptyList(),
+	private class FuelProvidersAdapter (data: List<FuelProvider> = emptyList(),
 	                                    @LayoutRes layoutId: Int = R.layout.item_fuel_provider) :
-			BaseAdapter<FuelProviderUI>(data, layoutId)
+			BaseAdapter<FuelProvider>(data, layoutId)
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 17:23
+ * Last modified 07.08.20 18:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.remote.api
 
-import com.mmdev.me.driver.domain.fuel.FuelModelResponse
+import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -28,6 +28,6 @@ interface FuelApi {
 	@GET(PRICE_URL)
 	suspend fun getFuelInfoFromApi(@Query("date") date: String,
 	                               @Query("type") fuelType: Int,
-	                               @Query("obl") region: Int = 3): FuelModelResponse
+	                               @Query("obl") region: Int = 3): NetworkFuelModelResponse
 	
 }

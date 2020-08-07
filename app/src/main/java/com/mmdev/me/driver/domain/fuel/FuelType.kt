@@ -10,18 +10,10 @@
 
 package com.mmdev.me.driver.domain.fuel
 
-import com.mmdev.me.driver.presentation.ui.fuel.FuelProvidersMap
 
-/**
- * ui model
- */
+/** used to define map: which [com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModel]
+ * corresponds to a given [FuelType] */
 
-data class FuelProvider (
-	val price: String = "",
-	val brandTitle: String,
-	val slug: String,
-	val brandIcon: Int =
-		if (FuelProvidersMap.fuelProvidersMap.containsKey(slug))
-			FuelProvidersMap.fuelProvidersMap.getValue(slug)
-		else 0
-)
+enum class FuelType (val code: Int) {
+	A100(1), A95PLUS(2), A95(3), A92(4), DT(5), GAS(6)
+}

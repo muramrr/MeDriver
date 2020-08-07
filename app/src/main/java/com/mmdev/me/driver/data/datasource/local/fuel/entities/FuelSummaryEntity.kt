@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 15:21
+ * Last modified 07.08.20 17:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,5 +25,5 @@ data class FuelSummaryEntity(
 	val updatedDate: String
 ) {
 	@PrimaryKey
-	val id: String = updatedDate+"_$type"
+	var id: String = updatedDate+"_$type"
 }

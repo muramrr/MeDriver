@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 16:23
+ * Last modified 07.08.20 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.domain.fuel.FuelType
  *
  */
 
-class FuelLocalDataSourceImpl(private val fuelDao: FuelDao) : IFuelLocalDataSource {
+internal class FuelLocalDataSourceImpl(private val fuelDao: FuelDao) : IFuelLocalDataSource {
 	
 	override suspend fun getAllFuelProvidersAndPrices(): List<FuelProviderAndPrices> =
 		fuelDao.getFuelPrices()

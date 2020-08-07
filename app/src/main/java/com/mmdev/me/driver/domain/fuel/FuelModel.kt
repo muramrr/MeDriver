@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 18:55
+ * Last modified 06.08.20 20:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,11 @@ data class FuelProvider(
 	@SerializedName("value")
 	val price: Float = 0f,
 	@SerializedName("marka")
-	val brand: String,
-	val slug: String
-)
-
+	val brand: String = "",
+	val slug: String = "") {
+	
+	fun toUI() = FuelProviderUI(price.toString(), brand, slug)
+}
 
 data class FuelProviderUI (
 	val price: String = "",
@@ -36,15 +37,14 @@ data class FuelProviderUI (
 		else 0
 )
 
-fun FuelProvider.toUI() = FuelProviderUI(price.toString(), brand, slug)
 
 data class FuelSummary(
 	@SerializedName("minval")
-	val minPrice: String,
+	val minPrice: String = "",
 	@SerializedName("maxval")
-	val maxPrice: String,
+	val maxPrice: String = "",
 	@SerializedName("avgval")
-	val avgPrice: String
+	val avgPrice: String = ""
 )
 
 /** used to define map: which [FuelModel] corresponds to a given [FuelType] */
@@ -52,13 +52,13 @@ enum class FuelType (val code: Int) {
 	A100(1), A95PLUS(2), A95(3), A92(4), DT(5), GAS(6)
 }
 
-data class FuelModel (
+data class FuelModel(
 	@SerializedName("data")
-	val fuelProviders: List<FuelProvider>,
+	val fuelProviders: List<FuelProvider> = emptyList(),
 	@SerializedName("date")
-	val pricesLastUpdatedDate: String,
+	val pricesLastUpdatedDate: String = "",
 	@SerializedName("total")
-	val fuelSummaryResponse: List<FuelSummary>
+	val fuelSummaryResponse: List<FuelSummary> = emptyList()
 )
 
 data class FuelModelResponse(val result: FuelModel)

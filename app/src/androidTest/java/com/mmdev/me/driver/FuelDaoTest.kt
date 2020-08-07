@@ -1,7 +1,22 @@
+/*
+ * Created by Andrii Kovalchuk
+ * Copyright (c) 2020. All rights reserved.
+ * Last modified 07.08.20 15:24
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.mmdev.me.driver
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
+import com.mmdev.me.driver.domain.fuel.FuelType.A100
+import com.mmdev.me.driver.domain.fuel.FuelType.A95
 import com.mmdev.me.driver.modules.roomTestModule
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -27,16 +42,16 @@ class FuelDaoTest : KoinTest {
 	private val fuelDao: FuelDao by inject()
 
 	//another approach without KoinTest
-//	private lateinit var fuelDatabase: fuelRoomDatabase //the db instance
-//	private lateinit var fuelDao: fuelDao //the dao
+//	private lateinit var fuelDatabase: MeDriveRoomDatabase //the db instance
+//	private lateinit var fuelDao: FuelDao //the dao
 //
 //	@Before
 //	fun setUp() {
 //		val context = ApplicationProvider.getApplicationContext<Context>()
-//		fuelDatabase = Room.inMemoryDatabaseBuilder(context, fuelRoomDatabase::class.java)
+//		fuelDatabase = Room.inMemoryDatabaseBuilder(context, MeDriveRoomDatabase::class.java)
 //			.build()
 //
-//		fuelDao = fuelDatabase.habitDao()
+//		fuelDao = fuelDatabase.getFuelDao()
 //	}
 
 	/**
@@ -46,60 +61,63 @@ class FuelDaoTest : KoinTest {
 	fun before() {
 		loadKoinModules(roomTestModule)
 	}
-
+	
+	
 	@Test
-	fun testInsertPlace() = runBlocking {
-
+	fun testInsertFuelProvidersAndPrices() = runBlocking {
+		
 		// Create Fuel place entity
-		val fuelEntity = FuelEntity()
-
-		// Insert entity
-
-		fuelDao.insertFuelModel(FuelEntity)
-		// Request one entity per id
-		val requestedEntities = fuelDao.getAllFuelModels()
-
+		val fuelProviderOkko = FuelProviderEntity("OKKO", "okko", "10-23-2330")
+		val fuelProviderWog = FuelProviderEntity("WOG", "wog", "10-23-2330")
+		
+		val fuelOkko100 = FuelPriceEntity("okko",
+		                                  "19",
+		                                  A100.code)
+		
+		val fuelOkko95 = FuelPriceEntity("okko",
+		                                 "15",
+		                                 A95.code)
+		
+		val fuelWog100 = FuelPriceEntity("wog",
+		                                 "21",
+		                                 A100.code)
+		
+		val fuelWog95 = FuelPriceEntity("wog",
+		                                "14",
+		                                A95.code)
+		
+		val fuelProviderAndPricesOkko = FuelProviderAndPrices(fuelProviderOkko,
+		                                                      listOf(fuelOkko100, fuelOkko95))
+		
+		val fuelProviderAndPricesWog = FuelProviderAndPrices(fuelProviderWog,
+		                                                     listOf(fuelWog100, fuelWog95))
+		
+		
+		fuelDao.insertFuelProvider(fuelProviderOkko)
+		fuelDao.insertFuelProvider(fuelProviderWog)
+		
+		fuelDao.insertFuelPrice(fuelOkko100)
+		fuelDao.insertFuelPrice(fuelOkko95)
+		
+		fuelDao.insertFuelPrice(fuelWog100)
+		fuelDao.insertFuelPrice(fuelWog95)
+		
+		// Request
+		val requestedEntities = fuelDao.getFuelPrices()
+		
 		// compare result
-		assertEquals(listOf(FuelEntity), requestedEntities)
-		assertTrue(fuelDao.getAllFuelModels().isEmpty())
+		assertTrue(requestedEntities.isNotEmpty())
+		assertEquals(requestedEntities, listOf(fuelProviderAndPricesOkko, fuelProviderAndPricesWog))
+		
+		fuelDao.deleteAllFuelProviders()
+		
+		
+		// compare result
+		assertEquals(emptyList<FuelProviderAndPrices>(), fuelDao.getFuelPrices())
+		
 	}
 
-	@Test
-	fun testInsertEvent() = runBlocking {
-
-		// Create Fuel event entity
-		val fuelEntity = FuelEntity()
-
-		// Insert entity
-
-		fuelDao.insertFuelModel(FuelEntity)
-		// Request one entity per id
-		val requestedEntities = fuelDao.getAllFuelModels()
-
-		// compare result
-		assertEquals(listOf(FuelEntity), requestedEntities)
-		assertTrue(fuelDao.getAllFuelModels().isEmpty())
-	}
-
-	@Test
-	fun testDeleteFuel() = runBlocking {
-
-		// Create casual entity
-		val fuelEntity = FuelEntity()
-
-		// Save entities
-		fuelDao.insertFuelModel(FuelEntity)
-
-		// compare result
-		assertEquals(listOf(FuelEntity), fuelDao.getAllFuelModels())
-		assertTrue(fuelDao.getAllFuelModels().isEmpty())
-
-		fuelDao.deleteAll()
-
-
-		// compare result
-		assertEquals(emptyList<FuelEntity>(), fuelDao.getAllFuelModels())
-	}
+	
 
 	/**
 	 * Close resources

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 18:14
+ * Last modified 07.08.20 16:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,11 @@
 
 package com.mmdev.me.driver.data.datasource.local.fuel.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.mmdev.me.driver.domain.fuel.FuelModel
+import androidx.room.*
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 
 /**
  *
@@ -23,16 +23,31 @@ import com.mmdev.me.driver.domain.fuel.FuelModel
 @Dao
 interface FuelDao {
 	
-	@Query("SELECT * FROM fuelInfo")
-	suspend fun getAllFuelModels(): FuelModel
+	@Transaction
+	@Query("SELECT * FROM fuel_providers")
+	suspend fun getFuelPrices(): List<FuelProviderAndPrices>
+	
+	@Insert(onConflict = OnConflictStrategy.ABORT)
+	suspend fun insertFuelProvider(fuelProviderEntity: FuelProviderEntity)
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertFuelModel(fuelModel: FuelModel)
+	suspend fun insertFuelPrice(fuelPrice: FuelPriceEntity)
 	
-	@Query(value = "SELECT * FROM fuelInfo WHERE retrievedDate = :date")
-	suspend fun getFuelModelByDate(date: String): FuelModel
+	@Query("DELETE FROM fuel_providers")
+	suspend fun deleteAllFuelProviders()
 	
-	@Query("DELETE FROM fuelInfo")
-	suspend fun deleteAll()
+	
+	
+	@Query("SELECT * FROM fuel_summary")
+	suspend fun getFuelSummaries(): List<FuelSummaryEntity>
+	
+	@Query("SELECT * FROM fuel_summary WHERE type = :fuelType AND updatedDate = :updatedDate")
+	suspend fun getFuelSummaryByDateAndType(fuelType: Int, updatedDate: String): List<FuelSummaryEntity>
+	
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	suspend fun insertFuelSummary(fuelSummaryEntity: FuelSummaryEntity)
+	
+	@Query("DELETE FROM fuel_summary")
+	suspend fun deleteAllFuelSummaries()
 	
 }

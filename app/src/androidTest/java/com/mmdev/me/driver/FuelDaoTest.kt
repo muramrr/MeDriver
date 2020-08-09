@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 15:24
+ * Last modified 09.08.20 18:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -71,19 +71,19 @@ class FuelDaoTest : KoinTest {
 		val fuelProviderWog = FuelProviderEntity("WOG", "wog", "10-23-2330")
 		
 		val fuelOkko100 = FuelPriceEntity("okko",
-		                                  "19",
+		                                  19f,
 		                                  A100.code)
 		
 		val fuelOkko95 = FuelPriceEntity("okko",
-		                                 "15",
+		                                 15f,
 		                                 A95.code)
 		
 		val fuelWog100 = FuelPriceEntity("wog",
-		                                 "21",
+		                                 21f,
 		                                 A100.code)
 		
 		val fuelWog95 = FuelPriceEntity("wog",
-		                                "14",
+		                                14f,
 		                                A95.code)
 		
 		val fuelProviderAndPricesOkko = FuelProviderAndPrices(fuelProviderOkko,
@@ -103,7 +103,7 @@ class FuelDaoTest : KoinTest {
 		fuelDao.insertFuelPrice(fuelWog95)
 		
 		// Request
-		val requestedEntities = fuelDao.getFuelPrices()
+		val requestedEntities = fuelDao.getFuelPrices("10-23-2330")
 		
 		// compare result
 		assertTrue(requestedEntities.isNotEmpty())
@@ -113,7 +113,7 @@ class FuelDaoTest : KoinTest {
 		
 		
 		// compare result
-		assertEquals(emptyList<FuelProviderAndPrices>(), fuelDao.getFuelPrices())
+		assertEquals(emptyList<FuelProviderAndPrices>(), fuelDao.getFuelPrices("10-22-2330"))
 		
 	}
 

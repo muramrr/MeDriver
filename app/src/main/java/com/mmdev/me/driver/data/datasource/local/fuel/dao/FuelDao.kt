@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 16:41
+ * Last modified 09.08.20 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,10 +24,10 @@ import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 interface FuelDao {
 	
 	@Transaction
-	@Query("SELECT * FROM fuel_providers")
-	suspend fun getFuelPrices(): List<FuelProviderAndPrices>
+	@Query("SELECT * FROM fuel_providers WHERE updatedDate = :date")
+	suspend fun getFuelPrices(date: String): List<FuelProviderAndPrices>
 	
-	@Insert(onConflict = OnConflictStrategy.ABORT)
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFuelProvider(fuelProviderEntity: FuelProviderEntity)
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 18:25
+ * Last modified 09.08.20 18:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,10 +17,10 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
 import com.mmdev.me.driver.domain.fuel.FuelProvider
-import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
+import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel.FuelViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,18 +56,15 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		when (state) {
 			is FuelViewState.Success -> {
 				logWtf(message = "${state.data}")
-				mFuelProvidersAdapter.setNewData(
-						(state.data[FuelType.A100] ?: error("")).result.networkFuelProviders.map { it.toUI() }
-				)
-				sharedViewModel.showLoading.value = false
-
+				mFuelProvidersAdapter.setNewData(state.data)
+				sharedViewModel.showLoading.value = LoadingState.HIDE
 			}
 			is FuelViewState.Loading -> {
 				logWtf(message = "loading")
-				sharedViewModel.showLoading.value = true
+				sharedViewModel.showLoading.value = LoadingState.SHOW
 			}
 			is FuelViewState.Error -> {
-				sharedViewModel.showLoading.value = false
+				sharedViewModel.showLoading.value = LoadingState.HIDE
 				logWtf(message = state.errorMessage)
 			}
 		}

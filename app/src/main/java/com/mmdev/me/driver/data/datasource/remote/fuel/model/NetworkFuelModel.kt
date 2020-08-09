@@ -19,32 +19,32 @@ import com.mmdev.me.driver.domain.fuel.FuelProvider
 
 data class NetworkFuelProvider(
 	@SerializedName("value")
-	val price: Float = 0f,
+	val price: Float,
 	@SerializedName("marka")
-	val brand: String = "",
-	val slug: String = "") {
+	val brand: String,
+	val slug: String) {
 	
-	fun toUI() = FuelProvider(price.toString(), brand, slug)
+	fun toUI() = FuelProvider(price.toString(), brand, slug, emptyList())
 }
 
 data class NetworkFuelSummary(
 	@SerializedName("minval")
-	val minPrice: String = "",
+	val minPrice: String,
 	@SerializedName("maxval")
-	val maxPrice: String = "",
+	val maxPrice: String,
 	@SerializedName("avgval")
-	val avgPrice: String = ""
+	val avgPrice: String
 )
 
 
 
 data class NetworkFuelModel(
 	@SerializedName("data")
-	val networkFuelProviders: List<NetworkFuelProvider> = emptyList(),
+	val networkFuelProviders: List<NetworkFuelProvider>,
 	@SerializedName("date")
-	val pricesLastUpdatedDate: String = "",
+	val pricesLastUpdatedDate: String,
 	@SerializedName("total")
-	val fuelSummaryResponse: List<NetworkFuelSummary> = emptyList()
+	val fuelSummaryResponse: List<NetworkFuelSummary>
 )
 
 data class NetworkFuelModelResponse(val result: NetworkFuelModel)

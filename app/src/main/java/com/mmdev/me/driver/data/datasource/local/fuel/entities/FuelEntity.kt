@@ -30,7 +30,7 @@ data class FuelProviderEntity(
 @Entity
 data class FuelPriceEntity(
 	val fuelProviderId: String,
-	val price: String,
+	val price: Float,
 	val type: Int
 ) {
 	@PrimaryKey

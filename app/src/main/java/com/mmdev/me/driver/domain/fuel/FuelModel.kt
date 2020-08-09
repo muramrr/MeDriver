@@ -13,15 +13,28 @@ package com.mmdev.me.driver.domain.fuel
 import com.mmdev.me.driver.presentation.ui.fuel.FuelProvidersMap
 
 /**
- * ui model
+ * ui models
  */
 
 data class FuelProvider (
-	val price: String = "",
+	val price: String,
 	val brandTitle: String,
 	val slug: String,
+	val prices: List<FuelPrice>,
 	val brandIcon: Int =
 		if (FuelProvidersMap.fuelProvidersMap.containsKey(slug))
 			FuelProvidersMap.fuelProvidersMap.getValue(slug)
 		else 0
+) {
+
+	data class FuelPrice(val type: FuelType, val price: Float)
+
+}
+
+data class FuelSummary(
+	val type: FuelType,
+	val minPrice: String,
+	val maxPrice: String,
+	val avgPrice: String,
+	val updatedDate: String
 )

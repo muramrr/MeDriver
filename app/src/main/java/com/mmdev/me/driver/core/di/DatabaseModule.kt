@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 16:41
+ * Last modified 09.08.20 20:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 /**
- *
+ * [DatabaseModule] provides RoomDatabase and DAO instances
  */
 
 private const val DATABASE_NAME = "medriver_database"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 18:31
+ * Last modified 10.08.20 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.repository.fuel
 
 
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.data.datasource.local.fuel.IFuelLocalDataSource
 import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
@@ -37,7 +38,10 @@ internal class FuelRepositoryImpl (
 			//get from local database
 			success = { dm -> ResultState.Success(dm)},
 			//if failure (throwable or emptyList) -> request from network
-			failure = { getFuelDataFromRemote(fuelType, date) }
+			failure = {
+				logDebug(message = it.localizedMessage!!)
+				getFuelDataFromRemote(fuelType, date)
+			}
 		)
 	
 	//retrieve from remote source

@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -29,7 +30,9 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 
 
-abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(private val layoutId: Int) : Fragment() {
+abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
+	@LayoutRes private val layoutId: Int
+) : Fragment() {
 
 	protected lateinit var navController: NavController
 	protected val TAG = "mylogs_" + javaClass.simpleName

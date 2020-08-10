@@ -16,6 +16,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 
 /**
  * This is the documentation block about the class
@@ -57,3 +58,15 @@ inline fun <T: View> T.setSingleClick(crossinline block: T.() -> Unit) = setOnCl
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+//This extension will able to pop any fragment instances from back stack
+fun NavController.popBackStackAllInstances(destination: Int, inclusive: Boolean): Boolean {
+	var popped: Boolean
+	while (true) {
+		popped = popBackStack(destination, inclusive)
+		if (!popped) {
+			break
+		}
+	}
+	return popped
+}

@@ -15,7 +15,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel.VINViewState
 import com.mmdev.me.driver.presentation.utils.setDebounceClick
@@ -26,7 +26,7 @@ import kotlin.random.Random
  *
  */
 
-class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
+class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(layoutId = R.layout.fragment_home) {
 
 	override val mViewModel: HomeViewModel by viewModel()
 

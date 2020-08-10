@@ -11,8 +11,11 @@
 package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.presentation.ui.SharedViewModel
+import com.mmdev.me.driver.presentation.ui.care.CareViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel
+import com.mmdev.me.driver.presentation.ui.mycar.MyCarViewModel
+import com.mmdev.me.driver.presentation.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,9 +25,13 @@ import org.koin.dsl.module
 
 val ViewModelsModule = module {
 
+
 	viewModel { HomeViewModel(repository = get()) }
+	viewModel { CareViewModel() }
+	viewModel { MyCarViewModel() }
 	viewModel { FuelViewModel(repository = get()) }
-	
+	viewModel { SettingsViewModel() }
+
 	viewModel { SharedViewModel() }
 
 }

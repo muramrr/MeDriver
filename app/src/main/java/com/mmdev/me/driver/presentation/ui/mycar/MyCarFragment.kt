@@ -15,13 +15,13 @@ import androidx.lifecycle.Observer
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentMycarBinding
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 
 /**
  *
  */
 
-class MyCarFragment : BaseFragment<MyCarViewModel, FragmentMycarBinding>(R.layout.fragment_mycar) {
+class MyCarFragment : BaseFlowFragment<MyCarViewModel, FragmentMycarBinding>(R.layout.fragment_mycar) {
 	
 	
 	data class CarInDropDown (val carBrand: String,

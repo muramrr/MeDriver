@@ -19,7 +19,7 @@ import com.mmdev.me.driver.databinding.FragmentFuelBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.model.FuelPrice
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
@@ -31,7 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *
  */
 
-class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
+class FuelFragment : BaseFlowFragment<FuelViewModel, FragmentFuelBinding>(
 		layoutId = R.layout.fragment_fuel
 ) {
 

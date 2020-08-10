@@ -13,13 +13,13 @@ package com.mmdev.me.driver.presentation.ui.care
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentCareBinding
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 
 /**
  *
  */
 
-class CareFragment : BaseFragment<CareViewModel, FragmentCareBinding>(
+class CareFragment : BaseFlowFragment<CareViewModel, FragmentCareBinding>(
 		layoutId = R.layout.fragment_care
 ) {
 

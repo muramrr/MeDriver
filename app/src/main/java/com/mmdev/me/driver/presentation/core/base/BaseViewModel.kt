@@ -20,8 +20,6 @@ import com.mmdev.me.driver.core.utils.logDebug
 
 abstract class BaseViewModel: ViewModel() {
 
-	protected val TAG = "mylogs_" + javaClass.simpleName
-
 //	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
 //		return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
 //			emitSource(block())
@@ -35,7 +33,7 @@ abstract class BaseViewModel: ViewModel() {
 //	}
 
 	override fun onCleared() {
-		logDebug(TAG, "${javaClass.simpleName} on cleared called")
+		logDebug(message = "${javaClass.simpleName} on cleared called")
 		super.onCleared()
 	}
 }

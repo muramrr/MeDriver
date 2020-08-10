@@ -13,14 +13,14 @@ package com.mmdev.me.driver.presentation.ui.settings
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.utils.ThemeHelper
 
 /**
  *
  */
 
-class SettingsFragment: BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
+class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBinding>(
 		layoutId = R.layout.fragment_settings
 ) {
 

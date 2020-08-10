@@ -22,6 +22,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
@@ -52,39 +53,44 @@ class MainActivity: AppCompatActivity() {
 		setContentView(binding.root)
 
 		val navController = findNavController(R.id.navHostMain)
-		binding.bottomNavMain.setOnNavigationItemSelectedListener {
-			val previousItem = binding.bottomNavMain.selectedItemId
-			val nextItem = it.itemId
 
-			if (previousItem != nextItem) {
-
-				when (nextItem) {
-					R.id.bottomNavMainHome -> {
-						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainHome)
-					}
-					R.id.bottomNavMainCare -> {
-						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainCare)
-					}
-					R.id.bottomNavMainMyCar -> {
-						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainMyCar)
-
-					}
-					R.id.bottomNavMainFuel -> {
-						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainFuel)
-					}
-					R.id.bottomNavMainSettings -> {
-						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainSettings)
-					}
-				}
-			}
-
-			return@setOnNavigationItemSelectedListener true
+		binding.bottomNavMain.setupWithNavController(navController)
+		binding.bottomNavMain.setOnNavigationItemReselectedListener {
+			"Reselect blocked."
 		}
+//		binding.bottomNavMain.setOnNavigationItemSelectedListener {
+//			val previousItem = binding.bottomNavMain.selectedItemId
+//			val nextItem = it.itemId
+//
+//			if (previousItem != nextItem) {
+//
+//				when (nextItem) {
+//					R.id.bottomNavMainHome -> {
+//						navController.popBackStack()
+//						navController.navigate(R.id.bottomNavMainHome)
+//					}
+//					R.id.bottomNavMainCare -> {
+//						navController.popBackStack()
+//						navController.navigate(R.id.bottomNavMainCare)
+//					}
+//					R.id.bottomNavMainMyCar -> {
+//						navController.popBackStack()
+//						navController.navigate(R.id.bottomNavMainMyCar)
+//
+//					}
+//					R.id.bottomNavMainFuel -> {
+//						navController.popBackStack()
+//						navController.navigate(R.id.bottomNavMainFuel)
+//					}
+//					R.id.bottomNavMainSettings -> {
+//						navController.popBackStack()
+//						navController.navigate(R.id.bottomNavMainSettings)
+//					}
+//				}
+//			}
+//
+//			return@setOnNavigationItemSelectedListener true
+//		}
 
 		val loadingDialog = setLoadingDialog(this@MainActivity)
 

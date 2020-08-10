@@ -13,8 +13,6 @@ package com.mmdev.me.driver
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
 import com.mmdev.me.driver.domain.fuel.FuelType.A100
 import com.mmdev.me.driver.domain.fuel.FuelType.A95
 import com.mmdev.me.driver.modules.roomTestModule
@@ -42,17 +40,17 @@ class FuelDaoTest : KoinTest {
 	private val fuelDao: FuelDao by inject()
 
 	//another approach without KoinTest
-//	private lateinit var fuelDatabase: MeDriveRoomDatabase //the db instance
-//	private lateinit var fuelDao: FuelDao //the dao
-//
-//	@Before
-//	fun setUp() {
-//		val context = ApplicationProvider.getApplicationContext<Context>()
-//		fuelDatabase = Room.inMemoryDatabaseBuilder(context, MeDriveRoomDatabase::class.java)
-//			.build()
-//
-//		fuelDao = fuelDatabase.getFuelDao()
-//	}
+	//	private lateinit var fuelDatabase: MeDriveRoomDatabase //the db instance
+	//	private lateinit var fuelDao: FuelDao //the dao
+	//
+	//	@Before
+	//	fun setUp() {
+	//		val context = ApplicationProvider.getApplicationContext<Context>()
+	//		fuelDatabase = Room.inMemoryDatabaseBuilder(context, MeDriveRoomDatabase::class.java)
+	//			.build()
+	//
+	//		fuelDao = fuelDatabase.getFuelDao()
+	//	}
 
 	/**
 	 * Override default Koin configuration to use Room in-memory database
@@ -61,63 +59,55 @@ class FuelDaoTest : KoinTest {
 	fun before() {
 		loadKoinModules(roomTestModule)
 	}
-	
-	
+
+
 	@Test
 	fun testInsertFuelProvidersAndPrices() = runBlocking {
-		
+
 		// Create Fuel place entity
-		val fuelProviderOkko = FuelProviderEntity("OKKO", "okko", "10-23-2330")
-		val fuelProviderWog = FuelProviderEntity("WOG", "wog", "10-23-2330")
-		
-		val fuelOkko100 = FuelPriceEntity("okko",
-		                                  19f,
-		                                  A100.code)
-		
-		val fuelOkko95 = FuelPriceEntity("okko",
-		                                 15f,
-		                                 A95.code)
-		
-		val fuelWog100 = FuelPriceEntity("wog",
-		                                 21f,
-		                                 A100.code)
-		
-		val fuelWog95 = FuelPriceEntity("wog",
-		                                14f,
-		                                A95.code)
-		
-		val fuelProviderAndPricesOkko = FuelProviderAndPrices(fuelProviderOkko,
-		                                                      listOf(fuelOkko100, fuelOkko95))
-		
-		val fuelProviderAndPricesWog = FuelProviderAndPrices(fuelProviderWog,
-		                                                     listOf(fuelWog100, fuelWog95))
-		
-		
-		fuelDao.insertFuelProvider(fuelProviderOkko)
-		fuelDao.insertFuelProvider(fuelProviderWog)
-		
+
+		val fuelOkko95 = FuelPriceEntity("OKKO", "okko",
+		                                  19.0f,
+		                                  A95.code,
+		                                  "10-23-2330")
+
+		val fuelOkko100 = FuelPriceEntity("OKKO", "okko",
+		                                 22.33f,
+		                                 A100.code,
+		                                 "10-23-2330")
+
+		val fuelWog95 = FuelPriceEntity("WOG", "wog",
+		                                 19.13f,
+		                                 A95.code,
+		                                 "10-23-2330")
+
+		val fuelWog100 = FuelPriceEntity("WOG", "wog",
+		                                21.23f,
+		                                A100.code,
+		                                "10-23-2330")
+
+
 		fuelDao.insertFuelPrice(fuelOkko100)
 		fuelDao.insertFuelPrice(fuelOkko95)
-		
 		fuelDao.insertFuelPrice(fuelWog100)
 		fuelDao.insertFuelPrice(fuelWog95)
-		
+
 		// Request
-		val requestedEntities = fuelDao.getFuelPrices("10-23-2330")
-		
+		val requestedEntities = fuelDao.getFuelPrices(A100.code, "10-23-2330")
+
 		// compare result
 		assertTrue(requestedEntities.isNotEmpty())
-		assertEquals(requestedEntities, listOf(fuelProviderAndPricesOkko, fuelProviderAndPricesWog))
-		
-		fuelDao.deleteAllFuelProviders()
-		
-		
+		assertEquals(requestedEntities, listOf(fuelOkko100, fuelWog100))
+
+		fuelDao.deleteAllFuelPrices()
+
+
 		// compare result
-		assertEquals(emptyList<FuelProviderAndPrices>(), fuelDao.getFuelPrices("10-22-2330"))
-		
+		assertEquals(emptyList<FuelPriceEntity>(), fuelDao.getFuelPrices(A100.code,"10-22-2330"))
+
 	}
 
-	
+
 
 	/**
 	 * Close resources

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 16:17
+ * Last modified 10.08.20 17:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,20 +27,17 @@ import kotlinx.coroutines.flow.flow
 internal class FuelRemoteDataSourceImpl(private val fuelApi: FuelApi) :
 		IFuelRemoteDataSource, BaseRemoteDataSource() {
 	
-	override suspend fun getFuelInfo(
-		date: String,
-		fuelType: Int,
-		region: Int
-	): SimpleResult<Map<FuelType, NetworkFuelModelResponse>> =
-		safeCallResponse(call = { fetchItems(date, FuelType.values().asIterable(), region) })
+	override suspend fun getFuelInfo(date: String): SimpleResult<Map<FuelType, NetworkFuelModelResponse>> =
+		safeCallResponse(call = { fetchItems(date, FuelType.values().asIterable()) })
 	
+	//get all prices for every fuel type
+	//response contains list of fuelProviders and their prices for specified fuel type
 	private suspend fun fetchItems(
 		date:String,
-		itemIds: Iterable<FuelType>,
-		region: Int
+		fuelTypes: Iterable<FuelType>
 	): Map<FuelType, NetworkFuelModelResponse> =
-		itemIds.asFlow()
-			.flatMapMerge(concurrency = 3) { itemId ->
-				flow { emit(itemId to fuelApi.getFuelInfoFromApi(date, itemId.code, region)) }
+		fuelTypes.asFlow()
+			.flatMapMerge(concurrency = 3) { fuelType ->
+				flow { emit(fuelType to fuelApi.getFuelInfoFromApi(date, fuelType.code)) }
 			}.toMap()
 }

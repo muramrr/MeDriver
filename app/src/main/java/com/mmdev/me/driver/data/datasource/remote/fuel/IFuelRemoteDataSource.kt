@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 16:21
+ * Last modified 10.08.20 17:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,10 +20,6 @@ import com.mmdev.me.driver.domain.fuel.FuelType
 
 interface IFuelRemoteDataSource {
 	
-	suspend fun getFuelInfo(
-		date: String,
-		fuelType: Int,
-		region: Int = 3
-	) : SimpleResult<Map<FuelType, NetworkFuelModelResponse>>
+	suspend fun getFuelInfo(date: String) : SimpleResult<Map<FuelType, NetworkFuelModelResponse>>
 
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 18:06
+ * Last modified 10.08.20 16:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
-import com.mmdev.me.driver.domain.fuel.FuelProvider
+import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.model.FuelPrice
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
@@ -45,7 +46,7 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 			addItemDecoration(LinearItemDecoration())
 		}
 		
-		//mViewModel.getFuelInfo("2020-08-03")
+		mViewModel.getFuelInfo(FuelType.A95)
 	
 		mViewModel.fuelInfo.observe(this, Observer {
 			renderState(it)
@@ -70,9 +71,10 @@ class FuelFragment : BaseFragment<FuelViewModel, FragmentFuelBinding>(
 		}
 		
 	}
+	
 
-	private class FuelProvidersAdapter (data: List<FuelProvider> = emptyList(),
+	private class FuelProvidersAdapter (data: List<FuelPrice> = emptyList(),
 	                                    @LayoutRes layoutId: Int = R.layout.item_fuel_provider) :
-			BaseAdapter<FuelProvider>(data, layoutId)
+			BaseAdapter<FuelPrice>(data, layoutId)
 	
 }

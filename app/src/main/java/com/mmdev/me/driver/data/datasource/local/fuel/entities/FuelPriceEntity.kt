@@ -10,39 +10,21 @@
 
 package com.mmdev.me.driver.data.datasource.local.fuel.entities
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
 /**
  * Entities used to been stored in database
  */
 
-@Entity(tableName = "fuel_providers")
-data class FuelProviderEntity(
-	val brandTitle: String,
-	@PrimaryKey
-	val slug: String,
-	val updatedDate: String
-)
-
-@Entity
+@Entity(tableName = "fuel_prices")
 data class FuelPriceEntity(
-	val fuelProviderId: String,
+	val fuelProviderTitle: String,
+	val fuelProviderSlug: String,
 	val price: Float,
-	val type: Int
+	val type: Int,
+	val updatedDate: String
 ) {
 	@PrimaryKey
-	var id: String = fuelProviderId+"_$type"
+	var id: String = "${type}_" + fuelProviderSlug
 }
-
-
-data class FuelProviderAndPrices(
-	@Embedded val fuelProvider: FuelProviderEntity,
-	@Relation(
-			parentColumn = "slug",
-			entityColumn = "fuelProviderId"
-	)
-	val prices: List<FuelPriceEntity>
-)

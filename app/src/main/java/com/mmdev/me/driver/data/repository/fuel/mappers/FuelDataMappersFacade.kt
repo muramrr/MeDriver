@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 17:05
+ * Last modified 10.08.20 18:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +10,11 @@
 
 package com.mmdev.me.driver.data.repository.fuel.mappers
 
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
-import com.mmdev.me.driver.domain.fuel.FuelProvider
-import com.mmdev.me.driver.domain.fuel.FuelSummary
+import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.model.FuelSummary
 
 /**
  * FuelDataMappersFacade for multiple mappers used in FuelRepository
@@ -21,12 +22,14 @@ import com.mmdev.me.driver.domain.fuel.FuelSummary
 
 class FuelDataMappersFacade (
 	//network dto -> db entity
-	val mapResponseModelToLocal: (response) -> List<FuelProviderAndPrices>,
+	val mapResponsePriceToDb: (response) -> List<FuelPriceEntity>,
 	//network dto -> db entity
-	val mapResponseModelToLocalSummary: (response) -> List<FuelSummaryEntity>,
+	val mapResponseSummaryToDb: (response) -> List<FuelSummaryEntity>,
+	//network dto -> dm
+	val mapResponsePriceToDm: (response, fuelType: FuelType) -> List<FuelPrice>,
 	//db dto -> dm
-	val mapDbSummariesToDomain: (List<FuelSummaryEntity>) -> List<FuelSummary>,
+	val mapDbSummariesToDm: (List<FuelSummaryEntity>) -> List<FuelSummary>,
 	//db dto -> dm
-	val mapDbFuelInfoToDomain: (List<FuelProviderAndPrices>) -> List<FuelProvider>
+	val mapDbFuelPriceToDm: (List<FuelPriceEntity>) -> List<FuelPrice>
 )
 

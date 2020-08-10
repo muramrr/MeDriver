@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 15:58
+ * Last modified 10.08.20 18:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,10 +17,13 @@ package com.mmdev.me.driver.data.repository.fuel.mappers
 object FuelDataMappersFacadeFactory {
 	
 	fun create() : FuelDataMappersFacade = FuelDataMappersFacade(
-		makeFuelProvidersMapperDto(),
-		makeFuelSummaryMapperDto(),
-		makeFuelSummaryMapperDm(),
-		makeFuelProvidersMapperDm()
+		
+		mapResponsePriceToDb = mapFuelPriceResponseToEntity(),
+		mapResponseSummaryToDb = mapSummaryResponseToEntity(),
+		mapResponsePriceToDm = mapFuelPriceResponseToDm(),
+		mapDbSummariesToDm = mapFuelSummaryEntityToDm(),
+		mapDbFuelPriceToDm = mapFuelPriceEntityToDm()
+	
 	)
 
 }

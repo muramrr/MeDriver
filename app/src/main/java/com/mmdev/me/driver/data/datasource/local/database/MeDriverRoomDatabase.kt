@@ -14,15 +14,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 
 /**
- *
+ * RoomDatabase
  */
 
 @Database(entities = [
-	FuelProviderEntity::class,
 	FuelPriceEntity::class,
 	FuelSummaryEntity::class
 ],

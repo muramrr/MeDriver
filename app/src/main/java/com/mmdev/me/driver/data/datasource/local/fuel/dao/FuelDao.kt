@@ -10,10 +10,9 @@
 
 package com.mmdev.me.driver.data.datasource.local.fuel.dao
 
+import androidx.annotation.VisibleForTesting
 import androidx.room.*
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 
 /**
@@ -24,25 +23,22 @@ import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 interface FuelDao {
 	
 	@Transaction
-	@Query("SELECT * FROM fuel_providers WHERE updatedDate = :date")
-	suspend fun getFuelPrices(date: String): List<FuelProviderAndPrices>
-	
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertFuelProvider(fuelProviderEntity: FuelProviderEntity)
+	@Query("SELECT * FROM fuel_prices WHERE type = :fuelType AND updatedDate = :updatedDate")
+	suspend fun getFuelPrices(fuelType: Int, updatedDate: String): List<FuelPriceEntity>
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFuelPrice(fuelPrice: FuelPriceEntity)
 	
-	@Query("DELETE FROM fuel_providers")
-	suspend fun deleteAllFuelProviders()
+	@Query("DELETE FROM fuel_prices")
+	suspend fun deleteAllFuelPrices()
 	
 	
-	
+	@VisibleForTesting
 	@Query("SELECT * FROM fuel_summary")
 	suspend fun getFuelSummaries(): List<FuelSummaryEntity>
 	
 	@Query("SELECT * FROM fuel_summary WHERE type = :fuelType AND updatedDate = :updatedDate")
-	suspend fun getFuelSummaryByDateAndType(fuelType: Int, updatedDate: String): List<FuelSummaryEntity>
+	suspend fun getFuelSummary(fuelType: Int, updatedDate: String): List<FuelSummaryEntity>
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFuelSummary(fuelSummaryEntity: FuelSummaryEntity)

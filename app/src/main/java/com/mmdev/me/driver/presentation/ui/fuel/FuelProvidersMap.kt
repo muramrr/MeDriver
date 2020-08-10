@@ -1,3 +1,13 @@
+/*
+ * Created by Andrii Kovalchuk
+ * Copyright (c) 2020. All rights reserved.
+ * Last modified 09.08.20 20:41
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.mmdev.me.driver.presentation.ui.fuel
 
 import com.mmdev.me.driver.R
@@ -9,7 +19,7 @@ import com.mmdev.me.driver.R
 object FuelProvidersMap {
 
 
-	internal val fuelProvidersSlug = listOf(
+	private val fuelProvidersSlug = listOf(
 			"amic",
 			"anp",
 			"brsm-nafta",
@@ -22,7 +32,7 @@ object FuelProvidersMap {
 			"wog"
 	)
 
-	internal val fuelProvidersIcons = listOf(
+	private val fuelProvidersIcons = listOf(
 			R.drawable.gas_station_amic,
 			R.drawable.gas_station_anp,
 			R.drawable.gas_station_brsm,

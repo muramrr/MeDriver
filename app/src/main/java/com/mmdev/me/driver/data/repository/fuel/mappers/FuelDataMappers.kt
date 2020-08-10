@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 15:58
+ * Last modified 10.08.20 18:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,13 +12,11 @@ package com.mmdev.me.driver.data.repository.fuel.mappers
 
 import com.mmdev.me.driver.data.core.mappers.mapNullInputList
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
-import com.mmdev.me.driver.domain.fuel.FuelProvider
-import com.mmdev.me.driver.domain.fuel.FuelSummary
 import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.model.FuelSummary
 
 /**
  * contains mappers between layers [data -> domain]
@@ -32,73 +30,55 @@ import com.mmdev.me.driver.domain.fuel.FuelType
 typealias response = Map<FuelType, NetworkFuelModelResponse>
 
 
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
-fun makeFuelProvidersMapperDto(): (response) -> List<FuelProviderAndPrices> = {
-	response -> mapFuelProvidersDto(response)
+fun mapFuelPriceResponseToEntity(): (response) -> List<FuelPriceEntity> = {
+	response -> mapperFuelPriceDto(response)
 }
 
-private fun mapFuelProvidersDto(input: response): List<FuelProviderAndPrices> {
-	val listOfFuelProviderAndPrices = mutableListOf<FuelProviderAndPrices>()
+private fun mapperFuelPriceDto(input: response): List<FuelPriceEntity> {
 	val listOfFuelPrices = mutableListOf<FuelPriceEntity>()
-	val setOfFuelProviders = mutableSetOf<FuelProviderEntity>()
-	
+
 	for ((fuelType, networkFuelModelResponse) in input) {
 		networkFuelModelResponse.result.run {
 			//get every fuelProvider with price and generate separate objects price and provider
 			networkFuelProviders.forEach { fuelProvider ->
-				//add price to general list
 				listOfFuelPrices.add(
-						FuelPriceEntity(
-								fuelProvider.slug,
-								fuelProvider.price,
-								fuelType.code
-						)
+					FuelPriceEntity(
+						fuelProviderTitle = fuelProvider.brand,
+						fuelProviderSlug = fuelProvider.slug,
+						price = fuelProvider.price,
+						type = fuelType.code,
+						updatedDate = this.pricesLastUpdatedDate
+					)
 				)
-				//add fuel provider to set, this is guarantee that it will be stored only ones
-				//but note: allocated objects not only once
-				setOfFuelProviders.add(
-						FuelProviderEntity(
-								fuelProvider.brand,
-								fuelProvider.slug,
-								pricesLastUpdatedDate
-						)
-				)
+
 			}
 		}
 	}
-	
-	//assign fuel prices to fuelProvider
-	for (fuelProvider in setOfFuelProviders) {
-		listOfFuelProviderAndPrices.add(
-				FuelProviderAndPrices(
-						fuelProvider,
-						listOfFuelPrices.filter {
-							it.fuelProviderId == fuelProvider.slug
-						}
-				)
-		)
-	}
-	
-	return listOfFuelProviderAndPrices
+
+	return listOfFuelPrices
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-fun makeFuelSummaryMapperDto(): (response) -> List<FuelSummaryEntity> = {
-	response -> mapFuelSummaryDto(response)
+fun mapSummaryResponseToEntity(): (response) -> List<FuelSummaryEntity> = {
+	response -> mapperFuelSummaryDto(response)
 }
 
-private fun mapFuelSummaryDto(input: response): List<FuelSummaryEntity> {
+private fun mapperFuelSummaryDto(input: response): List<FuelSummaryEntity> {
 	val listOfSummaryEntity = mutableListOf<FuelSummaryEntity>()
 	
 	for ((fuelType, networkFuelModelResponse) in input) {
 		
 		listOfSummaryEntity.add(
-				FuelSummaryEntity(
-						type = fuelType.code,
-						minPrice= networkFuelModelResponse.result.fuelSummaryResponse[0].minPrice,
-						maxPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].maxPrice,
-						avgPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].avgPrice,
-						updatedDate = networkFuelModelResponse.result.pricesLastUpdatedDate)
+			FuelSummaryEntity(
+				type = fuelType.code,
+				minPrice= networkFuelModelResponse.result.fuelSummaryResponse[0].minPrice,
+				maxPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].maxPrice,
+				avgPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].avgPrice,
+				updatedDate = networkFuelModelResponse.result.pricesLastUpdatedDate
+			)
 		)
 	}
 	
@@ -106,39 +86,49 @@ private fun mapFuelSummaryDto(input: response): List<FuelSummaryEntity> {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-fun makeFuelSummaryMapperDm(): (List<FuelSummaryEntity>) -> List<FuelSummary> = { mapFuelSummaryDm(it) }
+fun mapFuelPriceResponseToDm(): (response, fuelType: FuelType) -> List<FuelPrice> = {
+		response, fuelType -> mapperFuelPriceResponseToDm(response, fuelType)
+}
 
-private fun mapFuelSummaryDm(input: List<FuelSummaryEntity>): List<FuelSummary> =
-	mapNullInputList(input) {
-		FuelSummary(type = it.type,
-		            minPrice = it.minPrice,
-		            maxPrice = it.maxPrice,
-		            avgPrice = it.avgPrice,
-		            updatedDate = it.updatedDate
-		)
+private fun mapperFuelPriceResponseToDm(input: response, fuelType: FuelType): List<FuelPrice> {
+	if (input.containsKey(fuelType)) {
+		input[fuelType]?.result!!.run {
+			return mapNullInputList(networkFuelProviders) { fuelProvider ->
+				FuelPrice(
+					title = fuelProvider.brand,
+					slug = fuelProvider.slug,
+					price = fuelProvider.price.toString(),
+					type = fuelType.code,
+					date = this.pricesLastUpdatedDate
+				)
+			}
+		}
 	}
+	else return emptyList()
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-fun makeFuelProvidersMapperDm(): (List<FuelProviderAndPrices>) -> List<FuelProvider> = {
-	fuelProviderDto -> mapFuelProvidersDm(fuelProviderDto) {
-	listPricesDto ->
-		mapNullInputList(listPricesDto) { priceDto ->
-			mapPriceDm(priceDto)
-		}
+fun mapFuelSummaryEntityToDm(): (List<FuelSummaryEntity>) -> List<FuelSummary> = { dto ->
+	mapNullInputList(dto) { entity ->
+		FuelSummary(
+			type = entity.type,
+			minPrice = entity.minPrice,
+			maxPrice = entity.maxPrice,
+			avgPrice = entity.avgPrice,
+			updatedDate = entity.updatedDate
+		)
 	}
 }
 
-private fun mapFuelProvidersDm(
-	input: List<FuelProviderAndPrices>,
-	mapPrices: (List<FuelPriceEntity>?) -> List<FuelProvider.FuelPrice>
-): List<FuelProvider> =
-	mapNullInputList(input) {
-		FuelProvider(
-				brandTitle = it.fuelProvider.brandTitle,
-				slug = it.fuelProvider.slug,
-				prices = mapPrices(it.prices)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+fun mapFuelPriceEntityToDm(): (List<FuelPriceEntity>) -> List<FuelPrice> = { dto ->
+	mapNullInputList(dto) { entity ->
+		FuelPrice(
+			title = entity.fuelProviderTitle,
+			slug = entity.fuelProviderSlug,
+			price = entity.price.toString(),
+			type = entity.type,
+			date = entity.updatedDate
 		)
 	}
-
-private fun mapPriceDm (input: FuelPriceEntity): FuelProvider.FuelPrice =
-	FuelProvider.FuelPrice(type = input.type, price = input.price)
+}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 20:41
+ * Last modified 10.08.20 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.R
  * This is the documentation block about the class
  */
 
-object FuelProvidersMap {
+object FuelProviders {
 
 
 	private val fuelProvidersSlug = listOf(

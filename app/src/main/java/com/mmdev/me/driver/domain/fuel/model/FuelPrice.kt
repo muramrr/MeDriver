@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 18:10
+ * Last modified 10.08.20 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.domain.fuel.model
 
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.presentation.ui.fuel.FuelProvidersMap
+import com.mmdev.me.driver.presentation.ui.fuel.FuelProviders
 
 /**
  * Domain model
@@ -34,8 +34,8 @@ data class FuelPrice (
 		     updatedDate = date)
 	
 	val brandIcon: Int =
-		if (FuelProvidersMap.fuelProvidersMap.containsKey(fuelProviderSlug))
-			FuelProvidersMap.fuelProvidersMap.getValue(fuelProviderSlug)
+		if (FuelProviders.fuelProvidersMap.containsKey(fuelProviderSlug))
+			FuelProviders.fuelProvidersMap.getValue(fuelProviderSlug)
 		else 0
 
 }

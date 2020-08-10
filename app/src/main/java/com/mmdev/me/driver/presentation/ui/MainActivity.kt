@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 18:06
+ * Last modified 10.08.20 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,8 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity: AppCompatActivity() {
 	
@@ -88,7 +90,9 @@ class MainActivity: AppCompatActivity() {
 
 		sharedViewModel.showLoading.observe(this, Observer {
 			if (it == LoadingState.SHOW) loadingDialog.show()
-			else loadingDialog.dismiss()
+			else Timer("Hide loading", false).schedule(700) {
+				loadingDialog.dismiss()
+			}
 		})
 	}
 	

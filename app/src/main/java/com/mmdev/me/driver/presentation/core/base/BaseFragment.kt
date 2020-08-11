@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 18:12
+ * Last modified 11.08.20 16:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,7 +40,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	protected val sharedViewModel: SharedViewModel by sharedViewModel()
 
 
-	protected abstract val mViewModel: VM
+	protected abstract val mViewModel: VM?
 
 	protected lateinit var binding: Binding
 		private set

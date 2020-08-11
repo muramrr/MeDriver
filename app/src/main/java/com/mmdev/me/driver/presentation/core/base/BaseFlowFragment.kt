@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 16:02
+ * Last modified 11.08.20 16:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,4 +19,8 @@ import androidx.databinding.ViewDataBinding
 
 abstract class BaseFlowFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	@LayoutRes layoutId: Int
-) : BaseFragment<VM, Binding>(layoutId)
+) : BaseFragment<VM, Binding>(layoutId) {
+	
+	override val mViewModel: VM? = null
+	
+}

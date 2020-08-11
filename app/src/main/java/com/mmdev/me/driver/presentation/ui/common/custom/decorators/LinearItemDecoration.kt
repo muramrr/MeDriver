@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 19:21
+ * Last modified 11.08.20 17:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Linear recyclerView ItemDecoration used to make same gaps between all elements
  */
 
-class LinearItemDecoration (private val orientation: Int = 0): RecyclerView.ItemDecoration() {
+class LinearItemDecoration (private val orientation: Int = RecyclerView.VERTICAL): RecyclerView.ItemDecoration() {
 
 	override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 

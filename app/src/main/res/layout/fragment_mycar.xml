@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.08.20 20:06
+  ~ Last modified 11.08.20 17:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,44 +26,51 @@
 		android:layout_width="match_parent"
 		>
 		
-		<!-- drop car chooser-->
-		<com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/layoutMyCarChooseCar"
-		android:layout_height="wrap_content"
-		android:layout_width="0dp"
-		android:background="?colorPrimary"
-		
-		android:minHeight="?attr/actionBarSize"
-		app:boxStrokeWidth="0dp"
-		
-		app:endIconTint="?colorOnPrimary"
-		app:hintEnabled="false"
-		
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-		
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		>
-		
-		<com.google.android.material.textfield.MaterialAutoCompleteTextView
-			android:id="@+id/dropMyCarChooseCar"
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvCarChoose"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
 			
-			android:background="@null"
-			android:cursorVisible="false"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			>
 			
-			android:focusable="false"
-			android:imeOptions="actionDone"
-			android:inputType="textNoSuggestions"
+			<!-- drop car chooser-->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutMyCarChooseCar"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:background="@null"
+				
+				android:minHeight="?attr/actionBarSize"
+				app:boxStrokeWidth="0dp"
+				
+				app:hintEnabled="false"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+				>
 			
-			android:text="Choose car"
-			android:textAppearance="?attr/textAppearanceHeadline6"
-			android:textColor="?colorOnPrimary"
-			/>
-	
-	</com.google.android.material.textfield.TextInputLayout>
+				<com.google.android.material.textfield.MaterialAutoCompleteTextView
+					android:id="@+id/dropMyCarChooseCar"
+					android:layout_height="wrap_content"
+					android:layout_width="match_parent"
+					
+					android:background="@null"
+					android:cursorVisible="false"
+					
+					android:focusable="false"
+					android:imeOptions="actionDone"
+					android:inputType="textNoSuggestions"
+					
+					android:text="Choose car"
+					android:textAppearance="?attr/textAppearanceHeadline6"
+					/>
+		
+			</com.google.android.material.textfield.TextInputLayout>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
 		
 		<ImageView
 			android:id="@+id/imageView"
@@ -72,7 +79,7 @@
 			
 			android:src="@{viewModel.myCar.brandIcon}"
 			
-			app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
+			app:layout_constraintTop_toBottomOf="@id/cvCarChoose"
 			app:layout_constraintBottom_toBottomOf="@id/tvMyCarModel"
 			app:layout_constraintStart_toEndOf="@id/barrier2"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -86,7 +93,7 @@
 			android:text="Brand: "
 			android:textAppearance="?textAppearanceHeadline5"
 			
-			app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
+			app:layout_constraintTop_toBottomOf="@id/cvCarChoose"
 			app:layout_constraintBottom_toTopOf="@id/tvMyCarModel"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			/>

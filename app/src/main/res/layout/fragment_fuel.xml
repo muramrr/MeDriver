@@ -2,45 +2,61 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.08.20 21:18
+  ~ Last modified 11.08.20 16:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	>
-
-	<data>
-		<variable
-			name="viewModel"
-			type="com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel" />
-	</data>
-
 	<androidx.constraintlayout.widget.ConstraintLayout
-
+	
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-
+		
 		>
-
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/rvFuelProviders"
+		<com.google.android.material.tabs.TabLayout
+			android:id="@+id/tabLayoutContainer"
 			android:layout_width="0dp"
-			android:layout_height="0dp"
-
-			tools:listitem="@layout/item_fuel_provider"
-
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
+			android:layout_height="wrap_content"
+			
+			style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+			
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toTopOf="@id/viewPagerContainer"
+			
+			>
+			
+			<com.google.android.material.tabs.TabItem
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Prices"
+				/>
+			
+			<com.google.android.material.tabs.TabItem
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="History"
+				/>
+		
+		</com.google.android.material.tabs.TabLayout>
+		
+		<androidx.viewpager2.widget.ViewPager2
+			android:id="@+id/viewPagerContainer"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tabLayoutContainer"
+			app:layout_constraintBottom_toBottomOf="parent"
 			/>
-
 		
 	</androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

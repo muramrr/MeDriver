@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 15:06
+ * Last modified 11.08.20 21:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,9 +16,7 @@ import com.mmdev.me.driver.data.datasource.local.fuel.IFuelLocalDataSource
 import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.IFuelRepository
-import com.mmdev.me.driver.domain.fuel.model.FuelPrice
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,42 +30,46 @@ internal class FuelRepositoryImpl (
 	private val mappers: FuelDataMappersFacade
 ) : IFuelRepository {
 	
-	override suspend fun getFuelPrices(fuelType: FuelType) =
-		getFuelPriceBoundary(fuelType)
+	private val currentTime = Calendar.getInstance().time
+	private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+	private val formattedDate = formatter.format(currentTime)
+	
+	override suspend fun getFuelProvidersWithPrices()=
+		getFuelPriceBoundary()
 	
 	
-	private suspend fun getFuelPriceBoundary(fuelType: FuelType): ResultState<List<FuelPrice>, Throwable> {
-		val currentTime = Calendar.getInstance().time
-		val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-		val formattedDate = formatter.format(currentTime)
-		return getFuelDataFromLocal(fuelType, formattedDate).fold(
+	private suspend fun getFuelPriceBoundary() =
+		getFuelDataFromLocal(formattedDate).fold(
 			//get from local database
 			success = { dm -> ResultState.Success(dm)},
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
 				logDebug(message = it.localizedMessage!!)
-				getFuelDataFromRemote(fuelType, formattedDate)
+				getFuelDataFromRemote(formattedDate)
 			})
-	}
 	
 	//retrieve from remote source
-	private suspend fun getFuelDataFromRemote(fuelType: FuelType, date: String) =
+	private suspend fun getFuelDataFromRemote(date: String) =
 		dataSourceRemote.getFuelInfo(date).fold(
-			success = {
-				dto ->
+			success = { dto ->
 				//save to db
-				for (fuelPrice in mappers.mapResponsePriceToDb(dto))
-					dataSourceLocal.addFuelPrice(fuelPrice)
-				ResultState.Success(mappers.mapResponsePriceToDm(dto, fuelType))
+				for (fuelProviderAndPrices in mappers.mapFuelResponseToDb(dto)) {
+					dataSourceLocal.addFuelProvider(fuelProviderAndPrices.fuelProvider).also {
+						fuelProviderAndPrices.prices.forEach { fuelPrice ->
+							dataSourceLocal.addFuelPrice(fuelPrice)
+						}
+					}
+				}
+				ResultState.Success(mappers.mapFuelResponseToDm(dto))
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
 
 	//retrieve from cache (room database)
-	private suspend fun getFuelDataFromLocal(fuelType: FuelType, date: String) =
-		dataSourceLocal.getFuelPrices(fuelType, date).fold(
+	private suspend fun getFuelDataFromLocal(date: String) =
+		dataSourceLocal.getFuelProvidersAndPrices(date).fold(
 			success = { dto ->
-				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelPriceToDm(dto))
+				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelProviderToDm(dto))
 				else ResultState.Failure(Exception("Empty cache"))
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }

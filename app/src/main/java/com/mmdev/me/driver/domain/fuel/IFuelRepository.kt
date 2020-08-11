@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 15:06
+ * Last modified 11.08.20 20:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.domain.fuel
 
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.model.FuelProvider
 
 /**
  * Fuel repository which provides requested data to UI
@@ -19,6 +19,6 @@ import com.mmdev.me.driver.domain.fuel.model.FuelPrice
 
 interface IFuelRepository {
 
-	suspend fun getFuelPrices(fuelType: FuelType) : SimpleResult<List<FuelPrice>>
+	suspend fun getFuelProvidersWithPrices() : SimpleResult<List<FuelProvider>>
 	
 }

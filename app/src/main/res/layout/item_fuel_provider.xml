@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.08.20 19:34
+  ~ Last modified 11.08.20 21:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@
 	<data>
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.domain.fuel.model.FuelPrice"
+			type="com.mmdev.me.driver.domain.fuel.model.FuelProvider"
 			/>
 	</data>
 
@@ -59,7 +59,7 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 
-				android:text="@{bindItem.fuelProviderTitle, default = `Fuel Provider`}"
+				android:text="@{bindItem.brandTitle, default = `Fuel Provider`}"
 				android:textAppearance="?textAppearanceSubtitle1"
 
 				app:layout_constraintStart_toEndOf="@id/ivFuelProviderImg"
@@ -72,7 +72,7 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 
-				android:text="@{bindItem.price+`₴`, default = `--.--`}"
+				
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 

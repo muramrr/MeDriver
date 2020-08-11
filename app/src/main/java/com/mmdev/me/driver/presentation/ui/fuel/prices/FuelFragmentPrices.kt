@@ -1,28 +1,27 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 16:28
+ * Last modified 11.08.20 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.fuel
+package com.mmdev.me.driver.presentation.ui.fuel.prices
 
-import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.model.FuelProvider
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
-import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
+import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel.FuelViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -37,11 +36,11 @@ class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding
 
 	override val mViewModel: FuelViewModel by sharedViewModel()
 
-	private val mFuelProvidersAdapter = FuelProvidersAdapter()
+	private val mPricesAdapter = PricesAdapter()
 	
 	override fun setupViews() {
 		binding.rvFuelProviders.apply {
-			adapter = mFuelProvidersAdapter
+			adapter = mPricesAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(LinearItemDecoration())
 		}
@@ -51,13 +50,20 @@ class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding
 		mViewModel.fuelInfo.observe(this, Observer {
 			renderState(it)
 		})
+		
+		mPricesAdapter.setOnItemClickListener(object : PricesAdapter.OnItemClickListener<FuelProvider> {
+			
+			override fun onItemClick(item: FuelProvider, position: Int, fuelType: FuelType) {
+			
+			}
+		})
 	}
 	
 	override fun renderState(state: ViewState) {
 		when (state) {
 			is FuelViewState.Success -> {
 				logWtf(message = "${state.data}")
-				mFuelProvidersAdapter.setNewData(state.data)
+				mPricesAdapter.setNewData(state.data)
 				sharedViewModel.showLoading.value = LoadingState.HIDE
 			}
 			is FuelViewState.Loading -> {
@@ -73,8 +79,6 @@ class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding
 	}
 	
 
-	private class FuelProvidersAdapter (data: List<FuelPrice> = emptyList(),
-	                                    @LayoutRes layoutId: Int = R.layout.item_fuel_provider) :
-			BaseAdapter<FuelPrice>(data, layoutId)
+	
 	
 }

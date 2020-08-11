@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 18:08
+ * Last modified 11.08.20 15:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,16 +20,14 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  *
  */
 
-class FuelViewModel (private val repository: IFuelRepository) : BaseViewModel() {
+class FuelViewModel (private val repository: IFuelRepository): BaseViewModel() {
 	
-	val fuelInfo: MutableLiveData<FuelViewState> = MutableLiveData()
+	val fuelInfo : MutableLiveData<FuelViewState> = MutableLiveData()
 	
 	sealed class FuelViewState: ViewState {
 		object Loading : FuelViewState()
@@ -38,21 +36,22 @@ class FuelViewModel (private val repository: IFuelRepository) : BaseViewModel() 
 	}
 	
 	fun getFuelInfo(fuelType: FuelType) {
-		val date = Calendar.getInstance().time
-		val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-		val formattedDate = formatter.format(date)
+		if (fuelInfo.value != null)
+			return
+		
 		viewModelScope.launch {
 			
 			fuelInfo.postValue(FuelViewState.Loading)
 			
 			withTimeout(30000) {
 				
-				repository.getFuelPrices(fuelType, formattedDate).fold(
-					success = { fuelInfo.postValue(FuelViewState.Success(data = it)) },
+				repository.getFuelPrices(fuelType).fold(
+					success = {  fuelInfo.postValue(FuelViewState.Success(data = it)) },
 					failure = { fuelInfo.postValue(FuelViewState.Error(it.localizedMessage!!)) }
 				)
 			}
 		}
+		
 		
 	}
 	

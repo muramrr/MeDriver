@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 18:51
+ * Last modified 11.08.20 15:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,9 @@ import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.IFuelRepository
+import com.mmdev.me.driver.domain.fuel.model.FuelPrice
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * [IFuelRepository] implementation
@@ -29,20 +32,23 @@ internal class FuelRepositoryImpl (
 	private val mappers: FuelDataMappersFacade
 ) : IFuelRepository {
 	
-	override suspend fun getFuelPrices(fuelType: FuelType, date: String) =
-		getFuelPriceBoundary(fuelType, date)
+	override suspend fun getFuelPrices(fuelType: FuelType) =
+		getFuelPriceBoundary(fuelType)
 	
 	
-	private suspend fun getFuelPriceBoundary(fuelType: FuelType, date: String) =
-		getFuelDataFromLocal(fuelType, date).fold(
+	private suspend fun getFuelPriceBoundary(fuelType: FuelType): ResultState<List<FuelPrice>, Throwable> {
+		val currentTime = Calendar.getInstance().time
+		val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+		val formattedDate = formatter.format(currentTime)
+		return getFuelDataFromLocal(fuelType, formattedDate).fold(
 			//get from local database
 			success = { dm -> ResultState.Success(dm)},
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
 				logDebug(message = it.localizedMessage!!)
-				getFuelDataFromRemote(fuelType, date)
-			}
-		)
+				getFuelDataFromRemote(fuelType, formattedDate)
+			})
+	}
 	
 	//retrieve from remote source
 	private suspend fun getFuelDataFromRemote(fuelType: FuelType, date: String) =

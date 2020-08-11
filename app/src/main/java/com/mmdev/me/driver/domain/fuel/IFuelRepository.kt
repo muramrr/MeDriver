@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 17:42
+ * Last modified 11.08.20 15:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,6 @@ import com.mmdev.me.driver.domain.fuel.model.FuelPrice
 
 interface IFuelRepository {
 
-	suspend fun getFuelPrices(fuelType: FuelType, date: String) : SimpleResult<List<FuelPrice>>
+	suspend fun getFuelPrices(fuelType: FuelType) : SimpleResult<List<FuelPrice>>
 	
 }

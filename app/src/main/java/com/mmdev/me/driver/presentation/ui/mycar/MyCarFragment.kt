@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 20:04
+ * Last modified 11.08.20 15:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentMycarBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  *
@@ -30,7 +31,7 @@ class MyCarFragment : BaseFlowFragment<MyCarViewModel, FragmentMycarBinding>(R.l
 		fun getFullCarTitle(): String = "$carBrand $carModel"
 	}
 	
-	override val mViewModel: MyCarViewModel = MyCarViewModel()
+	override val mViewModel: MyCarViewModel by viewModel()
 	
 	private val list : ArrayList<CarInDropDown> = arrayListOf(
 			CarInDropDown("Ford", "Focus",

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 16:35
+ * Last modified 11.08.20 15:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel.FuelViewState
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 /**
@@ -35,7 +35,7 @@ class FuelFragment : BaseFlowFragment<FuelViewModel, FragmentFuelBinding>(
 		layoutId = R.layout.fragment_fuel
 ) {
 
-	override val mViewModel: FuelViewModel by viewModel()
+	override val mViewModel: FuelViewModel by sharedViewModel()
 
 	private val mFuelProvidersAdapter = FuelProvidersAdapter()
 	

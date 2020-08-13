@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 20:27
+ * Last modified 13.08.20 15:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.data.repository.fuel.FuelRepositoryImpl
-import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacadeFactory
+import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
 import com.mmdev.me.driver.data.repository.vin.VINRepositoryImpl
 import com.mmdev.me.driver.domain.fuel.IFuelRepository
 import com.mmdev.me.driver.domain.vin.IVINRepository
@@ -30,7 +30,8 @@ val RepositoryModule = module {
 	single<IFuelRepository> {
 		FuelRepositoryImpl(dataSourceLocal = get(),
 		                   dataSourceRemote = get(),
-		                   mappers = FuelDataMappersFacadeFactory.create())
+		                   mappers = FuelDataMappersFacade()
+		)
 	}
 
 }

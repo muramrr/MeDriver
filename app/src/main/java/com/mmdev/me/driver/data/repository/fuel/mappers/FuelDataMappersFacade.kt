@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 20:59
+ * Last modified 13.08.20 18:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,25 +10,203 @@
 
 package com.mmdev.me.driver.data.repository.fuel.mappers
 
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderAndPrices
+import com.mmdev.me.driver.data.core.mappers.mapNullInputList
+import com.mmdev.me.driver.data.core.mappers.mapNullInputListToSet
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
-import com.mmdev.me.driver.domain.fuel.model.FuelProvider
+import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
+import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.model.FuelSummary
+
 
 /**
  * FuelDataMappersFacade for multiple mappers used in FuelRepository
+ * contains mappers between layers [data -> domain]
+ * mappers between sources [remoteModel -> dbEntity], [dbEntity -> DomainModel]
+ *
+ * DTO = Data Transfer Object
+ * DB = database
+ * DM = Domain Model
  */
 
-class FuelDataMappersFacade (
+typealias response = Map<FuelType, NetworkFuelModelResponse>
+
+class FuelDataMappersFacade {
+	
+	
 	//network dto -> db entity
-	val mapFuelResponseToDb: (response) -> List<FuelProviderAndPrices>,
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapFuelResponseToDb: (response) -> List<FuelStationAndPrices> = {
+			response -> mapFuelProvidersDto(response)
+	}
+	
+	private fun mapFuelProvidersDto(input: response): List<FuelStationAndPrices> {
+		val listOfFuelStationAndPrices = mutableListOf<FuelStationAndPrices>()
+		val listOfFuelPrices = mutableListOf<FuelPriceEntity>()
+		val setOfFuelStationsDb = mutableSetOf<FuelStationEntity>()
+		
+		for ((fuelType, networkFuelModelResponse) in input) {
+			networkFuelModelResponse.result.run {
+				//get every fuelProvider with price and generate separate objects price and provider
+				networkFuelStations.forEach { networkFuelStation ->
+					//add price to general list
+					listOfFuelPrices.add(
+						FuelPriceEntity(
+							fuelStationId = networkFuelStation.slug,
+							price = networkFuelStation.price,
+							type = fuelType.code
+						)
+					)
+					//check if set contains FuelStationEntity
+					//if not -> add FuelStationEntity to setOf()
+					//this is guarantee that it will be stored only ones
+					if (setOfFuelStationsDb.find { it.slug == networkFuelStation.slug } == null) {
+						setOfFuelStationsDb.add(
+							FuelStationEntity(
+								brandTitle = networkFuelStation.brand,
+								slug = networkFuelStation.slug,
+								updatedDate = pricesLastUpdatedDate
+							)
+						)
+					}
+				}
+			}
+		}
+		
+		//combine FuelStationEntity and listOf<FuelPriceEntity> into FuelStationAndPrices
+		for (fuelStation in setOfFuelStationsDb) {
+			listOfFuelStationAndPrices.add(
+				FuelStationAndPrices(
+					fuelStation = fuelStation,
+					prices = listOfFuelPrices.filter { it.fuelStationId == fuelStation.slug }
+				)
+			)
+		}
+		
+		setOfFuelStationsDb.clear()
+		listOfFuelPrices.clear()
+		
+		return listOfFuelStationAndPrices
+	}
+	
 	//network dto -> db entity
-	val mapFuelResponseSummaryToDb: (response) -> List<FuelSummaryEntity>,
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapFuelResponseSummaryToDb: (response) -> List<FuelSummaryEntity> = {
+			response -> mapFuelSummaryDto(response)
+	}
+	
+	private fun mapFuelSummaryDto(input: response): List<FuelSummaryEntity> {
+		val listOfSummaryEntity = mutableListOf<FuelSummaryEntity>()
+		
+		for ((fuelType, networkFuelModelResponse) in input) {
+			
+			listOfSummaryEntity.add(
+				FuelSummaryEntity(
+					type = fuelType.code,
+					minPrice= networkFuelModelResponse.result.fuelSummaryResponse[0].minPrice,
+					maxPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].maxPrice,
+					avgPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].avgPrice,
+					updatedDate = networkFuelModelResponse.result.pricesLastUpdatedDate)
+			)
+		}
+		
+		return listOfSummaryEntity
+	}
+	
+	
 	//network dto -> dm
-	val mapFuelResponseToDm: (response) -> List<FuelProvider>,
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapFuelResponseToDm: (response) -> List<FuelStation> = {
+			response -> makeMapperFuelResponseToDm(response)
+	}
+	
+	private fun makeMapperFuelResponseToDm(input: response): List<FuelStation> {
+		val listOfFuelPrices = mutableListOf<FuelStation.FuelPrice>()
+		val setOfFuelStationsDm = mutableSetOf<FuelStation>()
+		
+		for ((fuelType, networkFuelModelResponse) in input) {
+			
+			networkFuelModelResponse.result.run {
+				listOfFuelPrices.clear()
+				
+				//get every fuelProvider with price and generate separate objects price and provider
+				networkFuelStations.forEach { networkFuelStation ->
+					
+					//check if set contains FuelStation
+					//if not -> add FuelStation to setOf()
+					//this is guarantee that it will be stored only ones
+					if (setOfFuelStationsDm.find { it.slug == networkFuelStation.slug } == null) {
+						setOfFuelStationsDm.add(
+							FuelStation(
+								brandTitle = networkFuelStation.brand,
+								slug = networkFuelStation.slug,
+								updatedDate = pricesLastUpdatedDate
+							)
+						)
+					}
+					
+					//find FuelStation in setOf and add associated FuelPrice
+					setOfFuelStationsDm.forEach { fuelStation ->
+						if (fuelStation.slug == networkFuelStation.slug)
+							fuelStation.prices.add(
+								FuelStation.FuelPrice(
+									type = fuelType,
+									price = networkFuelStation.price
+								)
+							)
+					}
+					
+				}
+				
+			}
+		}
+		listOfFuelPrices.clear()
+		
+		return setOfFuelStationsDm.toList()
+	}
+	
+	
 	//db dto -> dm
-	val mapDbSummariesToDm: (List<FuelSummaryEntity>) -> List<FuelSummary>,
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapDbSummariesToDm: (List<FuelSummaryEntity>) -> List<FuelSummary> = { mapFuelSummaryDm(it) }
+	
+	private fun mapFuelSummaryDm(input: List<FuelSummaryEntity>): List<FuelSummary> =
+		mapNullInputList(input) {
+			FuelSummary(type = it.type,
+			            minPrice = it.minPrice,
+			            maxPrice = it.maxPrice,
+			            avgPrice = it.avgPrice,
+			            updatedDate = it.updatedDate
+			)
+		}
+	
 	//db dto -> dm
-	val mapDbFuelProviderToDm: (List<FuelProviderAndPrices>) -> List<FuelProvider>
-)
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapDbFuelStationToDm: (List<FuelStationAndPrices>) -> List<FuelStation> = {
+		fuelProviderDto -> mapFuelProvidersDm(fuelProviderDto) {
+			listPricesDto -> mapNullInputListToSet(listPricesDto) {
+				priceDto -> mapPriceDm(priceDto)
+			}
+		}
+	}
+	
+	private fun mapFuelProvidersDm(
+		input: List<FuelStationAndPrices>,
+		mapPrices: (List<FuelPriceEntity>?) -> Set<FuelStation.FuelPrice>
+	): List<FuelStation> =
+		mapNullInputList(input) {
+			FuelStation(
+				brandTitle = it.fuelStation.brandTitle,
+				slug = it.fuelStation.slug,
+				prices = mapPrices(it.prices).toMutableSet(),
+				updatedDate = it.fuelStation.updatedDate
+			)
+		}
+	
+	private fun mapPriceDm (input: FuelPriceEntity): FuelStation.FuelPrice =
+		FuelStation.FuelPrice(type = input.type, price = input.price)
+}
 

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 21:10
+ * Last modified 13.08.20 19:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
-import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.model.FuelProvider
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
@@ -45,17 +43,10 @@ class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding
 			addItemDecoration(LinearItemDecoration())
 		}
 		
-		mViewModel.getFuelInfo(FuelType.A95)
+		mViewModel.getFuelPrices()
 	
-		mViewModel.fuelInfo.observe(this, Observer {
+		mViewModel.fuelPrices.observe(this, Observer {
 			renderState(it)
-		})
-		
-		mPricesAdapter.setOnItemClickListener(object : PricesAdapter.OnItemClickListener<FuelProvider> {
-			
-			override fun onItemClick(item: FuelProvider, position: Int, fuelType: FuelType) {
-			
-			}
 		})
 	}
 	

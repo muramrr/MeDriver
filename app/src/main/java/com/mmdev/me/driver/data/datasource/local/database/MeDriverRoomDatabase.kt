@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 20:12
+ * Last modified 13.08.20 16:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 
 /**
@@ -22,7 +22,7 @@ import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
  */
 
 @Database(entities = [
-	FuelProviderEntity::class,
+	FuelStationEntity::class,
 	FuelPriceEntity::class,
 	FuelSummaryEntity::class
 ],

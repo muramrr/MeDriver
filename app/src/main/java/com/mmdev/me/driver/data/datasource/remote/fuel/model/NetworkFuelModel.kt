@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 15:58
+ * Last modified 13.08.20 17:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,9 +16,9 @@ import com.google.gson.annotations.SerializedName
  * network models which is using by retrofit and remote data source
  */
 
-data class NetworkFuelProvider(
+data class NetworkFuelStation(
 	@SerializedName("value")
-	val price: Float,
+	val price: Double,
 	@SerializedName("marka")
 	val brand: String,
 	val slug: String
@@ -37,7 +37,7 @@ data class NetworkFuelSummary(
 
 data class NetworkFuelModel(
 	@SerializedName("data")
-	val networkFuelProviders: List<NetworkFuelProvider>,
+	val networkFuelStations: List<NetworkFuelStation>,
 	@SerializedName("date")
 	val pricesLastUpdatedDate: String,
 	@SerializedName("total")

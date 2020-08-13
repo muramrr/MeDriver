@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 20:11
+ * Last modified 13.08.20 16:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
  */
 
 @Entity(tableName = "fuel_providers")
-data class FuelProviderEntity(
+data class FuelStationEntity(
 	val brandTitle: String,
 	@PrimaryKey
 	val slug: String,

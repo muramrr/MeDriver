@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 21:08
+ * Last modified 13.08.20 16:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,7 +54,7 @@ internal class FuelRepositoryImpl (
 			success = { dto ->
 				//save to db
 				for (fuelProviderAndPrices in mappers.mapFuelResponseToDb(dto)) {
-					dataSourceLocal.addFuelProvider(fuelProviderAndPrices.fuelProvider).also {
+					dataSourceLocal.addFuelProvider(fuelProviderAndPrices.fuelStation).also {
 						fuelProviderAndPrices.prices.forEach { fuelPrice ->
 							dataSourceLocal.addFuelPrice(fuelPrice)
 						}
@@ -69,7 +69,7 @@ internal class FuelRepositoryImpl (
 	private suspend fun getFuelDataFromLocal(date: String) =
 		dataSourceLocal.getFuelProvidersAndPrices(date).fold(
 			success = { dto ->
-				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelProviderToDm(dto))
+				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelStationToDm(dto))
 				else ResultState.Failure(Exception("Empty cache"))
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }

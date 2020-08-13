@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 20:27
+ * Last modified 13.08.20 16:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.data.datasource.local.fuel
 
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelProviderEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -32,8 +32,8 @@ internal class FuelLocalDataSourceImpl(private val fuelDao: FuelDao) : IFuelLoca
 			ResultState.Failure(t)
 		}
 	
-	override suspend fun addFuelProvider(fuelProviderEntity: FuelProviderEntity) =
-		fuelDao.insertFuelProvider(fuelProviderEntity)
+	override suspend fun addFuelProvider(fuelStationEntity: FuelStationEntity) =
+		fuelDao.insertFuelProvider(fuelStationEntity)
 	
 	
 	override suspend fun addFuelPrice(fuelPrice: FuelPriceEntity) =

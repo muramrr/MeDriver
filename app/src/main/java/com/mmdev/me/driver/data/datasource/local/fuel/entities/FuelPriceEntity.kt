@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 20:09
+ * Last modified 13.08.20 16:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,10 +19,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class FuelPriceEntity(
-	val fuelProviderId: String,
-	val price: Float,
+	val fuelStationId: String,
+	val price: Double,
 	val type: Int
 ) {
 	@PrimaryKey
-	var id: String = fuelProviderId+"_$type"
+	var id: String = fuelStationId + "_$type"
 }

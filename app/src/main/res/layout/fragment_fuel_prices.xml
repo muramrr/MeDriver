@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 11.08.20 16:28
+  ~ Last modified 13.08.20 19:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		
-		tools:listitem="@layout/item_fuel_provider"
+		tools:listitem="@layout/item_fuel_station"
 		
 		/>
 

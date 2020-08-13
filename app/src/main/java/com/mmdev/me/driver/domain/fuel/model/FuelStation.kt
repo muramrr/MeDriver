@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 21:10
+ * Last modified 13.08.20 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,26 +17,26 @@ import com.mmdev.me.driver.presentation.ui.fuel.FuelProviderConstants
  * Domain model
  */
 
-data class FuelProvider (
+data class FuelStation (
 	val brandTitle: String = "",
 	val slug: String = "",
-	val prices: List<FuelPrice> = emptyList(),
+	val prices: MutableSet<FuelPrice> = mutableSetOf(),
 	val updatedDate: String = ""
 ) {
 	
 	val brandIcon: Int =
-		if (FuelProviderConstants.fuelProvidersMap.containsKey(slug))
-			FuelProviderConstants.fuelProvidersMap.getValue(slug)
+		if (FuelProviderConstants.fuelProvidersIconMap.containsKey(slug))
+			FuelProviderConstants.fuelProvidersIconMap.getValue(slug)
 	else 0
 	
-	data class FuelPrice(val type: FuelType, val price: String) {
+	data class FuelPrice(val type: FuelType, val price: String = "--.--") {
 		
-		constructor(type: Int, price: Float): this(
+		constructor(type: Int, price: Double): this(
 			type = FuelType.values().find { it.code == type } ?: FuelType.A95,
 			price = price.toString()
 		)
 		
-		constructor(type: FuelType, price: Float): this(
+		constructor(type: FuelType, price: Double): this(
 			type = type,
 			price = price.toString()
 		)

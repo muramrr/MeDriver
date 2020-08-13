@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 19:41
+ * Last modified 13.08.20 20:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
@@ -58,39 +59,56 @@ class PricesAdapter (private var data: MutableList<FuelStation> = MutableList(10
 		fun bind(item: FuelStation) {
 			binding.run {
 				
+				// price appearance anim
+				val inAnimName = AnimationUtils.loadAnimation(root.context,
+				                                              android.R.anim.fade_in).apply {
+					duration = 300
+				}
+				// price disappearing anim
+				val outAnimName = AnimationUtils.loadAnimation(root.context,
+				                                               android.R.anim.fade_out).apply {
+					duration = 300
+				}
+				
+				//apply anim to textSwitcher
+				tvFuelPrice.apply {
+					inAnimation = inAnimName
+					outAnimation = outAnimName
+				}
+				
 				//init A95 price for all
-				tvFuelPrice.text = getPriceByType(item, FuelType.A95).also {
+				tvFuelPrice.setCurrentText(getPriceByType(item, FuelType.A95)).also {
 					btnFuelType95.isSelected = true
 				}
 				
 				btnFuelType100.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.A100)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.A100))
 				}
 				
 				btnFuelType95PLUS.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.A95PLUS)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.A95PLUS))
 				}
 				
 				btnFuelType95.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.A95)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.A95))
 				}
 				
 				btnFuelType92.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.A92)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.A92))
 				}
 				
 				btnFuelTypeDT.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.DT)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.DT))
 				}
 				
 				btnFuelTypeGas.setOnClickWithSelection {
 					deselectAll()
-					tvFuelPrice.text = getPriceByType(item, FuelType.GAS)
+					tvFuelPrice.setText(getPriceByType(item, FuelType.GAS))
 				}
 				
 			}

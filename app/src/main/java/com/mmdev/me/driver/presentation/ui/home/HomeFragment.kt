@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 18:06
+ * Last modified 13.08.20 19:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel.VINViewState
-import com.mmdev.me.driver.presentation.utils.setDebounceClick
+import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.random.Random
 
@@ -42,7 +42,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(layout
 			renderState(it)
 		})
 
-		binding.pbOilUsageLeft.setDebounceClick (1000L) {
+		binding.pbOilUsageLeft.setDebounceOnClick (1000L) {
 			updateProgress(Random.nextInt(0, 100).toFloat())
 		}
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.08.20 15:50
+ * Last modified 13.08.20 19:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.utils
 
 import android.content.res.Resources
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -37,8 +38,8 @@ fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observ
 fun View.getStringRes(@StringRes stringRes: Int): String = resources.getString(stringRes)
 
 
-inline fun <T: View> T.setDebounceClick(debounceTime: Long = 1000L,
-                                        crossinline block: T.() -> Unit) =
+inline fun <T: View> T.setDebounceOnClick(debounceTime: Long = 1000L,
+                                          crossinline block: T.() -> Unit) =
 	setOnClickListener {
 		when {
 			tag != null && (tag as Long) > System.currentTimeMillis() -> return@setOnClickListener
@@ -49,10 +50,15 @@ inline fun <T: View> T.setDebounceClick(debounceTime: Long = 1000L,
 		}
 	}
 
-inline fun <T: View> T.setSingleClick(crossinline block: T.() -> Unit) = setOnClickListener {
+inline fun <T: View> T.setSingleOnClick(crossinline block: T.() -> Unit) = setOnClickListener {
 	block()
 	it.isClickable = false
 	setOnClickListener(null)
+}
+
+inline fun <T: TextView> T.setOnClickWithSelection(crossinline block: T.() -> Unit) = setOnClickListener {
+	block()
+	it.isSelected = true
 }
 
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()

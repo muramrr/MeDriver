@@ -1,0 +1,53 @@
+{
+  "result": {
+    "data": [
+      {
+        "value": 29.99,
+        "marka": "SOCAR",
+        "slug": "socar"
+      },
+      {
+        "value": 29.99,
+        "marka": "WOG",
+        "slug": "wog"
+      }
+    ],
+    "date": "2020-08-13",
+    "type": [
+      {
+        "name": " 95+",
+        "id": 2
+      },
+      {
+        "name": " 95",
+        "id": 3
+      },
+      {
+        "name": " 92",
+        "id": 4
+      },
+      {
+        "name": "ДТ",
+        "id": 5
+      },
+      {
+        "name": "ГАЗ",
+        "id": 6
+      },
+      {
+        "name": "100",
+        "id": 1
+      }
+    ]
+  },
+  "total": [
+    {
+      "minval": "29.99",
+      "maxval": "29.99",
+      "avgval": "29.99"
+    }
+  ],
+  "old": [
+    
+  ]
+}

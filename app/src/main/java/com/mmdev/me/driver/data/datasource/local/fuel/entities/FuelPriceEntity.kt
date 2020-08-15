@@ -24,5 +24,5 @@ data class FuelPriceEntity(
 	val type: Int
 ) {
 	@PrimaryKey
-	var id: String = fuelStationId + "_$type"
+	var priceId: String = fuelStationId + "_$type"
 }

@@ -25,5 +25,5 @@ data class FuelSummaryEntity(
 	val updatedDate: String
 ) {
 	@PrimaryKey
-	var id: String = updatedDate+"_$type"
+	var summaryId: String = updatedDate + "_$type"
 }

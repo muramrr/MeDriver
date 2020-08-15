@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.08.20 20:08
+  ~ Last modified 13.08.20 20:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@
 	<data>
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.domain.fuel.model.FuelStation"
+			type="com.mmdev.me.driver.domain.fuel.model.FuelStationWithPrices"
 			/>
 	</data>
 
@@ -44,7 +44,7 @@
 				android:layout_height="@dimen/item_fuel_provider_logo_size"
 				android:layout_margin="4dp"
 
-				android:src="@{bindItem.brandIcon, default = `?colorPrimaryVariant`}"
+				android:src="@{bindItem.fuelStation.brandIcon, default = `?colorPrimaryVariant`}"
 
 				app:imgCornerRadius="12dp"
 				app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 
-				android:text="@{bindItem.brandTitle, default = `Fuel Station`}"
+				android:text="@{bindItem.fuelStation.brandTitle, default = `Fuel Station`}"
 				android:textAppearance="?textAppearanceSubtitle1"
 
 				app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"

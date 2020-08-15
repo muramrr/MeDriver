@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 15.08.2020 20:42
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.fuel.model.FuelHistoryRecord"
+			/>
+	</data>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_marginTop="4dp"
+		>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvFuelHistoryMonthSeparator"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginBottom="6dp"
+			
+			android:text="@{bindItem.dateMonthText}"
+			android:textAlignment="center"
+			android:textAppearance="?textAppearanceCaption"
+			
+			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintBottom_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvFuelHistoryEntryContainer"
+			android:layout_height="match_parent"
+			android:layout_width="0dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="2dp"
+			
+			
+			app:cardCornerRadius="8dp"
+			app:cardElevation="2dp"
+			
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tvFuelHistoryMonthSeparator"
+			app:layout_constraintBottom_toBottomOf="parent"
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				>
+				
+				<!-- fuel station logo -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+					android:id="@+id/ivHistoryEntryStationLogo"
+					android:layout_height="64dp"
+					android:layout_width="64dp"
+					android:layout_margin="8dp"
+					
+					android:src="@{bindItem.fuelStation.brandIcon, default = `?colorPrimaryVariant`}"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="@id/barrierLogo"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvHistoryEntryDistancePassed"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@{bindItem.distancePassed + ` km`, default = `00 km`}"
+					android:textAppearance="?textAppearanceHeadline6"
+					
+					app:layout_constraintHorizontal_chainStyle="spread_inside"
+					app:layout_constraintStart_toEndOf="@id/barrierLogo"
+					app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryPriceSpent"
+					app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
+					
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvHistoryEntryPriceSpent"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@{`₴` + bindItem.moneyCosts, default = `₴--.--`}"
+					android:textAppearance="?textAppearanceHeadline6"
+					
+					app:layout_constraintHorizontal_chainStyle="spread_inside"
+					app:layout_constraintStart_toEndOf="@id/tvHistoryEntryDistancePassed"
+					app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+					app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
+					
+					/>
+				
+				
+				
+				<!-- odometer value -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvHistoryEntryOdometerVal"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{bindItem.odometerValue + ` km`, default = `0000000 km`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintHorizontal_chainStyle="spread_inside"
+					app:layout_constraintStart_toEndOf="@id/barrierLogo"
+					app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryPricePerLiter"
+					app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
+					
+					/>
+				
+				<!-- price per liter -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvHistoryEntryPricePerLiter"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{`₴` + bindItem.fuelPrice.price + `/L`, default = `₴--.--/L`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintHorizontal_chainStyle="spread_inside"
+					app:layout_constraintStart_toEndOf="@id/tvHistoryEntryOdometerVal"
+					app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryFuelConsume"
+					app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
+					
+					/>
+				
+				<!-- fuel consumption -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvHistoryEntryFuelConsume"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{bindItem.fuelConsumption + `L/100 km`, default = `0L/100 km`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintHorizontal_chainStyle="spread_inside"
+					app:layout_constraintStart_toEndOf="@id/tvHistoryEntryPricePerLiter"
+					app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+					app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
+					
+					/>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<androidx.constraintlayout.widget.Guideline
+					android:id="@+id/guidelineEnd"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintGuide_end="8dp"
+					android:orientation="vertical"
+					/>
+				
+				<androidx.constraintlayout.widget.Barrier
+					android:id="@+id/barrierLogo"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					app:barrierDirection="end"
+					app:constraint_referenced_ids="ivHistoryEntryStationLogo"
+					/>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

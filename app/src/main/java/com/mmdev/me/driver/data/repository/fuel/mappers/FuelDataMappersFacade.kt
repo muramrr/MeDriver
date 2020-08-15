@@ -10,16 +10,14 @@
 
 package com.mmdev.me.driver.data.repository.fuel.mappers
 
+import com.mmdev.me.driver.core.utils.DateConverter
+import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.core.mappers.mapNullInputList
 import com.mmdev.me.driver.data.core.mappers.mapNullInputListToSet
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.*
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.model.FuelStation
-import com.mmdev.me.driver.domain.fuel.model.FuelSummary
+import com.mmdev.me.driver.domain.fuel.model.*
 
 
 /**
@@ -119,13 +117,13 @@ class FuelDataMappersFacade {
 	
 	//network dto -> dm
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapFuelResponseToDm: (response) -> List<FuelStation> = {
+	val mapFuelResponseToDm: (response) -> List<FuelStationWithPrices> = {
 			response -> makeMapperFuelResponseToDm(response)
 	}
 	
-	private fun makeMapperFuelResponseToDm(input: response): List<FuelStation> {
-		val listOfFuelPrices = mutableListOf<FuelStation.FuelPrice>()
-		val setOfFuelStationsDm = mutableSetOf<FuelStation>()
+	private fun makeMapperFuelResponseToDm(input: response): List<FuelStationWithPrices> {
+		val listOfFuelPrices = mutableListOf<FuelPrice>()
+		val setOfFuelStationsDm = mutableSetOf<FuelStationWithPrices>()
 		
 		for ((fuelType, networkFuelModelResponse) in input) {
 			
@@ -138,21 +136,25 @@ class FuelDataMappersFacade {
 					//check if set contains FuelStation
 					//if not -> add FuelStation to setOf()
 					//this is guarantee that it will be stored only ones
-					if (setOfFuelStationsDm.find { it.slug == networkFuelStation.slug } == null) {
+					if (setOfFuelStationsDm.find {
+								it.fuelStation.slug == networkFuelStation.slug
+							} == null) {
 						setOfFuelStationsDm.add(
-							FuelStation(
-								brandTitle = networkFuelStation.brand,
-								slug = networkFuelStation.slug,
-								updatedDate = pricesLastUpdatedDate
+							FuelStationWithPrices(
+								FuelStation(
+									brandTitle = networkFuelStation.brand,
+									slug = networkFuelStation.slug,
+									updatedDate = pricesLastUpdatedDate
+								)
 							)
 						)
 					}
 					
 					//find FuelStation in setOf and add associated FuelPrice
-					setOfFuelStationsDm.forEach { fuelStation ->
-						if (fuelStation.slug == networkFuelStation.slug)
-							fuelStation.prices.add(
-								FuelStation.FuelPrice(
+					setOfFuelStationsDm.forEach { stationWithPrices ->
+						if (stationWithPrices.fuelStation.slug == networkFuelStation.slug)
+							stationWithPrices.prices.add(
+								FuelPrice(
 									type = fuelType,
 									price = networkFuelStation.price
 								)
@@ -163,6 +165,8 @@ class FuelDataMappersFacade {
 				
 			}
 		}
+		
+		
 		listOfFuelPrices.clear()
 		
 		return setOfFuelStationsDm.toList()
@@ -185,7 +189,7 @@ class FuelDataMappersFacade {
 	
 	//db dto -> dm
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDbFuelStationToDm: (List<FuelStationAndPrices>) -> List<FuelStation> = {
+	val mapDbFuelStationToDm: (List<FuelStationAndPrices>) -> List<FuelStationWithPrices> = {
 		fuelProviderDto -> mapFuelProvidersDm(fuelProviderDto) {
 			listPricesDto -> mapNullInputListToSet(listPricesDto) {
 				priceDto -> mapPriceDm(priceDto)
@@ -195,18 +199,59 @@ class FuelDataMappersFacade {
 	
 	private fun mapFuelProvidersDm(
 		input: List<FuelStationAndPrices>,
-		mapPrices: (List<FuelPriceEntity>?) -> Set<FuelStation.FuelPrice>
-	): List<FuelStation> =
+		mapPrices: (List<FuelPriceEntity>?) -> Set<FuelPrice>
+	): List<FuelStationWithPrices> =
 		mapNullInputList(input) {
-			FuelStation(
-				brandTitle = it.fuelStation.brandTitle,
-				slug = it.fuelStation.slug,
-				prices = mapPrices(it.prices).toMutableSet(),
-				updatedDate = it.fuelStation.updatedDate
+			FuelStationWithPrices(
+				fuelStation = FuelStation(
+					brandTitle = it.fuelStation.brandTitle,
+					slug = it.fuelStation.slug,
+					updatedDate = it.fuelStation.updatedDate
+				),
+				prices = mapPrices(it.prices).toMutableSet()
 			)
 		}
 	
-	private fun mapPriceDm (input: FuelPriceEntity): FuelStation.FuelPrice =
-		FuelStation.FuelPrice(type = input.type, price = input.price)
+	private fun mapPriceDm (input: FuelPriceEntity): FuelPrice =
+		FuelPrice(price = input.price, type = input.type)
+	
+	
+	//dm -> db dto Single
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
+		FuelHistoryEntity(
+			distancePassed = record.distancePassed,
+			odometerValue = record.odometerValue,
+			fuelStation = FuelStationEntity(record.fuelStation.brandTitle,
+			                                record.fuelStation.slug,
+			                                record.fuelStation.updatedDate),
+			fuelPrice = FuelPriceEntity(record.fuelStation.slug,
+			                            record.fuelPrice.price,
+			                            record.fuelPrice.type.code),
+			moneyCosts = record.moneyCosts,
+			fuelConsumption = record.fuelConsumption,
+			date = DateConverter.toText(record.date)
+		)
+	}
+	
+	//dm -> db dto Single
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	val mapDbHistoryToDm: (List<FuelHistoryEntity>) -> List<FuelHistoryRecord> = { input ->
+		mapList(input) { entity ->
+			FuelHistoryRecord(
+				distancePassed = entity.distancePassed,
+				odometerValue = entity.odometerValue,
+				fuelStation = FuelStation(brandTitle = entity.fuelStation.brandTitle,
+				                          slug = entity.fuelStation.slug,
+				                          updatedDate = entity.fuelStation.updatedDate),
+				fuelPrice = FuelPrice(price = entity.fuelPrice.price, type = entity.fuelPrice.type),
+				moneyCosts = entity.moneyCosts,
+				fuelConsumption = entity.fuelConsumption,
+				date = DateConverter.toDate(entity.date)
+			)
+		}
+	}
+	
+	
 }
 

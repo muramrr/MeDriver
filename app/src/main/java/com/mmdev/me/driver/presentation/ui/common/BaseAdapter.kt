@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 20:31
+ * Last modified 15.08.2020 16:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -56,7 +56,7 @@ abstract class BaseAdapter<T>(private var data: List<T>,
 
 	protected fun getItem(position: Int): T = data[position]
 
-	private fun getLayoutIdForItem(position: Int): Int = layoutId
+	open fun getLayoutIdForItem(position: Int): Int = layoutId
 
 	// allows clicks events to be caught
 	open fun setOnItemClickListener(itemClickListener: OnItemClickListener<T>) {

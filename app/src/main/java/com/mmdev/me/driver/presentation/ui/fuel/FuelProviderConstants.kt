@@ -45,7 +45,8 @@ object FuelProviderConstants {
 		R.drawable.fuel_station_wog
 	)
 
-	internal val fuelProvidersIconMap = fuelProvidersSlug.zip(fuelProvidersIcons).toMap()
+	internal val fuelProvidersIconMap =
+		fuelProvidersSlug.zip(fuelProvidersIcons).toMap().withDefault { 0 }
 	
 	
 }

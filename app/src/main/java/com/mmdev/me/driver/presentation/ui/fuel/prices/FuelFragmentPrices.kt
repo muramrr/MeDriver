@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 19:41
+ * Last modified 15.08.2020 19:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,17 +53,17 @@ class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding
 	override fun renderState(state: ViewState) {
 		when (state) {
 			is FuelViewState.Success -> {
-				logWtf(message = "${state.data}")
+				logWtf(TAG,"${state.data}")
 				mPricesAdapter.setNewData(state.data)
 				sharedViewModel.showLoading.value = LoadingState.HIDE
 			}
 			is FuelViewState.Loading -> {
-				logWtf(message = "loading")
+				logWtf(TAG, "loading")
 				sharedViewModel.showLoading.value = LoadingState.SHOW
 			}
 			is FuelViewState.Error -> {
 				sharedViewModel.showLoading.value = LoadingState.HIDE
-				logWtf(message = state.errorMessage)
+				logWtf(TAG, state.errorMessage)
 			}
 		}
 		

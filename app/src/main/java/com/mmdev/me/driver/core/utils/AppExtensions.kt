@@ -42,3 +42,6 @@ suspend fun <K, V> Flow<Pair<K, V>>.toMap(): Map<K, V> {
 	collect { (k, v) -> result[k] = v }
 	return result
 }
+
+
+fun Double.roundTo(decimals: Int): Double = "%.${decimals}f".format(this).toDouble()

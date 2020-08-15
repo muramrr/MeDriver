@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 11.08.20 16:28
+  ~ Last modified 14.08.20 19:35
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,8 @@
 
 <layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +20,32 @@
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		>
+		
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/rvFuelHistory"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			
+			tools:itemCount="6"
+			tools:listitem="@layout/item_fuel_history_entry"
+			
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			/>
+		
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/fabAddHistoryEntry"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			
+			android:src="@drawable/ic_plus_24"
+			
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>
 	

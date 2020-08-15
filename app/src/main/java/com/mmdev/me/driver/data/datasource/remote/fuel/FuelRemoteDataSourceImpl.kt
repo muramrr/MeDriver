@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.data.datasource.remote.fuel
 
 import com.mmdev.me.driver.core.utils.toMap
-import com.mmdev.me.driver.data.core.base.BaseRemoteDataSource
+import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.remote.api.FuelApi
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -25,14 +25,14 @@ import kotlinx.coroutines.flow.flow
  */
 
 internal class FuelRemoteDataSourceImpl(private val fuelApi: FuelApi) :
-		IFuelRemoteDataSource, BaseRemoteDataSource() {
+		IFuelRemoteDataSource, BaseDataSource() {
 	
 	override suspend fun getFuelInfo(date: String): SimpleResult<Map<FuelType, NetworkFuelModelResponse>> =
-		safeCallResponse(call = { fetchItems(date, FuelType.values().asIterable()) })
+		safeCall { getPricesPerType(date, FuelType.values().asIterable()) }
 	
 	//get all prices for every fuel type
 	//response contains list of fuelProviders and their prices for specified fuel type
-	private suspend fun fetchItems(
+	private suspend fun getPricesPerType(
 		date:String,
 		fuelTypes: Iterable<FuelType>
 	): Map<FuelType, NetworkFuelModelResponse> =

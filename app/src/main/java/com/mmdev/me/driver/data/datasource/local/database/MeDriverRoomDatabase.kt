@@ -13,6 +13,7 @@ package com.mmdev.me.driver.data.datasource.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mmdev.me.driver.data.datasource.local.fuel.dao.FuelDao
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
@@ -24,7 +25,8 @@ import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 @Database(entities = [
 	FuelStationEntity::class,
 	FuelPriceEntity::class,
-	FuelSummaryEntity::class
+	FuelSummaryEntity::class,
+	FuelHistoryEntity::class
 ],
           version = 1,
           exportSchema = false)

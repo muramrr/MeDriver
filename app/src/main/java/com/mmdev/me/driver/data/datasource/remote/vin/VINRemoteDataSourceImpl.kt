@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.remote.vin
 
-import com.mmdev.me.driver.data.core.base.BaseRemoteDataSource
+import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.remote.api.VINCodeApi
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.vin.VinCodeResponse
@@ -20,9 +20,9 @@ import com.mmdev.me.driver.domain.vin.VinCodeResponse
  */
 
 class VINRemoteDataSourceImpl (private val vinCodeApi: VINCodeApi) :
-		BaseRemoteDataSource(), IVINRemoteDataSource {
+		BaseDataSource(), IVINRemoteDataSource {
 
 	override suspend fun getVehicleByVINCode(VINCode: String): SimpleResult<VinCodeResponse> =
-		safeCallResponse(call = { vinCodeApi.getVehicleByVINCodeFromApi(VINCode) })
+		safeCall(call = { vinCodeApi.getVehicleByVINCodeFromApi(VINCode) })
 	
 }

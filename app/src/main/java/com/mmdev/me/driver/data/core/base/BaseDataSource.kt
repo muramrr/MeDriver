@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 16:17
+ * Last modified 15.08.2020 19:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,19 +10,23 @@
 
 package com.mmdev.me.driver.data.core.base
 
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 
 
 
-open class BaseRemoteDataSource {
+open class BaseDataSource {
+	
+	
+	protected val TAG = "mylogs_${javaClass.simpleName}"
 
-	suspend fun <T> safeCallResponse(call: suspend ()-> T) : SimpleResult<T> =
+	suspend fun <T> safeCall(call: suspend ()-> T) : SimpleResult<T> =
 		try {
-			val callResult = call.invoke()
-			ResultState.Success(callResult)
+			ResultState.Success(call.invoke())
 		}
 		catch (t: Throwable) {
+			logDebug(TAG, "${t.message}")
 			ResultState.Failure(t)
 		}
 }

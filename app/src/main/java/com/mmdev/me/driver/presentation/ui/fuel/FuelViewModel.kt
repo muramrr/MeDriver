@@ -14,7 +14,7 @@ package com.mmdev.me.driver.presentation.ui.fuel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.domain.fuel.IFuelRepository
-import com.mmdev.me.driver.domain.fuel.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class FuelViewModel (private val repository: IFuelRepository): BaseViewModel() {
 	
 	sealed class FuelViewState: ViewState {
 		object Loading : FuelViewState()
-		data class Success(val data: List<FuelStation>) : FuelViewState()
+		data class Success(val data: List<FuelStationWithPrices>) : FuelViewState()
 		data class Error(val errorMessage: String) : FuelViewState()
 	}
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 16:56
+ * Last modified 15.08.2020 20:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,10 +12,7 @@ package com.mmdev.me.driver.data.datasource.local.fuel.dao
 
 import androidx.annotation.VisibleForTesting
 import androidx.room.*
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelStationEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.entities.*
 
 /**
  * Dao interface to "talk" with MeDriverRoomDatabase
@@ -25,8 +22,8 @@ import com.mmdev.me.driver.data.datasource.local.fuel.entities.FuelSummaryEntity
 interface FuelDao {
 	
 	@Transaction
-	@Query("SELECT * FROM fuel_providers WHERE updatedDate = :date")
-	suspend fun getFuelPrices(date: String): List<FuelStationAndPrices>
+	@Query("SELECT * FROM fuel_providers")
+	suspend fun getFuelPrices(): List<FuelStationAndPrices>
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFuelProvider(fuelStationEntity: FuelStationEntity)
@@ -36,6 +33,8 @@ interface FuelDao {
 	
 	@Query("DELETE FROM fuel_providers")
 	suspend fun deleteAllFuelProviders()
+	
+	
 	
 	
 	@VisibleForTesting
@@ -51,4 +50,18 @@ interface FuelDao {
 	@Query("DELETE FROM fuel_summary")
 	suspend fun deleteAllFuelSummaries()
 	
+	
+	
+	
+	@Query("SELECT * FROM fuel_history LIMIT :limit OFFSET :offset")
+	suspend fun getFuelHistory(limit: Int, offset: Int): List<FuelHistoryEntity>
+	
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	suspend fun insertFuelHistoryRecord(fuelHistoryEntity: FuelHistoryEntity)
+	
+	@Delete
+	suspend fun deleteFuelHistorySingleRecord(fuelHistoryEntity: FuelHistoryEntity)
+	
+	@Query("DELETE FROM fuel_history")
+	suspend fun clearHistory()
 }

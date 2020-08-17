@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.08.2020 20:33
+  ~ Last modified 16.08.2020 16:58
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@
 		android:layout_marginTop="4dp"
 		android:layout_marginStart="4dp"
 		android:layout_marginEnd="4dp"
-		android:layout_marginBottom="2dp"
+		android:layout_marginBottom="4dp"
 		
 		app:cardCornerRadius="8dp"
 		app:cardElevation="2dp"

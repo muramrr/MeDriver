@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 16:53
+ * Last modified 16.08.2020 17:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ import com.mmdev.me.driver.BR
  */
 
 abstract class BaseAdapter<T>(private var data: List<T>,
-                              @LayoutRes private val layoutId: Int):
+                              @LayoutRes private val layoutId: Int? = null):
 
 		RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolder<T>>(),
 		BindableAdapter<List<T>> {
@@ -56,7 +56,7 @@ abstract class BaseAdapter<T>(private var data: List<T>,
 
 	protected fun getItem(position: Int): T = data[position]
 
-	open fun getLayoutIdForItem(position: Int): Int = layoutId
+	open fun getLayoutIdForItem(position: Int): Int = layoutId ?: 0
 
 	// allows clicks events to be caught
 	open fun setOnItemClickListener(itemClickListener: OnItemClickListener<T>) {

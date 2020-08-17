@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 17.08.2020 20:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,12 @@ interface IFuelRepository {
 
 	suspend fun getFuelProvidersWithPrices() : SimpleResult<List<FuelStationWithPrices>>
 	
-	suspend fun getFuelHistory() : SimpleResult<List<FuelHistoryRecord>>
+	suspend fun loadFuelHistory() : SimpleResult<List<FuelHistoryRecord>>
+	
+	/**
+	 * @param entries defines how many entries should be loaded to display in UI
+	 */
+	suspend fun loadMoreFuelHistory(entries: Int) : SimpleResult<List<FuelHistoryRecord>>
 	
 	suspend fun addFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord)
 	

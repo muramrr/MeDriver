@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.08.2020 20:42
+  ~ Last modified 16.08.2020 19:01
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,6 @@
 			android:id="@+id/tvFuelHistoryMonthSeparator"
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
-			android:layout_marginBottom="6dp"
 			
 			android:text="@{bindItem.dateMonthText}"
 			android:textAlignment="center"
@@ -47,10 +46,10 @@
 			android:id="@+id/cvFuelHistoryEntryContainer"
 			android:layout_height="match_parent"
 			android:layout_width="0dp"
+			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="2dp"
-			
+			android:layout_marginBottom="4dp"
 			
 			app:cardCornerRadius="8dp"
 			app:cardElevation="2dp"

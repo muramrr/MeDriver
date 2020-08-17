@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 17.08.2020 20:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,8 +36,8 @@ internal class FuelRepositoryImpl (
 	
 	
 	companion object {
-		//how many entries we can load per request
-		private const val historyEntriesLimit = 20
+		private const val startItemsCount = 20
+		private const val startHistoryOffset = 20
 	}
 	//start position history entries loading
 	private var historyOffset = 0
@@ -97,11 +97,24 @@ internal class FuelRepositoryImpl (
 		)
 	
 	
-	override suspend fun getFuelHistory(): SimpleResult<List<FuelHistoryRecord>> =
-		dataSourceLocal.getFuelHistory(historyEntriesLimit, historyOffset).fold(
+	override suspend fun loadFuelHistory(): SimpleResult<List<FuelHistoryRecord>> =
+		dataSourceLocal.getFuelHistory(startItemsCount, startHistoryOffset).fold(
 			success = { dto ->
 				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
-					//update start pos
+					//reset offset
+					historyOffset = 0
+					//update offset
+					historyOffset += it.data.size
+				}
+			},
+			failure = { throwable -> ResultState.Failure(throwable) }
+		)
+	
+	override suspend fun loadMoreFuelHistory(entries: Int): SimpleResult<List<FuelHistoryRecord>> =
+		dataSourceLocal.getFuelHistory(entries, historyOffset).fold(
+			success = { dto ->
+				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
+					//update offset
 					historyOffset += it.data.size
 				}
 			},

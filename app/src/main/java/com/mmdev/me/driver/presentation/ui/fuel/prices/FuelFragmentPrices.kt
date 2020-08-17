@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 17.08.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,20 +19,17 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.LoadingState
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
-import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel.FuelViewState
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-/**
- *
- */
 
-class FuelFragmentPrices : BaseFragment<FuelViewModel, FragmentFuelPricesBinding>(
+
+class FuelFragmentPrices : BaseFragment<FuelPricesViewModel, FragmentFuelPricesBinding>(
 	R.layout.fragment_fuel_prices
 ) {
 
-	override val mViewModel: FuelViewModel by sharedViewModel()
+	override val mViewModel: FuelPricesViewModel by sharedViewModel()
 
 	private val mPricesAdapter = PricesAdapter()
 	

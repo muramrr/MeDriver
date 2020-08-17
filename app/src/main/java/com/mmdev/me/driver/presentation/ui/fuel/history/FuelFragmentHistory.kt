@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.08.2020 20:04
+ * Last modified 17.08.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,34 +15,42 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.core.utils.DateConverter.getMonthInt
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
-import com.mmdev.me.driver.domain.fuel.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
 import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListener
-import com.mmdev.me.driver.presentation.ui.fuel.FuelViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-/**
- *
- */
 
-class FuelFragmentHistory: BaseFragment<FuelViewModel, FragmentFuelHistoryBinding>(
+
+class FuelFragmentHistory: BaseFragment<FuelHistoryViewModel, FragmentFuelHistoryBinding>(
 	R.layout.fragment_fuel_history
 ) {
-	override val mViewModel: FuelViewModel by sharedViewModel()
+	override val mViewModel: FuelHistoryViewModel by sharedViewModel()
 	
 	private val data = listOf(
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-03-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-04-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-03-2020")),
-		FuelHistoryRecord(date = DateConverter.toDate("20-04-2020"))
+		FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-03-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-04-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-01-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-03-2020")
+		), FuelHistoryRecord(
+			date = DateConverter.toDate("20-04-2020")
+		)
 	)
 	
 	private val mFuelHistoryAdapter = FuelHistoryAdapter()

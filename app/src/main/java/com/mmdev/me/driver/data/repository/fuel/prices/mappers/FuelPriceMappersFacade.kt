@@ -1,27 +1,31 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 18:19
+ * Last modified 17.08.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.repository.fuel.mappers
+package com.mmdev.me.driver.data.repository.fuel.prices.mappers
 
-import com.mmdev.me.driver.core.utils.DateConverter
-import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.core.mappers.mapNullInputList
 import com.mmdev.me.driver.data.core.mappers.mapNullInputListToSet
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.*
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelSummaryEntity
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.model.*
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelSummary
 
 
 /**
- * FuelDataMappersFacade for multiple mappers used in FuelRepository
+ * MappersFacade for multiple mappers used in FuelPricesRepositoryImpl
  * contains mappers between layers [data -> domain]
  * mappers between sources [remoteModel -> dbEntity], [dbEntity -> DomainModel]
  *
@@ -30,9 +34,9 @@ import com.mmdev.me.driver.domain.fuel.model.*
  * DM = Domain Model
  */
 
-typealias response = Map<FuelType, NetworkFuelModelResponse>
+private typealias response = Map<FuelType, NetworkFuelModelResponse>
 
-class FuelDataMappersFacade {
+class FuelPriceMappersFacade {
 	
 	
 	//network dto -> db entity
@@ -54,8 +58,7 @@ class FuelDataMappersFacade {
 					listOfFuelPrices.add(
 						FuelPriceEntity(
 							fuelStationId = networkFuelStation.slug,
-							price = networkFuelStation.price,
-							type = fuelType.code
+							price = networkFuelStation.price, type = fuelType.code
 						)
 					)
 					//check if set contains FuelStationEntity
@@ -65,8 +68,7 @@ class FuelDataMappersFacade {
 						setOfFuelStationsDb.add(
 							FuelStationEntity(
 								brandTitle = networkFuelStation.brand,
-								slug = networkFuelStation.slug,
-								updatedDate = pricesLastUpdatedDate
+								slug = networkFuelStation.slug, updatedDate = pricesLastUpdatedDate
 							)
 						)
 					}
@@ -79,8 +81,7 @@ class FuelDataMappersFacade {
 			listOfFuelStationAndPrices.add(
 				FuelStationAndPrices(
 					fuelStation = fuelStation,
-					prices = listOfFuelPrices.filter { it.fuelStationId == fuelStation.slug }
-				)
+					prices = listOfFuelPrices.filter { it.fuelStationId == fuelStation.slug })
 			)
 		}
 		
@@ -104,10 +105,11 @@ class FuelDataMappersFacade {
 			listOfSummaryEntity.add(
 				FuelSummaryEntity(
 					type = fuelType.code,
-					minPrice= networkFuelModelResponse.result.fuelSummaryResponse[0].minPrice,
+					minPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].minPrice,
 					maxPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].maxPrice,
 					avgPrice = networkFuelModelResponse.result.fuelSummaryResponse[0].avgPrice,
-					updatedDate = networkFuelModelResponse.result.pricesLastUpdatedDate)
+					updatedDate = networkFuelModelResponse.result.pricesLastUpdatedDate
+				)
 			)
 		}
 		
@@ -155,8 +157,7 @@ class FuelDataMappersFacade {
 						if (stationWithPrices.fuelStation.slug == networkFuelStation.slug)
 							stationWithPrices.prices.add(
 								FuelPrice(
-									type = fuelType,
-									price = networkFuelStation.price
+									type = fuelType, price = networkFuelStation.price
 								)
 							)
 					}
@@ -179,78 +180,39 @@ class FuelDataMappersFacade {
 	
 	private fun mapFuelSummaryDm(input: List<FuelSummaryEntity>): List<FuelSummary> =
 		mapNullInputList(input) {
-			FuelSummary(type = it.type,
-			            minPrice = it.minPrice,
-			            maxPrice = it.maxPrice,
-			            avgPrice = it.avgPrice,
-			            updatedDate = it.updatedDate
+			FuelSummary(
+				type = it.type, minPrice = it.minPrice, maxPrice = it.maxPrice,
+				avgPrice = it.avgPrice, updatedDate = it.updatedDate
 			)
 		}
 	
 	//db dto -> dm
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	val mapDbFuelStationToDm: (List<FuelStationAndPrices>) -> List<FuelStationWithPrices> = {
-		fuelProviderDto -> mapFuelProvidersDm(fuelProviderDto) {
+		fuelProviderDto -> mapFuelStationDm(fuelProviderDto) {
 			listPricesDto -> mapNullInputListToSet(listPricesDto) {
 				priceDto -> mapPriceDm(priceDto)
 			}
 		}
 	}
 	
-	private fun mapFuelProvidersDm(
+	private fun mapFuelStationDm(
 		input: List<FuelStationAndPrices>,
 		mapPrices: (List<FuelPriceEntity>?) -> Set<FuelPrice>
 	): List<FuelStationWithPrices> =
 		mapNullInputList(input) {
 			FuelStationWithPrices(
 				fuelStation = FuelStation(
-					brandTitle = it.fuelStation.brandTitle,
-					slug = it.fuelStation.slug,
+					brandTitle = it.fuelStation.brandTitle, slug = it.fuelStation.slug,
 					updatedDate = it.fuelStation.updatedDate
-				),
-				prices = mapPrices(it.prices).toMutableSet()
+				), prices = mapPrices(it.prices).toMutableSet()
 			)
 		}
 	
 	private fun mapPriceDm (input: FuelPriceEntity): FuelPrice =
-		FuelPrice(price = input.price, type = input.type)
-	
-	
-	//dm -> db dto Single
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
-		FuelHistoryEntity(
-			distancePassed = record.distancePassed,
-			odometerValue = record.odometerValue,
-			fuelStation = FuelStationEntity(record.fuelStation.brandTitle,
-			                                record.fuelStation.slug,
-			                                record.fuelStation.updatedDate),
-			fuelPrice = FuelPriceEntity(record.fuelStation.slug,
-			                            record.fuelPrice.price,
-			                            record.fuelPrice.type.code),
-			moneyCosts = record.moneyCosts,
-			fuelConsumption = record.fuelConsumption,
-			date = DateConverter.toText(record.date)
+		FuelPrice(
+			price = input.price, type = input.type
 		)
-	}
-	
-	//dm -> db dto Single
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDbHistoryToDm: (List<FuelHistoryEntity>) -> List<FuelHistoryRecord> = { input ->
-		mapList(input) { entity ->
-			FuelHistoryRecord(
-				distancePassed = entity.distancePassed,
-				odometerValue = entity.odometerValue,
-				fuelStation = FuelStation(brandTitle = entity.fuelStation.brandTitle,
-				                          slug = entity.fuelStation.slug,
-				                          updatedDate = entity.fuelStation.updatedDate),
-				fuelPrice = FuelPrice(price = entity.fuelPrice.price, type = entity.fuelPrice.type),
-				moneyCosts = entity.moneyCosts,
-				fuelConsumption = entity.fuelConsumption,
-				date = DateConverter.toDate(entity.date)
-			)
-		}
-	}
 	
 	
 }

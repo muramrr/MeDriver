@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:33
+ * Last modified 17.08.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,8 +20,8 @@ import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.utils.setOnClickWithSelection
 
 /**
@@ -34,7 +34,8 @@ internal class PricesAdapter (
 
 ) : RecyclerView.Adapter<PricesAdapter.PriceViewHolder>(){
 	
-	private val noPrice = FuelPrice()
+	private val noPrice =
+		FuelPrice()
 	
 	// price appearance anim
 	private lateinit var inAnim: Animation

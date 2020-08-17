@@ -1,18 +1,20 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 20:42
+ * Last modified 17.08.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.fuel.model
+package com.mmdev.me.driver.domain.fuel.history.model
 
 import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.core.utils.DateConverter.getMonthText
 import com.mmdev.me.driver.core.utils.roundTo
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import java.util.*
 
 

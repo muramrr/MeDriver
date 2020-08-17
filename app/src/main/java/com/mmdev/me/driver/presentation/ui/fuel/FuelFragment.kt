@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 19:01
+ * Last modified 17.08.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,12 +22,13 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelFragmentHistory
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelFragmentPrices
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 
 /**
  *
  */
 
-class FuelFragment : BaseFlowFragment<FuelViewModel, FragmentFuelBinding>(R.layout.fragment_fuel) {
+class FuelFragment : BaseFlowFragment<FuelPricesViewModel, FragmentFuelBinding>(R.layout.fragment_fuel) {
 	
 	override fun setupViews() {
 		binding.viewPagerContainer.apply {

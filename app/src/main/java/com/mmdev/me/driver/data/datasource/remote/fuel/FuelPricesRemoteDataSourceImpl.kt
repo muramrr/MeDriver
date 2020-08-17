@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.08.20 17:45
+ * Last modified 17.08.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,11 +21,11 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 
 /**
- * [IFuelRemoteDataSource] implementation
+ * [IFuelPricesRemoteDataSource] implementation
  */
 
-internal class FuelRemoteDataSourceImpl(private val fuelApi: FuelApi) :
-		IFuelRemoteDataSource, BaseDataSource() {
+internal class FuelPricesRemoteDataSourceImpl(private val fuelApi: FuelApi) :
+		IFuelPricesRemoteDataSource, BaseDataSource() {
 	
 	override suspend fun getFuelInfo(date: String): SimpleResult<Map<FuelType, NetworkFuelModelResponse>> =
 		safeCall { getPricesPerType(date, FuelType.values().asIterable()) }

@@ -1,24 +1,27 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 17.08.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.datasource.local.fuel
+package com.mmdev.me.driver.data.datasource.local.fuel.prices
 
-import com.mmdev.me.driver.data.datasource.local.fuel.entities.*
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationAndPrices
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelSummaryEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.FuelType
 
 /**
- * Fuel DataSource which works with local database
+ * Fuel Prices DataSource which works with local database
  */
 
-interface IFuelLocalDataSource {
+interface IFuelPricesLocalDataSource {
 	
 	suspend fun getFuelStationsAndPrices(): SimpleResult<List<FuelStationAndPrices>>
 	suspend fun addFuelStation(fuelStationEntity: FuelStationEntity)
@@ -32,9 +35,5 @@ interface IFuelLocalDataSource {
 	suspend fun addFuelSummary(fuelSummaryEntity: FuelSummaryEntity)
 	suspend fun deleteAllFuelSummaries()
 	
-	
-	suspend fun getFuelHistory(limit: Int, offset: Int): SimpleResult<List<FuelHistoryEntity>>
-	suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity)
-	suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity)
 	
 }

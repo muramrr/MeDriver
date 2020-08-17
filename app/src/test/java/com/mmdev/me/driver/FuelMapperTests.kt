@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 18:19
+ * Last modified 17.08.2020 20:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,19 @@ package com.mmdev.me.driver
 
 import com.google.gson.Gson
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
-import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
+import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.FuelType.*
-import com.mmdev.me.driver.domain.fuel.model.FuelStation.FuelPrice
-import org.junit.Assert.*
+import com.mmdev.me.driver.domain.fuel.FuelType.A100
+import com.mmdev.me.driver.domain.fuel.FuelType.A92
+import com.mmdev.me.driver.domain.fuel.FuelType.A95
+import com.mmdev.me.driver.domain.fuel.FuelType.A95PLUS
+import com.mmdev.me.driver.domain.fuel.FuelType.DT
+import com.mmdev.me.driver.domain.fuel.FuelType.GAS
+import com.mmdev.me.driver.domain.fuel.FuelType.values
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,7 +49,8 @@ class FuelMapperTests {
 	private val responseMap = mutableMapOf<FuelType, NetworkFuelModelResponse>()
 	
 	private val gson: Gson = Gson()
-	private val mappers = FuelDataMappersFacade()
+	private val mappers =
+		FuelPriceMappersFacade()
 	
 	@Before
 	fun setup() {
@@ -68,24 +77,24 @@ class FuelMapperTests {
 		assertEquals(listOfMappedFuelStationsDm.size, 10)
 		
 		//check stations contains exactly 6/6 FuelPrices
-		val socarStationDm = listOfMappedFuelStationsDm.find { it.slug == "socar" }!!
-		val anpStationDm = listOfMappedFuelStationsDm.find { it.slug == "anp" }!!
+		val socarStationDm = listOfMappedFuelStationsDm.find { it.fuelStation.slug == "socar" }!!
+		val anpStationDm = listOfMappedFuelStationsDm.find { it.fuelStation.slug == "anp" }!!
 		assertTrue(socarStationDm.prices.size == 6)
 		assertFalse(anpStationDm.prices.size == 6)
 		
 		//check prices socar
-		assertTrue(socarStationDm.prices.find { it.type == A100 }!!.price == 29.99.toString())
-		assertTrue(socarStationDm.prices.find { it.type == A95PLUS }!!.price == 27.49.toString())
-		assertTrue(socarStationDm.prices.find { it.type == A95 }!!.price == 26.49.toString())
-		assertTrue(socarStationDm.prices.find { it.type == A92 }!!.price == 25.49.toString())
-		assertTrue(socarStationDm.prices.find { it.type == DT }!!.price == 25.49.toString())
-		assertTrue(socarStationDm.prices.find { it.type == GAS }!!.price == 12.48.toString())
+		assertTrue(socarStationDm.prices.find { it.type == A100 }!!.price == 29.99)
+		assertTrue(socarStationDm.prices.find { it.type == A95PLUS }!!.price == 27.49)
+		assertTrue(socarStationDm.prices.find { it.type == A95 }!!.price == 26.49)
+		assertTrue(socarStationDm.prices.find { it.type == A92 }!!.price == 25.49)
+		assertTrue(socarStationDm.prices.find { it.type == DT }!!.price == 25.49)
+		assertTrue(socarStationDm.prices.find { it.type == GAS }!!.price == 12.48)
 		//check prices anp
-		assertTrue((anpStationDm.prices.find { it.type == A100 } ?: FuelPrice(A100)).price == "--.--")
-		assertTrue(anpStationDm.prices.find { it.type == A95PLUS }!!.price == 21.45.toString())
-		assertTrue(anpStationDm.prices.find { it.type == A95 }!!.price == 20.95.toString())
-		assertTrue(anpStationDm.prices.find { it.type == A92 }!!.price == 19.95.toString())
-		assertTrue(anpStationDm.prices.find { it.type == DT }!!.price == (21.toDouble()).toString())
+		assertTrue((anpStationDm.prices.find { it.type == A100 } ?: FuelPrice()).priceString == "--.--")
+		assertTrue(anpStationDm.prices.find { it.type == A95PLUS }!!.price == 21.45)
+		assertTrue(anpStationDm.prices.find { it.type == A95 }!!.price == 20.95)
+		assertTrue(anpStationDm.prices.find { it.type == A92 }!!.price == 19.95)
+		assertTrue(anpStationDm.prices.find { it.type == DT }!!.price == (21.toDouble()))
 		
 	}
 	

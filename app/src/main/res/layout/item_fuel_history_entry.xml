@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.08.2020 16:58
+  ~ Last modified 17.08.2020 20:35
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@
 	<data>
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.domain.fuel.model.FuelHistoryRecord"
+			type="com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord"
 			/>
 	</data>
 	

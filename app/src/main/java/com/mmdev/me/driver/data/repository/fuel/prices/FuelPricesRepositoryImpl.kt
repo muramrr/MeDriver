@@ -1,46 +1,38 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:11
+ * Last modified 17.08.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.repository.fuel
+package com.mmdev.me.driver.data.repository.fuel.prices
 
 
 import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.data.core.base.BaseRepository
-import com.mmdev.me.driver.data.datasource.local.fuel.IFuelLocalDataSource
-import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelRemoteDataSource
-import com.mmdev.me.driver.data.repository.fuel.mappers.FuelDataMappersFacade
+import com.mmdev.me.driver.data.datasource.local.fuel.prices.IFuelPricesLocalDataSource
+import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelPricesRemoteDataSource
+import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.IFuelRepository
-import com.mmdev.me.driver.domain.fuel.model.FuelHistoryRecord
-import com.mmdev.me.driver.domain.fuel.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import java.util.*
 
 /**
- * [IFuelRepository] implementation
+ * [IFuelPricesRepository] implementation
  */
 
-internal class FuelRepositoryImpl (
-	private val dataSourceRemote: IFuelRemoteDataSource,
-	private val dataSourceLocal: IFuelLocalDataSource,
-	private val mappers: FuelDataMappersFacade
-) : BaseRepository(), IFuelRepository {
+internal class FuelPricesRepositoryImpl (
+	private val dataSourceLocal: IFuelPricesLocalDataSource,
+	private val dataSourceRemote: IFuelPricesRemoteDataSource,
+	private val mappers: FuelPriceMappersFacade
+) : BaseRepository(), IFuelPricesRepository {
 	
-	
-	companion object {
-		private const val startItemsCount = 20
-		private const val startHistoryOffset = 20
-	}
-	//start position history entries loading
-	private var historyOffset = 0
 	
 	//network api requests strings
 	private lateinit var currentTime: Date
@@ -96,34 +88,4 @@ internal class FuelRepositoryImpl (
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
 	
-	
-	override suspend fun loadFuelHistory(): SimpleResult<List<FuelHistoryRecord>> =
-		dataSourceLocal.getFuelHistory(startItemsCount, startHistoryOffset).fold(
-			success = { dto ->
-				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
-					//reset offset
-					historyOffset = 0
-					//update offset
-					historyOffset += it.data.size
-				}
-			},
-			failure = { throwable -> ResultState.Failure(throwable) }
-		)
-	
-	override suspend fun loadMoreFuelHistory(entries: Int): SimpleResult<List<FuelHistoryRecord>> =
-		dataSourceLocal.getFuelHistory(entries, historyOffset).fold(
-			success = { dto ->
-				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
-					//update offset
-					historyOffset += it.data.size
-				}
-			},
-			failure = { throwable -> ResultState.Failure(throwable) }
-		)
-	
-	override suspend fun addFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord) =
-		dataSourceLocal.insertFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
-	
-	override suspend fun removeFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord) =
-		dataSourceLocal.deleteFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
 }

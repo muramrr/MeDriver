@@ -1,26 +1,23 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:06
+ * Last modified 17.08.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.fuel
+package com.mmdev.me.driver.domain.fuel.history
 
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.model.FuelHistoryRecord
-import com.mmdev.me.driver.domain.fuel.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 
 /**
- * Fuel repository which provides requested data to UI
+ * Fuel History repository provides data for [com.mmdev.me.driver.presentation.ui.fuel.history]
  */
 
-interface IFuelRepository {
-
-	suspend fun getFuelProvidersWithPrices() : SimpleResult<List<FuelStationWithPrices>>
+interface IFuelHistoryRepository {
 	
 	suspend fun loadFuelHistory() : SimpleResult<List<FuelHistoryRecord>>
 	

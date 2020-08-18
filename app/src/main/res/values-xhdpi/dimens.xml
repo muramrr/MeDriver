@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.08.20 19:34
+  ~ Last modified 19.08.2020 00:39
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,6 @@
 	<dimen name="home_cards_width">180dp</dimen>
 	<dimen name="home_cards_height">220dp</dimen>
 	<dimen name="home_circularProgress_size">80dp</dimen>
-	<dimen name="item_fuel_provider_btn_fuel_type_size">35dp</dimen>
+	<dimen name="btn_fuel_type_size">35dp</dimen>
 	<dimen name="item_fuel_provider_logo_size">80dp</dimen>
 </resources>

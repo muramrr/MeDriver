@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 20:58
+  ~ Last modified 18.08.2020 20:14
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,35 +20,30 @@
 		app:destination="@id/homeFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
-		app:launchSingleTop="true"
 		/>
 
 	<action android:id="@+id/bottomNavMainCare"
 		app:destination="@id/careFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
-		app:launchSingleTop="true"
 		/>
 
 	<action android:id="@+id/bottomNavMainMyCar"
 		app:destination="@id/myCarFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
-		app:launchSingleTop="true"
 		/>
 
 	<action android:id="@+id/bottomNavMainFuel"
 		app:destination="@id/fuelFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
-		app:launchSingleTop="true"
 		/>
 
 	<action android:id="@+id/bottomNavMainSettings"
 		app:destination="@id/settingsFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
-		app:launchSingleTop="true"
 		/>
 
 
@@ -74,13 +69,26 @@
 		android:name="com.mmdev.me.driver.presentation.ui.fuel.FuelFragment"
 		android:label="FuelFragment"
 		tools:layout="@layout/fragment_fuel"
-		/>
+		>
+		<action
+			android:id="@+id/action_fuelHistory_to_fuelHistoryAdd"
+			app:destination="@id/dialogFragmentHistoryAdd"
+			app:enterAnim="@anim/fragment_fade_enter"
+			app:exitAnim="@anim/fragment_fade_exit"
+			/>
+	</fragment>
 
 	<fragment android:id="@+id/settingsFragment"
 		android:name="com.mmdev.me.driver.presentation.ui.settings.SettingsFragment"
 		android:label="SettingsFragment"
 		tools:layout="@layout/fragment_settings"
 		/>
+	
+	<dialog android:id="@+id/dialogFragmentHistoryAdd"
+		android:name="com.mmdev.me.driver.presentation.ui.fuel.history.DialogFragmentHistoryAdd"
+		tools:layout="@layout/fragment_fuel_history_add"
+		/>
+		
 
 
 

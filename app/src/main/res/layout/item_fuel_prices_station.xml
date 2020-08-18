@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.08.2020 20:35
+  ~ Last modified 19.08.2020 00:39
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -102,8 +102,8 @@
 			<!-- gas -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelTypeGas"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="gas"
 				android:textSize="12sp"
@@ -121,8 +121,8 @@
 			<!-- dt -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelTypeDT"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="DT"
 				android:textSize="12sp"
@@ -140,8 +140,8 @@
 			<!-- 92 -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType92"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="92"
 				android:textSize="12sp"
@@ -159,8 +159,8 @@
 			<!-- 95 -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType95"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="95"
 				android:textSize="12sp"
@@ -179,8 +179,8 @@
 			<!-- 95plus -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType95PLUS"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="95+"
 				android:textSize="12sp"
@@ -198,8 +198,8 @@
 			<!-- 100 -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType100"
-				android:layout_width="@dimen/item_fuel_provider_btn_fuel_type_size"
-				android:layout_height="@dimen/item_fuel_provider_btn_fuel_type_size"
+				android:layout_width="@dimen/btn_fuel_type_size"
+				android:layout_height="@dimen/btn_fuel_type_size"
 
 				android:text="100"
 				android:textSize="12sp"

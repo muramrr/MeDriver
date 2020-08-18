@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.07.20 20:12
+  ~ Last modified 18.08.2020 16:33
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,5 +35,8 @@
 	<color name="colorStatusBar">@color/colorPrimaryDark</color>
 
 	<color name="surface3dpImitation">@color/colorSurface</color>
+	
+	<color name="colorIncreasing">#d00000</color>
+	<color name="colorDecreasing">#51cb20</color>
 
 </resources>

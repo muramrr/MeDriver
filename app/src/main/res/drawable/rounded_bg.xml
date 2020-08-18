@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 17.08.2020 23:19
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+	<stroke
+		android:width="1dp"
+		android:color="@android:color/darker_gray" />
+	
+	<solid android:color="?colorSurface" />
+	
+	<padding
+		android:left="1dp"
+		android:right="1dp"
+		android:bottom="1dp"
+		android:top="1dp" />
+	
+	<corners android:radius="8dp" />
+</shape>

@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 19.08.2020 00:39
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	<androidx.constraintlayout.widget.ConstraintLayout
+		
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		
+		>
+		<!-- card 1 -->
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvEstimateDistance"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginEnd="4dp"
+			
+			app:cardCornerRadius="6dp"
+			app:cardElevation="2dp"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintTop_toTopOf="parent"
+			
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvEstimateDistanceTitle"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="Estimate distance"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toTopOf="@id/tvEstimateDistanceValue"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvEstimateDistanceValue"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="~342 km"
+					android:textAppearance="?textAppearanceHeadline4"
+					android:textColor="?colorOnSurface"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceTitle"
+					/>
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		<!-- card 2 -->
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvConsumption"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginStart="4dp"
+			
+			app:cardCornerRadius="6dp"
+			app:cardElevation="2dp"
+			
+			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toTopOf="parent"
+			
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvConsumptionTitle"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="Consumption"
+					android:textAppearance="?textAppearanceCaption"
+					
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toTopOf="@id/tvConsumptionValue"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvConsumptionValue"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="12.6 L"
+					android:textAppearance="?textAppearanceHeadline4"
+					android:textColor="?colorOnSurface"
+					app:drawableEndCompat="@drawable/ic_down_arrow_24"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvConsumptionTitle"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvConsumptionPer100kmTitle"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginBottom="16dp"
+					
+					android:text="/100 km"
+					android:textAppearance="?textAppearanceCaption"
+					android:textColor="?colorOnSurface"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvConsumptionValue"
+					app:layout_constraintBottom_toBottomOf="parent"
+					/>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		<!-- card 3 -->
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvCard3"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginEnd="4dp"
+			
+			app:cardCornerRadius="6dp"
+			app:cardElevation="2dp"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvCard3Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="Estimate distance"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toTopOf="@id/tvCard3Value"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvCard3Value"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="~342 km"
+					android:textAppearance="?textAppearanceHeadline4"
+					android:textColor="?colorOnSurface"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvCard3Title"
+					/>
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		<!-- card 4 -->
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cvCard4"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginStart="4dp"
+			
+			app:cardCornerRadius="6dp"
+			app:cardElevation="2dp"
+			
+			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvCard4Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="Consumption"
+					android:textAppearance="?textAppearanceCaption"
+					
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toTopOf="@id/tvCard4Value"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvCard4Value"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="8dp"
+					
+					android:text="12.6 L"
+					android:textAppearance="?textAppearanceHeadline4"
+					android:textColor="?colorOnSurface"
+					app:drawableEndCompat="@drawable/ic_down_arrow_24"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvCard4Title"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvCard4Subtitle"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginBottom="16dp"
+					
+					android:text="/100 km"
+					android:textAppearance="?textAppearanceCaption"
+					android:textColor="?colorOnSurface"
+					
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/tvCard4Value"
+					app:layout_constraintBottom_toBottomOf="parent"
+					/>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		
+		
+		
+		
+		<!-- drop car chooser-->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutFuelStationChooser"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginEnd="4dp"
+			
+			android:hint="Fuel Station"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+			
+			app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			>
+			
+			<com.google.android.material.textfield.MaterialAutoCompleteTextView
+				android:id="@+id/dropFuelStationChoose"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				android:background="@null"
+				android:cursorVisible="false"
+				
+				android:imeOptions="actionDone"
+				android:inputType="text"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- price input -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputPrice"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginStart="4dp"
+			
+			android:hint="Price"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
+			
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputPrice"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				android:imeOptions="actionDone"
+				android:inputType="numberDecimal"
+				
+				/>
+		
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		
+		
+		
+		
+		
+		<!-- gas -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelTypeGas"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="gas"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/btnFuelTypeDT"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			
+			/>
+		
+		<!-- dt -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelTypeDT"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="DT"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toEndOf="@id/btnFuelTypeGas"
+			app:layout_constraintEnd_toStartOf="@id/btnFuelType92"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			/>
+		
+		<!-- 92 -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelType92"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="92"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toEndOf="@id/btnFuelTypeDT"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			
+			/>
+		
+		<!-- 95 -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelType95"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="95"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+			app:layout_constraintEnd_toStartOf="@id/btnFuelType95PLUS"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			
+			/>
+		
+		<!-- 95plus -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelType95PLUS"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="95+"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toEndOf="@id/btnFuelType95"
+			app:layout_constraintEnd_toStartOf="@id/btnFuelType100"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			
+			/>
+		
+		<!-- 100 -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnFuelType100"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/btn_fuel_type_size"
+			android:layout_marginHorizontal="8dp"
+			
+			android:text="100"
+			android:textSize="12sp"
+			
+			app:backgroundTint="@color/btn_fuel_tint_bg"
+			
+			style="@style/My.Widget.Button.LetterOnly.Rounded"
+			
+			app:layout_constraintStart_toEndOf="@id/btnFuelType95PLUS"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+			
+			/>
+		
+		
+		
+		
+		
+		
+		<!-- odometer value -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvOdometerValue"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			
+			android:text="12313 km"
+			android:textAlignment="center"
+			android:textAppearance="?textAppearanceHeadline3"
+			android:textColor="?colorOnBackground"
+			
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/barrierFuelTypesHorizontal"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputOdometer"
+			
+			/>
+		
+		<!-- odometer input -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputOdometer"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			
+			android:hint="Enter odometer value"
+			
+			app:errorEnabled="true"
+			
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/tvOdometerValue"
+			
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputOdometer"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				android:imeOptions="actionDone"
+				android:inputType="numberDecimal"
+				
+				/>
+		
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		
+		
+		
+		<!-- cancel -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnCancel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:text="Cancel"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintBottom_toBottomOf="parent"
+			/>
+		
+		<!-- done -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnDone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:text="Done"
+			
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintBottom_toBottomOf="parent"
+			/>
+		
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrier1CardsHorizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:barrierMargin="8dp"
+			app:barrierDirection="bottom"
+			app:constraint_referenced_ids="cvConsumption, cvEstimateDistance"
+			/>
+		
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrier2CardsHorizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:barrierMargin="8dp"
+			app:barrierDirection="bottom"
+			app:constraint_referenced_ids="cvCard3, cvCard4"
+			/>
+		
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrierFuelStationHorizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:barrierMargin="8dp"
+			app:barrierDirection="bottom"
+			app:constraint_referenced_ids="layoutFuelStationChooser, layoutInputPrice"
+			/>
+		
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrierFuelTypesHorizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:barrierMargin="8dp"
+			app:barrierDirection="bottom"
+			app:constraint_referenced_ids="btnFuelTypeGas, btnFuelTypeDT, btnFuelType92, btnFuelType95, btnFuelType95PLUS, btnFuelType100"
+			/>
+		
+		<!-- center -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineCenter"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_marginHorizontal="4dp"
+			android:layout_margin="4dp"
+			android:orientation="vertical"
+			app:layout_constraintGuide_percent="0.5"
+			/>
+		
+		<!-- start -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineStart"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			app:layout_constraintGuide_begin="8dp"
+			/>
+		
+		<!-- end -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineEnd"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			app:layout_constraintGuide_end="8dp"
+			/>
+		
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+</layout>

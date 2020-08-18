@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.08.20 16:44
+ * Last modified 18.08.2020 20:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -92,10 +92,11 @@ fun View.showKeyboard() {
  * Try to hide the keyboard and returns whether it worked
  * https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
  */
-fun View.hideKeyboard(): Boolean {
+fun View.hideKeyboard(inputViewFocused: View? = null): Boolean {
 	try {
 		val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+		inputViewFocused?.clearFocus()
+		return inputMethodManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 	} catch (ignored: RuntimeException) { }
 	return false
 }

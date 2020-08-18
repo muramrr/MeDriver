@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:45
+ * Last modified 18.08.2020 18:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -51,9 +51,9 @@ internal class FuelPricesRepositoryImpl (
 		requestDate = DateConverter.toFuelPriceRequestString(currentTime).also {
 			logDebug(TAG, "date = $it")
 		}
-		return getFuelDataFromLocal().fold(
+		return getFuelDataFromLocal(requestDate).fold(
 			//get from local database
-			success = { dm -> ResultState.Success(dm)},
+			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
 				logDebug(message = it.localizedMessage!!)
@@ -66,7 +66,7 @@ internal class FuelPricesRepositoryImpl (
 		dataSourceRemote.getFuelInfo(date).fold(
 			success = { dto ->
 				//save to db
-				for (fuelStationAndPrices in mappers.mapFuelResponseToDb(dto)) {
+				for (fuelStationAndPrices in mappers.mapFuelResponseToDb(dto, date)) {
 					dataSourceLocal.addFuelStation(fuelStationAndPrices.fuelStation).also {
 						fuelStationAndPrices.prices.forEach { fuelPrice ->
 							dataSourceLocal.addFuelPrice(fuelPrice)
@@ -79,8 +79,8 @@ internal class FuelPricesRepositoryImpl (
 		)
 
 	//retrieve FuelStationAndPrices from cache (room database)
-	private suspend fun getFuelDataFromLocal() =
-		dataSourceLocal.getFuelStationsAndPrices().fold(
+	private suspend fun getFuelDataFromLocal(date: String) =
+		dataSourceLocal.getFuelStationsAndPrices(date).fold(
 			success = { dto ->
 				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelStationToDm(dto))
 				else ResultState.Failure(Exception("Empty cache"))

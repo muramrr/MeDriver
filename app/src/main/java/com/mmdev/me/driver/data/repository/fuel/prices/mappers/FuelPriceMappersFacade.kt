@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:35
+ * Last modified 18.08.2020 18:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,11 +41,11 @@ class FuelPriceMappersFacade {
 	
 	//network dto -> db entity
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapFuelResponseToDb: (response) -> List<FuelStationAndPrices> = {
-			response -> mapFuelProvidersDto(response)
+	val mapFuelResponseToDb: (response, String) -> List<FuelStationAndPrices> = {
+			response, date -> mapFuelProvidersDto(response, date)
 	}
 	
-	private fun mapFuelProvidersDto(input: response): List<FuelStationAndPrices> {
+	private fun mapFuelProvidersDto(input: response, date: String): List<FuelStationAndPrices> {
 		val listOfFuelStationAndPrices = mutableListOf<FuelStationAndPrices>()
 		val listOfFuelPrices = mutableListOf<FuelPriceEntity>()
 		val setOfFuelStationsDb = mutableSetOf<FuelStationEntity>()
@@ -68,7 +68,8 @@ class FuelPriceMappersFacade {
 						setOfFuelStationsDb.add(
 							FuelStationEntity(
 								brandTitle = networkFuelStation.brand,
-								slug = networkFuelStation.slug, updatedDate = pricesLastUpdatedDate
+								slug = networkFuelStation.slug,
+								updatedDate = date
 							)
 						)
 					}

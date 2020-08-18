@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.08.20 16:10
+ * Last modified 18.08.2020 14:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,9 @@ package com.mmdev.me.driver.presentation.ui.common.custom.components
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.*
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.RESTART
+import android.animation.ValueAnimator.REVERSE
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -24,10 +26,11 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.PathInterpolator
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.presentation.utils.toPx
+import kotlin.math.max
 import kotlin.math.min
 
 /*
- * see [https://dribbble.com/shots/5095383-Loader-Animation]
+ * see https://dribbble.com/shots/5095383-Loader-Animation
  */
 
 class LoadingView @JvmOverloads constructor(
@@ -41,11 +44,14 @@ class LoadingView @JvmOverloads constructor(
 		style = Paint.Style.STROKE
 		strokeCap = Paint.Cap.ROUND
 	}
+	//shadow "glowing" radius
+	//strokeSize + 25%
+	private var sweepPaintShadowRadius = 0f
 	
-	private var minStrokeSize = 4.toPx()
+	private var minStrokeSize = 2.toPx()
 	private var maxStrokeSize = 8.toPx()
 	
-	/** force stroke to be in bounds min 4dp and max 8dp
+	/** force stroke to be in bounds min 2dp and max 8dp
 	 * also auto apply [sweepPaint] strokeWidth
 	 * @see minStrokeSize
 	 * @see maxStrokeSize
@@ -58,6 +64,8 @@ class LoadingView @JvmOverloads constructor(
 				else -> value
 			}
 			sweepPaint.strokeWidth = field.toFloat()
+			sweepPaintShadowRadius = field * 1.25f
+			sweepPaint.setShadowLayer(sweepPaintShadowRadius,0f,0f, sweepColor)
 		}
 	
 	private var sweepAngle1 = 5f
@@ -70,10 +78,35 @@ class LoadingView @JvmOverloads constructor(
 		private set(value) {
 			field = value
 			sweepPaint.color = field
-			sweepPaint.setShadowLayer(10f,0f,0f, field)
+			sweepPaint.setShadowLayer(sweepPaintShadowRadius,0f,0f, field)
 		}
 	
 	private val animatorSet = AnimatorSet()
+	
+	private val viewRotateAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
+		duration = 1600
+		interpolator = LinearInterpolator()
+		repeatCount = INFINITE
+		repeatMode = RESTART
+		addUpdateListener { rotation = it.animatedValue as Float }
+	}
+	
+	private val angleAnimator = ValueAnimator.ofFloat(5f, 105f).apply {
+		duration = 800
+		// god given custom interpolator
+		interpolator = PathInterpolator(1f, 0f, 0f, 1f)
+		repeatCount = INFINITE
+		repeatMode = REVERSE
+		addUpdateListener {
+			
+			sweepAngle1 = it.animatedValue as Float
+			sweepAngle2 = it.animatedValue as Float
+			sweepAngle3 = it.animatedValue as Float
+			invalidate()
+			
+		}
+		
+	}
 	
 	/** using for toggle animation
 	 * true -> animatorSet.resume()
@@ -111,7 +144,10 @@ class LoadingView @JvmOverloads constructor(
 		val height = MeasureSpec.getSize(heightMeasureSpec)
 		
 		//check what is lower to draw square
-		val minSize = min(width, height)
+		//apply stroke width according to measured min size
+		val minSize = min(width, height).also {
+			strokeSize = max(minStrokeSize, min(maxStrokeSize, it / 24))
+		}
 		
 		//calculate bounds to draw without cutting off
 		ovalRectF.set(paddingLeft.toFloat() + strokeSize,
@@ -125,7 +161,7 @@ class LoadingView @JvmOverloads constructor(
 		// auto start animation
 		// no need to toggle
 		animatorSet.cancel()
-		animatorSet.playTogether(angleAnimator(), viewRotateAnimator())
+		animatorSet.playTogether(angleAnimator, viewRotateAnimator)
 		animatorSet.start()
 	}
 	
@@ -140,28 +176,5 @@ class LoadingView @JvmOverloads constructor(
 		isAnimating = !isAnimating
 	}
 	
-	private fun angleAnimator() = ValueAnimator.ofFloat(5f, 105f).apply {
-		duration = 800
-		// god given custom interpolator
-		interpolator = PathInterpolator(1f, 0f, 0f, 1f)
-		repeatCount = INFINITE
-		repeatMode = REVERSE
-		addUpdateListener {
-			
-			sweepAngle1 = it.animatedValue as Float
-			sweepAngle2 = it.animatedValue as Float
-			sweepAngle3 = it.animatedValue as Float
-			invalidate()
-		
-		}
-		
-	}
-	
-	private fun viewRotateAnimator() = ValueAnimator.ofFloat(0f, 360f).apply {
-		duration = 1600
-		interpolator = LinearInterpolator()
-		repeatCount = INFINITE
-		repeatMode = RESTART
-		addUpdateListener { rotation = it.animatedValue as Float }
-	}
 }
+	

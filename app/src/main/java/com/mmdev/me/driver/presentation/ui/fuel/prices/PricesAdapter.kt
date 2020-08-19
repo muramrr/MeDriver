@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:35
+ * Last modified 20.08.2020 01:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,19 +34,17 @@ internal class PricesAdapter (
 
 ) : RecyclerView.Adapter<PricesAdapter.PriceViewHolder>(){
 	
-	private val noPrice =
-		FuelPrice()
+	//no price stub
+	private val noPrice = FuelPrice()
 	
 	// price appearance anim
 	private lateinit var inAnim: Animation
 	private lateinit var outAnim: Animation
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-		PriceViewHolder(DataBindingUtil.inflate(
-			LayoutInflater.from(parent.context),
-			R.layout.item_fuel_prices_station,
-			parent,
-			false
+		PriceViewHolder(
+			DataBindingUtil.inflate(
+				LayoutInflater.from(parent.context), R.layout.item_fuel_prices_station, parent, false
 			)
 		)
 	

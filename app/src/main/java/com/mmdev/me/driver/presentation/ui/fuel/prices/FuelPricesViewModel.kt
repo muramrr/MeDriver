@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:45
+ * Last modified 20.08.2020 01:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,9 +17,7 @@ import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Error
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Loading
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Success
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
@@ -29,7 +27,9 @@ import kotlinx.coroutines.withTimeout
 
 class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
-	val fuelPrices : MutableLiveData<FuelViewState> = MutableLiveData()
+	val fuelPricesState : MutableLiveData<FuelViewState> = MutableLiveData()
+	
+	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData()
 	
 	sealed class FuelViewState: ViewState {
 		object Loading : FuelViewState()
@@ -38,18 +38,20 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 	}
 	
 	fun getFuelPrices() {
-		if (fuelPrices.value != null)
+		if (fuelPricesState.value != null)
 			return
 		
 		viewModelScope.launch {
 			
-			fuelPrices.postValue(Loading)
+			fuelPricesState.postValue(Loading)
 			
 			withTimeout(30000) {
 				
 				repository.getFuelProvidersWithPrices().fold(
-					success = {  fuelPrices.postValue(Success(data = it)) },
-					failure = { fuelPrices.postValue(Error(it.localizedMessage!!)) }
+					success = { fuelPricesState.postValue(Success(data = it))
+						fuelPrices.value = it
+					},
+					failure = { fuelPricesState.postValue(Error(it.localizedMessage!!)) }
 				)
 			}
 		}

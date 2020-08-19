@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 27.07.20 21:17
+  ~ Last modified 19.08.2020 14:08
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,6 +65,17 @@
 		<item name="textAppearanceOverline">@style/My.TA.Overline</item>
 
 	</style>
-
+	
+	
+	<style name="My.Dialog.FullScreen" parent="AppTheme">
+		<!-- Set this to true if you want Full Screen without status bar -->
+		<item name="android:windowFullscreen">false</item>
+		
+		<item name="android:windowIsFloating">false</item>
+		
+		<item name="android:windowNoTitle">true</item>
+		<!-- This is important! Don't forget to set window background -->
+		<item name="android:windowBackground">@color/colorBackground</item>
+	</style>
 
 </resources>

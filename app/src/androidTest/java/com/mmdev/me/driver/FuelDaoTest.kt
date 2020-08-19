@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:49
+ * Last modified 19.08.2020 19:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -118,7 +118,7 @@ class FuelDaoTest : KoinTest {
 		fuelDao.insertFuelPrice(fuelWog95)
 		
 		// Request
-		val requestedEntities = fuelDao.getFuelPrices()
+		val requestedEntities = fuelDao.getFuelPrices("10-23-2330")
 		
 		// compare result
 		assertTrue(requestedEntities.isNotEmpty())
@@ -128,7 +128,7 @@ class FuelDaoTest : KoinTest {
 		
 		
 		// compare result
-		assertEquals(emptyList<FuelStationAndPrices>(), fuelDao.getFuelPrices())
+		assertEquals(emptyList<FuelStationAndPrices>(), fuelDao.getFuelPrices("10-23-2330"))
 
 	}
 

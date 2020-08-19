@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:49
+ * Last modified 19.08.2020 19:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver
 
-import com.google.gson.Gson
 import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
@@ -22,6 +21,7 @@ import com.mmdev.me.driver.domain.fuel.FuelType.DT
 import com.mmdev.me.driver.domain.fuel.FuelType.GAS
 import com.mmdev.me.driver.domain.fuel.FuelType.values
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -48,15 +48,16 @@ class FuelMapperTests {
 	
 	private val responseMap = mutableMapOf<FuelType, NetworkFuelModelResponse>()
 	
-	private val gson: Gson = Gson()
-	private val mappers =
-		FuelPriceMappersFacade()
+	private val mappers = FuelPriceMappersFacade()
 	
 	@Before
 	fun setup() {
 		responseMap.putAll(
 			values().zip(
-				responseList.map { gson.fromJson(it, NetworkFuelModelResponse::class.java) }
+				responseList.map {
+					Json {ignoreUnknownKeys = true}
+						.decodeFromString(NetworkFuelModelResponse.serializer(), it)
+				}
 			).toMap())
 	}
 	
@@ -101,7 +102,8 @@ class FuelMapperTests {
 	@Test
 	fun testFuelResponseToDbMapper() {
 		//check if list of fuelStations contains exactly 10/10 stations
-		val listOfMappedFuelStationsAndPricesDb = mappers.mapFuelResponseToDb(responseMap)
+		val listOfMappedFuelStationsAndPricesDb =
+			mappers.mapFuelResponseToDb(responseMap, "2020-12-12")
 		assertEquals(listOfMappedFuelStationsAndPricesDb.size, 10)
 		
 		//check stations contains exactly 6/6 FuelPrices

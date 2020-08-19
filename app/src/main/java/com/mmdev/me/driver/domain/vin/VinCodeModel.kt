@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.08.20 14:49
+ * Last modified 19.08.2020 19:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,24 +10,26 @@
 
 package com.mmdev.me.driver.domain.vin
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class VehicleByVIN(
-	@SerializedName("Make")
+	@SerialName("Make")
 	val vehicleBrand: String = "",
-	@SerializedName("Model")
+	@SerialName("Model")
 	val vehicleModel: String = "",
-	@SerializedName("ModelYear")
+	@SerialName("ModelYear")
 	val vehicleProducedYear: String = "",
-	@SerializedName("PlantCountry")
+	@SerialName("PlantCountry")
 	val vehicleProducedPlant: String = "",
-	@SerializedName("DisplacementL")
+	@SerialName("DisplacementL")
 	val vehicleEngineCapacity: String = ""
 )
 
+@Serializable
 data class VinCodeResponse (
-	@SerializedName("Results")
+	@SerialName("Results")
 	val results: List<VehicleByVIN> = emptyList()
 ) {
 	fun getResult(): VehicleByVIN = if (results.isNotEmpty()) results[0] else VehicleByVIN()

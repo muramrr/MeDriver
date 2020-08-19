@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 16:35
+ * Last modified 19.08.2020 19:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,12 @@
 package com.mmdev.me.driver.core
 
 import android.app.Application
-import com.mmdev.me.driver.core.di.*
+import com.mmdev.me.driver.core.di.DataSourceLocalModule
+import com.mmdev.me.driver.core.di.DataSourceRemoteModule
+import com.mmdev.me.driver.core.di.DatabaseModule
+import com.mmdev.me.driver.core.di.NetworkModule
+import com.mmdev.me.driver.core.di.RepositoryModule
+import com.mmdev.me.driver.core.di.ViewModelsModule
 import com.mmdev.me.driver.core.utils.DebugConfig
 import com.mmdev.me.driver.core.utils.MyLogger
 import org.koin.android.ext.koin.androidContext
@@ -52,12 +57,15 @@ class MedriverApp : Application() {
 		startKoin {
 			androidContext(this@MedriverApp)
 			if (debug.enabled) androidLogger()
-			modules(listOf(
+			koin.loadModules(
+				listOf(
 					ViewModelsModule,
 					RepositoryModule,
 					DataSourceRemoteModule, DataSourceLocalModule,
 					NetworkModule, DatabaseModule
-			))
+				)
+			)
+			koin.createRootScope()
 		}
 	}
 }

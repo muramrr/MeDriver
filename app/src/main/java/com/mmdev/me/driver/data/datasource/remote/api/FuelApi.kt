@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.08.20 18:24
+ * Last modified 19.08.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,14 +20,16 @@ import retrofit2.http.Query
 
 interface FuelApi {
 	
-	// ?date=2020-08-02&type=1&obl=3
+	// ?obl=3date=2020-08-02&type=1
 	private companion object {
-		private const val PRICE_URL = "https://carta.ua/ajax/fuelprice/price?"
+		private const val PRICE_URL = "https://carta.ua/ajax/fuelprice/price?obl=3"
 	}
 	
 	@GET(PRICE_URL)
-	suspend fun getFuelInfoFromApi(@Query("date") date: String,
-	                               @Query("type") fuelType: Int,
-	                               @Query("obl") region: Int = 3): NetworkFuelModelResponse
+	suspend fun getFuelInfoFromApi(
+		@Query("date") date: String,
+		@Query("type") fuelType: Int,
+		//@Query("obl") region: Int = 3
+	): NetworkFuelModelResponse
 	
 }

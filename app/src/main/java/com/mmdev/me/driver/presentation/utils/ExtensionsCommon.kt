@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 19:26
+ * Last modified 20.08.2020 16:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 
 /**
  * This is the documentation block about the class
@@ -64,15 +63,3 @@ inline fun <T: TextView> T.setOnClickWithSelection(crossinline block: T.() -> Un
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-
-//This extension will able to pop any fragment instances from back stack
-fun NavController.popBackStackAllInstances(destination: Int, inclusive: Boolean): Boolean {
-	var popped: Boolean
-	while (true) {
-		popped = popBackStack(destination, inclusive)
-		if (!popped) {
-			break
-		}
-	}
-	return popped
-}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.08.2020 19:16
+ * Last modified 20.08.2020 21:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,6 +44,12 @@ suspend fun <K, V> Flow<Pair<K, V>>.toMap(): Map<K, V> {
 	return result
 }
 
+
+fun Float.roundTo(decimals: Int): Float {
+	var multiplier = 1.0
+	repeat(decimals) { multiplier *= 10 }
+	return (round(this * multiplier) / multiplier).toFloat()
+}
 
 fun Double.roundTo(decimals: Int): Double {
 	var multiplier = 1.0

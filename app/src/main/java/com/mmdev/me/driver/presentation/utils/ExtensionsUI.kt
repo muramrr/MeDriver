@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.08.2020 20:36
+ * Last modified 20.08.2020 18:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,19 +21,38 @@ fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 	Toast.makeText(this.context, text, length).show()
 
 /**
- * Show a snackbar with [messageRes]
+ * Show a SnackBar with [messageRes] resource
  */
 fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
 	snack(messageRes, length) {}
 
 /**
- * Show a snackbar with [messageRes], execute [f] and show it
- * buttonSubmit.snack(R.string.name_submitted, Snackbar.LENGTH_LONG, { action() })
+ * Show a SnackBar with [message] string
+ */
+fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
+	snack(message, length) {}
+
+
+/**
+ * Show a SnackBar with [messageRes] resource, execute [f] and show it
+ * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
  */
 inline fun View.snack(@StringRes messageRes: Int,
                       length: Int = Snackbar.LENGTH_SHORT,
                       f: Snackbar.() -> Unit) {
 	val snack = Snackbar.make(this, messageRes, length)
+	snack.f()
+	snack.show()
+}
+
+/**
+ * Show a SnackBar with [message] string, execute [f] and show it
+ * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
+ */
+inline fun View.snack(message: String,
+                      length: Int = Snackbar.LENGTH_SHORT,
+                      f: Snackbar.() -> Unit) {
+	val snack = Snackbar.make(this, message, length)
 	snack.f()
 	snack.show()
 }

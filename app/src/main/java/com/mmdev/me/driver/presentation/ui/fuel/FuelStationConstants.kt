@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.08.2020 14:55
+ * Last modified 20.08.2020 16:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -64,7 +64,7 @@ object FuelStationConstants {
 	
 	
 	
-	internal val fuelStationList = arrayListOf(
+	internal val fuelStationList = listOf(
 		FuelStation(brandTitle = fuelStationTitle[0], slug = fuelStationSlug[0]),
 		FuelStation(brandTitle = fuelStationTitle[1], slug = fuelStationSlug[1]),
 		FuelStation(brandTitle = fuelStationTitle[2], slug = fuelStationSlug[2]),

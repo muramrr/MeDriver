@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:35
+ * Last modified 25.08.2020 16:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,14 +35,22 @@ class FuelHistoryMappersFacade {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
 		FuelHistoryEntity(
-			distancePassed = record.distancePassed, odometerValue = record.odometerValue,
+			date = DateConverter.toText(record.date),
+			distancePassed = record.distancePassed,
+			filledLiters = record.filledLiters,
+			fuelConsumption = record.fuelConsumption,
+			fuelPrice = FuelPriceEntity(
+				record.fuelStation.slug,
+				record.fuelPrice.price,
+				record.fuelPrice.type.code
+			),
 			fuelStation = FuelStationEntity(
-				record.fuelStation.brandTitle, record.fuelStation.slug,
+				record.fuelStation.brandTitle,
+				record.fuelStation.slug,
 				record.fuelStation.updatedDate
-			), fuelPrice = FuelPriceEntity(
-				record.fuelStation.slug, record.fuelPrice.price, record.fuelPrice.type.code
-			), moneyCosts = record.moneyCosts, fuelConsumption = record.fuelConsumption,
-			date = DateConverter.toText(record.date)
+			),
+			moneyCosts = record.moneyCosts,
+			odometerValue = record.odometerValue
 		)
 	}
 	
@@ -51,16 +59,21 @@ class FuelHistoryMappersFacade {
 	val mapDbHistoryToDm: (List<FuelHistoryEntity>) -> List<FuelHistoryRecord> = { input ->
 		mapList(input) { entity ->
 			FuelHistoryRecord(
-				distancePassed = entity.distancePassed, odometerValue = entity.odometerValue,
+				date = DateConverter.toDate(entity.date),
+				distancePassed = entity.distancePassed,
+				filledLiters = entity.filledLiters,
+				fuelConsumption = entity.fuelConsumption,
+				fuelPrice = FuelPrice(
+					price = entity.fuelPrice.price,
+					type = entity.fuelPrice.type
+				),
 				fuelStation = FuelStation(
-					brandTitle = entity.fuelStation.brandTitle, slug = entity.fuelStation.slug,
+					brandTitle = entity.fuelStation.brandTitle,
+					slug = entity.fuelStation.slug,
 					updatedDate = entity.fuelStation.updatedDate
 				),
-				fuelPrice = FuelPrice(
-					price = entity.fuelPrice.price, type = entity.fuelPrice.type
-				),
-				moneyCosts = entity.moneyCosts, fuelConsumption = entity.fuelConsumption,
-				date = DateConverter.toDate(entity.date)
+				moneyCosts = entity.moneyCosts,
+				odometerValue = entity.odometerValue
 			)
 		}
 	}

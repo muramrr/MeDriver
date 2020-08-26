@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.08.2020 14:47
+ * Last modified 21.08.2020 00:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,9 +12,7 @@ package com.mmdev.me.driver.presentation.ui.common.custom.components
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.INFINITE
-import android.animation.ValueAnimator.RESTART
-import android.animation.ValueAnimator.REVERSE
+import android.animation.ValueAnimator.*
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -83,7 +81,7 @@ class LoadingView @JvmOverloads constructor(
 	
 	private val animatorSet = AnimatorSet()
 	
-	private val viewRotateAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
+	private fun viewRotateAnimator() = ValueAnimator.ofFloat(0f, 360f).apply {
 		duration = 1600
 		interpolator = LinearInterpolator()
 		repeatCount = INFINITE
@@ -91,7 +89,7 @@ class LoadingView @JvmOverloads constructor(
 		addUpdateListener { rotation = it.animatedValue as Float }
 	}
 	
-	private val angleAnimator = ValueAnimator.ofFloat(5f, 105f).apply {
+	private fun angleAnimator() = ValueAnimator.ofFloat(5f, 105f).apply {
 		duration = 800
 		// god given custom interpolator
 		interpolator = PathInterpolator(1f, 0f, 0f, 1f)
@@ -161,7 +159,7 @@ class LoadingView @JvmOverloads constructor(
 		// auto start animation
 		// no need to toggle
 		animatorSet.cancel()
-		animatorSet.playTogether(angleAnimator, viewRotateAnimator)
+		animatorSet.playTogether(angleAnimator(), viewRotateAnimator())
 		animatorSet.start()
 	}
 	

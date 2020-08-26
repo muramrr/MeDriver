@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 01:30
+ * Last modified 20.08.2020 16:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,9 @@ import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.*
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Error
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Loading
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Success
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
@@ -29,7 +31,7 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 	
 	val fuelPricesState : MutableLiveData<FuelViewState> = MutableLiveData()
 	
-	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData()
+	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData(listOf())
 	
 	sealed class FuelViewState: ViewState {
 		object Loading : FuelViewState()

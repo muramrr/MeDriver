@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.08.2020 20:14
+  ~ Last modified 20.08.2020 16:50
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -69,14 +69,7 @@
 		android:name="com.mmdev.me.driver.presentation.ui.fuel.FuelFragment"
 		android:label="FuelFragment"
 		tools:layout="@layout/fragment_fuel"
-		>
-		<action
-			android:id="@+id/action_fuelHistory_to_fuelHistoryAdd"
-			app:destination="@id/dialogFragmentHistoryAdd"
-			app:enterAnim="@anim/fragment_fade_enter"
-			app:exitAnim="@anim/fragment_fade_exit"
-			/>
-	</fragment>
+		/>
 
 	<fragment android:id="@+id/settingsFragment"
 		android:name="com.mmdev.me.driver.presentation.ui.settings.SettingsFragment"
@@ -84,10 +77,6 @@
 		tools:layout="@layout/fragment_settings"
 		/>
 	
-	<dialog android:id="@+id/dialogFragmentHistoryAdd"
-		android:name="com.mmdev.me.driver.presentation.ui.fuel.history.DialogFragmentHistoryAdd"
-		tools:layout="@layout/fragment_fuel_history_add"
-		/>
 		
 
 

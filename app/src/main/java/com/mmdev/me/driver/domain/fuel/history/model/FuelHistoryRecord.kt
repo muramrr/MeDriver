@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 18:29
+ * Last modified 25.08.2020 17:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,13 +23,14 @@ import java.util.*
  */
 
 data class FuelHistoryRecord (
-	val distancePassed: Double = 0.0,
-	val odometerValue: Int = 0,
-	val fuelStation: FuelStation = FuelStation(),
-	val fuelPrice: FuelPrice = FuelPrice(),
-	val moneyCosts: Double = (fuelPrice.price * distancePassed).roundTo(2),
+	val date: Date,
+	val distancePassed: Int = 0,
+	val filledLiters: Double = 0.0,
 	val fuelConsumption: Double = 0.0,
-	val date: Date
+	val fuelPrice: FuelPrice = FuelPrice(),
+	val fuelStation: FuelStation = FuelStation(),
+	val moneyCosts: Double = (fuelPrice.price * distancePassed).roundTo(2),
+	val odometerValue: Int = 0
 ) {
 	val dateText = DateConverter.toText(date)
 	val dateMonthText: String = date.getMonthText()

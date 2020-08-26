@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.08.2020 18:05
+ * Last modified 24.08.2020 19:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,18 +20,20 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseAdapter
 import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListener
+import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FuelFragmentHistory: BaseFragment<FuelHistoryViewModel, FragmentFuelHistoryBinding>(
 	R.layout.fragment_fuel_history
 ) {
-	override val mViewModel: FuelHistoryViewModel by sharedViewModel()
+	override val mViewModel: FuelHistoryViewModel by viewModel()
+	private val fuelPricesViewModel: FuelPricesViewModel by sharedViewModel()
 	
 	private val data = listOf(
-		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
+		FuelHistoryRecord(odometerValue = 20000, date = DateConverter.toDate("20-01-2020")),
 		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
 		FuelHistoryRecord(date = DateConverter.toDate("20-01-2020")),
 		FuelHistoryRecord(date = DateConverter.toDate("20-03-2020")),
@@ -44,9 +46,6 @@ class FuelFragmentHistory: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	)
 	
 	private val mFuelHistoryAdapter = FuelHistoryAdapter()
-	
-	
-	
 	
 	override fun setupViews() {
 		val linearLayoutManager = LinearLayoutManager(requireContext())
@@ -69,7 +68,9 @@ class FuelFragmentHistory: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		
 		
 		binding.fabAddHistoryEntry.setDebounceOnClick {
-			navController.navigate(R.id.action_fuelHistory_to_fuelHistoryAdd)
+			
+			DialogFragmentHistoryAdd(fuelPricesViewModel.fuelPrices.value!!)
+				.show(childFragmentManager, DialogFragmentHistoryAdd::class.java.canonicalName)
 		}
 	}
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 01:31
+ * Last modified 26.08.2020 03:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,63 +16,41 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryAddBinding
 import com.mmdev.me.driver.databinding.ItemDropFuelStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.ui.common.DropAdapter
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
+import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.setOnClickWithSelection
-import org.koin.androidx.viewmodel.compat.ViewModelCompat.getViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import com.mmdev.me.driver.presentation.utils.showSnack
+import com.mmdev.me.driver.presentation.utils.updateMargins
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  * Fullscreen dialog used to add records to Fuel History
  * Hosted by FuelFragmentHistory
  */
 
-class DialogFragmentHistoryAdd: DialogFragment() {
-	
-	private val mViewModel: FuelPricesViewModel by sharedViewModel()
-	
-	private val historyViewModel= getViewModel(
-		requireParentFragment(), FuelHistoryViewModel::class.java
-	)
-	
-	//no price stub
-	private val noPrice = FuelPrice()
-	//selected station in dropdown list
-	private var selectedFuelStation: FuelStationWithPrices? = null
+class DialogFragmentHistoryAdd(private val mFuelStationWithPrices: List<FuelStationWithPrices>):
+		DialogFragment() {
 	
 	private lateinit var binding: FragmentFuelHistoryAddBinding
 	
-	companion object {
-		
-		
-		fun newInstance() = DialogFragmentHistoryAdd().apply {
-			arguments = Bundle().apply {
-			
-			}
-		}
-	}
-	
+	//get same scope as FuelFragmentHistory
+	private val mViewModel: FuelHistoryViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
-		arguments?.let {
-		
-		}
 	}
 	
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -80,113 +58,201 @@ class DialogFragmentHistoryAdd: DialogFragment() {
 		FragmentFuelHistoryAddBinding.inflate(inflater, container, false)
 			.apply {
 				binding = this
+				lifecycleOwner = viewLifecycleOwner
+				viewModel = mViewModel
 				executePendingBindings()
 			}.root
 	
 	
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		setupViews()
-	}
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = setupViews()
 	
 	private fun setupViews() {
-		//clear focus + hide keyboard listener
-		//used by edit inputs
-		val editorActionListener = TextView.OnEditorActionListener { v, actionId, _ ->
-			if (actionId == EditorInfo.IME_ACTION_DONE) {
-				v.hideKeyboard(v)
-				return@OnEditorActionListener true
-			}
-			return@OnEditorActionListener false
-		}
+		//setup views behaviour
+		changeFuelTypeButtonsSize()
+		setupFuelButtons()
+		setupInputStationDropList()
 		
-		val adapter = FuelStationDropAdapter(
-			requireContext(),
-			R.layout.item_drop_fuel_station,
-			mViewModel.fuelPrices.value as ArrayList<FuelStationWithPrices>
-		)
+		//setup observers
+		observeInputStation()
+		observeInputPrice()
+		observeFuelType()
+		observeInputOdometer()
 		
 		binding.run {
-			// drop down fuel station chooser
-			dropFuelStationChoose.apply {
-				setAdapter(adapter)
-				
-				setOnItemClickListener { _, _, position, _ ->
-					with(adapter.getItem(position)) {
-						//cast to global variable current selected station
-						selectedFuelStation = this
-						setText(this.fuelStation.brandTitle, false).also {
-							hideKeyboard(this@apply)
-						}
-					}
-				}
-			}
-			
-			//hide keyboard + clear focus
+			//hide keyboard + clear focus while tapping somewhere on root view
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
 				rootView.hideKeyboard(rootView)
 			}
 			
-			//clear focus + hide keyboard by pressing on ime Done button
-			etInputOdometer.setOnEditorActionListener(editorActionListener)
-			dropFuelStationChoose.setOnEditorActionListener(editorActionListener)
+			btnCancel.setOnClickListener {
+				mViewModel.clearInputFields()
+				dialog?.dismiss()
+			}
+			
+			btnDone.setOnClickListener {
+				mViewModel.clearInputFields()
+				dialog?.dismiss()
+			}
+		}
+		
+	}
+	
+	//todo: create custom viewGroup and custom rounded button
+	private fun changeFuelTypeButtonsSize() {
+		with(requireContext().resources.displayMetrics.widthPixels) {
+			val itemWidth = this / 6
+			val marginWidth = itemWidth / 4
+			val finalItemSize = itemWidth - marginWidth
+			
+			binding.run {
+				
+				btnFuelTypeGas.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				btnFuelTypeDT.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				btnFuelType92.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				btnFuelType95.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				btnFuelType95PLUS.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				btnFuelType100.apply {
+					this.updateMargins(start = (marginWidth / 2), end = (marginWidth / 2))
+					updateLayoutParams {
+						height = finalItemSize
+						width = finalItemSize
+					}
+				}
+				
+			}
+			
+		}
+	}
+	
+	private fun setupFuelButtons() {
+		binding.run {
+			fun deselectAllFuelButtons() {
+				btnFuelType100.isSelected = false
+				btnFuelType95PLUS.isSelected = false
+				btnFuelType95.isSelected = false
+				btnFuelType92.isSelected = false
+				btnFuelTypeDT.isSelected = false
+				btnFuelTypeGas.isSelected = false
+			}
 			
 			btnFuelType100.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.A100))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.A100)
 			}
 			
 			btnFuelType95PLUS.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.A95PLUS))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.A95PLUS)
 			}
 			
 			btnFuelType95.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.A95))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.A95)
 			}
 			
 			btnFuelType92.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.A92))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.A92)
 			}
 			
 			btnFuelTypeDT.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.DT))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.DT)
 			}
 			
 			btnFuelTypeGas.setOnClickWithSelection {
-				deselectAll()
-				etInputPrice.setText(getPriceByType(FuelType.GAS))
+				deselectAllFuelButtons()
+				mViewModel.selectedFuelType.postValue(FuelType.GAS)
 			}
-			
-			
-			btnDone.setOnClickListener { dialog?.dismiss() }
-			btnCancel.setOnClickListener { dialog?.dismiss() }
 		}
 	}
 	
-	private fun getPriceByType(fuelType: FuelType): String = with(fuelType) {
-		selectedFuelStation?.prices?.find { it.type == this } ?: noPrice
-	}.priceString
-	
-	private fun deselectAll() {
-		binding.run {
-			btnFuelType100.isSelected = false
-			btnFuelType95PLUS.isSelected = false
-			btnFuelType95.isSelected = false
-			btnFuelType92.isSelected = false
-			btnFuelTypeDT.isSelected = false
-			btnFuelTypeGas.isSelected = false
+	private fun setupInputStationDropList() {
+		val adapter = FuelStationDropAdapter(
+			requireContext(),
+			R.layout.item_drop_fuel_station,
+			ArrayList(FuelStationConstants.fuelStationList)
+		)
+		// drop down fuel station chooser
+		binding.etFuelStationDrop.apply {
+			
+			setAdapter(adapter)
+			
+			setOnItemClickListener { _, _, position, _ ->
+				with(adapter.getItem(position)) {
+					//cast to global variable current selected station
+					mViewModel.findFuelStationBySlug(this.slug, mFuelStationWithPrices)
+					
+					setText(this.brandTitle, false).also {
+						hideKeyboard(this@apply)
+					}
+				}
+			}
 		}
 	}
 	
+	private fun observeInputStation() {
+		mViewModel.fuelStationRequires.observe(this, {
+			if (it != null && it) binding.layoutInputFuelStation.error = "Empty field"
+		})
+		
+	}
+	
+	private fun observeInputPrice() {
+		mViewModel.fuelPriceRequires.observe(this, {
+			if (it != null && it) binding.layoutInputPrice.error = "Price is not specified"
+		})
+	}
+	
+	private fun observeFuelType() {
+		mViewModel.fuelTypeRequires.observe(this, {
+			if (it == null || it) binding.root.showSnack("Fuel type is not selected")
+		})
+	}
+	
+	private fun observeInputOdometer() {
+		mViewModel.odometerRequires.observe(this, {
+			if (it != null && it) binding.layoutInputOdometer.error = "Empty field"
+		})
+	}
 	
 	
 	private class FuelStationDropAdapter(
-		context: Context, @LayoutRes private val layoutId: Int, data: ArrayList<FuelStationWithPrices>
-	): DropAdapter<FuelStationWithPrices>(context, layoutId, data) {
+		private val mContext: Context,
+		@LayoutRes private val layoutId: Int,
+		data: ArrayList<FuelStation>
+	): DropAdapter<FuelStation>(mContext, layoutId, data) {
 		
 		private lateinit var binding: ItemDropFuelStationBinding
 		private lateinit var fuelStation: FuelStation
@@ -194,15 +260,14 @@ class DialogFragmentHistoryAdd: DialogFragment() {
 		@SuppressLint("ViewHolder")
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 			binding = DataBindingUtil.inflate(
-				LayoutInflater.from(context), layoutId, parent, false
+				LayoutInflater.from(mContext), layoutId, parent, false
 			)
 			
-			fuelStation = getItem(position).fuelStation
+			fuelStation = getItem(position)
 			binding.tvFuelStationTitle.text = fuelStation.brandTitle
 			binding.ivDropFuelStationIcon.setImageResource(fuelStation.brandIcon)
 			return binding.root
 		}
-		
 		
 	}
 }

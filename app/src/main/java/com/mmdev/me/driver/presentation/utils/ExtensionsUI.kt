@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 18:57
+ * Last modified 21.08.2020 16:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -114,8 +114,8 @@ fun View.showKeyboard() {
 fun View.hideKeyboard(inputViewFocused: View? = null): Boolean {
 	try {
 		val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		inputViewFocused?.clearFocus()
-		return inputMethodManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+		return inputMethodManager.hideSoftInputFromWindow(applicationWindowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 	} catch (ignored: RuntimeException) { }
+	finally { inputViewFocused?.clearFocus() }
 	return false
 }

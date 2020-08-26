@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 16:22
+ * Last modified 23.08.2020 20:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,24 +12,15 @@ package com.mmdev.me.driver.presentation.utils
 
 import android.content.res.Resources
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
+import androidx.annotation.Px
 import androidx.annotation.StringRes
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
 
-/**
- * This is the documentation block about the class
- */
-
-fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-	observe(lifecycleOwner, object : Observer<T> {
-		override fun onChanged(t: T?) {
-			observer.onChanged(t)
-			removeObserver(this)
-		}
-	})
-}
 
 /**
  * Extension method to provide simpler access to {@link View#getResources()#getString(int)}.
@@ -59,6 +50,18 @@ inline fun <T: TextView> T.setOnClickWithSelection(crossinline block: T.() -> Un
 	block()
 	it.isSelected = true
 }
+
+fun View.updateMargins(
+	@Px start: Int = marginStart,
+	@Px top: Int = marginTop,
+	@Px end: Int = marginEnd,
+	@Px bottom: Int = marginBottom
+) {
+	val params = layoutParams as MarginLayoutParams
+	params.setMargins(start, top, end, bottom)
+	this.layoutParams = params
+}
+
 
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 

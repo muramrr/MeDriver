@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:35
+ * Last modified 28.08.2020 01:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,15 +19,13 @@ import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 
 interface IFuelHistoryRepository {
 	
-	suspend fun loadFuelHistory() : SimpleResult<List<FuelHistoryRecord>>
-	
 	/**
-	 * @param entries defines how many entries should be loaded to display in UI
+	 * @param size defines how many entries should be loaded to display in UI
 	 */
-	suspend fun loadMoreFuelHistory(entries: Int) : SimpleResult<List<FuelHistoryRecord>>
+	suspend fun loadFuelHistory(size: Int?) : SimpleResult<List<FuelHistoryRecord>>
 	
-	suspend fun addFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord)
+	suspend fun addFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit>
 	
-	suspend fun removeFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord)
+	suspend fun removeFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit>
 	
 }

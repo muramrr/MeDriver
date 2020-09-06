@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.08.2020 02:45
+ * Last modified 05.09.2020 19:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,31 +13,35 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.combineWith
+import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.roundToInt
 
 /**
  * ViewModel used to connect between [IFuelHistoryRepository] and UI
  */
 
-class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : BaseViewModel() {
+internal class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
+	: BaseViewModel() {
+	
+	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()
+	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData(FuelHistoryRecord(0))
+	//indicates is history empty or not
+	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
 	
-	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData(
-		FuelHistoryRecord(
-			odometerValue = 20003,
-			filledLiters = 48.0,
-			fuelConsumption = 12.6,
-			date = Calendar.getInstance().time
-		)
-	)
 	
 	/**
 	 * selected [FuelStationWithPrices] from list [mFuelStationWithPrices]
@@ -45,29 +49,32 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 	 * selecting from [FuelStationDropAdapter]
 	 */
 	private var selectedFuelStationWithPrices: FuelStationWithPrices? = null
+	private var selectedFuelStation: FuelStation? = null
 	
 	
-	//mutable values binded to editText input
+	
+	//mutable values bindable to UI input/label
 	val fuelStationInputValue: MutableLiveData<String> = MutableLiveData()
-	private var selectedFuelStationTitle: String = ""
-	private var selectedFuelStationSlug: String = ""
+	private var typedFuelStationTitle: String = ""
+	private var typedFuelStationSlug: String = ""
 	val priceInputValue: MutableLiveData<String> = MutableLiveData()
-	val selectedFuelType: MutableLiveData<FuelType> = MutableLiveData()
+	private val selectedFuelType: MutableLiveData<FuelType> = MutableLiveData()
 	val odometerInputValue: MutableLiveData<String> = MutableLiveData()
 	val sliderLitersValue: MutableLiveData<Float> = MutableLiveData(1.0f)
+	val commentValue: MutableLiveData<String> = MutableLiveData()
+	
 	
 	//variables to check if fields requires an input
 	val fuelStationRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
 	val fuelPriceRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
 	val fuelTypeRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
-	val odometerRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
 	val allFieldsAreCorrect: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	init {
 		fuelStationRequires.addSource(fuelStationInputValue) {
 			fuelStationRequires.value = when {
-				it != null && it.isBlank() -> { true }
 				it == null -> { null }
+				it.isBlank() -> { true }
 				else -> {
 					handleTypedFuelStation(it)
 					false
@@ -78,9 +85,10 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 		
 		fuelPriceRequires.addSource(priceInputValue) {
 			fuelPriceRequires.value = when {
-				it != null && it.isBlank() -> { true }
 				it == null -> { null }
-				else -> { false }
+				it.isBlank() -> { true }
+				!it.isNullOrBlank() -> { false }
+				else -> { null }
 			}
 			checkAllFieldsAreCorrect()
 		}
@@ -91,34 +99,33 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 			checkAllFieldsAreCorrect()
 		}
 		
-		odometerRequires.addSource(odometerInputValue) {
-			odometerRequires.value = when {
-				it != null && it.isBlank() -> { true }
-				it == null -> { true }
-				else -> { false }
-			}
-			checkAllFieldsAreCorrect()
-		}
 	}
 	
-	//immutable value computed from (price * liters) inputs
-	val totalCostValue: LiveData<Double> =
-		priceInputValue.combineWith(sliderLitersValue) { price, liters ->
-			if (!price.isNullOrBlank() && liters != null)
-				(price.toDouble() * liters).roundTo(2)
-			else 0.0
-		}
+	
+	
 	
 	//immutable value computed from (odometerInput - previous odometer value)
 	val distancePassed: LiveData<Int> =
 		odometerInputValue.combineWith(historyRecord) { typedOdometer, lastHistoryRecord ->
-			if (!typedOdometer.isNullOrBlank()
-			    && lastHistoryRecord != null
-			    && typedOdometer.toInt() > lastHistoryRecord.odometerValue) {
-				
-				typedOdometer.toInt() - lastHistoryRecord.odometerValue
+			if (!typedOdometer.isNullOrBlank() && lastHistoryRecord != null) {
+				//make sure that distance passed > 0
+				with(typedOdometer.toInt() - lastHistoryRecord.odometerValue) {
+					//-1 because needed to check for correct input
+					if (this < 0) -1 else this
+				}
 			}
 			else 0
+		}
+	
+	val odometerRequires: LiveData<Boolean?> =
+		distancePassed.combineWith(odometerInputValue) { distance, input ->
+			if (distance != null && input != null)
+				when {
+					distance > 0 && input.isNotBlank() -> { false }
+					distance <= 0 || input.isBlank() -> true
+					else -> null
+				}.also { checkAllFieldsAreCorrect() }
+			else null.also { checkAllFieldsAreCorrect() }
 		}
 	
 	/**
@@ -153,18 +160,44 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 			else 0
 		}
 	
+	/** immutable value computed from ([priceInputValue] * [sliderLitersValue]) inputs */
+	val totalCostValue: LiveData<Double> =
+		priceInputValue.combineWith(sliderLitersValue) { price, liters ->
+			if (!price.isNullOrBlank() && liters != null)
+				(price.toDouble() * liters).roundTo(2)
+			else 0.0
+		}
+	
+	/** immutable value computed from ([sliderLitersValue] / [fuelConsumptionValue] * 100) inputs */
+	val estimateDistance: LiveData<Int> =
+		sliderLitersValue.combineWith(fuelConsumptionValue) { liters, consumption ->
+			if (liters != null && consumption != null && consumption > 0)
+				(liters / consumption * 100).roundToInt()
+			else 0
+		}
+	
+	fun selectFuelType(fuelType: FuelType) = selectedFuelType.postValue(fuelType)
+	
 	/**
+	 * Called only while user click on item from drop down list
 	 * Finds [FuelStationWithPrices]
 	 * @param list contains [FuelStationWithPrices]
 	 * @param slug unique keyword to identify FuelStation
 	 * @return Nullable [FuelStationWithPrices]
-	 * also assigns [selectedFuelStationSlug] and [selectedFuelStationTitle] if list contains
-	 * and empty [String] if such station does not exists in [list]
+	 * if list contains value -> assign [typedFuelStationSlug], [typedFuelStationTitle],
+	 * [selectedFuelStation]
+	 *
+	 * or assign empty [String] if such station does not exists in [list]
 	 */
 	fun findFuelStationBySlug(slug: String, list: List<FuelStationWithPrices>) {
-		selectedFuelStationWithPrices = list.find { it.fuelStation.slug == slug }.also {
-			selectedFuelStationTitle = it?.fuelStation?.brandTitle ?: ""
-			selectedFuelStationSlug = it?.fuelStation?.slug ?: ""
+		list.find { it.fuelStation.slug == slug }?.let {
+			selectedFuelStationWithPrices = it
+					//some title can contain whitespaces, so trim()
+			typedFuelStationTitle = it.fuelStation.brandTitle.trim()
+			typedFuelStationSlug = it.fuelStation.slug
+			selectedFuelStation = it.fuelStation
+			fuelStationInputValue.postValue(it.fuelStation.brandTitle)
+			
 			findAndSetPriceByType(it)
 		}
 	}
@@ -180,14 +213,15 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 	}
 	
 	private fun handleTypedFuelStation(fuelStationInput: String) {
-		if (selectedFuelStationTitle != fuelStationInput) {
-			selectedFuelStationTitle = fuelStationInput
-			selectedFuelStationSlug = fuelStationInput
+		if (typedFuelStationTitle != fuelStationInput.trim()) {
+			typedFuelStationTitle = fuelStationInput
+			typedFuelStationSlug = fuelStationInput
+			selectedFuelStation = null
 		}
 	}
 	
 	//clear previously typed values stored in LiveData (mutableLiveData)
-	//called when user press Done button on DialogHistoryAddFragment
+	//called when user presses Done button at DialogHistoryAddFragment
 	fun clearInputFields() {
 		fuelStationInputValue.postValue(null).also {
 			fuelStationRequires.postValue(null)
@@ -201,15 +235,21 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 			fuelTypeRequires.postValue(null)
 		}
 		
-		odometerInputValue.postValue(null).also {
-			odometerRequires.postValue(null)
-		}
+		odometerInputValue.postValue(null)
 		
 		sliderLitersValue.postValue(1.0f)
 		
+		commentValue.postValue(null)
+		
 		allFieldsAreCorrect.postValue(false)
+		
+		selectedFuelStation = null
+		selectedFuelStationWithPrices = null
 	}
 	
+	/**
+	 * Utility fun to check if all fields are correct and we can proceed
+	 */
 	private fun checkAllFieldsAreCorrect() {
 		allFieldsAreCorrect.postValue(
 			if (fuelStationRequires.value != null
@@ -224,5 +264,103 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository) : Ba
 			}
 			else false
 		)
+	}
+	
+	/**
+	 * Used to combine [priceInputValue] and [selectedFuelType]
+	 * @see buildFuelHistoryRecord
+	 * @return [FuelPrice] data class
+	 */
+	private fun buildFuelPrice(): FuelPrice = FuelPrice(
+		price = priceInputValue.value?.toDouble() ?: 0.0,
+		type = selectedFuelType.value ?: FuelType.A95
+	)
+	
+	/**
+	 * Used to define [FuelStation] from [selectedFuelStation] if it was selected from drop list
+	 * or combine [typedFuelStationTitle] and [typedFuelStationSlug]
+	 * @see buildFuelHistoryRecord
+	 * @return [FuelStation] data class
+	 */
+	private fun buildFuelStation(): FuelStation =
+		selectedFuelStation ?: FuelStation(typedFuelStationTitle, typedFuelStationSlug).also {
+			logDebug(message = "FuelStation built = $it")
+		}
+	
+	/**
+	 * combines all calculated values into final [FuelHistoryRecord] data class
+	 * used in [addHistoryRecord]
+	 */
+	private fun buildFuelHistoryRecord(): FuelHistoryRecord =
+		FuelHistoryRecord(
+			id = historyRecord.value!!.id + 1,
+			commentary = commentValue.value ?: "",
+			date = Calendar.getInstance().time,
+			distancePassed = distancePassed.value ?: 0,
+			filledLiters = sliderLitersValue.value?.toDouble() ?: 0.0,
+			fuelConsumption = fuelConsumptionValue.value ?: 0.0,
+			fuelPrice = buildFuelPrice(),
+			fuelStation = buildFuelStation(),
+			odometerValue = odometerInputValue.value?.toInt() ?: 0
+		)
+	
+	/**
+	 * [IFuelHistoryRepository] call
+	 * Can be invoked only when [checkAllFieldsAreCorrect] returns TRUE
+	 * This should guarantee that all liveData contains value
+	 */
+	fun addHistoryRecord(builtHistoryRecord: FuelHistoryRecord = buildFuelHistoryRecord()) {
+		viewModelScope.launch {
+			with(builtHistoryRecord) {
+				repository.addFuelHistoryRecord(this).fold(
+					//update screen on success
+					success = {
+						historyRecord.postValue(this)
+						fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(listOf(this)))
+						isHistoryEmpty.value = false
+					},
+					//catch error
+					failure = { }
+				)
+				
+			}
+		}
+	}
+	
+	/**
+	 * [repository] call
+	 * @param size defines how many records should be loaded
+	 * if [size] is not specified we are probably loading initial data
+	 * if [size] is specified then we are probably paginating existing data
+	 * If response contains empty list on initial data -> change [isHistoryEmpty] value
+	 */
+	fun getHistoryRecords(size: Int? = null) {
+		viewModelScope.launch {
+			
+			fuelHistoryState.postValue(FuelHistoryViewState.Loading)
+			
+			repository.loadFuelHistory(size).fold(
+				success = { data ->
+					if(size == null) {
+						fuelHistoryState.postValue(FuelHistoryViewState.Init(data = data))
+						//handle empty state visibility
+						if (data.isNotEmpty()) {
+							//init the first one item
+							historyRecord.postValue(data.first()).also {
+								logDebug(message = "Last history record = ${data.first().fuelStation}")
+							}
+							isHistoryEmpty.value = false
+						}
+						else isHistoryEmpty.value = true
+					}
+					else fuelHistoryState.postValue(FuelHistoryViewState.Paginate(data = data))
+					logDebug(TAG,"history empty? = ${isHistoryEmpty.value}")
+				},
+				failure = {
+					fuelHistoryState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!))
+				}
+			)
+			
+		}
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 16:55
+ * Last modified 04.09.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,48 +13,47 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.core.utils.DateConverter
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
-import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Error
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Loading
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel.FuelViewState.Success
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import java.util.*
 
 /**
  * ViewModel used to connect between [IFuelPricesRepository] and UI
  */
 
-class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
+internal class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
-	val fuelPricesState : MutableLiveData<FuelViewState> = MutableLiveData()
+	val fuelPricesState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
 	
 	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData(listOf())
 	
-	sealed class FuelViewState: ViewState {
-		object Loading : FuelViewState()
-		data class Success(val data: List<FuelStationWithPrices>) : FuelViewState()
-		data class Error(val errorMessage: String) : FuelViewState()
-	}
-	
 	fun getFuelPrices() {
-		if (fuelPricesState.value != null)
+		if (fuelPricesState.value != null && !fuelPrices.value.isNullOrEmpty())
 			return
+		
+		val currentTime = Calendar.getInstance().time
+		val requestDate = DateConverter.toFuelPriceRequestString(currentTime)
 		
 		viewModelScope.launch {
 			
-			fuelPricesState.postValue(Loading)
+			fuelPricesState.postValue(FuelPricesViewState.Loading)
 			
 			withTimeout(30000) {
 				
-				repository.getFuelProvidersWithPrices().fold(
-					success = { fuelPricesState.postValue(Success(data = it))
+				repository.getFuelStationsWithPrices(requestDate).fold(
+					success = {
+						fuelPricesState.postValue(FuelPricesViewState.Success(data = it))
 						fuelPrices.value = it
 					},
-					failure = { fuelPricesState.postValue(Error(it.localizedMessage!!)) }
-				)
+					failure = {
+						fuelPricesState.postValue(FuelPricesViewState.Error(it.localizedMessage!!))
+					}
+				).also { logDebug(message = "get prices for $requestDate") }
 			}
 		}
 	}

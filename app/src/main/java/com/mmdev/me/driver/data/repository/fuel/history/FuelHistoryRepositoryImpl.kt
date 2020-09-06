@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.08.2020 20:45
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.data.repository.fuel.history
 
 import com.mmdev.me.driver.data.core.base.BaseRepository
-import com.mmdev.me.driver.data.datasource.local.fuel.history.IFuelHistoryLocalDataSource
+import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -30,7 +30,7 @@ internal class FuelHistoryRepositoryImpl (
 	
 	companion object {
 		private const val startItemsCount = 20
-		private const val startHistoryOffset = 20
+		private const val startHistoryOffset = 0
 	}
 	
 	
@@ -38,22 +38,27 @@ internal class FuelHistoryRepositoryImpl (
 	private var historyOffset = 0
 	
 	
+	override suspend fun loadFuelHistory(size: Int?): SimpleResult<List<FuelHistoryRecord>> =
+		if (size == null || size < 0) loadFirstFuelHistory()
+		else loadMoreFuelHistory(size)
 	
-	override suspend fun loadFuelHistory(): SimpleResult<List<FuelHistoryRecord>> =
+	
+	
+	private suspend fun loadFirstFuelHistory(): SimpleResult<List<FuelHistoryRecord>> =
 		dataSourceLocal.getFuelHistory(startItemsCount, startHistoryOffset).fold(
 			success = { dto ->
+				//reset offset
+				historyOffset = 0
 				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
-					//reset offset
-					historyOffset = 0
-					//update offset
+					//update offset after first items was loaded
 					historyOffset += it.data.size
 				}
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
 	
-	override suspend fun loadMoreFuelHistory(entries: Int): SimpleResult<List<FuelHistoryRecord>> =
-		dataSourceLocal.getFuelHistory(entries, historyOffset).fold(
+	private suspend fun loadMoreFuelHistory(size: Int): SimpleResult<List<FuelHistoryRecord>> =
+		dataSourceLocal.getFuelHistory(size, historyOffset).fold(
 			success = { dto ->
 				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
 					//update offset
@@ -63,9 +68,9 @@ internal class FuelHistoryRepositoryImpl (
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
 	
-	override suspend fun addFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord) =
+	override suspend fun addFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit> =
 		dataSourceLocal.insertFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
 	
-	override suspend fun removeFuelHistoryEntry(fuelHistoryRecord: FuelHistoryRecord) =
+	override suspend fun removeFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit> =
 		dataSourceLocal.deleteFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
 }

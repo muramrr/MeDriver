@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.08.2020 16:49
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,14 +10,14 @@
 
 package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
-import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.data.core.mappers.mapList
-import com.mmdev.me.driver.data.datasource.local.fuel.history.entities.FuelHistoryEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import java.util.*
 
 /**
  * MappersFacade for multiple mappers used in FuelHistoryRepositoryImpl
@@ -35,7 +35,9 @@ class FuelHistoryMappersFacade {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
 		FuelHistoryEntity(
-			date = DateConverter.toText(record.date),
+			historyEntryId = record.id,
+			commentary = record.commentary,
+			timestamp = record.date.time,
 			distancePassed = record.distancePassed,
 			filledLiters = record.filledLiters,
 			fuelConsumption = record.fuelConsumption,
@@ -49,7 +51,6 @@ class FuelHistoryMappersFacade {
 				record.fuelStation.slug,
 				record.fuelStation.updatedDate
 			),
-			moneyCosts = record.moneyCosts,
 			odometerValue = record.odometerValue
 		)
 	}
@@ -59,7 +60,9 @@ class FuelHistoryMappersFacade {
 	val mapDbHistoryToDm: (List<FuelHistoryEntity>) -> List<FuelHistoryRecord> = { input ->
 		mapList(input) { entity ->
 			FuelHistoryRecord(
-				date = DateConverter.toDate(entity.date),
+				id = entity.historyEntryId,
+				commentary = entity.commentary,
+				date = Date(entity.timestamp),
 				distancePassed = entity.distancePassed,
 				filledLiters = entity.filledLiters,
 				fuelConsumption = entity.fuelConsumption,
@@ -72,7 +75,6 @@ class FuelHistoryMappersFacade {
 					slug = entity.fuelStation.slug,
 					updatedDate = entity.fuelStation.updatedDate
 				),
-				moneyCosts = entity.moneyCosts,
 				odometerValue = entity.odometerValue
 			)
 		}

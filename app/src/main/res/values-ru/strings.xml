@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 04.09.2020 23:49
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<resources>
+
+<!-- ********************************** fragment_fuel_prices *********************************** -->
+	<string name="fg_fuel_prices_empty_list">Не удалось получить акутальные цены</string>
+<!-- ******************************************************************************************* -->
+
+
+
+
+<!-- ********************************** fragment_fuel_history ********************************** -->
+	<string name="fg_fuel_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
+	<string name="fg_fuel_history_empty_hint_title">Your history is empty :(</string>
+	<string name="fg_fuel_history_empty_hint_image_desc">Empty history indicator</string>
+<!-- ******************************************************************************************* -->
+
+
+
+
+<!-- ******************************** fragment_fuel_history_add ******************************** -->
+	<string name="fg_fuel_history_add_distance_passed_title">Пройдено</string>
+	<string name="fg_fuel_history_add_distance_passed_value">+ %s км</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default">0 км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value">Всего: %d км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">Всего: 0 км</string>
+	
+	<string name="fg_fuel_history_add_consumption_title">Расход</string>
+	<string name="fg_fuel_history_add_consumption_value">%s л</string>
+	<string name="fg_fuel_history_add_consumption_value_default">0.0 л</string>
+	<string name="fg_fuel_history_add_consumption_100km">/100 км</string>
+	
+	<string name="fg_fuel_history_add_estimate_cost_title">Стоимость</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value">%s л заправлено</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 л заправлено</string>
+	
+	<string name="fg_fuel_history_add_estimate_distance_title">Ожидания</string>
+	<string name="fg_fuel_history_add_estimate_distance_value">~ %s км</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default">~ 0 км</string>
+	<string name="fg_fuel_history_add_estimate_distance_date">Дозаправка </string>
+	
+	<string name="fg_fuel_history_add_fuel_station_input_error">АЗС не указана</string>
+	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
+	
+	<string name="fg_fuel_history_add_fuel_price_input_error">Цена не указана</string>
+	<string name="fg_fuel_history_add_fuel_price_input_hint">Цена</string>
+	
+	<string name="fg_fuel_history_add_fuel_type_error">Не выбран тип бензина</string>
+	<string name="fg_fuel_history_add_fuel_type_hint">Выберите тип бензина</string>
+	
+	<string name="fg_fuel_history_add_odometer_input_error">Неправильное значение одометра</string>
+	<string name="fg_fuel_history_add_odometer_input_hint">Показатель одометра</string>
+	
+	<string name="fg_fuel_history_add_slider_value">%s Л</string>
+	<string name="fg_fuel_history_add_slider_value_default">1.0 Л</string>
+	
+	<string name="fg_fuel_history_add_commentary_input_hint">Комментарий (необятазельно)</string>
+	
+	<string name="btn_cancel">Отмена</string>
+	<string name="btn_done">Готово</string>
+<!-- ******************************************************************************************* -->
+	
+	
+	<string name="btn_fuel_type_gas">Газ</string>
+	<string name="btn_fuel_type_dt">ДТ</string>
+
+
+</resources>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 17:49
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,11 @@ package com.mmdev.me.driver.data.repository.fuel.prices.mappers
 
 import com.mmdev.me.driver.data.core.mappers.mapNullInputList
 import com.mmdev.me.driver.data.core.mappers.mapNullInputListToSet
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationAndPrices
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelStationEntity
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.entities.FuelSummaryEntity
-import com.mmdev.me.driver.data.datasource.remote.fuel.model.NetworkFuelModelResponse
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPricesEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.model.NetworkFuelModelResponse
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
@@ -41,12 +41,12 @@ class FuelPriceMappersFacade {
 	
 	//network dto -> db entity
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapFuelResponseToDb: (response, String) -> List<FuelStationAndPrices> = {
+	val mapFuelResponseToDb: (response, String) -> List<FuelStationAndPricesEntity> = {
 			response, date -> mapFuelProvidersDto(response, date)
 	}
 	
-	private fun mapFuelProvidersDto(input: response, date: String): List<FuelStationAndPrices> {
-		val listOfFuelStationAndPrices = mutableListOf<FuelStationAndPrices>()
+	private fun mapFuelProvidersDto(input: response, date: String): List<FuelStationAndPricesEntity> {
+		val listOfFuelStationAndPrices = mutableListOf<FuelStationAndPricesEntity>()
 		val listOfFuelPrices = mutableListOf<FuelPriceEntity>()
 		val setOfFuelStationsDb = mutableSetOf<FuelStationEntity>()
 		
@@ -58,7 +58,8 @@ class FuelPriceMappersFacade {
 					listOfFuelPrices.add(
 						FuelPriceEntity(
 							fuelStationId = networkFuelStation.slug,
-							price = networkFuelStation.price, type = fuelType.code
+							price = networkFuelStation.price,
+							type = fuelType.code
 						)
 					)
 					//check if set contains FuelStationEntity
@@ -80,7 +81,7 @@ class FuelPriceMappersFacade {
 		//combine FuelStationEntity and listOf<FuelPriceEntity> into FuelStationAndPrices
 		for (fuelStation in setOfFuelStationsDb) {
 			listOfFuelStationAndPrices.add(
-				FuelStationAndPrices(
+				FuelStationAndPricesEntity(
 					fuelStation = fuelStation,
 					prices = listOfFuelPrices.filter { it.fuelStationId == fuelStation.slug })
 			)
@@ -157,9 +158,7 @@ class FuelPriceMappersFacade {
 					setOfFuelStationsDm.forEach { stationWithPrices ->
 						if (stationWithPrices.fuelStation.slug == networkFuelStation.slug)
 							stationWithPrices.prices.add(
-								FuelPrice(
-									type = fuelType, price = networkFuelStation.price
-								)
+								FuelPrice(type = fuelType, price = networkFuelStation.price)
 							)
 					}
 					
@@ -182,14 +181,17 @@ class FuelPriceMappersFacade {
 	private fun mapFuelSummaryDm(input: List<FuelSummaryEntity>): List<FuelSummary> =
 		mapNullInputList(input) {
 			FuelSummary(
-				type = it.type, minPrice = it.minPrice, maxPrice = it.maxPrice,
-				avgPrice = it.avgPrice, updatedDate = it.updatedDate
+				type = it.type,
+				minPrice = it.minPrice,
+				maxPrice = it.maxPrice,
+				avgPrice = it.avgPrice,
+				updatedDate = it.updatedDate
 			)
 		}
 	
 	//db dto -> dm
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDbFuelStationToDm: (List<FuelStationAndPrices>) -> List<FuelStationWithPrices> = {
+	val mapDbFuelStationToDm: (List<FuelStationAndPricesEntity>) -> List<FuelStationWithPrices> = {
 		fuelProviderDto -> mapFuelStationDm(fuelProviderDto) {
 			listPricesDto -> mapNullInputListToSet(listPricesDto) {
 				priceDto -> mapPriceDm(priceDto)
@@ -198,7 +200,7 @@ class FuelPriceMappersFacade {
 	}
 	
 	private fun mapFuelStationDm(
-		input: List<FuelStationAndPrices>,
+		input: List<FuelStationAndPricesEntity>,
 		mapPrices: (List<FuelPriceEntity>?) -> Set<FuelPrice>
 	): List<FuelStationWithPrices> =
 		mapNullInputList(input) {
@@ -206,14 +208,13 @@ class FuelPriceMappersFacade {
 				fuelStation = FuelStation(
 					brandTitle = it.fuelStation.brandTitle, slug = it.fuelStation.slug,
 					updatedDate = it.fuelStation.updatedDate
-				), prices = mapPrices(it.prices).toHashSet()
+				),
+				prices = mapPrices(it.prices).toHashSet()
 			)
 		}
 	
 	private fun mapPriceDm (input: FuelPriceEntity): FuelPrice =
-		FuelPrice(
-			price = input.price, type = input.type
-		)
+		FuelPrice(price = input.price, type = input.type)
 	
 	
 }

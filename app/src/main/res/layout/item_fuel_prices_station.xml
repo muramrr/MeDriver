@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 19.08.2020 00:39
+  ~ Last modified 06.09.2020 16:57
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,8 +40,8 @@
 
 			<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
 				android:id="@+id/ivFuelStationImg"
-				android:layout_width="@dimen/item_fuel_provider_logo_size"
-				android:layout_height="@dimen/item_fuel_provider_logo_size"
+				android:layout_width="@dimen/item_fuel_station_logo_size"
+				android:layout_height="@dimen/item_fuel_station_logo_size"
 				android:layout_margin="4dp"
 
 				android:src="@{bindItem.fuelStation.brandIcon, default = `?colorPrimaryVariant`}"
@@ -99,120 +99,103 @@
 				
 			</TextSwitcher>
 			
-			<!-- gas -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelTypeGas"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="gas"
-				android:textSize="12sp"
-
-				app:backgroundTint="@color/btn_fuel_tint_bg"
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup
+				android:id="@+id/radioFuelTypes"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
 				app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"
-				app:layout_constraintEnd_toStartOf="@id/btnFuelTypeDT"
-				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
-			
-			<!-- dt -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelTypeDT"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="DT"
-				android:textSize="12sp"
-				
-				app:backgroundTint="@color/btn_fuel_tint_bg"
-				
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
-				app:layout_constraintStart_toEndOf="@id/btnFuelTypeGas"
-				app:layout_constraintEnd_toStartOf="@id/btnFuelType92"
-				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
-			
-			<!-- 92 -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelType92"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="92"
-				android:textSize="12sp"
-				
-				app:backgroundTint="@color/btn_fuel_tint_bg"
-
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
-				app:layout_constraintStart_toEndOf="@id/btnFuelTypeDT"
-				app:layout_constraintEnd_toStartOf="@id/btnFuelType95"
-				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
-
-			<!-- 95 -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelType95"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="95"
-				android:textSize="12sp"
-				
-				app:backgroundTint="@color/btn_fuel_tint_bg"
-				
-
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
-				app:layout_constraintStart_toEndOf="@id/btnFuelType92"
-				app:layout_constraintEnd_toStartOf="@id/btnFuelType95PLUS"
-				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
-			
-			<!-- 95plus -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelType95PLUS"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="95+"
-				android:textSize="12sp"
-				
-				app:backgroundTint="@color/btn_fuel_tint_bg"
-
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
-				app:layout_constraintStart_toEndOf="@id/btnFuelType95"
-				app:layout_constraintEnd_toStartOf="@id/btnFuelType100"
-				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
-			
-			<!-- 100 -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnFuelType100"
-				android:layout_width="@dimen/btn_fuel_type_size"
-				android:layout_height="@dimen/btn_fuel_type_size"
-
-				android:text="100"
-				android:textSize="12sp"
-				
-				app:backgroundTint="@color/btn_fuel_tint_bg"
-				
-				style="@style/My.Widget.Button.LetterOnly.Rounded"
-
-				app:layout_constraintStart_toEndOf="@id/btnFuelType95PLUS"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
 				app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
-				/>
+				>
+				
+				<!-- gas -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelTypeGas"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_gas"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- dt -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelTypeDT"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_dt"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- 92 -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelType92"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_92"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- 95 -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelType95"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_95"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- 95plus -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelType95PLUS"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_95plus"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- 98 -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelType98"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_98"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+				
+				<!-- 100 -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+					android:id="@+id/btnFuelType100"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/btn_fuel_type_100"
+					android:textSize="12sp"
+					
+					style="@style/My.Widget.Button.LetterOnly.Rounded"
+					/>
+			
+			</com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup>
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 

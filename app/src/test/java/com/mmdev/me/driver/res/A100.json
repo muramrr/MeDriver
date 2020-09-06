@@ -2,17 +2,12 @@
   "result": {
     "data": [
       {
-        "value": 29.99,
-        "marka": "SOCAR",
-        "slug": "socar"
-      },
-      {
-        "value": 29.99,
+        "value": 30.49,
         "marka": "WOG",
         "slug": "wog"
       }
     ],
-    "date": "2020-08-13",
+    "date": "2020-08-28",
     "type": [
       {
         "name": " 95+",
@@ -35,19 +30,23 @@
         "id": 6
       },
       {
-        "name": "100",
+        "name": " 98",
         "id": 1
+      },
+      {
+        "name": "100",
+        "id": 9
       }
     ]
   },
   "total": [
     {
-      "minval": "29.99",
-      "maxval": "29.99",
-      "avgval": "29.99"
+      "minval": "30.49",
+      "maxval": "30.49",
+      "avgval": "30.49"
     }
   ],
   "old": [
-    
+
   ]
 }

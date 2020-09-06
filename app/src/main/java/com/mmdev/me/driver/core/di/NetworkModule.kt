@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.08.2020 19:58
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.serialization.asConverterFactory
-import com.mmdev.me.driver.data.datasource.remote.api.FuelApi
-import com.mmdev.me.driver.data.datasource.remote.api.VINCodeApi
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi
+import com.mmdev.me.driver.data.datasource.vin.remote.api.VINCodeApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Companion.invoke

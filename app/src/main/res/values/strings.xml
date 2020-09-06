@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.07.20 19:05
+  ~ Last modified 04.09.2020 23:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,5 +9,74 @@
   -->
 
 <resources>
-	<string name="app_name">medriver</string>
+	
+	<string name="app_name" translatable="false">medriver</string>
+	
+<!-- ********************************** fragment_fuel_prices *********************************** -->
+	<string name="fg_fuel_prices_empty_list">Cannot get current prices</string>
+<!-- ******************************************************************************************* -->
+
+
+
+
+<!-- ********************************** fragment_fuel_history ********************************** -->
+	<string name="fg_fuel_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
+	<string name="fg_fuel_history_empty_hint_title">Your history is empty :(</string>
+	<string name="fg_fuel_history_empty_hint_image_desc">Empty history indicator</string>
+<!-- ******************************************************************************************* -->
+
+
+
+
+<!-- ******************************** fragment_fuel_history_add ******************************** -->
+	<string name="fg_fuel_history_add_distance_passed_title">Passed</string>
+	<string name="fg_fuel_history_add_distance_passed_value">+ %s km</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default">0 km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value">%d km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">0 km</string>
+	
+	<string name="fg_fuel_history_add_consumption_title">Consumption</string>
+	<string name="fg_fuel_history_add_consumption_value">%s L</string>
+	<string name="fg_fuel_history_add_consumption_value_default">0.0 L</string>
+	<string name="fg_fuel_history_add_consumption_100km">/100 km</string>
+	
+	<string name="fg_fuel_history_add_estimate_cost_title">Total cost</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value">%s liters filled</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 liters filled</string>
+	
+	<string name="fg_fuel_history_add_estimate_distance_title">Expectation</string>
+	<string name="fg_fuel_history_add_estimate_distance_value">~ %d km</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default">~ 0 km</string>
+	<string name="fg_fuel_history_add_estimate_distance_date">Refueling on </string>
+	
+	<string name="fg_fuel_history_add_fuel_station_input_error">Fuel Station is not specified</string>
+	<string name="fg_fuel_history_add_fuel_station_input_hint">Fuel Station</string>
+	
+	<string name="fg_fuel_history_add_fuel_price_input_error">Price is not specified</string>
+	<string name="fg_fuel_history_add_fuel_price_input_hint">Price</string>
+	
+	<string name="fg_fuel_history_add_fuel_type_error">Fuel type is not selected</string>
+	<string name="fg_fuel_history_add_fuel_type_hint">Select fuel type</string>
+	
+	<string name="fg_fuel_history_add_odometer_input_error">Wrong odometer value</string>
+	<string name="fg_fuel_history_add_odometer_input_hint">Odometer value</string>
+	
+	<string name="fg_fuel_history_add_slider_value">%s L</string>
+	<string name="fg_fuel_history_add_slider_value_default">1.0 L</string>
+	
+	<string name="fg_fuel_history_add_commentary_input_hint">Comment (optional)</string>
+	
+	<string name="btn_cancel">Cancel</string>
+	<string name="btn_done">Done</string>
+<!-- ******************************************************************************************* -->
+	
+	
+	<string name="btn_fuel_type_gas">GAS</string>
+	<string name="btn_fuel_type_dt">DF</string>
+	<string name="btn_fuel_type_92" translatable="false">92</string>
+	<string name="btn_fuel_type_95" translatable="false">95</string>
+	<string name="btn_fuel_type_95plus" translatable="false">95+</string>
+	<string name="btn_fuel_type_98" translatable="false">98</string>
+	<string name="btn_fuel_type_100" translatable="false">100</string>
+	
 </resources>

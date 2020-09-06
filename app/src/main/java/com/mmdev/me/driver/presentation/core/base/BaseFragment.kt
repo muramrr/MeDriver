@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.08.20 16:31
+ * Last modified 29.08.2020 15:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -71,7 +71,9 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 
 	abstract fun setupViews()
 
-	abstract fun renderState(state: ViewState)
+	open fun renderState(state: ViewState) {
+		sharedViewModel.handleLoading(state)
+	}
 
 
 }

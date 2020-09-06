@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.08.2020 16:58
+ * Last modified 29.08.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -58,7 +58,7 @@ inline fun View.snack(message: String,
 }
 
 /**
- * Show the view  (visibility = View.VISIBLE)
+ * Show the view (visibility = View.VISIBLE)
  */
 fun View.visible() : View {
 	if (visibility != View.VISIBLE) {
@@ -89,11 +89,22 @@ fun View.gone() : View {
 }
 
 /**
- * Show the view if [condition] returns true
- * (visibility = View.VISIBLE)
+ * Remove the view if [condition] returns true
+ * (visibility = View.GONE)
  */
 inline fun View.goneIf(condition: () -> Boolean) : View {
 	if (visibility != View.GONE && condition()) {
+		visibility = View.GONE
+	}
+	return this
+}
+
+/**
+ * Hide the view if [condition] returns true
+ * (visibility = View.INVISIBLE)
+ */
+inline fun View.invisibleIf(condition: () -> Boolean) : View {
+	if (visibility != View.INVISIBLE && condition()) {
 		visibility = View.GONE
 	}
 	return this

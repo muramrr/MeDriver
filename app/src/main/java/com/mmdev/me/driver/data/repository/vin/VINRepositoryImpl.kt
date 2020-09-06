@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.08.20 16:27
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.repository.vin
 
-import com.mmdev.me.driver.data.datasource.remote.vin.IVINRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vin.remote.IVINRemoteDataSource
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.vin.IVINRepository

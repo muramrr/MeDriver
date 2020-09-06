@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.08.20 19:41
+ * Last modified 04.09.2020 17:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,8 @@ import com.mmdev.me.driver.core.utils.logDebug
  */
 
 abstract class BaseViewModel: ViewModel() {
+	
+	protected val TAG = javaClass.simpleName
 
 //	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
 //		return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -33,7 +35,7 @@ abstract class BaseViewModel: ViewModel() {
 //	}
 
 	override fun onCleared() {
-		logDebug(message = "${javaClass.simpleName} on cleared called")
+		logDebug(message = "$TAG on cleared called")
 		super.onCleared()
 	}
 }

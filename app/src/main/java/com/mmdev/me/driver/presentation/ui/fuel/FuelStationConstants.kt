@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.08.2020 16:58
+ * Last modified 04.09.2020 16:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,6 +30,7 @@ object FuelStationConstants {
 		"socar",
 		"shell",
 		"ukrnafta",
+		"upg",
 		"wog"
 	)
 	
@@ -43,6 +44,7 @@ object FuelStationConstants {
 		"SOCAR",
 		"Shell",
 		"Укрнафта",
+		"UPG",
 		"WOG"
 	)
 
@@ -56,6 +58,7 @@ object FuelStationConstants {
 		R.drawable.fuel_station_socar,
 		R.drawable.fuel_station_shell,
 		R.drawable.fuel_station_ukrnafta,
+		R.drawable.fuel_station_upg,
 		R.drawable.fuel_station_wog
 	)
 
@@ -74,7 +77,8 @@ object FuelStationConstants {
 		FuelStation(brandTitle = fuelStationTitle[6], slug = fuelStationSlug[6]),
 		FuelStation(brandTitle = fuelStationTitle[7], slug = fuelStationSlug[7]),
 		FuelStation(brandTitle = fuelStationTitle[8], slug = fuelStationSlug[8]),
-		FuelStation(brandTitle = fuelStationTitle[9], slug = fuelStationSlug[9])
+		FuelStation(brandTitle = fuelStationTitle[9], slug = fuelStationSlug[9]),
+		FuelStation(brandTitle = fuelStationTitle[10], slug = fuelStationSlug[10])
 	)
 	
 	

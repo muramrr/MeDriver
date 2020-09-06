@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.08.2020 18:07
+ * Last modified 04.09.2020 19:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,17 +11,15 @@
 package com.mmdev.me.driver.data.repository.fuel.prices
 
 
-import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.data.core.base.BaseRepository
-import com.mmdev.me.driver.data.datasource.local.fuel.prices.IFuelPricesLocalDataSource
-import com.mmdev.me.driver.data.datasource.remote.fuel.IFuelPricesRemoteDataSource
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.IFuelPricesLocalDataSource
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.IFuelPricesRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
-import java.util.*
 
 /**
  * [IFuelPricesRepository] implementation
@@ -33,37 +31,26 @@ internal class FuelPricesRepositoryImpl (
 	private val mappers: FuelPriceMappersFacade
 ) : BaseRepository(), IFuelPricesRepository {
 	
-	
-	//network api requests strings
-	private lateinit var currentTime: Date
-	private var requestDate = ""
-	
-	
-	
 	/**
 	 * Combine [getFuelDataFromRemote] and [getFuelDataFromLocal]
 	 * If cache retrieving is successful -> emit success
 	 * else catch failure and make a network request
 	 * If network request fails -> emit failure from [getFuelDataFromRemote]
 	 */
-	override suspend fun getFuelProvidersWithPrices(): SimpleResult<List<FuelStationWithPrices>> {
-		currentTime = Calendar.getInstance().time
-		requestDate = DateConverter.toFuelPriceRequestString(currentTime).also {
-			logDebug(TAG, "date = $it")
-		}
-		return getFuelDataFromLocal(requestDate).fold(
+	override suspend fun getFuelStationsWithPrices(date: String): SimpleResult<List<FuelStationWithPrices>> {
+		return getFuelDataFromLocal(date).fold(
 			//get from local database
 			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
-				logDebug(message = it.localizedMessage!!)
-				getFuelDataFromRemote(requestDate)
+				logDebug(message = it.message ?: "Boundary local cache error")
+				getFuelDataFromRemote(date)
 			})
 	}
 	
 	//retrieve FuelPrices from remote source
-	private suspend fun getFuelDataFromRemote(date: String) =
-		dataSourceRemote.getFuelInfo(date).fold(
+	private suspend fun getFuelDataFromRemote(date: String): SimpleResult<List<FuelStationWithPrices>> =
+		dataSourceRemote.requestFuelPrices(date).fold(
 			success = { dto ->
 				//save to db
 				for (fuelStationAndPrices in mappers.mapFuelResponseToDb(dto, date)) {
@@ -79,7 +66,7 @@ internal class FuelPricesRepositoryImpl (
 		)
 
 	//retrieve FuelStationAndPrices from cache (room database)
-	private suspend fun getFuelDataFromLocal(date: String) =
+	private suspend fun getFuelDataFromLocal(date: String): SimpleResult<List<FuelStationWithPrices>> =
 		dataSourceLocal.getFuelStationsAndPrices(date).fold(
 			success = { dto ->
 				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelStationToDm(dto))

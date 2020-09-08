@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 04.08.20 15:17
+  ~ Last modified 07.09.2020 02:46
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,25 +12,347 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
-
-	<androidx.constraintlayout.widget.ConstraintLayout
-
-		android:layout_height="match_parent"
+	
+	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
-
+		android:layout_height="match_parent"
+		android:fillViewport="true"
 		>
 
-
-		<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher
-			android:id="@+id/switchTheme"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
-
-	</androidx.constraintlayout.widget.ConstraintLayout>
+		<androidx.constraintlayout.widget.ConstraintLayout
+	
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+	
+			>
+			
+			<!-- account card header -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvYourAccountCardHeader"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:padding="16dp"
+				
+				android:text="Account"
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
+				app:layout_constraintEnd_toStartOf="@id/btnYourAccountPremium"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/cvAccountContainer"
+				/>
+			
+			<!-- account premium indicator -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnYourAccountPremium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:text="PREMIUM"
+				android:textColor="?colorSecondary"
+				
+				style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+				
+				app:icon="@drawable/ic_premium_24"
+				app:iconTintMode="multiply"
+				app:iconTint="@android:color/white"
+				
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
+				app:layout_constraintTop_toTopOf="@id/tvYourAccountCardHeader"
+				app:layout_constraintBottom_toBottomOf="@id/tvYourAccountCardHeader"
+				/>
+			
+			<!-- account card container imitation -->
+			<View android:id="@+id/cvAccountContainer"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:background="@drawable/view_card_bg_imitation_16"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
+				app:layout_constraintTop_toTopOf="@id/tvEmailAddress"
+				app:layout_constraintBottom_toBottomOf="@id/btnGetPremium"
+				
+				/>
+			
+			<!-- account email -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvEmailAddress"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:paddingTop="24dp"
+				android:paddingBottom="24dp"
+				
+				android:text="Not signed in"
+				android:textAppearance="?textAppearanceCaption"
+				android:textSize="16sp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvYourAccountCardHeader"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/btnSignInLogOut"
+				app:layout_constraintBottom_toTopOf="@id/tvSyncLabel"
+				/>
+			<!-- button sign in/out -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnSignInLogOut"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				
+				android:text="Sign In"
+				
+				style="@style/Widget.MaterialComponents.Button.TextButton"
+				
+				app:layout_constraintStart_toEndOf="@id/tvEmailAddress"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
+				app:layout_constraintTop_toTopOf="@id/tvEmailAddress"
+				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddress"
+				/>
+			
+			
+			<!-- sync label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvSyncLabel"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:labelFor="@id/switchSync"
+				android:layout_marginTop="8dp"
+				
+				android:text="Sync enabled"
+				android:textAllCaps="false"
+				android:textAppearance="?textAppearanceBody1"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvEmailAddress"
+				app:layout_constraintBottom_toTopOf="@id/tvSubscriptionLabel"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/switchSync"
+				/>
+			<!-- sync switcher -->
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher
+				android:id="@+id/switchSync"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				app:layout_constraintTop_toTopOf="@id/tvSyncLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvSyncLabel"
+				app:layout_constraintStart_toEndOf="@id/tvSyncLabel"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				/>
+			
+			
+			<!-- subscription expires label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvSubscriptionLabel"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="32dp"
+				
+				android:text="Subscription expires"
+				android:textAppearance="?textAppearanceBody1"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvSyncLabel"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/tvSubscriptionValue"
+				/>
+			<!-- subscription expires value -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvSubscriptionValue"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:text="Trial"
+				android:textAppearance="?textAppearanceCaption"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toTopOf="@id/tvSubscriptionLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvSubscriptionLabel"
+				app:layout_constraintStart_toEndOf="@id/tvSubscriptionLabel"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				/>
+			
+			
+			<!-- button get premium -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnGetPremium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				
+				android:text="Get Premium!"
+				android:textAllCaps="false"
+				
+				style="@style/Widget.MaterialComponents.Button.TextButton"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvSubscriptionLabel"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				/>
+			
+			
+			
+			
+			
+			<!-- general card header -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvGeneralCardHeader"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="16dp"
+				
+				android:text="General"
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
+				app:layout_constraintTop_toBottomOf="@id/cvAccountContainer"
+				app:layout_constraintBottom_toTopOf="@id/cvGeneralContainer"
+				/>
+			
+			<!-- general card container imitation -->
+			<View android:id="@+id/cvGeneralContainer"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:background="@drawable/view_card_bg_imitation_16"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
+				app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvMetricSystemLabel"
+				
+				/>
+			
+			<!-- theme label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvThemeLabel"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:labelFor="@id/switchTheme"
+				android:paddingTop="24dp"
+				android:paddingBottom="24dp"
+				
+				android:text="Dark theme"
+				android:textAppearance="?textAppearanceBody1"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvGeneralCardHeader"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/switchTheme"
+				
+				/>
+			<!-- theme switch -->
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher
+				android:id="@+id/switchTheme"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvThemeLabel"
+				app:layout_constraintStart_toEndOf="@id/tvThemeLabel"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				/>
+			
+			
+			<!-- metric system label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvMetricSystemLabel"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:labelFor="@id/switchTheme"
+				android:paddingTop="24dp"
+				android:paddingBottom="24dp"
+				
+				android:text="Metric system"
+				android:textAppearance="?textAppearanceBody1"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvThemeLabel"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/radioMetricSystem"
+				
+				/>
+			
+			<com.google.android.material.button.MaterialButtonToggleGroup
+				android:id="@+id/radioMetricSystem"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				app:checkedButton="@id/btnSystemKM"
+				app:selectionRequired="true"
+				app:singleSelection="true"
+				
+				app:layout_constraintStart_toEndOf="@id/tvMetricSystemLabel"
+				app:layout_constraintTop_toTopOf="@id/tvMetricSystemLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvMetricSystemLabel"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				
+				>
+				
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btnSystemKM"
+					android:layout_width="60dp"
+					android:layout_height="wrap_content"
+					
+					android:text="km"
+					android:textAllCaps="false"
+					
+					style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+					/>
+				
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btnSystemMI"
+					android:layout_width="60dp"
+					android:layout_height="wrap_content"
+					
+					android:text="mi"
+					android:textAllCaps="false"
+					
+					style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+					/>
+				
+			</com.google.android.material.button.MaterialButtonToggleGroup>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- guideline start root -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineStartRoot"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:orientation="vertical"
+				app:layout_constraintGuide_begin="8dp"
+				/>
+			<!-- guideline end root -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineEndRoot"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:orientation="vertical"
+				app:layout_constraintGuide_end="8dp"
+				/>
+			<!-- guideline start inner -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineStartInner"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:orientation="vertical"
+				app:layout_constraintGuide_begin="24dp"
+				/>
+			<!-- guideline end inner -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineEndInner"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:orientation="vertical"
+				app:layout_constraintGuide_end="24dp"
+				/>
+	
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	
+	</androidx.core.widget.NestedScrollView>
 </layout>

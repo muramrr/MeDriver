@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.08.20 21:03
+  ~ Last modified 08.09.2020 17:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 <vector android:height="24dp" android:viewportHeight="192.756"
     android:viewportWidth="192.756" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@color/colorBackground" android:fillType="evenOdd" android:pathData="M0,0h192.756v192.756H0V0z"/>
     <path android:fillColor="#123164" android:fillType="evenOdd" android:pathData="M184.252,96.378c0,-48.527 -39.346,-87.874 -87.874,-87.874 -48.527,0 -87.874,39.346 -87.874,87.874s39.347,87.874 87.874,87.874c48.528,0 87.874,-39.346 87.874,-87.874z"/>
     <path android:fillColor="#dbdcdd" android:fillType="evenOdd" android:pathData="M96.378,14.875c44.78,0 81.503,36.536 81.503,81.503 0,44.78 -36.723,81.505 -81.503,81.505 -44.967,0 -81.503,-36.725 -81.503,-81.505 0,-44.967 36.536,-81.503 81.503,-81.503z"/>
     <path android:fillColor="#123164" android:fillType="evenOdd" android:pathData="M174.885,96.378c0,-43.468 -35.225,-78.505 -78.507,-78.505 -43.281,0 -78.506,35.037 -78.506,78.505 0,43.282 35.225,78.507 78.506,78.507 43.282,0 78.507,-35.225 78.507,-78.507z"/>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 01:16
+ * Last modified 07.09.2020 02:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,6 +34,14 @@ data class FuelHistoryRecord (
 	val fuelStation: FuelStation = FuelStation(),
 	val odometerValue: Int = 0
 ) {
+	data class DistancePassed(
+		val kilometers: Int = 0,
+		val miles: Int = 0
+	) {
+		constructor(kilometers: Int, miles: Int? = null) : this(kilometers, (kilometers / 1.609).roundToInt())
+		constructor(kilometers: Int? = null, miles: Int) : this((miles * 1.609).roundToInt(), miles)
+	}
+	
 	val dateText = DateConverter.toText(date)
 	val dateMonthText: String = date.getMonthText()
 	val moneyCosts: Double = (fuelPrice.price * filledLiters).roundTo(2)
@@ -41,3 +49,4 @@ data class FuelHistoryRecord (
 		if(fuelConsumption > 0) ((filledLiters / fuelConsumption) * 100).roundToInt()
 		else 0
 }
+

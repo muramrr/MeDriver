@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.09.2020 17:02
+  ~ Last modified 08.09.2020 18:25
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,332 +34,297 @@
 			
 			>
 			<!-- card 1 distance passed -->
-			<com.google.android.material.card.MaterialCardView
-				android:id="@+id/cvDistancePassed"
-				android:layout_height="wrap_content"
+			<View android:id="@+id/cvDistancePassed"
 				android:layout_width="0dp"
-				android:layout_marginTop="8dp"
-				android:layout_marginEnd="4dp"
+				android:layout_height="0dp"
+				android:layout_marginEnd="2dp"
 				
-				app:cardCornerRadius="6dp"
-				app:cardElevation="2dp"
-				app:contentPadding="8dp"
+				android:background="@drawable/view_card_bg_imitation_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-				app:layout_constraintTop_toTopOf="parent"
-				
-				>
-				
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvDistancePassedTitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@string/fg_fuel_history_add_distance_passed_title"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/tvDistancePassedValue"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvDistancePassedValue"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:maxLines="1"
-						
-						android:text="@string/fg_fuel_history_add_distance_passed_value_default"
-						android:textAppearance="?textAppearanceHeadline5"
-						
-						app:animateInt="@{viewModel.distancePassed}"
-						app:defaultText="@{@string/fg_fuel_history_add_distance_passed_value_default}"
-						app:textTemplate="@{@string/fg_fuel_history_add_distance_passed_value}"
-						
-						app:autoSizeTextType="uniform"
-						app:autoSizeMinTextSize="14sp"
-						app:autoSizeMaxTextSize="28sp"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvDistancePassedTitle"
-						
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvDistancePassedSubtitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@{String.format(@string/fg_fuel_history_add_distance_passed_subtitle_value, viewModel.historyRecord.odometerValue), default = @string/fg_fuel_history_add_distance_passed_subtitle_value_default}"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvDistancePassedValue"
-						app:layout_constraintBottom_toBottomOf="parent"
-						/>
-				
-				</androidx.constraintlayout.widget.ConstraintLayout>
+				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+				app:layout_constraintTop_toTopOf="@id/tvDistancePassedTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvDistancePassedSubtitle"
+				/>
 			
-			</com.google.android.material.card.MaterialCardView>
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvDistancePassedTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:paddingTop="8dp"
+				
+				android:text="@string/fg_fuel_history_add_distance_passed_title"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/tvDistancePassedValue"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvDistancePassedValue"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				
+				android:maxLines="1"
+				
+				android:text="@string/fg_fuel_history_add_distance_passed_value_default_km"
+				android:textAppearance="?textAppearanceHeadline5"
+				
+				app:animateInt="@{viewModel.distancePassed}"
+				app:defaultText="@{@string/fg_fuel_history_add_distance_passed_value_default_km}"
+				app:textTemplate="@{@string/fg_fuel_history_add_distance_passed_value_km}"
+				
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="14sp"
+				app:autoSizeMaxTextSize="28sp"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintTop_toBottomOf="@id/tvDistancePassedTitle"
+				
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvDistancePassedSubtitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:paddingBottom="8dp"
+				
+				android:text="@{String.format(@string/fg_fuel_history_add_distance_passed_subtitle_value_km, viewModel.historyRecord.odometerValue), default = @string/fg_fuel_history_add_distance_passed_subtitle_value_default_km}"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintTop_toBottomOf="@id/tvDistancePassedValue"
+				
+				/>
+			
 			
 			<!-- card 2 consumption -->
-			<com.google.android.material.card.MaterialCardView
-				android:id="@+id/cvConsumption"
-				android:layout_height="wrap_content"
+			<View android:id="@+id/cvConsumption"
 				android:layout_width="0dp"
-				android:layout_marginTop="8dp"
-				android:layout_marginStart="4dp"
+				android:layout_height="0dp"
+				android:layout_marginStart="2dp"
 				
-				app:cardCornerRadius="6dp"
-				app:contentPadding="8dp"
-				app:cardElevation="2dp"
+				android:background="@drawable/view_card_bg_imitation_6"
 				
-				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintTop_toTopOf="@id/tvConsumptionTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionPer100kmTitle"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvConsumptionTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginStart="8dp"
+				android:paddingTop="8dp"
+				
+				android:text="@string/fg_fuel_history_add_consumption_title"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/cvConsumption"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/tvConsumptionValue"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvConsumptionValue"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
 				
-				>
+				android:maxLines="1"
 				
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvConsumptionTitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						
-						android:text="@string/fg_fuel_history_add_consumption_title"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/tvConsumptionValue"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvConsumptionValue"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:maxLines="1"
-						
-						android:text="@string/fg_fuel_history_add_consumption_value_default"
-						android:textAppearance="?textAppearanceHeadline5"
-						
-						app:animateDouble="@{viewModel.fuelConsumptionValue}"
-						app:defaultText="@{@string/fg_fuel_history_add_consumption_value_default}"
-						app:textTemplate="@{@string/fg_fuel_history_add_consumption_value}"
-						
-						app:autoSizeTextType="uniform"
-						app:autoSizeMinTextSize="14sp"
-						app:autoSizeMaxTextSize="28sp"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toStartOf="@id/ivFuelConsumptionChangesIcon"
-						app:layout_constraintTop_toBottomOf="@id/tvConsumptionTitle"
-						/>
-					
-					<ImageView
-						android:id="@+id/ivFuelConsumptionChangesIcon"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						
-						android:src="@{viewModel.fuelConsumptionDrawable}"
-						
-						app:layout_constraintTop_toTopOf="@id/tvConsumptionValue"
-						app:layout_constraintBottom_toBottomOf="@id/tvConsumptionValue"
-						app:layout_constraintStart_toEndOf="@id/tvConsumptionValue"
-						app:layout_constraintEnd_toEndOf="parent"
-						android:contentDescription="@null"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvConsumptionPer100kmTitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-					
-						
-						android:text="@string/fg_fuel_history_add_consumption_100km"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvConsumptionValue"
-						app:layout_constraintBottom_toBottomOf="parent"
-						/>
+				android:text="@string/fg_fuel_history_add_consumption_value_default"
+				android:textAppearance="?textAppearanceHeadline5"
 				
+				app:animateDouble="@{viewModel.fuelConsumptionValue}"
+				app:defaultText="@{@string/fg_fuel_history_add_consumption_value_default}"
+				app:textTemplate="@{@string/fg_fuel_history_add_consumption_value}"
 				
-				</androidx.constraintlayout.widget.ConstraintLayout>
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="14sp"
+				app:autoSizeMaxTextSize="28sp"
+				
+				app:layout_constraintStart_toStartOf="@id/cvConsumption"
+				app:layout_constraintEnd_toStartOf="@id/ivFuelConsumptionChangesIcon"
+				app:layout_constraintTop_toBottomOf="@id/tvConsumptionTitle"
+				/>
+			
+			<ImageView
+				android:id="@+id/ivFuelConsumptionChangesIcon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:src="@{viewModel.fuelConsumptionDrawable}"
+				
+				app:layout_constraintTop_toTopOf="@id/tvConsumptionValue"
+				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionValue"
+				app:layout_constraintStart_toEndOf="@id/tvConsumptionValue"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
+				android:contentDescription="@null"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvConsumptionPer100kmTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
+				android:paddingBottom="8dp"
+				
+				android:text="@string/fg_fuel_history_add_consumption_100km"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/cvConsumption"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
+				app:layout_constraintTop_toBottomOf="@id/tvConsumptionValue"
+				/>
 			
 			
-			</com.google.android.material.card.MaterialCardView>
 			
 			<!-- card 3 total cost -->
-			<com.google.android.material.card.MaterialCardView
-				android:id="@+id/cvTotalCost"
-				android:layout_height="wrap_content"
+			<View android:id="@+id/cvTotalCost"
 				android:layout_width="0dp"
-				android:layout_marginEnd="4dp"
+				android:layout_height="0dp"
+				android:layout_marginEnd="2dp"
 				
-				app:contentPadding="8dp"
-				app:cardCornerRadius="6dp"
-				app:cardElevation="2dp"
+				android:background="@drawable/view_card_bg_imitation_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+				app:layout_constraintTop_toTopOf="@id/tvTotalCostTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvTotalCostLiters"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvTotalCostTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:paddingTop="8dp"
+				
+				android:text="@string/fg_fuel_history_add_estimate_cost_title"
+				android:textAppearance="?textAppearanceCaption"
+				
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
-				
-				>
-				
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvTotalCostTitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@string/fg_fuel_history_add_estimate_cost_title"
-						android:textAppearance="?textAppearanceCaption"
-						
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/tvTotalCostValue"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvTotalCostValue"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						
-						android:maxLines="1"
-						android:maxLength="10"
-						android:text="@{viewModel.totalCostValue + ` ₴`, default = `0.0 ₴`}"
-						android:textAppearance="?textAppearanceHeadline5"
-						
-						app:autoSizeTextType="uniform"
-						app:autoSizeMinTextSize="14sp"
-						app:autoSizeMaxTextSize="28sp"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvTotalCostTitle"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvTotalCostLiters"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:maxLines="1"
-						
-						android:text="@{String.format(@string/fg_fuel_history_add_estimate_cost_subtitle_value, viewModel.sliderLitersValue), default = @string/fg_fuel_history_add_estimate_cost_subtitle_value_default}"
-						android:textAppearance="?textAppearanceCaption"
-						
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvTotalCostValue"
-						app:layout_constraintBottom_toBottomOf="parent"
-						/>
-				
-				
-				</androidx.constraintlayout.widget.ConstraintLayout>
+				app:layout_constraintBottom_toTopOf="@id/tvTotalCostValue"
+				/>
 			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvTotalCostValue"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				
+				android:maxLines="1"
+				android:maxLength="10"
+				android:text="@{viewModel.totalCostValue + ` ₴`, default = `0.0 ₴`}"
+				android:textAppearance="?textAppearanceHeadline5"
+				
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="14sp"
+				app:autoSizeMaxTextSize="28sp"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
+				app:layout_constraintTop_toBottomOf="@id/tvTotalCostTitle"
+				/>
 			
-			</com.google.android.material.card.MaterialCardView>
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvTotalCostLiters"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:paddingBottom="8dp"
+				
+				android:maxLines="1"
+				
+				android:text="@{String.format(@string/fg_fuel_history_add_estimate_cost_subtitle_value, viewModel.sliderLitersValue), default = @string/fg_fuel_history_add_estimate_cost_subtitle_value_default}"
+				android:textAppearance="?textAppearanceCaption"
+				
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
+				app:layout_constraintTop_toBottomOf="@id/tvTotalCostValue"
+				/>
+			
 			
 			<!-- card 4 estimate distance -->
-			<com.google.android.material.card.MaterialCardView
-				android:id="@+id/cvEstimateDistance"
-				android:layout_height="wrap_content"
+			<View android:id="@+id/cvEstimateDistance"
 				android:layout_width="0dp"
-				android:layout_marginStart="4dp"
+				android:layout_height="0dp"
+				android:layout_marginStart="2dp"
 				
-				app:contentPadding="8dp"
-				app:cardCornerRadius="6dp"
-				app:cardElevation="2dp"
+				android:background="@drawable/view_card_bg_imitation_6"
 				
-				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintTop_toTopOf="@id/tvEstimateDistanceTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvEstimateDistanceDate"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvEstimateDistanceTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
+				android:paddingTop="8dp"
+				
+				android:text="@string/fg_fuel_history_add_estimate_distance_title"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
-				>
+				app:layout_constraintBottom_toTopOf="@id/tvEstimateDistanceValue"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvEstimateDistanceValue"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
 				
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvEstimateDistanceTitle"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@string/fg_fuel_history_add_estimate_distance_title"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/tvEstimateDistanceValue"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvEstimateDistanceValue"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@{String.format(@string/fg_fuel_history_add_estimate_distance_value, viewModel.estimateDistance), default = @string/fg_fuel_history_add_estimate_distance_value_default}"
-						android:textAppearance="?textAppearanceHeadline5"
-						
-						app:autoSizeTextType="uniform"
-						app:autoSizeMinTextSize="14sp"
-						app:autoSizeMaxTextSize="28sp"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceTitle"
-						/>
-					
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvEstimateDistanceDate"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						
-						android:text="@string/fg_fuel_history_add_estimate_distance_date"
-						android:textAppearance="?textAppearanceCaption"
-						
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceValue"
-						app:layout_constraintBottom_toBottomOf="parent"
-						/>
+				android:text="@{String.format(@string/fg_fuel_history_add_estimate_distance_value_km, viewModel.estimateDistance), default = @string/fg_fuel_history_add_estimate_distance_value_default_km}"
+				android:textAppearance="?textAppearanceHeadline5"
 				
-				</androidx.constraintlayout.widget.ConstraintLayout>
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="14sp"
+				app:autoSizeMaxTextSize="28sp"
+				
+				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
+				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceTitle"
+				/>
 			
-			</com.google.android.material.card.MaterialCardView>
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvEstimateDistanceDate"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
+				android:paddingBottom="8dp"
+				
+				android:text="@string/fg_fuel_history_add_estimate_distance_date"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
+				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
+				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceValue"
+				
+				/>
 			
 			
 			
 			
-			<!-- drop car chooser-->
+			<!-- drop fuel station chooser-->
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/layoutInputFuelStation"
 				android:layout_height="wrap_content"
@@ -748,8 +713,6 @@
 				android:id="@+id/guidelineCenter"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
-				android:layout_marginHorizontal="4dp"
-				android:layout_margin="4dp"
 				android:orientation="vertical"
 				app:layout_constraintGuide_percent="0.5"
 				/>
@@ -770,6 +733,24 @@
 				android:layout_height="match_parent"
 				android:orientation="vertical"
 				app:layout_constraintGuide_end="8dp"
+				/>
+			
+			<!-- start inner cards -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineInnerStart"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				app:layout_constraintGuide_begin="16dp"
+				/>
+			
+			<!-- end inner cards -->
+			<androidx.constraintlayout.widget.Guideline
+				android:id="@+id/guidelineInnerEnd"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				app:layout_constraintGuide_end="16dp"
 				/>
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>

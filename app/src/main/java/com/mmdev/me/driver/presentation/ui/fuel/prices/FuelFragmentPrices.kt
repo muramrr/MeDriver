@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 23:45
+ * Last modified 07.09.2020 17:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,7 +43,7 @@ internal class FuelFragmentPrices : BaseFragment<FuelPricesViewModel, FragmentFu
 	}
 	
 	override fun setupViews() {
-		binding.rvFuelProviders.apply {
+		binding.rvFuelStations.apply {
 			adapter = mPricesAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(LinearItemDecoration())

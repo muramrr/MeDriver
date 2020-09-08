@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.08.2020 19:48
+ * Last modified 06.09.2020 17:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ buildscript {
 		classpath "com.android.tools.build:gradle:4.0.1"
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0"
 		classpath "org.jetbrains.kotlin:kotlin-serialization:1.4.0"
+		classpath 'com.google.gms:google-services:4.3.3'
 	}
 }
 

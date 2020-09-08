@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.09.2020 20:31
+ * Last modified 07.09.2020 19:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.google.gms.google-services'
 
 android {
 	compileSdkVersion 30
@@ -94,6 +95,13 @@ dependencies {
 	implementation "androidx.room:room-runtime:2.3.0-alpha02"
 	implementation "androidx.room:room-ktx:2.3.0-alpha02"
 	kapt "androidx.room:room-compiler:2.3.0-alpha02"
+
+	//firebase
+	implementation "com.google.firebase:firebase-firestore:21.6.0"
+	implementation "com.google.firebase:firebase-auth:19.3.2"
+
+	//prefs wrapper
+	implementation 'com.cioccarellia:ksprefs:2.0.0'
 
 	testImplementation "junit:junit:4.13"
 	testImplementation "io.mockk:mockk:1.10.0"

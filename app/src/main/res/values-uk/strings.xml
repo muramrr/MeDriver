@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 04.09.2020 23:49
+  ~ Last modified 08.09.2020 18:25
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,10 +29,10 @@
 
 <!-- ******************************** fragment_fuel_history_add ******************************** -->
 	<string name="fg_fuel_history_add_distance_passed_title">Пройдена відстань</string>
-	<string name="fg_fuel_history_add_distance_passed_value">+ %s км</string>
-	<string name="fg_fuel_history_add_distance_passed_value_default">0 км</string>
-	<string name="fg_fuel_history_add_distance_passed_subtitle_value">Всього: %d км</string>
-	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">Всього: 0 км</string>
+	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s км</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_km">Всього: %d км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default_km">Всього: 0 км</string>
 	
 	<string name="fg_fuel_history_add_consumption_title">Витрата палива</string>
 	<string name="fg_fuel_history_add_consumption_value">%s л</string>
@@ -44,8 +44,8 @@
 	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 л заправлено</string>
 	
 	<string name="fg_fuel_history_add_estimate_distance_title">Очікуванння</string>
-	<string name="fg_fuel_history_add_estimate_distance_value">~ %s км</string>
-	<string name="fg_fuel_history_add_estimate_distance_value_default">~ 0 км</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %s км</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 км</string>
 	<string name="fg_fuel_history_add_estimate_distance_date">Дозаправка </string>
 	
 	<string name="fg_fuel_history_add_fuel_station_input_error">АЗС не вказана</string>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.08.20 16:01
+ * Last modified 08.09.2020 01:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -59,7 +59,7 @@ class Switcher @JvmOverloads constructor(
 	private var iconCollapsedWidth = 0f
 	private var defHeight = 0
 	private var defWidth = 0
-	private var isChecked = true
+	private var mChecked = false
 
 
 	@ColorInt
@@ -91,7 +91,12 @@ class Switcher @JvmOverloads constructor(
 
 	private var switchElevation = 0f
 	private var iconHeight = 0f
-
+	
+	/**
+	 * current icon position
+	 * 0f -> icon is looks like O and switch is off
+	 * 1f -> icon is looks like 1 and switch is on
+	 */
 	private var iconProgress = 0f
 		set(value) {
 			if (field != value) {
@@ -153,10 +158,11 @@ class Switcher @JvmOverloads constructor(
 
 		iconColor = typedArray.getColor(R.styleable.Switcher_switcher_icon_color, Color.WHITE)
 
-		isChecked = typedArray.getBoolean(R.styleable.Switcher_android_checked, false)
-		if (!isChecked) iconProgress = 1f
-
-		currentColor = if (isChecked) onColor else offColor
+		mChecked = typedArray.getBoolean(R.styleable.Switcher_android_checked, false)
+		
+		//set def values according to isChecked value
+		iconProgress = if (mChecked) 0f else 1f
+		currentColor = if (mChecked) onColor else offColor
 
 		iconPaint.color = iconColor
 
@@ -205,7 +211,7 @@ class Switcher @JvmOverloads constructor(
 				(height - (height - iconHeight) / 2f) - shadowOffset / 2
 		)
 
-		if (!isChecked) {
+		if (!mChecked) {
 			iconRect.left =
 				width - switcherCornerRadius - iconCollapsedWidth / 2 - (iconRadius - iconCollapsedWidth / 2)
 			iconRect.right =
@@ -238,7 +244,7 @@ class Switcher @JvmOverloads constructor(
 	}
 
 	private fun animateBackgroundColor() : ValueAnimator {
-		val toColor = if (isChecked) onColor else offColor
+		val toColor = if (mChecked) onColor else offColor
 
 		iconClipPaint.color = toColor
 
@@ -255,8 +261,8 @@ class Switcher @JvmOverloads constructor(
 		var startPos = 0f
 		var endPos = -(width - shadowOffset - switcherCornerRadius * 2)
 
-		if (isChecked) {
-			//if checked start from endPos <- (right to left)
+		if (mChecked) {
+			//if checked -> start from endPos (right to left)
 			startPos = endPos
 			endPos = -shadowOffset
 		}
@@ -277,7 +283,7 @@ class Switcher @JvmOverloads constructor(
 
 		var newProgress = 1f
 
-		if (isChecked) {
+		if (mChecked) {
 			amplitude = BOUNCE_ANIM_AMPLITUDE_OUT
 			frequency = BOUNCE_ANIM_FREQUENCY_OUT
 			newProgress = 0f
@@ -289,8 +295,11 @@ class Switcher @JvmOverloads constructor(
 			duration = SWITCHER_ANIMATION_DURATION
 		}
 	}
-
-	private fun animateSwitch() {
+	
+	/**
+	 * Animate switch to [mChecked] state and invoke listener after animation ends
+	 */
+	private fun animateSwitchWithClickInvoked(invoke: Boolean = true) {
 		animatorSet.cancel()
 		animatorSet = AnimatorSet()
 
@@ -310,31 +319,40 @@ class Switcher @JvmOverloads constructor(
 			//guarantee that animation will play smoothly if Activity or Fragment recreated
 			//invoke after animation successfully played
 
-			doOnEnd { listener?.invoke(this@Switcher, isChecked) }
+			doOnEnd { if (invoke) listener?.invoke(this@Switcher, mChecked) }
 		}
+	}
+	
+	private fun setSwitchChecked() {
+		currentColor = onColor
+		iconProgress = 0f
+		iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
+	}
+	
+	private fun setSwitchUnchecked() {
+		currentColor = offColor
+		iconProgress = 1f
+		iconTranslateX = -shadowOffset
 	}
 
 	/**
-	 * <p>Changes the isChecked state of this switch.</p>
+	 * Changes the isChecked state of this switch.
 	 *
 	 * @param checked true to check the switch, false to uncheck it
 	 */
 	private fun setChecked(checked: Boolean) {
-		if (isChecked != checked) {
-			isChecked = checked
-			if (width != 0) { animateSwitch() }
+		if (mChecked != checked) {
+			mChecked = checked
+			if (width != 0) { animateSwitchWithClickInvoked() }
 			else {
+				// manually set values and manually invoke listener
+				// this branch will almost certainly not be called
 				animatorSet.cancel()
-				if (!checked) {
-					currentColor = offColor
-					iconProgress = 1f
-					iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
-				} else {
-					currentColor = onColor
-					iconProgress = 0f
-					iconTranslateX = -shadowOffset
-				}
-				listener?.invoke(this, isChecked)
+				
+				if (checked) setSwitchChecked()
+				else setSwitchUnchecked()
+				
+				listener?.invoke(this, mChecked)
 			}
 		}
 	}
@@ -351,23 +369,30 @@ class Switcher @JvmOverloads constructor(
 		this.listener = listener
 	}
 
-	fun isChecked(): Boolean = isChecked
+	fun isChecked(checked: Boolean = mChecked): Boolean {
+		if (mChecked != checked) {
+			mChecked = checked
+			if (checked) setSwitchChecked()
+			else setSwitchUnchecked()
+		}
+		return mChecked
+	}
 
-	private fun toggle() { setChecked(!isChecked) }
+	private fun toggle() { setChecked(!mChecked) }
 
 	override fun onSaveInstanceState(): Parcelable {
 		super.onSaveInstanceState()
 		return Bundle().apply {
 			putParcelable(STATE, super.onSaveInstanceState())
-			putBoolean(KEY_CHECKED, isChecked)
+			putBoolean(KEY_CHECKED, mChecked)
 		}
 	}
 
 	override fun onRestoreInstanceState(state: Parcelable?) {
 		if (state is Bundle) {
 
-			isChecked = state.getBoolean(KEY_CHECKED)
-			restoreSwitchState(isChecked)
+			mChecked = state.getBoolean(KEY_CHECKED)
+			restoreSwitchState(mChecked)
 
 			super.onRestoreInstanceState(state.getParcelable(STATE))
 		}

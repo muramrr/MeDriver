@@ -1,17 +1,20 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 20:38
+ * Last modified 07.09.2020 17:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.utils
+package com.mmdev.me.driver.core.utils
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.mmdev.me.driver.presentation.utils.ThemeHelper.ThemeMode.*
+import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode.BATTERY_SAVE_MODE
+import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode.DARK_MODE
+import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode.DEFAULT_MODE
+import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode.LIGHT_MODE
 
 object ThemeHelper {
 

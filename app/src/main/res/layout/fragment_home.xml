@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.08.20 16:10
+  ~ Last modified 07.09.2020 01:11
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -86,7 +86,7 @@
 					android:id="@+id/cvMileage"
 					android:layout_width="@dimen/home_cards_width"
 					android:layout_height="@dimen/home_cards_height"
-					android:background="@drawable/view_card_background_imitation"
+					android:background="@drawable/view_card_bg_imitation_16"
 
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"
@@ -201,7 +201,7 @@
 					android:layout_height="@dimen/home_cards_height"
 					android:layout_marginStart="8dp"
 
-					android:background="@drawable/view_card_background_imitation"
+					android:background="@drawable/view_card_bg_imitation_16"
 
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"
@@ -287,7 +287,7 @@
 					android:layout_height="@dimen/home_cards_height"
 
 					android:layout_marginStart="8dp"
-					android:background="@drawable/view_card_background_imitation"
+					android:background="@drawable/view_card_bg_imitation_16"
 
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"

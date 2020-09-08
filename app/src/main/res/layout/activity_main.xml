@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 20:31
+  ~ Last modified 08.09.2020 01:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,6 +45,7 @@
 			android:id="@+id/bottomNavMain"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			app:elevation="1dp"
 
 			app:labelVisibilityMode="selected"
 			app:menu="@menu/bottom_nav_main"

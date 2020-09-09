@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 10.09.2020 00:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.core.di
 
 import android.app.Application
 import androidx.room.Room
-import com.mmdev.me.driver.data.datasource.database.MeDriverRoomDatabase
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
 import org.koin.android.ext.koin.androidApplication

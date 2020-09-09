@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.09.2020 02:46
+  ~ Last modified 09.09.2020 20:03
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -277,7 +277,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				app:checkedButton="@id/btnSystemKM"
 				app:selectionRequired="true"
 				app:singleSelection="true"
 				

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 10.09.2020 01:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,7 +38,7 @@ class FuelHistoryMappersFacade {
 			historyEntryId = record.id,
 			commentary = record.commentary,
 			timestamp = record.date.time,
-			distancePassed = record.distancePassed,
+			distancePassedBound = record.distancePassedBound,
 			filledLiters = record.filledLiters,
 			fuelConsumption = record.fuelConsumption,
 			fuelPrice = FuelPriceEntity(
@@ -63,7 +63,7 @@ class FuelHistoryMappersFacade {
 				id = entity.historyEntryId,
 				commentary = entity.commentary,
 				date = Date(entity.timestamp),
-				distancePassed = entity.distancePassed,
+				distancePassedBound = entity.distancePassedBound,
 				filledLiters = entity.filledLiters,
 				fuelConsumption = entity.fuelConsumption,
 				fuelPrice = FuelPrice(

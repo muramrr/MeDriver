@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.09.2020 02:18
+  ~ Last modified 10.09.2020 01:31
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,7 +81,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="@{bindItem.distancePassed + ` km`, default = `00 km`}"
+			android:text="@{bindItem.distancePassed + ``, default = `0`}"
 			android:textAppearance="?textAppearanceHeadline6"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -115,7 +115,7 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="@{bindItem.odometerValue + ` km`, default = `0000000 km`}"
+			android:text="@{bindItem.odometerValue + ``, default = `0000000`}"
 			android:textAppearance="?textAppearanceCaption"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -149,7 +149,7 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="@{bindItem.fuelConsumption + `L/100 km`, default = `0L/100 km`}"
+			android:text="@{bindItem.fuelConsumption + `L/100`, default = `0L/100`}"
 			android:textAppearance="?textAppearanceCaption"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"

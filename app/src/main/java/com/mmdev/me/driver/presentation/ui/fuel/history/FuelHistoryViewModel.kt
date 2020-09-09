@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.09.2020 19:37
+ * Last modified 10.09.2020 01:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.FuelType
@@ -287,6 +289,22 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 			logDebug(message = "FuelStation built = $it")
 		}
 	
+	
+	/**
+	 * Build [FuelHistoryRecord.DistancePassedBound] data class according to what metric system app
+	 * is using. 
+	 * Metric system could be changed at SettingsFragment
+	 */
+	private fun buildDistancePassed(): FuelHistoryRecord.DistancePassedBound =
+		when (MedriverApp.metricSystem) {
+			MetricSystem.KILOMETERS -> FuelHistoryRecord.DistancePassedBound(
+				kilometers = distancePassed.value ?: 0, 
+				miles = null)
+			MetricSystem.MILES -> FuelHistoryRecord.DistancePassedBound(
+				kilometers = null,
+				miles = distancePassed.value ?: 0)
+		}
+	
 	/**
 	 * combines all calculated values into final [FuelHistoryRecord] data class
 	 * used in [addHistoryRecord]
@@ -296,7 +314,7 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 			id = historyRecord.value!!.id + 1,
 			commentary = commentValue.value ?: "",
 			date = Calendar.getInstance().time,
-			distancePassed = distancePassed.value ?: 0,
+			distancePassedBound = buildDistancePassed(),
 			filledLiters = sliderLitersValue.value?.toDouble() ?: 0.0,
 			fuelConsumption = fuelConsumptionValue.value ?: 0.0,
 			fuelPrice = buildFuelPrice(),
@@ -318,6 +336,7 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 						historyRecord.postValue(this)
 						fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(listOf(this)))
 						isHistoryEmpty.value = false
+						clearInputFields()
 					},
 					//catch error
 					failure = { }

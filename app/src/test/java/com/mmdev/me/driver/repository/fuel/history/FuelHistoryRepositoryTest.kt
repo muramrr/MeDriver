@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 10.09.2020 01:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappe
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.fuel.FuelType.A95
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -50,7 +51,7 @@ class FuelHistoryRepositoryTest {
 		FuelHistoryEntity(
 			historyEntryId = 1,
 			commentary = "",
-			distancePassed = 400,
+			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
 			fuelConsumption = 0.0,
 			fuelPrice = FuelPriceEntity("okko", 15.0, A95.code),

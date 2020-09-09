@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.09.2020 18:25
+  ~ Last modified 10.09.2020 01:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -73,10 +73,6 @@
 				android:text="@string/fg_fuel_history_add_distance_passed_value_default_km"
 				android:textAppearance="?textAppearanceHeadline5"
 				
-				app:animateInt="@{viewModel.distancePassed}"
-				app:defaultText="@{@string/fg_fuel_history_add_distance_passed_value_default_km}"
-				app:textTemplate="@{@string/fg_fuel_history_add_distance_passed_value_km}"
-				
 				app:autoSizeTextType="uniform"
 				app:autoSizeMinTextSize="14sp"
 				app:autoSizeMaxTextSize="28sp"
@@ -93,7 +89,7 @@
 				android:layout_height="wrap_content"
 				android:paddingBottom="8dp"
 				
-				android:text="@{String.format(@string/fg_fuel_history_add_distance_passed_subtitle_value_km, viewModel.historyRecord.odometerValue), default = @string/fg_fuel_history_add_distance_passed_subtitle_value_default_km}"
+				android:text="@string/fg_fuel_history_add_distance_passed_subtitle_value_default"
 				android:textAppearance="?textAppearanceCaption"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
@@ -114,7 +110,7 @@
 				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				app:layout_constraintTop_toTopOf="@id/tvConsumptionTitle"
-				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionPer100kmTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionPer100Subtitle"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
@@ -173,7 +169,7 @@
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvConsumptionPer100kmTitle"
+				android:id="@+id/tvConsumptionPer100Subtitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="8dp"
@@ -520,7 +516,7 @@
 				
 				android:hint="@string/fg_fuel_history_add_odometer_input_hint"
 				app:errorEnabled="@{viewModel.odometerRequires}"
-				app:suffixText="km"
+				app:suffixText="@string/fg_fuel_history_add_odometer_input_suffix_km"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				

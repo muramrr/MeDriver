@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 10.09.2020 01:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 
 /**
  * Used in Fuel History Local DataSource
@@ -25,7 +26,8 @@ data class FuelHistoryEntity(
 	@PrimaryKey(autoGenerate = true)
 	var historyEntryId: Long,
 	val commentary: String,
-	val distancePassed: Int,
+	@Embedded
+	val distancePassedBound: FuelHistoryRecord.DistancePassedBound,
 	val filledLiters: Double = 0.0,
 	val fuelConsumption: Double = 0.0,
 	@Embedded

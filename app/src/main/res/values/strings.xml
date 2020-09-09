@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.09.2020 18:25
+  ~ Last modified 10.09.2020 01:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,13 +32,18 @@
 	<string name="fg_fuel_history_add_distance_passed_title">Passed</string>
 	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s km</string>
 	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 km</string>
-	<string name="fg_fuel_history_add_distance_passed_subtitle_value_km">%d km</string>
-	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default_km">0 km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_km">Total: %s km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">Total: 000000</string>
+	
+	<string name="fg_fuel_history_add_distance_passed_value_mi">+ %s mi</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_mi">0 mi</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_mi">Total: %s mi</string>
 	
 	<string name="fg_fuel_history_add_consumption_title">Consumption</string>
 	<string name="fg_fuel_history_add_consumption_value">%s L</string>
 	<string name="fg_fuel_history_add_consumption_value_default">0.0 L</string>
 	<string name="fg_fuel_history_add_consumption_100km">/100 km</string>
+	<string name="fg_fuel_history_add_consumption_100mi">/100 mi</string>
 	
 	<string name="fg_fuel_history_add_estimate_cost_title">Total cost</string>
 	<string name="fg_fuel_history_add_estimate_cost_subtitle_value">%s liters filled</string>
@@ -60,6 +65,8 @@
 	
 	<string name="fg_fuel_history_add_odometer_input_error">Wrong odometer value</string>
 	<string name="fg_fuel_history_add_odometer_input_hint">Odometer value</string>
+	<string name="fg_fuel_history_add_odometer_input_suffix_km">km</string>
+	<string name="fg_fuel_history_add_odometer_input_suffix_mi">mi</string>
 	
 	<string name="fg_fuel_history_add_slider_value">%s L</string>
 	<string name="fg_fuel_history_add_slider_value_default">1.0 L</string>

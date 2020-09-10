@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.09.2020 17:12
+ * Last modified 10.09.2020 19:28
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,7 @@ import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.presentation.utils.getStringRes
 
 /**
  *
@@ -39,6 +40,8 @@ internal class FuelPricesAdapter (
 	// price appearance anim
 	private lateinit var inAnim: Animation
 	private lateinit var outAnim: Animation
+	
+	private var priceFormatter = ""
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		PriceViewHolder(
@@ -72,6 +75,7 @@ internal class FuelPricesAdapter (
 			outAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_out).apply {
 				duration = 300
 			}
+			priceFormatter = binding.root.getStringRes(R.string.price_formatter)
 		}
 		
 		
@@ -85,19 +89,35 @@ internal class FuelPricesAdapter (
 			}
 			
 			//init A95 price for all
-			binding.tvFuelPrice.setCurrentText(getPriceByType(item, FuelType.A95)).also {
+			binding.tvFuelPrice.setCurrentText(
+				priceFormatter.format(getPriceByType(item, FuelType.A95))
+			).also {
 				binding.radioFuelTypes.setInitialSelected(R.id.btnFuelType95)
 			}
 			
 			binding.radioFuelTypes.setOnClickListener { _, id ->
 				when (id) {
-					R.id.btnFuelTypeGas -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.GAS))
-					R.id.btnFuelTypeDT -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.DT))
-					R.id.btnFuelType92 -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.A92))
-					R.id.btnFuelType95 -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.A95))
-					R.id.btnFuelType95PLUS -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.A95PLUS))
-					R.id.btnFuelType98 -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.A98))
-					R.id.btnFuelType100 -> binding.tvFuelPrice.setText(getPriceByType(item, FuelType.A100))
+					R.id.btnFuelTypeGas -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.GAS))
+					)
+					R.id.btnFuelTypeDT -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.DT))
+					)
+					R.id.btnFuelType92 -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.A92))
+					)
+					R.id.btnFuelType95 -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.A95))
+					)
+					R.id.btnFuelType95PLUS -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.A95PLUS))
+					)
+					R.id.btnFuelType98 -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.A98))
+					)
+					R.id.btnFuelType100 -> binding.tvFuelPrice.setText(
+						priceFormatter.format(getPriceByType(item, FuelType.A100))
+					)
 				}
 			}
 			

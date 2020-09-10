@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 01:28
+  ~ Last modified 10.09.2020 19:27
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -76,6 +76,20 @@
 	<string name="btn_cancel">Cancel</string>
 	<string name="btn_done">Done</string>
 <!-- ******************************************************************************************* -->
+
+
+
+
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/L</string>
+	<string name="item_fuel_history_entry_distance_passed_km">%d km</string>
+	<string name="item_fuel_history_entry_odometer_km">%d km</string>
+	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_mi">%d miles</string>
+	<string name="item_fuel_history_entry_odometer_mi">%d miles</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
+<!-- ******************************************************************************************* -->
 	
 	
 	<string name="btn_fuel_type_gas">GAS</string>
@@ -85,5 +99,11 @@
 	<string name="btn_fuel_type_95plus" translatable="false">95+</string>
 	<string name="btn_fuel_type_98" translatable="false">98</string>
 	<string name="btn_fuel_type_100" translatable="false">100</string>
+	
+	<string name="price_formatter" translatable="false">₴%s</string>
+	
+	<string name="default_FuelStation" translatable="false">StationDef</string>
+	<string name="default_OdometerValue" translatable="false">000000</string>
+	<string name="default_Price" translatable="false">₴--.--</string>
 	
 </resources>

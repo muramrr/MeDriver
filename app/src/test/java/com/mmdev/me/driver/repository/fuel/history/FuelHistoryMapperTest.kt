@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 01:34
+ * Last modified 10.09.2020 22:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,8 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceE
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
@@ -38,12 +40,12 @@ class FuelHistoryMapperTest {
 		FuelHistoryEntity(
 			historyEntryId = 1,
 			commentary = "",
-			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
+			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
-			fuelConsumption = 0.0,
+			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelPriceEntity("okko", 15.0, FuelType.A95.code),
 			fuelStation = FuelStationEntity("OKKO", "okko", "01-01-2020"),
-			odometerValue = 2000,
+			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
 			timestamp = DateConverter.toDate("12-01-2020").time
 		)
 	)
@@ -52,12 +54,12 @@ class FuelHistoryMapperTest {
 		FuelHistoryRecord(
 			id = 1,
 			date = DateConverter.toDate("12-01-2020"),
-			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
+			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
-			fuelConsumption = 0.0,
+			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelPrice(15.0, FuelType.A95.code),
 			fuelStation = FuelStation("OKKO", "okko", "01-01-2020"),
-			odometerValue = 2000
+			odometerValueBound = DistanceBound(kilometers = 2000, miles = null)
 		)
 	)
 	

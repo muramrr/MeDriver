@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 01:36
+ * Last modified 10.09.2020 22:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -132,6 +132,8 @@ internal class DialogFragmentHistoryAdd(
 					
 					distancePassedSubtitleValueFormatter =
 						getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
+					
+					
 					
 					layoutInputOdometer.suffixText =
 						getString(R.string.fg_fuel_history_add_odometer_input_suffix_km)

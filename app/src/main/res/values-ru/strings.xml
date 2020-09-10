@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 01:28
+  ~ Last modified 10.09.2020 19:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -74,6 +74,19 @@
 	
 	<string name="btn_cancel">Отмена</string>
 	<string name="btn_done">Готово</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
+	<string name="item_fuel_history_entry_distance_passed_km">%d км</string>
+	<string name="item_fuel_history_entry_odometer_km">%d км</string>
+	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_mi">%d миль</string>
+	<string name="item_fuel_history_entry_odometer_mi">%d миль</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
 <!-- ******************************************************************************************* -->
 	
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.08.2020 17:26
+ * Last modified 10.09.2020 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,10 +35,12 @@ abstract class BaseAdapter<T>(private var data: List<T>,
 	private var mClickListener: OnItemClickListener<T>? = null
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-		BaseViewHolder<T>(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-		                                          viewType,
-		                                          parent,
-		                                          false))
+		BaseViewHolder<T>(
+			DataBindingUtil.inflate(LayoutInflater.from(parent.context),
+			                        viewType,
+			                        parent,
+			                        false)
+		)
 
 	override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) =
 		holder.bind(getItem(position))

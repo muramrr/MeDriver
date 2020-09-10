@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 01:34
+ * Last modified 10.09.2020 22:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,7 +40,7 @@ class FuelHistoryMappersFacade {
 			timestamp = record.date.time,
 			distancePassedBound = record.distancePassedBound,
 			filledLiters = record.filledLiters,
-			fuelConsumption = record.fuelConsumption,
+			fuelConsumptionBound = record.fuelConsumptionBound,
 			fuelPrice = FuelPriceEntity(
 				record.fuelStation.slug,
 				record.fuelPrice.price,
@@ -51,7 +51,7 @@ class FuelHistoryMappersFacade {
 				record.fuelStation.slug,
 				record.fuelStation.updatedDate
 			),
-			odometerValue = record.odometerValue
+			odometerValueBound = record.odometerValueBound
 		)
 	}
 	
@@ -65,7 +65,7 @@ class FuelHistoryMappersFacade {
 				date = Date(entity.timestamp),
 				distancePassedBound = entity.distancePassedBound,
 				filledLiters = entity.filledLiters,
-				fuelConsumption = entity.fuelConsumption,
+				fuelConsumptionBound = entity.fuelConsumptionBound,
 				fuelPrice = FuelPrice(
 					price = entity.fuelPrice.price,
 					type = entity.fuelPrice.type
@@ -75,7 +75,7 @@ class FuelHistoryMappersFacade {
 					slug = entity.fuelStation.slug,
 					updatedDate = entity.fuelStation.updatedDate
 				),
-				odometerValue = entity.odometerValue
+				odometerValueBound = entity.odometerValueBound
 			)
 		}
 	}

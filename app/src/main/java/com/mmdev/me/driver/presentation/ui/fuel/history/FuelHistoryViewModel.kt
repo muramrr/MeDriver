@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 01:34
+ * Last modified 10.09.2020 22:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,8 @@ import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
+import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
@@ -291,18 +293,54 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 	
 	
 	/**
-	 * Build [FuelHistoryRecord.DistancePassedBound] data class according to what metric system app
+	 * Build [DistanceBound] data class for [distancePassed] value according to what metric system app
 	 * is using. 
 	 * Metric system could be changed at SettingsFragment
 	 */
-	private fun buildDistancePassed(): FuelHistoryRecord.DistancePassedBound =
+	private fun buildDistancePassedBound(): DistanceBound =
 		when (MedriverApp.metricSystem) {
-			MetricSystem.KILOMETERS -> FuelHistoryRecord.DistancePassedBound(
+			MetricSystem.KILOMETERS -> DistanceBound(
 				kilometers = distancePassed.value ?: 0, 
-				miles = null)
-			MetricSystem.MILES -> FuelHistoryRecord.DistancePassedBound(
+				miles = null
+			)
+			MetricSystem.MILES -> DistanceBound(
 				kilometers = null,
-				miles = distancePassed.value ?: 0)
+				miles = distancePassed.value ?: 0
+			)
+		}
+	
+	/**
+	 * Build [ConsumptionBound] data class for [fuelConsumptionValue] accordding to what metric
+	 * system app is using.
+	 * Metric system could be changed at SettingsFragment
+	 */
+	private fun buildFuelConsumptionBound(): ConsumptionBound =
+		when (MedriverApp.metricSystem) {
+			MetricSystem.KILOMETERS -> ConsumptionBound(
+				consumptionKM = fuelConsumptionValue.value ?: 0.0,
+				consumptionMI = null
+			)
+			MetricSystem.MILES -> ConsumptionBound(
+				consumptionKM = null,
+				consumptionMI = fuelConsumptionValue.value ?: 0.0
+			)
+		}
+	
+	/**
+	 * Build [DistanceBound] data class for [odometerInputValue] according to what metric system app
+	 * is using.
+	 * Metric system could be changed at SettingsFragment
+	 */
+	private fun buildOdometerValueBound(): DistanceBound =
+		when (MedriverApp.metricSystem) {
+			MetricSystem.KILOMETERS -> DistanceBound(
+				kilometers = odometerInputValue.value?.toInt() ?: 0,
+				miles = null
+			)
+			MetricSystem.MILES -> DistanceBound(
+				kilometers = null,
+				miles = odometerInputValue.value?.toInt() ?: 0
+			)
 		}
 	
 	/**
@@ -314,12 +352,12 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 			id = historyRecord.value!!.id + 1,
 			commentary = commentValue.value ?: "",
 			date = Calendar.getInstance().time,
-			distancePassedBound = buildDistancePassed(),
+			distancePassedBound = buildDistancePassedBound(),
 			filledLiters = sliderLitersValue.value?.toDouble() ?: 0.0,
-			fuelConsumption = fuelConsumptionValue.value ?: 0.0,
+			fuelConsumptionBound = buildFuelConsumptionBound(),
 			fuelPrice = buildFuelPrice(),
 			fuelStation = buildFuelStation(),
-			odometerValue = odometerInputValue.value?.toInt() ?: 0
+			odometerValueBound = buildOdometerValueBound()
 		)
 	
 	/**

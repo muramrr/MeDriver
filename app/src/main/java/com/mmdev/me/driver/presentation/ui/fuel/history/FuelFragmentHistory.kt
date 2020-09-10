@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.08.2020 17:19
+ * Last modified 10.09.2020 17:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -90,7 +90,7 @@ internal class FuelFragmentHistory: BaseFragment<FuelHistoryViewModel, FragmentF
 			}
 			is FuelHistoryViewState.InsertNewOne -> {
 				logInfo(TAG, "insert new data: " +
-				             "odometer = ${state.data.map { it.odometerValue }} km, " +
+				             "odometer = ${state.data.map { it.odometerValueBound }} km, " +
 				             "date = ${state.data.map { it.dateText }}")
 				mFuelHistoryAdapter.insertRecordOnTop(state.data)
 			}

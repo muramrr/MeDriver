@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 01:34
+ * Last modified 10.09.2020 22:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,14 +10,14 @@
 
 package com.mmdev.me.driver.datasource.local
 
-import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mmdev.me.driver.FuelConstants
 import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.modules.DatabaseTestModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -56,34 +56,34 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		fuelHistoryEntity1 = FuelHistoryEntity(
 			historyEntryId = 1,
 			commentary = "",
-			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
+			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
-			fuelConsumption = 0.0,
+			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog100,
 			fuelStation = FuelConstants.fuelStationEntityWog,
-			odometerValue = 1000,
+			odometerValueBound = DistanceBound(kilometers = 1000, miles = null),
 			timestamp = DateConverter.toDate("10-01-2020").time
 		)
 		fuelHistoryEntity2 = FuelHistoryEntity(
 			historyEntryId = 2,
 			commentary = "",
-			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
+			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
-			fuelConsumption = 0.0,
+			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
-			odometerValue = 1500,
+			odometerValueBound = DistanceBound(kilometers = 1500, miles = null),
 			timestamp = DateConverter.toDate("11-01-2020").time
 		)
 		fuelHistoryEntity3 = FuelHistoryEntity(
 			historyEntryId = 3,
 			commentary = "",
-			distancePassedBound = FuelHistoryRecord.DistancePassedBound(kilometers = 400, miles = null),
+			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
-			fuelConsumption = 0.0,
+			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
-			odometerValue = 2000,
+			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
 			timestamp = DateConverter.toDate("12-01-2020").time
 		)
 	}
@@ -131,7 +131,6 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		afterDeletionResult.fold(
 			success = {
 				Assert.assertTrue(it.isNotEmpty())
-				Log.wtf("mylogs", "${it.first().historyEntryId}")
 				Assert.assertTrue(it.size != 3)
 			},
 			failure = {}

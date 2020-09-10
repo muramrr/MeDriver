@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.09.2020 17:02
+  ~ Last modified 10.09.2020 19:46
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,7 +50,7 @@
 			android:layout_height="wrap_content"
 			android:padding="8dp"
 			
-			android:text="@{bindItem.fuelStation.brandTitle, default = `Fuel Station`}"
+			android:text="@{bindItem.fuelStation.brandTitle, default = @string/default_FuelStation}"
 			android:textAppearance="?textAppearanceSubtitle1"
 			
 			app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"
@@ -75,7 +75,7 @@
 				android:layout_height="match_parent"
 				android:padding="8dp"
 				
-				android:text="--.--"
+				android:text="@string/default_Price"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
@@ -86,7 +86,7 @@
 				android:layout_height="match_parent"
 				android:padding="8dp"
 				
-				android:text="--.--"
+				android:text="@string/default_Price"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				

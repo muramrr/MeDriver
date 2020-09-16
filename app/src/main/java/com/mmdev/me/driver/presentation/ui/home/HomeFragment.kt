@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.08.20 19:16
+ * Last modified 13.09.2020 00:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.core.utils.logWtf
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
-import com.mmdev.me.driver.presentation.ui.common.LoadingState
+import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel.VINViewState
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,15 +51,15 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(layout
 		when (state) {
 			is VINViewState.Success -> {
 				logWtf(message = "${state.data}")
-				sharedViewModel.showLoading.value = LoadingState.HIDE
+				sharedViewModel.showLoading.value = LoadingStatus.HIDE
 			}
 			is VINViewState.Loading -> {
 				logWtf(message = "loading")
-				sharedViewModel.showLoading.value = LoadingState.SHOW
+				sharedViewModel.showLoading.value = LoadingStatus.SHOW
 			}
 			is VINViewState.Error -> {
 				logWtf(message = state.errorMessage)
-				sharedViewModel.showLoading.value = LoadingState.HIDE
+				sharedViewModel.showLoading.value = LoadingStatus.HIDE
 			}
 		}
 

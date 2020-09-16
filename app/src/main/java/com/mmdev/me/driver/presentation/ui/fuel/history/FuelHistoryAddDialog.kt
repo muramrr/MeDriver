@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:29
+ * Last modified 12.09.2020 19:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,7 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Hosted by FuelFragmentHistory
  */
 
-internal class DialogFragmentHistoryAdd(
+internal class FuelHistoryAddDialog(
 	fuelStationWithPrices: List<FuelStationWithPrices>
 ): DialogFragment() {
 	
@@ -79,7 +79,7 @@ internal class DialogFragmentHistoryAdd(
 			}.root
 	
 	
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = setupViews()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) { setupViews() }
 	
 	private fun setupViews() {
 		//setup views

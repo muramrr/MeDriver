@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 19:55
+  ~ Last modified 16.09.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -74,6 +74,28 @@
 	
 	<string name="btn_cancel">Відмінити</string>
 	<string name="btn_done">Готово</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_settings ************************************* -->
+	<string name="fg_settings_not_signed_in">Вхід не виконано</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* fragment_settings_auth ********************************** -->
+	<string name="fg_settings_auth_email_input_error">Неправильний формат адреси</string>
+	<string name="fg_settings_auth_password_input_error">Пароль мусить бути не коротший 6 символів</string>
+	<string name="fg_settings_auth_password_mismatch_error">Паролі не співпадають</string>
+	
+	<string name="fg_settings_auth_sign_in_error_message">Невідома помилка під час входу</string>
+	<string name="fg_settings_auth_sign_up_error_message">Невідома помилка під час регистрації</string>
+	<string name="fg_settings_auth_email_sent_error_message">Помилка. Лист не відправлено</string>
+	<string name="fg_settings_auth_email_sent_success">Лист було успішно надіслано</string>
+	
+	
 <!-- ******************************************************************************************* -->
 
 

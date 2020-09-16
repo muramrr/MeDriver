@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 12.09.2020 23:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,12 +34,10 @@ val NetworkModule = module {
 
 	single { provideVINCodeApi(retrofit = get()) }
 	single { provideFuelApi(retrofit = get()) }
-
-
-
+	
 }
 
-fun provideRetrofit(): Retrofit = Retrofit.Builder()
+private fun provideRetrofit(): Retrofit = Retrofit.Builder()
 	.apply {
 		addConverterFactory(Json{ ignoreUnknownKeys = true }.asConverterFactory(contentType))
 		baseUrl(BASE_URL)

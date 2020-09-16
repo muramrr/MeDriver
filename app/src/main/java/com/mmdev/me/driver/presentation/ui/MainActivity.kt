@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.09.2020 20:32
+ * Last modified 16.09.2020 16:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,11 +22,10 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
-import com.mmdev.me.driver.presentation.ui.common.LoadingState
+import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class MainActivity: AppCompatActivity() {
 	
@@ -89,10 +88,12 @@ class MainActivity: AppCompatActivity() {
 		val loadingDialog = setLoadingDialog(this@MainActivity)
 
 		sharedViewModel.showLoading.observe(this, {
-			if (it == LoadingState.SHOW) loadingDialog.show()
-			else Timer("Hide loading", false).schedule(700) {
-				loadingDialog.dismiss()
-			}
+			if (it == LoadingStatus.SHOW) loadingDialog.show()
+			else loadingDialog.dismiss()
+		})
+		
+		sharedViewModel.authStatus.observe(this, {
+			logDebug("mylogs_MainActivity", "authStatus = $it")
 		})
 		
 	}

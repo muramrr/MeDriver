@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 09.09.2020 20:03
+  ~ Last modified 16.09.2020 03:01
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@
 		>
 
 		<androidx.constraintlayout.widget.ConstraintLayout
-	
+			android:id="@+id/settingsContainer"
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
 	
@@ -47,9 +47,12 @@
 				android:id="@+id/btnYourAccountPremium"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:clickable="false"
 				
 				android:text="PREMIUM"
 				android:textColor="?colorSecondary"
+				
+				android:visibility="gone"
 				
 				style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
 				
@@ -70,42 +73,103 @@
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
-				app:layout_constraintTop_toTopOf="@id/tvEmailAddress"
+				app:layout_constraintTop_toBottomOf="@id/tvYourAccountCardHeader"
 				app:layout_constraintBottom_toBottomOf="@id/btnGetPremium"
 				
 				/>
 			
-			<!-- account email -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvEmailAddress"
+			<!-- send verification -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnSendVerification"
 				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:paddingTop="24dp"
-				android:paddingBottom="24dp"
+				android:layout_height="0dp"
+				android:clickable="false"
+				
+				android:ellipsize="end"
+				android:maxLines="1"
 				
 				android:text="Not signed in"
 				android:textAppearance="?textAppearanceCaption"
-				android:textSize="16sp"
+				android:textAlignment="viewStart"
+				android:textColor="?colorOnSecondary"
+				android:textSize="14sp"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvYourAccountCardHeader"
+				app:backgroundTint="@color/colorWarning"
+				app:icon="@drawable/ic_warning_24"
+				app:iconSize="16dp"
+				app:iconGravity="end"
+				app:iconTintMode="multiply"
+				
+				app:layout_constraintTop_toTopOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintStart_toStartOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintEnd_toEndOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
+				/>
+			<!-- verified -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/tvEmailAddressConfirmed"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="24dp"
+				android:layout_marginEnd="16dp"
+				android:clickable="false"
+				
+				android:ellipsize="end"
+				android:maxLines="1"
+				
+				android:text="asdas"
+				android:textAppearance="?textAppearanceCaption"
+				android:textAlignment="viewStart"
+				android:textColor="?colorOnSecondary"
+				android:textSize="14sp"
+				
+				android:visibility="invisible"
+				
+				app:backgroundTint="@color/colorSuccess"
+				app:icon="@drawable/ic_check_mark_24"
+				app:iconGravity="end"
+				app:iconSize="16dp"
+				app:iconTintMode="multiply"
+				
+				app:layout_constraintTop_toTopOf="@id/cvAccountContainer"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/btnSignInLogOut"
+				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
 				app:layout_constraintBottom_toTopOf="@id/tvSyncLabel"
 				/>
-			<!-- button sign in/out -->
+			
+			<!-- button sign in -->
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnSignInLogOut"
+				android:id="@+id/btnSignInPopUp"
 				android:layout_width="wrap_content"
-				android:layout_height="0dp"
+				android:layout_height="wrap_content"
 				
 				android:text="Sign In"
 				
+				android:visibility="visible"
+				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
-				app:layout_constraintStart_toEndOf="@id/tvEmailAddress"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
-				app:layout_constraintTop_toTopOf="@id/tvEmailAddress"
-				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddress"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintTop_toTopOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
+				/>
+			
+			<!-- button sign out -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnSignOut"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:text="Sign Out"
+				android:textColor="#d62828"
+				
+				android:visibility="invisible"
+				
+				style="@style/Widget.MaterialComponents.Button.TextButton"
+				
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintTop_toTopOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
 				/>
 			
 			
@@ -115,14 +179,14 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:labelFor="@id/switchSync"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="32dp"
 				
 				android:text="Sync enabled"
 				android:textAllCaps="false"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvEmailAddress"
+				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintBottom_toTopOf="@id/tvSubscriptionLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/switchSync"
@@ -349,6 +413,14 @@
 				android:layout_height="0dp"
 				android:orientation="vertical"
 				app:layout_constraintGuide_end="24dp"
+				/>
+			
+			<androidx.constraintlayout.widget.Barrier
+				android:id="@+id/barrierSignInOut"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				app:barrierDirection="start"
+				app:constraint_referenced_ids="btnSignInPopUp, btnSignOut"
 				/>
 	
 		</androidx.constraintlayout.widget.ConstraintLayout>

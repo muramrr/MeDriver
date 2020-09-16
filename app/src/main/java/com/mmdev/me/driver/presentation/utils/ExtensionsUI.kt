@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.08.2020 18:51
+ * Last modified 16.09.2020 03:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -67,14 +67,14 @@ fun View.visible() : View {
 	return this
 }
 
+
 /**
- * Show the view if [condition] returns true
- * (visibility = View.VISIBLE)
+ * Set visibility to [View.VISIBLE] if [condition] returns true else apply visibility from [otherwise]
+ * @param otherwise if not specified explicitly -> use default visibility from given [View]
  */
-inline fun View.visibleIf(condition: () -> Boolean) : View {
-	if (visibility != View.VISIBLE && condition()) {
-		visibility = View.VISIBLE
-	}
+inline fun View.visibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
+	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
+		visibility = if (visibility != View.VISIBLE && condition()) View.VISIBLE else otherwise
 	return this
 }
 
@@ -89,24 +89,32 @@ fun View.gone() : View {
 }
 
 /**
- * Remove the view if [condition] returns true
- * (visibility = View.GONE)
+ * Remove [View] if [condition] returns true else apply visibility from [otherwise]
+ * @param otherwise if not specified explicitly -> use default visibility from given [View]
  */
-inline fun View.goneIf(condition: () -> Boolean) : View {
-	if (visibility != View.GONE && condition()) {
-		visibility = View.GONE
+inline fun View.goneIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
+	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
+		visibility = if (visibility != View.GONE && condition()) View.GONE else otherwise
+	return this
+}
+
+/**
+ * Hide the view (visibility = [View.INVISIBLE])
+ */
+fun View.invisible() : View {
+	if (visibility != View.INVISIBLE) {
+		visibility = View.INVISIBLE
 	}
 	return this
 }
 
 /**
- * Hide the view if [condition] returns true
- * (visibility = View.INVISIBLE)
+ * Hide the view if [condition] returns true else apply visibility from [otherwise]
+ * @param otherwise if not specified explicitly -> use default visibility from given [View]
  */
-inline fun View.invisibleIf(condition: () -> Boolean) : View {
-	if (visibility != View.INVISIBLE && condition()) {
-		visibility = View.GONE
-	}
+inline fun View.invisibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
+	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
+		visibility = if (visibility != View.INVISIBLE && condition()) View.INVISIBLE else otherwise
 	return this
 }
 

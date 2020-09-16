@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:32
+ * Last modified 12.09.2020 19:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,7 +49,7 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 	
 	/**
 	 * selected [FuelStationWithPrices] from list [mFuelStationWithPrices]
-	 * passed in [DialogFragmentHistoryAdd] constructor @param
+	 * passed in [FuelHistoryAddDialog] constructor @param
 	 * selecting from [FuelStationDropAdapter]
 	 */
 	private var selectedFuelStationWithPrices: FuelStationWithPrices? = null
@@ -157,8 +157,8 @@ internal class FuelHistoryViewModel (private val repository: IFuelHistoryReposit
 			    && calculatedConsumption > 0.0
 			    && lastHistoryRecord != null) {
 				
-				if (calculatedConsumption > lastHistoryRecord.fuelConsumption) R.drawable.ic_up_arrow_24
-				else R.drawable.ic_down_arrow_24
+				if (calculatedConsumption > lastHistoryRecord.fuelConsumption) R.drawable.ic_arrow_up_24
+				else R.drawable.ic_arrow_down_24
 				
 			}
 			else 0

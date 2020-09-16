@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 00:55
+ * Last modified 16.09.2020 16:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,12 +29,8 @@ val DatabaseModule = module {
 	single { provideDatabase(androidApplication()) }
 	single { provideFuelPricesDao(db = get()) }
 	single { provideFuelHistoryDao(db = get()) }
-	//single { providePreferences(androidApplication()) }
+	
 }
-
-//private fun providePreferences(app: Application): Preferences {
-//	return BinaryPreferencesBuilder(app).name(PREFERENCES_NAME).build()
-//}
 
 private fun provideDatabase(app: Application): MeDriverRoomDatabase {
 	return Room

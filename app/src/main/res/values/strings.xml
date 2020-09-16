@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 19:27
+  ~ Last modified 16.09.2020 16:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -75,6 +75,28 @@
 	
 	<string name="btn_cancel">Cancel</string>
 	<string name="btn_done">Done</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_settings ************************************* -->
+	<string name="fg_settings_not_signed_in">Not signed in</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* fragment_settings_auth ********************************** -->
+	<string name="fg_settings_auth_email_input_error">Invalid email address</string>
+	<string name="fg_settings_auth_password_input_error">Password should be at least 6 characters</string>
+	<string name="fg_settings_auth_password_mismatch_error">Password mismatch</string>
+	
+	<string name="fg_settings_auth_sign_in_error_message">Unknown sign in error</string>
+	<string name="fg_settings_auth_sign_up_error_message">Unknown sign up error</string>
+	<string name="fg_settings_auth_email_sent_error_message">Failure. Email not sent</string>
+	<string name="fg_settings_auth_email_sent_success">Email sent</string>
+	
+	
 <!-- ******************************************************************************************* -->
 
 

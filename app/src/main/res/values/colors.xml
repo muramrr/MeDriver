@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.09.2020 01:21
+  ~ Last modified 14.09.2020 19:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,7 +36,13 @@
 
 	<color name="surface2dpImitation">@color/colorSurface</color>
 	
-	<color name="colorIncreasing">#d00000</color>
-	<color name="colorDecreasing">#51cb20</color>
-
+	<color name="colorIncreasing">@color/maximum_red</color>
+	<color name="colorDecreasing">@color/colorSuccess</color>
+	
+	<color name="colorSuccess">#4BB543</color>
+	<color name="colorWarning">#FFCC00</color>
+	
+	<color name="maximum_red">#d62828</color>
+	<color name="spring_green">#1FF678</color>
+	
 </resources>

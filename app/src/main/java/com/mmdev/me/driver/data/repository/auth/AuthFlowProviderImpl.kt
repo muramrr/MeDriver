@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 02:41
+ * Last modified 17.09.2020 17:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.data.repository.auth
 
 import com.google.firebase.auth.FirebaseUser
 import com.mmdev.me.driver.core.utils.MyDispatchers
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.core.utils.logError
 import com.mmdev.me.driver.core.utils.logInfo
 import com.mmdev.me.driver.core.utils.logWarn
@@ -25,7 +26,12 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.user.UserModel
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 
 /**
  * Wrapper for [AuthCollector] provider
@@ -45,7 +51,7 @@ internal class AuthFlowProviderImpl (
 	
 	
 	private companion object{
-		private const val IS_EMAIL_VERIFIED_FIELD = "isEmailVerified"
+		private const val IS_EMAIL_VERIFIED_FIELD = "emailVerified"
 	}
 	
 	private val firebaseUserFlow: Flow<FirebaseUser?> = flow {
@@ -109,7 +115,7 @@ internal class AuthFlowProviderImpl (
 	 * @see [getUserFromLocalStorage]
 	 */
 	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserModel?> = flow {
-		logInfo(TAG, "Retrieving user info from backend...")
+		logDebug(TAG, "Retrieving user info from backend...")
 		
 		userRemoteDataSource.getFirestoreUser(firebaseUser.email!!).collect { remoteUserState ->
 			remoteUserState.fold(
@@ -144,20 +150,31 @@ internal class AuthFlowProviderImpl (
 	 */
 	private fun getUserFromLocalStorage(firebaseUser: FirebaseUser) : Flow<UserModel?> = flow {
 		
-		logWarn(TAG, "Trying to get user from local storage...")
+		logDebug(TAG, "Trying to get user from local storage...")
 		
 		userLocalDataSource.getUser().collect { cachedUser ->
 			
 			if (cachedUser != null) {
 				
-				logInfo(TAG, "User was found, writing to backend...")
+				logInfo(TAG, "Checking saved user info...")
 				
-				userRemoteDataSource.writeFirestoreUser(
-					mappers.mapLocalUserToFirestoreUser(cachedUser)
-				)
-				
-				//emit user info from local storage
-				emit(mappers.mapLocalUserToDomainUser(cachedUser))
+				if (cachedUser.id == firebaseUser.uid) {
+					
+					logInfo(TAG, "User was found, writing to backend...")
+					userRemoteDataSource.writeFirestoreUser(
+						mappers.mapLocalUserToFirestoreUser(cachedUser)
+					)
+					
+					//emit user info from local storage
+					emit(mappers.mapLocalUserToDomainUser(cachedUser))
+					
+				}
+				else {
+					logWarn(TAG, "User exists on local storage, but it differs. Rewriting...")
+					
+					//combine both writing to backend and to local storage operations results
+					writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
+				}
 				
 			}
 			else {
@@ -165,30 +182,34 @@ internal class AuthFlowProviderImpl (
 				             "trying to convert user provided by auth...")
 				
 				//combine both writing to backend and to local storage operations results
-				userRemoteDataSource.writeFirestoreUser(
-					mappers.mapFirebaseUserToFirestoreUser(firebaseUser)
-				).combine(
-					userLocalDataSource.saveUser(mappers.mapFirebaseUserToLocalUser(firebaseUser))
-				) { writeRemote, writeLocal ->
-					
-					if (writeRemote is ResultState.Success &&
-					    writeLocal is ResultState.Success){
-						
-						logInfo(TAG, "User was saved both to backend " +
-						             "and local storage.")
-						
-						//return firebaseUser mapped to domain model
-						firebaseUser.mapToUserModel()
-						
-					}
-					else {
-						logError(TAG, "Can't save firebase user. Magic...")
-						
-						//return null? what happened?
-						null
-					}
-				}.collect { emit(it) } // collect combine result
+				writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
 			}
+		}
+	}
+	
+	private fun writeToFirestoreAndLocalStorage(firebaseUser: FirebaseUser): Flow<UserModel?> =
+		userRemoteDataSource.writeFirestoreUser(
+			mappers.mapFirebaseUserToFirestoreUser(firebaseUser)
+		).combine(
+			userLocalDataSource.saveUser(mappers.mapFirebaseUserToLocalUser(firebaseUser))
+		) { writeRemote, writeLocal ->
+			
+			logDebug(TAG, "Trying to write both to backend and local storage...")
+			
+			if (writeRemote is ResultState.Success &&
+			    writeLocal is ResultState.Success){
+				
+				logInfo(TAG, "User was saved to backend and local storage.")
+				
+				//return firebaseUser mapped to domain model
+				firebaseUser.mapToUserModel()
+				
+			}
+			else {
+				logError(TAG, "Can't save firebase user. Magic...")
+				
+				//return null? what happened?
+				null
 		}
 	}
 	
@@ -220,10 +241,13 @@ internal class AuthFlowProviderImpl (
 		else {
 			logInfo(TAG, "Email verification status is up to date...")
 			
-			logInfo(TAG, "Fetching with local user info")
+			logInfo(TAG, "Fetching with local user info...")
+			
 			userLocalDataSource.saveUser(
 				mappers.mapFirestoreUserToLocalUser(firestoreUser)
 			)
+			
+			logInfo(TAG, "Fetched.")
 			
 			emit(mappers.mapFirestoreUserToUserModel(firestoreUser))
 		}
@@ -243,7 +267,7 @@ internal class AuthFlowProviderImpl (
 			value = firebaseUser.isEmailVerified
 		).collect { updateResult ->
 			
-			logWarn(TAG, "Trying to update email verification...")
+			logDebug(TAG, "Trying to update email verification...")
 			
 			updateResult.fold(
 				success = {
@@ -264,7 +288,7 @@ internal class AuthFlowProviderImpl (
 				},
 				failure = {
 					
-					logError(TAG, "Failed to update email status...")
+					logError(TAG, "Failed to update email status... ${it.message}")
 					
 					//emit old firestoreUser object
 					//without additional "get" request

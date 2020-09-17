@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 03:23
+ * Last modified 17.09.2020 17:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -74,7 +74,7 @@ fun View.visible() : View {
  */
 inline fun View.visibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
 	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (visibility != View.VISIBLE && condition()) View.VISIBLE else otherwise
+		visibility = if (condition()) View.VISIBLE else otherwise
 	return this
 }
 
@@ -94,7 +94,7 @@ fun View.gone() : View {
  */
 inline fun View.goneIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
 	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (visibility != View.GONE && condition()) View.GONE else otherwise
+		visibility = if (condition()) View.GONE else otherwise
 	return this
 }
 
@@ -114,7 +114,7 @@ fun View.invisible() : View {
  */
 inline fun View.invisibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
 	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (visibility != View.INVISIBLE && condition()) View.INVISIBLE else otherwise
+		visibility = if (condition()) View.INVISIBLE else otherwise
 	return this
 }
 

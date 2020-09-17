@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 03:33
+  ~ Last modified 17.09.2020 21:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -84,6 +84,9 @@
 	<string name="fg_settings_header_account">Аккаунт</string>
 	<string name="fg_settings_header_general">Общие</string>
 	
+	<string name="fg_settings_tv_not_verified">Ваш аккаунт не активировано</string>
+	<string name="fg_settings_tv_tap_to_verify">Нажмите для отправки письма с подтверждением</string>
+	
 	<string name="fg_settings_tv_subscription_expires">Подписка до</string>
 	<string name="fg_settings_tv_subscription_expires_value">Пробная</string>
 	
@@ -97,12 +100,16 @@
 	<string name="fg_settings_switcher_metric_system">Метрическая система</string>
 	<string name="fg_settings_btn_metric_system_km">км</string>
 	<string name="fg_settings_btn_metric_system_mi">ми</string>
+	<string name="fg_settings_switcher_language">Язык</string>
+	
+	<string name="fg_settings_email_confirm_sent_success">Письмо со ссылкой для подтверждения отправлено</string>
+	<string name="fg_settings_email_confirm_sent_error_message">Ошибка. Письмо не отправлено</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- ********************************* fragment_settings_auth ********************************** -->
-	<string name="fg_settings_auth_header1">Лучший </string>
+	<string name="fg_settings_auth_header1">Лучший \</string>
 	<string name="fg_settings_auth_header2">Car Management</string>
 	<string name="fg_settings_auth_header3">experience</string>
 	

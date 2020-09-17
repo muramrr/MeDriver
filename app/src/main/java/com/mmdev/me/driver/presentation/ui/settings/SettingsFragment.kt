@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 20:36
+ * Last modified 17.09.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,12 @@
 package com.mmdev.me.driver.presentation.ui.settings
 
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.logInfo
@@ -38,30 +40,55 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 
 	override val mViewModel: SettingsViewModel by viewModel()
 	
+	private val authDialog = SettingsAuthDialog()
+	
 	private var notSignedIn = ""
+	private var emailSent = ""
+	private var emailNotSent = ""
+	private var languagesArray = emptyArray<String>()
+	
+	private lateinit var languagesMap: Map<Language, String>
 
 	override fun setupViews() {
 		initStringRes()
 		
 		initThemeSwitcher()
 		initMetricSystemCheckable()
+		initLanguageChooser()
 		
 		observeSignedInUser()
 		observeSendVerificationStatus()
 		
+		val languagesAdapter = ArrayAdapter(
+			requireContext(),
+			android.R.layout.simple_dropdown_item_1line,
+			languagesArray
+		)
 		
-		
-		binding.btnSignInPopUp.setDebounceOnClick (2000) {
-			SettingsAuthDialog().show(
-				childFragmentManager, SettingsAuthDialog::class.java.canonicalName
-			)
+		binding.apply {
+			btnSignInPopUp.setDebounceOnClick(2000) {
+				authDialog.show(childFragmentManager, SettingsAuthDialog::class.java.canonicalName)
+			}
+			
+			btnSignOut.setOnClickListener { mViewModel.signOut() }
+			
+			btnSendVerification.setDebounceOnClick(30000) {
+				mViewModel.sendEmailVerification(this.text.toString())
+			}
+			
+			dropLanguage.setAdapter(languagesAdapter)
+			
+			
 		}
-		
-		binding.btnSignOut.setOnClickListener { mViewModel.signOut() }
-		
-		binding.btnSendVerification.setDebounceOnClick(5000) {
-			mViewModel.sendEmailVerification(this.text.toString())
-		}
+
+	}
+	
+	private fun initStringRes() {
+		notSignedIn = getString(R.string.fg_settings_not_signed_in)
+		emailSent = getString(R.string.fg_settings_email_confirm_sent_success)
+		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
+		languagesArray = resources.getStringArray(R.array.languages)
+		languagesMap = Language.values().zip(languagesArray).toMap()
 	}
 	
 	override fun renderState(state: ViewState) {
@@ -70,24 +97,26 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 		when (state) {
 			
 			is AuthViewState.Success.SendVerification -> {
-				binding.root.showSnack(
-					getString(R.string.fg_settings_auth_email_sent_success)
-				)
+				binding.root.showSnack(emailSent)
 			}
 			
 			is AuthViewState.Error.SendVerification -> {
-				binding.root.showSnack(
-					state.errorMsg ?:
-					getString(R.string.fg_settings_auth_email_sent_error_message),
-					Snackbar.LENGTH_LONG
-				)
+				binding.root.showSnack(state.errorMsg ?: emailNotSent, Snackbar.LENGTH_LONG)
+			}
+			
+			// sign in success
+			is AuthViewState.Success.SignIn -> {
+				authDialog.dismiss()
+				mViewModel.clearInput()
+			}
+		
+			// sign up success
+			is AuthViewState.Success.SignUp -> {
+				authDialog.dismiss()
+				mViewModel.clearInput()
 			}
 			
 		}
-	}
-	
-	private fun initStringRes() {
-		notSignedIn = getString(R.string.fg_settings_not_signed_in)
 	}
 	
 	private fun observeSendVerificationStatus() {
@@ -95,8 +124,6 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			renderState(it)
 		})
 	}
-
-	
 	
 	private fun observeSignedInUser() {
 		sharedViewModel.userModel.observe(this, { user ->
@@ -106,9 +133,18 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			binding.btnSignOut.setInvisibleAndDisabledIf { user == null }
 			binding.btnSignInPopUp.setInvisibleAndDisabledIf { user != null }
 			
+			binding.tvYourAccountIsNotVerifiedHint.visibleIf(otherwise = View.INVISIBLE) {
+				user != null && !user.isEmailVerified
+			}
+			binding.tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) {
+				user != null && !user.isEmailVerified
+			}
+			
 			binding.tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) {
 				user != null && user.isEmailVerified
 			}
+			
+			binding.btnSendVerification.isClickable = user != null
 			
 			binding.btnSendVerification.setInvisibleAndDisabledIf {
 				user != null && user.isEmailVerified
@@ -118,6 +154,8 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			binding.btnYourAccountPremium.visibleIf(otherwise = View.GONE) {
 				user != null && user.isPremium
 			}
+			
+			
 			binding.btnSendVerification.text = user?.email ?: notSignedIn
 			binding.tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 			
@@ -152,6 +190,20 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			}
 		
 		}
+	}
+	
+	private fun initLanguageChooser() {
+		binding.dropLanguage.setText(languagesMap[MedriverApp.appLanguage], false)
+		
+		binding.dropLanguage.setOnItemClickListener { _, _, position, _ ->
+			
+			binding.dropLanguage.setText(
+				languagesMap[languagesMap.keys.elementAt(position)], false
+			)
+			
+			MedriverApp.changeLanguage(languagesMap.keys.elementAt(position))
+		}
+		
 	}
 	
 	

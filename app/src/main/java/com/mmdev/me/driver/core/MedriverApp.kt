@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.09.2020 20:24
+ * Last modified 17.09.2020 21:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.core
 
 import android.app.Application
+import android.content.Context
 import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
@@ -20,12 +21,16 @@ import com.mmdev.me.driver.core.di.PreferencesModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
 import com.mmdev.me.driver.core.utils.DebugConfig
+import com.mmdev.me.driver.core.utils.Language
+import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MyLogger
-import com.mmdev.me.driver.core.utils.ThemeHelper
-import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode
-import com.mmdev.me.driver.core.utils.ThemeHelper.ThemeMode.LIGHT_MODE
+import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
+import com.mmdev.me.driver.core.utils.helpers.ThemeHelper
+import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode
+import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
+import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.core.utils.logInfo
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -43,29 +48,40 @@ import org.koin.java.KoinJavaComponent.inject
 class MedriverApp : Application() {
 	
 	
-	
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
 		private const val THEME_MODE_KEY = "theme_mode"
 		private const val METRIC_SYSTEM_KEY = "metric_system"
+		private const val LANGUAGE_KEY = "language"
 		
 		private val prefs: KsPrefs by inject(KsPrefs::class.java)
 		
+		//make internal-public, because based on this values ui setup init values
 		internal var isLightMode: Boolean = true
 		internal var metricSystem: MetricSystem = KILOMETERS
+		internal var appLanguage: Language = UKRAINIAN
+		
 		
 		internal fun toggleMetricSystem(metricSystem: MetricSystem) {
 			prefs.push(METRIC_SYSTEM_KEY, metricSystem)
 			this.metricSystem = metricSystem
-			logInfo(TAG, "current metric system - ${metricSystem.name}")
+			logDebug(TAG, "Metric system changed.")
 		}
 		
 		internal fun toggleThemeMode(themeMode: ThemeMode) {
 			isLightMode = themeMode == LIGHT_MODE
 			prefs.push(THEME_MODE_KEY, themeMode)
-			logInfo(TAG, "isLightMode on? -$isLightMode")
+			logDebug(TAG, "AppTheme changed.")
 			ThemeHelper.applyTheme(themeMode)
 		}
+		
+		internal fun changeLanguage(language: Language) {
+			prefs.push(LANGUAGE_KEY, language)
+			appLanguage = language
+			logDebug(TAG, "Language changed.")
+		}
+		
+		
 		
 		@Volatile
 		internal var debug: DebugConfig = DebugConfig.Default
@@ -77,16 +93,16 @@ class MedriverApp : Application() {
 		 * @param enabled enable the debug mode.
 		 * @param logger logging implementation.
 		 */
-		fun debugMode(enabled: Boolean, logger: MyLogger) {
+		internal fun debugMode(enabled: Boolean, logger: MyLogger) {
 			debug = object: DebugConfig {
 				override val enabled = enabled
 				override val logger = logger
 			}
 		}
 	}
-
-	override fun onCreate() {
 	
+	override fun onCreate() {
+		
 		//initKoin
 		startKoin {
 			androidContext(this@MedriverApp)
@@ -106,12 +122,19 @@ class MedriverApp : Application() {
 		
 		applyInitThemeMode()
 		applyInitMetricSystem()
+		applyInitLanguage()
 		
 		super.onCreate()
+		logInfo(TAG, "isLightMode on? -$isLightMode")
+		logInfo(TAG, "current metric system - ${metricSystem.name}")
+		logInfo(TAG, "Application language - ${appLanguage.name}")
 	}
 	
+	override fun attachBaseContext(base: Context) {
+		super.attachBaseContext(LocaleHelper.newLocationContext(base, appLanguage))
+	}
 	
-	//called only on app startup
+	//called only on app startup to pull saved value
 	private fun applyInitThemeMode() {
 		if (prefs.exists(THEME_MODE_KEY)){
 			prefs.pull<ThemeMode>(THEME_MODE_KEY).also{
@@ -129,7 +152,7 @@ class MedriverApp : Application() {
 		}
 	}
 	
-	//called only on app startup
+	//called only on app startup to pull saved value
 	private fun applyInitMetricSystem() {
 		if (prefs.exists(METRIC_SYSTEM_KEY)){
 			prefs.pull<MetricSystem>(METRIC_SYSTEM_KEY).also{ metricSystem = it }
@@ -139,6 +162,20 @@ class MedriverApp : Application() {
 			with(KILOMETERS) {
 				prefs.push(METRIC_SYSTEM_KEY, this)
 				metricSystem = this
+			}
+		}
+	}
+	
+	//called only on app startup to pull saved value
+	private fun applyInitLanguage() {
+		if (prefs.exists(LANGUAGE_KEY)) {
+			prefs.pull<Language>(LANGUAGE_KEY).also{ appLanguage = it }
+		}
+		//if not exists - apply UKRAINIAN language as app default
+		else {
+			with(UKRAINIAN) {
+				prefs.push(LANGUAGE_KEY, this)
+				appLanguage = this
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 03:07
+ * Last modified 17.09.2020 20:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
@@ -31,6 +33,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity: AppCompatActivity() {
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
+	
+	//used to force chosen language as base context
+	override fun attachBaseContext(base: Context) {
+		super.attachBaseContext(LocaleHelper.newLocationContext(base, MedriverApp.appLanguage))
+	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -94,7 +101,7 @@ class MainActivity: AppCompatActivity() {
 		})
 		
 		sharedViewModel.userModel.observe(this, {
-			if (it == null)
+			if (it != null)
 				logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.AUTHENTICATED}")
 			else logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.UNAUTHENTICATED}")
 			

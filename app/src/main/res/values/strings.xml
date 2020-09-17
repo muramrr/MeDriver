@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 03:31
+  ~ Last modified 17.09.2020 21:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -82,6 +82,9 @@
 	<string name="fg_settings_header_account">Account</string>
 	<string name="fg_settings_header_general">General</string>
 	
+	<string name="fg_settings_tv_not_verified">Your account is not verified</string>
+	<string name="fg_settings_tv_tap_to_verify">Tap to send confirmation email</string>
+	
 	<string name="fg_settings_tv_subscription_expires">Subscription expires</string>
 	<string name="fg_settings_tv_subscription_expires_value">Trial</string>
 	
@@ -95,12 +98,16 @@
 	<string name="fg_settings_switcher_metric_system">Metric system</string>
 	<string name="fg_settings_btn_metric_system_km">km</string>
 	<string name="fg_settings_btn_metric_system_mi">mi</string>
+	<string name="fg_settings_switcher_language">Language</string>
+	
+	<string name="fg_settings_email_confirm_sent_success">Email with confirm link sent</string>
+	<string name="fg_settings_email_confirm_sent_error_message">Failure. Email not sent</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- ********************************* fragment_settings_auth ********************************** -->
-	<string name="fg_settings_auth_header1">The best </string>
+	<string name="fg_settings_auth_header1">The best \</string>
 	<string name="fg_settings_auth_header2">Car Accounting</string>
 	<string name="fg_settings_auth_header3">experience</string>
 	
@@ -141,6 +148,11 @@
 	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
 <!-- ******************************************************************************************* -->
 	
+	<string-array name="languages">
+		<item>Українська</item>
+		<item>Русский</item>
+		<item>English</item>
+	</string-array>
 	
 	<string name="btn_cancel">Cancel</string>
 	<string name="btn_done">Done</string>

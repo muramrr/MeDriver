@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 20:43
+ * Last modified 17.09.2020 18:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,12 +18,10 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentSettingsAuthBinding
-import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.showSnack
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 /**
@@ -32,6 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 
 internal class SettingsAuthDialog: DialogFragment() {
+	
 	private val TAG = javaClass.simpleName
 	
 	private lateinit var binding: FragmentSettingsAuthBinding
@@ -39,13 +38,16 @@ internal class SettingsAuthDialog: DialogFragment() {
 	
 	//get same scope as SettingsFragment
 	private val mViewModel: SettingsViewModel by lazy { requireParentFragment().getViewModel() }
-	private val sharedViewModel: SharedViewModel by sharedViewModel()
 	
 	private val emailRegex = Regex("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")
 	
 	private var emailInputError = ""
+	private var emailResetSent = ""
+	private var emailResetNotSent = ""
 	private var passwordInputError = ""
 	private var passwordMismatchError = ""
+	private var signInError = ""
+	private var signUpError = ""
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -92,7 +94,7 @@ internal class SettingsAuthDialog: DialogFragment() {
 			}
 			btnCancel.setDebounceOnClick(300) {
 				//transition to start motion state and the next click dismisses dialog
-				if (motionContainer.currentState == R.id.signInSet) exit()
+				if (motionContainer.currentState == R.id.signInSet) dismiss()
 				else motionContainer.transitionToStart().also { mViewModel.clearPasswordsInput() }
 				hideKeyboard(rootView)
 			}
@@ -111,8 +113,12 @@ internal class SettingsAuthDialog: DialogFragment() {
 	
 	private fun initStringRes() {
 		emailInputError = getString(R.string.fg_settings_auth_email_input_error)
+		emailResetSent = getString(R.string.fg_settings_auth_email_sent_success)
+		emailResetNotSent = getString(R.string.fg_settings_auth_email_sent_error_message)
 		passwordInputError = getString(R.string.fg_settings_auth_password_input_error)
 		passwordMismatchError = getString(R.string.fg_settings_auth_password_mismatch_error)
+		signInError = getString(R.string.fg_settings_auth_sign_in_error_message)
+		signUpError = getString(R.string.fg_settings_auth_sign_up_error_message)
 	}
 	
 	/**
@@ -170,34 +176,29 @@ internal class SettingsAuthDialog: DialogFragment() {
 		})
 	}
 	private fun renderAuthViewState(state: AuthViewState) {
-		sharedViewModel.handleLoading(state)
 		when (state) {
 			
 			// resetPassword states
-			is AuthViewState.Success.ResetPassword -> binding.btnCancel.performClick()
+			is AuthViewState.Success.ResetPassword -> {
+				binding.btnCancel.performClick()
+				binding.root.showSnack(emailResetSent, Snackbar.LENGTH_LONG)
+			}
 			is AuthViewState.Error.ResetPassword -> binding.root.showSnack(
-				state.errorMsg ?: getString(R.string.fg_settings_auth_email_sent_error_message),
+				state.errorMsg ?: emailResetNotSent,
 				Snackbar.LENGTH_LONG
 			)
 			
-			// sign in states
-			is AuthViewState.Success.SignIn -> exit()
+			// sign in error
 			is AuthViewState.Error.SignIn -> binding.root.showSnack(
-				state.errorMsg ?: getString(R.string.fg_settings_auth_sign_in_error_message),
+				state.errorMsg ?: signInError,
 				Snackbar.LENGTH_LONG
 			)
-			// sign up states
-			is AuthViewState.Success.SignUp -> exit()
+			// sign up error
 			is AuthViewState.Error.SignUp -> binding.root.showSnack(
-				state.errorMsg ?: getString(R.string.fg_settings_auth_sign_up_error_message),
+				state.errorMsg ?: signUpError,
 				Snackbar.LENGTH_LONG
 			)
 		}
-	}
-	
-	private fun exit() {
-		mViewModel.clearInput()
-		dialog?.dismiss()
 	}
 	
 	

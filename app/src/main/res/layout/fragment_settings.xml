@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 03:31
+  ~ Last modified 17.09.2020 21:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -78,6 +78,23 @@
 				
 				/>
 			
+			<!-- not verified label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvYourAccountIsNotVerifiedHint"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				
+				android:text="@string/fg_settings_tv_not_verified"
+				android:textAppearance="?textAppearanceCaption"
+				
+				android:visibility="invisible"
+				
+				app:layout_constraintTop_toTopOf="@id/cvAccountContainer"
+				app:layout_constraintBottom_toTopOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
+				/>
 			<!-- send verification -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnSendVerification"
@@ -110,7 +127,6 @@
 				android:id="@+id/tvEmailAddressConfirmed"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="24dp"
 				android:layout_marginEnd="16dp"
 				android:clickable="false"
 				
@@ -131,10 +147,26 @@
 				app:iconSize="16dp"
 				app:iconTintMode="multiply"
 				
-				app:layout_constraintTop_toTopOf="@id/cvAccountContainer"
+				app:layout_constraintTop_toBottomOf="@id/tvYourAccountIsNotVerifiedHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
 				app:layout_constraintBottom_toTopOf="@id/tvSyncLabel"
+				/>
+			<!-- tap to verify label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvTapToVerifyHint"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				
+				android:text="@string/fg_settings_tv_tap_to_verify"
+				android:textAppearance="?textAppearanceCaption"
+				
+				android:visibility="invisible"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
+				
 				/>
 			
 			<!-- button sign in -->
@@ -283,7 +315,7 @@
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
-				app:layout_constraintBottom_toBottomOf="@id/tvMetricSystemLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvLanguageLabel"
 				
 				/>
 			
@@ -336,7 +368,7 @@
 				app:layout_constraintEnd_toStartOf="@id/radioMetricSystem"
 				
 				/>
-			
+			<!-- metric system switch -->
 			<com.google.android.material.button.MaterialButtonToggleGroup
 				android:id="@+id/radioMetricSystem"
 				android:layout_width="wrap_content"
@@ -376,6 +408,53 @@
 				
 			</com.google.android.material.button.MaterialButtonToggleGroup>
 			
+			<!-- language label -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvLanguageLabel"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:labelFor="@id/switchTheme"
+				android:paddingTop="24dp"
+				android:paddingBottom="24dp"
+				
+				android:text="@string/fg_settings_switcher_language"
+				android:textAppearance="?textAppearanceBody1"
+				android:textStyle="bold"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvMetricSystemLabel"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintEnd_toStartOf="@id/layoutLanguageChoose"
+				
+				/>
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutLanguageChoose"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				
+				app:hintEnabled="false"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+				
+				app:layout_constraintStart_toEndOf="@id/tvLanguageLabel"
+				app:layout_constraintTop_toTopOf="@id/tvLanguageLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvLanguageLabel"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				>
+				
+				<com.google.android.material.textfield.MaterialAutoCompleteTextView
+					android:id="@+id/dropLanguage"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					
+					android:cursorVisible="false"
+					
+					android:focusable="false"
+					android:inputType="textNoSuggestions"
+					
+					android:text=""
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
 			
 			
 			

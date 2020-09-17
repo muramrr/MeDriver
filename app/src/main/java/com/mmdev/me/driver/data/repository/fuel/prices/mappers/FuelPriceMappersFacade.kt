@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 17.09.2020 02:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,7 +52,7 @@ class FuelPriceMappersFacade {
 		
 		for ((fuelType, networkFuelModelResponse) in input) {
 			networkFuelModelResponse.result.run {
-				//get every fuelProvider with price and generate separate objects price and provider
+				//get every fuelStation with price and generate separate objects price and station
 				networkFuelStations.forEach { networkFuelStation ->
 					//add price to general list
 					listOfFuelPrices.add(
@@ -134,7 +134,7 @@ class FuelPriceMappersFacade {
 			networkFuelModelResponse.result.run {
 				listOfFuelPrices.clear()
 				
-				//get every fuelProvider with price and generate separate objects price and provider
+				//get every fuelStation with prices and generate separate objects price and station
 				networkFuelStations.forEach { networkFuelStation ->
 					
 					//check if set contains FuelStation

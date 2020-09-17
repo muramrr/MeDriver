@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.09.2020 16:20
+  ~ Last modified 17.09.2020 03:34
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,21 +81,52 @@
 <!-- *********************************** fragment_settings ************************************* -->
 	<string name="fg_settings_not_signed_in">Вхід не виконано</string>
 	
+	<string name="fg_settings_header_account">Аккаунт</string>
+	<string name="fg_settings_header_general">Загальні</string>
+	
+	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>
+	<string name="fg_settings_tv_subscription_expires_value">Пробна</string>
+	
+	<string name="fg_settings_btn_premium">Премуім</string>
+	<string name="fg_settings_btn_sign_in">Увійти</string>
+	<string name="fg_settings_btn_sign_out">Вийти</string>
+	<string name="fg_settings_btn_get_premium">Отримати Преміум!</string>
+	
+	<string name="fg_settings_switcher_sync">Синхронізація</string>
+	<string name="fg_settings_switcher_dark_theme">Темна тема</string>
+	<string name="fg_settings_switcher_metric_system">Метрична система</string>
+	<string name="fg_settings_btn_metric_system_km">км</string>
+	<string name="fg_settings_btn_metric_system_mi">ми</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- ********************************* fragment_settings_auth ********************************** -->
+	<string name="fg_settings_auth_header1">Лучший </string>
+	<string name="fg_settings_auth_header2">Car Management</string>
+	<string name="fg_settings_auth_header3">experience</string>
+	
 	<string name="fg_settings_auth_email_input_error">Неправильний формат адреси</string>
+	<string name="fg_settings_auth_email_input_hint">Ваш Email</string>
+	
 	<string name="fg_settings_auth_password_input_error">Пароль мусить бути не коротший 6 символів</string>
 	<string name="fg_settings_auth_password_mismatch_error">Паролі не співпадають</string>
+	<string name="fg_settings_auth_password_input_hint">Пароль</string>
+	<string name="fg_settings_auth_password_confirm_input_hint">Повторіть пароль</string>
+	
+	<string name="fg_settings_auth_btn_forgot_password">Забули пароль?</string>
+	<string name="fg_settings_auth_btn_sign_in">Увійти</string>
+	<string name="fg_settings_auth_btn_create">Створити</string>
+	<string name="fg_settings_auth_btn_reset">Скинути</string>
+	<string name="fg_settings_auth_btn_sign_up">Реєстрація</string>
+	
+	<string name="fg_settings_auth_tv_check_mail">Перейдіть за посиланням у відправленому листі.</string>
+	<string name="fg_settings_auth_tv_dont_have_account">Немає аккаунта?</string>
 	
 	<string name="fg_settings_auth_sign_in_error_message">Невідома помилка під час входу</string>
 	<string name="fg_settings_auth_sign_up_error_message">Невідома помилка під час регистрації</string>
 	<string name="fg_settings_auth_email_sent_error_message">Помилка. Лист не відправлено</string>
 	<string name="fg_settings_auth_email_sent_success">Лист було успішно надіслано</string>
-	
-	
 <!-- ******************************************************************************************* -->
 
 

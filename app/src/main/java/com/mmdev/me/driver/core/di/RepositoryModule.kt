@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 03:56
+ * Last modified 17.09.2020 01:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,14 +43,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IAuthRepository> {
-		AuthRepositoryImpl(
-			authDataSource = get(),
-			userLocalDataSource = get(),
-			userRemoteDataSource = get(),
-			mappers = UserMappersFacade()
-		)
-	}
+	single<IAuthRepository> { AuthRepositoryImpl(authDataSource = get()) }
 
 	single<IVINRepository> { VINRepositoryImpl(dataSourceRemote = get())}
 	

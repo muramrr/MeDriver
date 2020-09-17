@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 16:24
+ * Last modified 17.09.2020 03:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,7 +43,6 @@ class SharedViewModel(authProvider: IAuthFlowProvider) : BaseViewModel() {
 		
 	}
 	
-	val authStatus: LiveData<AuthStatus> = authProvider.getAuthStatusFlow().asLiveData()
 	val userModel: LiveData<UserModel?> = authProvider.getAuthUserFlow().asLiveData()
 	
 }

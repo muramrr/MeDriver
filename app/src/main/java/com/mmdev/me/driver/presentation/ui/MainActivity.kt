@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 16:24
+ * Last modified 17.09.2020 03:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
+import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -92,8 +93,11 @@ class MainActivity: AppCompatActivity() {
 			else loadingDialog.dismiss()
 		})
 		
-		sharedViewModel.authStatus.observe(this, {
-			logDebug("mylogs_MainActivity", "authStatus = $it")
+		sharedViewModel.userModel.observe(this, {
+			if (it == null)
+				logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.AUTHENTICATED}")
+			else logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.UNAUTHENTICATED}")
+			
 		})
 		
 	}

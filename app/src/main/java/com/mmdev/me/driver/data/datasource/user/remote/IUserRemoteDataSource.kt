@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 18:48
+ * Last modified 17.09.2020 02:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ interface IUserRemoteDataSource {
 	fun getFirestoreUser(email: String): Flow<SimpleResult<FirestoreUser>>
 	
 	fun <T> updateFirestoreUserField(
-		userId: String, field: String, value: T
+		email: String, field: String, value: T
 	): Flow<SimpleResult<Void>>
 	
 	fun writeFirestoreUser(userBackend: FirestoreUser): Flow<SimpleResult<Unit>>

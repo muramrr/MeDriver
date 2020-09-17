@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.09.2020 03:01
+  ~ Last modified 17.09.2020 03:31
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,7 +33,7 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				
-				android:text="Account"
+				android:text="@string/fg_settings_header_account"
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
@@ -49,7 +49,7 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				
-				android:text="PREMIUM"
+				android:text="@string/fg_settings_btn_premium"
 				android:textColor="?colorSecondary"
 				
 				android:visibility="gone"
@@ -88,7 +88,7 @@
 				android:ellipsize="end"
 				android:maxLines="1"
 				
-				android:text="Not signed in"
+				android:text="@string/fg_settings_not_signed_in"
 				android:textAppearance="?textAppearanceCaption"
 				android:textAlignment="viewStart"
 				android:textColor="?colorOnSecondary"
@@ -117,7 +117,7 @@
 				android:ellipsize="end"
 				android:maxLines="1"
 				
-				android:text="asdas"
+				android:text="@string/fg_settings_not_signed_in"
 				android:textAppearance="?textAppearanceCaption"
 				android:textAlignment="viewStart"
 				android:textColor="?colorOnSecondary"
@@ -143,7 +143,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				android:text="Sign In"
+				android:text="@string/fg_settings_btn_sign_in"
 				
 				android:visibility="visible"
 				
@@ -160,7 +160,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				android:text="Sign Out"
+				android:text="@string/fg_settings_btn_sign_out"
 				android:textColor="#d62828"
 				
 				android:visibility="invisible"
@@ -181,7 +181,7 @@
 				android:labelFor="@id/switchSync"
 				android:layout_marginTop="32dp"
 				
-				android:text="Sync enabled"
+				android:text="@string/fg_settings_switcher_sync"
 				android:textAllCaps="false"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
@@ -211,7 +211,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
 				
-				android:text="Subscription expires"
+				android:text="@string/fg_settings_tv_subscription_expires"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
@@ -225,7 +225,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				android:text="Trial"
+				android:text="@string/fg_settings_tv_subscription_expires_value"
 				android:textAppearance="?textAppearanceCaption"
 				android:textSize="16sp"
 				android:textStyle="bold"
@@ -244,7 +244,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				
-				android:text="Get Premium!"
+				android:text="@string/fg_settings_btn_get_premium"
 				android:textAllCaps="false"
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -261,14 +261,15 @@
 			<!-- general card header -->
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvGeneralCardHeader"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				
-				android:text="General"
+				android:text="@string/fg_settings_header_general"
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toBottomOf="@id/cvAccountContainer"
 				app:layout_constraintBottom_toTopOf="@id/cvGeneralContainer"
 				/>
@@ -295,7 +296,7 @@
 				android:paddingTop="24dp"
 				android:paddingBottom="24dp"
 				
-				android:text="Dark theme"
+				android:text="@string/fg_settings_switcher_dark_theme"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
@@ -326,7 +327,7 @@
 				android:paddingTop="24dp"
 				android:paddingBottom="24dp"
 				
-				android:text="Metric system"
+				android:text="@string/fg_settings_switcher_metric_system"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
@@ -356,7 +357,7 @@
 					android:layout_width="60dp"
 					android:layout_height="wrap_content"
 					
-					android:text="km"
+					android:text="@string/fg_settings_btn_metric_system_km"
 					android:textAllCaps="false"
 					
 					style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -367,7 +368,7 @@
 					android:layout_width="60dp"
 					android:layout_height="wrap_content"
 					
-					android:text="mi"
+					android:text="@string/fg_settings_btn_metric_system_mi"
 					android:textAllCaps="false"
 					
 					style="@style/Widget.MaterialComponents.Button.OutlinedButton"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 20:42
+ * Last modified 17.09.2020 02:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -83,16 +83,15 @@ internal class SettingsViewModel (private val repository: IAuthRepository): Base
 		if (email.isNotBlank()) {
 			viewModelScope.launch {
 				
-				repository.sendEmailVerification(email).collect {
-					when (it) {
-						is ResultState.Success -> authViewState.postValue(
-							AuthViewState.Success.SendVerification
-						)
-						is ResultState.Failure -> authViewState.postValue(
-							AuthViewState.Error.SendVerification(it.error.message)
-						)
-						
-					}
+				repository.sendEmailVerification(email).collect { result ->
+					result.fold(
+						success = { authViewState.postValue(AuthViewState.Success.SendVerification) },
+						failure = { throwable ->
+							authViewState.postValue(
+								AuthViewState.Error.SendVerification(throwable.message)
+							)
+						}
+					)
 				}
 				
 			}
@@ -111,16 +110,15 @@ internal class SettingsViewModel (private val repository: IAuthRepository): Base
 				
 				authViewState.postValue(AuthViewState.Loading)
 				try {
-					repository.signIn(inputEmail.value!!, inputPassword.value!!).collect {
-						when (it) {
-							is ResultState.Success -> authViewState.postValue(
-								AuthViewState.Success.SignIn
-							)
-							is ResultState.Failure -> authViewState.postValue(
-								AuthViewState.Error.SignIn(it.error.message)
-							)
-							
-						}
+					repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
+						result.fold(
+							success = { authViewState.postValue(AuthViewState.Success.SignIn) },
+							failure = { throwable ->
+								authViewState.postValue(
+									AuthViewState.Error.SignIn(throwable.message)
+								)
+							}
+						)
 					}
 				}
 				catch (e: NullPointerException) {
@@ -147,16 +145,15 @@ internal class SettingsViewModel (private val repository: IAuthRepository): Base
 					
 					viewModelScope.launch {
 						
-						repository.signUp(inputEmail.value!!, inputPassword.value!!).collect {
-							when (it) {
-								is ResultState.Success -> authViewState.postValue(
-									AuthViewState.Success.SignUp
-								)
-								
-								is ResultState.Failure -> authViewState.postValue(
-									AuthViewState.Error.SignUp(it.error.message)
-								)
-							}
+						repository.signUp(inputEmail.value!!, inputPassword.value!!).collect { result ->
+							result.fold(
+								success = { authViewState.postValue(AuthViewState.Success.SignUp) },
+								failure = {  throwable ->
+									authViewState.postValue(
+										AuthViewState.Error.SignUp(throwable.message)
+									)
+								}
+							)
 						}
 					}
 				}

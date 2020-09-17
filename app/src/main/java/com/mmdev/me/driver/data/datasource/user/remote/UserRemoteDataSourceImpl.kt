@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 18:48
+ * Last modified 17.09.2020 02:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,10 +36,10 @@ internal class UserRemoteDataSourceImpl (private val db: FirebaseFirestore):
 			.getAndDeserialize(FirestoreUser::class.java)
 	
 	override fun <T> updateFirestoreUserField(
-		userId: String, field: String, value: T
+		email: String, field: String, value: T
 	): Flow<SimpleResult<Void>> =
 		db.collection(DB_USERS_COLLECTION)
-			.document(userId)
+			.document(email)
 			.update(field, value)
 			.asFlow()
 	

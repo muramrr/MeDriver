@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 20:53
+ * Last modified 17.09.2020 01:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,9 +12,6 @@ package com.mmdev.me.driver.data.repository.auth
 
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
-import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
-import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
-import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.auth.IAuthRepository
@@ -26,10 +23,7 @@ import kotlinx.coroutines.flow.map
  */
 
 internal class AuthRepositoryImpl(
-	private val authDataSource: IFirebaseAuthDataSource,
-	private val userLocalDataSource: IUserLocalDataSource,
-	private val userRemoteDataSource: IUserRemoteDataSource,
-	private val mappers: UserMappersFacade
+	private val authDataSource: IFirebaseAuthDataSource
 ) : IAuthRepository, BaseRepository() {
 	
 	override fun resetPassword(email: String) : Flow<SimpleResult<Unit>> =

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 17.09.2020 02:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.core.base
 
-import com.mmdev.me.driver.core.utils.logDebug
+import com.mmdev.me.driver.core.utils.logError
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -26,7 +26,7 @@ open class BaseDataSource {
 			ResultState.Success(call.invoke())
 		}
 		catch (t: Throwable) {
-			logDebug(TAG, "${t.message}")
+			logError(TAG, "${t.message}")
 			ResultState.Failure(t)
 		}
 }

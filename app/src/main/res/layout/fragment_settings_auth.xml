@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.09.2020 19:53
+  ~ Last modified 17.09.2020 03:07
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -61,7 +61,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="16dp"
 			
-			android:text="The best "
+			android:text="@string/fg_settings_auth_header1"
 			android:textAppearance="?textAppearanceHeadline4"
 			android:textColor="?colorOnSurface"
 			android:textSize="24sp"
@@ -80,7 +80,7 @@
 			android:gravity="center_vertical"
 			android:maxLines="1"
 			
-			android:text="Car Managment"
+			android:text="@string/fg_settings_auth_header2"
 			android:textAppearance="?textAppearanceHeadline4"
 			
 			android:textColor="?colorPrimary"
@@ -103,7 +103,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			
-			android:text="experience"
+			android:text="@string/fg_settings_auth_header3"
 			android:textAppearance="?textAppearanceHeadline4"
 			android:textColor="?colorOnSurface"
 			android:textSize="24sp"
@@ -122,7 +122,7 @@
 			android:layout_width="0dp"
 			android:focusable="false"
 			
-			android:hint="Email"
+			android:hint="@string/fg_settings_auth_email_input_hint"
 			
 			app:errorEnabled="true"
 			
@@ -160,7 +160,7 @@
 			android:layout_marginTop="16dp"
 			android:focusable="false"
 			
-			android:hint="Password"
+			android:hint="@string/fg_settings_auth_password_input_hint"
 			
 			app:errorEnabled="true"
 			app:passwordToggleEnabled="true"
@@ -200,7 +200,7 @@
 			android:layout_marginTop="16dp"
 			android:focusable="false"
 			
-			android:hint="Confirm password"
+			android:hint="@string/fg_settings_auth_password_confirm_input_hint"
 			
 			android:translationX="500dp"
 			
@@ -241,7 +241,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			
-			android:text="Forgot password?"
+			android:text="@string/fg_settings_auth_btn_forgot_password"
 			android:textAllCaps="false"
 			android:textSize="12sp"
 			
@@ -258,7 +258,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="Cancel"
+			android:text="@string/btn_cancel"
 			
 			style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 			
@@ -272,7 +272,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="SIGN IN"
+			android:text="@string/fg_settings_auth_btn_sign_in"
 			
 			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
 			app:layout_constraintStart_toEndOf="@id/btnCancel"
@@ -284,7 +284,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="Create"
+			android:text="@string/fg_settings_auth_btn_create"
 			android:translationX="300dp"
 			
 			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
@@ -300,7 +300,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="24dp"
 			
-			android:text="Reset"
+			android:text="@string/fg_settings_auth_btn_reset"
 			android:translationY="500dp"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputEmail"
@@ -328,7 +328,7 @@
 			android:layout_height="wrap_content"
 			android:labelFor="@id/ivCheckMail"
 			
-			android:text="Check your Mail Inbox"
+			android:text="@string/fg_settings_auth_tv_check_mail"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceHeadline5"
 			
@@ -347,7 +347,7 @@
 			android:layout_marginTop="8dp"
 			android:padding="8dp"
 			
-			android:text="Don't have account yet?"
+			android:text="@string/fg_settings_auth_tv_dont_have_account"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
 			
@@ -368,7 +368,7 @@
 			android:insetTop="0dp"
 			android:insetBottom="0dp"
 			
-			android:text="Sign up"
+			android:text="@string/fg_settings_auth_btn_sign_up"
 			android:textAllCaps="false"
 			
 			

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 21:05
+  ~ Last modified 18.09.2020 17:38
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,20 +10,42 @@
   -->
 
 <resources>
+	
+	
+	
+	<string name="btn_fuel_type_gas">Газ</string>
+	<string name="btn_fuel_type_dt">ДП</string>
 
-<!-- ********************************** fragment_fuel_prices *********************************** -->
-	<string name="fg_fuel_prices_empty_list">Не вдалося отримати актуальні ціни</string>
+
+	
+<!-- ************************************** activity_main ************************************** -->
+	<string name="bottom_nav_home">Головна</string>
+	<string name="bottom_nav_maintenance">ТО</string>
+	<string name="bottom_nav_my_car">Моє авто</string>
+	<string name="bottom_nav_fuel">Пальне</string>
+	<string name="bottom_nav_settings">Опції</string>
 <!-- ******************************************************************************************* -->
 
+
+
+<!-- ************************************* fragment_fuel *************************************** -->
+	<string name="fg_fuel_tab_prices">Ціни</string>
+	<string name="fg_fuel_tab_history">Історія</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************** fragment_fuel_prices *********************************** -->
+	<string name="fg_fuel_prices_empty_list">Не вдалося отримати актуальні ціни :(</string>
+<!-- ******************************************************************************************* -->
 
 
 
 <!-- ********************************** fragment_fuel_history ********************************** -->
-	<string name="fg_fuel_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
-	<string name="fg_fuel_history_empty_hint_title">Your history is empty :(</string>
-	<string name="fg_fuel_history_empty_hint_image_desc">Empty history indicator</string>
+	<string name="fg_fuel_history_empty_hint_subtitle">Натисніть \'+\' щоб додати новий запис</string>
+	<string name="fg_fuel_history_empty_hint_title">Ваша історія порожня :(</string>
+	<string name="fg_fuel_history_empty_hint_image_desc">Порожня історія. Індикатор</string>
 <!-- ******************************************************************************************* -->
-
 
 
 
@@ -148,10 +170,7 @@
 	<string name="item_fuel_history_entry_odometer_mi">%d миль</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
 <!-- ******************************************************************************************* -->
-	
-	
-	<string name="btn_fuel_type_gas">Газ</string>
-	<string name="btn_fuel_type_dt">ДП</string>
+
 	
 	
 </resources>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.08.2020 20:07
+ * Last modified 18.09.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,7 +42,7 @@ class MyCarFragment : BaseFlowFragment<MyCarViewModel, FragmentMycarBinding>(
 	
 	override val mViewModel: MyCarViewModel by viewModel()
 	
-	private val list : ArrayList<CarInDropDown> = arrayListOf(
+	private val list : List<CarInDropDown> = listOf(
 			CarInDropDown("Ford", "Focus",
 			              R.drawable.hatchback),
 			CarInDropDown("Range Rover", "Sport",
@@ -56,7 +56,7 @@ class MyCarFragment : BaseFlowFragment<MyCarViewModel, FragmentMycarBinding>(
 			binding.dropMyCarChooseCar.setText(it.getFullCarTitle(), false)
 		})
 		
-		val adapter = CarDropAdapter(requireContext(), R.layout.item_drop_mycar, list)
+		val adapter = CarDropAdapter(requireContext(), R.layout.drop_item_mycar, list)
 		binding.dropMyCarChooseCar.apply {
 			setAdapter(adapter)
 			
@@ -77,7 +77,7 @@ class MyCarFragment : BaseFlowFragment<MyCarViewModel, FragmentMycarBinding>(
 	
 	
 	private class CarDropAdapter(
-		context: Context, @LayoutRes private val layoutId: Int, data: ArrayList<CarInDropDown>
+		context: Context, @LayoutRes private val layoutId: Int, data: List<CarInDropDown>
 	): DropAdapter<CarInDropDown>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

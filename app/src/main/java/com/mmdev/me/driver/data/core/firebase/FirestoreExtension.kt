@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 17:28
+ * Last modified 18.09.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,9 +11,9 @@
 package com.mmdev.me.driver.data.core.firebase
 
 import com.google.firebase.firestore.DocumentReference
-import com.mmdev.me.driver.core.utils.logDebug
-import com.mmdev.me.driver.core.utils.logError
-import com.mmdev.me.driver.core.utils.logInfo
+import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult

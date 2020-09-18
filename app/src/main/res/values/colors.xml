@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.09.2020 19:00
+  ~ Last modified 18.09.2020 18:01
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,4 +45,6 @@
 	<color name="maximum_red">#d62828</color>
 	<color name="spring_green">#1FF678</color>
 	
+	<color name="disabled_foreground">#EBEBE4</color>
+	<color name="disabled_background">#C6C6C6</color>
 </resources>

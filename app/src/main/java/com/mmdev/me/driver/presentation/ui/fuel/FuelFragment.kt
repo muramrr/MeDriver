@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.09.2020 19:11
+ * Last modified 18.09.2020 17:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,8 +41,8 @@ internal class FuelFragment :
 			binding.viewPagerContainer
 		) { tab: TabLayout.Tab, position: Int ->
 			when (position){
-				0 -> tab.text = "Prices"
-				1 -> tab.text = "History"
+				0 -> tab.text = getString(R.string.fg_fuel_tab_prices)
+				1 -> tab.text = getString(R.string.fg_fuel_tab_history)
 			}
 		}.attach()
 		

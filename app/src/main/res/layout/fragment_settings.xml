@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 21:05
+  ~ Last modified 18.09.2020 19:47
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,7 @@
 			android:id="@+id/settingsContainer"
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
+			android:focusableInTouchMode="true"
 	
 			>
 			
@@ -37,14 +38,14 @@
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toStartOf="@id/btnYourAccountPremium"
+				app:layout_constraintEnd_toStartOf="@id/tvYourAccountPremium"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toTopOf="@id/cvAccountContainer"
 				/>
 			
 			<!-- account premium indicator -->
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnYourAccountPremium"
+				android:id="@+id/tvYourAccountPremium"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:clickable="false"
@@ -229,6 +230,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
+				
 				app:layout_constraintTop_toTopOf="@id/tvSyncLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvSyncLabel"
 				app:layout_constraintStart_toEndOf="@id/tvSyncLabel"
@@ -314,8 +316,8 @@
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
-				app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
-				app:layout_constraintBottom_toBottomOf="@id/tvLanguageLabel"
+				app:layout_constraintTop_toBottomOf="@id/tvGeneralCardHeader"
+				app:layout_constraintBottom_toBottomOf="@id/cvGeneralBottomBarrier"
 				
 				/>
 			
@@ -325,14 +327,14 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:labelFor="@id/switchTheme"
-				android:paddingTop="24dp"
-				android:paddingBottom="24dp"
+				android:layout_marginTop="24dp"
 				
 				android:text="@string/fg_settings_switcher_dark_theme"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvGeneralCardHeader"
+				app:layout_constraintTop_toTopOf="@id/cvGeneralContainer"
+				app:layout_constraintBottom_toTopOf="@id/tvMetricSystemLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/switchTheme"
 				
@@ -355,15 +357,15 @@
 				android:id="@+id/tvMetricSystemLabel"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="32dp"
 				android:labelFor="@id/switchTheme"
-				android:paddingTop="24dp"
-				android:paddingBottom="24dp"
 				
 				android:text="@string/fg_settings_switcher_metric_system"
 				android:textAppearance="?textAppearanceBody1"
 				android:textStyle="bold"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvThemeLabel"
+				app:layout_constraintBottom_toTopOf="@id/tvLanguageLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/radioMetricSystem"
 				
@@ -413,9 +415,8 @@
 				android:id="@+id/tvLanguageLabel"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:labelFor="@id/switchTheme"
-				android:paddingTop="24dp"
-				android:paddingBottom="24dp"
+				android:layout_marginTop="32dp"
+				android:labelFor="@id/layoutLanguageChoose"
 				
 				android:text="@string/fg_settings_switcher_language"
 				android:textAppearance="?textAppearanceBody1"
@@ -430,9 +431,10 @@
 				android:id="@+id/layoutLanguageChoose"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
+				android:focusable="false"
 				
 				app:hintEnabled="false"
-				
+				app:boxStrokeWidth="0dp"
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 				
 				app:layout_constraintStart_toEndOf="@id/tvLanguageLabel"
@@ -445,13 +447,14 @@
 					android:id="@+id/dropLanguage"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
+					android:importantForAutofill="no"
 					
 					android:cursorVisible="false"
+					android:textAlignment="center"
 					
 					android:focusable="false"
 					android:inputType="textNoSuggestions"
 					
-					android:text=""
 					/>
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -503,6 +506,16 @@
 				app:constraint_referenced_ids="btnSignInPopUp, btnSignOut"
 				/>
 	
+			<!-- cv general bottom barrier-->
+			<androidx.constraintlayout.widget.Barrier
+				android:id="@+id/cvGeneralBottomBarrier"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				app:barrierDirection="bottom"
+				app:constraint_referenced_ids="tvLanguageLabel, layoutLanguageChoose"
+				app:barrierMargin="16dp"
+				/>
+			
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	
 	</androidx.core.widget.NestedScrollView>

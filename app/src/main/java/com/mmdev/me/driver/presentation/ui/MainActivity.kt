@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 20:25
+ * Last modified 18.09.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,9 +24,10 @@ import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
-import com.mmdev.me.driver.core.utils.logDebug
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
-import com.mmdev.me.driver.domain.user.auth.AuthStatus
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
 import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -66,26 +67,26 @@ class MainActivity: AppCompatActivity() {
 			if (previousItem != nextItem) {
 
 				when (nextItem) {
-					R.id.bottomNavMainHome -> {
+					R.id.bottomNavHome -> {
 						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainHome)
+						navController.navigate(R.id.actionBottomNavHome)
 					}
-					R.id.bottomNavMainCare -> {
+					R.id.bottomNavMaintenance -> {
 						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainCare)
+						navController.navigate(R.id.actionBottomNavMaintenance)
 					}
-					R.id.bottomNavMainMyCar -> {
+					R.id.bottomNavMyCar -> {
 						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainMyCar)
+						navController.navigate(R.id.actionBottomNavMyCar)
 
 					}
-					R.id.bottomNavMainFuel -> {
+					R.id.bottomNavFuel -> {
 						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainFuel)
+						navController.navigate(R.id.actionBottomNavFuel)
 					}
-					R.id.bottomNavMainSettings -> {
+					R.id.bottomNavSettings -> {
 						navController.popBackStack()
-						navController.navigate(R.id.bottomNavMainSettings)
+						navController.navigate(R.id.actionBottomNavSettings)
 					}
 				}
 			}
@@ -102,8 +103,8 @@ class MainActivity: AppCompatActivity() {
 		
 		sharedViewModel.userModel.observe(this, {
 			if (it != null)
-				logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.AUTHENTICATED}")
-			else logDebug("mylogs_MainActivity", "authStatus = ${AuthStatus.UNAUTHENTICATED}")
+				logDebug("mylogs_MainActivity", "authStatus = $AUTHENTICATED")
+			else logDebug("mylogs_MainActivity", "authStatus = $UNAUTHENTICATED")
 			
 		})
 		

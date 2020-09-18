@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 17:06
+ * Last modified 18.09.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.core.firebase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.mmdev.me.driver.core.utils.MyDispatchers
-import com.mmdev.me.driver.core.utils.logError
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserModel

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.09.2020 01:28
+  ~ Last modified 18.09.2020 18:34
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,6 +40,7 @@
 	<color name="colorStatusBar">#000000</color>
 
 	<color name="surface2dpImitation">#1A1A1A</color>
-
-
+	
+	<color name="disabled_foreground">#646464</color>
+	<color name="disabled_background">#323232</color>
 </resources>

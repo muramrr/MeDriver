@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.07.20 20:36
+  ~ Last modified 18.09.2020 17:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,34 +11,34 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<item android:id="@+id/bottomNavMainHome"
+	<item android:id="@+id/bottomNavHome"
 		android:icon="@drawable/ic_home_24"
 		android:orderInCategory="0"
-		android:title="Home"
+		android:title="@string/bottom_nav_home"
 		/>
 
-	<item android:id="@+id/bottomNavMainCare"
+	<item android:id="@+id/bottomNavMaintenance"
 		android:icon="@drawable/ic_maintenance_24"
 		android:orderInCategory="1"
-		android:title="Care"
+		android:title="@string/bottom_nav_maintenance"
 		/>
 
-	<item android:id="@+id/bottomNavMainMyCar"
+	<item android:id="@+id/bottomNavMyCar"
 		android:icon="@drawable/ic_car_24"
 		android:orderInCategory="2"
-		android:title="Car"
+		android:title="@string/bottom_nav_my_car"
 		/>
 
-	<item android:id="@+id/bottomNavMainFuel"
+	<item android:id="@+id/bottomNavFuel"
 		android:icon="@drawable/ic_fuel_station_24"
 		android:orderInCategory="3"
-		android:title="Fuel"
+		android:title="@string/bottom_nav_fuel"
 		/>
 
-	<item android:id="@+id/bottomNavMainSettings"
+	<item android:id="@+id/bottomNavSettings"
 		android:icon="@drawable/ic_settings_24"
 		android:orderInCategory="4"
-		android:title="Settings"
+		android:title="@string/bottom_nav_settings"
 		/>
 
 </menu>

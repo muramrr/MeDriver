@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 21:20
+ * Last modified 18.09.2020 19:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.core
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Configuration
 import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
@@ -20,18 +21,18 @@ import com.mmdev.me.driver.core.di.NetworkModule
 import com.mmdev.me.driver.core.di.PreferencesModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
-import com.mmdev.me.driver.core.utils.DebugConfig
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MyLogger
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
-import com.mmdev.me.driver.core.utils.logDebug
-import com.mmdev.me.driver.core.utils.logInfo
+import com.mmdev.me.driver.core.utils.log.DebugConfig
+import com.mmdev.me.driver.core.utils.log.MyLogger
+import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logInfo
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -132,6 +133,15 @@ class MedriverApp : Application() {
 	
 	override fun attachBaseContext(base: Context) {
 		super.attachBaseContext(LocaleHelper.newLocationContext(base, appLanguage))
+	}
+	
+	/**
+	 * When user decides to change system device language it will override application settings
+	 * so its a fix
+	 */
+	override fun onConfigurationChanged(newConfig: Configuration) {
+		super.onConfigurationChanged(newConfig)
+		LocaleHelper.overrideLocale(this, appLanguage)
 	}
 	
 	//called only on app startup to pull saved value

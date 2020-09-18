@@ -1,17 +1,17 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.07.20 19:22
+ * Last modified 18.09.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.core.utils
+package com.mmdev.me.driver.core.utils.log
 
 import android.util.Log
-import com.mmdev.me.driver.core.utils.MyLogger.Default
+import com.mmdev.me.driver.core.utils.log.MyLogger.Default
 
 /**
  * May be used to create a custom logging solution to override the [Default] behaviour.

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.09.2020 19:12
+ * Last modified 18.09.2020 16:28
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,8 @@ import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.databinding.DropItemFuelStationBinding
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryAddBinding
-import com.mmdev.me.driver.databinding.ItemDropFuelStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
@@ -190,8 +190,8 @@ internal class FuelHistoryAddDialog(
 	private fun setupInputStationDropList() {
 		val adapter = FuelStationDropAdapter(
 			requireContext(),
-			R.layout.item_drop_fuel_station,
-			ArrayList(mFuelStationWithPrices.map { it.fuelStation })
+			R.layout.drop_item_fuel_station,
+			mFuelStationWithPrices.map { it.fuelStation }
 		)
 		// drop down fuel station chooser
 		binding.etFuelStationDrop.apply {
@@ -267,10 +267,10 @@ internal class FuelHistoryAddDialog(
 	private class FuelStationDropAdapter(
 		private val mContext: Context,
 		@LayoutRes private val layoutId: Int,
-		data: ArrayList<FuelStation>
+		data: List<FuelStation>
 	): DropAdapter<FuelStation>(mContext, layoutId, data) {
 		
-		private lateinit var binding: ItemDropFuelStationBinding
+		private lateinit var binding: DropItemFuelStationBinding
 		private lateinit var fuelStation: FuelStation
 		
 		@SuppressLint("ViewHolder")

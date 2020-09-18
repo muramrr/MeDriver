@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.08.2020 16:50
+  ~ Last modified 18.09.2020 17:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,31 +16,31 @@
 	app:startDestination="@id/homeFragment">
 
 
-	<action android:id="@+id/bottomNavMainHome"
+	<action android:id="@+id/actionBottomNavHome"
 		app:destination="@id/homeFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
 
-	<action android:id="@+id/bottomNavMainCare"
+	<action android:id="@+id/actionBottomNavMaintenance"
 		app:destination="@id/careFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
 
-	<action android:id="@+id/bottomNavMainMyCar"
+	<action android:id="@+id/actionBottomNavMyCar"
 		app:destination="@id/myCarFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
 
-	<action android:id="@+id/bottomNavMainFuel"
+	<action android:id="@+id/actionBottomNavFuel"
 		app:destination="@id/fuelFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
 
-	<action android:id="@+id/bottomNavMainSettings"
+	<action android:id="@+id/actionBottomNavSettings"
 		app:destination="@id/settingsFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"

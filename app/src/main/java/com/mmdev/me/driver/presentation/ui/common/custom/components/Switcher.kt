@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.09.2020 01:13
+ * Last modified 18.09.2020 19:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,7 +37,8 @@ import kotlin.math.pow
 class Switcher @JvmOverloads constructor(
 	context: Context, attrs:
 	AttributeSet? = null,
-	defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+	defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
 	companion object {
 		private const val SWITCHER_ANIMATION_DURATION = 600L
@@ -60,6 +61,23 @@ class Switcher @JvmOverloads constructor(
 	private var defHeight = 0
 	private var defWidth = 0
 	private var mChecked = false
+	// apply disabled colors and move switch to unchecked state
+	private var mEnabled = true
+		private set(value) {
+			field = value
+			
+			if (value){
+				currentColor = if (mChecked) onColor else offColor
+				iconPaint.color = iconColor
+			}
+			else {
+				if (mChecked) setSwitchUnchecked()
+				currentColor = disabledBackgroundColor
+				iconPaint.color = disabledIconColor
+			}
+			mChecked = false
+			invalidate()
+		}
 
 
 	@ColorInt
@@ -68,6 +86,10 @@ class Switcher @JvmOverloads constructor(
 	private var offColor = 0
 	@ColorInt
 	private var iconColor = 0
+	@ColorInt
+	private var disabledBackgroundColor = 0
+	@ColorInt
+	private var disabledIconColor = 0
 
 	private val switcherPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -83,7 +105,7 @@ class Switcher @JvmOverloads constructor(
 
 	@ColorInt
 	private var currentColor = 0
-		set(value) {
+		private set(value) {
 			field = value
 			switcherPaint.color = value
 			iconClipPaint.color = value
@@ -98,7 +120,7 @@ class Switcher @JvmOverloads constructor(
 	 * 1f -> icon is looks like 1 and switch is on
 	 */
 	private var iconProgress = 0f
-		set(value) {
+		private set(value) {
 			if (field != value) {
 				field = value
 
@@ -123,7 +145,7 @@ class Switcher @JvmOverloads constructor(
 	private var iconTranslateX = 0f
 
 	private var onClickOffset = 0f
-		set(value) {
+		private set(value) {
 			field = value
 			switcherRect.left = value + shadowOffset
 			switcherRect.top = value + shadowOffset / 2
@@ -155,14 +177,25 @@ class Switcher @JvmOverloads constructor(
 
 		offColor = typedArray.getColor(R.styleable.Switcher_switcher_off_color,
 		                               Color.parseColor("#d62828"))
+		
+		disabledBackgroundColor = typedArray.getColor(
+			R.styleable.Switcher_switcher_disabled_background_color,
+			Color.parseColor("#C6C6C6")
+		)
+		
+		disabledIconColor = typedArray.getColor(
+			R.styleable.Switcher_switcher_disabled_icon_color,
+			Color.parseColor("#EBEBE4")
+		)
 
 		iconColor = typedArray.getColor(R.styleable.Switcher_switcher_icon_color, Color.WHITE)
 
 		mChecked = typedArray.getBoolean(R.styleable.Switcher_android_checked, false)
+		mEnabled = typedArray.getBoolean(R.styleable.Switcher_android_enabled, true)
 		
 		//set def values according to isChecked value
 		iconProgress = if (mChecked) 0f else 1f
-		currentColor = if (mChecked) onColor else offColor
+		currentColor = if (mEnabled) if (mChecked) onColor else offColor else disabledBackgroundColor
 
 		iconPaint.color = iconColor
 
@@ -326,13 +359,14 @@ class Switcher @JvmOverloads constructor(
 	private fun setSwitchChecked() {
 		currentColor = onColor
 		iconProgress = 0f
-		iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
+		iconTranslateX = -shadowOffset
+		
 	}
 	
 	private fun setSwitchUnchecked() {
 		currentColor = offColor
 		iconProgress = 1f
-		iconTranslateX = -shadowOffset
+		iconTranslateX = -(width - shadowOffset - switcherCornerRadius * 2)
 	}
 
 	/**
@@ -368,6 +402,14 @@ class Switcher @JvmOverloads constructor(
 	fun setOnCheckedChangeListener(listener: (view: Switcher, isChecked: Boolean) -> Unit) {
 		this.listener = listener
 	}
+	
+	override fun setEnabled(isEnabled: Boolean) {
+		super.setEnabled(isEnabled)
+		if (mEnabled != isEnabled) {
+			mEnabled = isEnabled
+			//invalidate()
+		}
+	}
 
 	fun isChecked(checked: Boolean = mChecked): Boolean {
 		if (mChecked != checked) {
@@ -378,7 +420,7 @@ class Switcher @JvmOverloads constructor(
 		return mChecked
 	}
 
-	private fun toggle() { setChecked(!mChecked) }
+	private fun toggle() = setChecked(!mChecked)
 
 	override fun onSaveInstanceState(): Parcelable {
 		super.onSaveInstanceState()

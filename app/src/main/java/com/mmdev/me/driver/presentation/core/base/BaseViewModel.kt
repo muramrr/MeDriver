@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 17:44
+ * Last modified 18.09.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.presentation.core.base
 
 import androidx.lifecycle.ViewModel
-import com.mmdev.me.driver.core.utils.logDebug
+import com.mmdev.me.driver.core.utils.log.logDebug
 
 
 /**

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 20:26
+ * Last modified 18.09.2020 16:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import java.util.*
  * Designed to wrap locale changes in application
  */
 
-object LocaleHelper {
+internal object LocaleHelper {
 	
 	private const val LANGUAGE_UKRAINIAN = "uk"
 	private const val COUNTRY_UKRAINE = "UA"
@@ -34,7 +34,7 @@ object LocaleHelper {
 	private val RUSSIAN_LOCALE = Locale(LANGUAGE_RUSSIAN, COUNTRY_RUSSIA)
 	private val ENGLISH_LOCALE = Locale.ENGLISH
 	
-	fun newLocationContext(context: Context, language: Language): Context {
+	internal fun newLocationContext(context: Context, language: Language): Context {
 		
 		val savedLocale = when (language) {
 			UKRAINIAN -> UKRAINIAN_LOCALE
@@ -56,7 +56,7 @@ object LocaleHelper {
 		return context.createConfigurationContext(newLocaleConfig)
 	}
 	
-	fun overrideLocale(context: Context, language: Language) {
+	internal fun overrideLocale(context: Context, language: Language) {
 		
 		val savedLocale = when (language) {
 			UKRAINIAN -> UKRAINIAN_LOCALE

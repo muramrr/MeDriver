@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 21:05
+ * Last modified 18.09.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,19 +10,25 @@
 
 package com.mmdev.me.driver.presentation.ui.settings
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ArrayAdapter
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
-import com.mmdev.me.driver.core.utils.logInfo
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.ui.common.DropAdapter
 import com.mmdev.me.driver.presentation.utils.invisible
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.showSnack
@@ -59,15 +65,23 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 		observeSignedInUser()
 		observeSendVerificationStatus()
 		
-		val languagesAdapter = ArrayAdapter(
-			requireContext(),
-			android.R.layout.simple_dropdown_item_1line,
-			languagesArray
-		)
+		
 		
 		binding.apply {
 			btnSignInPopUp.setDebounceOnClick(2000) {
-				authDialog.show(childFragmentManager, SettingsAuthDialog::class.java.canonicalName)
+				
+				// DialogFragment.show() will take care of adding the fragment
+				// in a transaction.  We also want to remove any currently showing
+				// dialog, so make our own transaction and take care of that here.
+				val ft: FragmentTransaction = childFragmentManager.beginTransaction().apply {
+					val prev = childFragmentManager.findFragmentByTag(
+						SettingsAuthDialog::class.java.canonicalName
+					)
+					prev?.let { remove(it) }
+					addToBackStack(null)
+				}
+				
+				authDialog.show(ft, SettingsAuthDialog::class.java.canonicalName)
 			}
 			
 			btnSignOut.setOnClickListener { mViewModel.signOut() }
@@ -76,10 +90,8 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 				mViewModel.sendEmailVerification(this.text.toString())
 			}
 			
-			dropLanguage.setAdapter(languagesAdapter)
-			
-			
 		}
+		
 
 	}
 	
@@ -106,18 +118,19 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			
 			// sign in success
 			is AuthViewState.Success.SignIn -> {
-				authDialog.dismiss()
+				closeAuthDialog()
 				mViewModel.clearInput()
 			}
 		
 			// sign up success
 			is AuthViewState.Success.SignUp -> {
-				authDialog.dismiss()
+				closeAuthDialog()
 				mViewModel.clearInput()
 			}
 			
 		}
 	}
+	
 	
 	private fun observeSendVerificationStatus() {
 		mViewModel.authViewState.observe(this, {
@@ -130,34 +143,38 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			
 			logInfo(TAG, "UserModel = $user")
 			
-			binding.btnSignOut.setInvisibleAndDisabledIf { user == null }
-			binding.btnSignInPopUp.setInvisibleAndDisabledIf { user != null }
-			
-			binding.tvYourAccountIsNotVerifiedHint.visibleIf(otherwise = View.INVISIBLE) {
-				user != null && !user.isEmailVerified
+			binding.apply {
+				
+				tvYourAccountPremium.visibleIf(otherwise = View.GONE) {
+					user != null && user.isPremium
+				}
+				
+				btnSendVerification.isClickable = user != null
+				btnSendVerification.setInvisibleAndDisabledIf {
+					user != null && user.isEmailVerified
+				}
+				btnSendVerification.text = user?.email ?: notSignedIn
+				
+				switchSync.isEnabled = user != null
+				
+				btnSignOut.setInvisibleAndDisabledIf { user == null }
+				btnSignInPopUp.setInvisibleAndDisabledIf { user != null }
+				
+				tvYourAccountIsNotVerifiedHint.visibleIf(otherwise = View.INVISIBLE) {
+					user != null && !user.isEmailVerified
+				}
+				
+				tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) {
+					user != null && !user.isEmailVerified
+				}
+				
+				tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) {
+					user != null && user.isEmailVerified
+				}
+				tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
+				
+				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
 			}
-			binding.tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) {
-				user != null && !user.isEmailVerified
-			}
-			
-			binding.tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) {
-				user != null && user.isEmailVerified
-			}
-			
-			binding.btnSendVerification.isClickable = user != null
-			
-			binding.btnSendVerification.setInvisibleAndDisabledIf {
-				user != null && user.isEmailVerified
-			}
-			
-			
-			binding.btnYourAccountPremium.visibleIf(otherwise = View.GONE) {
-				user != null && user.isPremium
-			}
-			
-			
-			binding.btnSendVerification.text = user?.email ?: notSignedIn
-			binding.tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 			
 		})
 	}
@@ -193,19 +210,37 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 	}
 	
 	private fun initLanguageChooser() {
-		binding.dropLanguage.setText(languagesMap[MedriverApp.appLanguage], false)
+		val languagesAdapter = LanguageDropAdapter(
+			requireContext(), R.layout.drop_item_single_text, languagesArray.toList()
+		)
 		
-		binding.dropLanguage.setOnItemClickListener { _, _, position, _ ->
+		binding.dropLanguage.apply {
 			
-			binding.dropLanguage.setText(
-				languagesMap[languagesMap.keys.elementAt(position)], false
-			)
+			setAdapter(languagesAdapter)
 			
-			MedriverApp.changeLanguage(languagesMap.keys.elementAt(position))
+			setText(languagesMap[MedriverApp.appLanguage], false)
+			
+			setOnItemClickListener { _, _, position, _ ->
+				
+				//check if different language chose
+				//apply new language if true and recreate activity to apply changes to resources
+				with(languagesMap.keys.elementAt(position)) {
+					if (MedriverApp.appLanguage != this)
+						MedriverApp.changeLanguage(this).also { activity?.recreate() }
+				}
+				
+			}
+			
 		}
 		
 	}
 	
+	private fun closeAuthDialog() {
+		if (childFragmentManager.findFragmentByTag(
+					SettingsAuthDialog::class.java.canonicalName
+				) != null)
+			authDialog.dismiss()
+	}
 	
 	//makes button invisible and non-clickable if condition() is true
 	//else make button visible and clickable
@@ -219,4 +254,23 @@ internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSet
 			isEnabled = true
 			visible()
 		}
+	
+	
+	
+	
+	
+	//custom adapter to avoid shitty bugs while recreating activity and catching AutoFocus
+	private class LanguageDropAdapter(
+		context: Context, @LayoutRes private val layoutId: Int, data: List<String>
+	): DropAdapter<String>(context, layoutId, data) {
+		
+		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+			val language: String = getItem(position)
+			val childView : View = convertView ?:
+			                       LayoutInflater.from(context).inflate(layoutId, null)
+			
+			childView.findViewById<TextView>(R.id.tvDropSingleText).text = language
+			return childView
+		}
+	}
 }

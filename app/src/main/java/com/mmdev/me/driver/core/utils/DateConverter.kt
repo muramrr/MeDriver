@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.08.2020 16:41
+ * Last modified 20.09.2020 02:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import java.util.*
 object DateConverter {
 	private val getMonthIntFormatter = SimpleDateFormat("MM", Locale.ENGLISH)
 	
-	private val getMonthTextFormatter = SimpleDateFormat("MMMM", Locale.getDefault())
+	private val getMonthTextFormatter = SimpleDateFormat("LLLL", Locale.getDefault())
 	
 	//used to make http request with such pattern as argument
 	private val networkRequestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -31,7 +31,7 @@ object DateConverter {
 	
 	fun toText(date: Date?): String = date?.let { humanFormat.format(it) } ?: ""
 	
-	fun toDate(text: String): Date = humanFormat.parse(text)
+	fun toDate(text: String): Date = humanFormat.parse(text)!!
 	
 	
 	fun toFuelPriceRequestString(date: Date): String = networkRequestFormat.format(date)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:36
+ * Last modified 20.09.2020 01:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
-import com.mmdev.me.driver.presentation.ui.common.DropAdapter
+import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -78,7 +78,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	private class CarDropAdapter(
 		context: Context, @LayoutRes private val layoutId: Int, data: List<CarInDropDown>
-	): DropAdapter<CarInDropDown>(context, layoutId, data) {
+	): BaseDropAdapter<CarInDropDown>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 			val car: CarInDropDown = getItem(position)

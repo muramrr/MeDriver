@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 20.09.2020 01:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ package com.mmdev.me.driver.data.datasource.user.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.data.core.base.BaseDataSource
-import com.mmdev.me.driver.data.core.firebase.FirestoreConstants
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.getAndDeserialize
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
@@ -27,21 +26,25 @@ import kotlinx.coroutines.flow.Flow
 class UserRemoteDataSourceImpl (private val fs: FirebaseFirestore):
 		IUserRemoteDataSource, BaseDataSource() {
 	
+	private companion object {
+		private const val FS_USERS_COLLECTION = "users"
+	}
+	
 	override fun getFirestoreUser(email: String): Flow<SimpleResult<FirestoreUserDTO>> =
-		fs.collection(FirestoreConstants.FS_USERS_COLLECTION)
+		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.getAndDeserialize(FirestoreUserDTO::class.java)
 	
 	override fun updateFirestoreUserField(
 		email: String, field: String, value: Any
 	): Flow<SimpleResult<Void>> =
-		fs.collection(FirestoreConstants.FS_USERS_COLLECTION)
+		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.update(field, value)
 			.asFlow()
 	
 	override fun writeFirestoreUser(userDTOBackend: FirestoreUserDTO): Flow<SimpleResult<Unit>> =
-		fs.collection(FirestoreConstants.FS_USERS_COLLECTION)
+		fs.collection(FS_USERS_COLLECTION)
 			.document(userDTOBackend.email)
 			.setAsFlow(userDTOBackend)
 }

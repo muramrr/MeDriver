@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 18:36
+ * Last modified 20.09.2020 01:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,13 +26,11 @@ import com.mmdev.me.driver.BR
  * @param <V> The type of the ViewDataBinding</V></T>
  */
 
-abstract class BaseAdapter<T>(private var data: List<T>,
-                              @LayoutRes private val layoutId: Int? = null):
-
-		RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolder<T>>(),
-		BindableAdapter<List<T>> {
-
-	private var mClickListener: OnItemClickListener<T>? = null
+abstract class BaseRecyclerAdapter<T>(
+	private var data: List<T>,
+	@LayoutRes private val layoutId: Int
+): RecyclerView.Adapter<BaseRecyclerAdapter<T>.BaseViewHolder<T>>() {
+	
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		BaseViewHolder<T>(
@@ -45,53 +43,45 @@ abstract class BaseAdapter<T>(private var data: List<T>,
 	override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) =
 		holder.bind(getItem(position))
 
-	//default data setter
-	//override to implement another approach
-	override fun setNewData(newData: List<T>) {
+	// default data setter
+	// override to implement another approach
+	open fun setNewData(newData: List<T>) {
 		data = newData
 		notifyDataSetChanged()
 	}
 
-	override fun getItemViewType(position: Int) = getLayoutIdForItem(position)
+	override fun getItemViewType(position: Int) = layoutId
 
 	override fun getItemCount(): Int = data.size
 
 	protected fun getItem(position: Int): T = data[position]
 
-	open fun getLayoutIdForItem(position: Int): Int = layoutId ?: 0
-
 	// allows clicks events to be caught
-	open fun setOnItemClickListener(itemClickListener: OnItemClickListener<T>) {
-		mClickListener = itemClickListener
+	open fun setOnItemClickListener(listener: (view: View, position: Int, item: T) -> Unit) {
+		mClickListener = listener
 	}
+	
+	// needed nullability to prevent attach click listener without handling it
+	// clicks animation will be shown but not handled
+	private var mClickListener: ((view: View, position: Int, item: T) -> Unit)? = null
 
 //	override fun onFailedToRecycleView(holder: BaseViewHolder<T>): Boolean { return true }
 
-	inner class BaseViewHolder<T>(private val binding: ViewDataBinding):
+	open inner class BaseViewHolder<T>(private val binding: ViewDataBinding):
 			RecyclerView.ViewHolder(binding.root){
 
 		init {
 			mClickListener?.let { mClickListener ->
 				itemView.setOnClickListener {
-					mClickListener.onItemClick(getItem(adapterPosition), adapterPosition, binding.root)
+					mClickListener.invoke(itemView, adapterPosition, getItem(adapterPosition))
 				}
 			}
 		}
 
-		fun bind(item: T) {
+		open fun bind(item: T) {
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()
 		}
 	}
-
-	// parent fragment will override this method to respond to click events
-	interface OnItemClickListener<T> {
-		fun onItemClick(item: T, position: Int, view: View)
-	}
-
-
-}
-
-interface BindableAdapter<T> {
-	fun setNewData(newData: T)
+	
 }

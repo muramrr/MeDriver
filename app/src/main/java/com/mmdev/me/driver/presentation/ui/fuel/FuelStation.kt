@@ -8,14 +8,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.fuel.prices.model
+package com.mmdev.me.driver.presentation.ui.fuel
+
+import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 
 /**
- * Domain model
+ *
  */
 
-data class FuelStation (
-	val brandTitle: String = "",
-	val slug: String = "",
-	val updatedDate: String = ""
-)
+fun FuelStation.brandIcon(): Int = FuelStationConstants.fuelStationIconMap.getValue(slug)

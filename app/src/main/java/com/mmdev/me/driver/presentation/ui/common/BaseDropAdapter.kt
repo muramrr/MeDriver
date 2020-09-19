@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 16:22
+ * Last modified 20.09.2020 01:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import androidx.annotation.LayoutRes
  * Generic adapter for Drop Down Lists used in AutoCompleteTextViews
  */
 
-abstract class DropAdapter<T>(
+abstract class BaseDropAdapter<T>(
 	context: Context,
 	@LayoutRes private val layoutId: Int,
 	private val data: List<T>

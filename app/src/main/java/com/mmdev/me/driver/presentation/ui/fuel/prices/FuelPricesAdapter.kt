@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 20.09.2020 02:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,7 @@ import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
 import com.mmdev.me.driver.presentation.utils.getStringRes
 
 /**
@@ -30,9 +31,9 @@ import com.mmdev.me.driver.presentation.utils.getStringRes
 
 class FuelPricesAdapter (
 	
-	private var data: MutableList<FuelStationWithPrices> = MutableList(10){ FuelStationWithPrices() }
+	private var data: List<FuelStationWithPrices> = List(10){ FuelStationWithPrices() }
 
-) : RecyclerView.Adapter<FuelPricesAdapter.PriceViewHolder>(){
+): RecyclerView.Adapter<FuelPricesAdapter.PriceViewHolder>(){
 	
 	//no price stub
 	private val noPrice = FuelPrice()
@@ -55,8 +56,7 @@ class FuelPricesAdapter (
 	
 	
 	fun setNewData(newData: List<FuelStationWithPrices>) {
-		data.clear()
-		data.addAll(newData)
+		data = newData
 		notifyDataSetChanged()
 	}
 	
@@ -135,3 +135,8 @@ class FuelPricesAdapter (
 	
 	
 }
+
+
+class NewFuelPricesAdapter(
+	private var data: List<FuelStationWithPrices> = List(10){ FuelStationWithPrices() }
+): BaseRecyclerAdapter<FuelStationWithPrices>(data, R.layout.item_fuel_prices_station)

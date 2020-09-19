@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 20:55
+ * Last modified 20.09.2020 02:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,9 @@ import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.presentation.ui.fuel.distancePassed
+import com.mmdev.me.driver.presentation.ui.fuel.fuelConsumption
+import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
 import com.mmdev.me.driver.presentation.utils.getStringRes
 import com.mmdev.me.driver.presentation.utils.gone
 

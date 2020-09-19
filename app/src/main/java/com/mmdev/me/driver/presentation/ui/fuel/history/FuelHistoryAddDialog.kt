@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 20:48
+ * Last modified 20.09.2020 02:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,8 +28,10 @@ import com.mmdev.me.driver.databinding.FragmentFuelHistoryAddBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
-import com.mmdev.me.driver.presentation.ui.common.DropAdapter
+import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
+import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
+import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -41,8 +43,6 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class FuelHistoryAddDialog(
 	fuelStationWithPrices: List<FuelStationWithPrices>
 ): DialogFragment() {
-	
-	private val TAG = javaClass.simpleName
 	
 	private lateinit var binding: FragmentFuelHistoryAddBinding
 	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
@@ -269,7 +269,7 @@ class FuelHistoryAddDialog(
 		private val mContext: Context,
 		@LayoutRes private val layoutId: Int,
 		data: List<FuelStation>
-	): DropAdapter<FuelStation>(mContext, layoutId, data) {
+	): BaseDropAdapter<FuelStation>(mContext, layoutId, data) {
 		
 		private lateinit var binding: DropItemFuelStationBinding
 		private lateinit var fuelStation: FuelStation
@@ -282,7 +282,7 @@ class FuelHistoryAddDialog(
 			
 			fuelStation = getItem(position)
 			binding.tvFuelStationTitle.text = fuelStation.brandTitle
-			binding.ivDropFuelStationIcon.setImageResource(fuelStation.brandIcon)
+			binding.ivDropFuelStationIcon.setImageResource(fuelStation.brandIcon())
 			return binding.root
 		}
 		

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 19.09.2020 20:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -113,7 +113,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 		odometerInputValue.combineWith(historyRecord) { typedOdometer, lastHistoryRecord ->
 			if (!typedOdometer.isNullOrBlank() && lastHistoryRecord != null) {
 				//make sure that distance passed > 0
-				with(typedOdometer.toInt() - lastHistoryRecord.odometerValue) {
+				with(typedOdometer.toInt() - lastHistoryRecord.odometerValue()) {
 					//-1 because needed to check for correct input
 					if (this < 0) -1 else this
 				}
@@ -157,7 +157,8 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			    && calculatedConsumption > 0.0
 			    && lastHistoryRecord != null) {
 				
-				if (calculatedConsumption > lastHistoryRecord.fuelConsumption) R.drawable.ic_arrow_up_24
+				if (calculatedConsumption > lastHistoryRecord.fuelConsumption())
+					R.drawable.ic_arrow_up_24
 				else R.drawable.ic_arrow_down_24
 				
 			}

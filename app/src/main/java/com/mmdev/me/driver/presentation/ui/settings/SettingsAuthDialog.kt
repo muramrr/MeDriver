@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 19.09.2020 19:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,7 +33,13 @@ class SettingsAuthDialog: DialogFragment() {
 	
 	private val TAG = javaClass.simpleName
 	
-	private lateinit var binding: FragmentSettingsAuthBinding
+	private var _binding: FragmentSettingsAuthBinding? = null
+	
+	private val binding: FragmentSettingsAuthBinding
+		get() = _binding ?: throw IllegalStateException(
+			"Trying to access the binding outside of the view lifecycle."
+		)
+	
 	
 	
 	//get same scope as SettingsFragment
@@ -59,7 +65,7 @@ class SettingsAuthDialog: DialogFragment() {
 	): View =
 		FragmentSettingsAuthBinding.inflate(inflater, container, false)
 			.apply {
-				binding = this
+				_binding = this
 				lifecycleOwner = viewLifecycleOwner
 				viewModel = mViewModel
 				executePendingBindings()
@@ -201,5 +207,9 @@ class SettingsAuthDialog: DialogFragment() {
 		}
 	}
 	
-	
+	override fun onDestroyView() {
+		binding.unbind()
+		_binding = null
+		super.onDestroyView()
+	}
 }

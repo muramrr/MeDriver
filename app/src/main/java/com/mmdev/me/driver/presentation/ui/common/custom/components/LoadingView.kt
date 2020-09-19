@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.08.2020 00:42
+ * Last modified 19.09.2020 19:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,9 @@ package com.mmdev.me.driver.presentation.ui.common.custom.components
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.*
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.RESTART
+import android.animation.ValueAnimator.REVERSE
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -34,7 +36,8 @@ import kotlin.math.min
 class LoadingView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+	defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 	
 	private val ovalRectF = RectF()
 	private val sweepPaint = Paint().apply {
@@ -81,15 +84,17 @@ class LoadingView @JvmOverloads constructor(
 	
 	private val animatorSet = AnimatorSet()
 	
-	private fun viewRotateAnimator() = ValueAnimator.ofFloat(0f, 360f).apply {
+	private var viewRotateAnimator: ValueAnimator? = ValueAnimator.ofFloat(0f, 360f).apply {
 		duration = 1600
 		interpolator = LinearInterpolator()
 		repeatCount = INFINITE
 		repeatMode = RESTART
-		addUpdateListener { rotation = it.animatedValue as Float }
+		addUpdateListener {
+			rotation = it.animatedValue as Float //causing memory leaks? keeping references to view
+		}
 	}
 	
-	private fun angleAnimator() = ValueAnimator.ofFloat(5f, 105f).apply {
+	private var angleAnimator: ValueAnimator? = ValueAnimator.ofFloat(5f, 105f).apply {
 		duration = 800
 		// god given custom interpolator
 		interpolator = PathInterpolator(1f, 0f, 0f, 1f)
@@ -100,8 +105,7 @@ class LoadingView @JvmOverloads constructor(
 			sweepAngle1 = it.animatedValue as Float
 			sweepAngle2 = it.animatedValue as Float
 			sweepAngle3 = it.animatedValue as Float
-			invalidate()
-			
+			invalidate() //causing memory leaks?
 		}
 		
 	}
@@ -119,21 +123,22 @@ class LoadingView @JvmOverloads constructor(
 	
 	
 	init {
-		attrs?.let {
-			val ta = context.obtainStyledAttributes(
-					it,
-					R.styleable.LoadingView,
-					defStyleAttr,
-					R.style.LoadingView
-			)
-			
-			sweepColor = ta.getColor(R.styleable.LoadingView_loadStrokeColor, Color.WHITE)
-			
-			strokeSize = ta.getDimensionPixelSize(R.styleable.LoadingView_loadStrokeWidth, 8)
-			
-			ta.recycle()
-		}
+		attrs?.let { retrieveAttributes(attrs, defStyleAttr) }
+	}
 	
+	private fun retrieveAttributes(attrs: AttributeSet, defStyleAttr: Int) {
+		val ta = context.obtainStyledAttributes(
+			attrs,
+			R.styleable.LoadingView,
+			defStyleAttr,
+			R.style.LoadingView
+		)
+		
+		sweepColor = ta.getColor(R.styleable.LoadingView_loadStrokeColor, Color.WHITE)
+		
+		strokeSize = ta.getDimensionPixelSize(R.styleable.LoadingView_loadStrokeWidth, 8)
+		
+		ta.recycle()
 	}
 	
 	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -159,7 +164,7 @@ class LoadingView @JvmOverloads constructor(
 		// auto start animation
 		// no need to toggle
 		animatorSet.cancel()
-		animatorSet.playTogether(angleAnimator(), viewRotateAnimator())
+		animatorSet.playTogether(angleAnimator, viewRotateAnimator)
 		animatorSet.start()
 	}
 	
@@ -174,5 +179,13 @@ class LoadingView @JvmOverloads constructor(
 		isAnimating = !isAnimating
 	}
 	
+	override fun onDetachedFromWindow() {
+		super.onDetachedFromWindow()
+		animatorSet.cancel()
+		viewRotateAnimator?.cancel()
+		angleAnimator?.cancel()
+		viewRotateAnimator = null
+		angleAnimator = null
+	}
 }
 	

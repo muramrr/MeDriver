@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 19.09.2020 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,11 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.DropAdapter
-import com.mmdev.me.driver.presentation.utils.*
+import com.mmdev.me.driver.presentation.utils.invisible
+import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.showSnack
+import com.mmdev.me.driver.presentation.utils.visible
+import com.mmdev.me.driver.presentation.utils.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -235,7 +239,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		if (childFragmentManager.findFragmentByTag(
 					SettingsAuthDialog::class.java.canonicalName
 				) != null)
-			authDialog.dismiss()
+			childFragmentManager.beginTransaction().remove(authDialog).commitAllowingStateLoss()
 	}
 	
 	//makes button invisible and non-clickable if condition() is true

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 19.09.2020 17:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.core.di
 
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.datasource.fuel.history.local.FuelHistoryLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.FuelPricesLocalDataSourceImpl
@@ -29,7 +30,7 @@ import org.koin.dsl.module
 
 val DataSourceLocalModule = module {
 	
-	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = get()) }
+	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs) }
 	
 	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl() }
 	

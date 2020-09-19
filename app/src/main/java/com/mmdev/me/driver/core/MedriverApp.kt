@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 19.09.2020 17:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,13 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import com.cioccarellia.ksprefs.KsPrefs
-import com.mmdev.me.driver.core.di.*
+import com.mmdev.me.driver.core.di.DataSourceLocalModule
+import com.mmdev.me.driver.core.di.DataSourceRemoteModule
+import com.mmdev.me.driver.core.di.DatabaseModule
+import com.mmdev.me.driver.core.di.FirebaseModule
+import com.mmdev.me.driver.core.di.NetworkModule
+import com.mmdev.me.driver.core.di.RepositoryModule
+import com.mmdev.me.driver.core.di.ViewModelsModule
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -30,7 +36,6 @@ import com.mmdev.me.driver.core.utils.log.logInfo
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.java.KoinJavaComponent.inject
 
 /**
  * Contains dependency modules
@@ -45,11 +50,17 @@ class MedriverApp : Application() {
 	
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
+		private const val PREFERENCES_NAME = "settings"
 		private const val THEME_MODE_KEY = "theme_mode"
 		private const val METRIC_SYSTEM_KEY = "metric_system"
 		private const val LANGUAGE_KEY = "language"
 		
-		private val prefs: KsPrefs by inject(KsPrefs::class.java)
+		private lateinit var appContext: Context
+		val prefs by lazy {
+			KsPrefs(appContext, PREFERENCES_NAME) {
+				//	encryptionType = EncryptionType.KeyStore("key")
+			}
+		}
 		
 		//make-public, because based on this values ui setup init values
 		var isLightMode: Boolean = true
@@ -98,6 +109,8 @@ class MedriverApp : Application() {
 	
 	override fun onCreate() {
 		
+		appContext = applicationContext
+		
 		//initKoin
 		startKoin {
 			androidContext(this@MedriverApp)
@@ -109,7 +122,7 @@ class MedriverApp : Application() {
 					ViewModelsModule,
 					RepositoryModule,
 					DataSourceRemoteModule, DataSourceLocalModule,
-					NetworkModule, FirebaseModule, DatabaseModule, PreferencesModule
+					NetworkModule, FirebaseModule, DatabaseModule
 				)
 			)
 			koin.createRootScope()
@@ -119,6 +132,8 @@ class MedriverApp : Application() {
 		applyInitThemeMode()
 		applyInitMetricSystem()
 		applyInitLanguage()
+		
+		
 		
 		super.onCreate()
 		logInfo(TAG, "isLightMode on? -$isLightMode")

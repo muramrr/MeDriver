@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 19.09.2020 19:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,16 +10,13 @@
 
 package com.mmdev.me.driver.presentation.ui
 
-import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
@@ -28,12 +25,17 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
+import com.mmdev.me.driver.presentation.ui.common.LoadingDialogFragment
 import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity: AppCompatActivity() {
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
+	
+	private val loadingDialog = LoadingDialogFragment()
 	
 	//used to force chosen language as base context
 	override fun attachBaseContext(base: Context) {
@@ -94,11 +96,11 @@ class MainActivity: AppCompatActivity() {
 			return@setOnNavigationItemSelectedListener true
 		}
 
-		val loadingDialog = setLoadingDialog(this@MainActivity)
+	
 
 		sharedViewModel.showLoading.observe(this, {
-			if (it == LoadingStatus.SHOW) loadingDialog.show()
-			else loadingDialog.dismiss()
+			if (it == LoadingStatus.SHOW) showLoadingDialog()
+			else Timer().schedule(1000) { hideLoadingDialog() }
 		})
 		
 		sharedViewModel.userModel.observe(this, {
@@ -110,16 +112,24 @@ class MainActivity: AppCompatActivity() {
 		
 	}
 	
-	private fun setLoadingDialog(context: Context): Dialog {
-		val dialog = Dialog(context)
-		
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-		dialog.setCancelable(false)
-		dialog.setContentView(R.layout.dialog_loading)
-		dialog.window?.apply {
-			setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-			setDimAmount(0.9f)
+	private fun hideLoadingDialog() {
+		if (supportFragmentManager.findFragmentByTag(LoadingDialogFragment::class.java.canonicalName) != null) {
+			supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
 		}
-		return dialog
+		
 	}
+	
+	private fun showLoadingDialog() {
+		
+		val ft: FragmentTransaction = supportFragmentManager.beginTransaction().apply {
+			val prev = supportFragmentManager.findFragmentByTag(
+				LoadingDialogFragment::class.java.canonicalName
+			)
+			prev?.let { remove(it) }
+			addToBackStack(null)
+		}
+		
+		loadingDialog.show(ft, LoadingDialogFragment::class.java.canonicalName)
+	}
+	
 }

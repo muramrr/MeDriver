@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 19:46
+ * Last modified 19.09.2020 19:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,8 +35,8 @@ import kotlin.math.pow
  */
 
 class Switcher @JvmOverloads constructor(
-	context: Context, attrs:
-	AttributeSet? = null,
+	context: Context,
+	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 

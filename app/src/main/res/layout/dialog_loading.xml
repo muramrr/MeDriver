@@ -2,21 +2,25 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.08.20 18:45
+  ~ Last modified 19.09.2020 18:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<com.mmdev.me.driver.presentation.ui.common.custom.components.LoadingView
-	android:id="@+id/loadingView"
-	android:layout_width="50dp"
-	android:layout_height="50dp"
-	android:layout_gravity="center"
-	
-	app:loadStrokeColor="@android:color/white"
-	
+<FrameLayout
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	/>
+	>
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.LoadingView
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:layout_gravity="center"
+		
+		app:loadStrokeColor="@android:color/white"
+		
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		/>
+</FrameLayout>

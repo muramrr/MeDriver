@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:13
+ * Last modified 19.09.2020 20:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,15 +10,9 @@
 
 package com.mmdev.me.driver.domain.fuel.history.model
 
-import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.DateConverter
-import com.mmdev.me.driver.core.utils.DateConverter.getMonthText
-import com.mmdev.me.driver.core.utils.MetricSystem
-import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import java.util.*
-import kotlin.math.roundToInt
 
 
 /**
@@ -35,27 +29,5 @@ data class FuelHistoryRecord (
 	val fuelPrice: FuelPrice = FuelPrice(),
 	val fuelStation: FuelStation = FuelStation(),
 	val odometerValueBound: DistanceBound = DistanceBound()
-) {
-	val distancePassed = when (MedriverApp.metricSystem) {
-		MetricSystem.KILOMETERS -> distancePassedBound.kilometers
-		MetricSystem.MILES -> distancePassedBound.miles
-	}
-	
-	val fuelConsumption = when (MedriverApp.metricSystem) {
-		MetricSystem.KILOMETERS -> fuelConsumptionBound.consumptionPer100KM
-		MetricSystem.MILES -> fuelConsumptionBound.consumptionPer100MI
-	}
-	
-	val odometerValue = when (MedriverApp.metricSystem) {
-		MetricSystem.KILOMETERS -> odometerValueBound.kilometers
-		MetricSystem.MILES -> odometerValueBound.miles
-	}
-	
-	val dateText = DateConverter.toText(date)
-	val dateMonthText: String = date.getMonthText()
-	val moneyCosts: Double = (fuelPrice.price * filledLiters).roundTo(2)
-	val estimateDistance: Int =
-		if(fuelConsumption > 0) ((filledLiters / fuelConsumption) * 100).roundToInt()
-		else 0
-}
+)
 

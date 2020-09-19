@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.08.2020 15:44
+ * Last modified 19.09.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,9 +41,13 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 
 
 	protected abstract val mViewModel: VM?
-
-	protected lateinit var binding: Binding
-		private set
+	
+	private var _binding: Binding? = null
+	
+	protected val binding: Binding
+		get() = _binding ?: throw IllegalStateException(
+			"Trying to access the binding outside of the view lifecycle."
+		)
 
 
 	override fun onCreateView(
@@ -55,7 +59,7 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 			.apply {
 				lifecycleOwner = viewLifecycleOwner
 				setVariable(BR.viewModel, mViewModel)
-				binding = this
+				_binding = this
 			}.root
 	}
 
@@ -74,6 +78,10 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	open fun renderState(state: ViewState) {
 		sharedViewModel.handleLoading(state)
 	}
-
-
+	
+	override fun onDestroyView() {
+		binding.unbind()
+		_binding = null
+		super.onDestroyView()
+	}
 }

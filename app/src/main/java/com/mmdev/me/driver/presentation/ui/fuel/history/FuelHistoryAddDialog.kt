@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 19.09.2020 20:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -167,7 +167,7 @@ class FuelHistoryAddDialog(
 			}
 			
 			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
-				mViewModel.historyRecord.value?.distancePassed ?: 0
+				mViewModel.historyRecord.value?.odometerValue() ?: 0
 			)
 		
 		}
@@ -219,7 +219,8 @@ class FuelHistoryAddDialog(
 			distancePassedAnimator.cancel()
 			with(distancePassed) {
 				oldValue = if (this > 0) {
-					/** check if oldValue is same with given [distancePassed] if no ->
+					/**
+					 * check if oldValue is same with given [distancePassed] if no ->
 					 * set oldValue as start
 					 */
 					if (this != oldValue) distancePassedAnimator.setIntValues(oldValue, this)

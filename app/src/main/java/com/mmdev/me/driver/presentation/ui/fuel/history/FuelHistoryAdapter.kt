@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 19:11
+ * Last modified 19.09.2020 20:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,9 +12,7 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
@@ -22,8 +20,10 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.DateConverter.getMonthInt
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.presentation.utils.getStringRes
+import com.mmdev.me.driver.presentation.utils.gone
 
 
 class FuelHistoryAdapter(
@@ -33,6 +33,8 @@ class FuelHistoryAdapter(
 	
 	private companion object {
 		private const val FIRST_POS = 0
+		private const val SHOW_MOUNTH_SEPARATOR = 0
+		private const val HIDE_MOUNTH_SEPARATOR = 1
 	}
 	private var startPos = 0
 	
@@ -40,10 +42,11 @@ class FuelHistoryAdapter(
 		PriceHistoryViewHolder(
 			DataBindingUtil.inflate(
 				LayoutInflater.from(parent.context),
-				viewType,
+				R.layout.item_fuel_history_entry,
 				parent,
 				false
-			)
+			),
+			viewType
 		)
 	
 	override fun onBindViewHolder(holder: PriceHistoryViewHolder, position: Int) =
@@ -53,14 +56,10 @@ class FuelHistoryAdapter(
 	
 	override fun getItemViewType(position: Int): Int {
 		return when {
-			position == 0 -> R.layout.item_fuel_history_entry_sep
-			
+			position == 0 -> SHOW_MOUNTH_SEPARATOR
 			data[position].date.getMonthInt() !=
-					data[position - 1].date.getMonthInt() -> {
-				R.layout.item_fuel_history_entry_sep
-			}
-			
-			else -> R.layout.item_fuel_history_entry
+					data[position - 1].date.getMonthInt() -> { SHOW_MOUNTH_SEPARATOR }
+			else -> HIDE_MOUNTH_SEPARATOR
 		}
 	}
 	
@@ -81,59 +80,50 @@ class FuelHistoryAdapter(
 		notifyItemRangeInserted(startPos, newData.size)
 	}
 	
-	inner class PriceHistoryViewHolder(private var binding: ViewDataBinding):
-			RecyclerView.ViewHolder(binding.root) {
+	inner class PriceHistoryViewHolder(
+		private var binding: ItemFuelHistoryEntryBinding, viewType: Int
+	): RecyclerView.ViewHolder(binding.root) {
 		
+		init {
+			if (viewType == HIDE_MOUNTH_SEPARATOR) binding.tvFuelHistoryMonthSeparator.gone()
+		}
 		
 		fun bind(item: FuelHistoryRecord) {
-			
 			when(MedriverApp.metricSystem) {
+				
 				KILOMETERS -> {
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryDistancePassed).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_distance_passed_km),
-							item.distancePassed
-						)
+					binding.tvHistoryEntryDistancePassed.apply {
+						text = getStringRes(R.string.item_fuel_history_entry_distance_passed_km)
+							.format(item.distancePassed())
 					}
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryOdometer).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_odometer_km),
-							item.odometerValue
-						)
+					binding.tvHistoryEntryOdometer.apply {
+						text = this.getStringRes(R.string.item_fuel_history_entry_odometer_km)
+							.format(item.odometerValue())
 					}
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryFuelConsumption).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_consumption_km),
-							item.fuelConsumption
-						)
+					binding.tvHistoryEntryFuelConsumption.apply {
+						text = getStringRes(R.string.item_fuel_history_entry_consumption_km)
+							.format(item.fuelConsumption())
 					}
-					
 				}
 				
 				MILES -> {
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryDistancePassed).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_distance_passed_mi),
-							item.distancePassed
-						)
+					binding.tvHistoryEntryDistancePassed.apply {
+						text = getStringRes(R.string.item_fuel_history_entry_distance_passed_mi)
+							.format(item.distancePassed())
 					}
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryOdometer).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_odometer_mi),
-							item.odometerValue
-						)
+					binding.tvHistoryEntryOdometer.apply {
+						text = getStringRes(R.string.item_fuel_history_entry_odometer_mi)
+							.format(item.odometerValue())
 					}
 					
-					binding.root.findViewById<TextView>(R.id.tvHistoryEntryFuelConsumption).apply {
-						text = String.format(
-							this.getStringRes(R.string.item_fuel_history_entry_consumption_mi),
-							item.fuelConsumption
-						)
+					binding.tvHistoryEntryFuelConsumption.apply {
+						text = getStringRes(R.string.item_fuel_history_entry_consumption_mi)
+							.format(item.fuelConsumption())
 					}
 				}
 			}

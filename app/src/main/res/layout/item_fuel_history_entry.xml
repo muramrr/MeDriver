@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 19:27
+  ~ Last modified 19.09.2020 20:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,26 +15,52 @@
 	>
 	
 	<data>
+		<import type="com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryRecordExtensionsKt"/>
 		<variable
 			name="bindItem"
 			type="com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord"
 			/>
 	</data>
 	
-	
-		
 	<androidx.constraintlayout.widget.ConstraintLayout
-		
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@drawable/view_card_bg_imitation_6"
 		android:layout_marginTop="4dp"
-		android:layout_marginStart="4dp"
-		android:layout_marginEnd="4dp"
-		android:layout_marginBottom="4dp"
-		
 		>
 		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvFuelHistoryMonthSeparator"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			
+			android:text="@{FuelHistoryRecordExtensionsKt.dateMonthText(bindItem)}"
+			android:textAlignment="center"
+			android:textAppearance="?textAppearanceCaption"
+			
+			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintBottom_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<View
+			android:id="@+id/cvFuelHistoryEntryContainer"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:layout_marginTop="4dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="4dp"
+			android:background="@drawable/view_card_bg_imitation_6"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvFuelHistoryMonthSeparator"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			
+			/>
+		
+				
 		<!-- fuel station logo -->
 		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
 			android:id="@+id/ivHistoryEntryStationLogo"
@@ -44,10 +70,10 @@
 			
 			android:src="@{bindItem.fuelStation.brandIcon, default = `?colorPrimaryVariant`}"
 			
-			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintStart_toStartOf="@id/cvFuelHistoryEntryContainer"
 			app:layout_constraintEnd_toEndOf="@id/barrierLogo"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintBottom_toBottomOf="@id/cvFuelHistoryEntryContainer"
 			
 			/>
 		
@@ -86,7 +112,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="@{`₴` + bindItem.moneyCosts, default = `@string/default_Price`}"
+			android:text="@{`₴` + FuelHistoryRecordExtensionsKt.moneyCosts(bindItem), default = `@string/default_Price`}"
 			android:textAppearance="?textAppearanceHeadline6"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -153,20 +179,8 @@
 		
 		
 		
-		<!-- hidden "separator" -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvFuelHistoryMonthSeparator"
-			android:layout_height="0dp"
-			android:layout_width="0dp"
-			
-			android:text=""
-			android:textAlignment="center"
-			android:textAppearance="?textAppearanceCaption"
-			
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			
-			/>
+		
+		
 		
 		
 		
@@ -174,7 +188,7 @@
 			android:id="@+id/guidelineEnd"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			app:layout_constraintGuide_end="8dp"
+			app:layout_constraintGuide_end="16dp"
 			android:orientation="vertical"
 			/>
 		
@@ -188,6 +202,4 @@
 	
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>
-	
-	
 </layout>

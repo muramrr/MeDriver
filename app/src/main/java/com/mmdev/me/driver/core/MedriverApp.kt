@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 19:50
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,13 +14,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import com.cioccarellia.ksprefs.KsPrefs
-import com.mmdev.me.driver.core.di.DataSourceLocalModule
-import com.mmdev.me.driver.core.di.DataSourceRemoteModule
-import com.mmdev.me.driver.core.di.DatabaseModule
-import com.mmdev.me.driver.core.di.NetworkModule
-import com.mmdev.me.driver.core.di.PreferencesModule
-import com.mmdev.me.driver.core.di.RepositoryModule
-import com.mmdev.me.driver.core.di.ViewModelsModule
+import com.mmdev.me.driver.core.di.*
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -57,26 +51,26 @@ class MedriverApp : Application() {
 		
 		private val prefs: KsPrefs by inject(KsPrefs::class.java)
 		
-		//make internal-public, because based on this values ui setup init values
-		internal var isLightMode: Boolean = true
-		internal var metricSystem: MetricSystem = KILOMETERS
-		internal var appLanguage: Language = UKRAINIAN
+		//make-public, because based on this values ui setup init values
+		var isLightMode: Boolean = true
+		var metricSystem: MetricSystem = KILOMETERS
+		var appLanguage: Language = UKRAINIAN
 		
 		
-		internal fun toggleMetricSystem(metricSystem: MetricSystem) {
+		fun toggleMetricSystem(metricSystem: MetricSystem) {
 			prefs.push(METRIC_SYSTEM_KEY, metricSystem)
 			this.metricSystem = metricSystem
 			logDebug(TAG, "Metric system changed.")
 		}
 		
-		internal fun toggleThemeMode(themeMode: ThemeMode) {
+		fun toggleThemeMode(themeMode: ThemeMode) {
 			isLightMode = themeMode == LIGHT_MODE
 			prefs.push(THEME_MODE_KEY, themeMode)
 			logDebug(TAG, "AppTheme changed.")
 			ThemeHelper.applyTheme(themeMode)
 		}
 		
-		internal fun changeLanguage(language: Language) {
+		fun changeLanguage(language: Language) {
 			prefs.push(LANGUAGE_KEY, language)
 			appLanguage = language
 			logDebug(TAG, "Language changed.")
@@ -85,7 +79,7 @@ class MedriverApp : Application() {
 		
 		
 		@Volatile
-		internal var debug: DebugConfig = DebugConfig.Default
+		var debug: DebugConfig = DebugConfig.Default
 
 		/**
 		 * Enable or disable [Application] debug mode.
@@ -94,7 +88,7 @@ class MedriverApp : Application() {
 		 * @param enabled enable the debug mode.
 		 * @param logger logging implementation.
 		 */
-		internal fun debugMode(enabled: Boolean, logger: MyLogger) {
+		fun debugMode(enabled: Boolean, logger: MyLogger) {
 			debug = object: DebugConfig {
 				override val enabled = enabled
 				override val logger = logger
@@ -109,12 +103,13 @@ class MedriverApp : Application() {
 			androidContext(this@MedriverApp)
 			if (debug.enabled) androidLogger()
 			koin.loadModules(
+				// The lines on which modules are written represents
+				// some kind of "layers" inside dependencies.
 				listOf(
 					ViewModelsModule,
 					RepositoryModule,
 					DataSourceRemoteModule, DataSourceLocalModule,
-					NetworkModule, DatabaseModule,
-					PreferencesModule
+					NetworkModule, FirebaseModule, DatabaseModule, PreferencesModule
 				)
 			)
 			koin.createRootScope()

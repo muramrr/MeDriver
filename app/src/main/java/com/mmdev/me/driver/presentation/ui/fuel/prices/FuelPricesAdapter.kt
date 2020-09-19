@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 19:28
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ import com.mmdev.me.driver.presentation.utils.getStringRes
  *
  */
 
-internal class FuelPricesAdapter (
+class FuelPricesAdapter (
 	
 	private var data: MutableList<FuelStationWithPrices> = MutableList(10){ FuelStationWithPrices() }
 
@@ -126,9 +126,11 @@ internal class FuelPricesAdapter (
 		}
 		
 		private fun getPriceByType(item: FuelStationWithPrices, fuelType: FuelType): String =
-			with(fuelType) {
-				item.prices.find { it.type == this } ?: noPrice
-			}.priceString
+			(item.prices.find { it.type == fuelType } ?: noPrice).priceString()
+		
+		
+		private fun FuelPrice.priceString(): String = if (price != 0.0) price.toString() else "--.--"
+		
 	}
 	
 	

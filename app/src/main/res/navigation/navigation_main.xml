@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 17:05
+  ~ Last modified 19.09.2020 04:34
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,13 +23,13 @@
 		/>
 
 	<action android:id="@+id/actionBottomNavMaintenance"
-		app:destination="@id/careFragment"
+		app:destination="@id/maintenanceFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
 
-	<action android:id="@+id/actionBottomNavMyCar"
-		app:destination="@id/myCarFragment"
+	<action android:id="@+id/actionBottomNavVehicle"
+		app:destination="@id/vehicleFragment"
 		app:enterAnim="@anim/fragment_fade_enter"
 		app:exitAnim="@anim/fragment_fade_exit"
 		/>
@@ -53,16 +53,16 @@
 		tools:layout="@layout/fragment_home"
 		/>
 
-	<fragment android:id="@+id/careFragment"
-		android:name="com.mmdev.me.driver.presentation.ui.care.CareFragment"
-		android:label="CareFragment"
-		tools:layout="@layout/fragment_care"
+	<fragment android:id="@+id/maintenanceFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceFragment"
+		android:label="MaintenanceFragment"
+		tools:layout="@layout/fragment_maintenance"
 		/>
 
-	<fragment android:id="@+id/myCarFragment"
-		android:name="com.mmdev.me.driver.presentation.ui.mycar.MyCarFragment"
-		android:label="MyCarFragment"
-		tools:layout="@layout/fragment_mycar"
+	<fragment android:id="@+id/vehicleFragment"
+		android:name="com.mmdev.me.driver.presentation.ui.vehicle.VehicleFragment"
+		android:label="VehicleFragment"
+		tools:layout="@layout/fragment_vehicle"
 		/>
 
 	<fragment android:id="@+id/fuelFragment"

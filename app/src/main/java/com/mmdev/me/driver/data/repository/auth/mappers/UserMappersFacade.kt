@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 17:09
+ * Last modified 19.09.2020 02:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.google.firebase.auth.FirebaseUser
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
-import com.mmdev.me.driver.data.datasource.user.remote.model.FirestoreUser
+import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDTO
 import com.mmdev.me.driver.domain.user.UserModel
 
 /**
@@ -21,8 +21,8 @@ import com.mmdev.me.driver.domain.user.UserModel
 
 class UserMappersFacade {
 	
-	fun mapLocalUserToFirestoreUser(userEntity: UserEntity): FirestoreUser =
-		FirestoreUser(
+	fun mapLocalUserToFirestoreUser(userEntity: UserEntity): FirestoreUserDTO =
+		FirestoreUserDTO(
 			id = userEntity.id,
 			email = userEntity.email,
 			emailVerified = userEntity.isEmailVerified,
@@ -39,22 +39,22 @@ class UserMappersFacade {
 	
 	
 	
-	fun mapFirestoreUserToUserModel(firestoreUser: FirestoreUser): UserModel = UserModel(
-		id = firestoreUser.id,
-		email = firestoreUser.email,
-		isEmailVerified = firestoreUser.emailVerified,
-		isPremium = firestoreUser.premium
+	fun mapFirestoreUserToUserModel(firestoreUserDTO: FirestoreUserDTO): UserModel = UserModel(
+		id = firestoreUserDTO.id,
+		email = firestoreUserDTO.email,
+		isEmailVerified = firestoreUserDTO.emailVerified,
+		isPremium = firestoreUserDTO.premium
 	)
 	
-	fun mapFirestoreUserToLocalUser(firestoreUser: FirestoreUser): UserEntity = UserEntity(
-		id = firestoreUser.id,
-		email = firestoreUser.email,
-		isEmailVerified = firestoreUser.emailVerified,
-		isPremium = firestoreUser.premium
+	fun mapFirestoreUserToLocalUser(firestoreUserDTO: FirestoreUserDTO): UserEntity = UserEntity(
+		id = firestoreUserDTO.id,
+		email = firestoreUserDTO.email,
+		isEmailVerified = firestoreUserDTO.emailVerified,
+		isPremium = firestoreUserDTO.premium
 	)
 
 
-	fun mapFirebaseUserToFirestoreUser(firebaseUser: FirebaseUser): FirestoreUser = FirestoreUser(
+	fun mapFirebaseUserToFirestoreUser(firebaseUser: FirebaseUser): FirestoreUserDTO = FirestoreUserDTO(
 		id = firebaseUser.uid,
 		email = firebaseUser.email!!,
 		emailVerified = firebaseUser.isEmailVerified

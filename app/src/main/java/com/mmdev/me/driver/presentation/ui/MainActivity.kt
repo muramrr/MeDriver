@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 19.09.2020 04:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -75,9 +75,9 @@ class MainActivity: AppCompatActivity() {
 						navController.popBackStack()
 						navController.navigate(R.id.actionBottomNavMaintenance)
 					}
-					R.id.bottomNavMyCar -> {
+					R.id.bottomNavVehicle -> {
 						navController.popBackStack()
-						navController.navigate(R.id.actionBottomNavMyCar)
+						navController.navigate(R.id.actionBottomNavVehicle)
 
 					}
 					R.id.bottomNavFuel -> {

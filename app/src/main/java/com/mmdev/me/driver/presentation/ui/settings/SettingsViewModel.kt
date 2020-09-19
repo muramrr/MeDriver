@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 19:27
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  * Responsible for sign in/out/up interaction
  */
 
-internal class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel() {
+class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel() {
 	
 	val authViewState: MutableLiveData<AuthViewState> = MutableLiveData()
 	

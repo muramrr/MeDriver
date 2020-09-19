@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 01:51
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
  * [IAuthRepository] implementation
  */
 
-internal class AuthRepositoryImpl(
+class AuthRepositoryImpl(
 	private val authDataSource: IFirebaseAuthDataSource
 ) : IAuthRepository, BaseRepository() {
 	

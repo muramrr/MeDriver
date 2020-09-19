@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 17:05
+  ~ Last modified 19.09.2020 04:33
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,10 +23,10 @@
 		android:title="@string/bottom_nav_maintenance"
 		/>
 
-	<item android:id="@+id/bottomNavMyCar"
-		android:icon="@drawable/ic_car_24"
+	<item android:id="@+id/bottomNavVehicle"
+		android:icon="@drawable/ic_vehicle_24"
 		android:orderInCategory="2"
-		android:title="@string/bottom_nav_my_car"
+		android:title="@string/bottom_nav_vehicle"
 		/>
 
 	<item android:id="@+id/bottomNavFuel"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 16:02
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,12 +62,12 @@ object FuelStationConstants {
 		R.drawable.fuel_station_wog
 	)
 
-	internal val fuelStationIconMap =
+	val fuelStationIconMap =
 		fuelStationSlug.zip(fuelStationIcons).toMap().withDefault { 0 }
 	
 	
 	
-	internal val fuelStationList = listOf(
+	val fuelStationList = listOf(
 		FuelStation(brandTitle = fuelStationTitle[0], slug = fuelStationSlug[0]),
 		FuelStation(brandTitle = fuelStationTitle[1], slug = fuelStationSlug[1]),
 		FuelStation(brandTitle = fuelStationTitle[2], slug = fuelStationSlug[2]),

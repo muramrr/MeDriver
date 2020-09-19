@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.data.repository.fuel.history
 
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
+import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -22,9 +23,9 @@ import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
  * [IFuelHistoryRepository] implementation
  */
 
-internal class FuelHistoryRepositoryImpl (
-//	private val dataSourceRemote: RemoteDataSource,
+class FuelHistoryRepositoryImpl (
 	private val dataSourceLocal: IFuelHistoryLocalDataSource,
+	private val dataSourceRemote: IFuelHistoryRemoteDataSource,
 	private val mappers: FuelHistoryMappersFacade
 ) : BaseRepository(), IFuelHistoryRepository {
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.08.2020 01:45
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,11 +39,11 @@ abstract class EndlessRecyclerViewScrollListener: OnScrollListener {
 	//private var initItemCount = 0
 	
 	
-	internal constructor(layoutManager: LinearLayoutManager) { mLayoutManager = layoutManager }
+	constructor(layoutManager: LinearLayoutManager) { mLayoutManager = layoutManager }
 	
-	internal constructor(layoutManager: GridLayoutManager) { mLayoutManager = layoutManager }
+	constructor(layoutManager: GridLayoutManager) { mLayoutManager = layoutManager }
 	
-	internal constructor(layoutManager: StaggeredGridLayoutManager) { mLayoutManager = layoutManager }
+	constructor(layoutManager: StaggeredGridLayoutManager) { mLayoutManager = layoutManager }
 	
 	private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
 		var maxSize = 0

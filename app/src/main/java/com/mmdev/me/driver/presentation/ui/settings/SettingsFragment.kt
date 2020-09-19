@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 19:47
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,18 +29,14 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.DropAdapter
-import com.mmdev.me.driver.presentation.utils.invisible
-import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.showSnack
-import com.mmdev.me.driver.presentation.utils.visible
-import com.mmdev.me.driver.presentation.utils.visibleIf
+import com.mmdev.me.driver.presentation.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Fragment used to configure app specifications such as theme, account, metric system etc.
  */
 
-internal class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBinding>(
+class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBinding>(
 	layoutId = R.layout.fragment_settings
 ) {
 

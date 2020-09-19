@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 11.08.20 17:04
+  ~ Last modified 19.09.2020 04:29
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="com.mmdev.me.driver.presentation.ui.mycar.MyCarViewModel"
+			type="com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel"
 			/>
 	</data>
 	
@@ -77,7 +77,7 @@
 			android:layout_height="0dp"
 			android:layout_width="0dp"
 			
-			android:src="@{viewModel.myCar.brandIcon}"
+			android:src="@{viewModel.vehicle.brandIcon}"
 			
 			app:layout_constraintTop_toBottomOf="@id/cvCarChoose"
 			app:layout_constraintBottom_toBottomOf="@id/tvMyCarModel"
@@ -114,7 +114,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			
-			android:text="@{viewModel.myCar.carBrand}"
+			android:text="@{viewModel.vehicle.carBrand}"
 			android:textAppearance="?textAppearanceHeadline5"
 			android:textStyle="bold"
 			
@@ -128,7 +128,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			
-			android:text="@{viewModel.myCar.carModel}"
+			android:text="@{viewModel.vehicle.carModel}"
 			android:textAppearance="?textAppearanceHeadline5"
 			android:textStyle="bold"
 			

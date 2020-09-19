@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 16:53
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,16 +13,14 @@ package com.mmdev.me.driver.core.utils.helpers
 import android.content.Context
 import android.content.res.Configuration
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.Language.ENGLISH
-import com.mmdev.me.driver.core.utils.Language.RUSSIAN
-import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
+import com.mmdev.me.driver.core.utils.Language.*
 import java.util.*
 
 /**
  * Designed to wrap locale changes in application
  */
 
-internal object LocaleHelper {
+object LocaleHelper {
 	
 	private const val LANGUAGE_UKRAINIAN = "uk"
 	private const val COUNTRY_UKRAINE = "UA"
@@ -34,7 +32,7 @@ internal object LocaleHelper {
 	private val RUSSIAN_LOCALE = Locale(LANGUAGE_RUSSIAN, COUNTRY_RUSSIA)
 	private val ENGLISH_LOCALE = Locale.ENGLISH
 	
-	internal fun newLocationContext(context: Context, language: Language): Context {
+	fun newLocationContext(context: Context, language: Language): Context {
 		
 		val savedLocale = when (language) {
 			UKRAINIAN -> UKRAINIAN_LOCALE
@@ -56,7 +54,7 @@ internal object LocaleHelper {
 		return context.createConfigurationContext(newLocaleConfig)
 	}
 	
-	internal fun overrideLocale(context: Context, language: Language) {
+	fun overrideLocale(context: Context, language: Language) {
 		
 		val savedLocale = when (language) {
 			UKRAINIAN -> UKRAINIAN_LOCALE

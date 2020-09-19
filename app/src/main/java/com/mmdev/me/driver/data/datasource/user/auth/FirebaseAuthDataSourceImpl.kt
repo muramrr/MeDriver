@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.flowOf
  * [IFirebaseAuthDataSource] implementation
  */
 
-internal class FirebaseAuthDataSourceImpl(private val auth: FirebaseAuth) :
+class FirebaseAuthDataSourceImpl(private val auth: FirebaseAuth) :
 		IFirebaseAuthDataSource, BaseDataSource() {
 	
 	override fun resetPassword(email: String) : Flow<SimpleResult<Void>> = try {

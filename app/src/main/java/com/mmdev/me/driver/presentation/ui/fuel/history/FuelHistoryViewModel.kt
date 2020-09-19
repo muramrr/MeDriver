@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 18:25
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,7 +37,7 @@ import kotlin.math.roundToInt
  * ViewModel used to connect between [IFuelHistoryRepository] and UI
  */
 
-internal class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
+class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	: BaseViewModel() {
 	
 	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()

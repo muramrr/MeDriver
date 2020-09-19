@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 02:41
+ * Last modified 19.09.2020 02:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceE
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPricesEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.model.NetworkFuelModelResponse
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.NetworkFuelModelResponse
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation

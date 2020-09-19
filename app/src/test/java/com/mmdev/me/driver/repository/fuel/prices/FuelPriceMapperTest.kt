@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:55
+ * Last modified 19.09.2020 04:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,16 +11,10 @@
 package com.mmdev.me.driver.repository.fuel.prices
 
 import android.util.Log
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.model.NetworkFuelModelResponse
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.NetworkFuelModelResponse
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.FuelType.A100
-import com.mmdev.me.driver.domain.fuel.FuelType.A92
-import com.mmdev.me.driver.domain.fuel.FuelType.A95
-import com.mmdev.me.driver.domain.fuel.FuelType.A95PLUS
-import com.mmdev.me.driver.domain.fuel.FuelType.A98
-import com.mmdev.me.driver.domain.fuel.FuelType.DT
-import com.mmdev.me.driver.domain.fuel.FuelType.GAS
+import com.mmdev.me.driver.domain.fuel.FuelType.*
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.repository.fuel.FuelConstants.networkResponse
 import org.junit.Assert.assertEquals
@@ -75,13 +69,14 @@ class FuelPriceMapperTest {
 		assertTrue(socarStationDm.prices.find { it.type == DT }!!.price == 25.49)
 		assertTrue(socarStationDm.prices.find { it.type == GAS }!!.price == 12.48)
 		//check prices anp
-		assertTrue((anpStationDm.prices.find { it.type == A100 } ?: FuelPrice()).priceString == "--.--")
+		assertTrue((anpStationDm.prices.find { it.type == A100 } ?: FuelPrice()).priceString() == "--.--")
 		assertTrue(anpStationDm.prices.find { it.type == A95PLUS }!!.price == 21.45)
 		assertTrue(anpStationDm.prices.find { it.type == A95 }!!.price == 20.95)
 		assertTrue(anpStationDm.prices.find { it.type == A92 }!!.price == 19.95)
 		assertTrue(anpStationDm.prices.find { it.type == DT }!!.price == (21.toDouble()))
 		
 	}
+	
 	
 	@Test
 	fun testFuelResponseToDbMapper() {
@@ -123,5 +118,7 @@ class FuelPriceMapperTest {
 		assertTrue(anpStationDb.prices.find { it.type == DT.code }!!.price == 21.toDouble())
 		
 	}
+	
+	private fun FuelPrice.priceString(): String = if (price != 0.0) price.toString() else "--.--"
 	
 }

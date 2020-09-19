@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.09.2020 03:03
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
  *
  */
 
-internal sealed class AuthViewState: ViewState {
+sealed class AuthViewState: ViewState {
 	object Loading : AuthViewState()
 	sealed class Error(errorMsg: String?) : AuthViewState() {
 		data class ResetPassword(val errorMsg: String?) : Error(errorMsg)

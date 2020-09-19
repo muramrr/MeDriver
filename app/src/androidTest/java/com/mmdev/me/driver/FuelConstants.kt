@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.domain.fuel.FuelType.A100
 import com.mmdev.me.driver.domain.fuel.FuelType.A95
 
 
-internal object FuelConstants {
+object FuelConstants {
 	
 	val fuelStationEntityOkko = FuelStationEntity("OKKO", "okko", "01-01-2020")
 	val fuelStationEntityWog = FuelStationEntity("WOG", "wog", "01-01-2020")

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 02:11
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,12 +20,10 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 
 
-
 /* reference to [https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter] */
 
 
-
-internal sealed class Serializer {
+sealed class Serializer {
 	
 	
 	abstract fun <T> fromResponseBody(loader: DeserializationStrategy<T>, body: ResponseBody): T

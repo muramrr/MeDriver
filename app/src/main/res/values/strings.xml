@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 17:29
+  ~ Last modified 19.09.2020 04:30
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,7 +41,7 @@
 <!-- ************************************** activity_main ************************************** -->
 	<string name="bottom_nav_home">Home</string>
 	<string name="bottom_nav_maintenance">Service</string>
-	<string name="bottom_nav_my_car">My car</string>
+	<string name="bottom_nav_vehicle">Vehicle</string>
 	<string name="bottom_nav_fuel">Fuel</string>
 	<string name="bottom_nav_settings">Settings</string>
 <!-- ******************************************************************************************* -->

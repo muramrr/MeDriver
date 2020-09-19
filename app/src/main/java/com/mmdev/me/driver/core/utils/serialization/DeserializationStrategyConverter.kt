@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 02:11
+ * Last modified 19.09.2020 04:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import retrofit2.Converter
 /* reference to [https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter] */
 
 
-internal class DeserializationStrategyConverter<T>(
+class DeserializationStrategyConverter<T>(
 	private val loader: DeserializationStrategy<T>,
 	private val serializer: Serializer
 ) : Converter<ResponseBody, T> {

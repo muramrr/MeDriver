@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 21.09.2020 19:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,14 +53,14 @@ val RepositoryModule = module {
 		)
 	}
 
-	single<IVINRepository> { VINRepositoryImpl(dataSourceRemote = get()) }
+	single<IVINRepository> { VINRepositoryImpl(remoteDataSource = get()) }
 	
 	
 	
 	single<IMaintenanceRepository> {
 		MaintenanceRepositoryImpl(
-			dataSourceLocal = get(),
-			dataSourceRemote = get(),
+			localDataSource = get(),
+			remoteDataSource = get(),
 			mappers = MaintenanceMappersFacade()
 		)
 	}
@@ -69,8 +69,8 @@ val RepositoryModule = module {
 	
 	single<IVehicleRepository> {
 		VehicleRepositoryImpl(
-			dataSourceLocal = get(),
-			dataSourceRemote = get(),
+			localDataSource = get(),
+			remoteDataSource = get(),
 			mappers = VehicleMappersFacade()
 		)
 	}
@@ -79,15 +79,15 @@ val RepositoryModule = module {
 	
 	single<IFuelPricesRepository> {
 		FuelPricesRepositoryImpl(
-			dataSourceLocal = get(),
-			dataSourceRemote = get(),
+			localDataSource = get(),
+			remoteDataSource = get(),
 			mappers = FuelPriceMappersFacade()
 		)
 	}
 	single<IFuelHistoryRepository> {
 		FuelHistoryRepositoryImpl(
-			dataSourceLocal = get(),
-			dataSourceRemote = get(),
+			localDataSource = get(),
+			remoteDataSource = get(),
 			mappers = FuelHistoryMappersFacade()
 		)
 	}

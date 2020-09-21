@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.08.2020 01:30
+ * Last modified 20.09.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ interface IFuelHistoryRepository {
 	/**
 	 * @param size defines how many entries should be loaded to display in UI
 	 */
-	suspend fun loadFuelHistory(size: Int?) : SimpleResult<List<FuelHistoryRecord>>
+	suspend fun loadFuelHistory(vin: String, size: Int?) : SimpleResult<List<FuelHistoryRecord>>
 	
 	suspend fun addFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit>
 	

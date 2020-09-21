@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 17:58
+ * Last modified 20.09.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,7 +34,7 @@ val DataSourceLocalModule = module {
 	
 	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl() }
 	
-	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl() }
+	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get()) }
 	
 	single<IFuelPricesLocalDataSource> { FuelPricesLocalDataSourceImpl(dao = get()) }
 	single<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get()) }

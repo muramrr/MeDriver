@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 20:51
+ * Last modified 21.09.2020 20:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,15 +12,15 @@ package com.mmdev.me.driver.domain.fuel.history.model
 
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import java.util.*
 
 
 /**
- * Data class primary used at FuelFragmentHistory and DialogFragmentHistoryAdd
+ * Data class primary used in FuelFragmentHistory and DialogFragmentHistoryAdd
  */
 
 data class FuelHistoryRecord (
-	val id: Long,
 	val commentary: String = "",
 	val date: Date = Date(),
 	val distancePassedBound: DistanceBound = DistanceBound(),
@@ -28,6 +28,7 @@ data class FuelHistoryRecord (
 	val fuelConsumptionBound: ConsumptionBound = ConsumptionBound(),
 	val fuelPrice: FuelPrice = FuelPrice(),
 	val fuelStation: FuelStation = FuelStation(),
-	val odometerValueBound: DistanceBound = DistanceBound()
+	val odometerValueBound: DistanceBound = DistanceBound(),
+	val vehicle: Vehicle
 )
 

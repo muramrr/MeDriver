@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 21.09.2020 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,8 +26,8 @@ import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
  */
 
 class FuelPricesRepositoryImpl (
-	private val dataSourceLocal: IFuelPricesLocalDataSource,
-	private val dataSourceRemote: IFuelPricesRemoteDataSource,
+	private val localDataSource: IFuelPricesLocalDataSource,
+	private val remoteDataSource: IFuelPricesRemoteDataSource,
 	private val mappers: FuelPriceMappersFacade
 ) : BaseRepository(), IFuelPricesRepository {
 	
@@ -50,13 +50,13 @@ class FuelPricesRepositoryImpl (
 	
 	//retrieve FuelPrices from remote source
 	private suspend fun getFuelDataFromRemote(date: String): SimpleResult<List<FuelStationWithPrices>> =
-		dataSourceRemote.requestFuelPrices(date).fold(
+		remoteDataSource.requestFuelPrices(date).fold(
 			success = { dto ->
 				//save to db
 				for (fuelStationAndPrices in mappers.mapFuelResponseToDb(dto, date)) {
-					dataSourceLocal.addFuelStation(fuelStationAndPrices.fuelStation).also {
+					localDataSource.addFuelStation(fuelStationAndPrices.fuelStation).also {
 						fuelStationAndPrices.prices.forEach { fuelPrice ->
-							dataSourceLocal.addFuelPrice(fuelPrice)
+							localDataSource.addFuelPrice(fuelPrice)
 						}
 					}
 				}
@@ -67,7 +67,7 @@ class FuelPricesRepositoryImpl (
 
 	//retrieve FuelStationAndPrices from cache (room database)
 	private suspend fun getFuelDataFromLocal(date: String): SimpleResult<List<FuelStationWithPrices>> =
-		dataSourceLocal.getFuelStationsAndPrices(date).fold(
+		localDataSource.getFuelStationsAndPrices(date).fold(
 			success = { dto ->
 				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelStationToDm(dto))
 				else ResultState.Failure(Exception("Empty cache"))

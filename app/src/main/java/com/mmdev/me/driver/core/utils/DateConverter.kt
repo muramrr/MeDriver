@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 02:24
+ * Last modified 20.09.2020 15:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,7 @@ object DateConverter {
 	private val networkRequestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
 	
 	//used primary to display in UI
-	private val humanFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+	private val humanFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
 	
 	
 	fun toText(date: Date?): String = date?.let { humanFormat.format(it) } ?: ""

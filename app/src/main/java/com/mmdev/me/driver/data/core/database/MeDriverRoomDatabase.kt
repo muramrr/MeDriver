@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.09.2020 23:56
+ * Last modified 20.09.2020 18:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,8 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
+import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 
 /**
  * RoomDatabase
@@ -27,7 +29,8 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummar
 	FuelStationEntity::class,
 	FuelPriceEntity::class,
 	FuelSummaryEntity::class,
-	FuelHistoryEntity::class
+	FuelHistoryEntity::class,
+	VehicleEntity::class
 ],
           version = 1,
           exportSchema = false)
@@ -36,5 +39,7 @@ abstract class MeDriverRoomDatabase : RoomDatabase() {
 	abstract fun getFuelHistoryDao(): FuelHistoryDao
 	
 	abstract fun getFuelPricesDao(): FuelPricesDao
+	
+	abstract fun getVehicleDao(): VehicleDao
 	
 }

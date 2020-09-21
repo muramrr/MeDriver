@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:36
+ * Last modified 20.09.2020 20:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,7 +54,6 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		//dataSource = FuelHistoryLocalDataSourceImpl(dao)
 		
 		fuelHistoryEntity1 = FuelHistoryEntity(
-			historyEntryId = 1,
 			commentary = "",
 			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
@@ -62,10 +61,10 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelPrice = FuelConstants.fuelPriceEntityWog100,
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 1000, miles = null),
+			vehicleVinCode = "someVin",
 			timestamp = DateConverter.toDate("10-01-2020").time
 		)
 		fuelHistoryEntity2 = FuelHistoryEntity(
-			historyEntryId = 2,
 			commentary = "",
 			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
@@ -73,10 +72,10 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 1500, miles = null),
+			vehicleVinCode = "someVin",
 			timestamp = DateConverter.toDate("11-01-2020").time
 		)
 		fuelHistoryEntity3 = FuelHistoryEntity(
-			historyEntryId = 3,
 			commentary = "",
 			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
@@ -84,6 +83,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
+			vehicleVinCode = "someVin",
 			timestamp = DateConverter.toDate("12-01-2020").time
 		)
 	}
@@ -96,7 +96,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		dataSource.insertFuelHistoryEntry(fuelHistoryEntity3)
 		
 		// Request
-		val result = dataSource.getFuelHistory(1, 0)
+		val result = dataSource.getFuelHistory("someVin",1, 0)
 		
 		// compare result
 		Assert.assertTrue(result is ResultState.Success)
@@ -112,7 +112,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 	@Test
 	fun testDeleteFuelHistoryEntity() = runBlocking {
 		// Request
-		val result = dataSource.getFuelHistory(1, 0)
+		val result = dataSource.getFuelHistory("someVin", 1, 0)
 		
 		// compare result
 		Assert.assertTrue(result is ResultState.Success)
@@ -125,13 +125,13 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		val deletionResult = dataSource.deleteFuelHistoryEntry(fuelHistoryEntity1)
 		Assert.assertTrue(deletionResult is ResultState.Success)
 		
-		val afterDeletionResult = dataSource.getFuelHistory(10, 0)
+		val afterDeletionResult = dataSource.getFuelHistory("someVin", 10, 0)
 		Assert.assertTrue(deletionResult is ResultState.Success)
 		
 		afterDeletionResult.fold(
 			success = {
-				Assert.assertTrue(it.isNotEmpty())
-				Assert.assertTrue(it.size != 3)
+				Assert.assertTrue(it.fuelHistory.isNotEmpty())
+				Assert.assertTrue(it.fuelHistory.size != 3)
 			},
 			failure = {}
 		)

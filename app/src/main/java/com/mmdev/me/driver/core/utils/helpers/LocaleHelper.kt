@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 20.09.2020 18:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,9 @@ package com.mmdev.me.driver.core.utils.helpers
 import android.content.Context
 import android.content.res.Configuration
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.Language.*
+import com.mmdev.me.driver.core.utils.Language.ENGLISH
+import com.mmdev.me.driver.core.utils.Language.RUSSIAN
+import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
 import java.util.*
 
 /**
@@ -32,7 +34,7 @@ object LocaleHelper {
 	private val RUSSIAN_LOCALE = Locale(LANGUAGE_RUSSIAN, COUNTRY_RUSSIA)
 	private val ENGLISH_LOCALE = Locale.ENGLISH
 	
-	fun newLocationContext(context: Context, language: Language): Context {
+	fun newLocaleContext(context: Context, language: Language): Context {
 		
 		val savedLocale = when (language) {
 			UKRAINIAN -> UKRAINIAN_LOCALE
@@ -62,13 +64,13 @@ object LocaleHelper {
 			ENGLISH -> ENGLISH_LOCALE
         } ?: return // else return the original context
 		
-		// as part of creating a new context that contains the new locale we also need to override the default locale.
 		Locale.setDefault(savedLocale)
 		
 		// create new configuration with the saved locale
 		val newConfig = Configuration()
 		newConfig.setLocale(savedLocale)
 		
+		// as part of creating a new context that contains the new locale we also need to override the default locale.
 		// override the locale on the given context (Activity, Fragment, etc...)
 		context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
 		

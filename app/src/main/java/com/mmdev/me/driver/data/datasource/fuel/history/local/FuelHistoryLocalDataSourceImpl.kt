@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 20.09.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
 import com.mmdev.me.driver.domain.core.SimpleResult
 
 /**
@@ -24,8 +25,10 @@ class FuelHistoryLocalDataSourceImpl(private val dao: FuelHistoryDao) :
 		BaseDataSource(), IFuelHistoryLocalDataSource {
 	
 	
-	override suspend fun getFuelHistory(limit: Int, offset: Int): SimpleResult<List<FuelHistoryEntity>> =
-		safeCall { dao.getFuelHistory(limit, offset) }
+	override suspend fun getFuelHistory(
+		vin: String, limit: Int, offset: Int
+	): SimpleResult<VehicleWithFuelHistory> =
+		safeCall { dao.getVehicleFuelHistory(vin, limit, offset) }
 	
 	override suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {

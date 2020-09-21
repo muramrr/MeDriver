@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 02:14
+ * Last modified 21.09.2020 03:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,7 +30,7 @@ import com.mmdev.me.driver.presentation.utils.gone
 
 
 class FuelHistoryAdapter(
-	private val data: MutableList<FuelHistoryRecord> = MutableList(5) { FuelHistoryRecord(0) }
+	private val data: MutableList<FuelHistoryRecord> = mutableListOf()
 ) : RecyclerView.Adapter<FuelHistoryAdapter.PriceHistoryViewHolder>() {
 	
 	
@@ -72,8 +72,8 @@ class FuelHistoryAdapter(
 		notifyDataSetChanged()
 	}
 	
-	fun insertRecordOnTop(data: List<FuelHistoryRecord>) {
-		this.data.addAll(FIRST_POS, data)
+	fun insertRecordOnTop(item: FuelHistoryRecord) {
+		this.data.add(FIRST_POS, item)
 		notifyItemRangeInserted(FIRST_POS, data.size)
 	}
 	

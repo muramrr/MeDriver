@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 03:39
+ * Last modified 21.09.2020 16:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,9 +30,9 @@ import kotlinx.coroutines.flow.map
 
 private const val TAG = "mylogs_FirestoreExtensions"
 
-fun <T> DocumentReference.getAndDeserialize(clazz: Class<T>): Flow<SimpleResult<T>> = flow {
+fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<T>> = flow {
 	logDebug(TAG, "Trying to retrieve document from backend...")
-	this@getAndDeserialize.get().asFlow().collect { result ->
+	this@getAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { snapshot ->
 				logInfo(TAG, "Document retrieve success")
@@ -56,9 +56,9 @@ fun <T> DocumentReference.getAndDeserialize(clazz: Class<T>): Flow<SimpleResult<
 	}
 }
 
-fun <T> Query.executeAndDeserialize(clazz: Class<T>): Flow<SimpleResult<List<T>>> = flow {
+fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<List<T>>> = flow {
 	logDebug(TAG, "Trying to execute given query...")
-	this@executeAndDeserialize.get().asFlow().collect { result ->
+	this@executeAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { querySnapshot ->
 				logInfo(TAG, "Query execute successfully")

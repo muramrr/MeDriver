@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 20:05
+ * Last modified 20.09.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
 
 /**
  * Dao interface to "talk" with MeDriverRoomDatabase related to [FuelHistoryLocalDataSource]
@@ -24,8 +26,14 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 @Dao
 interface FuelHistoryDao {
 	
-	@Query("SELECT * FROM fuel_history ORDER BY timestamp DESC LIMIT :limit OFFSET :offset")
-	suspend fun getFuelHistory(limit: Int, offset: Int): List<FuelHistoryEntity>
+	@Transaction
+	@Query("""
+		SELECT * FROM vehicle INNER JOIN fuel_history
+		WHERE vin = :vin
+		ORDER BY timestamp DESC
+		LIMIT:limit OFFSET :offset
+	""")
+	suspend fun getVehicleFuelHistory(vin: String, limit: Int, offset: Int): VehicleWithFuelHistory
 	
 	@Insert(onConflict = OnConflictStrategy.ABORT)
 	suspend fun insertFuelHistoryEntity(fuelHistoryEntity: FuelHistoryEntity)

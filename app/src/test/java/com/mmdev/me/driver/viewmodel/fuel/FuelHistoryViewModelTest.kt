@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.09.2020 18:16
+ * Last modified 21.09.2020 20:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,9 @@ import androidx.lifecycle.Observer
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState
 import io.mockk.coEvery
@@ -39,9 +41,17 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class FuelHistoryViewModelTest {
 	
+	private val vehicleDomain = Vehicle(
+		"Ford",
+		"Focus",
+		2013,
+		"vin",
+		DistanceBound(kilometers = 2000, miles = null)
+	)
+	
 	private val repository: IFuelHistoryRepository = mockk(relaxed = true)
 	private val repoSuccessStateGet: SimpleResult<List<FuelHistoryRecord>> =
-		ResultState.Success(listOf(FuelHistoryRecord(1)))
+		ResultState.Success(listOf(FuelHistoryRecord(vehicle = vehicleDomain)))
 	private val repoFailureStateGet = ResultState.Failure(Exception("Error"))
 	private val repoSuccessStateUnit: SimpleResult<Unit> = ResultState.Success(Unit)
 	
@@ -49,13 +59,13 @@ class FuelHistoryViewModelTest {
 	private lateinit var viewModel: FuelHistoryViewModel
 	private val historyStateObserver = mockk<Observer<FuelHistoryViewState>>(relaxed = true)
 	
-	private val fuelHistoryRecord = FuelHistoryRecord(id = 1, filledLiters = 1.0)
+	private val fuelHistoryRecord = FuelHistoryRecord(filledLiters = 1.0, vehicle = vehicleDomain)
 	
 	
 	private val loadingState = FuelHistoryViewState.Loading
-	private val initState = FuelHistoryViewState.Init(listOf(FuelHistoryRecord(1)))
-	private val paginateState = FuelHistoryViewState.Paginate(listOf(FuelHistoryRecord(1)))
-	private val insertNewOneState = FuelHistoryViewState.InsertNewOne(listOf(fuelHistoryRecord))
+	private val initState = FuelHistoryViewState.Init(listOf(FuelHistoryRecord(vehicle = vehicleDomain)))
+	private val paginateState = FuelHistoryViewState.Paginate(listOf(FuelHistoryRecord(vehicle = vehicleDomain)))
+	private val insertNewOneState = FuelHistoryViewState.InsertNewOne(fuelHistoryRecord)
 	
 	
 	@get:Rule
@@ -66,9 +76,9 @@ class FuelHistoryViewModelTest {
 	@Before
 	fun before() {
 		Dispatchers.setMain(testDispatcher)
-		coEvery { repository.loadFuelHistory(null) } returns repoSuccessStateGet
-		coEvery { repository.loadFuelHistory(10) } returns repoSuccessStateGet
-		coEvery { repository.loadFuelHistory(-1) } returns repoFailureStateGet
+		coEvery { repository.loadFuelHistory("vin", null) } returns repoSuccessStateGet
+		coEvery { repository.loadFuelHistory("vin", 10) } returns repoSuccessStateGet
+		coEvery { repository.loadFuelHistory("vin", -1) } returns repoFailureStateGet
 		
 		coEvery { repository.addFuelHistoryRecord(fuelHistoryRecord) } returns repoSuccessStateUnit
 		
@@ -108,7 +118,7 @@ class FuelHistoryViewModelTest {
 		
 		//init
 		viewModel.getHistoryRecords(null)
-		coVerify { repository.loadFuelHistory(null) }
+		coVerify { repository.loadFuelHistory("vin", null) }
 		delay(10)
 		coVerifyOrder {
 			historyStateObserver.onChanged(loadingState)
@@ -117,7 +127,7 @@ class FuelHistoryViewModelTest {
 		
 		//paginate
 		viewModel.getHistoryRecords(10)
-		coVerify { repository.loadFuelHistory(10) }
+		coVerify { repository.loadFuelHistory("vin", 10) }
 		delay(10)
 		coVerifyOrder {
 			historyStateObserver.onChanged(loadingState)

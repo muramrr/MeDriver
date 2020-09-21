@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 21.09.2020 03:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.*
 sealed class FuelHistoryViewState: ViewState {
 	object Loading : FuelHistoryViewState()
 	data class Init(val data: List<FuelHistoryRecord>) : FuelHistoryViewState()
-	data class InsertNewOne(val data: List<FuelHistoryRecord>) : FuelHistoryViewState()
+	data class InsertNewOne(val item: FuelHistoryRecord) : FuelHistoryViewState()
 	data class Paginate(val data: List<FuelHistoryRecord>) : FuelHistoryViewState()
 	data class Error(val errorMessage: String) : FuelHistoryViewState()
 }

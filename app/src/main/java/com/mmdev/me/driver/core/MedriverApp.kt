@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 17:58
+ * Last modified 21.09.2020 20:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import com.mmdev.me.driver.core.di.NetworkModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
+import com.mmdev.me.driver.core.utils.Language.ENGLISH
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
@@ -33,6 +33,8 @@ import com.mmdev.me.driver.core.utils.log.DebugConfig
 import com.mmdev.me.driver.core.utils.log.MyLogger
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -50,10 +52,14 @@ class MedriverApp : Application() {
 	
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
+		
 		private const val PREFERENCES_NAME = "settings"
+		
 		private const val THEME_MODE_KEY = "theme_mode"
 		private const val METRIC_SYSTEM_KEY = "metric_system"
 		private const val LANGUAGE_KEY = "language"
+		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
+		//private const val USER_EMAIL_KEY = "user_email"
 		
 		private lateinit var appContext: Context
 		val prefs by lazy {
@@ -62,11 +68,25 @@ class MedriverApp : Application() {
 			}
 		}
 		
-		//make-public, because based on this values ui setup init values
-		var isLightMode: Boolean = true
-		var metricSystem: MetricSystem = KILOMETERS
-		var appLanguage: Language = UKRAINIAN
+		// public because the initial UI is built from these values
+		// and some of these values are used across application
 		
+		var isLightMode: Boolean = true
+			private set
+		var metricSystem: MetricSystem = KILOMETERS
+			private set
+		@Volatile
+		var appLanguage: Language = ENGLISH
+			private set
+		@Volatile
+		var currentUser: UserModel? = null
+			@Synchronized set
+		
+		var currentVehicleVinCode: String = ""
+			private set
+		@Volatile
+		var currentVehicle: Vehicle? = null
+			@Synchronized set
 		
 		fun toggleMetricSystem(metricSystem: MetricSystem) {
 			prefs.push(METRIC_SYSTEM_KEY, metricSystem)
@@ -87,6 +107,17 @@ class MedriverApp : Application() {
 			logDebug(TAG, "Language changed.")
 		}
 		
+		fun changeCurrentVinCode(vin: String) {
+			prefs.push(VEHICLE_VIN_CODE_KEY, vin)
+			currentVehicleVinCode = vin
+			logDebug(TAG, "Vehicle changed.")
+		}
+		
+//		fun changeCurrentUserEmail(email: String) {
+//			prefs.push(USER_EMAIL_KEY, email)
+//			userEmail = email
+//			logDebug(TAG, "Email changed.")
+//		}
 		
 		
 		@Volatile
@@ -106,6 +137,8 @@ class MedriverApp : Application() {
 			}
 		}
 	}
+	
+	
 	
 	override fun onCreate() {
 		
@@ -129,9 +162,10 @@ class MedriverApp : Application() {
 		}
 		
 		
-		applyInitThemeMode()
-		applyInitMetricSystem()
-		applyInitLanguage()
+		applyInitialThemeMode()
+		applyInitialMetricSystem()
+		applyInitialLanguage()
+		applyInitialVinCode()
 		
 		
 		
@@ -139,10 +173,11 @@ class MedriverApp : Application() {
 		logInfo(TAG, "isLightMode on? -$isLightMode")
 		logInfo(TAG, "current metric system - ${metricSystem.name}")
 		logInfo(TAG, "Application language - ${appLanguage.name}")
+		logInfo(TAG, "Current vehicle - $currentVehicle")
 	}
 	
 	override fun attachBaseContext(base: Context) {
-		super.attachBaseContext(LocaleHelper.newLocationContext(base, appLanguage))
+		super.attachBaseContext(LocaleHelper.newLocaleContext(base, appLanguage))
 	}
 	
 	/**
@@ -155,7 +190,7 @@ class MedriverApp : Application() {
 	}
 	
 	//called only on app startup to pull saved value
-	private fun applyInitThemeMode() {
+	private fun applyInitialThemeMode() {
 		if (prefs.exists(THEME_MODE_KEY)){
 			prefs.pull<ThemeMode>(THEME_MODE_KEY).also{
 				ThemeHelper.applyTheme(it)
@@ -173,7 +208,7 @@ class MedriverApp : Application() {
 	}
 	
 	//called only on app startup to pull saved value
-	private fun applyInitMetricSystem() {
+	private fun applyInitialMetricSystem() {
 		if (prefs.exists(METRIC_SYSTEM_KEY)){
 			prefs.pull<MetricSystem>(METRIC_SYSTEM_KEY).also{ metricSystem = it }
 		}
@@ -187,16 +222,26 @@ class MedriverApp : Application() {
 	}
 	
 	//called only on app startup to pull saved value
-	private fun applyInitLanguage() {
+	private fun applyInitialLanguage() {
 		if (prefs.exists(LANGUAGE_KEY)) {
 			prefs.pull<Language>(LANGUAGE_KEY).also{ appLanguage = it }
 		}
-		//if not exists - apply UKRAINIAN language as app default
+		//if not exists - apply ENGLISH language as app default
 		else {
-			with(UKRAINIAN) {
+			with(ENGLISH) {
 				prefs.push(LANGUAGE_KEY, this)
 				appLanguage = this
 			}
 		}
+	}
+	
+	//called only on app startup to pull saved value
+	private fun applyInitialVinCode() {
+		with(VEHICLE_VIN_CODE_KEY) {
+			if (prefs.exists(this)) {
+				prefs.pull<String>(this).also{ currentVehicleVinCode = it }
+			}
+		}
+		
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:58
+ * Last modified 21.09.2020 16:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.datasource.user.remote
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
-import com.mmdev.me.driver.data.core.firebase.getAndDeserialize
+import com.mmdev.me.driver.data.core.firebase.getAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDTO
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -33,7 +33,7 @@ class UserRemoteDataSourceImpl (private val fs: FirebaseFirestore):
 	override fun getFirestoreUser(email: String): Flow<SimpleResult<FirestoreUserDTO>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
-			.getAndDeserialize(FirestoreUserDTO::class.java)
+			.getAndDeserializeAsFlow(FirestoreUserDTO::class.java)
 	
 	override fun updateFirestoreUserField(
 		email: String, field: String, value: Any

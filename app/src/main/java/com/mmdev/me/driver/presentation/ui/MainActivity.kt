@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 19:12
+ * Last modified 21.09.2020 20:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,13 +33,17 @@ import kotlin.concurrent.schedule
 
 class MainActivity: AppCompatActivity() {
 	
+	companion object {
+		private const val TAG = "mylogs_MainActivity"
+	}
+	
 	private val sharedViewModel: SharedViewModel by viewModel()
 	
 	private val loadingDialog = LoadingDialogFragment()
 	
 	//used to force chosen language as base context
 	override fun attachBaseContext(base: Context) {
-		super.attachBaseContext(LocaleHelper.newLocationContext(base, MedriverApp.appLanguage))
+		super.attachBaseContext(LocaleHelper.newLocaleContext(base, MedriverApp.appLanguage))
 	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,10 +108,28 @@ class MainActivity: AppCompatActivity() {
 		})
 		
 		sharedViewModel.userModel.observe(this, {
-			if (it != null)
-				logDebug("mylogs_MainActivity", "authStatus = $AUTHENTICATED")
-			else logDebug("mylogs_MainActivity", "authStatus = $UNAUTHENTICATED")
+			if (it != null) logDebug(TAG, "authStatus = $AUTHENTICATED")
+			else logDebug(TAG, "authStatus = $UNAUTHENTICATED")
 			
+			MedriverApp.currentUser = it
+		})
+		
+		/**
+		 * Load saved vehicle from db by vin code which was saved before in sharedPrefs:
+		 * - every time we change vehicle from fragment designed for such purposes
+		 * - we update vin code inside shared prefs and current chosen vehicle
+		 * - while app starts up -> read saved code and retrieve corresponded vehicle from db.
+		 *
+		 * note: is there way to optimize or simplify such approach? is that approach acceptable at all?
+		 * note: vehicle info must be inside db because of table relations
+		 */
+		sharedViewModel.currentVehicle.observe(this, { vehicle ->
+			logDebug(TAG, "current vehicle = $vehicle")
+			vehicle?.let {
+				if(it.vin != MedriverApp.currentVehicleVinCode)
+					MedriverApp.changeCurrentVinCode(it.vin)
+			}
+			MedriverApp.currentVehicle = vehicle
 		})
 		
 	}

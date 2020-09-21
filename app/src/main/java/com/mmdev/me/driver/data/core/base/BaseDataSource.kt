@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 20.09.2020 19:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,7 +23,9 @@ open class BaseDataSource {
 
 	suspend fun <T> safeCall(call: suspend ()-> T) : SimpleResult<T> =
 		try {
-			ResultState.Success(call.invoke())
+			val result = call.invoke()
+			if (result != null) ResultState.success(result)
+			else ResultState.failure(NullPointerException("Safe call return null"))
 		}
 		catch (t: Throwable) {
 			logError(TAG, "${t.message}")

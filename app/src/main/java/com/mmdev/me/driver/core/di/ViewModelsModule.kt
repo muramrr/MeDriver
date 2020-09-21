@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 20.09.2020 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,6 +34,6 @@ val ViewModelsModule = module {
 	viewModel { FuelHistoryViewModel(repository = get()) }
 	viewModel { SettingsViewModel(repository = get()) }
 
-	viewModel { SharedViewModel(authProvider = get()) }
+	viewModel { SharedViewModel(authProvider = get(), repository = get()) }
 
 }

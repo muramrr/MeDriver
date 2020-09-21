@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:13
+ * Last modified 21.09.2020 20:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,13 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import java.util.*
 
 /**
@@ -35,47 +37,53 @@ class FuelHistoryMappersFacade {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
 		FuelHistoryEntity(
-			historyEntryId = record.id,
 			commentary = record.commentary,
 			timestamp = record.date.time,
 			distancePassedBound = record.distancePassedBound,
 			filledLiters = record.filledLiters,
 			fuelConsumptionBound = record.fuelConsumptionBound,
 			fuelPrice = FuelPriceEntity(
-				record.fuelStation.slug,
-				record.fuelPrice.price,
-				record.fuelPrice.type.code
+				fuelStationId = record.fuelStation.slug,
+				price = record.fuelPrice.price,
+				type = record.fuelPrice.type.code
 			),
 			fuelStation = FuelStationEntity(
-				record.fuelStation.brandTitle,
-				record.fuelStation.slug,
-				record.fuelStation.updatedDate
+				brandTitle = record.fuelStation.brandTitle,
+				slug = record.fuelStation.slug,
+				updatedDate = record.fuelStation.updatedDate
 			),
-			odometerValueBound = record.odometerValueBound
+			odometerValueBound = record.odometerValueBound,
+			vehicleVinCode = record.vehicle.vin
 		)
 	}
 	
 	//dm -> db dto Single
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDbHistoryToDm: (List<FuelHistoryEntity>) -> List<FuelHistoryRecord> = { input ->
-		mapList(input) { entity ->
+	val mapDbHistoryToDm: (VehicleWithFuelHistory) -> List<FuelHistoryRecord> = { input ->
+		mapList(input.fuelHistory) { historyEntity ->
 			FuelHistoryRecord(
-				id = entity.historyEntryId,
-				commentary = entity.commentary,
-				date = Date(entity.timestamp),
-				distancePassedBound = entity.distancePassedBound,
-				filledLiters = entity.filledLiters,
-				fuelConsumptionBound = entity.fuelConsumptionBound,
+				commentary = historyEntity.commentary,
+				date = Date(historyEntity.timestamp),
+				distancePassedBound = historyEntity.distancePassedBound,
+				filledLiters = historyEntity.filledLiters,
+				fuelConsumptionBound = historyEntity.fuelConsumptionBound,
 				fuelPrice = FuelPrice(
-					price = entity.fuelPrice.price,
-					type = entity.fuelPrice.type
+					price = historyEntity.fuelPrice.price,
+					type = historyEntity.fuelPrice.type
 				),
 				fuelStation = FuelStation(
-					brandTitle = entity.fuelStation.brandTitle,
-					slug = entity.fuelStation.slug,
-					updatedDate = entity.fuelStation.updatedDate
+					brandTitle = historyEntity.fuelStation.brandTitle,
+					slug = historyEntity.fuelStation.slug,
+					updatedDate = historyEntity.fuelStation.updatedDate
 				),
-				odometerValueBound = entity.odometerValueBound
+				odometerValueBound = historyEntity.odometerValueBound,
+				vehicle = Vehicle(
+					brand = input.vehicleEntity.brand,
+					model = input.vehicleEntity.model,
+					year = input.vehicleEntity.year,
+					vin = input.vehicleEntity.vin,
+					odometerValueBound = input.vehicleEntity.odometerValueBound
+				)
 			)
 		}
 	}

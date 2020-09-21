@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 21.09.2020 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
  */
 
 class MaintenanceRepositoryImpl(
-	private val dataSourceLocal: IMaintenanceLocalDataSource,
-	private val dataSourceRemote: IMaintenanceRemoteDataSource,
+	private val localDataSource: IMaintenanceLocalDataSource,
+	private val remoteDataSource: IMaintenanceRemoteDataSource,
 	private val mappers: MaintenanceMappersFacade
 ): IMaintenanceRepository, BaseRepository()

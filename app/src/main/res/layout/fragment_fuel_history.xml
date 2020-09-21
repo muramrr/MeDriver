@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.08.2020 19:21
+  ~ Last modified 21.09.2020 00:30
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -100,7 +100,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_margin="16dp"
-			
+			android:enabled="false"
 			android:src="@drawable/ic_plus_24"
 			
 			app:layout_constraintBottom_toBottomOf="parent"

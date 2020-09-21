@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.09.2020 22:13
+ * Last modified 20.09.2020 19:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,8 +24,6 @@ import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 
 @Entity(tableName = "fuel_history")
 data class FuelHistoryEntity(
-	@PrimaryKey(autoGenerate = true)
-	var historyEntryId: Long,
 	val commentary: String,
 	@Embedded(prefix = "distance_passed_")
 	val distancePassedBound: DistanceBound,
@@ -36,7 +34,11 @@ data class FuelHistoryEntity(
 	val fuelPrice: FuelPriceEntity,
 	@Embedded
 	val fuelStation: FuelStationEntity,
-	@Embedded(prefix = "odometer_")
+	@Embedded(prefix = "odometer_history_")
 	val odometerValueBound: DistanceBound,
+	val vehicleVinCode: String,
 	val timestamp: Long
-)
+) {
+	@PrimaryKey(autoGenerate = true)
+	var historyEntryId: Int? = null
+}

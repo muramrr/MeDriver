@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 02:14
+ * Last modified 21.09.2020 20:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,18 +36,18 @@ import java.util.*
 import kotlin.math.roundToInt
 
 /**
- * ViewModel used to connect between [IFuelHistoryRepository] and UI
+ * ViewModel used to talk with [IFuelHistoryRepository], update Fuel_History_* fragments
  */
 
 class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	: BaseViewModel() {
 	
 	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()
-	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData(FuelHistoryRecord(0))
+	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData()
 	//indicates is history empty or not
 	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
-	
+	private val loadedHistory = mutableListOf<FuelHistoryRecord>()
 	
 	/**
 	 * selected [FuelStationWithPrices] from list [mFuelStationWithPrices]
@@ -141,7 +141,8 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * (we want to show consumption per 100 km)
 	 */
 	val fuelConsumptionValue: LiveData<Double> =
-		distancePassed.combineWith(historyRecord) { distancePassed, lastHistoryRecord ->
+		distancePassed.combineWith(historyRecord) { distancePassed,
+		                                            lastHistoryRecord ->
 			if (distancePassed != null && distancePassed > 0.0 && lastHistoryRecord != null)
 				((lastHistoryRecord.filledLiters / distancePassed) * 100).roundTo(1)
 			else 0.0
@@ -279,8 +280,8 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * @return [FuelPrice] data class
 	 */
 	private fun buildFuelPrice(): FuelPrice = FuelPrice(
-		price = priceInputValue.value?.toDouble() ?: 0.0,
-		type = selectedFuelType.value ?: FuelType.A95
+		price = priceInputValue.value!!.toDouble(),
+		type = selectedFuelType.value!!
 	)
 	
 	/**
@@ -303,12 +304,12 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	private fun buildDistancePassedBound(): DistanceBound =
 		when (MedriverApp.metricSystem) {
 			MetricSystem.KILOMETERS -> DistanceBound(
-				kilometers = distancePassed.value ?: 0, 
+				kilometers = distancePassed.value!!,
 				miles = null
 			)
 			MetricSystem.MILES -> DistanceBound(
 				kilometers = null,
-				miles = distancePassed.value ?: 0
+				miles = distancePassed.value!!
 			)
 		}
 	
@@ -320,12 +321,12 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	private fun buildFuelConsumptionBound(): ConsumptionBound =
 		when (MedriverApp.metricSystem) {
 			MetricSystem.KILOMETERS -> ConsumptionBound(
-				consumptionKM = fuelConsumptionValue.value ?: 0.0,
+				consumptionKM = fuelConsumptionValue.value!!,
 				consumptionMI = null
 			)
 			MetricSystem.MILES -> ConsumptionBound(
 				consumptionKM = null,
-				consumptionMI = fuelConsumptionValue.value ?: 0.0
+				consumptionMI = fuelConsumptionValue.value!!
 			)
 		}
 	
@@ -337,12 +338,12 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	private fun buildOdometerValueBound(): DistanceBound =
 		when (MedriverApp.metricSystem) {
 			MetricSystem.KILOMETERS -> DistanceBound(
-				kilometers = odometerInputValue.value?.toInt() ?: 0,
+				kilometers = odometerInputValue.value!!.toInt(),
 				miles = null
 			)
 			MetricSystem.MILES -> DistanceBound(
 				kilometers = null,
-				miles = odometerInputValue.value?.toInt() ?: 0
+				miles = odometerInputValue.value!!.toInt()
 			)
 		}
 	
@@ -352,7 +353,6 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 */
 	private fun buildFuelHistoryRecord(): FuelHistoryRecord =
 		FuelHistoryRecord(
-			id = historyRecord.value!!.id + 1,
 			commentary = commentValue.value ?: "",
 			date = Calendar.getInstance().time,
 			distancePassedBound = buildDistancePassedBound(),
@@ -360,7 +360,8 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			fuelConsumptionBound = buildFuelConsumptionBound(),
 			fuelPrice = buildFuelPrice(),
 			fuelStation = buildFuelStation(),
-			odometerValueBound = buildOdometerValueBound()
+			odometerValueBound = buildOdometerValueBound(),
+			vehicle = MedriverApp.currentVehicle!!.copy(odometerValueBound = buildOdometerValueBound())
 		)
 	
 	/**
@@ -374,13 +375,15 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 				repository.addFuelHistoryRecord(this).fold(
 					//update screen on success
 					success = {
-						historyRecord.postValue(this)
-						fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(listOf(this)))
+						fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(this))
+						historyRecord.value = this
 						isHistoryEmpty.value = false
 						clearInputFields()
 					},
 					//catch error
-					failure = { }
+					failure = {
+						fuelHistoryState.postValue(FuelHistoryViewState.Error(it.message!!))
+					}
 				)
 				
 			}
@@ -393,16 +396,20 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * if [size] is not specified we are probably loading initial data
 	 * if [size] is specified then we are probably paginating existing data
 	 * If response contains empty list on initial data -> change [isHistoryEmpty] value
+	 *
+	 * todo: make pagination in both sides. loadNext, loadPrev (this one works only loadNext)
 	 */
 	fun getHistoryRecords(size: Int? = null) {
 		viewModelScope.launch {
 			
 			fuelHistoryState.postValue(FuelHistoryViewState.Loading)
 			
-			repository.loadFuelHistory(size).fold(
+			repository.loadFuelHistory(MedriverApp.currentVehicleVinCode, size).fold(
 				success = { data ->
-					if(size == null) {
+					if (size == null) {
+						//in case below no matter if list is empty or not
 						fuelHistoryState.postValue(FuelHistoryViewState.Init(data = data))
+						
 						//handle empty state visibility
 						if (data.isNotEmpty()) {
 							//init the first one item
@@ -412,11 +419,13 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 							isHistoryEmpty.value = false
 						}
 						else isHistoryEmpty.value = true
-					}
+					} // if size was specified
 					else fuelHistoryState.postValue(FuelHistoryViewState.Paginate(data = data))
 					logDebug(TAG,"history empty? = ${isHistoryEmpty.value}")
+					loadedHistory.addAll(data)
 				},
 				failure = {
+					if (loadedHistory.isEmpty()) isHistoryEmpty.value = true
 					fuelHistoryState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!))
 				}
 			)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 21.09.2020 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,10 +20,10 @@ import com.mmdev.me.driver.domain.vin.VehicleByVIN
  * [IVINRemoteDataSource] implementation
  */
 
-class VINRepositoryImpl (private val dataSourceRemote: IVINRemoteDataSource) : IVINRepository {
+class VINRepositoryImpl (private val remoteDataSource: IVINRemoteDataSource) : IVINRepository {
 
 	override suspend fun getVehicleByVIN(VINCode: String): SimpleResult<VehicleByVIN> =
-		dataSourceRemote.getVehicleByVINCode(VINCode).fold(
+		remoteDataSource.getVehicleByVINCode(VINCode).fold(
 			success = { dto -> ResultState.Success(dto.getResult()) },
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)

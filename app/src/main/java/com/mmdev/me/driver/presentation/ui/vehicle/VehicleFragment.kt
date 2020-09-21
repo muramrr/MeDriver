@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:37
+ * Last modified 21.09.2020 19:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,12 +14,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
+import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
@@ -34,60 +34,113 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 ) {
 	
 	
-	data class CarInDropDown (val carBrand: String,
-	                          val carModel: String,
-	                          @DrawableRes val brandIcon: Int) {
-		fun getFullCarTitle(): String = "$carBrand $carModel"
-	}
 	
 	override val mViewModel: VehicleViewModel by viewModel()
 	
-	private val list : List<CarInDropDown> = listOf(
-			CarInDropDown("Ford", "Focus",
-			              R.drawable.hatchback),
-			CarInDropDown("Range Rover", "Sport",
-			              R.drawable.motorcycle),
-			CarInDropDown("Add another ","car",
-			              R.drawable.cuv)
-	)
+	private lateinit var mVehicleDropAdapter: VehicleDropAdapter
+	
 	
 	override fun setupViews() {
-		mViewModel.vehicle.observe(this, {
-			binding.dropMyCarChooseCar.setText(it.getFullCarTitle(), false)
-		})
+		observeVehicleList()
+		observeChosenCar()
 		
-		val adapter = CarDropAdapter(requireContext(), R.layout.drop_item_mycar, list)
+		mVehicleDropAdapter = VehicleDropAdapter(
+				requireContext(),
+				R.layout.drop_item_vehicle,
+				emptyList()
+		)
+		
 		binding.dropMyCarChooseCar.apply {
-			setAdapter(adapter)
+			setAdapter(mVehicleDropAdapter)
 			
 			setOnItemClickListener { _, _, position, _ ->
-				if (position != adapter.count - 1)
-					mViewModel.vehicle.value = adapter.getItem(position)
-				else binding.dropMyCarChooseCar.setText("Choose car", false)
 				
+				mViewModel.chosenVehicle.postValue(mVehicleDropAdapter.getItem(position))
+				
+				sharedViewModel.currentVehicle.postValue(mVehicleDropAdapter.getItem(position))
 			}
 		}
+		
+		
 	}
 
 	override fun renderState(state: ViewState) {
 
 	}
 	
+	private fun observeChosenCar() {
+		mViewModel.chosenVehicle.observe(this, { vehicle ->
+		//	binding.dropMyCarChooseCar.setText("${it.brand} ${it.model}", false)
+			vehicle?.let {
+				binding.dropMyCarChooseCar.listSelection = mVehicleDropAdapter.getVehiclePosition(it)
+			}
+			
+		})
+	}
+	
+	private fun observeVehicleList() {
+		mViewModel.vehicleList.observe(this, {
+			mVehicleDropAdapter.updateVehicleList(it)
+		})
+	}
 	
 	
 	
-	private class CarDropAdapter(
-		context: Context, @LayoutRes private val layoutId: Int, data: List<CarInDropDown>
-	): BaseDropAdapter<CarInDropDown>(context, layoutId, data) {
+	
+	
+	
+	//temporary
+	private companion object {
+		//private val vehiclesBrand = listOf("")
+		
+		//private val vehiclesIcon = R.array.vehicles_logo
+		
+		//val map = vehiclesBrand.zip(vehiclesIcon).toMap().withDefault { 0 }
+		
+		val ford = Vehicle(
+			"Ford",
+			"Focus",
+			2013,
+			"VINFORD",
+			DistanceBound(0, 0)
+		)
+		
+		val landRover = Vehicle(
+			"Land Rover",
+			"Discovery",
+			2012,
+			"VINLAND",
+			DistanceBound(0, 0)
+		)
+	}
+	
+	
+	
+	
+	
+	
+	
+	private class VehicleDropAdapter(
+		context: Context,
+		@LayoutRes private val layoutId: Int,
+		private var data: List<Vehicle>
+	): BaseDropAdapter<Vehicle>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-			val car: CarInDropDown = getItem(position)
+			val vehicle: Vehicle = getItem(position)
 			val childView : View = convertView ?:
 			                       LayoutInflater.from(context).inflate(layoutId, null)
 			
-			childView.findViewById<TextView>(R.id.tvDropCar).text = car.getFullCarTitle()
-			childView.findViewById<ImageView>(R.id.ivDropCarBrand).setImageResource(car.brandIcon)
+			childView.findViewById<TextView>(R.id.tvDropCar).text = "${vehicle.brand} ${vehicle.model}"
+//			childView.findViewById<ImageView>(R.id.ivDropCarBrand).setImageResource(vehicle.brandIcon)
 			return childView
+		}
+		
+		fun getVehiclePosition(vehicle: Vehicle) = data.indexOf(vehicle)
+		
+		fun updateVehicleList(data: List<Vehicle>) {
+			this.data = data
+			notifyDataSetChanged()
 		}
 	}
 }

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.09.2020 02:14
+  ~ Last modified 20.09.2020 15:46
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,8 @@
 	>
 	
 	<data>
-		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelHistoryRecordKt"/>
-		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelStationKt"/>
+		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelHistoryRecordExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelStationExtKt"/>
 		
 		<variable
 			name="bindItem"
@@ -35,7 +35,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
 			
-			android:text="@{FuelHistoryRecordKt.dateMonthText(bindItem)}"
+			android:text="@{FuelHistoryRecordExtKt.dateMonthText(bindItem)}"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
 			
@@ -70,7 +70,7 @@
 			android:layout_width="64dp"
 			android:layout_margin="8dp"
 			
-			android:src="@{FuelStationKt.brandIcon(bindItem), default = `?colorPrimaryVariant`}"
+			android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
 			
 			app:layout_constraintStart_toStartOf="@id/cvFuelHistoryEntryContainer"
 			app:layout_constraintEnd_toEndOf="@id/barrierLogo"
@@ -84,47 +84,32 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text=""
-			android:textAppearance="?textAppearanceHeadline6"
+			android:text="+500 km"
+			android:textAppearance="?textAppearanceSubtitle1"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
 			app:layout_constraintStart_toEndOf="@id/barrierLogo"
-			app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryFuelStation"
+			
 			app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
+			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryFuelConsumption"
 			
 			/>
 		
+		<!-- fuel consumption -->
 		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryFuelStation"
+			android:id="@+id/tvHistoryEntryFuelConsumption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:maxLines="1"
 			
-			android:text="@{bindItem.fuelStation.brandTitle, default = @string/default_FuelStation}"
-			android:textAppearance="?textAppearanceBody1"
+			android:text="dasd"
+			android:textAppearance="?textAppearanceCaption"
 			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/tvHistoryEntryDistancePassed"
-			app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryPriceSpent"
-			app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
-			
-			/>
-		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryPriceSpent"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			
-			android:text="@{`₴` + FuelHistoryRecordKt.moneyCosts(bindItem), default = `@string/default_Price`}"
-			android:textAppearance="?textAppearanceHeadline6"
-			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/tvHistoryEntryFuelStation"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
+			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryDistancePassed"
+			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryOdometer"
+			app:layout_constraintStart_toEndOf="@id/barrierLogo"
 			
 			/>
-		
-		
 		
 		<!-- odometer value -->
 		<com.google.android.material.textview.MaterialTextView
@@ -134,13 +119,34 @@
 			android:maxLines="1"
 			
 			android:text="@string/default_OdometerValue"
-			android:textAppearance="?textAppearanceCaption"
+			android:textAppearance="?textAppearanceOverline"
+			
+			
+			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryFuelConsumption"
+			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
+			app:layout_constraintStart_toEndOf="@id/barrierLogo"
+			
+			/>
+		
+		
+		
+		
+		
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvHistoryEntryPriceSpent"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:text="@{`₴` + FuelHistoryRecordExtKt.moneyCosts(bindItem), default = `@string/default_Price`}"
+			android:textAppearance="?textAppearanceSubtitle1"
+			android:textStyle="bold"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/barrierLogo"
-			app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryPricePerLiter"
-			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
 			
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
+			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryPricePerLiter"
 			/>
 		
 		<!-- price per liter -->
@@ -153,29 +159,28 @@
 			android:text="@{String.format(@string/item_fuel_history_entry_price_per_liter, bindItem.fuelPrice.price), default = `₴--.--/L`}"
 			android:textAppearance="?textAppearanceCaption"
 			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/tvHistoryEntryOdometer"
-			app:layout_constraintEnd_toStartOf="@id/tvHistoryEntryFuelConsumption"
-			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
-			
+			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPriceSpent"
+			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryDate"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
 		
-		<!-- fuel consumption -->
+		<!-- price per liter -->
 		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryFuelConsumption"
+			android:id="@+id/tvHistoryEntryDate"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text=""
-			android:textAppearance="?textAppearanceCaption"
+			android:text="@{FuelHistoryRecordExtKt.date(bindItem) + ``, default = `01.01.1970`}"
+			android:textAppearance="?textAppearanceOverline"
 			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/tvHistoryEntryPricePerLiter"
+			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPricePerLiter"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
-			
 			/>
+		
+		
+		
 		
 		
 		

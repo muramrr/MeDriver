@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.08.2020 20:03
+ * Last modified 21.09.2020 02:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.presentation.utils
 
+import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -27,9 +28,23 @@ import androidx.core.view.marginTop
  */
 fun View.getStringRes(@StringRes stringRes: Int): String = resources.getString(stringRes)
 
+fun Int.toIntArray(context: Context): IntArray {
+	val typedArray = context.resources.obtainTypedArray(this)
+	val drawableArray = IntArray(typedArray.length())
+	for (i in drawableArray.indices) {
+		drawableArray[i] = typedArray.getResourceId(i, 0)
+	}
+	//Recycles the TypedArray, to be re-used by a later caller.
+	//After calling this function you must not ever touch the typed array again.
+	typedArray.recycle()
+	return drawableArray
+}
 
-inline fun <T: View> T.setDebounceOnClick(debounceTime: Long = 1000L,
-                                          crossinline block: T.() -> Unit) =
+
+
+inline fun <T: View> T.setDebounceOnClick(
+	debounceTime: Long = 1000L, crossinline block: T.() -> Unit
+) =
 	setOnClickListener {
 		when {
 			tag != null && (tag as Long) > System.currentTimeMillis() -> return@setOnClickListener
@@ -52,9 +67,7 @@ inline fun <T: TextView> T.setOnClickWithSelection(crossinline block: T.() -> Un
 }
 
 fun View.updateMargins(
-	@Px start: Int = marginStart,
-	@Px top: Int = marginTop,
-	@Px end: Int = marginEnd,
+	@Px start: Int = marginStart, @Px top: Int = marginTop, @Px end: Int = marginEnd,
 	@Px bottom: Int = marginBottom
 ) {
 	val params = layoutParams as MarginLayoutParams

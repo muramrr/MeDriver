@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 20:42
+ * Last modified 21.09.2020 20:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.DateConverter
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
@@ -46,6 +46,8 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	}
 	
 	override fun setupViews() {
+		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentUser != null
+		
 		val linearLayoutManager = LinearLayoutManager(requireContext())
 		
 		binding.rvFuelHistory.apply {
@@ -91,9 +93,13 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 			}
 			is FuelHistoryViewState.InsertNewOne -> {
 				logInfo(TAG, "insert new data: " +
-				             "odometer = ${state.data.map { it.odometerValueBound }} km, " +
-				             "date = ${state.data.map { DateConverter.toText(it.date) }}")
-				mFuelHistoryAdapter.insertRecordOnTop(state.data)
+				             "odometer = ${state.item.vehicle.odometerValueBound.kilometers } km," +
+				             "vehicle = ${state.item.vehicle.brand}")
+						           
+				mFuelHistoryAdapter.insertRecordOnTop(state.item)
+				
+				//update vehicle with new odometer value
+				sharedViewModel.updateVehicle(MedriverApp.currentUser, state.item.vehicle)
 			}
 			is FuelHistoryViewState.Paginate -> {
 				logInfo(TAG, "paginate data size = ${state.data.size}")

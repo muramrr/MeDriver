@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 18:44
+ * Last modified 20.09.2020 14:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
-import com.mmdev.me.driver.presentation.ui.common.DropAdapter
+import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.utils.invisible
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.showSnack
@@ -262,7 +262,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	//custom adapter to avoid shitty bugs while recreating activity and catching AutoFocus
 	private class LanguageDropAdapter(
 		context: Context, @LayoutRes private val layoutId: Int, data: List<String>
-	): DropAdapter<String>(context, layoutId, data) {
+	): BaseDropAdapter<String>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 			val language: String = getItem(position)

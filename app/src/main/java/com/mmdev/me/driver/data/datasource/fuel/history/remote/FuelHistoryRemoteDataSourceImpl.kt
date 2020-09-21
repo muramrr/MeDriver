@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:58
+ * Last modified 21.09.2020 16:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
-import com.mmdev.me.driver.data.core.firebase.executeAndDeserialize
+import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDTO
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -42,7 +42,7 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
 			.orderBy(FS_ID_FIELD, Query.Direction.ASCENDING)
-			.executeAndDeserialize(FuelHistoryDTO::class.java)
+			.executeAndDeserializeAsFlow(FuelHistoryDTO::class.java)
 	
 	override fun updateFuelHistoryField(
 		email: String, vin: String, historyId: String, field: String, value: Any

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.09.2020 20:25
+ * Last modified 22.09.2020 17:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -71,7 +71,7 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 		var leftPosCord = 0
 		initSpecs(width)
 		
-		for (child in children) {
+		children.forEach { child ->
 			child.layout(leftPosCord + childHorizontalMargin / 2,
 			             0 + paddingTop,
 			             leftPosCord + finalChildSize + childHorizontalMargin / 2,

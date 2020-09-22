@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.09.2020 14:54
+  ~ Last modified 22.09.2020 17:50
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -78,8 +78,7 @@
 				android:padding="8dp"
 				
 				android:text="@string/default_Price"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
+				android:textAppearance="?textAppearanceSubtitle2"
 				
 				/>
 			
@@ -89,9 +88,8 @@
 				android:padding="8dp"
 				
 				android:text="@string/default_Price"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
-				
+				android:textAppearance="?textAppearanceSubtitle2"
+			
 				/>
 		
 		</TextSwitcher>

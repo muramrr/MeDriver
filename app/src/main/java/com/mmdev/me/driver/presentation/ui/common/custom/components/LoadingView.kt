@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 19:29
+ * Last modified 22.09.2020 17:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -82,9 +82,10 @@ class LoadingView @JvmOverloads constructor(
 			sweepPaint.setShadowLayer(sweepPaintShadowRadius,0f,0f, field)
 		}
 	
-	private val animatorSet = AnimatorSet()
+	private var animatorSet: AnimatorSet? = AnimatorSet()
 	
-	private var viewRotateAnimator: ValueAnimator? = ValueAnimator.ofFloat(0f, 360f).apply {
+	private var viewRotateAnimator: ValueAnimator? = null
+	private fun viewRotateAnimator(): ValueAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
 		duration = 1600
 		interpolator = LinearInterpolator()
 		repeatCount = INFINITE
@@ -94,7 +95,8 @@ class LoadingView @JvmOverloads constructor(
 		}
 	}
 	
-	private var angleAnimator: ValueAnimator? = ValueAnimator.ofFloat(5f, 105f).apply {
+	private var angleAnimator: ValueAnimator? = null
+	private fun angleAnimator(): ValueAnimator = ValueAnimator.ofFloat(5f, 105f).apply {
 		duration = 800
 		// god given custom interpolator
 		interpolator = PathInterpolator(1f, 0f, 0f, 1f)
@@ -117,8 +119,8 @@ class LoadingView @JvmOverloads constructor(
 	private var isAnimating = true
 		private set(value) {
 			field = value
-			if (field) animatorSet.resume()
-			else animatorSet.pause()
+			if (field) animatorSet?.resume()
+			else animatorSet?.pause()
 		}
 	
 	
@@ -163,9 +165,11 @@ class LoadingView @JvmOverloads constructor(
 		
 		// auto start animation
 		// no need to toggle
-		animatorSet.cancel()
-		animatorSet.playTogether(angleAnimator, viewRotateAnimator)
-		animatorSet.start()
+		angleAnimator = angleAnimator()
+		viewRotateAnimator = viewRotateAnimator()
+		animatorSet!!.cancel()
+		animatorSet!!.playTogether(angleAnimator, viewRotateAnimator)
+		animatorSet!!.start()
 	}
 	
 	override fun onDraw(canvas: Canvas) {
@@ -181,9 +185,10 @@ class LoadingView @JvmOverloads constructor(
 	
 	override fun onDetachedFromWindow() {
 		super.onDetachedFromWindow()
-		animatorSet.cancel()
-		viewRotateAnimator?.cancel()
+		animatorSet?.cancel()
 		angleAnimator?.cancel()
+		viewRotateAnimator?.cancel()
+		animatorSet = null
 		viewRotateAnimator = null
 		angleAnimator = null
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:40
+ * Last modified 22.09.2020 02:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,10 +27,12 @@ import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.user.UserModel
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.fuelConsumption
 import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
 import com.mmdev.me.driver.presentation.utils.combineWith
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.roundToInt
@@ -361,7 +363,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			fuelPrice = buildFuelPrice(),
 			fuelStation = buildFuelStation(),
 			odometerValueBound = buildOdometerValueBound(),
-			vehicle = MedriverApp.currentVehicle!!.copy(odometerValueBound = buildOdometerValueBound())
+			vehicleVinCode = MedriverApp.currentVehicle!!.vin
 		)
 	
 	/**
@@ -369,22 +371,27 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * Can be invoked only when [checkAllFieldsAreCorrect] returns TRUE
 	 * This should guarantee that all liveData contains value
 	 */
-	fun addHistoryRecord(builtHistoryRecord: FuelHistoryRecord = buildFuelHistoryRecord()) {
+	fun addHistoryRecord(
+		user: UserModel?,
+		builtHistoryRecord: FuelHistoryRecord = buildFuelHistoryRecord()
+	) {
 		viewModelScope.launch {
 			with(builtHistoryRecord) {
-				repository.addFuelHistoryRecord(this).fold(
-					//update screen on success
-					success = {
-						fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(this))
-						historyRecord.value = this
-						isHistoryEmpty.value = false
-						clearInputFields()
-					},
-					//catch error
-					failure = {
-						fuelHistoryState.postValue(FuelHistoryViewState.Error(it.message!!))
-					}
-				)
+				repository.addFuelHistoryRecord(user, this).collect { result ->
+					result.fold(
+						//update screen on success
+						success = {
+							fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(this))
+							historyRecord.value = this
+							isHistoryEmpty.value = false
+							clearInputFields()
+						},
+						//catch error
+						failure = {
+							fuelHistoryState.postValue(FuelHistoryViewState.Error(it.message!!))
+						}
+					)
+				}
 				
 			}
 		}

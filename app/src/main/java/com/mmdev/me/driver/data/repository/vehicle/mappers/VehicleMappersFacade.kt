@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 18:10
+ * Last modified 22.09.2020 01:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,65 +28,44 @@ import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 
 class VehicleMappersFacade {
 	
-	fun listApiDtoToDbEntity(input: List<VehicleDto>): List<VehicleEntity> = mapList(input) {
-		single -> apiDtoToDbEntity(single)
-	}
+	// in: dto, out: * entity, domain
+	fun apiDtoToDomain(dto: VehicleDto): Vehicle =
+		VehicleDtoMappers.apiDtoToDomain(dto)
 	
-	fun listDbEntityToDomain(input: List<VehicleEntity>): List<Vehicle> = mapList(input) {
-		single -> dbEntityToDomain(single)
-	}
+	fun apiDtoToDbEntity(dto: VehicleDto): VehicleEntity =
+		VehicleDtoMappers.apitDtoToDbEntity(dto)
 	
-	fun listApiDtoToDomain(input: List<VehicleDto>): List<Vehicle> = mapList(input) {
-		single -> apiDtoToDomain(single)
-	}
+	fun listApiDtoToDomain(input: List<VehicleDto>): List<Vehicle> =
+		mapList(input) { apiDtoToDomain(it) }
 	
-	fun apiDtoToDomain(dto: VehicleDto): Vehicle = Vehicle(
-		brand = dto.brand,
-		model = dto.model,
-		year = dto.year,
-		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound
-	)
+	fun listApiDtoToDbEntity(input: List<VehicleDto>): List<VehicleEntity> =
+		mapList(input) { apiDtoToDbEntity(it) }
 	
-	fun apiDtoToDbEntity(dto: VehicleDto): VehicleEntity = VehicleEntity(
-		brand = dto.brand,
-		model = dto.model,
-		year = dto.year,
-		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound
-	)
 	
-	fun dbEntityToApiDto(entity: VehicleEntity): VehicleDto = VehicleDto(
-		brand = entity.brand,
-		model = entity.model,
-		year = entity.year,
-		vin = entity.vin,
-		odometerValueBound = entity.odometerValueBound
-	)
 	
-	fun dbEntityToDomain(dto: VehicleEntity): Vehicle = Vehicle(
-		brand = dto.brand,
-		model = dto.model,
-		year = dto.year,
-		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound
-	)
 	
-	fun domainToDbEntity(domain: Vehicle): VehicleEntity = VehicleEntity(
-		brand = domain.brand,
-		model = domain.model,
-		year = domain.year,
-		vin = domain.vin,
-		odometerValueBound = domain.odometerValueBound
-	)
+	// in: domain, out: * entity, dto
+	fun domainToDbEntity(domain: Vehicle): VehicleEntity =
+		VehicleDomainMappers.domainToDbEntity(domain)
 	
-	fun domainToApiDto(domain: Vehicle): VehicleDto = VehicleDto(
-		brand = domain.brand,
-		model = domain.model,
-		year = domain.year,
-		vin = domain.vin,
-		odometerValueBound = domain.odometerValueBound
-	)
+	fun domainToApiDto(domain: Vehicle): VehicleDto =
+		VehicleDomainMappers.domainToApiDto(domain)
+	
+	
+	
+	
+	// in: entity, out: * domain, dto
+	fun dbEntityToApiDto(entity: VehicleEntity): VehicleDto =
+		VehicleDbEntityMappers.dbEntityToApiDto(entity)
+	
+	fun dbEntityToDomain(entity: VehicleEntity): Vehicle =
+		VehicleDbEntityMappers.dbEntityToDomain(entity)
+	
+	fun listDbEntityToDomain(input: List<VehicleEntity>): List<Vehicle> =
+		mapList(input) { dbEntityToDomain(it) }
+	
+	fun listDbEntityToDtos(input: List<VehicleEntity>): List<VehicleDto> =
+		mapList(input) { dbEntityToApiDto(it) }
 	
 	
 }

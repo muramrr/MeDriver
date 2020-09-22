@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 19:52
+ * Last modified 22.09.2020 00:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,8 +36,8 @@ data class FuelHistoryEntity(
 	val fuelStation: FuelStationEntity,
 	@Embedded(prefix = "odometer_history_")
 	val odometerValueBound: DistanceBound,
-	val vehicleVinCode: String,
-	val timestamp: Long
+	val timestamp: Long,
+	val vehicleVinCode: String
 ) {
 	@PrimaryKey(autoGenerate = true)
 	var historyEntryId: Int? = null

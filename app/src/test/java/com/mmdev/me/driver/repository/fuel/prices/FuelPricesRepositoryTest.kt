@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 20:05
+ * Last modified 22.09.2020 17:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.repository.fuel.prices
 
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.IFuelPricesLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPricesEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPrices
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.IFuelPricesRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
@@ -49,7 +49,7 @@ class FuelPricesRepositoryTest {
 		FuelPricesRepositoryImpl(localDataSource, remoteDataSource, mappers)
 	
 	private val validDbReturn = listOf(
-		FuelStationAndPricesEntity(
+		FuelStationAndPrices(
 			FuelStationEntity("WOG", "wog", "01-01-2020"),
 			listOf(
 				FuelPriceEntity("wog", 21.0, A100.code),
@@ -58,7 +58,7 @@ class FuelPricesRepositoryTest {
 		)
 	)
 	
-	private val validNetworkReturn = FuelConstants.networkResponse
+	private val validNetworkReturn = FuelConstants.dtoResponse
 	
 	
 	private val validDate = "10-01-2020"
@@ -114,31 +114,6 @@ class FuelPricesRepositoryTest {
 		}
 		
 		coVerify { remoteDataSource.requestFuelPrices(validDate) wasNot Called }
-		
-		assertTrue(result is ResultState.Success)
-		
-		result.fold(
-			success = { assertTrue(it.isNotEmpty()) },
-			failure = { assertTrue(it.message == "Invalid date")}
-		)
-		
-	}
-	
-	
-	/**
-	 * Scenario:
-	 * [IFuelPricesLocalDataSource] doesn't have data for given date -> request from remote
-	 * [IFuelPricesRemoteDataSource] has data for given date -> return data to user
-	 */
-	@Test
-	fun testSuccessfulReturnFromRemoteDataSource() = runBlocking {
-		
-		val result = repository.getFuelStationsWithPrices(emptyCacheDate)
-		
-		coVerifyOrder {
-			localDataSource.getFuelStationsAndPrices(emptyCacheDate)
-			remoteDataSource.requestFuelPrices(emptyCacheDate)
-		}
 		
 		assertTrue(result is ResultState.Success)
 		

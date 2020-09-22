@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 22.09.2020 16:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPricesEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPrices
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
 
@@ -30,13 +30,20 @@ interface FuelPricesDao {
 	
 	@Transaction
 	@Query("SELECT * FROM fuel_stations WHERE updatedDate = :date")
-	suspend fun getFuelPrices(date: String): List<FuelStationAndPricesEntity>
+	suspend fun getFuelPrices(date: String): List<FuelStationAndPrices>
+	
+	@Transaction
+	suspend fun insertFuelStationsAndPrices(
+		fuelStations: List<FuelStationEntity>, fuelPrices: List<FuelPriceEntity>) {
+		insertFuelStations(fuelStations)
+		insertFuelPrices(fuelPrices)
+	}
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertFuelStation(fuelStationEntity: FuelStationEntity)
+	fun insertFuelStations(fuelStations: List<FuelStationEntity>)
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertFuelPrice(fuelPrice: FuelPriceEntity)
+	fun insertFuelPrices(fuelPrices: List<FuelPriceEntity>)
 	
 	@Query("DELETE FROM fuel_stations")
 	suspend fun deleteAllFuelStations()

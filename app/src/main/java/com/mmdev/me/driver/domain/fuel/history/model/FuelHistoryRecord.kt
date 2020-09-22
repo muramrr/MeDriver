@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:38
+ * Last modified 22.09.2020 00:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ package com.mmdev.me.driver.domain.fuel.history.model
 
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import java.util.*
 
 
@@ -29,6 +28,6 @@ data class FuelHistoryRecord (
 	val fuelPrice: FuelPrice = FuelPrice(),
 	val fuelStation: FuelStation = FuelStation(),
 	val odometerValueBound: DistanceBound = DistanceBound(),
-	val vehicle: Vehicle
+	val vehicleVinCode: String
 )
 

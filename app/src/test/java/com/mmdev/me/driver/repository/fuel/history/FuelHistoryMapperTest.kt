@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:38
+ * Last modified 22.09.2020 02:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.vehicle.model.Vehicle
-import junit.framework.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -80,20 +80,20 @@ class FuelHistoryMapperTest {
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelPrice(15.0, FuelType.A95.code),
 			fuelStation = FuelStation("OKKO", "okko", "01-01-2020"),
-			vehicle = vehicleDomain
+			vehicleVinCode = vehicleDomain.vin
 		)
 	)
 	
 	
 	@Test
 	fun testMapDmHistoryToDb() {
-		val mappingResult = mappers.mapDmHistoryToDb(domainList.first())
-		assertTrue(mappingResult == entityList.first())
+		val mappingResult = mappers.domainToDbEntity(domainList.first())
+		Assert.assertTrue(mappingResult == entityList.first())
 	}
 	
 	@Test
 	fun testMapDbHistoryToDm() {
-		val mappingResult = mappers.mapDbHistoryToDm(vehicleWithFuelHistory)
-		assertTrue(mappingResult == domainList)
+		val mappingResult = mappers.listDbEntitiesToDomains(vehicleWithFuelHistory)
+		Assert.assertTrue(mappingResult == domainList)
 	}
 }

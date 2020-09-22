@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 17:40
+ * Last modified 22.09.2020 16:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,14 +53,14 @@ class FuelPricesRepositoryImpl (
 		remoteDataSource.requestFuelPrices(date).fold(
 			success = { dto ->
 				//save to db
-				for (fuelStationAndPrices in mappers.mapFuelResponseToDb(dto, date)) {
-					localDataSource.addFuelStation(fuelStationAndPrices.fuelStation).also {
-						fuelStationAndPrices.prices.forEach { fuelPrice ->
-							localDataSource.addFuelPrice(fuelPrice)
-						}
-					}
+				with(mappers.listApiDtosToDbEntities(dto, date)){
+					localDataSource.addFuelStationsAndPrices(this.first, this.second)
 				}
-				ResultState.Success(mappers.mapFuelResponseToDm(dto))
+				//after saving -> retrieve from database again
+				getFuelDataFromLocal(date)
+				
+				//ResultState.Success(mappers.mapFuelResponseToDm(dto))
+				
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
@@ -69,7 +69,7 @@ class FuelPricesRepositoryImpl (
 	private suspend fun getFuelDataFromLocal(date: String): SimpleResult<List<FuelStationWithPrices>> =
 		localDataSource.getFuelStationsAndPrices(date).fold(
 			success = { dto ->
-				if (dto.isNotEmpty()) ResultState.Success(mappers.mapDbFuelStationToDm(dto))
+				if (dto.isNotEmpty()) ResultState.Success(mappers.dbFuelStationAndPricesToDomains(dto))
 				else ResultState.Failure(Exception("Empty cache"))
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 02:02
+ * Last modified 22.09.2020 01:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.prices.remote.api
 
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.NetworkFuelModelResponse
+import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPricesDtoResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -30,6 +30,6 @@ interface FuelApi {
 		@Query("date") date: String,
 		@Query("type") fuelType: Int,
 		//@Query("obl") region: Int = 3
-	): NetworkFuelModelResponse
+	): FuelPricesDtoResponse
 	
 }

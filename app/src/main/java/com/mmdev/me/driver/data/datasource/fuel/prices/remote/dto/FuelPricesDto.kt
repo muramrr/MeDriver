@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 02:02
+ * Last modified 22.09.2020 01:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,12 +15,11 @@ import kotlinx.serialization.Serializable
 
 
 /**
- * network models which is using by [com.mmdev.me.driver.data.datasource.remote.fuel.api.FuelApi]
- * and [com.mmdev.me.driver.data.datasource.remote.fuel.FuelPricesRemoteDataSourceImpl]
+ * Api DTOs used by [com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi]
  */
 
 @Serializable
-data class NetworkFuelStation(
+data class FuelPriceAndStationDto(
 	@SerialName("value")
 	val price: Double,
 	@SerialName("marka")
@@ -29,7 +28,7 @@ data class NetworkFuelStation(
 )
 
 @Serializable
-data class NetworkFuelSummary(
+data class FuelSummaryDto(
 	@SerialName("minval")
 	val minPrice: String,
 	@SerialName("maxval")
@@ -40,17 +39,17 @@ data class NetworkFuelSummary(
 
 
 @Serializable
-data class NetworkFuelModel(
+data class FuelPricesDto(
 	@SerialName("data")
-	val networkFuelStations: List<NetworkFuelStation> = emptyList(),
+	val fuelPriceAndStationDtos: List<FuelPriceAndStationDto> = emptyList(),
 	@SerialName("date")
 	val pricesLastUpdatedDate: String = "",
 	@SerialName("total")
-	val fuelSummaryResponse: List<NetworkFuelSummary> = emptyList()
+	val fuelSummaryDto: List<FuelSummaryDto> = emptyList()
 )
 
 @Serializable
-data class NetworkFuelModelResponse(val result: NetworkFuelModel)
+data class FuelPricesDtoResponse(val result: FuelPricesDto)
 
 
 

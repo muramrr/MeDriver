@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:26
+ * Last modified 22.09.2020 01:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,6 +33,28 @@ class VehicleRepositoryImpl(
 	private val remoteDataSource: IVehicleRemoteDataSource,
 	private val mappers: VehicleMappersFacade
 ) : IVehicleRepository, BaseRepository() {
+	
+	
+	
+	override suspend fun addVehicle(
+		user: UserModel?, vehicle: Vehicle
+	): Flow<SimpleResult<Unit>> = flow {
+		localDataSource.insertVehicle(mappers.domainToDbEntity(vehicle)).fold(
+			success = { result ->
+				//check if user is premium to backup to backend
+				if (user != null && user.isPremium)
+					remoteDataSource.addVehicle(user.email, mappers.domainToApiDto(vehicle)).collect {
+						emit(it)
+					}
+				//otherwise result is success because writing to database was successful
+				else emit(ResultState.success(result))
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
+	}
+	
+	
+	
 	
 	/**
 	 * Get list of [Vehicle].
@@ -112,24 +134,6 @@ class VehicleRepositoryImpl(
 		failure = { throwable -> null }
 	)
 	
-	
-	
-	override suspend fun addVehicle(
-		user: UserModel?, vehicle: Vehicle
-	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.insertVehicle(mappers.domainToDbEntity(vehicle)).fold(
-			success = { result ->
-				//check if user is premium to backup to backend
-				if (user != null && user.isPremium)
-					remoteDataSource.addVehicle(user.email, mappers.domainToApiDto(vehicle)).collect {
-						emit(it)
-					}
-				//otherwise result is success because writing to database was successful
-				else emit(ResultState.success(result))
-			},
-			failure = { throwable -> emit(ResultState.failure(throwable)) }
-		)
-	}
 	
 	
 	

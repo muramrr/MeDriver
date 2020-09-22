@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 02:14
+ * Last modified 22.09.2020 02:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -106,7 +106,7 @@ class FuelHistoryAddDialog(
 			}
 			
 			btnDone.setOnClickListener {
-				mViewModel.addHistoryRecord().also { dialog?.dismiss() }
+				mViewModel.addHistoryRecord(MedriverApp.currentUser!!).also { dialog?.dismiss() }
 			}
 			
 			

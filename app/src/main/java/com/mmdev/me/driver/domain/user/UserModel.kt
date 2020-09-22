@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 16:49
+ * Last modified 22.09.2020 17:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,4 @@ data class UserModel (
 	val email: String = "",
 	val isEmailVerified: Boolean = false,
 	val isPremium: Boolean = false
-) {
-	val isSignedIn = id.isNotBlank()
-}
+)

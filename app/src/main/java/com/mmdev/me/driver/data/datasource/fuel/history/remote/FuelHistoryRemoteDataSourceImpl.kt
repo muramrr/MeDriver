@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 16:06
+ * Last modified 22.09.2020 01:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDTO
+import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
@@ -34,15 +34,26 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 		private const val FS_ID_FIELD = "id"
 	}
 	
+	override fun addFuelHistory(
+		email: String, vin: String, dto: FuelHistoryDto
+	): Flow<SimpleResult<Unit>> =
+		fs.collection(FS_USERS_COLLECTION)
+			.document(email)
+			.collection(FS_VEHICLES_COLLECTION)
+			.document(vin)
+			.collection(FS_FUEL_HISTORY_COLLECTION)
+			.document()
+			.setAsFlow(dto)
+	
 	override fun getFuelHistory(email: String, vin: String):
-			Flow<SimpleResult<List<FuelHistoryDTO>>> =
+			Flow<SimpleResult<List<FuelHistoryDto>>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
 			.orderBy(FS_ID_FIELD, Query.Direction.ASCENDING)
-			.executeAndDeserializeAsFlow(FuelHistoryDTO::class.java)
+			.executeAndDeserializeAsFlow(FuelHistoryDto::class.java)
 	
 	override fun updateFuelHistoryField(
 		email: String, vin: String, historyId: String, field: String, value: Any
@@ -55,16 +66,5 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 			.document(historyId)
 			.update(field, value)
 			.asFlow()
-	
-	override fun writeFuelHistoryDTO(
-		email: String, vin: String, dto: FuelHistoryDTO
-	): Flow<SimpleResult<Unit>> =
-		fs.collection(FS_USERS_COLLECTION)
-			.document(email)
-			.collection(FS_VEHICLES_COLLECTION)
-			.document(vin)
-			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(dto.id.toString())
-			.setAsFlow(dto)
 	
 }

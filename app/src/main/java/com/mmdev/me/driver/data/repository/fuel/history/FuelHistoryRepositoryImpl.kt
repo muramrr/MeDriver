@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 17:40
+ * Last modified 22.09.2020 01:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,10 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.user.UserModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 
 /**
  * [IFuelHistoryRepository] implementation
@@ -39,10 +43,12 @@ class FuelHistoryRepositoryImpl (
 	private var historyOffset = 0
 	
 	
-	override suspend fun loadFuelHistory(vin: String, size: Int?): SimpleResult<List<FuelHistoryRecord>> =
+	override suspend fun loadFuelHistory(
+		vin: String,
+		size: Int?,
+	): SimpleResult<List<FuelHistoryRecord>> =
 		if (size == null || size < 0) loadFirstFuelHistory(vin)
 		else loadMoreFuelHistory(vin, size)
-	
 	
 	
 	private suspend fun loadFirstFuelHistory(vin: String): SimpleResult<List<FuelHistoryRecord>> =
@@ -50,7 +56,8 @@ class FuelHistoryRepositoryImpl (
 			success = { dto ->
 				//reset offset
 				historyOffset = 0
-				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
+				
+				ResultState.Success(mappers.listDbEntitiesToDomains(dto)).also {
 					//update offset after first items was loaded
 					historyOffset += it.data.size
 				}
@@ -61,7 +68,7 @@ class FuelHistoryRepositoryImpl (
 	private suspend fun loadMoreFuelHistory(vin: String, size: Int): SimpleResult<List<FuelHistoryRecord>> =
 		localDataSource.getFuelHistory(vin, size, historyOffset).fold(
 			success = { dto ->
-				ResultState.Success(mappers.mapDbHistoryToDm(dto)).also {
+				ResultState.Success(mappers.listDbEntitiesToDomains(dto)).also {
 					//update offset
 					historyOffset += it.data.size
 				}
@@ -69,9 +76,37 @@ class FuelHistoryRepositoryImpl (
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
 	
-	override suspend fun addFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit> =
-		localDataSource.insertFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
 	
-	override suspend fun removeFuelHistoryRecord(fuelHistoryRecord: FuelHistoryRecord): SimpleResult<Unit> =
-		localDataSource.deleteFuelHistoryEntry(mappers.mapDmHistoryToDb(fuelHistoryRecord))
+	/**
+	 * Add [historyRecord] to local cache
+	 * Also check if given user is not null and premium
+	 * If that is true -> write also to backend
+	 */
+	override suspend fun addFuelHistoryRecord(user: UserModel?, historyRecord: FuelHistoryRecord):
+			Flow<SimpleResult<Unit>> = flow {
+		
+		localDataSource.insertFuelHistoryEntry(mappers.domainToDbEntity(historyRecord)).fold(
+			success = { result ->
+				//check if user is premium to write to backend
+				if (user != null && user.isPremium)
+					remoteDataSource.addFuelHistory(
+						user.email,
+						historyRecord.vehicleVinCode,
+						mappers.domainToApiDto(historyRecord)
+					).collect { emit(it) }
+					
+				//otherwise result is success because writing to database was successful
+				else emit(ResultState.success(result))
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
+		
+	}
+	
+	
+	
+	
+	
+	override suspend fun removeFuelHistoryRecord(historyRecord: FuelHistoryRecord): SimpleResult<Unit> =
+		localDataSource.deleteFuelHistoryEntry(mappers.domainToDbEntity(historyRecord))
 }

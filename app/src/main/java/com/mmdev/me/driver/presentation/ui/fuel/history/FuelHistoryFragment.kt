@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:41
+ * Last modified 22.09.2020 00:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -93,13 +93,17 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 			}
 			is FuelHistoryViewState.InsertNewOne -> {
 				logInfo(TAG, "insert new data: " +
-				             "odometer = ${state.item.vehicle.odometerValueBound.kilometers } km," +
-				             "vehicle = ${state.item.vehicle.brand}")
+				             "odometer = ${state.item.odometerValueBound.kilometers } km," +
+				             "vehicle = ${state.item.vehicleVinCode}")
 						           
 				mFuelHistoryAdapter.insertRecordOnTop(state.item)
 				
 				//update vehicle with new odometer value
-				sharedViewModel.updateVehicle(MedriverApp.currentUser, state.item.vehicle)
+				sharedViewModel.updateVehicle(
+					MedriverApp.currentUser,
+					MedriverApp.currentVehicle!!.copy(odometerValueBound = state.item.odometerValueBound)
+				)
+				
 			}
 			is FuelHistoryViewState.Paginate -> {
 				logInfo(TAG, "paginate data size = ${state.data.size}")

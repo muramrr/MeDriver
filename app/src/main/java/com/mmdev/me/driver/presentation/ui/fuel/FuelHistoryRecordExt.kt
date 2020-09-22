@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 16:08
+ * Last modified 22.09.2020 02:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,8 +34,8 @@ fun FuelHistoryRecord.fuelConsumption(): Double = when (MedriverApp.metricSystem
 fun FuelHistoryRecord.moneyCosts(): Double = (fuelPrice.price * filledLiters).roundTo(2)
 
 fun FuelHistoryRecord.odometerValue(): Int = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> vehicle.odometerValueBound.kilometers
-	MetricSystem.MILES -> vehicle.odometerValueBound.miles
+	MetricSystem.KILOMETERS -> odometerValueBound.kilometers
+	MetricSystem.MILES -> odometerValueBound.miles
 }
 
 fun FuelHistoryRecord.dateMonthText(): String = date.getMonthText()

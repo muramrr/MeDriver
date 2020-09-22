@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 22.09.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,9 @@ import com.mmdev.me.driver.FuelConstants.fuelPriceEntityWog95
 import com.mmdev.me.driver.FuelConstants.fuelStationEntityOkko
 import com.mmdev.me.driver.FuelConstants.fuelStationEntityWog
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPricesEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPrices
+import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.modules.DatabaseTestModule
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -43,8 +45,8 @@ class FuelPricesDaoTest : KoinTest {
 	 */
 	private val dao: FuelPricesDao by inject()
 	
-	private lateinit var fuelStationAndPricesOkko: FuelStationAndPricesEntity
-	private lateinit var fuelStationAndPricesWog: FuelStationAndPricesEntity
+	private lateinit var fuelPrices: List<FuelPriceEntity>
+	private lateinit var fuelStations: List<FuelStationEntity>
 	
 	
 	
@@ -72,59 +74,46 @@ class FuelPricesDaoTest : KoinTest {
 	fun before() {
 		loadKoinModules(DatabaseTestModule)
 		
-		fuelStationAndPricesOkko = FuelStationAndPricesEntity(
-			fuelStationEntityOkko, listOf(fuelPriceEntityOkko100, fuelPriceEntityOkko95)
+		fuelPrices = listOf(
+			fuelPriceEntityOkko100,
+			fuelPriceEntityOkko95,
+			fuelPriceEntityWog100,
+			fuelPriceEntityWog95
 		)
 		
-		fuelStationAndPricesWog = FuelStationAndPricesEntity(
-			fuelStationEntityWog, listOf(fuelPriceEntityWog100, fuelPriceEntityWog95)
+		fuelStations = listOf(
+			fuelStationEntityWog, fuelStationEntityOkko
 		)
 	}
 
 
 	@Test
 	fun testInsertFuelStationAndPrices() = runBlocking {
-		
-		dao.insertFuelStation(fuelStationEntityOkko)
-		dao.insertFuelStation(fuelStationEntityWog)
-		
-		dao.insertFuelPrice(fuelPriceEntityOkko100)
-		dao.insertFuelPrice(fuelPriceEntityOkko95)
-		
-		dao.insertFuelPrice(fuelPriceEntityWog100)
-		dao.insertFuelPrice(fuelPriceEntityWog95)
+		dao.insertFuelStationsAndPrices(fuelStations, fuelPrices)
 		
 		// Request
 		val requestedEntities = dao.getFuelPrices("01-01-2020")
 		
 		// compare result
 		assertTrue(requestedEntities.isNotEmpty())
-		assertEquals(requestedEntities, listOf(fuelStationAndPricesOkko, fuelStationAndPricesOkko))
+		assertEquals(requestedEntities.size, 2)
 
 	}
 	
 	@Test
 	fun testDeleteFuelStationAndPrices() = runBlocking {
-		dao.insertFuelStation(fuelStationEntityOkko)
-		dao.insertFuelStation(fuelStationEntityWog)
-		
-		dao.insertFuelPrice(fuelPriceEntityOkko100)
-		dao.insertFuelPrice(fuelPriceEntityOkko95)
-		
-		dao.insertFuelPrice(fuelPriceEntityWog100)
-		dao.insertFuelPrice(fuelPriceEntityWog95)
+		dao.insertFuelStationsAndPrices(fuelStations, fuelPrices)
 		
 		// Request
 		val requestedEntities = dao.getFuelPrices("01-01-2020")
 		
 		// compare result
 		assertTrue(requestedEntities.isNotEmpty())
-		assertEquals(requestedEntities, listOf(fuelStationAndPricesOkko, fuelStationAndPricesOkko))
 		
 		dao.deleteAllFuelStations()
 		
 		// compare result
-		assertEquals(emptyList<FuelStationAndPricesEntity>(), dao.getFuelPrices("01-01-2020"))
+		assertEquals(emptyList<FuelStationAndPrices>(), dao.getFuelPrices("01-01-2020"))
 	}
 
 

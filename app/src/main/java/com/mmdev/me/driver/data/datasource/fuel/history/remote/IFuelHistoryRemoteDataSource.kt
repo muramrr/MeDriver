@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 03:33
+ * Last modified 22.09.2020 01:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.history.remote
 
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDTO
+import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
@@ -22,7 +22,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFuelHistoryRemoteDataSource {
 	
-	fun getFuelHistory(email: String, vin: String): Flow<SimpleResult<List<FuelHistoryDTO>>>
+	fun addFuelHistory(
+		email: String,
+		vin: String,
+		dto: FuelHistoryDto
+	): Flow<SimpleResult<Unit>>
+	
+	fun getFuelHistory(email: String, vin: String): Flow<SimpleResult<List<FuelHistoryDto>>>
 	
 	fun updateFuelHistoryField(
 		email: String,
@@ -32,9 +38,4 @@ interface IFuelHistoryRemoteDataSource {
 		value: Any
 	): Flow<SimpleResult<Void>>
 	
-	fun writeFuelHistoryDTO(
-		email: String,
-		vin: String,
-		dto: FuelHistoryDTO
-	): Flow<SimpleResult<Unit>>
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:38
+ * Last modified 22.09.2020 00:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,18 +13,12 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
-import java.util.*
 
 /**
- * MappersFacade for multiple mappers used in FuelHistoryRepositoryImpl
+ * MappersFacade for multiple mappers used in FuelHistoryRepository
  * contains mappers between layers [data -> domain]
- * mappers between sources [DomainModel -> dbEntity], [dbEntity -> DomainModel]
  *
  * DTO = Data Transfer Object
  * DB = database
@@ -33,60 +27,46 @@ import java.util.*
 
 class FuelHistoryMappersFacade {
 	
-	//dm -> db dto Single
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDmHistoryToDb: (FuelHistoryRecord) -> FuelHistoryEntity = { record ->
-		FuelHistoryEntity(
-			commentary = record.commentary,
-			timestamp = record.date.time,
-			distancePassedBound = record.distancePassedBound,
-			filledLiters = record.filledLiters,
-			fuelConsumptionBound = record.fuelConsumptionBound,
-			fuelPrice = FuelPriceEntity(
-				fuelStationId = record.fuelStation.slug,
-				price = record.fuelPrice.price,
-				type = record.fuelPrice.type.code
-			),
-			fuelStation = FuelStationEntity(
-				brandTitle = record.fuelStation.brandTitle,
-				slug = record.fuelStation.slug,
-				updatedDate = record.fuelStation.updatedDate
-			),
-			odometerValueBound = record.odometerValueBound,
-			vehicleVinCode = record.vehicle.vin
-		)
-	}
+	// in: dto, out: * domain, entity
+	fun apiDtoToDbEntity(dto: FuelHistoryDto): FuelHistoryEntity =
+		FuelHistoryDtoMappers.apiDtoToDbEntity(dto)
 	
-	//dm -> db dto Single
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	val mapDbHistoryToDm: (VehicleWithFuelHistory) -> List<FuelHistoryRecord> = { input ->
-		mapList(input.fuelHistory) { historyEntity ->
-			FuelHistoryRecord(
-				commentary = historyEntity.commentary,
-				date = Date(historyEntity.timestamp),
-				distancePassedBound = historyEntity.distancePassedBound,
-				filledLiters = historyEntity.filledLiters,
-				fuelConsumptionBound = historyEntity.fuelConsumptionBound,
-				fuelPrice = FuelPrice(
-					price = historyEntity.fuelPrice.price,
-					type = historyEntity.fuelPrice.type
-				),
-				fuelStation = FuelStation(
-					brandTitle = historyEntity.fuelStation.brandTitle,
-					slug = historyEntity.fuelStation.slug,
-					updatedDate = historyEntity.fuelStation.updatedDate
-				),
-				odometerValueBound = historyEntity.odometerValueBound,
-				vehicle = Vehicle(
-					brand = input.vehicleEntity.brand,
-					model = input.vehicleEntity.model,
-					year = input.vehicleEntity.year,
-					vin = input.vehicleEntity.vin,
-					odometerValueBound = input.vehicleEntity.odometerValueBound
-				)
-			)
-		}
-	}
+	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistoryRecord =
+		FuelHistoryDtoMappers.apiDtoToDomain(dto)
+	
+	fun listApiDtosToDbEntities(dtoList: List<FuelHistoryDto>): List<FuelHistoryEntity> =
+		mapList(dtoList) { apiDtoToDbEntity(it) }
+	
+	fun listApiDtosToDomains(dtoList: List<FuelHistoryDto>): List<FuelHistoryRecord> =
+		mapList(dtoList) { apiDtoToDomain(it) }
+	
+	
+	
+	
+	// in: domain, out: * entity, dto
+	fun domainToDbEntity(domain: FuelHistoryRecord): FuelHistoryEntity =
+		FuelHistoryDomainMappers.domainToDbEntity(domain)
+	
+	fun domainToApiDto(domain: FuelHistoryRecord): FuelHistoryDto =
+		FuelHistoryDomainMappers.domainToApiDto(domain)
+	
+	
+	
+	
+	// in: Db Entity, out: * domain, dto
+	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistoryRecord =
+		FuelHistoryDbEntityMappers.dbEntityToDomain(entity)
+	
+	
+	fun dbEntityToApiDto(entity: FuelHistoryEntity): FuelHistoryDto =
+		FuelHistoryDbEntityMappers.dbEntityToApiDto(entity)
+	
+	fun listDbEntitiesToDomains(input: VehicleWithFuelHistory): List<FuelHistoryRecord> =
+		mapList(input.fuelHistory) { dbEntityToDomain(it) }
+	
+	fun listDbEntitiesToApiDtos(input: VehicleWithFuelHistory): List<FuelHistoryDto> =
+		mapList(input.fuelHistory) { dbEntityToApiDto(it) }
+	
 	
 	
 }

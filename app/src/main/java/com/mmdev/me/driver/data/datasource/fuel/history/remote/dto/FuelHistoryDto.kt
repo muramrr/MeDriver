@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 22.09.2020 00:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,8 +20,7 @@ import java.util.*
  * Dto used in firestore database
  */
 
-data class FuelHistoryDTO (
-	val id: Long,
+data class FuelHistoryDto (
 	val commentary: String = "",
 	val date: Date = Date(),
 	val dateAdded: Date = Date(),
@@ -30,5 +29,6 @@ data class FuelHistoryDTO (
 	val fuelConsumptionBound: ConsumptionBound = ConsumptionBound(),
 	val fuelPrice: FuelPrice = FuelPrice(),
 	val fuelStation: FuelStation = FuelStation(),
-	val odometerValueBound: DistanceBound = DistanceBound()
+	val odometerValueBound: DistanceBound = DistanceBound(),
+	val vehicleVinCode: String
 )

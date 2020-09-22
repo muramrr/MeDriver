@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 17:05
+ * Last modified 22.09.2020 15:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ interface FuelHistoryDao {
 	
 	@Transaction
 	@Query("""
-		SELECT * FROM vehicle INNER JOIN fuel_history
+		SELECT * FROM vehicle INNER JOIN fuel_history ON vehicleVinCode = vin
 		WHERE vin = :vin
 		ORDER BY timestamp DESC
 		LIMIT:limit OFFSET :offset

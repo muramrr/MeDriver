@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 00:56
+ * Last modified 22.09.2020 19:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
@@ -25,27 +24,22 @@ import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListe
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistoryBinding>(
 	R.layout.fragment_fuel_history
 ) {
-	override val mViewModel: FuelHistoryViewModel by viewModel()
+	override val mViewModel: FuelHistoryViewModel by sharedViewModel()
 	private val fuelPricesViewModel: FuelPricesViewModel by sharedViewModel()
 	
 	private val mFuelHistoryAdapter = FuelHistoryAdapter()
+
 	
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+	override fun setupViews() {
 		mViewModel.fuelHistoryState.observe(this, {
 			renderState(it)
 		})
 		
-		mViewModel.getHistoryRecords()
-	}
-	
-	override fun setupViews() {
 		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentUser != null
 		
 		val linearLayoutManager = LinearLayoutManager(requireContext())

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:19
+ * Last modified 23.09.2020 02:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface IVehicleRepository {
 	
-	suspend fun getAllVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>>
+	suspend fun addVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	
+	suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>>
 	
 	//called only on app startup
-	suspend fun getVehicle(vin: String): Vehicle?
+	suspend fun getSavedVehicle(vin: String): Vehicle?
 	
-	suspend fun addVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	suspend fun getVehicleInfoByVin(vin: String) : SimpleResult<Vehicle>
 }

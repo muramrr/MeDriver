@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 23.09.2020 17:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,23 +10,22 @@
 
 package com.mmdev.me.driver.data.datasource.vin.remote.api
 
-import com.mmdev.me.driver.domain.vin.VinCodeResponse
+import com.mmdev.me.driver.data.datasource.vin.remote.dto.VehicleByVinResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 
-
 /**
- * Retrofit vehicle by vincode retrieve api call
+ * Retrieve vehicle by vinCode retrofit api call
  */
 
-interface VINCodeApi {
+interface VinCodeApi {
 
 	private companion object {
-		private const val VINCODE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/"
+		private const val VIN_CODE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/"
 	}
 
-	@GET("$VINCODE_URL{VINCode}?format=json")
-	suspend fun getVehicleByVINCodeFromApi(@Path("VINCode") VINCode: String): VinCodeResponse
+	@GET("$VIN_CODE_URL{vinCode}?format=json")
+	suspend fun getVehicleByVinCode(@Path("vinCode") vinCode: String): VehicleByVinResponse
 
 }

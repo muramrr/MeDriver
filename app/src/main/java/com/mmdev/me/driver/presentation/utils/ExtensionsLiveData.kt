@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.08.2020 17:50
+ * Last modified 23.09.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,9 +18,9 @@ import androidx.lifecycle.Observer
 /*
  * combine result of 2 LiveData
  */
-fun <A, B, R> LiveData<A>.combineWith(
+inline fun <A, B, R> LiveData<A>.combineWith(
 	otherLiveData: LiveData<B>,
-	onChange: (A?, B?) -> R
+	crossinline onChange: (A?, B?) -> R
 ): LiveData<R> {
 	val result = MediatorLiveData<R>()
 	//add first source

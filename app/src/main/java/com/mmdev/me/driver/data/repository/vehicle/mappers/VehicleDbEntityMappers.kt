@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:23
+ * Last modified 23.09.2020 02:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,8 @@ object VehicleDbEntityMappers {
 		model = entity.model,
 		year = entity.year,
 		vin = entity.vin,
-		odometerValueBound = entity.odometerValueBound
+		odometerValueBound = entity.odometerValueBound,
+		engineCapacity = entity.engineCapacity
 	)
 	
 	/** Out: [Vehicle] */
@@ -36,7 +37,8 @@ object VehicleDbEntityMappers {
 		model = dto.model,
 		year = dto.year,
 		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound
+		odometerValueBound = dto.odometerValueBound,
+		engineCapacity = dto.engineCapacity
 	)
 	
 }

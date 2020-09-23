@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 02:15
+ * Last modified 23.09.2020 18:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,8 @@ import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
 import com.mmdev.me.driver.databinding.DropItemFuelStationBinding
-import com.mmdev.me.driver.databinding.FragmentFuelHistoryAddBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
@@ -44,7 +44,13 @@ class FuelHistoryAddDialog(
 	fuelStationWithPrices: List<FuelStationWithPrices>
 ): DialogFragment() {
 	
-	private lateinit var binding: FragmentFuelHistoryAddBinding
+	// prevent view being leaked
+	private var _binding: DialogFuelHistoryAddBinding? = null
+	private val binding: DialogFuelHistoryAddBinding
+		get() = _binding ?: throw IllegalStateException(
+			"Trying to access the binding outside of the view lifecycle."
+		)
+	
 	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
 	
 	//get same scope as FuelFragmentHistory
@@ -70,9 +76,9 @@ class FuelHistoryAddDialog(
 	
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View =
-		FragmentFuelHistoryAddBinding.inflate(inflater, container, false)
+		DialogFuelHistoryAddBinding.inflate(inflater, container, false)
 			.apply {
-				binding = this
+				_binding = this
 				lifecycleOwner = viewLifecycleOwner
 				viewModel = mViewModel
 				executePendingBindings()
@@ -129,14 +135,10 @@ class FuelHistoryAddDialog(
 					distancePassedValueDefault =
 						getString(R.string.fg_fuel_history_add_distance_passed_value_default_km)
 					
-					
 					distancePassedSubtitleValueFormatter =
 						getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
 					
-					
-					
-					layoutInputOdometer.suffixText =
-						getString(R.string.fg_fuel_history_add_odometer_input_suffix_km)
+					layoutInputOdometer.suffixText = getString(R.string.kilometers)
 					
 				}
 				
@@ -160,8 +162,7 @@ class FuelHistoryAddDialog(
 					distancePassedSubtitleValueFormatter =
 						getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_mi)
 					
-					layoutInputOdometer.suffixText =
-						getString(R.string.fg_fuel_history_add_odometer_input_suffix_mi)
+					layoutInputOdometer.suffixText = getString(R.string.miles)
 					
 				}
 			}
@@ -258,11 +259,15 @@ class FuelHistoryAddDialog(
 	
 	private fun observeInputOdometer() {
 		mViewModel.odometerRequires.observe(this, {
-			if (it != null && it) binding.layoutInputOdometer.error = getString(R.string.fg_fuel_history_add_odometer_input_error)
+			if (it != null && it) binding.layoutInputOdometer.error = getString(R.string.odometer_input_error)
 		})
 	}
 	
-	
+	override fun onDestroyView() {
+		binding.unbind()
+		_binding = null
+		super.onDestroyView()
+	}
 	
 	
 	private class FuelStationDropAdapter(

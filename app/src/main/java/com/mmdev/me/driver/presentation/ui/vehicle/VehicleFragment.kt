@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 19:34
+ * Last modified 23.09.2020 17:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,6 +50,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				emptyList()
 		)
 		
+		binding.dropMyCarChooseCar.setOnClickListener { showModalBottomSheet() }
+		
 		binding.dropMyCarChooseCar.apply {
 			setAdapter(mVehicleDropAdapter)
 			
@@ -74,7 +76,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			vehicle?.let {
 				binding.dropMyCarChooseCar.listSelection = mVehicleDropAdapter.getVehiclePosition(it)
 			}
-			
 		})
 	}
 	
@@ -86,7 +87,10 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	
 	
-	
+	private fun showModalBottomSheet() {
+		val vehicleAdd = VehicleAddBottomSheet()
+		vehicleAdd.show(childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName)
+	}
 	
 	
 	//temporary
@@ -102,7 +106,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			"Focus",
 			2013,
 			"VINFORD",
-			DistanceBound(0, 0)
+			DistanceBound(0, 0),
+			engineCapacity = 1.8
 		)
 		
 		val landRover = Vehicle(
@@ -110,7 +115,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			"Discovery",
 			2012,
 			"VINLAND",
-			DistanceBound(0, 0)
+			DistanceBound(0, 0),
+			engineCapacity = 2.0
 		)
 	}
 	

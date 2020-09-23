@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:41
+ * Last modified 23.09.2020 02:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,8 @@ import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
+import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -31,6 +33,8 @@ import kotlinx.coroutines.flow.flow
 class VehicleRepositoryImpl(
 	private val localDataSource: IVehicleLocalDataSource,
 	private val remoteDataSource: IVehicleRemoteDataSource,
+	private val localVinDecoder: IVinLocalDataSource,
+	private val remoteVinDecoder: IVinRemoteDataSource,
 	private val mappers: VehicleMappersFacade
 ) : IVehicleRepository, BaseRepository() {
 	
@@ -68,7 +72,7 @@ class VehicleRepositoryImpl(
 	 * @return [ResultState.Success] if list contains data or not
 	 * @return [ResultState.Failure] if failure occurs
 	 */
-	override suspend fun getAllVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>> = flow {
+	override suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>> = flow {
 		getAllVehiclesFromCache().fold(
 			success = { data -> emit(ResultState.success(data)) },
 			failure = { throwable ->
@@ -98,7 +102,7 @@ class VehicleRepositoryImpl(
 	 * Get list of [Vehicle] from backend if user is logged in.
 	 * Uses when local database is empty.
 	 * This method invokes only when we know for sure that this user is premium
-	 * @see getAllVehicles
+	 * @see getAllSavedVehicles
 	 * Collect result from request, save it to local cache and return
 	 *
 	 * @return [ResultState.Success] if list contains data, convert it, save to local database
@@ -128,8 +132,7 @@ class VehicleRepositoryImpl(
 	
 	
 	
-	
-	override suspend fun getVehicle(vin: String): Vehicle? = localDataSource.getVehicle(vin).fold(
+	override suspend fun getSavedVehicle(vin: String): Vehicle? = localDataSource.getVehicle(vin).fold(
 		success = { dto -> mappers.dbEntityToDomain(dto) },
 		failure = { throwable -> null }
 	)
@@ -137,6 +140,15 @@ class VehicleRepositoryImpl(
 	
 	
 	
+	override suspend fun getVehicleInfoByVin(vin: String): SimpleResult<Vehicle> =
+		remoteVinDecoder.getVehicleByVin(vin).fold(
+			success = { dto ->
+				if (dto.results.isNotEmpty())
+					ResultState.Success(mappers.vinApiDtoToDomain(dto.results.first()))
+				else ResultState.Failure(Exception("No data or vehicle is not found."))
+			},
+			failure = { throwable -> ResultState.Failure(throwable) }
+		)
 	
 	
 }

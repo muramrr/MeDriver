@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.09.2020 01:21
+  ~ Last modified 23.09.2020 17:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,21 +20,14 @@
 				android:right="1dp"
 				android:bottom="1dp"
 				android:left="1dp" />
-			<solid android:color="#15000000" />
+			<solid android:color="@color/surface2dpElevation1" />
 			<corners android:radius="13dp" />
 		</shape>
 	</item>
-<!--	<item>-->
-<!--		<shape>-->
-<!--			<padding android:bottom="1dp" />-->
-<!--			<solid android:color="#20000000" />-->
-<!--			<corners android:radius="13dp" />-->
-<!--		</shape>-->
-<!--	</item>-->
 	<item>
 		<shape>
 			<padding android:bottom="1dp" />
-			<solid android:color="#25000000" />
+			<solid android:color="@color/surface2dpElevation2" />
 			<corners android:radius="12dp" />
 		</shape>
 	</item>

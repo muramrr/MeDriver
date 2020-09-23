@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.09.2020 01:28
+  ~ Last modified 23.09.2020 18:45
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -514,9 +514,9 @@
 				android:layout_width="0dp"
 				android:focusable="false"
 				
-				android:hint="@string/fg_fuel_history_add_odometer_input_hint"
+				android:hint="@string/odometer_input_hint"
 				app:errorEnabled="@{viewModel.odometerRequires}"
-				app:suffixText="@string/fg_fuel_history_add_odometer_input_suffix_km"
+				app:suffixText="@string/kilometers"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
@@ -627,17 +627,13 @@
 			
 			
 			
-			
-			<!-- cancel -->
-			<com.google.android.material.button.MaterialButton
+			<!-- button cancel -->
+			<include
 				android:id="@+id/btnCancel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				
-				android:text="@string/btn_cancel"
-				
-				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+				layout="@layout/btn_cancel"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
@@ -652,7 +648,7 @@
 				android:layout_height="wrap_content"
 				android:enabled="@{viewModel.allFieldsAreCorrect}"
 				
-				android:text="@string/btn_done"
+				android:text="@string/btn_add"
 				
 				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:44
+ * Last modified 22.09.2020 20:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ import org.koin.dsl.module
 val ViewModelsModule = module {
 
 
-	viewModel { HomeViewModel(repository = get()) }
+	viewModel { HomeViewModel() }
 	viewModel { MaintenanceViewModel(repository = get()) }
 	viewModel { VehicleViewModel(repository = get()) }
 	viewModel { FuelPricesViewModel(repository = get()) }

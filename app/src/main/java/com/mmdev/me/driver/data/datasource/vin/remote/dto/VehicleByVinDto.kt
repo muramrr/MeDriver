@@ -1,36 +1,34 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.08.2020 19:13
+ * Last modified 23.09.2020 02:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.vin
+package com.mmdev.me.driver.data.datasource.vin.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VehicleByVIN(
+data class VehicleByVin(
 	@SerialName("Make")
-	val vehicleBrand: String = "",
+	val vehicleBrand: String,
 	@SerialName("Model")
-	val vehicleModel: String = "",
+	val vehicleModel: String,
 	@SerialName("ModelYear")
-	val vehicleProducedYear: String = "",
-	@SerialName("PlantCountry")
-	val vehicleProducedPlant: String = "",
+	val vehicleProducedYear: String,
 	@SerialName("DisplacementL")
-	val vehicleEngineCapacity: String = ""
+	val vehicleEngineCapacity: String,
+	@SerialName("VIN")
+	val vehicleVinCode: String
 )
 
 @Serializable
-data class VinCodeResponse (
+data class VehicleByVinResponse (
 	@SerialName("Results")
-	val results: List<VehicleByVIN> = emptyList()
-) {
-	fun getResult(): VehicleByVIN = if (results.isNotEmpty()) results[0] else VehicleByVIN()
-}
+	val results: List<VehicleByVin>
+)

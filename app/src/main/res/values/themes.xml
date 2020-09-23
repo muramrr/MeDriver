@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.09.2020 14:57
+  ~ Last modified 23.09.2020 18:47
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,6 +47,7 @@
 
 		<!-- widgets styles -->
 		<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+		<item name="bottomSheetDialogTheme">@style/My.BottomSheet.Overlay</item>
 
 		<!-- text appearances -->
 		<item name="android:textViewStyle">@style/My.Widget.TextView</item>
@@ -65,6 +66,14 @@
 		<item name="textAppearanceOverline">@style/My.TA.Overline</item>
 
 	</style>
+	
+	
+	
+	<style name="My.BottomSheet.Overlay" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+		<item name="bottomSheetStyle">@style/My.BottomSheet</item>
+		<item name="android:windowSoftInputMode">adjustResize</item>
+	</style>
+	
 	
 	
 	<style name="My.Dialog.FullScreen" parent="AppTheme">

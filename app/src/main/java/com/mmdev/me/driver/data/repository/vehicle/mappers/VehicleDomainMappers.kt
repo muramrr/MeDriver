@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:05
+ * Last modified 23.09.2020 02:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,8 @@ object VehicleDomainMappers {
 		model = domain.model,
 		year = domain.year,
 		vin = domain.vin,
-		odometerValueBound = domain.odometerValueBound
+		odometerValueBound = domain.odometerValueBound,
+		engineCapacity = domain.engineCapacity
 	)
 	
 	/** Out: [VehicleDto] */
@@ -35,7 +36,8 @@ object VehicleDomainMappers {
 		model = domain.model,
 		year = domain.year,
 		vin = domain.vin,
-		odometerValueBound = domain.odometerValueBound
+		odometerValueBound = domain.odometerValueBound,
+		engineCapacity = domain.engineCapacity
 	)
 	
 }

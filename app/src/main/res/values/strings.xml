@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.09.2020 15:18
+  ~ Last modified 23.09.2020 18:45
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,8 +18,7 @@
 		<item>English</item>
 	</string-array>
 	
-	<string name="btn_cancel">Cancel</string>
-	<string name="btn_done">Done</string>
+	
 	
 	<string name="btn_fuel_type_gas">GAS</string>
 	<string name="btn_fuel_type_dt">DF</string>
@@ -48,6 +47,40 @@
 
 
 
+<!-- ************************************* reusable strings ************************************ -->
+	<string name="kilometers">km</string>
+	<string name="miles">mi</string>
+	
+	<string name="btn_cancel">Cancel</string>
+	<string name="btn_add">Add</string>
+	
+	<string name="odometer_input_error">Wrong odometer value</string>
+	<string name="odometer_input_hint">Odometer value</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="fg_vehicle_add_enter_vin_hint">VIN code (optional)</string>
+	<string name="fg_vehicle_add_enter_vin_error">Wrong VIN code</string>
+	<string name="fg_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
+	
+	<string name="fg_vehicle_add_enter_brand_hint">Vehicle brand</string>
+	<string name="fg_vehicle_add_enter_brand_error">Should not be blank</string>
+	
+	<string name="fg_vehicle_add_enter_model_hint">Vehicle model</string>
+	<string name="fg_vehicle_add_enter_model_error">Should not be blank</string>
+	
+	<string name="fg_vehicle_add_enter_year_hint">Year produced</string>
+	<string name="fg_vehicle_add_enter_year_error">Wrong value</string>
+	
+	<string name="fg_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
+	<string name="fg_vehicle_add_enter_engine_cap_error">Wrong value</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
 <!-- ************************************* fragment_fuel *************************************** -->
 	<string name="fg_fuel_tab_prices">Prices</string>
 	<string name="fg_fuel_tab_history">History</string>
@@ -69,7 +102,7 @@
 
 
 
-<!-- ******************************** fragment_fuel_history_add ******************************** -->
+<!-- ******************************** dialog_fuel_history_add ******************************** -->
 	<string name="fg_fuel_history_add_distance_passed_title">Passed</string>
 	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s km</string>
 	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 km</string>
@@ -104,11 +137,6 @@
 	<string name="fg_fuel_history_add_fuel_type_error">Fuel type is not selected</string>
 	<string name="fg_fuel_history_add_fuel_type_hint">Select fuel type</string>
 	
-	<string name="fg_fuel_history_add_odometer_input_error">Wrong odometer value</string>
-	<string name="fg_fuel_history_add_odometer_input_hint">Odometer value</string>
-	<string name="fg_fuel_history_add_odometer_input_suffix_km">km</string>
-	<string name="fg_fuel_history_add_odometer_input_suffix_mi">mi</string>
-	
 	<string name="fg_fuel_history_add_slider_value">%s L</string>
 	<string name="fg_fuel_history_add_slider_value_default">1.0 L</string>
 	
@@ -137,8 +165,7 @@
 	<string name="fg_settings_switcher_sync">Sync enabled</string>
 	<string name="fg_settings_switcher_dark_theme">Dark theme</string>
 	<string name="fg_settings_switcher_metric_system">Metric system</string>
-	<string name="fg_settings_btn_metric_system_km">km</string>
-	<string name="fg_settings_btn_metric_system_mi">mi</string>
+	
 	<string name="fg_settings_switcher_language">Language</string>
 	
 	<string name="fg_settings_email_confirm_sent_success">Email with confirm link sent</string>
@@ -147,7 +174,7 @@
 
 
 
-<!-- ********************************* fragment_settings_auth ********************************** -->
+<!-- ********************************* dialog_settings_auth ********************************** -->
 	<string name="fg_settings_auth_header1">The best \</string>
 	<string name="fg_settings_auth_header2">Car Accounting</string>
 	<string name="fg_settings_auth_header3">experience</string>

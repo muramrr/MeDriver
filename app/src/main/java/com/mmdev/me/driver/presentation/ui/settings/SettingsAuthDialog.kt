@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 19:18
+ * Last modified 23.09.2020 17:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.FragmentSettingsAuthBinding
+import com.mmdev.me.driver.databinding.DialogSettingsAuthBinding
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.showSnack
@@ -33,9 +33,9 @@ class SettingsAuthDialog: DialogFragment() {
 	
 	private val TAG = javaClass.simpleName
 	
-	private var _binding: FragmentSettingsAuthBinding? = null
+	private var _binding: DialogSettingsAuthBinding? = null
 	
-	private val binding: FragmentSettingsAuthBinding
+	private val binding: DialogSettingsAuthBinding
 		get() = _binding ?: throw IllegalStateException(
 			"Trying to access the binding outside of the view lifecycle."
 		)
@@ -63,7 +63,7 @@ class SettingsAuthDialog: DialogFragment() {
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 	): View =
-		FragmentSettingsAuthBinding.inflate(inflater, container, false)
+		DialogSettingsAuthBinding.inflate(inflater, container, false)
 			.apply {
 				_binding = this
 				lifecycleOwner = viewLifecycleOwner

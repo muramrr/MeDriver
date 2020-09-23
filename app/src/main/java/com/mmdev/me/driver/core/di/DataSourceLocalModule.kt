@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:47
+ * Last modified 22.09.2020 19:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,8 @@ import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
 import com.mmdev.me.driver.data.datasource.user.local.UserLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.local.VehicleLocalDataSourceImpl
+import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
+import com.mmdev.me.driver.data.datasource.vin.local.VinLocalDataSourceImpl
 import org.koin.dsl.module
 
 
@@ -35,6 +37,7 @@ val DataSourceLocalModule = module {
 	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl() }
 	
 	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get()) }
+	single<IVinLocalDataSource> { VinLocalDataSourceImpl() }
 	
 	single<IFuelPricesLocalDataSource> { FuelPricesLocalDataSourceImpl(dao = get()) }
 	single<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get()) }

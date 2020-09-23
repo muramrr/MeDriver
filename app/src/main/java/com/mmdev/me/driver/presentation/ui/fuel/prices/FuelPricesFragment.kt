@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:37
+ * Last modified 22.09.2020 19:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.prices
 
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.log.logError
@@ -23,7 +22,6 @@ import com.mmdev.me.driver.presentation.utils.showSnack
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-
 class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesBinding>(
 	R.layout.fragment_fuel_prices
 ) {
@@ -32,16 +30,12 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 
 	private val mPricesAdapter = FuelPricesAdapter()
 	
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		mViewModel.getFuelPrices()
-		
+	
+	override fun setupViews() {
 		mViewModel.fuelPricesState.observe(this, {
 			renderState(it)
 		})
-	}
-	
-	override fun setupViews() {
+		
 		binding.rvFuelStations.apply {
 			adapter = mPricesAdapter
 			layoutManager = LinearLayoutManager(requireContext())

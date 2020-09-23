@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 19:19
+ * Last modified 22.09.2020 19:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,14 +21,12 @@ import com.mmdev.me.driver.data.repository.maintenance.MaintenanceRepositoryImpl
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
-import com.mmdev.me.driver.data.repository.vin.VINRepositoryImpl
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.auth.IAuthRepository
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
-import com.mmdev.me.driver.domain.vin.IVINRepository
 import org.koin.dsl.module
 
 /**
@@ -52,10 +50,6 @@ val RepositoryModule = module {
 			mappers = UserMappersFacade()
 		)
 	}
-
-	single<IVINRepository> { VINRepositoryImpl(remoteDataSource = get()) }
-	
-	
 	
 	single<IMaintenanceRepository> {
 		MaintenanceRepositoryImpl(
@@ -71,6 +65,8 @@ val RepositoryModule = module {
 		VehicleRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
+			localVinDecoder = get(),
+			remoteVinDecoder = get(),
 			mappers = VehicleMappersFacade()
 		)
 	}

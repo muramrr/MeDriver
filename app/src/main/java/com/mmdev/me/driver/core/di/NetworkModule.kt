@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.09.2020 23:40
+ * Last modified 22.09.2020 19:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.core.di
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.serialization.asConverterFactory
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi
-import com.mmdev.me.driver.data.datasource.vin.remote.api.VINCodeApi
+import com.mmdev.me.driver.data.datasource.vin.remote.api.VinCodeApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Companion.invoke
@@ -32,7 +32,7 @@ val NetworkModule = module {
 
 	single { provideRetrofit() }
 
-	single { provideVINCodeApi(retrofit = get()) }
+	single { provideVinCodeApi(retrofit = get()) }
 	single { provideFuelApi(retrofit = get()) }
 	
 }
@@ -68,6 +68,6 @@ private val baseInterceptor: Interceptor = invoke { chain ->
 }
 
 
-fun provideVINCodeApi(retrofit: Retrofit): VINCodeApi = retrofit.create(VINCodeApi::class.java)
+fun provideVinCodeApi(retrofit: Retrofit): VinCodeApi = retrofit.create(VinCodeApi::class.java)
 
 fun provideFuelApi(retrofit: Retrofit): FuelApi = retrofit.create(FuelApi::class.java)

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.09.2020 03:07
+  ~ Last modified 23.09.2020 17:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -253,14 +253,12 @@
 			/>
 		
 		<!-- button cancel -->
-		<com.google.android.material.button.MaterialButton
+		<include
 			android:id="@+id/btnCancel"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="@string/btn_cancel"
-			
-			style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+			layout="@layout/btn_cancel"
 			
 			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"

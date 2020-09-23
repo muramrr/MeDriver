@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 16:54
+  ~ Last modified 23.09.2020 17:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,10 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:fullBackupContent="@xml/backup_descriptor">
-		<activity android:name=".presentation.ui.MainActivity"
-			android:configChanges="orientation|locale">
+		<activity
+			android:name=".presentation.ui.MainActivity"
+			android:configChanges="orientation|locale"
+			>
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

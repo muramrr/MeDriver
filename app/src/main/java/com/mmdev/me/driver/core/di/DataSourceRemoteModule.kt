@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:34
+ * Last modified 22.09.2020 19:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,8 @@ import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.UserRemoteDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.VehicleRemoteDataSourceImpl
-import com.mmdev.me.driver.data.datasource.vin.remote.IVINRemoteDataSource
-import com.mmdev.me.driver.data.datasource.vin.remote.VINRemoteDataSourceImpl
+import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vin.remote.VinRemoteDataSourceImpl
 import org.koin.dsl.module
 
 
@@ -40,11 +40,13 @@ val DataSourceRemoteModule = module {
 	single<IFirebaseAuthDataSource> { FirebaseAuthDataSourceImpl(auth = get()) }
 	
 	
-	single<IVINRemoteDataSource> { VINRemoteDataSourceImpl(vinCodeApi = get()) }
+	
 	
 	single<IMaintenanceRemoteDataSource> { MaintenanceRemoteDataSourceImpl(fs = get()) }
 	
+	
 	single<IVehicleRemoteDataSource> { VehicleRemoteDataSourceImpl(fs = get()) }
+	single<IVinRemoteDataSource> { VinRemoteDataSourceImpl(vinCodeApi = get()) }
 	
 	single<IFuelPricesRemoteDataSource> { FuelPricesRemoteDataSourceImpl(fuelApi = get()) }
 	single<IFuelHistoryRemoteDataSource> { FuelHistoryRemoteDataSourceImpl(fs = get()) }

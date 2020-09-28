@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:56
+ * Last modified 27.09.2020 15:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,8 @@ package com.mmdev.me.driver.core.di
 import com.mmdev.me.driver.data.repository.auth.AuthFlowProviderImpl
 import com.mmdev.me.driver.data.repository.auth.AuthRepositoryImpl
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
+import com.mmdev.me.driver.data.repository.fetching.FetchingMappersFacade
+import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
@@ -21,6 +23,7 @@ import com.mmdev.me.driver.data.repository.maintenance.MaintenanceRepositoryImpl
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
+import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
@@ -37,6 +40,14 @@ import org.koin.dsl.module
 
 
 val RepositoryModule = module {
+	
+	single<IFetchingRepository> {
+		FetchingRepositoryImpl(
+			vehicleLocalDS = get(),
+			vehicleRemoteDS = get(),
+			mappers = FetchingMappersFacade()
+		)
+	}
 	
 	single<IAuthRepository> { AuthRepositoryImpl(authDataSource = get()) }
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 02:25
+ * Last modified 25.09.2020 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,6 @@ import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
-import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
 import com.mmdev.me.driver.presentation.utils.getStringRes
 
 /**
@@ -135,8 +134,3 @@ class FuelPricesAdapter (
 	
 	
 }
-
-
-class NewFuelPricesAdapter(
-	private var data: List<FuelStationWithPrices> = List(10){ FuelStationWithPrices() }
-): BaseRecyclerAdapter<FuelStationWithPrices>(data, R.layout.item_fuel_prices_station)

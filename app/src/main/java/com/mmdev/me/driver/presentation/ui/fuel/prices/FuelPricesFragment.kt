@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:09
+ * Last modified 25.09.2020 21:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,6 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 	override val mViewModel: FuelPricesViewModel by sharedViewModel()
 
 	private val mPricesAdapter = FuelPricesAdapter()
-	
 	
 	override fun setupViews() {
 		mViewModel.fuelPricesState.observe(this, {

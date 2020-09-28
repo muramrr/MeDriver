@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 19:17
+ * Last modified 25.09.2020 20:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -66,10 +66,17 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		initStringRes()
 		
 		observeVinCode()
+		observeBrand()
+		observeModel()
 		observeYear()
 		observeEngineCapacity()
 		observeInputOdometer()
 		
+		
+		binding.btnAdd.setOnClickListener {
+			mViewModel.checkAndAdd(MedriverApp.currentUser)
+			dialog?.dismiss()
+		}
 		binding.btnCancel.setOnClickListener { dialog?.dismiss() }
 	}
 	
@@ -97,39 +104,82 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 	
 	private fun observeVinCode() {
 		mViewModel.vinCodeInput.observe(this, {
-			if (it.isNullOrEmpty() || it.length != 17)
+			if (it.isNullOrEmpty() || it.length != 17) {
+				mViewModel.isVinCodeReady = false
 				binding.layoutInputVin.error = getString(R.string.fg_vehicle_add_enter_vin_error)
+			}
 			else {
 				binding.layoutInputVin.hideKeyboard(binding.layoutInputVin)
 				binding.layoutInputVin.error = null
+				mViewModel.isVinCodeReady = true
 				mViewModel.getVehicleByVIN(it)
+			}
+		})
+	}
+	
+	private fun observeBrand() {
+		mViewModel.brandInput.observe(this, {
+			if (it.isNullOrBlank()) {
+				mViewModel.isBrandReady = false
+				binding.layoutInputBrand.error = getString(R.string.fg_vehicle_add_enter_brand_error)
+			}
+			else {
+				binding.layoutInputBrand.error = null
+				mViewModel.isBrandReady = true
+			}
+		})
+	}
+	
+	private fun observeModel() {
+		mViewModel.modelInput.observe(this, {
+			if (it.isNullOrBlank()) {
+				mViewModel.isModelReady = false
+				binding.layoutInputModel.error = getString(R.string.fg_vehicle_add_enter_model_error)
+			}
+			else {
+				binding.layoutInputModel.error = null
+				mViewModel.isModelReady = true
 			}
 		})
 	}
 	
 	private fun observeYear() {
 		mViewModel.yearInput.observe(this, {
-			if (!it.isNullOrBlank() && it.toInt() < 1885)
+			if (!it.isNullOrBlank() && it.toInt() > 1885) {
+				binding.layoutInputYear.error = null
+				mViewModel.isYearReady = true
+			}
+			else {
+				mViewModel.isYearReady = false
 				binding.layoutInputYear.error = getString(R.string.fg_vehicle_add_enter_year_error)
-			else binding.layoutInputYear.error = null
+			}
 		})
 	}
 	
 	private fun observeEngineCapacity() {
 		mViewModel.engineCapacityInput.observe(this, {
-			if (!it.isNullOrBlank())
-				if (it.toDouble() > 30 || it.toDouble() <= 0)
-					binding.layoutInputEngineCap.error =
-						getString(R.string.fg_vehicle_add_enter_engine_cap_error)
-			else binding.layoutInputEngineCap.error = null
+			if (!it.isNullOrBlank() && it.toDouble() < 30 && it.toDouble() > 0) {
+				mViewModel.isEngineCapReady = true
+				binding.layoutInputEngineCap.error = null
+			}
+			else {
+				mViewModel.isEngineCapReady = false
+				binding.layoutInputEngineCap.error =
+					getString(R.string.fg_vehicle_add_enter_engine_cap_error)
+			}
 		})
 	}
 	
 	private fun observeInputOdometer() {
 		mViewModel.odometerInput.observe(this, {
-			if (it.isNullOrBlank())
+			if (it.isNullOrBlank()) {
+				mViewModel.isOdometerReady = false
 				binding.layoutInputOdometer.error = getString(R.string.odometer_input_error)
-			else binding.layoutInputOdometer.error = null
+			}
+			else {
+				binding.layoutInputOdometer.error = null
+				mViewModel.isOdometerReady = true
+			}
 		})
 	}
 	

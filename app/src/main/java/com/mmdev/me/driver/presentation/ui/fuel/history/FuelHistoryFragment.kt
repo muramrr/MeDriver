@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:09
+ * Last modified 25.09.2020 21:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,11 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
@@ -24,23 +24,28 @@ import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListe
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistoryBinding>(
 	R.layout.fragment_fuel_history
 ) {
-	override val mViewModel: FuelHistoryViewModel by sharedViewModel()
+	override val mViewModel: FuelHistoryViewModel by viewModel()
 	private val fuelPricesViewModel: FuelPricesViewModel by sharedViewModel()
 	
 	private val mFuelHistoryAdapter = FuelHistoryAdapter()
-
+	
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		mViewModel.getHistoryRecords()
+	}
 	
 	override fun setupViews() {
 		mViewModel.fuelHistoryState.observe(this, {
 			renderState(it)
 		})
 		
-		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentUser != null
+		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentVehicle != null
 		
 		val linearLayoutManager = LinearLayoutManager(requireContext())
 		
@@ -102,9 +107,6 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 			is FuelHistoryViewState.Paginate -> {
 				logInfo(TAG, "paginate data size = ${state.data.size}")
 				mFuelHistoryAdapter.insertPaginationData(state.data)
-			}
-			is FuelHistoryViewState.Loading -> {
-				logDebug(TAG, "loading")
 			}
 			is FuelHistoryViewState.Error -> {
 				logError(TAG, state.errorMessage)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 20:02
+ * Last modified 28.09.2020 17:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -125,11 +125,10 @@ class MainActivity: AppCompatActivity() {
 		 */
 		sharedViewModel.currentVehicle.observe(this, { vehicle ->
 			logDebug(TAG, "current vehicle = $vehicle")
-			vehicle?.let {
-				if(it.vin != MedriverApp.currentVehicleVinCode)
-					MedriverApp.changeCurrentVinCode(it.vin)
-			}
+			
 			MedriverApp.currentVehicle = vehicle
+			MedriverApp.currentVehicleVinCode = vehicle?.vin ?: ""
+		
 		})
 		
 	}

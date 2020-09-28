@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 02:22
+ * Last modified 25.09.2020 23:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,13 +32,13 @@ object VehicleDbEntityMappers {
 	)
 	
 	/** Out: [Vehicle] */
-	fun dbEntityToDomain(dto: VehicleEntity): Vehicle = Vehicle(
-		brand = dto.brand,
-		model = dto.model,
-		year = dto.year,
-		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound,
-		engineCapacity = dto.engineCapacity
+	fun dbEntityToDomain(entity: VehicleEntity): Vehicle = Vehicle(
+		brand = entity.brand,
+		model = entity.model,
+		year = entity.year,
+		vin = entity.vin,
+		odometerValueBound = entity.odometerValueBound,
+		engineCapacity = entity.engineCapacity
 	)
 	
 }

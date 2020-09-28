@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 18:22
+ * Last modified 25.09.2020 21:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
-import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
+import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -106,10 +106,7 @@ class FuelHistoryAddDialog(
 				rootView.hideKeyboard(rootView)
 			}
 			
-			btnCancel.setOnClickListener {
-				mViewModel.clearInputFields()
-				dialog?.dismiss()
-			}
+			btnCancel.setOnClickListener { dialog?.dismiss() }
 			
 			btnDone.setOnClickListener {
 				mViewModel.addHistoryRecord(MedriverApp.currentUser!!).also { dialog?.dismiss() }
@@ -168,7 +165,7 @@ class FuelHistoryAddDialog(
 			}
 			
 			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
-				mViewModel.historyRecord.value?.odometerValue() ?: 0
+				mViewModel.historyRecord.value?.odometerValueBound?.getValue() ?: 0
 			)
 		
 		}

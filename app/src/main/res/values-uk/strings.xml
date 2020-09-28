@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 18:45
+  ~ Last modified 25.09.2020 20:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,15 +42,15 @@
 
 
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="fg_vehicle_add_enter_vin_hint">VIN (необов\'язково)</string>
+	<string name="fg_vehicle_add_enter_vin_hint">VIN</string>
 	<string name="fg_vehicle_add_enter_vin_error">Неправильний формат VIN</string>
 	<string name="fg_vehicle_add_enter_vin_helper">Автозаповнення інформації про авто</string>
 	
 	<string name="fg_vehicle_add_enter_brand_hint">Бренд</string>
-	<string name="fg_vehicle_add_enter_brand_error">Поле не може бути порожнім</string>
+	<string name="fg_vehicle_add_enter_brand_error">Поле порожнє</string>
 	
 	<string name="fg_vehicle_add_enter_model_hint">Модель</string>
-	<string name="fg_vehicle_add_enter_model_error">Поле не може бути порожнім</string>
+	<string name="fg_vehicle_add_enter_model_error">Поле порожнє</string>
 	
 	<string name="fg_vehicle_add_enter_year_hint">Рік випуску</string>
 	<string name="fg_vehicle_add_enter_year_error">Некоректне значення</string>

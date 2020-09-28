@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:42
+ * Last modified 28.09.2020 18:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,10 +16,11 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logWarn
+import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.UserModel
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
-import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
@@ -38,17 +39,15 @@ import kotlinx.coroutines.launch
  */
 
 class SharedViewModel(
-	authProvider: IAuthFlowProvider, private val repository: IVehicleRepository // <-- is this bad?
+	private val authProvider: IAuthFlowProvider, private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
-	/**
-	 * is this bad?
-	 * used across all application, initializing in onCreate (MainActivity)
-	 */
-	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData(null)
+	val userModel: LiveData<UserModel?> = authProvider.getAuthUserFlow().asLiveData()
+	
+	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
 	init {
 		viewModelScope.launch {
-			currentVehicle.postValue(repository.getSavedVehicle(MedriverApp.currentVehicleVinCode))
+			currentVehicle.postValue(fetcher.getSavedVehicle(MedriverApp.currentVehicleVinCode))
 		}
 	}
 	
@@ -63,9 +62,16 @@ class SharedViewModel(
 		}
 	}
 	
+	
+	/**
+	 * Used in different parts of application
+	 * For example: when user adds new fuel history entry or some maintenance changes
+	 * this function is triggered to update actual info.
+	 */
 	fun updateVehicle(user: UserModel?, vehicle: Vehicle) {
+		logWarn(TAG, "Updating vehicle..")
 		viewModelScope.launch {
-			repository.addVehicle(user, vehicle).collect { result ->
+			fetcher.updateVehicle(user, vehicle).collect { result ->
 				result.fold(
 					success = { currentVehicle.postValue(vehicle) },
 					failure = { logError(TAG, "$it")}
@@ -74,6 +80,18 @@ class SharedViewModel(
 		}
 	}
 	
-	val userModel: LiveData<UserModel?> = authProvider.getAuthUserFlow().asLiveData()
+	fun updateUser(user: UserModel) {
+		logWarn(TAG, "Updating user..")
+		viewModelScope.launch {
+			authProvider.updateUserModel(user).collect { result ->
+				result.fold(
+					success = { MedriverApp.currentUser = user },
+					failure = { logError(TAG, "$it")}
+				)
+			}
+		}
+	}
+	
+	
 	
 }

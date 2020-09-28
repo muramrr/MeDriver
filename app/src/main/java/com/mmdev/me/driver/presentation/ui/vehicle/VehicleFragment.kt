@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 17:13
+ * Last modified 27.09.2020 16:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,11 +18,11 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
+import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -41,13 +41,22 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	
 	override fun setupViews() {
+		initDropList()
+		
 		observeVehicleList()
 		observeChosenCar()
 		
+	}
+
+	override fun renderState(state: ViewState) {
+
+	}
+	
+	private fun initDropList() {
 		mVehicleDropAdapter = VehicleDropAdapter(
-				requireContext(),
-				R.layout.drop_item_vehicle,
-				emptyList()
+			requireContext(),
+			R.layout.drop_item_single_text,
+			emptyList()
 		)
 		
 		binding.dropMyCarChooseCar.setOnClickListener { showModalBottomSheet() }
@@ -57,31 +66,32 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			
 			setOnItemClickListener { _, _, position, _ ->
 				
-				mViewModel.chosenVehicle.postValue(mVehicleDropAdapter.getItem(position))
+				with(mVehicleDropAdapter.getItem(position)) {
+					mViewModel.chosenVehicle.postValue(this)
+					
+					sharedViewModel.currentVehicle.postValue(this)
+					
+					binding.dropMyCarChooseCar.setText("${this.brand} ${this.model}", false)
+				}
 				
-				sharedViewModel.currentVehicle.postValue(mVehicleDropAdapter.getItem(position))
 			}
 		}
-		
-		
-	}
-
-	override fun renderState(state: ViewState) {
-
 	}
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
-		//	binding.dropMyCarChooseCar.setText("${it.brand} ${it.model}", false)
 			vehicle?.let {
-				binding.dropMyCarChooseCar.listSelection = mVehicleDropAdapter.getVehiclePosition(it)
+				binding.dropMyCarChooseCar.setText("${it.brand} ${it.model}", false)
+				sharedViewModel.currentVehicle.postValue(it)
+				updateMileageCard(it)
 			}
 		})
 	}
 	
 	private fun observeVehicleList() {
 		mViewModel.vehicleList.observe(this, {
-			mVehicleDropAdapter.updateVehicleList(it)
+			mVehicleDropAdapter.updateData(it)
+			if (!it.isNullOrEmpty()) binding.dropMyCarChooseCar.setOnClickListener(null)
 		})
 	}
 	
@@ -92,35 +102,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		vehicleAdd.show(childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName)
 	}
 	
-	
-	//temporary
-	private companion object {
-		//private val vehiclesBrand = listOf("")
+	private fun updateMileageCard(vehicle: Vehicle?) {
+		binding.tvMileageValue.text = vehicle?.odometerValueBound?.getValue()?.toString() ?:
+		                              getString(R.string.default_OdometerValue)
 		
-		//private val vehiclesIcon = R.array.vehicles_logo
 		
-		//val map = vehiclesBrand.zip(vehiclesIcon).toMap().withDefault { 0 }
-		
-		val ford = Vehicle(
-			"Ford",
-			"Focus",
-			2013,
-			"VINFORD",
-			DistanceBound(0, 0),
-			engineCapacity = 1.8
-		)
-		
-		val landRover = Vehicle(
-			"Land Rover",
-			"Discovery",
-			2012,
-			"VINLAND",
-			DistanceBound(0, 0),
-			engineCapacity = 2.0
-		)
 	}
-	
-	
 	
 	
 	
@@ -129,7 +116,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private class VehicleDropAdapter(
 		context: Context,
 		@LayoutRes private val layoutId: Int,
-		private var data: List<Vehicle>
+		data: List<Vehicle>
 	): BaseDropAdapter<Vehicle>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -137,16 +124,11 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			val childView : View = convertView ?:
 			                       LayoutInflater.from(context).inflate(layoutId, null)
 			
-			childView.findViewById<TextView>(R.id.tvDropCar).text = "${vehicle.brand} ${vehicle.model}"
+			childView.findViewById<TextView>(R.id.tvDropSingleText).text = "${vehicle.brand} ${vehicle.model}"
 //			childView.findViewById<ImageView>(R.id.ivDropCarBrand).setImageResource(vehicle.brandIcon)
 			return childView
 		}
 		
-		fun getVehiclePosition(vehicle: Vehicle) = data.indexOf(vehicle)
 		
-		fun updateVehicleList(data: List<Vehicle>) {
-			this.data = data
-			notifyDataSetChanged()
-		}
 	}
 }

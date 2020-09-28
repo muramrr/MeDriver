@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 18:51
+ * Last modified 25.09.2020 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,8 +29,7 @@ import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.domain.user.UserModel
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.fuelConsumption
-import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
+import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -45,7 +44,13 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	: BaseViewModel() {
 	
 	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()
-	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData()
+	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData(
+		FuelHistoryRecord(
+			odometerValueBound = MedriverApp.currentVehicle?.odometerValueBound ?: DistanceBound(),
+			vehicleVinCode = MedriverApp.currentVehicleVinCode
+		)
+	)
+	
 	//indicates is history empty or not
 	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
@@ -117,7 +122,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 		odometerInputValue.combineWith(historyRecord) { typedOdometer, lastHistoryRecord ->
 			if (!typedOdometer.isNullOrBlank() && lastHistoryRecord != null) {
 				//make sure that distance passed > 0
-				with(typedOdometer.toInt() - lastHistoryRecord.odometerValue()) {
+				with(typedOdometer.toInt() - lastHistoryRecord.odometerValueBound.getValue()) {
 					//-1 because needed to check for correct input
 					if (this < 0) -1 else this
 				}
@@ -162,7 +167,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			    && calculatedConsumption > 0.0
 			    && lastHistoryRecord != null) {
 				
-				if (calculatedConsumption > lastHistoryRecord.fuelConsumption())
+				if (calculatedConsumption > lastHistoryRecord.fuelConsumptionBound.getValue())
 					R.drawable.ic_arrow_up_24
 				else R.drawable.ic_arrow_down_24
 				
@@ -232,7 +237,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	
 	//clear previously typed values stored in LiveData (mutableLiveData)
 	//called when user presses Done button at DialogHistoryAddFragment
-	fun clearInputFields() {
+	private fun clearInputFields() {
 		fuelStationInputValue.postValue(null).also {
 			fuelStationRequires.postValue(null)
 		}
@@ -418,7 +423,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 						if (data.isNotEmpty()) {
 							//init the first one item
 							historyRecord.postValue(data.first()).also {
-								logDebug(message = "Last history record = ${data.first().fuelStation}")
+								logDebug(TAG, "Last history record = ${data.first().fuelStation}")
 							}
 							isHistoryEmpty.value = false
 						}

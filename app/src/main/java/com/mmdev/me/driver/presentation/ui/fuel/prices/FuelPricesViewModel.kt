@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 25.09.2020 21:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,8 +29,9 @@ import java.util.*
 class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
 	val fuelPricesState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
-	
 	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData(listOf())
+	
+	init { getFuelPrices() }
 	
 	fun getFuelPrices() {
 		if (fuelPricesState.value != null && !fuelPrices.value.isNullOrEmpty())
@@ -53,7 +54,7 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 					failure = {
 						fuelPricesState.postValue(FuelPricesViewState.Error(it.localizedMessage!!))
 					}
-				).also { logDebug(message = "get prices for $requestDate") }
+				).also { logDebug(TAG, "get prices for $requestDate") }
 			}
 		}
 	}

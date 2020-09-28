@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:06
+ * Last modified 25.09.2020 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -22,10 +21,8 @@ import com.mmdev.me.driver.databinding.FragmentFuelBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryFragment
-import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesFragment
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *
@@ -34,16 +31,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class FuelFragment : BaseFlowFragment<FuelPricesViewModel, FragmentFuelBinding>(
 	R.layout.fragment_fuel
 ) {
-	
-	override val mViewModel: FuelPricesViewModel by sharedViewModel()
-	private val mSecondViewModel: FuelHistoryViewModel by sharedViewModel()
-	
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		
-		mViewModel.getFuelPrices()
-		mSecondViewModel.getHistoryRecords()
-	}
 	
 	override fun setupViews() {
 		binding.viewPagerContainer.apply {

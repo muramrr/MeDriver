@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 19:06
+ * Last modified 28.09.2020 17:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -352,7 +352,7 @@ class Switcher @JvmOverloads constructor(
 			//guarantee that animation will play smoothly if Activity or Fragment recreated
 			//invoke after animation successfully played
 
-			doOnEnd { if (invoke) listener?.invoke(this@Switcher, mChecked) }
+			doOnEnd { if (invoke) checkListener?.invoke(this@Switcher, mChecked) }
 		}
 	}
 	
@@ -386,12 +386,12 @@ class Switcher @JvmOverloads constructor(
 				if (checked) setSwitchChecked()
 				else setSwitchUnchecked()
 				
-				listener?.invoke(this, mChecked)
+				checkListener?.invoke(this, mChecked)
 			}
 		}
 	}
 
-	private var listener: ((view: Switcher, isChecked: Boolean) -> Unit)? = null
+	private var checkListener: ((view: Switcher, isChecked: Boolean) -> Unit)? = null
 
 	/**
 	 * Register a callback to be invoked when the isChecked state of this switch
@@ -400,7 +400,7 @@ class Switcher @JvmOverloads constructor(
 	 * @param listener the callback to call on isChecked state change
 	 */
 	fun setOnCheckedChangeListener(listener: (view: Switcher, isChecked: Boolean) -> Unit) {
-		this.listener = listener
+		checkListener = listener
 	}
 	
 	override fun setEnabled(isEnabled: Boolean) {

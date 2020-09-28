@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 02:07
+ * Last modified 28.09.2020 16:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,20 +33,27 @@ import kotlinx.coroutines.flow.flow
 class VehicleRepositoryImpl(
 	private val localDataSource: IVehicleLocalDataSource,
 	private val remoteDataSource: IVehicleRemoteDataSource,
-	private val localVinDecoder: IVinLocalDataSource,
+	private val localVinDecoder: IVinLocalDataSource, //todo
 	private val remoteVinDecoder: IVinRemoteDataSource,
 	private val mappers: VehicleMappersFacade
 ) : IVehicleRepository, BaseRepository() {
 	
 	
-	
+	/**
+	 * Add new [Vehicle] to database and remote
+	 * Invoked when user adds a new vehicle inside [VehicleFragment] by typing base information
+	 *
+	 * @return [ResultState.Failure] when failure occurred
+	 * basically when [ResultState] emits from [remoteDataSource] no matter what it would be
+	 * local data will be written without being obstructed
+	 */
 	override suspend fun addVehicle(
 		user: UserModel?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertVehicle(mappers.domainToDbEntity(vehicle)).fold(
 			success = { result ->
 				//check if user is premium to backup to backend
-				if (user != null && user.isPremium)
+				if (user != null && user.isPremium && user.isSyncEnabled)
 					remoteDataSource.addVehicle(user.email, mappers.domainToApiDto(vehicle)).collect {
 						emit(it)
 					}
@@ -69,15 +76,16 @@ class VehicleRepositoryImpl(
 	 * @see getAllVehiclesFromBackend
 	 * Otherwise return emptyList()
 	 *
-	 * @return [ResultState.Success] if list contains data or not
-	 * @return [ResultState.Failure] if failure occurs
+	 * @return [ResultState.Success] when list contains data or not
+	 * @return [ResultState.Failure] when failure occurred
 	 */
 	override suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>> = flow {
 		getAllVehiclesFromCache().fold(
 			success = { data -> emit(ResultState.success(data)) },
 			failure = { throwable ->
 				logError(TAG, throwable.message ?: "Boundary local cache error")
-				if (user != null && user.isPremium) getAllVehiclesFromBackend(user).collect { emit(it) }
+				if (user != null && user.isPremium && user.isSyncEnabled)
+					getAllVehiclesFromBackend(user).collect { emit(it) }
 				else emit(ResultState.success(emptyList<Vehicle>()))
 			}
 		)
@@ -85,8 +93,8 @@ class VehicleRepositoryImpl(
 	
 	/**
 	 * Get list of [Vehicle] from cache.
-	 * @return [ResultState.Success] if list contains data and convert it
-	 * @return [ResultState.Failure] if list is empty
+	 * @return [ResultState.Success] when list contains data and convert it
+	 * @return [ResultState.Failure] when list is empty or failure occurred
 	 */
 	private suspend fun getAllVehiclesFromCache(): SimpleResult<List<Vehicle>> =
 		localDataSource.getAllVehicles().fold(
@@ -105,21 +113,23 @@ class VehicleRepositoryImpl(
 	 * @see getAllSavedVehicles
 	 * Collect result from request, save it to local cache and return
 	 *
-	 * @return [ResultState.Success] if list contains data, convert it, save to local database
-	 * @return [ResultState.Failure] if error occurs
+	 * @return [ResultState.Success] when list contains data, convert it, save to local database
+	 * @return [ResultState.Failure] when failure occurred
 	 */
 	private fun getAllVehiclesFromBackend(user: UserModel): Flow<SimpleResult<List<Vehicle>>> = flow {
 		try {
 			remoteDataSource.getAllVehicles(user.email).collect { result ->
-				result.fold(success = { data ->
-					data.forEach {
-						localDataSource.insertVehicle(mappers.apiDtoToDbEntity(it)).fold(
-							success = {},
-							failure = { throwable -> emit(ResultState.failure(throwable)) }
-						)
-					}
-					emit(ResultState.success(mappers.listApiDtoToDomain(data)))
-				}, failure = { throwable -> emit(ResultState.failure(throwable)) })
+				result.fold(
+					success = { data ->
+						data.forEach { dto ->
+							localDataSource.insertVehicle(mappers.apiDtoToDbEntity(dto)).fold(
+								success = {},
+								failure = { emit(ResultState.failure(it)) }
+							)
+						}
+						emit(ResultState.success(mappers.listApiDtoToDomain(data)))
+					},
+					failure = { throwable -> emit(ResultState.failure(throwable)) })
 			}
 		}
 		catch (e: Exception) {
@@ -129,17 +139,13 @@ class VehicleRepositoryImpl(
 		
 	}
 	
-	
-	
-	
-	override suspend fun getSavedVehicle(vin: String): Vehicle? = localDataSource.getVehicle(vin).fold(
-		success = { dto -> mappers.dbEntityToDomain(dto) },
-		failure = { throwable -> null }
-	)
-	
-	
-	
-	
+	/**
+	 * Used to retrieve vehicle base info by typed in VIN code
+	 * Invoked from [com.mmdev.me.driver.presentation.ui.vehicle.VehicleAddBottomSheet]
+	 *
+	 * @return [ResultState.Success] when response contains data some
+	 * @return [ResultState.Failure] when response is empty or failure occurred
+	 */
 	override suspend fun getVehicleInfoByVin(vin: String): SimpleResult<Vehicle> =
 		remoteVinDecoder.getVehicleByVin(vin).fold(
 			success = { dto ->

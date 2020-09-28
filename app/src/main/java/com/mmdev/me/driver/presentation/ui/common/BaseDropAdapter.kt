@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:37
+ * Last modified 25.09.2020 20:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,16 @@ import androidx.annotation.LayoutRes
 abstract class BaseDropAdapter<T>(
 	context: Context,
 	@LayoutRes private val layoutId: Int,
-	private val data: List<T>
+	private var data: List<T>
 ): ArrayAdapter<T>(context, layoutId, data) {
 	
 	override fun getItem(position: Int): T = data[position]
 	
 	override fun getCount(): Int = data.size
+	
+	open fun updateData(data: List<T>) {
+		this.data = data
+		notifyDataSetChanged()
+	}
+	
 }

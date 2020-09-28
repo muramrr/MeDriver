@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 23:37
+ * Last modified 27.09.2020 15:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.vehicle
+package com.mmdev.me.driver.domain.fetching
 
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserModel
@@ -16,14 +16,16 @@ import com.mmdev.me.driver.domain.vehicle.model.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Vehicle repository provides data for [com.mmdev.me.driver.presentation.ui.vehicle]
+ * Used to modify current global state of application
+ * Used inside SharedViewModel
  */
 
-interface IVehicleRepository {
+interface IFetchingRepository {
 	
-	suspend fun addVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	//retrieve vehicle info on app start up
+	suspend fun getSavedVehicle(vin: String): Vehicle?
 	
-	suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>>
+	//after minor changes -> save all to database and remote (if premium and possible)
+	suspend fun updateVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
-	suspend fun getVehicleInfoByVin(vin: String) : SimpleResult<Vehicle>
 }

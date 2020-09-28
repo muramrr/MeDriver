@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 03:12
+ * Last modified 28.09.2020 17:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.user.remote
 
-import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDTO
+import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserModel
 import kotlinx.coroutines.flow.Flow
@@ -21,11 +21,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserRemoteDataSource {
 	
-	fun getFirestoreUser(email: String): Flow<SimpleResult<FirestoreUserDTO>>
+	fun getFirestoreUser(email: String): Flow<SimpleResult<FirestoreUserDto>>
 	
 	fun updateFirestoreUserField(
 		email: String, field: String, value: Any
 	): Flow<SimpleResult<Void>>
 	
-	fun writeFirestoreUser(userDTOBackend: FirestoreUserDTO): Flow<SimpleResult<Unit>>
+	fun writeFirestoreUser(userDtoBackend: FirestoreUserDto): Flow<SimpleResult<Unit>>
 }

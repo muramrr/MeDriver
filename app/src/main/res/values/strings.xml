@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 18:45
+  ~ Last modified 25.09.2020 20:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -61,7 +61,7 @@
 
 
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="fg_vehicle_add_enter_vin_hint">VIN code (optional)</string>
+	<string name="fg_vehicle_add_enter_vin_hint">VIN code</string>
 	<string name="fg_vehicle_add_enter_vin_error">Wrong VIN code</string>
 	<string name="fg_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
 	

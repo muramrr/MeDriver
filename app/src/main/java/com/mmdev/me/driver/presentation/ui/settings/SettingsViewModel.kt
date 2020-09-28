@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 28.09.2020 17:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,6 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.DARK_MODE
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
-import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.user.auth.IAuthRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.combineWith
@@ -45,12 +44,13 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 		}
 	
 	fun setThemeMode(isChecked: Boolean) {
-		if (isChecked) MedriverApp.toggleThemeMode(DARK_MODE)
-		else MedriverApp.toggleThemeMode(LIGHT_MODE)
+		if (isChecked) MedriverApp.themeMode = DARK_MODE
+		else MedriverApp.themeMode = LIGHT_MODE
 	}
 	
-	fun setMetricSystem(metricSystem: MetricSystem) = MedriverApp.toggleMetricSystem(metricSystem)
-	
+	fun setMetricSystem(metricSystem: MetricSystem) {
+		MedriverApp.metricSystem = metricSystem
+	}
 	/**
 	 * Try to Reset password
 	 * else catch null input error
@@ -62,14 +62,16 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 				authViewState.postValue(AuthViewState.Loading)
 				try {
 					repository.resetPassword(inputEmail.value!!).collect {
-						when (it) {
-							is ResultState.Success -> authViewState.postValue(
-								AuthViewState.Success.ResetPassword
-							)
-							is ResultState.Failure -> authViewState.postValue(
-								AuthViewState.Error.ResetPassword(it.error.message)
-							)
-						}
+						it.fold(
+							success = {
+								authViewState.postValue(AuthViewState.Success.ResetPassword)
+							},
+							failure = { throwable ->
+								authViewState.postValue(
+									AuthViewState.Error.ResetPassword(throwable.message)
+								)
+							}
+						)
 					}
 				}
 				catch (e: NullPointerException) {
@@ -112,7 +114,10 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 				try {
 					repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
 						result.fold(
-							success = { authViewState.postValue(AuthViewState.Success.SignIn) },
+							success = {
+								authViewState.postValue(AuthViewState.Success.SignIn)
+								clearInput()
+							},
 							failure = { throwable ->
 								authViewState.postValue(
 									AuthViewState.Error.SignIn(throwable.message)
@@ -147,7 +152,10 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 						
 						repository.signUp(inputEmail.value!!, inputPassword.value!!).collect { result ->
 							result.fold(
-								success = { authViewState.postValue(AuthViewState.Success.SignUp) },
+								success = {
+									authViewState.postValue(AuthViewState.Success.SignUp)
+									clearInput()
+								},
 								failure = {  throwable ->
 									authViewState.postValue(
 										AuthViewState.Error.SignUp(throwable.message)
@@ -161,13 +169,14 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 			catch (e: NullPointerException) {
 				authViewState.postValue(AuthViewState.Error.SignUp(e.message))
 			}
-		} else authViewState.postValue(AuthViewState.Error.SignUp("Check input fields"))
+		}
+		else authViewState.postValue(AuthViewState.Error.SignUp("Check input fields"))
 	}
 	
 	/**
 	 * Clear [inputEmail], [inputPassword], [inputPasswordConfirm]
 	 */
-	fun clearInput() {
+	private fun clearInput() {
 		inputEmail.postValue(null)
 		clearPasswordsInput()
 	}

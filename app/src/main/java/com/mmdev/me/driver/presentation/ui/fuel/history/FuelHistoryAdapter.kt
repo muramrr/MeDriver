@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 03:02
+ * Last modified 25.09.2020 21:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,9 +22,7 @@ import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
-import com.mmdev.me.driver.presentation.ui.fuel.distancePassed
-import com.mmdev.me.driver.presentation.ui.fuel.fuelConsumption
-import com.mmdev.me.driver.presentation.ui.fuel.odometerValue
+import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.getStringRes
 import com.mmdev.me.driver.presentation.utils.gone
 
@@ -67,14 +65,13 @@ class FuelHistoryAdapter(
 	}
 	
 	fun setInitData(data: List<FuelHistoryRecord>) {
-		this.data.clear()
 		this.data.addAll(data)
 		notifyDataSetChanged()
 	}
 	
 	fun insertRecordOnTop(item: FuelHistoryRecord) {
 		this.data.add(FIRST_POS, item)
-		notifyItemRangeInserted(FIRST_POS, data.size)
+		notifyItemInserted(FIRST_POS)
 	}
 	
 	fun insertPaginationData(newData: List<FuelHistoryRecord>) {
@@ -98,17 +95,17 @@ class FuelHistoryAdapter(
 					
 					binding.tvHistoryEntryDistancePassed.apply {
 						text = getStringRes(R.string.item_fuel_history_entry_distance_passed_km)
-							.format(item.distancePassed())
+							.format(item.distancePassedBound.getValue())
 					}
 					
 					binding.tvHistoryEntryOdometer.apply {
 						text = this.getStringRes(R.string.item_fuel_history_entry_odometer_km)
-							.format(item.odometerValue())
+							.format(item.odometerValueBound.getValue())
 					}
 					
 					binding.tvHistoryEntryFuelConsumption.apply {
 						text = getStringRes(R.string.item_fuel_history_entry_consumption_km)
-							.format(item.fuelConsumption())
+							.format(item.fuelConsumptionBound.getValue())
 					}
 				}
 				
@@ -116,17 +113,17 @@ class FuelHistoryAdapter(
 					
 					binding.tvHistoryEntryDistancePassed.apply {
 						text = getStringRes(R.string.item_fuel_history_entry_distance_passed_mi)
-							.format(item.distancePassed())
+							.format(item.distancePassedBound.getValue())
 					}
 					
 					binding.tvHistoryEntryOdometer.apply {
 						text = getStringRes(R.string.item_fuel_history_entry_odometer_mi)
-							.format(item.odometerValue())
+							.format(item.odometerValueBound.getValue())
 					}
 					
 					binding.tvHistoryEntryFuelConsumption.apply {
 						text = getStringRes(R.string.item_fuel_history_entry_consumption_mi)
-							.format(item.fuelConsumption())
+							.format(item.fuelConsumptionBound.getValue())
 					}
 				}
 			}

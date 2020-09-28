@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.09.2020 03:23
+ * Last modified 28.09.2020 18:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.domain.user.auth
 
 import com.google.firebase.auth.FirebaseUser
+import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserModel
 import kotlinx.coroutines.flow.Flow
 
@@ -25,4 +26,6 @@ interface IAuthFlowProvider {
 	fun getAuthStatusFlow(): Flow<AuthStatus>
 	
 	fun getAuthUserFlow(): Flow<UserModel?>
+	
+	fun updateUserModel(user: UserModel): Flow<SimpleResult<Unit>>
 }

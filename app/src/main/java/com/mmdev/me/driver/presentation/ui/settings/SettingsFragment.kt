@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 14:55
+ * Last modified 28.09.2020 18:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
@@ -58,6 +59,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	override fun setupViews() {
 		initStringRes()
 		
+		initSyncSwitcher()
 		initThemeSwitcher()
 		initMetricSystemCheckable()
 		initLanguageChooser()
@@ -117,20 +119,13 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			}
 			
 			// sign in success
-			is AuthViewState.Success.SignIn -> {
-				closeAuthDialog()
-				mViewModel.clearInput()
-			}
+			is AuthViewState.Success.SignIn -> { closeAuthDialog() }
 		
 			// sign up success
-			is AuthViewState.Success.SignUp -> {
-				closeAuthDialog()
-				mViewModel.clearInput()
-			}
+			is AuthViewState.Success.SignUp -> { closeAuthDialog() }
 			
 		}
 	}
-	
 	
 	private fun observeSendVerificationStatus() {
 		mViewModel.authViewState.observe(this, {
@@ -145,52 +140,75 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			
 			binding.apply {
 				
+				// defines visibility of sign in/out buttons
+				btnSignOut.setDisabledIfConditionElseViceVersa { user == null }
+				btnSignInPopUp.setDisabledIfConditionElseViceVersa { user != null }
+				
+				// show premium label
 				tvYourAccountPremium.visibleIf(otherwise = View.GONE) {
 					user != null && user.isPremium
 				}
 				
+				// if user need to verify his email show related indicator
 				btnSendVerification.isClickable = user != null
-				btnSendVerification.setInvisibleAndDisabledIf {
+				btnSendVerification.setDisabledIfConditionElseViceVersa {
 					user != null && user.isEmailVerified
 				}
 				btnSendVerification.text = user?.email ?: notSignedIn
 				
-				switchSync.isEnabled = user != null
-				
-				btnSignOut.setInvisibleAndDisabledIf { user == null }
-				btnSignInPopUp.setInvisibleAndDisabledIf { user != null }
-				
+				// show email not verified hint
 				tvYourAccountIsNotVerifiedHint.visibleIf(otherwise = View.INVISIBLE) {
 					user != null && !user.isEmailVerified
 				}
 				
+				// enable tap to verify hint
 				tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) {
 					user != null && !user.isEmailVerified
 				}
 				
+				// control email confirmed indicator visibility (is non-clickable by default)
 				tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) {
 					user != null && user.isEmailVerified
 				}
+				
+				// control email confirmed text
 				tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 				
 				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
+				
+				// defines can be accessed synchronization switcher
+				switchSync.isEnabled = user != null && user.isPremium
 			}
 			
 		})
 	}
 	
-	private fun initThemeSwitcher() {
-		//init default switcher position
-		binding.switchTheme.isChecked(!MedriverApp.isLightMode)
+	/**
+	 * can be accessed only when user is [AUTHORIZED]
+	 * @see observeSignedInUser
+	 */
+	private fun initSyncSwitcher() {
+		// init default switcher position
+		binding.switchSync.isChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
 		
-		//add callback to switcher toggle
+		// add callback to switcher toggle
+		binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+			sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
+		}
+	}
+	
+	private fun initThemeSwitcher() {
+		// init default switcher position
+		binding.switchTheme.isChecked(MedriverApp.themeMode != LIGHT_MODE)
+		
+		// add callback to switcher toggle
 		binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
 			mViewModel.setThemeMode(isChecked)
 		}
 	}
 	
 	private fun initMetricSystemCheckable() {
-		//init default checked button
+		// init default checked button
 		when (MedriverApp.metricSystem) {
 			KILOMETERS -> binding.radioMetricSystem.check(binding.btnSystemKM.id)
 			MILES -> binding.radioMetricSystem.check(binding.btnSystemMI.id)
@@ -198,7 +216,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		
 		//add callback to check what button is being checked
 		binding.radioMetricSystem.addOnButtonCheckedListener { _, checkedId, isChecked ->
-			
+			// redundant if (value != field) check because toggling checks this by itself
 			when {
 				checkedId == binding.btnSystemKM.id && isChecked -> mViewModel.setMetricSystem(
 					KILOMETERS
@@ -226,7 +244,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				//apply new language if true and recreate activity to apply changes to resources
 				with(languagesMap.keys.elementAt(position)) {
 					if (MedriverApp.appLanguage != this)
-						MedriverApp.changeLanguage(this).also { activity?.recreate() }
+						MedriverApp.appLanguage = this.also { activity?.recreate() }
 				}
 				
 			}
@@ -238,13 +256,18 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private fun closeAuthDialog() {
 		if (childFragmentManager.findFragmentByTag(
 					SettingsAuthDialog::class.java.canonicalName
-				) != null)
+				) != null) {
 			childFragmentManager.beginTransaction().remove(authDialog).commitAllowingStateLoss()
+			
+		}
+		
 	}
 	
-	//makes button invisible and non-clickable if condition() is true
-	//else make button visible and clickable
-	private fun Button.setInvisibleAndDisabledIf(condition: () -> Boolean) =
+	/**
+	 * makes button [invisible] and disabled if [condition] == true
+	 * else make button [visible] and enabled
+	 */
+	private inline fun Button.setDisabledIfConditionElseViceVersa(condition: () -> Boolean) =
 		if (condition())
 			apply {
 				isEnabled = false

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 18:54
+ * Last modified 27.09.2020 16:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,16 +49,51 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	
 	// Bottom sheet dialog input fields
 	val vinCodeInput: MutableLiveData<String?> = MutableLiveData()
+	var isVinCodeReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
+	
 	val brandInput: MutableLiveData<String?> = MutableLiveData()
+	var isBrandReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
+	
 	val modelInput: MutableLiveData<String?> = MutableLiveData()
+	var isModelReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
+	
 	val yearInput: MutableLiveData<String?> = MutableLiveData()
+	var isYearReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
+	
 	val odometerInput: MutableLiveData<String?> = MutableLiveData()
+	var isOdometerReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
+	
 	val engineCapacityInput: MutableLiveData<String?> = MutableLiveData()
+	var isEngineCapReady = false
+		set(value) {
+			field = value
+			checkIsAllFieldsBottomSheetFilledUp()
+		}
 	
-	
+	val isFormFilledCorrect: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	//check null or empty or vehicle with same vin doesn't exists
-	fun checkAndAdd(user: UserModel) {
+	fun checkAndAdd(user: UserModel?) {
 		with(buildVehicle()) {
 			if (vehicleList.value.isNullOrEmpty() || !vehicleList.value!!.any { it.vin == this.vin }) {
 				addVehicle(user, this)
@@ -67,14 +102,18 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		
 	}
 	
-	private fun addVehicle(user: UserModel, vehicle: Vehicle) {
+	private fun addVehicle(user: UserModel?, vehicle: Vehicle) {
 		viewModelScope.launch {
 			repository.addVehicle(user, vehicle).collect { result ->
 				result.fold(
 					success = {
+						logInfo(TAG, "Vehicle added.")
+						
+						//get new saved vehicles list
 						repository.getAllSavedVehicles(user).collect { updatedList ->
 							updatedList.fold(
 								success = { updatedVehicleList ->
+									
 									//update list with newly added vehicle
 									vehicleList.postValue(updatedVehicleList)
 									
@@ -89,6 +128,8 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 					failure = { logError(TAG, "$it") }
 				)
 			}
+			//clear all fields after add executed no matter success or failure
+			clearBottomSheetInput()
 		}
 	}
 	
@@ -109,6 +150,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 						modelInput.postValue(it.model)
 						yearInput.postValue(it.year.toString())
 						engineCapacityInput.postValue(it.engineCapacity.toString())
+						odometerInput.postValue("")
 					},
 					failure = { logError(TAG, "${it.message}") }
 				)
@@ -138,5 +180,21 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 			odometerValueBound = buildOdometerBound(),
 			engineCapacity = engineCapacityInput.value!!.toDouble()
 		)
-
+	
+	
+	private fun checkIsAllFieldsBottomSheetFilledUp() {
+		if (isVinCodeReady && isBrandReady && isModelReady && isYearReady && isEngineCapReady &&
+				isOdometerReady) isFormFilledCorrect.postValue(true)
+		else isFormFilledCorrect.postValue(false)
+	}
+	
+	private fun clearBottomSheetInput() {
+		vinCodeInput.value = null
+		brandInput.value = null
+		modelInput.value = null
+		yearInput.value = null
+		odometerInput.value = null
+		engineCapacityInput.value = null
+	}
+	
 }

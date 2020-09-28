@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 02:22
+ * Last modified 25.09.2020 23:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ object VehicleDtoMappers {
 	)
 	
 	/** Out: [VehicleEntity] */
-	fun apitDtoToDbEntity(dto: VehicleDto): VehicleEntity = VehicleEntity(
+	fun apiDtoToDbEntity(dto: VehicleDto): VehicleEntity = VehicleEntity(
 		brand = dto.brand,
 		model = dto.model,
 		year = dto.year,

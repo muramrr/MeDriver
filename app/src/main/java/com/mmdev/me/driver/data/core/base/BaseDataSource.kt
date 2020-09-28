@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 19:05
+ * Last modified 25.09.2020 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.core.base
 
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -25,7 +26,10 @@ open class BaseDataSource {
 		try {
 			val result = call.invoke()
 			if (result != null) ResultState.success(result)
-			else ResultState.failure(NullPointerException("Safe call return null"))
+			else {
+				logWarn(TAG, "Safe call returns null")
+				ResultState.failure(NullPointerException("Data is null"))
+			}
 		}
 		catch (t: Throwable) {
 			logError(TAG, "${t.message}")

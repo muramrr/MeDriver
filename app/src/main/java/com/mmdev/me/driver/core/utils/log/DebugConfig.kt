@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 28.09.2020 16:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,11 @@ import com.mmdev.me.driver.BuildConfig
 
 interface DebugConfig {
 
-	val enabled: Boolean
+	val isEnabled: Boolean
 	val logger: MyLogger
 
 	object Default : DebugConfig {
-		override val enabled: Boolean = BuildConfig.DEBUG
-		override val logger: MyLogger = if (enabled) MyLogger.Debug else MyLogger.Default
+		override val isEnabled: Boolean = BuildConfig.DEBUG
+		override val logger: MyLogger = if (isEnabled) MyLogger.Debug else MyLogger.Default
 	}
 }

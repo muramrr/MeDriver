@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 02:15
+ * Last modified 25.09.2020 21:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,27 +15,24 @@ import com.mmdev.me.driver.core.utils.DateConverter.getMonthText
 import com.mmdev.me.driver.core.utils.DateConverter.toText
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.roundTo
+import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
 
 /**
  * Contains logic to calculate secondary values based on given
  */
 
-fun FuelHistoryRecord.distancePassed(): Int = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> distancePassedBound.kilometers
-	MetricSystem.MILES -> distancePassedBound.miles
+fun ConsumptionBound.getValue(): Double = when (MedriverApp.metricSystem) {
+	MetricSystem.KILOMETERS -> consumptionPer100KM
+	MetricSystem.MILES -> consumptionPer100MI
 }
 
-fun FuelHistoryRecord.fuelConsumption(): Double = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> fuelConsumptionBound.consumptionPer100KM
-	MetricSystem.MILES -> fuelConsumptionBound.consumptionPer100MI
-}
+fun FuelHistoryRecord.moneySpent(): Double = (fuelPrice.price * filledLiters).roundTo(2)
 
-fun FuelHistoryRecord.moneyCosts(): Double = (fuelPrice.price * filledLiters).roundTo(2)
-
-fun FuelHistoryRecord.odometerValue(): Int = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> odometerValueBound.kilometers
-	MetricSystem.MILES -> odometerValueBound.miles
+fun DistanceBound.getValue(): Int = when (MedriverApp.metricSystem) {
+	MetricSystem.KILOMETERS -> kilometers
+	MetricSystem.MILES -> miles
 }
 
 fun FuelHistoryRecord.dateMonthText(): String = date.getMonthText()

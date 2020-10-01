@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 18:19
+  ~ Last modified 29.09.2020 18:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -229,7 +229,6 @@
 				android:id="@+id/switchSync"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
 				
 				app:layout_constraintTop_toTopOf="@id/tvSyncLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvSyncLabel"

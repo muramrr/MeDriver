@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 21:14
+ * Last modified 29.09.2020 19:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,14 +13,14 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.core.utils.DateConverter
-import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
-import java.util.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.todayAt
 
 /**
  * ViewModel used to connect between [IFuelPricesRepository] and UI
@@ -37,8 +37,7 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 		if (fuelPricesState.value != null && !fuelPrices.value.isNullOrEmpty())
 			return
 		
-		val currentTime = Calendar.getInstance().time
-		val requestDate = DateConverter.toFuelPriceRequestString(currentTime)
+		val localDate = Clock.System.todayAt(currentSystemDefault()).toString()
 		
 		viewModelScope.launch {
 			
@@ -46,7 +45,7 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 			
 			withTimeout(30000) {
 				
-				repository.getFuelStationsWithPrices(requestDate).fold(
+				repository.getFuelStationsWithPrices(localDate).fold(
 					success = {
 						fuelPricesState.postValue(FuelPricesViewState.Success(data = it))
 						fuelPrices.value = it
@@ -54,7 +53,7 @@ class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseV
 					failure = {
 						fuelPricesState.postValue(FuelPricesViewState.Error(it.localizedMessage!!))
 					}
-				).also { logDebug(TAG, "get prices for $requestDate") }
+				)
 			}
 		}
 	}

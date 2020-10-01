@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 00:12
+ * Last modified 29.09.2020 19:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,16 +12,18 @@ package com.mmdev.me.driver.domain.fuel.history.model
 
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import java.util.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
 
 
 /**
  * Data class primary used in FuelFragmentHistory and DialogFragmentHistoryAdd
  */
 
-data class FuelHistoryRecord (
+data class FuelHistory (
 	val commentary: String = "",
-	val date: Date = Date(),
+	val date: LocalDateTime,
+	val dateAdded: Long = Clock.System.now().toEpochMilliseconds(),
 	val distancePassedBound: DistanceBound = DistanceBound(),
 	val filledLiters: Double = 0.0,
 	val fuelConsumptionBound: ConsumptionBound = ConsumptionBound(),

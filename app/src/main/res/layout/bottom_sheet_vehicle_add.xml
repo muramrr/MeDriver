@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.09.2020 20:43
+  ~ Last modified 01.10.2020 17:06
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -208,7 +208,7 @@
 				android:gravity="center"
 				
 				android:maxLines="1"
-				android:maxLength="3"
+				android:maxLength="5"
 				
 				android:text="@={viewModel.engineCapacityInput}"
 				/>
@@ -225,6 +225,9 @@
 			android:hint="@string/odometer_input_hint"
 			
 			app:errorEnabled="true"
+			
+			app:suffixKM="@{@string/kilometers}"
+			app:suffixMI="@{@string/miles}"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			

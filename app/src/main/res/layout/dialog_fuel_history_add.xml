@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 18:45
+  ~ Last modified 30.09.2020 21:11
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -178,6 +178,9 @@
 				android:text="@string/fg_fuel_history_add_consumption_100km"
 				android:textAppearance="?textAppearanceCaption"
 				
+				app:kilometers="@{@string/fg_fuel_history_add_consumption_100km}"
+				app:miles="@{@string/fg_fuel_history_add_consumption_100mi}"
+				
 				app:layout_constraintStart_toStartOf="@id/cvConsumption"
 				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toBottomOf="@id/tvConsumptionValue"
@@ -243,7 +246,7 @@
 				
 				android:maxLines="1"
 				
-				android:text="@{String.format(@string/fg_fuel_history_add_estimate_cost_subtitle_value, viewModel.sliderLitersValue), default = @string/fg_fuel_history_add_estimate_cost_subtitle_value_default}"
+				android:text="@{String.format(@string/fg_fuel_history_add_estimate_cost_subtitle_value, viewModel.litersInputValue), default = @string/fg_fuel_history_add_estimate_cost_subtitle_value_default}"
 				android:textAppearance="?textAppearanceCaption"
 				
 				
@@ -318,7 +321,24 @@
 				/>
 			
 			
-			
+			<!-- button date -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnDatePicker"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:text="@string/fg_fuel_history_add_date_picker_btn_default"
+				
+				app:icon="@drawable/ic_pencil_24"
+				app:iconGravity="end"
+				app:iconPadding="16dp"
+				
+				style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
+				/>
 			
 			<!-- drop fuel station chooser-->
 			<com.google.android.material.textfield.TextInputLayout
@@ -330,11 +350,9 @@
 				
 				android:hint="@string/fg_fuel_history_add_fuel_station_input_hint"
 				
-				app:errorEnabled="@{viewModel.fuelStationRequires}"
-				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 				
-				app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
+				app:layout_constraintTop_toBottomOf="@id/btnDatePicker"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
 				>
@@ -365,14 +383,13 @@
 				android:focusable="false"
 				
 				android:hint="@string/fg_fuel_history_add_fuel_price_input_hint"
-				app:errorEnabled="@{viewModel.fuelPriceRequires}"
 				app:suffixText="₴"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
+				app:layout_constraintTop_toBottomOf="@id/btnDatePicker"
 				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
 				
 				>
 				
@@ -399,7 +416,6 @@
 				android:id="@+id/tvFuelTypeHint"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:paddingBottom="8dp"
 				
 				android:text="@string/fg_fuel_history_add_fuel_type_hint"
 				android:textAlignment="center"
@@ -408,6 +424,7 @@
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
+				app:layout_constraintBottom_toTopOf="@id/radioFuelTypes"
 				
 				/>
 			
@@ -415,6 +432,8 @@
 				android:id="@+id/radioFuelTypes"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				
 				app:layout_constraintTop_toBottomOf="@id/tvFuelTypeHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -512,18 +531,20 @@
 				android:id="@+id/layoutInputOdometer"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
+				android:layout_marginEnd="4dp"
 				android:focusable="false"
 				
 				android:hint="@string/odometer_input_hint"
-				app:errorEnabled="@{viewModel.odometerRequires}"
-				app:suffixText="@string/kilometers"
+				app:errorEnabled="@{!viewModel.odometerReady}"
+				
+				app:suffixKM="@{@string/kilometers}"
+				app:suffixMI="@{@string/miles}"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
 				app:layout_constraintTop_toBottomOf="@id/barrierFuelTypesHorizontal"
-				app:layout_constraintBottom_toTopOf="@id/sliderLiters"
 				
 				>
 				
@@ -546,63 +567,61 @@
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
-			<!-- liters slider -->
-			<com.google.android.material.slider.Slider
-				android:id="@+id/sliderLiters"
+			<!-- liters input -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputLiters"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
-			
-				android:value="@={viewModel.sliderLitersValue}"
-				android:valueFrom="1"
-				android:valueTo="70"
-				android:stepSize="0.1"
+				android:layout_marginStart="4dp"
+				android:focusable="false"
 				
-				app:labelBehavior="gone"
+				android:hint="@string/fg_fuel_history_add_liters_input_hint"
+				app:suffixText="@string/liters"
 				
-				app:layout_constraintTop_toBottomOf="@id/layoutInputOdometer"
-				app:layout_constraintBottom_toTopOf="@id/tvLitersValue"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				/>
-			
-			
-			<!-- liters value -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvLitersValue"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:labelFor="@id/sliderLiters"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
-				android:maxLines="1"
-				android:maxLength="6"
-				
-				android:text="@{String.format(@string/fg_fuel_history_add_slider_value, viewModel.sliderLitersValue), default = @string/fg_fuel_history_add_slider_value_default}"
-				android:textAlignment="center"
-				android:textAppearance="?textAppearanceHeadline5"
-				android:textColor="?colorOnBackground"
-				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/sliderLiters"
-				app:layout_constraintBottom_toTopOf="@id/layoutInputCommentary"
-				/>
+				app:layout_constraintTop_toBottomOf="@id/barrierFuelTypesHorizontal"
+				
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputLiters"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					
+					android:imeOptions="actionDone"
+					android:inputType="numberDecimal"
+					android:maxLength="6"
+					android:maxLines="1"
+					
+					android:text="@={viewModel.litersInputValue}"
+					android:textAlignment="center"
+					
+					app:hideKeyboardOnInputDone="@{true}"
+					/>
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
 			
 			<!-- commentary input -->
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/layoutInputCommentary"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
-				android:layout_marginTop="8dp"
 				android:focusable="false"
 				
 				android:hint="@string/fg_fuel_history_add_commentary_input_hint"
 				app:errorEnabled="false"
+				app:counterEnabled="true"
+				app:counterMaxLength="30"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/tvLitersValue"
+				app:layout_constraintTop_toBottomOf="@id/barrierOdometerLiters"
 				
 				>
 				
@@ -641,11 +660,12 @@
 				app:layout_constraintBottom_toBottomOf="parent"
 				/>
 			
-			<!-- done -->
+			<!-- button add -->
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnDone"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				
 				android:enabled="@{viewModel.allFieldsAreCorrect}"
 				
 				android:text="@string/btn_add"
@@ -690,6 +710,15 @@
 				app:barrierMargin="8dp"
 				app:barrierDirection="bottom"
 				app:constraint_referenced_ids="radioFuelTypes"
+				/>
+			
+			<androidx.constraintlayout.widget.Barrier
+				android:id="@+id/barrierOdometerLiters"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:barrierMargin="8dp"
+				app:barrierDirection="bottom"
+				app:constraint_referenced_ids="layoutInputOdometer, layoutInputLiters"
 				/>
 			
 			<androidx.constraintlayout.widget.Barrier

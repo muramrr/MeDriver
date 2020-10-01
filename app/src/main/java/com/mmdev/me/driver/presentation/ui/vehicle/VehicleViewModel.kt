@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.09.2020 16:02
+ * Last modified 01.10.2020 16:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -143,7 +143,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 
 				repository.getVehicleInfoByVin(vinCode).fold(
 					success = {
-						logInfo(TAG, "$it")
+						logInfo(TAG, "Found by VIN: $it")
 						
 						//autocomplete ui
 						brandInput.postValue(it.brand)

@@ -1,0 +1,18 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 30.09.2020 17:33
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<vector android:height="16dp"
+    android:width="16dp"
+    android:viewportHeight="512"
+    android:viewportWidth="512" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?colorOnPrimary" android:pathData="M325.3,80.547l-254.555,254.566l106.055,106.055l254.566,-254.555z"/>
+    <path android:fillColor="?colorOnPrimary" android:pathData="M507.606,89.165L422.747,4.307c-5.625,-5.625 -15.586,-5.625 -21.211,0L346.51,59.336l106.066,106.066l55.029,-55.026c2.813,-2.813 4.395,-6.621 4.395,-10.605S510.418,91.978 507.606,89.165z"/>
+    <path android:fillColor="?colorOnPrimary" android:pathData="M49.534,356.324l-10.613,10.613c-1.787,1.787 -3.105,3.999 -3.809,6.431L0.586,492.737c-1.509,5.259 -0.059,10.913 3.809,14.78c2.856,2.856 6.68,4.395 10.605,4.395c1.392,0 2.798,-0.19 4.175,-0.586l119.37,-34.526c2.432,-0.703 4.644,-2.021 6.431,-3.809l10.613,-10.613L49.534,356.324z"/>
+</vector>

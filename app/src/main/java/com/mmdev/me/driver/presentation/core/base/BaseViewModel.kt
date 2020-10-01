@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 30.09.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 
 abstract class BaseViewModel: ViewModel() {
 	
-	protected val TAG = javaClass.simpleName
+	protected val TAG = "mylogs_${javaClass.simpleName}"
 
 //	inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
 //		return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {

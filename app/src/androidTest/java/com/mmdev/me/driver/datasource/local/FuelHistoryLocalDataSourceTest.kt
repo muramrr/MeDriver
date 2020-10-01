@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 20:01
+ * Last modified 01.10.2020 19:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ package com.mmdev.me.driver.datasource.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mmdev.me.driver.FuelConstants
-import com.mmdev.me.driver.core.utils.DateConverter
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.ResultState
@@ -21,6 +20,7 @@ import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.modules.DatabaseTestModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +43,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 	private lateinit var fuelHistoryEntity2: FuelHistoryEntity
 	private lateinit var fuelHistoryEntity3: FuelHistoryEntity
 	
-	
+	private val time = Clock.System.now().toEpochMilliseconds()
 	/**
 	 * Override test module
 	 */
@@ -55,6 +55,8 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		
 		fuelHistoryEntity1 = FuelHistoryEntity(
 			commentary = "",
+			date = time,
+			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
@@ -62,10 +64,11 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 1000, miles = null),
 			vehicleVinCode = "someVin",
-			timestamp = DateConverter.toDate("10-01-2020").time
 		)
 		fuelHistoryEntity2 = FuelHistoryEntity(
 			commentary = "",
+			date = time,
+			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
@@ -73,10 +76,11 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 1500, miles = null),
 			vehicleVinCode = "someVin",
-			timestamp = DateConverter.toDate("11-01-2020").time
 		)
 		fuelHistoryEntity3 = FuelHistoryEntity(
 			commentary = "",
+			date = time,
+			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 500, miles = null),
 			filledLiters = 0.0,
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
@@ -84,7 +88,6 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelStation = FuelConstants.fuelStationEntityWog,
 			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
 			vehicleVinCode = "someVin",
-			timestamp = DateConverter.toDate("12-01-2020").time
 		)
 	}
 	
@@ -101,7 +104,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		// compare result
 		Assert.assertTrue(result is ResultState.Success)
 		result.fold(
-			success = { Assert.assertEquals(it, listOf(fuelHistoryEntity3)) },
+			success = { Assert.assertEquals(it, listOf(fuelHistoryEntity1)) },
 			failure = {}
 		)
 		
@@ -117,7 +120,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		// compare result
 		Assert.assertTrue(result is ResultState.Success)
 		result.fold(
-			success = { Assert.assertEquals(it, listOf(fuelHistoryEntity3)) },
+			success = { Assert.assertEquals(it, listOf(fuelHistoryEntity1)) },
 			failure = {}
 		)
 		delay(50)
@@ -130,8 +133,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 		
 		afterDeletionResult.fold(
 			success = {
-				Assert.assertTrue(it.fuelHistory.isNotEmpty())
-				Assert.assertTrue(it.fuelHistory.size != 3)
+				Assert.assertTrue(it.isNotEmpty())
 			},
 			failure = {}
 		)

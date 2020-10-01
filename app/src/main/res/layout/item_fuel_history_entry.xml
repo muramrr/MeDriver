@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.09.2020 21:01
+  ~ Last modified 30.09.2020 21:18
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@
 		
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord"
+			type="com.mmdev.me.driver.domain.fuel.history.model.FuelHistory"
 			/>
 	</data>
 	
@@ -35,7 +35,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
 			
-			android:text="@{FuelHistoryRecordExtKt.dateMonthText(bindItem)}"
+			android:text="@{FuelHistoryRecordExtKt.dateMonthText(bindItem.date.date.monthNumber)}"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
 			
@@ -84,8 +84,12 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="+500 km"
+			
 			android:textAppearance="?textAppearanceSubtitle1"
+			
+			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.distancePassedBound)}"
+			app:formatterKM="@{@string/item_fuel_history_entry_distance_passed_km}"
+			app:formatterMI="@{@string/item_fuel_history_entry_distance_passed_mi}"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
 			app:layout_constraintStart_toEndOf="@id/barrierLogo"
@@ -102,8 +106,12 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="dasd"
+			
 			android:textAppearance="?textAppearanceCaption"
+			
+			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.fuelConsumptionBound)}"
+			app:formatterKM="@{@string/item_fuel_history_entry_consumption_km}"
+			app:formatterMI="@{@string/item_fuel_history_entry_consumption_mi}"
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryDistancePassed"
 			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryOdometer"
@@ -121,16 +129,16 @@
 			android:text="@string/default_OdometerValue"
 			android:textAppearance="?textAppearanceOverline"
 			
+			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.odometerValueBound)}"
+			app:formatterKM="@{@string/item_fuel_history_entry_odometer_km}"
+			app:formatterMI="@{@string/item_fuel_history_entry_odometer_mi}"
+			
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryFuelConsumption"
 			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
 			app:layout_constraintStart_toEndOf="@id/barrierLogo"
 			
 			/>
-		
-		
-		
-		
 		
 		
 		<com.google.android.material.textview.MaterialTextView
@@ -171,7 +179,7 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="@{FuelHistoryRecordExtKt.date(bindItem) + ``, default = `01.01.1970`}"
+			android:text="@{FuelHistoryRecordExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
 			android:textAppearance="?textAppearanceOverline"
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPricePerLiter"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:05
+ * Last modified 29.09.2020 19:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,22 +12,25 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import java.util.*
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.toLocalDateTime
 
 /**
- * In [FuelHistoryEntity] -> Out [FuelHistoryRecord], [FuelHistoryDto]
+ * In [FuelHistoryEntity] -> Out [FuelHistory], [FuelHistoryDto]
  */
 
 object FuelHistoryDbEntityMappers {
 	
-	/** Out: [FuelHistoryRecord] */
-	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistoryRecord =
-		FuelHistoryRecord(
+	/** Out: [FuelHistory] */
+	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistory =
+		FuelHistory(
 			commentary = entity.commentary,
-			date = Date(entity.timestamp),
+			date = Instant.fromEpochMilliseconds(entity.date).toLocalDateTime(currentSystemDefault()),
+			dateAdded = entity.dateAdded,
 			distancePassedBound = entity.distancePassedBound,
 			filledLiters = entity.filledLiters,
 			fuelConsumptionBound = entity.fuelConsumptionBound,
@@ -48,7 +51,8 @@ object FuelHistoryDbEntityMappers {
 	fun dbEntityToApiDto(entity: FuelHistoryEntity): FuelHistoryDto =
 		FuelHistoryDto(
 			commentary = entity.commentary,
-			date = Date(entity.timestamp),
+			date = Instant.fromEpochMilliseconds(entity.date).toLocalDateTime(currentSystemDefault()).toString(),
+			dateAdded = entity.dateAdded,
 			distancePassedBound = entity.distancePassedBound,
 			filledLiters = entity.filledLiters,
 			fuelConsumptionBound = entity.fuelConsumptionBound,

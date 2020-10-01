@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 16:31
+ * Last modified 29.09.2020 19:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,8 @@
 package com.mmdev.me.driver.data.repository.fuel.prices
 
 
-import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.IFuelPricesLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.IFuelPricesRemoteDataSource
@@ -38,12 +39,15 @@ class FuelPricesRepositoryImpl (
 	 * If network request fails -> emit failure from [getFuelDataFromRemote]
 	 */
 	override suspend fun getFuelStationsWithPrices(date: String): SimpleResult<List<FuelStationWithPrices>> {
+		
+		logInfo(TAG, "get prices for $date")
+		
 		return getFuelDataFromLocal(date).fold(
 			//get from local database
 			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
-				logDebug(message = it.message ?: "Boundary local cache error")
+				logError(message = it.message ?: "Boundary local cache error")
 				getFuelDataFromRemote(date)
 			})
 	}

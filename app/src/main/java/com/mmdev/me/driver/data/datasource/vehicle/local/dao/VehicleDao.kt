@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:44
+ * Last modified 01.10.2020 16:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,10 +24,10 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 @Dao
 interface VehicleDao {
 	
-	@Query("SELECT * FROM vehicle")
+	@Query("SELECT * FROM vehicles")
 	suspend fun getAllVehicles(): List<VehicleEntity>
 	
-	@Query("SELECT * FROM vehicle WHERE vin = :vin")
+	@Query("SELECT * FROM vehicles WHERE vin = :vin")
 	suspend fun getVehicleByVin(vin: String): VehicleEntity
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -36,7 +36,7 @@ interface VehicleDao {
 	@Delete
 	suspend fun deleteVehicle(vehicle: VehicleEntity)
 	
-	@Query("DELETE FROM vehicle")
+	@Query("DELETE FROM vehicles")
 	suspend fun deleteAll()
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 17:05
+ * Last modified 01.10.2020 18:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,10 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
-import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
 import com.mmdev.me.driver.domain.core.SimpleResult
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 /**
  * [IFuelHistoryLocalDataSource] implementation
@@ -27,17 +29,20 @@ class FuelHistoryLocalDataSourceImpl(private val dao: FuelHistoryDao) :
 	
 	override suspend fun getFuelHistory(
 		vin: String, limit: Int, offset: Int
-	): SimpleResult<VehicleWithFuelHistory> =
+	): SimpleResult<List<FuelHistoryEntity>> =
 		safeCall { dao.getVehicleFuelHistory(vin, limit, offset) }
 	
 	override suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {
-			logDebug(TAG, "Adding History entry: id = ${fuelHistoryEntity.historyEntryId}")
+			logDebug(TAG, "Adding History entry: " +
+			              "id = ${fuelHistoryEntity.date}, " +
+			              "date = ${Instant.fromEpochMilliseconds(fuelHistoryEntity.date)
+				              .toLocalDateTime(TimeZone.currentSystemDefault()).date}")
 		}
 	
 	override suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall { dao.deleteFuelHistoryEntity(fuelHistoryEntity) }.also {
-			logDebug(TAG, "Deleting History entry: id = ${fuelHistoryEntity.historyEntryId}")
+			logDebug(TAG, "Deleting History entry: id = ${fuelHistoryEntity.date}")
 		}
 		
 }

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.09.2020 20:43
+  ~ Last modified 30.09.2020 19:55
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,7 @@
 
 
 <!-- ************************************* reusable strings ************************************ -->
+	<string name="liters">л</string>
 	<string name="kilometers">км</string>
 	<string name="miles">ми</string>
 	
@@ -36,7 +37,7 @@
 	<string name="btn_add">Додати</string>
 	
 	<string name="odometer_input_error">Неправильне значення одометра</string>
-	<string name="odometer_input_hint">Показник одометру</string>
+	<string name="odometer_input_hint">Одометр</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -118,8 +119,8 @@
 	<string name="fg_fuel_history_add_fuel_type_error">Тип пального не вказано</string>
 	<string name="fg_fuel_history_add_fuel_type_hint">Оберіть тип пального</string>
 	
-	<string name="fg_fuel_history_add_slider_value">%s Л</string>
-	<string name="fg_fuel_history_add_slider_value_default">1.0 Л</string>
+	<string name="fg_fuel_history_add_liters_input_hint">Заправлено</string>
+	<string name="fg_fuel_history_add_date_picker_btn_default">01.01.1970</string>
 	
 	<string name="fg_fuel_history_add_commentary_input_hint">Коментар (необов\'язково)</string>
 	
@@ -188,12 +189,14 @@
 
 <!-- ********************************* item_fuel_history_entry ********************************* -->
 	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
-	<string name="item_fuel_history_entry_distance_passed_km">+%d км</string>
-	<string name="item_fuel_history_entry_odometer_km">%d км</string>
-	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
 	
-	<string name="item_fuel_history_entry_distance_passed_mi">%d миль</string>
-	<string name="item_fuel_history_entry_odometer_mi">%d миль</string>
+	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
+	
+	<string name="item_fuel_history_entry_odometer_km">%s км</string>
+	<string name="item_fuel_history_entry_odometer_mi">%s миль</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
 <!-- ******************************************************************************************* -->
 

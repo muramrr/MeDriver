@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 21:01
+ * Last modified 01.10.2020 18:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,19 +12,20 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
-import com.mmdev.me.driver.databinding.DropItemFuelStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
@@ -33,7 +34,12 @@ import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
 import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import java.util.*
 
 /**
  * Fullscreen dialog used to add records to Fuel History
@@ -89,12 +95,15 @@ class FuelHistoryAddDialog(
 	
 	private fun setupViews() {
 		//setup views
+		initStringRes()
+		
+		setupDatePicker()
 		setupFuelButtons()
 		setupInputStationDropList()
 		
 		//setup observers
 		observeDistancePassed()
-		observeInputStation()
+		observeInputFuelStation()
 		observeInputPrice()
 		observeFuelType()
 		observeInputOdometer()
@@ -109,68 +118,106 @@ class FuelHistoryAddDialog(
 			btnCancel.setOnClickListener { dialog?.dismiss() }
 			
 			btnDone.setOnClickListener {
-				mViewModel.addHistoryRecord(MedriverApp.currentUser!!).also { dialog?.dismiss() }
-			}
-			
-			
-			//Show strings according to current metric system
-			when (MedriverApp.metricSystem) {
-// #################################### KILOMETERS ############################################# //
-				MetricSystem.KILOMETERS -> {
-					tvConsumptionPer100Subtitle.text =
-						getString(R.string.fg_fuel_history_add_consumption_100km)
-					
-					distancePassedAnimator.apply {
-						addUpdateListener {
-							tvDistancePassedValue.text = String.format(
-								getString(R.string.fg_fuel_history_add_distance_passed_value_km),
-								it.animatedValue.toString()
-							)
-						}
-					}
-					
-					distancePassedValueDefault =
-						getString(R.string.fg_fuel_history_add_distance_passed_value_default_km)
-					
-					distancePassedSubtitleValueFormatter =
-						getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
-					
-					layoutInputOdometer.suffixText = getString(R.string.kilometers)
-					
-				}
-				
-// ###################################### MILES ############################################## //
-				MetricSystem.MILES -> {
-					tvConsumptionPer100Subtitle.text =
-						getString(R.string.fg_fuel_history_add_consumption_100mi)
-					
-					distancePassedAnimator.apply {
-						addUpdateListener {
-							tvDistancePassedValue.text = String.format(
-								getString(R.string.fg_fuel_history_add_distance_passed_value_mi),
-								it.animatedValue.toString()
-							)
-						}
-					}
-					
-					distancePassedValueDefault =
-						getString(R.string.fg_fuel_history_add_distance_passed_value_default_mi)
-					
-					distancePassedSubtitleValueFormatter =
-						getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_mi)
-					
-					layoutInputOdometer.suffixText = getString(R.string.miles)
-					
-				}
+				mViewModel.addHistoryRecord(MedriverApp.currentUser).also { dialog?.dismiss() }
 			}
 			
 			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
-				mViewModel.historyRecord.value?.odometerValueBound?.getValue() ?: 0
+				mViewModel.history.value?.odometerValueBound?.getValue() ?: 0
 			)
 		
 		}
 	}
+	
+	private fun initStringRes() {
+		//Show strings according to current metric system
+		when (MedriverApp.metricSystem) {
+			MetricSystem.KILOMETERS -> {
+				
+				distancePassedAnimator.apply {
+					addUpdateListener {
+						binding.tvDistancePassedValue.text = String.format(
+							getString(R.string.fg_fuel_history_add_distance_passed_value_km),
+							it.animatedValue.toString()
+						)
+					}
+				}
+				
+				distancePassedValueDefault =
+					getString(R.string.fg_fuel_history_add_distance_passed_value_default_km)
+				
+				distancePassedSubtitleValueFormatter =
+					getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
+				
+			}
+			
+			MetricSystem.MILES -> {
+				
+				distancePassedAnimator.apply {
+					addUpdateListener {
+						binding.tvDistancePassedValue.text = String.format(
+							getString(R.string.fg_fuel_history_add_distance_passed_value_mi),
+							it.animatedValue.toString()
+						)
+					}
+				}
+				
+				distancePassedValueDefault =
+					getString(R.string.fg_fuel_history_add_distance_passed_value_default_mi)
+				
+				distancePassedSubtitleValueFormatter =
+					getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_mi)
+				
+			}
+		}
+	}
 
+	@SuppressLint("SetTextI18n")
+	private fun setupDatePicker() {
+		val calendar = Calendar.getInstance(TimeZone.getDefault())
+		val currentYear = calendar.get(Calendar.YEAR)
+		val currentMonth = calendar.get(Calendar.MONTH)
+		val currentMonthDisplay = currentMonth + 1 // january corresponds to 0
+		val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+		
+		val pickedDate = Calendar.getInstance(TimeZone.getDefault())
+		
+		binding.btnDatePicker.text =
+			(if (currentDay < 10) "0$currentDay." else "$currentDay.") +
+			(if (currentMonthDisplay < 10) "0$currentMonthDisplay" else "$currentMonthDisplay") +
+			".$currentYear"
+		
+		val datePickerDialog = DatePickerDialog(requireContext(), {
+				_, pickedYear, pickedMonth, pickedDay ->
+			
+			val pickedMonthDisplay = pickedMonth + 1 // january corresponds to 0
+			
+			// Display Selected date in Button
+			binding.btnDatePicker.text =
+				(if (pickedDay < 10) "0$pickedDay." else "$pickedDay.") +
+				(if (pickedMonthDisplay < 10) "0$pickedMonthDisplay" else "$pickedMonthDisplay") +
+				".$pickedYear"
+			
+			// set picked date to mViewModel
+			pickedDate.set(pickedYear, pickedMonth, pickedDay)
+			mViewModel.pickedDate = Instant.fromEpochMilliseconds(pickedDate.timeInMillis)
+				.toLocalDateTime(currentSystemDefault())
+			
+			
+		}, currentYear, currentMonth, currentDay)
+		
+		// restrict dates min = last added history date if exists or start of epoch
+		datePickerDialog.datePicker.minDate = mViewModel.history.value!!
+			.date.toInstant(currentSystemDefault()).toEpochMilliseconds()
+		
+		// max = current date
+		datePickerDialog.datePicker.maxDate = calendar.timeInMillis
+		
+		binding.btnDatePicker.setOnClickListener {
+			datePickerDialog.show()
+		}
+		
+	}
+	
 	private fun setupFuelButtons() {
 		binding.radioFuelTypes.setOnClickListener { _, id ->
 			when (id) {
@@ -235,28 +282,42 @@ class FuelHistoryAddDialog(
 		})
 	}
 	
-	private fun observeInputStation() {
-		mViewModel.fuelStationRequires.observe(this, {
-			if (it != null && it) binding.layoutInputFuelStation.error = getString(R.string.fg_fuel_history_add_fuel_station_input_error)
+	private fun observeInputFuelStation() {
+		mViewModel.fuelStationInputValue.observe(this, {
+			if (it.isNullOrBlank()) {
+				binding.layoutInputFuelStation.error = getString(R.string.fg_fuel_history_add_fuel_station_input_error)
+				mViewModel.fuelStationReady = false
+			}
+			else {
+				binding.layoutInputFuelStation.isErrorEnabled = false
+				mViewModel.fuelStationReady = true
+			}
 		})
 		
 	}
 	
 	private fun observeInputPrice() {
-		mViewModel.fuelPriceRequires.observe(this, {
-			if (it != null && it) binding.layoutInputPrice.error = getString(R.string.fg_fuel_history_add_fuel_price_input_error)
+		mViewModel.priceInputValue.observe(this, {
+			if (it.isNullOrBlank()) {
+				binding.layoutInputPrice.error = getString(R.string.fg_fuel_history_add_fuel_price_input_error)
+				mViewModel.fuelPriceReady = false
+			}
+			else {
+				binding.layoutInputPrice.isErrorEnabled = false
+				mViewModel.fuelPriceReady = true
+			}
 		})
 	}
 	
 	private fun observeFuelType() {
-		mViewModel.fuelTypeRequires.observe(this, {
-			//if (it == null || it) binding.root.showSnack(getString(R.string .fg_fuel_history_add_fuel_type_error))
+		mViewModel.selectedFuelType.observe(this, {
+			mViewModel.fuelTypeReady = it != null
 		})
 	}
 	
 	private fun observeInputOdometer() {
-		mViewModel.odometerRequires.observe(this, {
-			if (it != null && it) binding.layoutInputOdometer.error = getString(R.string.odometer_input_error)
+		mViewModel.odometerReady.observe(this, {
+			if (it != null && !it) binding.layoutInputOdometer.error = getString(R.string.odometer_input_error)
 		})
 	}
 	
@@ -267,25 +328,25 @@ class FuelHistoryAddDialog(
 	}
 	
 	
+	
+	
 	private class FuelStationDropAdapter(
-		private val mContext: Context,
+		context: Context,
 		@LayoutRes private val layoutId: Int,
 		data: List<FuelStation>
-	): BaseDropAdapter<FuelStation>(mContext, layoutId, data) {
+	): BaseDropAdapter<FuelStation>(context, layoutId, data) {
 		
-		private lateinit var binding: DropItemFuelStationBinding
+		private lateinit var childView: View
 		private lateinit var fuelStation: FuelStation
 		
-		@SuppressLint("ViewHolder")
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-			binding = DataBindingUtil.inflate(
-				LayoutInflater.from(mContext), layoutId, parent, false
-			)
+			childView = convertView ?:
+			            LayoutInflater.from(context).inflate(layoutId, parent, false)
 			
 			fuelStation = getItem(position)
-			binding.tvFuelStationTitle.text = fuelStation.brandTitle
-			binding.ivDropFuelStationIcon.setImageResource(fuelStation.brandIcon())
-			return binding.root
+			childView.findViewById<TextView>(R.id.tvFuelStationTitle).text = fuelStation.brandTitle
+			childView.findViewById<ImageView>(R.id.ivDropFuelStationIcon).setImageResource(fuelStation.brandIcon())
+			return childView
 		}
 		
 	}

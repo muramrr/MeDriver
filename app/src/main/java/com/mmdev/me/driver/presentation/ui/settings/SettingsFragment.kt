@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 18:26
+ * Last modified 01.10.2020 15:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,7 @@ import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -175,16 +176,17 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 				
 				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
-				
+			
 				// defines can be accessed synchronization switcher
 				switchSync.isEnabled = user != null && user.isPremium
+				
 			}
 			
 		})
 	}
 	
 	/**
-	 * can be accessed only when user is [AUTHORIZED]
+	 * can be accessed only when user is in [AUTHORIZED] status
 	 * @see observeSignedInUser
 	 */
 	private fun initSyncSwitcher() {
@@ -192,7 +194,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		binding.switchSync.isChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
 		
 		// add callback to switcher toggle
-		binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+		binding.switchSync.setOnCheckedChangeListener { _, isChecked ->
+			logWtf(TAG, "Sync switch isChecked = $isChecked")
 			sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
 		}
 	}
@@ -240,11 +243,12 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			
 			setOnItemClickListener { _, _, position, _ ->
 				
-				//check if different language chose
-				//apply new language if true and recreate activity to apply changes to resources
+				// if different language was chosen
+				// apply new language if true and recreate activity to apply changes to resources
+				// cant recreate activity from application class, so a bit logic needs here
 				with(languagesMap.keys.elementAt(position)) {
 					if (MedriverApp.appLanguage != this)
-						MedriverApp.appLanguage = this.also { activity?.recreate() }
+						MedriverApp.changeAppLanguage(this).also { activity?.recreate() }
 				}
 				
 			}

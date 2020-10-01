@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 00:17
+ * Last modified 30.09.2020 19:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,10 @@ package com.mmdev.me.driver.presentation.utils.binding
 import android.animation.ValueAnimator
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
+import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
+import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfDoubleValues
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntValues
@@ -25,6 +29,35 @@ import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntVa
  */
 
 object BindingTextView {
+	
+	@JvmStatic
+	@BindingAdapter("app:value", "app:formatterKM", "app:formatterMI", requireAll = true)
+	fun setFormattedTextMetricSysDependent(
+		textView: TextView, value: String, kilometers: String, miles: String
+	) {
+		when (MedriverApp.metricSystem) {
+			KILOMETERS -> textView.text = kilometers.format(value)
+			MILES -> textView.text = miles.format(value)
+		}
+	}
+	
+	@JvmStatic
+	@BindingAdapter("app:kilometers", "app:miles", requireAll = true)
+	fun setTextMetricSysDependent(textView: TextView, kilometers: String, miles: String) {
+		when (MedriverApp.metricSystem) {
+			KILOMETERS -> textView.text = kilometers
+			MILES -> textView.text = miles
+		}
+	}
+	
+	@JvmStatic
+	@BindingAdapter("app:suffixKM", "app:suffixMI", requireAll = true)
+	fun setSuffixMetricSysDependent(inputLayout: TextInputLayout, kilometers: String, miles: String) {
+		when (MedriverApp.metricSystem) {
+			KILOMETERS -> inputLayout.suffixText = kilometers
+			MILES -> inputLayout.suffixText = miles
+		}
+	}
 	
 	private val mapOfIntValues = HashMap<Int, Int>()
 	private val mapOfDoubleValues = HashMap<Int, Double>()

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:23
+ * Last modified 29.09.2020 17:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,9 +30,9 @@ object LocaleHelper {
 	private const val LANGUAGE_RUSSIAN = "ru"
 	private const val COUNTRY_RUSSIA = "RU"
 	
-	private val UKRAINIAN_LOCALE = Locale(LANGUAGE_UKRAINIAN, COUNTRY_UKRAINE)
-	private val RUSSIAN_LOCALE = Locale(LANGUAGE_RUSSIAN, COUNTRY_RUSSIA)
-	private val ENGLISH_LOCALE = Locale.ENGLISH
+	val UKRAINIAN_LOCALE = Locale(LANGUAGE_UKRAINIAN, COUNTRY_UKRAINE)
+	val RUSSIAN_LOCALE = Locale(LANGUAGE_RUSSIAN, COUNTRY_RUSSIA)
+	val ENGLISH_LOCALE = Locale.ENGLISH
 	
 	fun newLocaleContext(context: Context, language: Language): Context {
 		

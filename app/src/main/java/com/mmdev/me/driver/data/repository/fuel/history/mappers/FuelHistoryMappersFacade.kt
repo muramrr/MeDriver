@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 00:58
+ * Last modified 01.10.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,9 +12,8 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
-import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.VehicleWithFuelHistory
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 
 /**
  * MappersFacade for multiple mappers used in FuelHistoryRepository
@@ -31,41 +30,41 @@ class FuelHistoryMappersFacade {
 	fun apiDtoToDbEntity(dto: FuelHistoryDto): FuelHistoryEntity =
 		FuelHistoryDtoMappers.apiDtoToDbEntity(dto)
 	
-	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistoryRecord =
+	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistory =
 		FuelHistoryDtoMappers.apiDtoToDomain(dto)
 	
 	fun listApiDtosToDbEntities(dtoList: List<FuelHistoryDto>): List<FuelHistoryEntity> =
 		mapList(dtoList) { apiDtoToDbEntity(it) }
 	
-	fun listApiDtosToDomains(dtoList: List<FuelHistoryDto>): List<FuelHistoryRecord> =
+	fun listApiDtosToDomains(dtoList: List<FuelHistoryDto>): List<FuelHistory> =
 		mapList(dtoList) { apiDtoToDomain(it) }
 	
 	
 	
 	
 	// in: domain, out: * entity, dto
-	fun domainToDbEntity(domain: FuelHistoryRecord): FuelHistoryEntity =
+	fun domainToDbEntity(domain: FuelHistory): FuelHistoryEntity =
 		FuelHistoryDomainMappers.domainToDbEntity(domain)
 	
-	fun domainToApiDto(domain: FuelHistoryRecord): FuelHistoryDto =
+	fun domainToApiDto(domain: FuelHistory): FuelHistoryDto =
 		FuelHistoryDomainMappers.domainToApiDto(domain)
 	
 	
 	
 	
 	// in: Db Entity, out: * domain, dto
-	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistoryRecord =
+	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistory =
 		FuelHistoryDbEntityMappers.dbEntityToDomain(entity)
 	
 	
 	fun dbEntityToApiDto(entity: FuelHistoryEntity): FuelHistoryDto =
 		FuelHistoryDbEntityMappers.dbEntityToApiDto(entity)
 	
-	fun listDbEntitiesToDomains(input: VehicleWithFuelHistory): List<FuelHistoryRecord> =
-		mapList(input.fuelHistory) { dbEntityToDomain(it) }
+	fun listDbEntitiesToDomains(input: List<FuelHistoryEntity>): List<FuelHistory> =
+		mapList(input) { dbEntityToDomain(it) }
 	
-	fun listDbEntitiesToApiDtos(input: VehicleWithFuelHistory): List<FuelHistoryDto> =
-		mapList(input.fuelHistory) { dbEntityToApiDto(it) }
+	fun listDbEntitiesToApiDtos(input: List<FuelHistoryEntity>): List<FuelHistoryDto> =
+		mapList(input) { dbEntityToApiDto(it) }
 	
 	
 	

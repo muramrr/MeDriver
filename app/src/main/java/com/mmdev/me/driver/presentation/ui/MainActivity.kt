@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:11
+ * Last modified 01.10.2020 18:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -117,17 +117,15 @@ class MainActivity: AppCompatActivity() {
 		/**
 		 * Load saved vehicle from db by vin code which was saved before in sharedPrefs:
 		 * - every time we change vehicle from fragment designed for such purposes
-		 * - we update vin code inside shared prefs and current chosen vehicle
-		 * - while app starts up -> read saved code and retrieve corresponded vehicle from db.
+		 * we update vin code inside shared prefs and current chosen vehicle;
 		 *
-		 * note: is there way to optimize or simplify such approach? is that approach acceptable at all?
-		 * note: vehicle info must be inside db because of table relations
+		 * - while app starts up -> read saved code and retrieve corresponded vehicle from db.
 		 */
 		sharedViewModel.currentVehicle.observe(this, { vehicle ->
 			logDebug(TAG, "current vehicle = $vehicle")
 			
 			MedriverApp.currentVehicle = vehicle
-			MedriverApp.currentVehicleVinCode = vehicle?.vin ?: ""
+			MedriverApp.changeCurrentVehicleVinCode(vehicle?.vin ?: "")
 		
 		})
 		

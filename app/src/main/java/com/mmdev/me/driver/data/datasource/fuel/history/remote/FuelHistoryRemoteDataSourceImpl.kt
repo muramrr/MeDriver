@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:26
+ * Last modified 29.09.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,7 +42,7 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document()
+			.document(dto.date)
 			.setAsFlow(dto)
 	
 	override fun getFuelHistory(email: String, vin: String):

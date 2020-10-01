@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:11
+ * Last modified 01.10.2020 15:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,13 +44,13 @@ class SettingsViewModel (private val repository: IAuthRepository): BaseViewModel
 		}
 	
 	fun setThemeMode(isChecked: Boolean) {
-		if (isChecked) MedriverApp.themeMode = DARK_MODE
-		else MedriverApp.themeMode = LIGHT_MODE
+		if (isChecked) MedriverApp.changeThemeMode(DARK_MODE)
+		else MedriverApp.changeThemeMode(LIGHT_MODE)
 	}
 	
-	fun setMetricSystem(metricSystem: MetricSystem) {
-		MedriverApp.metricSystem = metricSystem
-	}
+	fun setMetricSystem(metricSystem: MetricSystem) = MedriverApp.changeMetricSystem(metricSystem)
+	
+	
 	/**
 	 * Try to Reset password
 	 * else catch null input error

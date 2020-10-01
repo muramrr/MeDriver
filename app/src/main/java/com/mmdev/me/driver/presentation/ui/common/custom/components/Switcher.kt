@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:18
+ * Last modified 29.09.2020 18:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -352,7 +352,9 @@ class Switcher @JvmOverloads constructor(
 			//guarantee that animation will play smoothly if Activity or Fragment recreated
 			//invoke after animation successfully played
 
-			doOnEnd { if (invoke) checkListener?.invoke(this@Switcher, mChecked) }
+			doOnEnd {
+				if (mEnabled && invoke) checkListener?.invoke(this@Switcher, mChecked)
+			}
 		}
 	}
 	
@@ -386,7 +388,7 @@ class Switcher @JvmOverloads constructor(
 				if (checked) setSwitchChecked()
 				else setSwitchUnchecked()
 				
-				checkListener?.invoke(this, mChecked)
+				if (mEnabled) checkListener?.invoke(this, mChecked)
 			}
 		}
 	}

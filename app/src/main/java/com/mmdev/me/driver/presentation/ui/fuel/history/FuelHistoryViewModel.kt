@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 21:10
+ * Last modified 01.10.2020 18:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
@@ -23,7 +22,7 @@ import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
 import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
@@ -33,7 +32,11 @@ import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToInt
 
 /**
@@ -44,8 +47,9 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	: BaseViewModel() {
 	
 	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()
-	val historyRecord: MutableLiveData<FuelHistoryRecord> = MutableLiveData(
-		FuelHistoryRecord(
+	val history: MutableLiveData<FuelHistory> = MutableLiveData(
+		FuelHistory(
+			date = Instant.fromEpochMilliseconds(0).toLocalDateTime(currentSystemDefault()),
 			odometerValueBound = MedriverApp.currentVehicle?.odometerValueBound ?: DistanceBound(),
 			vehicleVinCode = MedriverApp.currentVehicleVinCode
 		)
@@ -54,7 +58,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	//indicates is history empty or not
 	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
-	private val loadedHistory = mutableListOf<FuelHistoryRecord>()
+	private val loadedHistory = mutableListOf<FuelHistory>()
 	
 	/**
 	 * selected [FuelStationWithPrices] from list [mFuelStationWithPrices]
@@ -67,59 +71,42 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	
 	
 	//mutable values bindable to UI input/label
-	val fuelStationInputValue: MutableLiveData<String> = MutableLiveData()
+	var pickedDate: LocalDateTime = Clock.System.now().toLocalDateTime(currentSystemDefault())
+	val fuelStationInputValue: MutableLiveData<String?> = MutableLiveData()
 	private var typedFuelStationTitle: String = ""
 	private var typedFuelStationSlug: String = ""
-	val priceInputValue: MutableLiveData<String> = MutableLiveData()
-	private val selectedFuelType: MutableLiveData<FuelType> = MutableLiveData()
-	val odometerInputValue: MutableLiveData<String> = MutableLiveData()
-	val sliderLitersValue: MutableLiveData<Float> = MutableLiveData(1.0f)
-	val commentValue: MutableLiveData<String> = MutableLiveData()
+	val priceInputValue: MutableLiveData<String?> = MutableLiveData()
+	val selectedFuelType: MutableLiveData<FuelType?> = MutableLiveData()
+	val odometerInputValue: MutableLiveData<String?> = MutableLiveData()
+	val litersInputValue: MutableLiveData<String?> = MutableLiveData("1.0")
+	val commentValue: MutableLiveData<String?> = MutableLiveData()
 	
 	
 	//variables to check if fields requires an input
-	val fuelStationRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
-	val fuelPriceRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
-	val fuelTypeRequires: MediatorLiveData<Boolean?> = MediatorLiveData()
-	val allFieldsAreCorrect: MutableLiveData<Boolean> = MutableLiveData(false)
-	
-	init {
-		fuelStationRequires.addSource(fuelStationInputValue) {
-			fuelStationRequires.value = when {
-				it == null -> { null }
-				it.isBlank() -> { true }
-				else -> {
-					handleTypedFuelStation(it)
-					false
-				}
-			}
+	var fuelStationReady = false
+		set(value) {
+			field = value
+			checkAllFieldsAreCorrect()
+			if (value) handleTypedFuelStation(fuelStationInputValue.value!!)
+		}
+	var fuelPriceReady = false
+		set(value) {
+			field = value
 			checkAllFieldsAreCorrect()
 		}
-		
-		fuelPriceRequires.addSource(priceInputValue) {
-			fuelPriceRequires.value = when {
-				it == null -> { null }
-				it.isBlank() -> { true }
-				!it.isNullOrBlank() -> { false }
-				else -> { null }
-			}
-			checkAllFieldsAreCorrect()
-		}
-		
-		fuelTypeRequires.addSource(selectedFuelType) {
-			if (it != null) fuelTypeRequires.value = false
+	var fuelTypeReady = false
+		set(value) {
+			field = value
 			findAndSetPriceByType(selectedFuelStationWithPrices)
 			checkAllFieldsAreCorrect()
 		}
-		
-	}
-	
-	
+	var allFieldsAreCorrect: MutableLiveData<Boolean> = MutableLiveData(false)
+
 	
 	
 	//immutable value computed from (odometerInput - previous odometer value)
 	val distancePassed: LiveData<Int> =
-		odometerInputValue.combineWith(historyRecord) { typedOdometer, lastHistoryRecord ->
+		odometerInputValue.combineWith(history) { typedOdometer, lastHistoryRecord ->
 			if (!typedOdometer.isNullOrBlank() && lastHistoryRecord != null) {
 				//make sure that distance passed > 0
 				with(typedOdometer.toInt() - lastHistoryRecord.odometerValueBound.getValue()) {
@@ -130,26 +117,26 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			else 0
 		}
 	
-	val odometerRequires: LiveData<Boolean?> =
-		distancePassed.combineWith(odometerInputValue) { distance, input ->
-			if (distance != null && input != null)
+	val odometerReady: LiveData<Boolean?> =
+		distancePassed.combineWith(odometerInputValue) { distance, odometer ->
+			if (distance != null && odometer != null)
 				when {
-					distance > 0 && input.isNotBlank() -> { false }
-					distance <= 0 || input.isBlank() -> true
+					distance > 0 && odometer.isNotBlank() -> { true }
+					distance <= 0 || odometer.isBlank() -> false
 					else -> null
 				}.also { checkAllFieldsAreCorrect() }
 			else null.also { checkAllFieldsAreCorrect() }
 		}
 	
 	/**
-	 * calculate fuelConsumption based on [distancePassed] and filled liters value from [historyRecord]
+	 * calculate fuelConsumption based on [distancePassed] and filled liters value from [history]
 	 * also check if [distancePassed] is calculated properly because of divide by zero
 	 * formula is pretty simple: (filledLiters (liters) / distancePassed (km) ) * 100 (km)
 	 * (we want to show consumption per 100 km)
 	 */
 	val fuelConsumptionValue: LiveData<Double> =
-		distancePassed.combineWith(historyRecord) { distancePassed,
-		                                            lastHistoryRecord ->
+		distancePassed.combineWith(history) { distancePassed,
+		                                      lastHistoryRecord ->
 			if (distancePassed != null && distancePassed > 0.0 && lastHistoryRecord != null)
 				((lastHistoryRecord.filledLiters / distancePassed) * 100).roundTo(1)
 			else 0.0
@@ -157,12 +144,12 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	
 	/**
 	 * compare calculated [fuelConsumptionValue] based on [distancePassed] value with previous
-	 * fuelConsumption index stored in [historyRecord]
+	 * fuelConsumption index stored in [history]
 	 * check which is greater and decide which icon to display (increasing or decreasing)
 	 */
 	val fuelConsumptionDrawable: LiveData<Int> =
-		fuelConsumptionValue.combineWith(historyRecord) { calculatedConsumption,
-		                                                  lastHistoryRecord ->
+		fuelConsumptionValue.combineWith(history) { calculatedConsumption,
+		                                            lastHistoryRecord ->
 			if (calculatedConsumption != null
 			    && calculatedConsumption > 0.0
 			    && lastHistoryRecord != null) {
@@ -175,19 +162,19 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 			else 0
 		}
 	
-	/** immutable value computed from ([priceInputValue] * [sliderLitersValue]) inputs */
+	/** immutable value computed from ([priceInputValue] * [litersInputValue]) inputs */
 	val totalCostValue: LiveData<Double> =
-		priceInputValue.combineWith(sliderLitersValue) { price, liters ->
+		priceInputValue.combineWith(litersInputValue) { price, liters ->
 			if (!price.isNullOrBlank() && liters != null)
-				(price.toDouble() * liters).roundTo(2)
+				(price.toDouble() * liters.toDouble()).roundTo(2)
 			else 0.0
 		}
 	
-	/** immutable value computed from ([sliderLitersValue] / [fuelConsumptionValue] * 100) inputs */
+	/** immutable value computed from ([litersInputValue] / [fuelConsumptionValue] * 100) inputs */
 	val estimateDistance: LiveData<Int> =
-		sliderLitersValue.combineWith(fuelConsumptionValue) { liters, consumption ->
+		litersInputValue.combineWith(fuelConsumptionValue) { liters, consumption ->
 			if (liters != null && consumption != null && consumption > 0)
-				(liters / consumption * 100).roundToInt()
+				(liters.toDouble() / consumption * 100).roundToInt()
 			else 0
 		}
 	
@@ -238,21 +225,15 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	//clear previously typed values stored in LiveData (mutableLiveData)
 	//called when user presses Done button at DialogHistoryAddFragment
 	private fun clearInputFields() {
-		fuelStationInputValue.postValue(null).also {
-			fuelStationRequires.postValue(null)
-		}
+		fuelStationInputValue.postValue(null)
 		
-		priceInputValue.postValue(null).also {
-			fuelPriceRequires.postValue(null)
-		}
+		priceInputValue.postValue(null)
 		
-		selectedFuelType.postValue(null).also {
-			fuelTypeRequires.postValue(null)
-		}
+		selectedFuelType.postValue(null)
 		
 		odometerInputValue.postValue(null)
 		
-		sliderLitersValue.postValue(1.0f)
+		litersInputValue.postValue("1.0")
 		
 		commentValue.postValue(null)
 		
@@ -266,19 +247,10 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * Utility fun to check if all fields are correct and we can proceed
 	 */
 	private fun checkAllFieldsAreCorrect() {
-		allFieldsAreCorrect.postValue(
-			if (fuelStationRequires.value != null
-			    && fuelPriceRequires.value != null
-			    && fuelTypeRequires.value != null
-			    && odometerRequires.value != null) {
-				
-				!fuelStationRequires.value!!
-				&& !fuelPriceRequires.value!!
-				&& !fuelTypeRequires.value!!
-				&& !odometerRequires.value!!
-			}
-			else false
-		)
+		if (fuelStationReady && fuelPriceReady && fuelTypeReady && (odometerReady.value == true)) {
+			allFieldsAreCorrect.postValue(true)
+		}
+		else allFieldsAreCorrect.postValue(false)
 	}
 	
 	/**
@@ -299,26 +271,9 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 */
 	private fun buildFuelStation(): FuelStation =
 		selectedFuelStation ?: FuelStation(typedFuelStationTitle, typedFuelStationSlug).also {
-			logDebug(message = "FuelStation built = $it")
+			logDebug(TAG, "FuelStation built = $it")
 		}
 	
-	
-	/**
-	 * Build [DistanceBound] data class for [distancePassed] value according to what metric system app
-	 * is using. 
-	 * Metric system could be changed at SettingsFragment
-	 */
-	private fun buildDistancePassedBound(): DistanceBound =
-		when (MedriverApp.metricSystem) {
-			MetricSystem.KILOMETERS -> DistanceBound(
-				kilometers = distancePassed.value!!,
-				miles = null
-			)
-			MetricSystem.MILES -> DistanceBound(
-				kilometers = null,
-				miles = distancePassed.value!!
-			)
-		}
 	
 	/**
 	 * Build [ConsumptionBound] data class for [fuelConsumptionValue] accordding to what metric
@@ -338,36 +293,36 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 		}
 	
 	/**
-	 * Build [DistanceBound] data class for [odometerInputValue] according to what metric system app
+	 * Build [DistanceBound] data class for specified [value] according to what metric system app
 	 * is using.
-	 * Metric system could be changed at SettingsFragment
+	 * Metric system can be changed at SettingsFragment
 	 */
-	private fun buildOdometerValueBound(): DistanceBound =
+	private fun buildDistanceBound(value: Int): DistanceBound =
 		when (MedriverApp.metricSystem) {
 			MetricSystem.KILOMETERS -> DistanceBound(
-				kilometers = odometerInputValue.value!!.toInt(),
+				kilometers = value,
 				miles = null
 			)
 			MetricSystem.MILES -> DistanceBound(
 				kilometers = null,
-				miles = odometerInputValue.value!!.toInt()
+				miles = value
 			)
 		}
 	
 	/**
-	 * combines all calculated values into final [FuelHistoryRecord] data class
+	 * combines all calculated values into final [FuelHistory] data class
 	 * used in [addHistoryRecord]
 	 */
-	private fun buildFuelHistoryRecord(): FuelHistoryRecord =
-		FuelHistoryRecord(
+	private fun buildFuelHistoryRecord(): FuelHistory =
+		FuelHistory(
 			commentary = commentValue.value ?: "",
-			date = Calendar.getInstance().time,
-			distancePassedBound = buildDistancePassedBound(),
-			filledLiters = sliderLitersValue.value?.toDouble() ?: 0.0,
+			date = pickedDate,
+			distancePassedBound = buildDistanceBound(distancePassed.value!!),
+			filledLiters = litersInputValue.value!!.toDouble(),
 			fuelConsumptionBound = buildFuelConsumptionBound(),
 			fuelPrice = buildFuelPrice(),
 			fuelStation = buildFuelStation(),
-			odometerValueBound = buildOdometerValueBound(),
+			odometerValueBound = buildDistanceBound(odometerInputValue.value!!.toInt()),
 			vehicleVinCode = MedriverApp.currentVehicle!!.vin
 		)
 	
@@ -384,7 +339,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 						//update screen on success
 						success = {
 							fuelHistoryState.postValue(FuelHistoryViewState.InsertNewOne(this))
-							historyRecord.value = this
+							history.value = this
 							isHistoryEmpty.value = false
 							clearInputFields()
 						},
@@ -422,8 +377,10 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 						//handle empty state visibility
 						if (data.isNotEmpty()) {
 							//init the first one item
-							historyRecord.postValue(data.first()).also {
-								logDebug(TAG, "Last history record = ${data.first().fuelStation}")
+							history.postValue(data.first()).also {
+								logDebug(TAG,
+								         "Last history record = ${data.first().date.date}, " +
+								              "${data.first().odometerValueBound.kilometers}")
 							}
 							isHistoryEmpty.value = false
 						}

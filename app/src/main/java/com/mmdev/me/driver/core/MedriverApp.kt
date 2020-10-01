@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 18:01
+ * Last modified 01.10.2020 15:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -71,36 +71,44 @@ class MedriverApp : Application() {
 		// and some of these values are used across application
 		
 		var themeMode: ThemeMode = LIGHT_MODE
-			set (value) {
-				field = value
-				prefs.push(THEME_MODE_KEY, value)
-				logDebug(TAG, "AppTheme changed.")
-				ThemeHelper.applyTheme(value)
-			}
+			private set
+		
+		fun changeThemeMode(value: ThemeMode) {
+			themeMode = value
+			prefs.push(THEME_MODE_KEY, value)
+			logDebug(TAG, "AppTheme changed to $value")
+			ThemeHelper.applyTheme(value)
+		}
 		
 		var metricSystem: MetricSystem = KILOMETERS
-			set (value) {
-				field = value
-				prefs.push(METRIC_SYSTEM_KEY, value)
-				logDebug(TAG, "Metric system changed.")
-			}
+			private set
+		
+		fun changeMetricSystem(value: MetricSystem) {
+			metricSystem = value
+			prefs.push(METRIC_SYSTEM_KEY, value)
+			logDebug(TAG, "Metric system changed to $value")
+		}
 		
 		var appLanguage: Language = ENGLISH
-			set (value) {
-				field = value
-				prefs.push(LANGUAGE_KEY, value)
-				logDebug(TAG, "Language changed.")
-			}
+			private set
+		
+		fun changeAppLanguage(value: Language) {
+			appLanguage = value
+			prefs.push(LANGUAGE_KEY, value)
+			logDebug(TAG, "Language changed to $value")
+		}
 		
 		
 		var currentVehicleVinCode: String = ""
-			set (value) {
-				if (field != value) {
-					field = value
-					prefs.push(VEHICLE_VIN_CODE_KEY, value)
-					logDebug(TAG, "Vehicle vin changed.")
-				}
+			private set
+		
+		fun changeCurrentVehicleVinCode(value: String) {
+			if (currentVehicleVinCode != value) {
+				currentVehicleVinCode = value
+				prefs.push(VEHICLE_VIN_CODE_KEY, value)
+				logDebug(TAG, "Vehicle vin changed to $value")
 			}
+		}
 		
 		@Volatile
 		var currentUser: UserModel? = null
@@ -167,10 +175,10 @@ class MedriverApp : Application() {
 		appLanguage = loadInitialPropertyOrPushDefault(key = LANGUAGE_KEY, default = ENGLISH)
 		
 		super.onCreate()
-		logInfo(TAG, "init theme mode - $themeMode")
-		logInfo(TAG, "init metric system - ${metricSystem.name}")
-		logInfo(TAG, "init language - ${appLanguage.name}")
-		logInfo(TAG, "init vehicle - $currentVehicle")
+		logInfo(TAG, "loaded theme mode - $themeMode")
+		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
+		logInfo(TAG, "loaded language - ${appLanguage.name}")
+		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
 	}
 	
 	//called only on app startup to pull saved value or assign default & also write default to prefs

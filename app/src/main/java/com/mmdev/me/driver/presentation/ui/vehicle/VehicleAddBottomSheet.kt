@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 20:43
+ * Last modified 30.09.2020 19:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.databinding.BottomSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -63,13 +62,12 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 	
 	
 	private fun setupViews() {
-		initStringRes()
 		
-		observeVinCode()
-		observeBrand()
-		observeModel()
-		observeYear()
-		observeEngineCapacity()
+		observeInputVinCode()
+		observeInputBrand()
+		observeInputModel()
+		observeInputYear()
+		observeInputEngineCapacity()
 		observeInputOdometer()
 		
 		
@@ -80,29 +78,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		binding.btnCancel.setOnClickListener { dialog?.dismiss() }
 	}
 	
-	private fun initStringRes() {
-		binding.apply {
-			//Show strings according to current metric system
-			when (MedriverApp.metricSystem) {
-				
-				// #################################### KILOMETERS ############################################# //
-				MetricSystem.KILOMETERS -> {
-					
-					layoutInputOdometer.suffixText = getString(R.string.kilometers)
-					
-				}
-				
-				// ###################################### MILES ############################################## //
-				MetricSystem.MILES -> {
-					
-					layoutInputOdometer.suffixText = getString(R.string.miles)
-					
-				}
-			}
-		}
-	}
-	
-	private fun observeVinCode() {
+	private fun observeInputVinCode() {
 		mViewModel.vinCodeInput.observe(this, {
 			if (it.isNullOrEmpty() || it.length != 17) {
 				mViewModel.isVinCodeReady = false
@@ -117,7 +93,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		})
 	}
 	
-	private fun observeBrand() {
+	private fun observeInputBrand() {
 		mViewModel.brandInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isBrandReady = false
@@ -130,7 +106,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		})
 	}
 	
-	private fun observeModel() {
+	private fun observeInputModel() {
 		mViewModel.modelInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isModelReady = false
@@ -143,7 +119,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		})
 	}
 	
-	private fun observeYear() {
+	private fun observeInputYear() {
 		mViewModel.yearInput.observe(this, {
 			if (!it.isNullOrBlank() && it.toInt() > 1885) {
 				binding.layoutInputYear.error = null
@@ -156,7 +132,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		})
 	}
 	
-	private fun observeEngineCapacity() {
+	private fun observeInputEngineCapacity() {
 		mViewModel.engineCapacityInput.observe(this, {
 			if (!it.isNullOrBlank() && it.toDouble() < 30 && it.toDouble() > 0) {
 				mViewModel.isEngineCapReady = true

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 03:02
+ * Last modified 01.10.2020 19:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,9 +10,12 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.*
+import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Error
+import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Init
+import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Loading
+import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Paginate
 
 /**
  * state [Loading] controls if loading animation should be displayed
@@ -23,8 +26,8 @@ import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.*
 
 sealed class FuelHistoryViewState: ViewState {
 	object Loading : FuelHistoryViewState()
-	data class Init(val data: List<FuelHistoryRecord>) : FuelHistoryViewState()
-	data class InsertNewOne(val item: FuelHistoryRecord) : FuelHistoryViewState()
-	data class Paginate(val data: List<FuelHistoryRecord>) : FuelHistoryViewState()
+	data class Init(val data: List<FuelHistory>) : FuelHistoryViewState()
+	data class InsertNewOne(val item: FuelHistory) : FuelHistoryViewState()
+	data class Paginate(val data: List<FuelHistory>) : FuelHistoryViewState()
 	data class Error(val errorMessage: String) : FuelHistoryViewState()
 }

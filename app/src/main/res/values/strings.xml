@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.09.2020 20:43
+  ~ Last modified 30.09.2020 21:18
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,6 +48,7 @@
 
 
 <!-- ************************************* reusable strings ************************************ -->
+	<string name="liters">L</string>
 	<string name="kilometers">km</string>
 	<string name="miles">mi</string>
 	
@@ -55,7 +56,7 @@
 	<string name="btn_add">Add</string>
 	
 	<string name="odometer_input_error">Wrong odometer value</string>
-	<string name="odometer_input_hint">Odometer value</string>
+	<string name="odometer_input_hint">Odometer</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -128,17 +129,17 @@
 	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 km</string>
 	<string name="fg_fuel_history_add_estimate_distance_date">Refueling on </string>
 	
-	<string name="fg_fuel_history_add_fuel_station_input_error">Fuel Station is not specified</string>
+	<string name="fg_fuel_history_add_fuel_station_input_error">Not specified</string>
 	<string name="fg_fuel_history_add_fuel_station_input_hint">Fuel Station</string>
 	
-	<string name="fg_fuel_history_add_fuel_price_input_error">Price is not specified</string>
+	<string name="fg_fuel_history_add_fuel_price_input_error">Not specified</string>
 	<string name="fg_fuel_history_add_fuel_price_input_hint">Price</string>
 	
 	<string name="fg_fuel_history_add_fuel_type_error">Fuel type is not selected</string>
 	<string name="fg_fuel_history_add_fuel_type_hint">Select fuel type</string>
 	
-	<string name="fg_fuel_history_add_slider_value">%s L</string>
-	<string name="fg_fuel_history_add_slider_value_default">1.0 L</string>
+	<string name="fg_fuel_history_add_liters_input_hint">Filled in</string>
+	<string name="fg_fuel_history_add_date_picker_btn_default">01.01.1970</string>
 	
 	<string name="fg_fuel_history_add_commentary_input_hint">Comment (optional)</string>
 <!-- ******************************************************************************************* -->
@@ -207,12 +208,14 @@
 
 <!-- ********************************* item_fuel_history_entry ********************************* -->
 	<string name="item_fuel_history_entry_price_per_liter">₴%s/L</string>
-	<string name="item_fuel_history_entry_distance_passed_km">+%d km</string>
-	<string name="item_fuel_history_entry_odometer_km">%d km</string>
-	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
 	
-	<string name="item_fuel_history_entry_distance_passed_mi">%d miles</string>
-	<string name="item_fuel_history_entry_odometer_mi">%d miles</string>
+	<string name="item_fuel_history_entry_distance_passed_km">+%s km</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s miles</string>
+	
+	<string name="item_fuel_history_entry_odometer_km">%s km</string>
+	<string name="item_fuel_history_entry_odometer_mi">%s miles</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
 <!-- ******************************************************************************************* -->
 	

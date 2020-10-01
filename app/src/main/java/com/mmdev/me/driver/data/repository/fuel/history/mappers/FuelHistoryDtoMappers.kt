@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:05
+ * Last modified 29.09.2020 19:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,12 +14,15 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistoryRecord
+import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.toLocalDateTime
 
 /**
- * In [FuelHistoryDto] -> Out: [FuelHistoryEntity], [FuelHistoryRecord]
+ * In [FuelHistoryDto] -> Out: [FuelHistoryEntity], [FuelHistory]
  */
 
 object FuelHistoryDtoMappers {
@@ -28,6 +31,8 @@ object FuelHistoryDtoMappers {
 	fun apiDtoToDbEntity(dto: FuelHistoryDto): FuelHistoryEntity =
 		FuelHistoryEntity(
 			commentary = dto.commentary,
+			date = Instant.parse(dto.date).toEpochMilliseconds(),
+			dateAdded = dto.dateAdded,
 			distancePassedBound = dto.distancePassedBound,
 			filledLiters = dto.filledLiters,
 			fuelConsumptionBound = dto.fuelConsumptionBound,
@@ -42,15 +47,15 @@ object FuelHistoryDtoMappers {
 				updatedDate = dto.fuelStation.updatedDate
 			),
 			odometerValueBound = dto.odometerValueBound,
-			timestamp = dto.date.time,
 			vehicleVinCode = dto.vehicleVinCode
 		)
 	
-	/** Out [FuelHistoryRecord] */
-	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistoryRecord =
-		FuelHistoryRecord(
+	/** Out [FuelHistory] */
+	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistory =
+		FuelHistory(
 			commentary = dto.commentary,
-			date = dto.date,
+			date = Instant.parse(dto.date).toLocalDateTime(currentSystemDefault()),
+			dateAdded = dto.dateAdded,
 			distancePassedBound = dto.distancePassedBound,
 			filledLiters = dto.filledLiters,
 			fuelConsumptionBound = dto.fuelConsumptionBound,

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 15:56
+ * Last modified 02.10.2020 18:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,6 @@ import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
 import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -178,7 +177,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
 			
 				// defines can be accessed synchronization switcher
-				switchSync.isEnabled = user != null && user.isPremium
+				switchSync.isEnabled = (user != null && user.isPremium).also { initSyncSwitcher(it) }
 				
 			}
 			
@@ -189,15 +188,20 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	 * can be accessed only when user is in [AUTHORIZED] status
 	 * @see observeSignedInUser
 	 */
-	private fun initSyncSwitcher() {
+	private fun initSyncSwitcher(isEnabled: Boolean = false) {
+		// remove before changing state, because changing state also invokes onCheckedListener
+		if (!isEnabled) binding.switchSync.removeOnCheckedChangeListener()
+		
 		// init default switcher position
 		binding.switchSync.isChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
 		
 		// add callback to switcher toggle
-		binding.switchSync.setOnCheckedChangeListener { _, isChecked ->
-			logWtf(TAG, "Sync switch isChecked = $isChecked")
-			sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
+		if (isEnabled) {
+			binding.switchSync.setOnCheckedChangeListener { _, isChecked ->
+				sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
+			}
 		}
+		
 	}
 	
 	private fun initThemeSwitcher() {
@@ -221,10 +225,13 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		binding.radioMetricSystem.addOnButtonCheckedListener { _, checkedId, isChecked ->
 			// redundant if (value != field) check because toggling checks this by itself
 			when {
-				checkedId == binding.btnSystemKM.id && isChecked -> mViewModel.setMetricSystem(
-					KILOMETERS
-				)
-				checkedId == binding.btnSystemMI.id && isChecked-> mViewModel.setMetricSystem(MILES)
+				checkedId == binding.btnSystemKM.id && isChecked -> {
+					mViewModel.setMetricSystem(KILOMETERS)
+				}
+				
+				checkedId == binding.btnSystemMI.id && isChecked -> {
+					mViewModel.setMetricSystem(MILES)
+				}
 			}
 		
 		}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:31
+ * Last modified 02.10.2020 17:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,7 @@ import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
@@ -34,10 +35,8 @@ import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
 import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.util.*
 
@@ -199,8 +198,7 @@ class FuelHistoryAddDialog(
 			
 			// set picked date to mViewModel
 			pickedDate.set(pickedYear, pickedMonth, pickedDay)
-			mViewModel.pickedDate = Instant.fromEpochMilliseconds(pickedDate.timeInMillis)
-				.toLocalDateTime(currentSystemDefault())
+			mViewModel.pickedDate = convertToLocalDateTime(pickedDate.timeInMillis)
 			
 			
 		}, currentYear, currentMonth, currentDay)

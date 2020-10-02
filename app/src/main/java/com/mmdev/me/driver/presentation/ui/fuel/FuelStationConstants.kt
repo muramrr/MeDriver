@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 02.10.2020 17:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,25 +14,12 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 
 /**
+ * Basic [FuelStation] related constants
  *
+ * note: This should not be placed inside domain package due to [R] dependent vars
  */
 
 object FuelStationConstants {
-
-
-	private val fuelStationSlug = listOf(
-		"amic",
-		"anp",
-		"brsm-nafta",
-		"glusco",
-		"klo",
-		"okko",
-		"socar",
-		"shell",
-		"ukrnafta",
-		"upg",
-		"wog"
-	)
 	
 	private val fuelStationTitle = listOf(
 		"AMIC",
@@ -46,6 +33,20 @@ object FuelStationConstants {
 		"Укрнафта",
 		"UPG",
 		"WOG"
+	)
+	
+	private val fuelStationSlug = listOf(
+		"amic",
+		"anp",
+		"brsm-nafta",
+		"glusco",
+		"klo",
+		"okko",
+		"socar",
+		"shell",
+		"ukrnafta",
+		"upg",
+		"wog"
 	)
 
 	private val fuelStationIcons = listOf(
@@ -65,21 +66,8 @@ object FuelStationConstants {
 	val fuelStationIconMap =
 		fuelStationSlug.zip(fuelStationIcons).toMap().withDefault { 0 }
 	
-	
-	
-	val fuelStationList = listOf(
-		FuelStation(brandTitle = fuelStationTitle[0], slug = fuelStationSlug[0]),
-		FuelStation(brandTitle = fuelStationTitle[1], slug = fuelStationSlug[1]),
-		FuelStation(brandTitle = fuelStationTitle[2], slug = fuelStationSlug[2]),
-		FuelStation(brandTitle = fuelStationTitle[3], slug = fuelStationSlug[3]),
-		FuelStation(brandTitle = fuelStationTitle[4], slug = fuelStationSlug[4]),
-		FuelStation(brandTitle = fuelStationTitle[5], slug = fuelStationSlug[5]),
-		FuelStation(brandTitle = fuelStationTitle[6], slug = fuelStationSlug[6]),
-		FuelStation(brandTitle = fuelStationTitle[7], slug = fuelStationSlug[7]),
-		FuelStation(brandTitle = fuelStationTitle[8], slug = fuelStationSlug[8]),
-		FuelStation(brandTitle = fuelStationTitle[9], slug = fuelStationSlug[9]),
-		FuelStation(brandTitle = fuelStationTitle[10], slug = fuelStationSlug[10])
-	)
-	
+	val fuelStationList = fuelStationTitle.zip(fuelStationSlug).map {
+		FuelStation(it.first, it.second)
+	}
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:39
+ * Last modified 02.10.2020 18:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@
 package com.mmdev.me.driver.presentation.ui.fuel.prices
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.presentation.core.ViewState
@@ -49,10 +49,10 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 				logInfo(TAG,"Loaded FuelStations: ${state.data.size}")
 				mPricesAdapter.setNewData(state.data)
 				if (state.data.isNullOrEmpty())
-					binding.root.showSnack(getString(R.string.fg_fuel_prices_empty_list))
+					binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)
 			}
 			is FuelPricesViewState.Error -> {
-				logError(TAG, state.errorMessage)
+				binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)
 			}
 		}
 		

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 19:09
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.datasource.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mmdev.me.driver.FuelConstants
+import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.ResultState
@@ -20,7 +21,6 @@ import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import com.mmdev.me.driver.modules.DatabaseTestModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +43,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 	private lateinit var fuelHistoryEntity2: FuelHistoryEntity
 	private lateinit var fuelHistoryEntity3: FuelHistoryEntity
 	
-	private val time = Clock.System.now().toEpochMilliseconds()
+	private val time = currentEpochTime()
 	/**
 	 * Override test module
 	 */

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 19:05
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.viewmodel.fuel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
@@ -28,16 +29,12 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.*
 
 
 @RunWith(JUnit4::class)
@@ -51,9 +48,7 @@ class FuelPricesViewModelTest {
 	private val loadingState = FuelPricesViewState.Loading
 	private val successState = FuelPricesViewState.Success(listOf(FuelStationWithPrices()))
 	
-	private val currentTime = Calendar.getInstance().time
-	private val validDate=
-		Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+	private val validDate = currentTimeAndDate().date.toString()
 	
 	@get:Rule
 	val rule = InstantTaskExecutorRule()

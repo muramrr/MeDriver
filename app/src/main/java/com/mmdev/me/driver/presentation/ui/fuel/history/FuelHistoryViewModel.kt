@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:30
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,8 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.core.utils.convertToLocalDateTime
+import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.FuelType
@@ -32,11 +34,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
-import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToInt
 
 /**
@@ -49,7 +47,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	val fuelHistoryState: MutableLiveData<FuelHistoryViewState> = MutableLiveData()
 	val history: MutableLiveData<FuelHistory> = MutableLiveData(
 		FuelHistory(
-			date = Instant.fromEpochMilliseconds(0).toLocalDateTime(currentSystemDefault()),
+			date = convertToLocalDateTime(0),
 			odometerValueBound = MedriverApp.currentVehicle?.odometerValueBound ?: DistanceBound(),
 			vehicleVinCode = MedriverApp.currentVehicleVinCode
 		)
@@ -71,7 +69,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	
 	
 	//mutable values bindable to UI input/label
-	var pickedDate: LocalDateTime = Clock.System.now().toLocalDateTime(currentSystemDefault())
+	var pickedDate: LocalDateTime = currentTimeAndDate()
 	val fuelStationInputValue: MutableLiveData<String?> = MutableLiveData()
 	private var typedFuelStationTitle: String = ""
 	private var typedFuelStationSlug: String = ""

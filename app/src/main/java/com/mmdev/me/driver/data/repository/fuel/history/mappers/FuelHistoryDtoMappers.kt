@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:46
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
+import com.mmdev.me.driver.core.utils.toCurrentTimeAndDate
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
@@ -18,8 +19,6 @@ import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
-import kotlinx.datetime.toLocalDateTime
 
 /**
  * In [FuelHistoryDto] -> Out: [FuelHistoryEntity], [FuelHistory]
@@ -54,7 +53,7 @@ object FuelHistoryDtoMappers {
 	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistory =
 		FuelHistory(
 			commentary = dto.commentary,
-			date = Instant.parse(dto.date).toLocalDateTime(currentSystemDefault()),
+			date = Instant.parse(dto.date).toCurrentTimeAndDate(),
 			dateAdded = dto.dateAdded,
 			distancePassedBound = dto.distancePassedBound,
 			filledLiters = dto.filledLiters,

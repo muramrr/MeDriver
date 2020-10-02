@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:58
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,14 +10,12 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.history.local
 
+import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 /**
  * [IFuelHistoryLocalDataSource] implementation
@@ -36,8 +34,7 @@ class FuelHistoryLocalDataSourceImpl(private val dao: FuelHistoryDao) :
 		safeCall { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {
 			logDebug(TAG, "Adding History entry: " +
 			              "id = ${fuelHistoryEntity.date}, " +
-			              "date = ${Instant.fromEpochMilliseconds(fuelHistoryEntity.date)
-				              .toLocalDateTime(TimeZone.currentSystemDefault()).date}")
+			              "date = ${convertToLocalDateTime(fuelHistoryEntity.date).date}")
 		}
 	
 	override suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =

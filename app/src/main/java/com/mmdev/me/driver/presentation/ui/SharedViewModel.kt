@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 18:26
+ * Last modified 02.10.2020 18:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,13 +81,19 @@ class SharedViewModel(
 	}
 	
 	fun updateUser(user: UserModel) {
-		logWarn(TAG, "Updating user..")
-		viewModelScope.launch {
-			authProvider.updateUserModel(user).collect { result ->
-				result.fold(
-					success = { MedriverApp.currentUser = user },
-					failure = { logError(TAG, "$it")}
-				)
+		if (user != MedriverApp.currentUser!!) {
+			
+			logWarn(TAG, "Updating user..")
+			
+			viewModelScope.launch {
+				
+				authProvider.updateUserModel(user).collect { result ->
+					result.fold(
+						success = { MedriverApp.currentUser = user },
+						failure = { logError(TAG, "$it") }
+					)
+				}
+				
 			}
 		}
 	}

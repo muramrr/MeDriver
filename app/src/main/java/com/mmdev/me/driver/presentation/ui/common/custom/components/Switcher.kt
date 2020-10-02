@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 18:39
+ * Last modified 02.10.2020 18:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -66,7 +66,8 @@ class Switcher @JvmOverloads constructor(
 		private set(value) {
 			field = value
 			
-			if (value){
+			if (value) {
+				// if enabled
 				currentColor = if (mChecked) onColor else offColor
 				iconPaint.color = iconColor
 			}
@@ -405,6 +406,10 @@ class Switcher @JvmOverloads constructor(
 		checkListener = listener
 	}
 	
+	fun removeOnCheckedChangeListener() {
+		if (checkListener != null) checkListener = null
+	}
+	
 	override fun setEnabled(isEnabled: Boolean) {
 		super.setEnabled(isEnabled)
 		if (mEnabled != isEnabled) {
@@ -458,8 +463,7 @@ class Switcher @JvmOverloads constructor(
 
 	private fun linearInterpolation(a: Float, b: Float, x: Float): Float = a + (b - a) * x
 
-	 /**
-	 * Created by Evgenii Neumerzhitckii
+	/*
 	 * (read more on https://evgenii.com/blog/spring-button-animation-on-android/)
 	 */
 	private class BounceInterpolator(private val amplitude: Double, private val frequency: Double) :

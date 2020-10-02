@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.09.2020 17:36
+ * Last modified 02.10.2020 17:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,22 +24,22 @@ fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
  * Show a SnackBar with [messageRes] resource
  */
 fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
-	snack(messageRes, length) {}
+	Snackbar.make(this, messageRes, length).show()
 
 /**
  * Show a SnackBar with [message] string
  */
 fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
-	snack(message, length) {}
+	Snackbar.make(this, message, length).show()
 
 
 /**
  * Show a SnackBar with [messageRes] resource, execute [f] and show it
  * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
  */
-inline fun View.snack(@StringRes messageRes: Int,
-                      length: Int = Snackbar.LENGTH_SHORT,
-                      f: Snackbar.() -> Unit) {
+inline fun View.showSnackWithAction(@StringRes messageRes: Int,
+                                    length: Int = Snackbar.LENGTH_SHORT,
+                                    f: Snackbar.() -> Unit) {
 	val snack = Snackbar.make(this, messageRes, length)
 	snack.f()
 	snack.show()
@@ -49,9 +49,9 @@ inline fun View.snack(@StringRes messageRes: Int,
  * Show a SnackBar with [message] string, execute [f] and show it
  * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
  */
-inline fun View.snack(message: String,
-                      length: Int = Snackbar.LENGTH_SHORT,
-                      f: Snackbar.() -> Unit) {
+inline fun View.showSnackWithAction(message: String,
+                                    length: Int = Snackbar.LENGTH_SHORT,
+                                    f: Snackbar.() -> Unit) {
 	val snack = Snackbar.make(this, message, length)
 	snack.f()
 	snack.show()

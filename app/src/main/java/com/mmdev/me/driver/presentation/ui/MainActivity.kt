@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:35
+ * Last modified 02.10.2020 18:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
@@ -39,6 +40,7 @@ class MainActivity: AppCompatActivity() {
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
 	
+	private var loadingShowingTime: Long = 0
 	private val loadingDialog = LoadingDialogFragment()
 	
 	//used to force chosen language as base context
@@ -104,7 +106,10 @@ class MainActivity: AppCompatActivity() {
 
 		sharedViewModel.showLoading.observe(this, {
 			if (it == LoadingStatus.SHOW) showLoadingDialog()
-			else Timer().schedule(1000) { hideLoadingDialog() }
+			else Timer().schedule(
+				// if loading showing less than 500 millis (half of second) -> delay, else no delay
+				if (currentEpochTime() - loadingShowingTime < 500) 500 else 0
+			) { hideLoadingDialog() }
 		})
 		
 		sharedViewModel.userModel.observe(this, {
@@ -135,7 +140,6 @@ class MainActivity: AppCompatActivity() {
 		if (supportFragmentManager.findFragmentByTag(LoadingDialogFragment::class.java.canonicalName) != null) {
 			supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
 		}
-		
 	}
 	
 	private fun showLoadingDialog() {
@@ -148,7 +152,9 @@ class MainActivity: AppCompatActivity() {
 			addToBackStack(null)
 		}
 		
-		loadingDialog.show(ft, LoadingDialogFragment::class.java.canonicalName)
+		loadingDialog.show(ft, LoadingDialogFragment::class.java.canonicalName).also {
+			loadingShowingTime = currentEpochTime()
+		}
 	}
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:41
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.repository.fuel.history
 
+import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
@@ -25,7 +26,6 @@ import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -53,11 +53,13 @@ class FuelHistoryRepositoryTest {
 	private val validOffset = 0
 	private val invalidLimit = 1
 	
+	private val time = currentEpochTime()
+	
 	private val validReturn = listOf (
 		FuelHistoryEntity(
 			commentary = "",
-			date = Clock.System.now().toEpochMilliseconds(),
-			dateAdded = Clock.System.now().toEpochMilliseconds(),
+			date = time,
+			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),

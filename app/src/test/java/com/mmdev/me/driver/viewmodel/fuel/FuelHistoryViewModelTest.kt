@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:38
+ * Last modified 02.10.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.viewmodel.fuel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
@@ -31,9 +32,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -45,11 +43,13 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class FuelHistoryViewModelTest {
 	
+	private val dateTime = currentTimeAndDate()
+	
 	private val repository: IFuelHistoryRepository = mockk(relaxed = true)
 	private val repoSuccessStateGet: SimpleResult<List<FuelHistory>> = ResultState.Success(
 		listOf(
 			FuelHistory(
-				date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+				date = dateTime,
 				vehicleVinCode = "vin"
 			)
 		)
@@ -57,12 +57,11 @@ class FuelHistoryViewModelTest {
 	private val repoFailureStateGet = ResultState.Failure(Exception("Error"))
 	private val repoSuccessStateUnit: Flow<SimpleResult<Unit>> = flowOf(ResultState.Success(Unit))
 	
-	
 	private lateinit var viewModel: FuelHistoryViewModel
 	private val historyStateObserver = mockk<Observer<FuelHistoryViewState>>(relaxed = true)
 	
 	private val fuelHistoryRecord = FuelHistory(
-		date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+		date = dateTime,
 		filledLiters = 1.0,
 		vehicleVinCode = "vin"
 	)
@@ -71,14 +70,14 @@ class FuelHistoryViewModelTest {
 	private val loadingState = FuelHistoryViewState.Loading
 	private val initState = FuelHistoryViewState.Init(
 		listOf(FuelHistory(
-			date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+			date = dateTime,
 			vehicleVinCode = "vin")
 		)
 	)
 	private val paginateState = FuelHistoryViewState.Paginate(
 		listOf(
 			FuelHistory(
-				date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+				date = dateTime,
 				vehicleVinCode = "vin"
 			)
 		)

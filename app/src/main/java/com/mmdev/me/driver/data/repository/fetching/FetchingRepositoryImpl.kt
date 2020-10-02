@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 18:49
+ * Last modified 02.10.2020 18:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,6 +38,7 @@ class FetchingRepositoryImpl(
 			failure = { throwable -> null }
 		)
 	
+	
 	override suspend fun updateVehicle(
 		user: UserModel?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
@@ -53,6 +54,7 @@ class FetchingRepositoryImpl(
 			failure = { throwable -> emit(ResultState.failure(throwable)) }
 		)
 	}
+	
 	
 	
 }

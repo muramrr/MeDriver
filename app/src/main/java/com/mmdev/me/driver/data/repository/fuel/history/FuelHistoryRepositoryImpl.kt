@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 16:25
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,8 +17,8 @@ import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappe
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.user.UserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -82,7 +82,7 @@ class FuelHistoryRepositoryImpl (
 	 * Also check if given user is not null and premium
 	 * If that is true -> write also to backend
 	 */
-	override suspend fun addFuelHistoryRecord(user: UserModel?, history: FuelHistory):
+	override suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory):
 			Flow<SimpleResult<Unit>> = flow {
 		
 		localDataSource.insertFuelHistoryEntry(mappers.domainToDbEntity(history)).fold(

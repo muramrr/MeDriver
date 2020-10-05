@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.09.2020 17:10
+ * Last modified 05.10.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,13 +11,10 @@
 package com.mmdev.me.driver.presentation.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.DialogSettingsAuthBinding
+import com.mmdev.me.driver.presentation.core.base.BaseDialogFragment
 import com.mmdev.me.driver.presentation.utils.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.showSnack
@@ -29,21 +26,13 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Hosted by SettingsFragment
  */
 
-class SettingsAuthDialog: DialogFragment() {
-	
-	private val TAG = javaClass.simpleName
-	
-	private var _binding: DialogSettingsAuthBinding? = null
-	
-	private val binding: DialogSettingsAuthBinding
-		get() = _binding ?: throw IllegalStateException(
-			"Trying to access the binding outside of the view lifecycle."
-		)
-	
+class SettingsAuthDialog: BaseDialogFragment<SettingsViewModel, DialogSettingsAuthBinding> (
+	layoutId = R.layout.dialog_settings_auth
+) {
 	
 	
 	//get same scope as SettingsFragment
-	private val mViewModel: SettingsViewModel by lazy { requireParentFragment().getViewModel() }
+	override val mViewModel: SettingsViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	private val emailRegex = Regex("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")
 	
@@ -60,19 +49,6 @@ class SettingsAuthDialog: DialogFragment() {
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
 	}
 	
-	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-	): View =
-		DialogSettingsAuthBinding.inflate(inflater, container, false)
-			.apply {
-				_binding = this
-				lifecycleOwner = viewLifecycleOwner
-				viewModel = mViewModel
-				executePendingBindings()
-			}.root
-	
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) { setupViews() }
-	
 	//override default fade in/out appearance animation
 	override fun onStart() {
 		super.onStart()
@@ -81,7 +57,7 @@ class SettingsAuthDialog: DialogFragment() {
 		}
 	}
 	
-	private fun setupViews() {
+	override fun setupViews() {
 		//init error strings
 		initStringRes()
 		
@@ -205,11 +181,5 @@ class SettingsAuthDialog: DialogFragment() {
 				Snackbar.LENGTH_LONG
 			)
 		}
-	}
-	
-	override fun onDestroyView() {
-		binding.unbind()
-		_binding = null
-		super.onDestroyView()
 	}
 }

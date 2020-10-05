@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.09.2020 21:18
+  ~ Last modified 05.10.2020 16:52
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@
 		
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.domain.fuel.history.model.FuelHistory"
+			type="com.mmdev.me.driver.domain.fuel.history.data.FuelHistory"
 			/>
 	</data>
 	
@@ -130,8 +130,8 @@
 			android:textAppearance="?textAppearanceOverline"
 			
 			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.odometerValueBound)}"
-			app:formatterKM="@{@string/item_fuel_history_entry_odometer_km}"
-			app:formatterMI="@{@string/item_fuel_history_entry_odometer_mi}"
+			app:formatterKM="@{@string/formatter_odometer_km}"
+			app:formatterMI="@{@string/formatter_odometer_mi}"
 			
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryFuelConsumption"
@@ -172,7 +172,7 @@
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
 		
-		<!-- price per liter -->
+		<!-- date -->
 		<com.google.android.material.textview.MaterialTextView
 			android:id="@+id/tvHistoryEntryDate"
 			android:layout_width="wrap_content"

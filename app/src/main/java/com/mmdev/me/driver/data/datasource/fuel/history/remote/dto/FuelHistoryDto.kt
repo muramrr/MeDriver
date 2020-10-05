@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:02
+ * Last modified 05.10.2020 18:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,13 +10,16 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.history.remote.dto
 
-import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 
 /**
- * Dto used in firestore database
+ * Used to separate data class dependence between data and domain layers
+ * Used only to represent data stored on backend
+ *
+ * @see com.mmdev.me.driver.data.datasource.fuel.history.remote.FuelHistoryRemoteDataSourceImpl
  */
 
 data class FuelHistoryDto (

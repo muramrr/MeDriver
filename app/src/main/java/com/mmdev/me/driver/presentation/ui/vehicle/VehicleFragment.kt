@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.09.2020 16:05
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter

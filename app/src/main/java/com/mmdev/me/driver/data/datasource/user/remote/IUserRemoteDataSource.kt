@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:33
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,11 @@ package com.mmdev.me.driver.data.datasource.user.remote
 
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.user.UserData
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Used to write and get [UserModel] object from backend while sing in/up
+ * Used to write and get [UserData] object from backend while sing in/up
  */
 
 interface IUserRemoteDataSource {

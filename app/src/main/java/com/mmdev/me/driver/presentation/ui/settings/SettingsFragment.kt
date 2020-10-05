@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:32
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -134,7 +134,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	private fun observeSignedInUser() {
-		sharedViewModel.userModel.observe(this, { user ->
+		sharedViewModel.userData.observe(this, { user ->
 			
 			logInfo(TAG, "UserModel = $user")
 			

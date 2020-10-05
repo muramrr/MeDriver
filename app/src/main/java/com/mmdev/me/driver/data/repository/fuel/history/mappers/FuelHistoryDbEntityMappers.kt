@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,9 +13,9 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 
 /**
  * In [FuelHistoryEntity] -> Out [FuelHistory], [FuelHistoryDto]
@@ -34,7 +34,7 @@ object FuelHistoryDbEntityMappers {
 			fuelConsumptionBound = entity.fuelConsumptionBound,
 			fuelPrice = FuelPrice(
 				price = entity.fuelPrice.price,
-				type = entity.fuelPrice.type
+				typeCode = entity.fuelPrice.typeCode
 			),
 			fuelStation = FuelStation(
 				brandTitle = entity.fuelStation.brandTitle,
@@ -56,7 +56,7 @@ object FuelHistoryDbEntityMappers {
 			fuelConsumptionBound = entity.fuelConsumptionBound,
 			fuelPrice = FuelPrice(
 				price = entity.fuelPrice.price,
-				type = entity.fuelPrice.type
+				typeCode = entity.fuelPrice.typeCode
 			),
 			fuelStation = FuelStation(
 				brandTitle = entity.fuelStation.brandTitle,

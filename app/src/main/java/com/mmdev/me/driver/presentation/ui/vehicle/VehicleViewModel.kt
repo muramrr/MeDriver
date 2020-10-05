@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 16:32
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,10 +16,10 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -93,7 +93,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	val isFormFilledCorrect: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	//check null or empty or vehicle with same vin doesn't exists
-	fun checkAndAdd(user: UserModel?) {
+	fun checkAndAdd(user: UserData?) {
 		with(buildVehicle()) {
 			if (vehicleList.value.isNullOrEmpty() || !vehicleList.value!!.any { it.vin == this.vin }) {
 				addVehicle(user, this)
@@ -102,7 +102,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		
 	}
 	
-	private fun addVehicle(user: UserModel?, vehicle: Vehicle) {
+	private fun addVehicle(user: UserData?, vehicle: Vehicle) {
 		viewModelScope.launch {
 			repository.addVehicle(user, vehicle).collect { result ->
 				result.fold(

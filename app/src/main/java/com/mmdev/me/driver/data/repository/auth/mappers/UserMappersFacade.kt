@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 18:01
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 import com.google.firebase.auth.FirebaseUser
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.user.UserData
 
 /**
  * Mapping between user DTOs/entities
@@ -22,19 +22,19 @@ import com.mmdev.me.driver.domain.user.UserModel
 class UserMappersFacade {
 	
 	// domains
-	fun userDomainToEntity(domain: UserModel): UserEntity = UserDomainMappers.userDomainToEntity(domain)
-	fun userDomainToDto(domain: UserModel): FirestoreUserDto = UserDomainMappers.userDomainToDto(domain)
+	fun userDomainToEntity(domain: UserData): UserEntity = UserDomainMappers.userDomainToEntity(domain)
+	fun userDomainToDto(domain: UserData): FirestoreUserDto = UserDomainMappers.userDomainToDto(domain)
 	
 	// entities
 	fun userEntityToDto(entity: UserEntity): FirestoreUserDto =
 		UserEntityMappers.userEntityToDto(entity)
 	
-	fun userEntityToDomain(entity: UserEntity): UserModel = UserEntityMappers.userEntityToDomain(entity)
+	fun userEntityToDomain(entity: UserEntity): UserData = UserEntityMappers.userEntityToDomain(entity)
 	
 	
 	
 	// dtos
-	fun userDtoToDomain(dto: FirestoreUserDto): UserModel = FirestoreUserMappers.userDtoToDomain(dto)
+	fun userDtoToDomain(dto: FirestoreUserDto): UserData = FirestoreUserMappers.userDtoToDomain(dto)
 	
 	fun userDtoToEntity(dto: FirestoreUserDto): UserEntity = FirestoreUserMappers.userDtoToEntity(dto)
 

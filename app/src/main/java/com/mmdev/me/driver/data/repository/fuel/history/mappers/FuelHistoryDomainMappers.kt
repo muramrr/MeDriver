@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:43
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,9 +14,9 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 
@@ -38,7 +38,7 @@ object FuelHistoryDomainMappers {
 			fuelPrice = FuelPriceEntity(
 				fuelStationId = domain.fuelStation.slug,
 				price = domain.fuelPrice.price,
-				type = domain.fuelPrice.type.code
+				typeCode = domain.fuelPrice.type.code
 			),
 			fuelStation = FuelStationEntity(
 				brandTitle = domain.fuelStation.brandTitle,
@@ -61,7 +61,7 @@ object FuelHistoryDomainMappers {
 			fuelConsumptionBound = domain.fuelConsumptionBound,
 			fuelPrice = FuelPrice(
 				price = domain.fuelPrice.price,
-				type = domain.fuelPrice.type.code
+				typeCode = domain.fuelPrice.type.code
 			),
 			fuelStation = FuelStation(
 				brandTitle = domain.fuelStation.brandTitle,

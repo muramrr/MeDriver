@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.09.2020 19:55
+  ~ Last modified 03.10.2020 15:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,6 +32,9 @@
 	<string name="liters">л</string>
 	<string name="kilometers">км</string>
 	<string name="miles">ми</string>
+	
+	<string name="formatter_odometer_km">%s км</string>
+	<string name="formatter_odometer_mi">%s миль</string>
 	
 	<string name="btn_cancel">Відмінити</string>
 	<string name="btn_add">Додати</string>
@@ -192,9 +195,6 @@
 	
 	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
 	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
-	
-	<string name="item_fuel_history_entry_odometer_km">%s км</string>
-	<string name="item_fuel_history_entry_odometer_mi">%s миль</string>
 	
 	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>

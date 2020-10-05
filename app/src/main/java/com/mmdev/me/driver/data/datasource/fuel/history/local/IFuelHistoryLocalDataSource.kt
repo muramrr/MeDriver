@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 17:05
+ * Last modified 05.10.2020 17:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 import com.mmdev.me.driver.domain.core.SimpleResult
 
 /**
- * Fuel History DataSource which works with local database
+ *  Wrapper for [com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao]
  */
 
 interface IFuelHistoryLocalDataSource {

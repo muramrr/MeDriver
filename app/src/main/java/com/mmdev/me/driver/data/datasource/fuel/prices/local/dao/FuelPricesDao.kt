@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 16:10
+ * Last modified 04.10.2020 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,7 +53,7 @@ interface FuelPricesDao {
 	@Query("SELECT * FROM fuel_summary")
 	suspend fun getFuelSummaries(): List<FuelSummaryEntity>
 	
-	@Query("SELECT * FROM fuel_summary WHERE type = :fuelType AND updatedDate = :updatedDate")
+	@Query("SELECT * FROM fuel_summary WHERE typeCode = :fuelType AND updatedDate = :updatedDate")
 	suspend fun getFuelSummary(fuelType: Int, updatedDate: String): List<FuelSummaryEntity>
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:47
+ * Last modified 05.10.2020 18:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 		private const val FS_USERS_COLLECTION = "users"
 		private const val FS_VEHICLES_COLLECTION = "vehicles"
 		private const val FS_FUEL_HISTORY_COLLECTION = "fuel_history"
-		private const val FS_ID_FIELD = "id"
+		private const val FS_DATE_FIELD = "date"
 	}
 	
 	override fun addFuelHistory(
@@ -52,18 +52,18 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.orderBy(FS_ID_FIELD, Query.Direction.ASCENDING)
+			.orderBy(FS_DATE_FIELD, Query.Direction.DESCENDING)
 			.executeAndDeserializeAsFlow(FuelHistoryDto::class.java)
 	
 	override fun updateFuelHistoryField(
-		email: String, vin: String, historyId: String, field: String, value: Any
+		email: String, vin: String, documentId: String, field: String, value: Any
 	): Flow<SimpleResult<Void>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(historyId)
+			.document(documentId)
 			.update(field, value)
 			.asFlow()
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:56
+ * Last modified 05.10.2020 17:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,7 +34,7 @@ val DataSourceLocalModule = module {
 	
 	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs) }
 	
-	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl() }
+	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get()) }
 	
 	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get()) }
 	single<IVinLocalDataSource> { VinLocalDataSourceImpl() }

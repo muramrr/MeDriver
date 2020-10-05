@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:55
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@
 package com.mmdev.me.driver.domain.fetching
 
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserModel
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -26,6 +26,6 @@ interface IFetchingRepository {
 	suspend fun getSavedVehicle(vin: String): Vehicle?
 	
 	//after minor changes -> save all to database and remote (if premium and possible)
-	suspend fun updateVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	suspend fun updateVehicle(user: UserData?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
 }

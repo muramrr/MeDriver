@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,9 +15,9 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import kotlinx.datetime.Instant
 
 /**
@@ -38,7 +38,7 @@ object FuelHistoryDtoMappers {
 			fuelPrice = FuelPriceEntity(
 				fuelStationId = dto.fuelStation.slug,
 				price = dto.fuelPrice.price,
-				type = dto.fuelPrice.type.code
+				typeCode = dto.fuelPrice.type.code
 			),
 			fuelStation = FuelStationEntity(
 				brandTitle = dto.fuelStation.brandTitle,
@@ -60,7 +60,7 @@ object FuelHistoryDtoMappers {
 			fuelConsumptionBound = dto.fuelConsumptionBound,
 			fuelPrice = FuelPrice(
 				price = dto.fuelPrice.price,
-				type = dto.fuelPrice.type.code
+				typeCode = dto.fuelPrice.type.code
 			),
 			fuelStation = FuelStation(
 				brandTitle = dto.fuelStation.brandTitle,

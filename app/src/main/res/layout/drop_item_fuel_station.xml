@@ -2,56 +2,45 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 19:50
+  ~ Last modified 03.10.2020 15:03
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<layout>
-	<androidx.constraintlayout.widget.ConstraintLayout
-		
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		>
-		
-		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
-			android:id="@+id/ivDropFuelStationIcon"
-			android:layout_width="48dp"
-			android:layout_height="0dp"
-			android:layout_margin="4dp"
-			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintTop_toTopOf="@id/tvFuelStationTitle"
-			app:layout_constraintBottom_toBottomOf="@id/tvFuelStationTitle"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toStartOf="@id/tvFuelStationTitle"
-			/>
-		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvFuelStationTitle"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:padding="16dp"
-			android:ellipsize="end"
-			
-			android:maxLines="1"
-			
-			android:textAppearance="?textAppearanceBody1"
-			
-			app:autoSizeTextType="uniform"
-			app:autoSizeMinTextSize="18sp"
-			app:autoSizeMaxTextSize="24sp"
-			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toEndOf="@id/ivDropFuelStationIcon"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
+<LinearLayout
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
 	
-	</androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+	android:orientation="horizontal"
+	
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+		android:id="@+id/ivDropFuelStationIcon"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_margin="4dp"
+		
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvFuelStationTitle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		android:ellipsize="end"
+		
+		android:maxLines="1"
+		
+		android:textAppearance="?textAppearanceBody1"
+		
+		app:autoSizeTextType="uniform"
+		app:autoSizeMinTextSize="18sp"
+		app:autoSizeMaxTextSize="24sp"
+		/>
+
+</LinearLayout>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,8 +16,8 @@ import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState
 import io.mockk.coEvery
@@ -97,7 +97,7 @@ class FuelHistoryViewModelTest {
 		coEvery { repository.loadFuelHistory("vin", 10) } returns repoSuccessStateGet
 		coEvery { repository.loadFuelHistory("vin", -1) } returns repoFailureStateGet
 		
-		coEvery { repository.addFuelHistoryRecord(UserModel(), fuelHistoryRecord) } returns repoSuccessStateUnit
+		coEvery { repository.addFuelHistoryRecord(UserData(), fuelHistoryRecord) } returns repoSuccessStateUnit
 		
 		viewModel = FuelHistoryViewModel(repository)
 	}
@@ -121,8 +121,8 @@ class FuelHistoryViewModelTest {
 	@Test
 	fun addHistoryRecord() = runBlocking {
 		viewModel.fuelHistoryState.observeForever(historyStateObserver)
-		viewModel.addHistoryRecord(UserModel())
-		coVerify { repository.addFuelHistoryRecord(UserModel(), fuelHistoryRecord) }
+		viewModel.addHistoryRecord(UserData())
+		coVerify { repository.addFuelHistoryRecord(UserData(), fuelHistoryRecord) }
 		coVerify {
 			historyStateObserver.onChanged(insertNewOneState)
 		}

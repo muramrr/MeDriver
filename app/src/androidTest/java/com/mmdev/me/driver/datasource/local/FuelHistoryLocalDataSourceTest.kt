@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,8 +16,8 @@ import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.modules.DatabaseTestModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

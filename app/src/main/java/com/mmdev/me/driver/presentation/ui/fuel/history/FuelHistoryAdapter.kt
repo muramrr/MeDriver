@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 17:47
+ * Last modified 05.10.2020 17:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.utils.gone
 
 

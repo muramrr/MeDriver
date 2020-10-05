@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 23:37
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@
 package com.mmdev.me.driver.domain.vehicle
 
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserModel
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -21,9 +21,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IVehicleRepository {
 	
-	suspend fun addVehicle(user: UserModel?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	suspend fun addVehicle(user: UserData?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
-	suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>>
+	suspend fun getAllSavedVehicles(user: UserData?): Flow<SimpleResult<List<Vehicle>>>
 	
 	suspend fun getVehicleInfoByVin(vin: String) : SimpleResult<Vehicle>
 }

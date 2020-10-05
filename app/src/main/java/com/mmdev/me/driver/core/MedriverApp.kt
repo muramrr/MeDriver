@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 15:58
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,8 +33,8 @@ import com.mmdev.me.driver.core.utils.log.DebugConfig
 import com.mmdev.me.driver.core.utils.log.MyLogger
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.domain.user.UserModel
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -111,7 +111,7 @@ class MedriverApp : Application() {
 		}
 		
 		@Volatile
-		var currentUser: UserModel? = null
+		var currentUser: UserData? = null
 			@Synchronized set
 		
 		

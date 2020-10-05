@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 18:08
+ * Last modified 03.10.2020 15:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,6 +52,7 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		val linearLayoutManager = LinearLayoutManager(requireContext())
 		
 		binding.rvFuelHistory.apply {
+			setHasFixedSize(true)
 			//register data observer to automatically scroll to top when new history record added
 			adapter = mFuelHistoryAdapter
 			

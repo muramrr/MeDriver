@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 03.10.2020 17:27
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		
+	
+	</data>
+	
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		
+		android:background="@drawable/view_card_bg_imitation_16"
+		>
+		
+		<!-- vehicle part type -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvPartTypeTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:padding="8dp"
+			
+			android:maxLines="1"
+			
+			android:text="Тормозные колодки"
+			
+			android:textAppearance="?textAppearanceSubtitle2"
+			
+			app:layout_constraintHorizontal_chainStyle="spread_inside"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/tvMaintenanceEntryPrice"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toTopOf="@id/tvVendorAndArticulus"
+			/>
+		
+		<!-- vendor & articulus -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvVendorAndArticulus"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginTop="16dp"
+			android:text="Ferodo ADS-1912"
+			
+			
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintTop_toBottomOf="@id/tvPartTypeTitle"
+			app:layout_constraintBottom_toTopOf="@id/tvMaintenanceCommentary"
+			/>
+		
+		<!-- commentary -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMaintenanceCommentary"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			
+			android:maxLines="1"
+			android:ellipsize="end"
+			
+			android:text="Some short commentaries"
+			android:textAppearance="?textAppearanceCaption"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/barrierMaintenanceLeftColumnStart"
+			app:layout_constraintTop_toBottomOf="@id/tvVendorAndArticulus"
+			app:layout_constraintBottom_toTopOf="@id/tvMaintenanceEntryOdometer"
+			/>
+		
+		<!-- odometer value -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMaintenanceEntryOdometer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			android:padding="8dp"
+			android:maxLines="1"
+			
+			android:text="@string/default_OdometerValue"
+			android:textAppearance="?textAppearanceOverline"
+			
+			app:layout_constraintHorizontal_chainStyle="spread_inside"
+			app:layout_constraintTop_toBottomOf="@id/tvMaintenanceCommentary"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/tvMaintenanceEntryDate"
+			/>
+		
+		
+		<!-- price -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMaintenanceEntryPrice"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			
+			android:text="@string/default_Price"
+			android:textAppearance="?textAppearanceSubtitle1"
+			android:textStyle="bold"
+			
+			app:layout_constraintHorizontal_chainStyle="spread_inside"
+			app:layout_constraintTop_toTopOf="@id/tvPartTypeTitle"
+			app:layout_constraintBottom_toBottomOf="@id/tvPartTypeTitle"
+			app:layout_constraintStart_toEndOf="@id/tvPartTypeTitle"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+		
+		<!-- tag -->
+		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+			android:id="@+id/ivTagIndicator"
+			android:layout_width="16dp"
+			android:layout_height="16dp"
+			android:layout_marginEnd="16dp"
+			
+			android:src="@color/tag7"
+			
+			app:layout_constraintTop_toTopOf="@id/tvVendorAndArticulus"
+			app:layout_constraintBottom_toBottomOf="@id/tvMaintenanceCommentary"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- date -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvMaintenanceEntryDate"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:maxLines="1"
+			
+			android:text="01.01.1970"
+			android:textAppearance="?textAppearanceOverline"
+			
+			app:layout_constraintHorizontal_chainStyle="spread_inside"
+			app:layout_constraintStart_toEndOf="@id/tvMaintenanceEntryOdometer"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toTopOf="@id/tvMaintenanceEntryOdometer"
+			app:layout_constraintBottom_toBottomOf="@id/tvMaintenanceEntryOdometer"
+			
+			/>
+		
+		<!-- left column barrier -->
+		<androidx.constraintlayout.widget.Barrier
+			android:id="@+id/barrierMaintenanceLeftColumnStart"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			app:barrierDirection="start"
+			app:constraint_referenced_ids="tvMaintenanceEntryPrice, ivTagIndicator, tvMaintenanceEntryDate"
+			/>
+		
+		<!-- start -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineStart"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			app:layout_constraintGuide_begin="8dp"
+			/>
+		
+		<!-- end -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineEnd"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			app:layout_constraintGuide_end="8dp"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+	
+</layout>

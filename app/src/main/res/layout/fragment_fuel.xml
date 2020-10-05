@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 17:31
+  ~ Last modified 03.10.2020 15:06
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,25 +11,22 @@
 
 <layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
-	<androidx.constraintlayout.widget.ConstraintLayout
+	
+	<LinearLayout
 	
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
+		android:orientation="vertical"
 		
 		>
+		
 		<com.google.android.material.tabs.TabLayout
 			android:id="@+id/tabLayoutContainer"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			
 			style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
-			
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toTopOf="@id/viewPagerContainer"
 			
 			>
 			
@@ -49,14 +46,11 @@
 		
 		<androidx.viewpager2.widget.ViewPager2
 			android:id="@+id/viewPagerContainer"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/tabLayoutContainer"
-			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
-	</androidx.constraintlayout.widget.ConstraintLayout>
+	</LinearLayout>
+	
 </layout>

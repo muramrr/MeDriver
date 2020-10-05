@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 17:12
+ * Last modified 05.10.2020 20:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,13 +13,7 @@ package com.mmdev.me.driver.repository.fuel.prices
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPricesDtoResponse
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.FuelType.A100
-import com.mmdev.me.driver.domain.fuel.FuelType.A92
-import com.mmdev.me.driver.domain.fuel.FuelType.A95
-import com.mmdev.me.driver.domain.fuel.FuelType.A95PLUS
-import com.mmdev.me.driver.domain.fuel.FuelType.A98
-import com.mmdev.me.driver.domain.fuel.FuelType.DT
-import com.mmdev.me.driver.domain.fuel.FuelType.GAS
+import com.mmdev.me.driver.domain.fuel.FuelType.*
 import com.mmdev.me.driver.repository.fuel.FuelConstants.dtoResponse
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -64,22 +58,22 @@ class FuelPriceMapperTest {
 			it.fuelStationId == "anp"
 		}
 		
-		assertTrue(anpStationPrices.find { it.type == A100.code } == null)
+		assertTrue(anpStationPrices.find { it.typeCode == A100.code } == null)
 		assertTrue(anpStationPrices.size != FuelType.values().size)
 		
 		//check prices socar
-		assertTrue(socarStationPrices.find { it.type == A98.code }!!.price == 30.48)
-		assertTrue(socarStationPrices.find { it.type == A95PLUS.code }!!.price == 27.49)
-		assertTrue(socarStationPrices.find { it.type == A95.code }!!.price == 26.49)
-		assertTrue(socarStationPrices.find { it.type == A92.code }!!.price == 25.49)
-		assertTrue(socarStationPrices.find { it.type == DT.code }!!.price == 25.49)
-		assertTrue(socarStationPrices.find { it.type == GAS.code }!!.price == 12.48)
+		assertTrue(socarStationPrices.find { it.typeCode == A98.code }!!.price == 30.48)
+		assertTrue(socarStationPrices.find { it.typeCode == A95PLUS.code }!!.price == 27.49)
+		assertTrue(socarStationPrices.find { it.typeCode == A95.code }!!.price == 26.49)
+		assertTrue(socarStationPrices.find { it.typeCode == A92.code }!!.price == 25.49)
+		assertTrue(socarStationPrices.find { it.typeCode == DT.code }!!.price == 25.49)
+		assertTrue(socarStationPrices.find { it.typeCode == GAS.code }!!.price == 12.48)
 		
 		//check prices anp
-		assertTrue(anpStationPrices.find { it.type == A95PLUS.code }!!.price == 21.45)
-		assertTrue(anpStationPrices.find { it.type == A95.code }!!.price == 20.95)
-		assertTrue(anpStationPrices.find { it.type == A92.code }!!.price == 19.95)
-		assertTrue(anpStationPrices.find { it.type == DT.code }!!.price == 21.toDouble())
+		assertTrue(anpStationPrices.find { it.typeCode == A95PLUS.code }!!.price == 21.45)
+		assertTrue(anpStationPrices.find { it.typeCode == A95.code }!!.price == 20.95)
+		assertTrue(anpStationPrices.find { it.typeCode == A92.code }!!.price == 19.95)
+		assertTrue(anpStationPrices.find { it.typeCode == DT.code }!!.price == 21.toDouble())
 		
 	}
 	

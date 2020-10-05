@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 17:53
+ * Last modified 05.10.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,15 +21,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.DialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
+import com.mmdev.me.driver.presentation.core.base.BaseDialogFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
@@ -47,19 +47,14 @@ import java.util.*
 
 class FuelHistoryAddDialog(
 	fuelStationWithPrices: List<FuelStationWithPrices>
-): DialogFragment() {
-	
-	// prevent view being leaked
-	private var _binding: DialogFuelHistoryAddBinding? = null
-	private val binding: DialogFuelHistoryAddBinding
-		get() = _binding ?: throw IllegalStateException(
-			"Trying to access the binding outside of the view lifecycle."
-		)
+): BaseDialogFragment<FuelHistoryViewModel, DialogFuelHistoryAddBinding>(
+	layoutId = R.layout.dialog_fuel_history_add
+)   {
 	
 	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
 	
 	//get same scope as FuelFragmentHistory
-	private val mViewModel: FuelHistoryViewModel by lazy { requireParentFragment().getViewModel() }
+	override val mViewModel: FuelHistoryViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	private val distancePassedAnimator = ValueAnimator.ofInt().apply { duration = 1200 }
 	
@@ -79,20 +74,7 @@ class FuelHistoryAddDialog(
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
 	}
 	
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View =
-		DialogFuelHistoryAddBinding.inflate(inflater, container, false)
-			.apply {
-				_binding = this
-				lifecycleOwner = viewLifecycleOwner
-				viewModel = mViewModel
-				executePendingBindings()
-			}.root
-	
-	
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) { setupViews() }
-	
-	private fun setupViews() {
+	override fun setupViews() {
 		//setup views
 		initStringRes()
 		
@@ -317,12 +299,6 @@ class FuelHistoryAddDialog(
 		mViewModel.odometerReady.observe(this, {
 			if (it != null && !it) binding.layoutInputOdometer.error = getString(R.string.odometer_input_error)
 		})
-	}
-	
-	override fun onDestroyView() {
-		binding.unbind()
-		_binding = null
-		super.onDestroyView()
 	}
 	
 	

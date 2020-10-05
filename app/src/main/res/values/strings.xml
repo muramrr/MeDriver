@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.09.2020 21:18
+  ~ Last modified 03.10.2020 15:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -51,6 +51,9 @@
 	<string name="liters">L</string>
 	<string name="kilometers">km</string>
 	<string name="miles">mi</string>
+	
+	<string name="formatter_odometer_km">%s km</string>
+	<string name="formatter_odometer_mi">%s miles</string>
 	
 	<string name="btn_cancel">Cancel</string>
 	<string name="btn_add">Add</string>
@@ -211,9 +214,6 @@
 	
 	<string name="item_fuel_history_entry_distance_passed_km">+%s km</string>
 	<string name="item_fuel_history_entry_distance_passed_mi">+%s miles</string>
-	
-	<string name="item_fuel_history_entry_odometer_km">%s km</string>
-	<string name="item_fuel_history_entry_odometer_mi">%s miles</string>
 	
 	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>

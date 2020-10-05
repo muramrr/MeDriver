@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:00
+ * Last modified 03.10.2020 15:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
@@ -36,6 +35,7 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 		})
 		
 		binding.rvFuelStations.apply {
+			setHasFixedSize(true)
 			adapter = mPricesAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(LinearItemDecoration())
@@ -46,10 +46,9 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 		super.renderState(state)
 		when (state) {
 			is FuelPricesViewState.Success -> {
-				logInfo(TAG,"Loaded FuelStations: ${state.data.size}")
-				mPricesAdapter.setNewData(state.data)
 				if (state.data.isNullOrEmpty())
 					binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)
+				else mPricesAdapter.setNewData(state.data)
 			}
 			is FuelPricesViewState.Error -> {
 				binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)

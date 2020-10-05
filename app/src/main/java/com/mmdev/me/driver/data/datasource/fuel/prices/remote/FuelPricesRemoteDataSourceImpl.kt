@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:41
+ * Last modified 05.10.2020 17:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ class FuelPricesRemoteDataSourceImpl(private val fuelApi: FuelApi) :
 		IFuelPricesRemoteDataSource, BaseDataSource() {
 	
 	override suspend fun requestFuelPrices(date: String): SimpleResult<Map<FuelType, FuelPricesDtoResponse>> =
-		safeCall { getPricesPerType(date, FuelType.values().asIterable()) }
+		safeCall(TAG) { getPricesPerType(date, FuelType.values().asIterable()) }
 	
 	//get all prices for every fuel type
 	//response contains list of fuelProviders and their prices for specified fuel type

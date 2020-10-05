@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.user.UserData
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -48,10 +48,10 @@ fun <TResult> Task<TResult>.asFlow() = callbackFlow<SimpleResult<TResult>> {
 
 
 /**
- * Convert [FirebaseUser] to a domain [UserModel]
+ * Convert [FirebaseUser] to a domain [UserData]
  * Used in different classes, so it was made as an extension
  */
-fun FirebaseUser.mapToUserModel(): UserModel = UserModel(
+fun FirebaseUser.mapToUserModel(): UserData = UserData(
 	id = this.uid,
 	email = this.email!!,
 	isEmailVerified = this.isEmailVerified

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 17:18
+ * Last modified 04.10.2020 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,7 +53,7 @@ object FuelPricesDtoMappers {
 		date: String, fuelType: FuelType, input: FuelPriceAndStationDto
 	): Pair<FuelPriceEntity, FuelStationEntity> = Pair(
 		FuelPriceEntity(
-			fuelStationId = input.slug, price = input.price, type = fuelType.code
+			fuelStationId = input.slug, price = input.price, typeCode = fuelType.code
 		), FuelStationEntity(
 			brandTitle = input.brand, slug = input.slug, updatedDate = date
 		)
@@ -62,7 +62,7 @@ object FuelPricesDtoMappers {
 	
 	fun apiDtoFuelSummaryToDbEntity(input: response): List<FuelSummaryEntity> = input.map {
 		FuelSummaryEntity(
-			type = it.key.code, minPrice = it.value.result.fuelSummaryDto[0].minPrice,
+			typeCode = it.key.code, minPrice = it.value.result.fuelSummaryDto[0].minPrice,
 			maxPrice = it.value.result.fuelSummaryDto[0].maxPrice,
 			avgPrice = it.value.result.fuelSummaryDto[0].avgPrice,
 			updatedDate = it.value.result.pricesLastUpdatedDate

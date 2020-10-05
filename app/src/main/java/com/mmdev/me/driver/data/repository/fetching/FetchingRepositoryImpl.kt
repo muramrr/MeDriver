@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:55
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,8 @@ import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSour
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
-import com.mmdev.me.driver.domain.user.UserModel
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -40,7 +40,7 @@ class FetchingRepositoryImpl(
 	
 	
 	override suspend fun updateVehicle(
-		user: UserModel?, vehicle: Vehicle
+		user: UserData?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
 		vehicleLocalDS.insertVehicle(mappers.vehicleDomainToDb(vehicle)).fold(
 			success = { result ->

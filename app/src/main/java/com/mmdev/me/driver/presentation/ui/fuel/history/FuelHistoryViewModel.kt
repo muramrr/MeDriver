@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,13 +22,13 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
-import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.combineWith
@@ -329,7 +329,7 @@ class FuelHistoryViewModel (private val repository: IFuelHistoryRepository)
 	 * Can be invoked only when [checkAllFieldsAreCorrect] returns TRUE
 	 * This should guarantee that all liveData contains value
 	 */
-	fun addHistoryRecord(user: UserModel?) {
+	fun addHistoryRecord(user: UserData?) {
 		viewModelScope.launch {
 			with(buildFuelHistoryRecord()) {
 				repository.addFuelHistoryRecord(user, this).collect { result ->

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:38
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersF
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 
 /**
  * [IFuelPricesRepository] implementation

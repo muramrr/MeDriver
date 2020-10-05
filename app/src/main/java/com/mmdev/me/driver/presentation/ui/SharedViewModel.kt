@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:39
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,10 +18,10 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
@@ -42,7 +42,7 @@ class SharedViewModel(
 	private val authProvider: IAuthFlowProvider, private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
-	val userModel: LiveData<UserModel?> = authProvider.getAuthUserFlow().asLiveData()
+	val userData: LiveData<UserData?> = authProvider.getAuthUserFlow().asLiveData()
 	
 	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
 	init {
@@ -68,7 +68,7 @@ class SharedViewModel(
 	 * For example: when user adds new fuel history entry or some maintenance changes
 	 * this function is triggered to update actual info.
 	 */
-	fun updateVehicle(user: UserModel?, vehicle: Vehicle) {
+	fun updateVehicle(user: UserData?, vehicle: Vehicle) {
 		logWarn(TAG, "Updating vehicle..")
 		viewModelScope.launch {
 			fetcher.updateVehicle(user, vehicle).collect { result ->
@@ -80,7 +80,7 @@ class SharedViewModel(
 		}
 	}
 	
-	fun updateUser(user: UserModel) {
+	fun updateUser(user: UserData) {
 		if (user != MedriverApp.currentUser!!) {
 			
 			logWarn(TAG, "Updating user..")

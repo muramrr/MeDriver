@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 18:11
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -112,7 +112,7 @@ class MainActivity: AppCompatActivity() {
 			) { hideLoadingDialog() }
 		})
 		
-		sharedViewModel.userModel.observe(this, {
+		sharedViewModel.userData.observe(this, {
 			if (it != null) logDebug(TAG, "authStatus = $AUTHENTICATED")
 			else logDebug(TAG, "authStatus = $UNAUTHENTICATED")
 			

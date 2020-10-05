@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 17:53
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
-import com.mmdev.me.driver.domain.fuel.prices.model.FuelStation
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 
 /**
  * Basically this property should be stored inside [FuelStation] class body

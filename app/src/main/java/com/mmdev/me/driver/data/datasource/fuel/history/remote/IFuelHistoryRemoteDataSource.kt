@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:26
+ * Last modified 05.10.2020 18:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,9 +15,10 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Fuel History Datasource which works with Firestore. Used to read/write data from/to backend
- * @param [email: String] identifies user in users collection
- * @param [vin: String] identifies car in user cars collection
+ * This datasource responsible to read/write data from/to backend (backup purposes)
+ *
+ * @param email identifies user in users collection
+ * @param vin identifies car in user cars collection
  */
 
 interface IFuelHistoryRemoteDataSource {
@@ -33,7 +34,7 @@ interface IFuelHistoryRemoteDataSource {
 	fun updateFuelHistoryField(
 		email: String,
 		vin: String,
-		historyId: String,
+		documentId: String,
 		field: String,
 		value: Any
 	): Flow<SimpleResult<Void>>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 16:01
+ * Last modified 05.10.2020 17:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 		BaseDataSource(), IFuelPricesLocalDataSource {
 	
 	override suspend fun getFuelStationsAndPrices(date: String):
-			SimpleResult<List<FuelStationAndPrices>> = safeCall { dao.getFuelPrices(date) }
+			SimpleResult<List<FuelStationAndPrices>> = safeCall(TAG) { dao.getFuelPrices(date) }
 		
 	
 	override suspend fun addFuelStationsAndPrices(
@@ -40,7 +40,7 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 		}
 		fuelPriceEntities.forEach {
 			logDebug(TAG, "Adding Price: station = ${it.fuelStationId}, " +
-			              "price = ${it.price}, type = ${it.type}"
+			              "price = ${it.price}, type = ${it.typeCode}"
 			)
 		}
 	}
@@ -48,7 +48,7 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 	override suspend fun deleteAllFuelStations() = dao.deleteAllFuelStations()
 	
 	override suspend fun getFuelSummary(fuelType: FuelType, date: String):
-		SimpleResult<List<FuelSummaryEntity>> = safeCall { dao.getFuelSummary(fuelType.code, date) }
+		SimpleResult<List<FuelSummaryEntity>> = safeCall(TAG) { dao.getFuelSummary(fuelType.code, date) }
 		
 	
 	override suspend fun addFuelSummary(fuelSummaryEntity: FuelSummaryEntity) =

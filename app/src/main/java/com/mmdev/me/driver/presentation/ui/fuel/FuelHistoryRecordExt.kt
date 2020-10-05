@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.09.2020 20:21
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,9 +14,9 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.roundTo
-import com.mmdev.me.driver.domain.fuel.history.model.ConsumptionBound
-import com.mmdev.me.driver.domain.fuel.history.model.DistanceBound
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import kotlinx.datetime.LocalDate
 import java.util.*
 

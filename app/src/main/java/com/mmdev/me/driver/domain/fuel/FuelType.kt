@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.09.2020 20:19
+ * Last modified 04.10.2020 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,5 +17,18 @@ package com.mmdev.me.driver.domain.fuel
  */
 
 enum class FuelType (val code: Int) {
-	A100(9), A98(1), A95PLUS(2), A95(3), A92(4), DT(5), GAS(6)
+	A100(9), A98(1), A95PLUS(2), A95(3), A92(4), DT(5), GAS(6);
+	
+	companion object {
+		fun getType(code: Int) = when (code) {
+			1 -> A98
+			2 -> A95PLUS
+			3 -> A95
+			4 -> A92
+			5 -> DT
+			6 -> GAS
+			9 -> A100
+			else -> throw NoSuchElementException("Fuel type doesn't exists")
+		}
+	}
 }

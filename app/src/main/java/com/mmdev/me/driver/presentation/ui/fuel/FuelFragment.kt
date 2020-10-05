@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 19:38
+ * Last modified 03.10.2020 15:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
-import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryFragment
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesFragment
@@ -47,8 +46,6 @@ class FuelFragment : BaseFlowFragment<Nothing, FragmentFuelBinding>(
 		}.attach()
 		
 	}
-	
-	override fun renderState(state: ViewState) {}
 	
 	private class FuelPagerAdapter (fm: FragmentManager, lifecycle: Lifecycle) :
 			FragmentStateAdapter(fm, lifecycle) {

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 16:20
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,9 +19,9 @@ import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserModel
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
-import com.mmdev.me.driver.domain.vehicle.model.Vehicle
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -48,7 +48,7 @@ class VehicleRepositoryImpl(
 	 * local data will be written without being obstructed
 	 */
 	override suspend fun addVehicle(
-		user: UserModel?, vehicle: Vehicle
+		user: UserData?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertVehicle(mappers.domainToDbEntity(vehicle)).fold(
 			success = { result ->
@@ -79,7 +79,7 @@ class VehicleRepositoryImpl(
 	 * @return [ResultState.Success] when list contains data or not
 	 * @return [ResultState.Failure] when failure occurred
 	 */
-	override suspend fun getAllSavedVehicles(user: UserModel?): Flow<SimpleResult<List<Vehicle>>> = flow {
+	override suspend fun getAllSavedVehicles(user: UserData?): Flow<SimpleResult<List<Vehicle>>> = flow {
 		getAllVehiclesFromCache().fold(
 			success = { data -> emit(ResultState.success(data)) },
 			failure = { throwable ->
@@ -116,7 +116,7 @@ class VehicleRepositoryImpl(
 	 * @return [ResultState.Success] when list contains data, convert it, save to local database
 	 * @return [ResultState.Failure] when failure occurred
 	 */
-	private fun getAllVehiclesFromBackend(user: UserModel): Flow<SimpleResult<List<Vehicle>>> = flow {
+	private fun getAllVehiclesFromBackend(user: UserData): Flow<SimpleResult<List<Vehicle>>> = flow {
 		try {
 			remoteDataSource.getAllVehicles(user.email).collect { result ->
 				result.fold(

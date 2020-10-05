@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:47
+ * Last modified 05.10.2020 17:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@ import androidx.room.Room
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
+import com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
@@ -28,9 +29,11 @@ private const val DATABASE_NAME = "medriver_database"
 val DatabaseModule = module {
 	
 	single { provideDatabase(androidApplication()) }
+	
+	single { provideMaintenanceDao(db = get()) }
+	single { provideVehicleDao(db = get()) }
 	single { provideFuelPricesDao(db = get()) }
 	single { provideFuelHistoryDao(db = get()) }
-	single { provideVehicleDao(db = get()) }
 	
 }
 
@@ -40,7 +43,9 @@ private fun provideDatabase(app: Application): MeDriverRoomDatabase {
 		.build()
 }
 
+private fun provideMaintenanceDao(db: MeDriverRoomDatabase): MaintenanceDao = db.getMaintenanceDao()
+private fun provideVehicleDao(db: MeDriverRoomDatabase): VehicleDao = db.getVehicleDao()
 private fun provideFuelPricesDao(db: MeDriverRoomDatabase): FuelPricesDao = db.getFuelPricesDao()
 private fun provideFuelHistoryDao(db: MeDriverRoomDatabase): FuelHistoryDao = db.getFuelHistoryDao()
-private fun provideVehicleDao(db: MeDriverRoomDatabase): VehicleDao = db.getVehicleDao()
+
 //private fun provide(db: MeDriverRoomDatabase): Dao = db.get()

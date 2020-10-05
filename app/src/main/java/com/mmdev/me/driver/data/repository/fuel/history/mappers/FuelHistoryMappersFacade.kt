@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 17:05
+ * Last modified 05.10.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.repository.fuel.history.mappers
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
-import com.mmdev.me.driver.domain.fuel.history.model.FuelHistory
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 
 /**
  * MappersFacade for multiple mappers used in FuelHistoryRepository

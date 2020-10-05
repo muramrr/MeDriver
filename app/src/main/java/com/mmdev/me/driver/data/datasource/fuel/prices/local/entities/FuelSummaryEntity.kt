@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.09.2020 19:59
+ * Last modified 04.10.2020 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,12 +18,12 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "fuel_summary")
 data class FuelSummaryEntity(
-	val type: Int,
+	val typeCode: Int,
 	val minPrice: String,
 	val maxPrice: String,
 	val avgPrice: String,
 	val updatedDate: String
 ) {
 	@PrimaryKey
-	var summaryId: String = updatedDate + "_$type"
+	var summaryId: String = updatedDate + "_$typeCode"
 }

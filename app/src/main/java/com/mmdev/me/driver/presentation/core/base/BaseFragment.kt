@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 19:39
+ * Last modified 05.10.2020 19:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,18 +62,19 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 				_binding = this
 			}.root
 	}
-
+	
+	abstract fun setupViews()
+	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		setupViews()
 	}
-
+	
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 		navController = findNavController()
 	}
-
-	abstract fun setupViews()
+	
 
 	open fun renderState(state: ViewState) {
 		sharedViewModel.handleLoading(state)

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.10.2020 15:42
+  ~ Last modified 06.10.2020 20:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -64,22 +64,73 @@
 
 
 
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_add_engine_title">Engine</string>
+	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Valve\n&#8226; Radiators\n&#8226; Shaft\n&#8226; Spark plug\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_transmission_title">Transmission</string>
+	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_electronics_title">Electrics</string>
+	<string name="btm_sheet_maintenance_add_electronics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_suspension_title">Suspension</string>
+	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_brakes_title">Brakes</string>
+	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_vehicle_body_title">Body</string>
+	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_other_title">Other</string>
+	<string name="btm_sheet_maintenance_add_other_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_planned_title">Planned</string>
+	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Fluids\n&#8226; Diagnostics</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="fg_vehicle_add_enter_vin_hint">VIN code</string>
-	<string name="fg_vehicle_add_enter_vin_error">Wrong VIN code</string>
-	<string name="fg_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
 	
-	<string name="fg_vehicle_add_enter_brand_hint">Vehicle brand</string>
-	<string name="fg_vehicle_add_enter_brand_error">Should not be blank</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_error">Should not be blank</string>
 	
-	<string name="fg_vehicle_add_enter_model_hint">Vehicle model</string>
-	<string name="fg_vehicle_add_enter_model_error">Should not be blank</string>
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
+	<string name="btm_sheet_vehicle_add_enter_model_error">Should not be blank</string>
 	
-	<string name="fg_vehicle_add_enter_year_hint">Year produced</string>
-	<string name="fg_vehicle_add_enter_year_error">Wrong value</string>
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
 	
-	<string name="fg_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
-	<string name="fg_vehicle_add_enter_engine_cap_error">Wrong value</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Wrong value</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_maintenance ********************************** -->
+	<string-array name="fg_maintenance_engine_components">
+		<item>Belts</item>
+		<item>Cylinder (bolts, cover)</item>
+		<item>Damper</item>
+		<item>Fixators (glue, sealant)</item>
+		<item>Mount</item>
+		<item>Pipes (fuel, water</item>
+		<item>Piston</item>
+		<item>Pumps (fuel, water)</item>
+		<item>Radiator, intercooler</item>
+		<item>Rollers, tensions</item>
+		<item>Shafts (distribution, cranked)</item>
+		<item>Plugs (glow, spark)</item>
+		<item>Valve</item>
+		<item>Other</item>
+	</string-array>
 	
 <!-- ******************************************************************************************* -->
 
@@ -164,7 +215,8 @@
 	<string name="fg_settings_btn_premium">Premium</string>
 	<string name="fg_settings_btn_sign_in">Sign In</string>
 	<string name="fg_settings_btn_sign_out">Sign Out</string>
-	<string name="fg_settings_btn_get_premium">Get Premium!</string>
+	<string name="fg_settings_btn_get_premium_not_active">Get Premium!</string>
+	<string name="fg_settings_btn_get_premium_active">Premium Activated!</string>
 	
 	<string name="fg_settings_switcher_sync">Sync enabled</string>
 	<string name="fg_settings_switcher_dark_theme">Dark theme</string>

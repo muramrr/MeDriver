@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 06.10.2020 16:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -83,7 +83,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		mViewModel.vinCodeInput.observe(this, {
 			if (it.isNullOrEmpty() || it.length != 17) {
 				mViewModel.isVinCodeReady = false
-				binding.layoutInputVin.error = getString(R.string.fg_vehicle_add_enter_vin_error)
+				binding.layoutInputVin.error = getString(R.string.btm_sheet_vehicle_add_enter_vin_error)
 			}
 			else {
 				binding.layoutInputVin.hideKeyboard(binding.layoutInputVin)
@@ -98,7 +98,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		mViewModel.brandInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isBrandReady = false
-				binding.layoutInputBrand.error = getString(R.string.fg_vehicle_add_enter_brand_error)
+				binding.layoutInputBrand.error = getString(R.string.btm_sheet_vehicle_add_enter_brand_error)
 			}
 			else {
 				binding.layoutInputBrand.error = null
@@ -111,7 +111,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		mViewModel.modelInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isModelReady = false
-				binding.layoutInputModel.error = getString(R.string.fg_vehicle_add_enter_model_error)
+				binding.layoutInputModel.error = getString(R.string.btm_sheet_vehicle_add_enter_model_error)
 			}
 			else {
 				binding.layoutInputModel.error = null
@@ -129,7 +129,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 			}
 			else {
 				mViewModel.isYearReady = false
-				binding.layoutInputYear.error = getString(R.string.fg_vehicle_add_enter_year_error)
+				binding.layoutInputYear.error = getString(R.string.btm_sheet_vehicle_add_enter_year_error)
 			}
 		})
 	}
@@ -143,7 +143,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 			else {
 				mViewModel.isEngineCapReady = false
 				binding.layoutInputEngineCap.error =
-					getString(R.string.fg_vehicle_add_enter_engine_cap_error)
+					getString(R.string.btm_sheet_vehicle_add_enter_engine_cap_error)
 			}
 		})
 	}

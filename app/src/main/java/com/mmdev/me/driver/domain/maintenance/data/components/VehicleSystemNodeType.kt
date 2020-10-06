@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 06.10.2020 19:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,5 +15,5 @@ package com.mmdev.me.driver.domain.maintenance.data.components
  */
 
 enum class VehicleSystemNodeType {
-	ENGINE, TRANSMISSION, ELECTRONICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHERS
+	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHERS
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 19:41
+ * Last modified 06.10.2020 18:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,8 +33,8 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	override fun setupViews() {
 		
 		binding.fabAddMaintenance.setOnClickListener {
-			MaintenanceAddDialog()
-				.show(childFragmentManager, MaintenanceAddDialog::class.java.canonicalName)
+			MaintenanceAddBottomSheet()
+				.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 		}
 		
 		val a = VehicleSparePart(

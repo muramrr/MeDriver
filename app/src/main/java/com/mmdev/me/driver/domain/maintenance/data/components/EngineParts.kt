@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:13
+ * Last modified 06.10.2020 19:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,17 +14,18 @@ package com.mmdev.me.driver.domain.maintenance.data.components
  * Enumerate basic parts of engine
  */
 
-enum class EngineParts{
-	MOUNT,
-	VALVE_COVER_GASKET,
-	RADIATOR,
-	SHAFT,
-	CYLINDER_HEAD_BOLT,
+enum class EngineParts {
+	BELTS,
+	CYLINDER,
+	DAMPFER,
 	FIXATORS,
-	VALVE,
+	MOUNT,
+	PIPE,
 	PISTON,
-	SPARK_PLUG,
+	PUMP,
+	RADIATOR,
 	ROLLER,
-	BELT,
-	DAMPFER
+	SHAFT,
+	PLUG,
+	VALVE
 }

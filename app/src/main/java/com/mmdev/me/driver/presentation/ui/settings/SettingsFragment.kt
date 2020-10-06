@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 06.10.2020 20:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,6 +53,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private var emailSent = ""
 	private var emailNotSent = ""
 	private var languagesArray = emptyArray<String>()
+	private var getPremium = ""
+	private var premiumObtained = ""
 	
 	private lateinit var languagesMap: Map<Language, String>
 
@@ -101,8 +103,11 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		notSignedIn = getString(R.string.fg_settings_not_signed_in)
 		emailSent = getString(R.string.fg_settings_email_confirm_sent_success)
 		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
+		getPremium = getString(R.string.fg_settings_btn_get_premium_not_active)
+		premiumObtained = getString(R.string.fg_settings_btn_get_premium_active)
 		languagesArray = resources.getStringArray(R.array.languages)
 		languagesMap = Language.values().zip(languagesArray).toMap()
+		
 	}
 	
 	override fun renderState(state: ViewState) {
@@ -175,6 +180,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 				
 				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
+				btnGetPremium.text = if (user != null && user.isPremium) premiumObtained else getPremium
 			
 				// defines can be accessed synchronization switcher
 				switchSync.isEnabled = (user != null && user.isPremium).also { initSyncSwitcher(it) }

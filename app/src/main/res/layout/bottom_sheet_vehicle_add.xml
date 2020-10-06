@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.10.2020 17:06
+  ~ Last modified 06.10.2020 16:24
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,14 +33,14 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			
-			android:hint="@string/fg_vehicle_add_enter_vin_hint"
+			android:hint="@string/btm_sheet_vehicle_add_enter_vin_hint"
 			
 			app:counterEnabled="true"
 			app:counterMaxLength="17"
 			
 			
 			app:errorEnabled="true"
-			app:helperText="@string/fg_vehicle_add_enter_vin_helper"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_vin_helper"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
@@ -77,7 +77,7 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginEnd="4dp"
 			
-			android:hint="@string/fg_vehicle_add_enter_brand_hint"
+			android:hint="@string/btm_sheet_vehicle_add_enter_brand_hint"
 			
 			app:errorEnabled="true"
 			
@@ -113,7 +113,7 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			
-			android:hint="@string/fg_vehicle_add_enter_model_hint"
+			android:hint="@string/btm_sheet_vehicle_add_enter_model_hint"
 			
 			app:errorEnabled="true"
 			
@@ -149,7 +149,7 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginEnd="4dp"
 			
-			android:hint="@string/fg_vehicle_add_enter_year_hint"
+			android:hint="@string/btm_sheet_vehicle_add_enter_year_hint"
 			
 			app:errorEnabled="true"
 			
@@ -185,7 +185,7 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			
-			android:hint="@string/fg_vehicle_add_enter_engine_cap_hint"
+			android:hint="@string/btm_sheet_vehicle_add_enter_engine_cap_hint"
 			
 			app:errorEnabled="true"
 			

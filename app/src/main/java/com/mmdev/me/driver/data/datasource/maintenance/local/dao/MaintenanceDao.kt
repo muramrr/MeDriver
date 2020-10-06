@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:29
+ * Last modified 06.10.2020 19:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,18 @@ import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSpare
 
 @Dao
 interface MaintenanceDao {
+	
+	@Query(
+		"""
+		SELECT * FROM vehicle_replaced_parts
+		WHERE vehicleVinCode = :vin
+		AND systemNode = :systemNode
+		AND systemNodeComponent =:systemNodeComponent
+		ORDER BY date DESC
+		LIMIT 1
+	"""
+	)
+	suspend fun findLastReplaced(vin: String, systemNode: String, systemNodeComponent: String): VehicleSparePartEntity
 	
 	@Query(
 		"""

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.10.2020 15:42
+  ~ Last modified 06.10.2020 20:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,22 +45,73 @@
 
 
 
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_add_engine_title">Двигатель</string>
+	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Valve\n&#8226; Radiators\n&#8226; Shaft\n&#8226; Spark plug\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_transmission_title">Трансмиссия</string>
+	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_electronics_title">Электрика</string>
+	<string name="btm_sheet_maintenance_add_electronics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_suspension_title">Подвеска</string>
+	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_brakes_title">Тормоза</string>
+	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
+	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_other_title">Другое</string>
+	<string name="btm_sheet_maintenance_add_other_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_planned_title">Плановое</string>
+	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Conditioning\n&#8226; Diagnostics</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="fg_vehicle_add_enter_vin_hint">VIN</string>
-	<string name="fg_vehicle_add_enter_vin_error">Неверный формат VIN</string>
-	<string name="fg_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Неверный формат VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
 	
-	<string name="fg_vehicle_add_enter_brand_hint">Бренд</string>
-	<string name="fg_vehicle_add_enter_brand_error">Пустое поле</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_error">Пустое поле</string>
 	
-	<string name="fg_vehicle_add_enter_model_hint">Модель</string>
-	<string name="fg_vehicle_add_enter_model_error">Пустое поле</string>
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
+	<string name="btm_sheet_vehicle_add_enter_model_error">Пустое поле</string>
 	
-	<string name="fg_vehicle_add_enter_year_hint">Год выпуска</string>
-	<string name="fg_vehicle_add_enter_year_error">Неправильное значение</string>
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Год выпуска</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Неправильное значение</string>
 	
-	<string name="fg_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
-	<string name="fg_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_maintenance ********************************** -->
+	<string-array name="fg_maintenance_engine_components">
+		<item>Ремни</item>
+		<item>ГБЦ (болты, крышка, прокладка)</item>
+		<item>Демпфер</item>
+		<item>Фиксатор (клей/герметик)</item>
+		<item>Подвеска, подушка, прокладка</item>
+		<item>Шланг (топливый, водяной)</item>
+		<item>Поршень</item>
+		<item>Насос (топливный, водяной)</item>
+		<item>Радиатор, интеркулер</item>
+		<item>Ролики, натяжители</item>
+		<item>Распредвал, коленвал</item>
+		<item>Свечи (зажигание, накалывание)</item>
+		<item>Клапан</item>
+		<item>Другое</item>
+	</string-array>
 	
 <!-- ******************************************************************************************* -->
 
@@ -146,7 +197,8 @@
 	<string name="fg_settings_btn_premium">Премуим</string>
 	<string name="fg_settings_btn_sign_in">Войти</string>
 	<string name="fg_settings_btn_sign_out">Выйти</string>
-	<string name="fg_settings_btn_get_premium">Получить Премиум!</string>
+	<string name="fg_settings_btn_get_premium_not_active">Получить Премиум!</string>
+	<string name="fg_settings_btn_get_premium_active">Премиум активировано!</string>
 	
 	<string name="fg_settings_switcher_sync">Синхронизация</string>
 	<string name="fg_settings_switcher_dark_theme">Темная тема</string>

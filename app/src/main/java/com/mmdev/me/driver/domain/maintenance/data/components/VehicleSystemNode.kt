@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:10
+ * Last modified 06.10.2020 19:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ abstract class VehicleSystemNode(private val type: VehicleSystemNodeType) {
 	
 	object ENGINE: VehicleSystemNode(VehicleSystemNodeType.ENGINE)
 	object TRANSMISSION: VehicleSystemNode(VehicleSystemNodeType.TRANSMISSION)
-	object ELECTRONICS: VehicleSystemNode(VehicleSystemNodeType.ELECTRONICS)
+	object ELECTRONICS: VehicleSystemNode(VehicleSystemNodeType.ELECTRICS)
 	object SUSPENSION: VehicleSystemNode(VehicleSystemNodeType.SUSPENSION)
 	object BRAKES: VehicleSystemNode(VehicleSystemNodeType.BRAKES)
 	object BODY: VehicleSystemNode(VehicleSystemNodeType.BODY)

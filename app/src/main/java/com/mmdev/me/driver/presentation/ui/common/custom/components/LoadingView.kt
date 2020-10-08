@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 17:39
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,7 +25,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.view.animation.PathInterpolator
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.presentation.utils.toPx
+import com.mmdev.me.driver.presentation.utils.extensions.toPx
 import kotlin.math.max
 import kotlin.math.min
 

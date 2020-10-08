@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.10.2020 16:24
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.databinding.BottomSheetVehicleAddBinding
-import com.mmdev.me.driver.presentation.utils.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.10.2020 20:05
+  ~ Last modified 08.10.2020 21:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@
 	
 	<string name="default_FuelStation" translatable="false">StationDef</string>
 	<string name="default_OdometerValue" translatable="false">000000</string>
-	<string name="default_Price" translatable="false">₴--.--</string>
+	<string name="default_price" translatable="false">₴--.--</string>
 	
 	
 	
@@ -71,8 +71,8 @@
 	<string name="btm_sheet_maintenance_add_transmission_title">Transmission</string>
 	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
 	
-	<string name="btm_sheet_maintenance_add_electronics_title">Electrics</string>
-	<string name="btm_sheet_maintenance_add_electronics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	<string name="btm_sheet_maintenance_add_electrics_title">Electrics</string>
+	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
 	
 	<string name="btm_sheet_maintenance_add_suspension_title">Suspension</string>
 	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
@@ -116,20 +116,111 @@
 
 <!-- *********************************** fragment_maintenance ********************************** -->
 	<string-array name="fg_maintenance_engine_components">
-		<item>Belts</item>
-		<item>Cylinder (bolts, cover)</item>
-		<item>Damper</item>
-		<item>Fixators (glue, sealant)</item>
 		<item>Mount</item>
-		<item>Pipes (fuel, water</item>
-		<item>Piston</item>
-		<item>Pumps (fuel, water)</item>
-		<item>Radiator, intercooler</item>
-		<item>Rollers, tensions</item>
-		<item>Shafts (distribution, cranked)</item>
+		<item>Silencer corrugation</item>
 		<item>Plugs (glow, spark)</item>
+		
+		<item>Cylinder unit heads</item>
+		<item>Cylinder unit heads gasket</item>
+		<item>Cylinder head bolts</item>
+		
+		<item>Cylinder</item>
+		<item>Cylinder shell</item>
+		<item>Cylinder unit liner</item>
+		<item>Cylinder unit</item>
+		
+		<item>Belt generator</item>
+		<item>Belt air conditioner</item>
+		
+		<item>Turbo</item>
+		<item>Intercooler</item>
+		<item>Compressor</item>
+		<item>Belt compressor</item>
+		
+		<item>Piston rings</item>
+		<item>Piston</item>
+		
+		<item>Pump fuel</item>
+		<item>Fuel burner</item>
+		<item>Belt pump fuel</item>
+		<item>Pipe fuel</item>
+		
+		<item>Radiator</item>
+		<item>Pump water</item>
+		
+		<item>Damper</item>
 		<item>Valve</item>
+		<item>Roller</item>
+		<item>Connecting rod</item>
+		
+		<item>Camshaft</item>
+		<item>Crankshaft</item>
+		
 		<item>Other</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_transmission_components">
+		<item>Clutch kit (disk, basket)</item>
+		<item>Clutch bearing</item>
+		<item>Clutch Flywheel</item>
+		<item>Homokinetic</item>
+		<item>Homokinetic duster</item>
+		<item>Cross steering</item>
+		<item>Cross gear</item>
+		<item>Semiaxis</item>
+		<item>Other</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_electric_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_suspension_components">
+		<item>Shock absorbers (front)</item>
+		<item>Shock absorbers (back)</item>
+		<item>Shock absorber support</item>
+		<item>Silentblock</item>
+		<item>Spring</item>
+		<item>Spherical bearing</item>
+		<item>Wheel hub</item>
+		<item>Wheel hub bearing</item>
+		<item>Sleeve</item>
+		<item>Arm</item>
+		<item>Rack stabilizer</item>
+		<item>Other</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_brakes_components">
+		<item>Pads + discs or drums (front)</item>
+		<item>Pads + discs or drums (back)</item>
+		<item>Caliper</item>
+		<item>Pipe</item>
+		<item>Cylinder</item>
+		<item>Sensor abs</item>
+		<item>Sensor deterioration</item>
+		<item>Parking cable</item>
+		<item>Other</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_body_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_other_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_planned_components">
+		<item>Air filter</item>
+		<item>Oil filter</item>
+		<item>Fuel filter</item>
+		<item>Cabin filter</item>
+		<item>Brakes fluid</item>
+		<item>Engine oil</item>
+		<item>Grm kit</item>
+		<item>Antifreeze</item>
+		<item>Transmission oil</item>
+		<item>Transmission filter</item>
 	</string-array>
 	
 <!-- ******************************************************************************************* -->

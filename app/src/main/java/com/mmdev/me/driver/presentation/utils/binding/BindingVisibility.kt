@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.09.2020 00:50
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.mmdev.me.driver.presentation.utils.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 
 /**
  * Contains methods to hide or show views depends on specific actions

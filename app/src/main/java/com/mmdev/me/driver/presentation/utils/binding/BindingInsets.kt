@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.09.2020 00:41
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ package com.mmdev.me.driver.presentation.utils.binding
 
 import android.view.View
 import androidx.databinding.BindingAdapter
-import com.mmdev.me.driver.presentation.utils.applySystemWindowInsetsMargins
-import com.mmdev.me.driver.presentation.utils.applySystemWindowInsetsPadding
+import com.mmdev.me.driver.presentation.utils.extensions.applySystemWindowInsetsMargins
+import com.mmdev.me.driver.presentation.utils.extensions.applySystemWindowInsetsPadding
 
 /**
  * Contains BindingAdapters which relates to windowInsets

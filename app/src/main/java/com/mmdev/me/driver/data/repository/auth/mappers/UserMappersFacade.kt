@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,21 +22,21 @@ import com.mmdev.me.driver.domain.user.UserData
 class UserMappersFacade {
 	
 	// domains
-	fun userDomainToEntity(domain: UserData): UserEntity = UserDomainMappers.userDomainToEntity(domain)
-	fun userDomainToDto(domain: UserData): FirestoreUserDto = UserDomainMappers.userDomainToDto(domain)
+	fun userDomainToEntity(domain: UserData): UserEntity = DomainMappers.toEntity(domain)
+	fun userDomainToDto(domain: UserData): FirestoreUserDto = DomainMappers.toDto(domain)
 	
 	// entities
 	fun userEntityToDto(entity: UserEntity): FirestoreUserDto =
-		UserEntityMappers.userEntityToDto(entity)
+		EntityMappers.toDto(entity)
 	
-	fun userEntityToDomain(entity: UserEntity): UserData = UserEntityMappers.userEntityToDomain(entity)
+	fun userEntityToDomain(entity: UserEntity): UserData = EntityMappers.toDomain(entity)
 	
 	
 	
 	// dtos
-	fun userDtoToDomain(dto: FirestoreUserDto): UserData = FirestoreUserMappers.userDtoToDomain(dto)
+	fun userDtoToDomain(dto: FirestoreUserDto): UserData = DtoMappers.toDomain(dto)
 	
-	fun userDtoToEntity(dto: FirestoreUserDto): UserEntity = FirestoreUserMappers.userDtoToEntity(dto)
+	fun userDtoToEntity(dto: FirestoreUserDto): UserEntity = DtoMappers.toEntity(dto)
 
 
 	// framework based

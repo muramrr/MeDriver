@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:13
+ * Last modified 08.10.2020 21:28
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,9 +29,11 @@ data class VehicleSparePartEntity (
 	val dateAdded: Long,
 	val articulus: String = "",
 	val vendor: String = "",
-	val systemNode: String = "",
-	val systemNodeComponent: String = "",
+	val systemNode: String,
+	val systemNodeComponent: String,
+	val customNodeComponent: String,
 	val commentary: String = "",
+	val moneySpent: Double,
 	@Embedded(prefix = "replaced_part_")
 	val odometerValueBound: DistanceBound,
 	val vehicleVinCode: String

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.10.2020 19:41
+ * Last modified 08.10.2020 21:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,22 +10,54 @@
 
 package com.mmdev.me.driver.domain.maintenance.data.components
 
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+
 /**
- * Enumerate basic parts of engine
+ * Enumerated child components for [ENGINE] vehicle system node
  */
 
-enum class EngineParts {
-	BELTS,
-	CYLINDER,
-	DAMPFER,
-	FIXATORS,
-	MOUNT,
-	PIPE,
-	PISTON,
-	PUMP,
-	RADIATOR,
-	ROLLER,
-	SHAFT,
-	PLUG,
-	VALVE
+enum class EngineParts: SparePart {
+	MOUNT, //подушка двигателя
+	SILENCER_CORRUGATION, //гофра глушителя
+	PLUG, //свеча (зажигания или накалывания)
+	
+	CYLINDER_UNIT_HEADS, //гбц
+	CYLINDER_UNIT_HEADS_GASKET, //прокладка гбц
+	CYLINDER_HEAD_BOLTS, //болты гбц
+	
+	CYLINDER, //цилиндр
+	CYLINDER_SHELL, //гильза цилиндра
+	CYLINDER_UNIT_LINER, //вкладыши блока цилиндров
+	CYLINDER_UNIT, //блок цилиндров
+	
+	BELT_GENERATOR,
+	BELT_AIR_CONDITIONER,
+	
+	TURBO, //турбина
+	INTERCOOLER,
+	COMPRESSOR,
+	BELT_COMPRESSOR,
+	
+	PISTON_RINGS, //комплект поршневых колец
+	PISTON, //поршень
+	
+	PUMP_FUEL, //бензонасос
+	FUEL_BURNER, //топливная форсунка
+	BELT_PUMP_FUEL, //топливный ремень
+	PIPE_FUEL, //топливный шланг
+	
+	RADIATOR, //радиатор для двигателя
+	PUMP_WATER, //водяная помпа
+	
+	DAMPER, //демпфер
+	VALVE, //клапан
+	ROLLER, //ролик натяжителя ремня
+	CONNECTING_ROD, //шатун
+	
+	CAMSHAFT, //распредвал
+	CRANKSHAFT, //коленвал
+	
+	OTHER;
+
+	override fun getSparePartName(): String = name
 }

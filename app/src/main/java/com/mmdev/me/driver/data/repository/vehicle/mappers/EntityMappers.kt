@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,11 +18,11 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
  * In [VehicleEntity] -> Out: [Vehicle], [VehicleDto]
  */
 
-object VehicleDbEntityMappers {
+object EntityMappers {
 	
 	
 	/** Out: [VehicleDto] */
-	fun dbEntityToApiDto(entity: VehicleEntity): VehicleDto = VehicleDto(
+	fun toDto(entity: VehicleEntity): VehicleDto = VehicleDto(
 		brand = entity.brand,
 		model = entity.model,
 		year = entity.year,
@@ -32,7 +32,7 @@ object VehicleDbEntityMappers {
 	)
 	
 	/** Out: [Vehicle] */
-	fun dbEntityToDomain(entity: VehicleEntity): Vehicle = Vehicle(
+	fun toDomain(entity: VehicleEntity): Vehicle = Vehicle(
 		brand = entity.brand,
 		model = entity.model,
 		year = entity.year,

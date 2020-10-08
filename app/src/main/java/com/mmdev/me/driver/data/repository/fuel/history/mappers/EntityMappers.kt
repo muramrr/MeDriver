@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,10 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
  * In [FuelHistoryEntity] -> Out [FuelHistory], [FuelHistoryDto]
  */
 
-object FuelHistoryDbEntityMappers {
+object EntityMappers {
 	
 	/** Out: [FuelHistory] */
-	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistory =
+	fun toDomain(entity: FuelHistoryEntity): FuelHistory =
 		FuelHistory(
 			commentary = entity.commentary,
 			date = convertToLocalDateTime(entity.date),
@@ -41,12 +41,13 @@ object FuelHistoryDbEntityMappers {
 				slug = entity.fuelStation.slug,
 				updatedDate = entity.fuelStation.updatedDate
 			),
+			moneySpent = entity.moneySpent,
 			odometerValueBound = entity.odometerValueBound,
 			vehicleVinCode = entity.vehicleVinCode
 		)
 	
 	/** Out: [FuelHistoryDto] */
-	fun dbEntityToApiDto(entity: FuelHistoryEntity): FuelHistoryDto =
+	fun toDto(entity: FuelHistoryEntity): FuelHistoryDto =
 		FuelHistoryDto(
 			commentary = entity.commentary,
 			date = convertToLocalDateTime(entity.date).toString(),
@@ -63,6 +64,7 @@ object FuelHistoryDbEntityMappers {
 				slug = entity.fuelStation.slug,
 				updatedDate = entity.fuelStation.updatedDate
 			),
+			moneySpent = entity.moneySpent,
 			odometerValueBound = entity.odometerValueBound,
 			vehicleVinCode = entity.vehicleVinCode
 		)

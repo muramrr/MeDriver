@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,10 +24,10 @@ import kotlinx.datetime.toInstant
  * In [FuelHistory] -> Out [FuelHistoryEntity], [FuelHistoryDto]
  */
 
-object FuelHistoryDomainMappers {
+object DomainMappers {
 	
 	/** Out: [FuelHistoryEntity] */
-	fun domainToDbEntity(domain: FuelHistory): FuelHistoryEntity =
+	fun toEntity(domain: FuelHistory): FuelHistoryEntity =
 		FuelHistoryEntity(
 			commentary = domain.commentary,
 			date = domain.date.toInstant(currentSystemDefault()).toEpochMilliseconds(),
@@ -45,13 +45,14 @@ object FuelHistoryDomainMappers {
 				slug = domain.fuelStation.slug,
 				updatedDate = domain.fuelStation.updatedDate
 			),
+			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,
 			vehicleVinCode = domain.vehicleVinCode
 		)
 	
 	
 	/** Out: [FuelHistoryDto] */
-	fun domainToApiDto(domain: FuelHistory): FuelHistoryDto =
+	fun toDto(domain: FuelHistory): FuelHistoryDto =
 		FuelHistoryDto(
 			commentary = domain.commentary,
 			date = domain.date.toString(),
@@ -68,6 +69,7 @@ object FuelHistoryDomainMappers {
 				slug = domain.fuelStation.slug,
 				updatedDate = domain.fuelStation.updatedDate
 			),
+			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,
 			vehicleVinCode = domain.vehicleVinCode
 		)

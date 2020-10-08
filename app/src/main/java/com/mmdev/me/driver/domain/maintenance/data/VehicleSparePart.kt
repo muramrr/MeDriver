@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:34
+ * Last modified 08.10.2020 21:28
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,8 @@ package com.mmdev.me.driver.domain.maintenance.data
 
 import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
-import com.mmdev.me.driver.domain.maintenance.data.components.VehicleSystemNodeType
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import kotlinx.datetime.LocalDateTime
 
 /**
@@ -26,7 +27,7 @@ import kotlinx.datetime.LocalDateTime
  * @param dateAdded defines when data is added physically
  *
  * @param systemNode describes affiliation to vehicle system node (eg: Engine, Brakes etc)
- * @param systemNodeComponent describes child component of vehicle system node (eg: Radiator, Pads etc)
+ * @param systemNodeComponent describes child component of vehicle system node (eg: Valve, Pads etc)
  */
 data class VehicleSparePart(
 	val date: LocalDateTime,
@@ -34,8 +35,10 @@ data class VehicleSparePart(
 	val articulus: String = "",
 	val vendor: String = "",
 	val systemNode: VehicleSystemNodeType,
-	val systemNodeComponent: String = "",
+	val systemNodeComponent: SparePart,
+	val customNodeComponent: String = systemNodeComponent.getSparePartName(),
 	val commentary: String = "",
+	val moneySpent: Double,
 	val odometerValueBound: DistanceBound = DistanceBound(),
 	val vehicleVinCode: String
 )

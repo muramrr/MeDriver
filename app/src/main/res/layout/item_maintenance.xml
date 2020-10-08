@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.10.2020 17:27
+  ~ Last modified 08.10.2020 21:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,13 @@
 	>
 	
 	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
 		
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart"
+			/>
 	
 	</data>
 	
@@ -38,7 +44,7 @@
 			
 			android:maxLines="1"
 			
-			android:text="Тормозные колодки"
+			android:text="@{bindItem.customNodeComponent}"
 			
 			android:textAppearance="?textAppearanceSubtitle2"
 			
@@ -56,9 +62,8 @@
 			android:layout_height="wrap_content"
 			android:layout_marginStart="8dp"
 			android:layout_marginTop="16dp"
-			android:text="Ferodo ADS-1912"
 			
-			
+			android:text="@{bindItem.vendor + ` ` + bindItem.articulus}"
 			
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintTop_toBottomOf="@id/tvPartTypeTitle"
@@ -75,7 +80,7 @@
 			android:maxLines="1"
 			android:ellipsize="end"
 			
-			android:text="Some short commentaries"
+			android:text="@{bindItem.commentary}"
 			android:textAppearance="?textAppearanceCaption"
 			
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -96,6 +101,10 @@
 			android:text="@string/default_OdometerValue"
 			android:textAppearance="?textAppearanceOverline"
 			
+			app:value="@{`` + DistanceBoundExtKt.getValue(bindItem.odometerValueBound)}"
+			app:formatterKM="@{@string/formatter_odometer_km}"
+			app:formatterMI="@{@string/formatter_odometer_mi}"
+			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
 			app:layout_constraintTop_toBottomOf="@id/tvMaintenanceCommentary"
 			app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +120,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="8dp"
 			
-			android:text="@string/default_Price"
+			android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price`}"
 			android:textAppearance="?textAppearanceSubtitle1"
 			android:textStyle="bold"
 			
@@ -145,7 +154,7 @@
 			android:layout_marginEnd="8dp"
 			android:maxLines="1"
 			
-			android:text="01.01.1970"
+			android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
 			android:textAppearance="?textAppearanceOverline"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"

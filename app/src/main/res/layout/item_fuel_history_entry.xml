@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.10.2020 16:52
+  ~ Last modified 08.10.2020 21:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,8 @@
 	>
 	
 	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
 		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelHistoryRecordExtKt"/>
 		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelStationExtKt"/>
 		
@@ -35,7 +37,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
 			
-			android:text="@{FuelHistoryRecordExtKt.dateMonthText(bindItem.date.date.monthNumber)}"
+			android:text="@{DateTimeExtKt.dateMonthText(bindItem.date.date.monthNumber)}"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
 			
@@ -87,7 +89,7 @@
 			
 			android:textAppearance="?textAppearanceSubtitle1"
 			
-			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.distancePassedBound)}"
+			app:value="@{`` + DistanceBoundExtKt.getValue(bindItem.distancePassedBound)}"
 			app:formatterKM="@{@string/item_fuel_history_entry_distance_passed_km}"
 			app:formatterMI="@{@string/item_fuel_history_entry_distance_passed_mi}"
 			
@@ -129,7 +131,7 @@
 			android:text="@string/default_OdometerValue"
 			android:textAppearance="?textAppearanceOverline"
 			
-			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.odometerValueBound)}"
+			app:value="@{`` + DistanceBoundExtKt.getValue(bindItem.odometerValueBound)}"
 			app:formatterKM="@{@string/formatter_odometer_km}"
 			app:formatterMI="@{@string/formatter_odometer_mi}"
 			
@@ -146,7 +148,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="@{`₴` + FuelHistoryRecordExtKt.moneySpent(bindItem), default = `@string/default_Price`}"
+			android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price`}"
 			android:textAppearance="?textAppearanceSubtitle1"
 			android:textStyle="bold"
 			
@@ -179,7 +181,7 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="@{FuelHistoryRecordExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
+			android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
 			android:textAppearance="?textAppearanceOverline"
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPricePerLiter"

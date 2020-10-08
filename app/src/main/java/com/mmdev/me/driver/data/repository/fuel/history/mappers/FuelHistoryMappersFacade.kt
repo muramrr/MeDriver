@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,10 +28,10 @@ class FuelHistoryMappersFacade {
 	
 	// in: dto, out: * domain, entity
 	fun apiDtoToDbEntity(dto: FuelHistoryDto): FuelHistoryEntity =
-		FuelHistoryDtoMappers.apiDtoToDbEntity(dto)
+		DtoMappers.toEntity(dto)
 	
 	fun apiDtoToDomain(dto: FuelHistoryDto): FuelHistory =
-		FuelHistoryDtoMappers.apiDtoToDomain(dto)
+		DtoMappers.toDomain(dto)
 	
 	fun listApiDtosToDbEntities(dtoList: List<FuelHistoryDto>): List<FuelHistoryEntity> =
 		mapList(dtoList) { apiDtoToDbEntity(it) }
@@ -44,21 +44,21 @@ class FuelHistoryMappersFacade {
 	
 	// in: domain, out: * entity, dto
 	fun domainToDbEntity(domain: FuelHistory): FuelHistoryEntity =
-		FuelHistoryDomainMappers.domainToDbEntity(domain)
+		DomainMappers.toEntity(domain)
 	
 	fun domainToApiDto(domain: FuelHistory): FuelHistoryDto =
-		FuelHistoryDomainMappers.domainToApiDto(domain)
+		DomainMappers.toDto(domain)
 	
 	
 	
 	
 	// in: Db Entity, out: * domain, dto
 	fun dbEntityToDomain(entity: FuelHistoryEntity): FuelHistory =
-		FuelHistoryDbEntityMappers.dbEntityToDomain(entity)
+		EntityMappers.toDomain(entity)
 	
 	
 	fun dbEntityToApiDto(entity: FuelHistoryEntity): FuelHistoryDto =
-		FuelHistoryDbEntityMappers.dbEntityToApiDto(entity)
+		EntityMappers.toDto(entity)
 	
 	fun listDbEntitiesToDomains(input: List<FuelHistoryEntity>): List<FuelHistory> =
 		mapList(input) { dbEntityToDomain(it) }

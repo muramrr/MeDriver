@@ -1,19 +1,19 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.10.2020 19:20
+ * Last modified 07.10.2020 18:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.domain.maintenance.data.components
+package com.mmdev.me.driver.domain.maintenance.data.components.base
 
 /**
- * Enumerated vehicle system nodes
+ * Base for all spare parts
  */
 
-enum class VehicleSystemNodeType {
-	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHERS
+interface SparePart {
+	fun getSparePartName(): String
 }

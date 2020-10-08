@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 21:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,9 +18,9 @@ import com.mmdev.me.driver.domain.user.UserData
  * Used to convert [UserEntity] into [UserData] and [FirestoreUserDto]
  */
 
-object UserEntityMappers {
+object EntityMappers {
 	
-	fun userEntityToDto(entity: UserEntity): FirestoreUserDto =
+	fun toDto(entity: UserEntity): FirestoreUserDto =
 		FirestoreUserDto(
 			id = entity.id,
 			email = entity.email,
@@ -29,7 +29,7 @@ object UserEntityMappers {
 			syncEnabled = entity.isSyncEnabled
 		)
 	
-	fun userEntityToDomain(entity: UserEntity): UserData =
+	fun toDomain(entity: UserEntity): UserData =
 		UserData(
 			id = entity.id,
 			email = entity.email,

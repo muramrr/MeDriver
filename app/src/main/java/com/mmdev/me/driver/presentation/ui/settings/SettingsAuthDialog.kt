@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 19:39
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,9 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.DialogSettingsAuthBinding
 import com.mmdev.me.driver.presentation.core.base.BaseDialogFragment
-import com.mmdev.me.driver.presentation.utils.hideKeyboard
-import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.showSnack
+import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -76,8 +76,8 @@ class SettingsAuthDialog: BaseDialogFragment<SettingsViewModel, DialogSettingsAu
 			}
 			btnCancel.setDebounceOnClick(300) {
 				//transition to start motion state and the next click dismisses dialog
-				if (motionContainer.currentState == R.id.signInSet) dismiss()
-				else motionContainer.transitionToStart().also { mViewModel.clearPasswordsInput() }
+				if (motionAuth.currentState == R.id.signInSet) dismiss()
+				else motionAuth.transitionToStart().also { mViewModel.clearPasswordsInput() }
 				hideKeyboard(rootView)
 			}
 			

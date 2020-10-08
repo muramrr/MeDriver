@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.10.2020 20:05
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,11 +30,11 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.utils.invisible
-import com.mmdev.me.driver.presentation.utils.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.showSnack
-import com.mmdev.me.driver.presentation.utils.visible
-import com.mmdev.me.driver.presentation.utils.visibleIf
+import com.mmdev.me.driver.presentation.utils.extensions.invisible
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
+import com.mmdev.me.driver.presentation.utils.extensions.visible
+import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -245,7 +245,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	private fun initLanguageChooser() {
 		val languagesAdapter = LanguageDropAdapter(
-			requireContext(), R.layout.drop_item_single_text, languagesArray.toList()
+			requireContext(), R.layout.item_single_text, languagesArray.toList()
 		)
 		
 		binding.dropLanguage.apply {

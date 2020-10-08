@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 19:39
+ * Last modified 08.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,8 +33,8 @@ import com.mmdev.me.driver.presentation.core.base.BaseDialogFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
-import com.mmdev.me.driver.presentation.ui.fuel.getValue
-import com.mmdev.me.driver.presentation.utils.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
+import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 import org.koin.androidx.viewmodel.ext.android.getViewModel

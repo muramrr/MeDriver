@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 07.10.2020 16:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelSummary
  * In [FuelStationAndPrices], [FuelSummaryEntity] -> Out: [FuelStationWithPrices], [FuelSummary]
  */
 
-object FuelPricesDbEntityMappers {
+object EntityMappers {
 	
 	
 	fun listFuelStationAndPricesToDomain(input: List<FuelStationAndPrices>): List<FuelStationWithPrices> =

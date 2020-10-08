@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.07.20 20:06
+ * Last modified 08.10.2020 21:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.utils
+package com.mmdev.me.driver.presentation.utils.extensions
 
 import android.graphics.Insets
 import android.os.Build
@@ -16,7 +16,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import androidx.annotation.RequiresApi
-import androidx.core.view.*
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
+import androidx.core.view.updateMarginsRelative
 
 
 fun View.applySystemWindowInsetsPadding(

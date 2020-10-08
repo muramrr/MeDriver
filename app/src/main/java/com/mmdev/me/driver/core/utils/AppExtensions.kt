@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.10.2020 16:38
+ * Last modified 07.10.2020 18:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,4 +46,4 @@ fun Double.roundTo(decimals: Int): Double {
 fun Instant.toCurrentTimeAndDate(): LocalDateTime = toLocalDateTime(currentSystemDefault())
 fun convertToLocalDateTime(timeInMillis: Long): LocalDateTime = fromEpochMilliseconds(timeInMillis).toCurrentTimeAndDate()
 fun currentEpochTime(): Long = Clock.System.now().toEpochMilliseconds()
-fun currentTimeAndDate() = Clock.System.now().toLocalDateTime(currentSystemDefault())
+fun currentTimeAndDate(): LocalDateTime = Clock.System.now().toLocalDateTime(currentSystemDefault())

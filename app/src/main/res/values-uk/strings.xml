@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.10.2020 20:05
+  ~ Last modified 08.10.2020 21:28
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,8 +52,8 @@
 	<string name="btm_sheet_maintenance_add_transmission_title">Трансмісія</string>
 	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
 	
-	<string name="btm_sheet_maintenance_add_electronics_title">Електрика</string>
-	<string name="btm_sheet_maintenance_add_electronics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
+	<string name="btm_sheet_maintenance_add_electrics_title">Електрика</string>
+	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
 	
 	<string name="btm_sheet_maintenance_add_suspension_title">Підвіска</string>
 	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
@@ -97,20 +97,111 @@
 
 <!-- *********************************** fragment_maintenance ********************************** -->
 	<string-array name="fg_maintenance_engine_components">
-		<item>Ремені</item>
-		<item>ГБЦ (болти, кришка, прокладка)</item>
-		<item>Демпфер</item>
-		<item>Фіксатор (клей/герметик)</item>
-		<item>Підвіска, подушка, прокладка</item>
-		<item>Шланг (паливо, вода)</item>
-		<item>Поршень</item>
-		<item>Насос (паливо, вода)</item>
-		<item>Радіатор, інтеркулер</item>
-		<item>Ролики, натягувачі</item>
-		<item>Вали (розподільний, колінчатий)</item>
+		<item>Подушка</item>
+		<item>Гофра глушника</item>
 		<item>Свічки (запалювання, розжарювання)</item>
+		
+		<item>ГБЦ</item>
+		<item>Прокладка ГБЦ</item>
+		<item>Болти ГБЦ</item>
+		
+		<item>Циліндр</item>
+		<item>Гільза циліндра</item>
+		<item>Вкладиші блоку циліндрів</item>
+		<item>Блок циліндрів</item>
+		
+		<item>Ремінь генератора</item>
+		<item>Ремінь кондиціонера</item>
+		
+		<item>Турбіна</item>
+		<item>Інтеркулер</item>
+		<item>Компресор</item>
+		<item>Ремінь компресора</item>
+		
+		<item>Комплект поршневих кілець</item>
+		<item>Поршень</item>
+		
+		<item>Паливний насос</item>
+		<item>Паливна форсунка</item>
+		<item>Паливний ремінь</item>
+		<item>Паливний шланг</item>
+		
+		<item>Радіатор (двигун)</item>
+		<item>Помпа (вода)</item>
+		
+		<item>Демпфер</item>
 		<item>Клапан</item>
+		<item>Ролик натягувача ременя</item>
+		<item>Шатун</item>
+		
+		<item>Розподільний вал</item>
+		<item>Колінчатий вал</item>
+		
 		<item>Інше</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_transmission_components">
+		<item>Комплект зчеплення (диск, корзинка)</item>
+		<item>Підшипник зчеплення</item>
+		<item>Маховик</item>
+		<item>РШ шарнір ("граната")</item>
+		<item>Пильовик РШ шарніру ("гранати")</item>
+		<item>Хрестовина (рульове)</item>
+		<item>Хрестовина (привід)</item>
+		<item>Напіввісь</item>
+		<item>Інше</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_electric_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_suspension_components">
+		<item>Амортизатори (передні)</item>
+		<item>Амортизатори (задні)</item>
+		<item>Пружина</item>
+		<item>Опора армотизатора</item>
+		<item>Сайлентблок</item>
+		<item>Кульова опора</item>
+		<item>Маточина колеса</item>
+		<item>Підшипник маточини колеса</item>
+		<item>Втулка</item>
+		<item>Важіль</item>
+		<item>Стійка стабілізатора</item>
+		<item>Інше</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_brakes_components">
+		<item>Колодки + диски або барабан (передні)</item>
+		<item>Колодки + диски або барабан (задні)</item>
+		<item>Супорт</item>
+		<item>Шланг</item>
+		<item>Циліндр</item>
+		<item>Датчик ABS</item>
+		<item>Датчик зносу</item>
+		<item>Трос ручника</item>
+		<item>Інше</item>
+	</string-array>
+	
+	<string-array name="fg_maintenance_body_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_other_components">
+	
+	</string-array>
+	
+	<string-array name="fg_maintenance_planned_components">
+		<item>Фільтр повітря</item>
+		<item>Масляний фільтр</item>
+		<item>Паливний фільтр</item>
+		<item>Фільтр салону</item>
+		<item>Гальмівна рідина</item>
+		<item>Моторне мастило</item>
+		<item>Комплект ГРМ (ремінь, ролик, сальник)</item>
+		<item>Антифріз</item>
+		<item>Мастило для КПП</item>
+		<item>Фільтр для КПП</item>
 	</string-array>
 	
 <!-- ******************************************************************************************* -->

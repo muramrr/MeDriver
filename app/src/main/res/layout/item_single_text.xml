@@ -2,13 +2,22 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 18.09.2020 16:39
+  ~ Last modified 07.10.2020 20:25
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="String"
+			/>
+	</data>
+	
 <com.google.android.material.textview.MaterialTextView
 	android:id="@+id/tvDropSingleText"
 	android:layout_width="match_parent"
@@ -17,7 +26,8 @@
 	android:padding="16dp"
 	android:ellipsize="end"
 	android:maxLines="1"
-	android:textAlignment="center"
 	
-	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:text="@{bindItem}"
 	/>
+	
+</layout>

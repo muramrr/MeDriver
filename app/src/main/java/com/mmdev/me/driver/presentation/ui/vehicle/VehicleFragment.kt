@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 08.10.2020 19:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.presentation.ui.vehicle
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.ui.fuel.getValue
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -55,7 +56,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private fun initDropList() {
 		mVehicleDropAdapter = VehicleDropAdapter(
 			requireContext(),
-			R.layout.drop_item_single_text,
+			R.layout.item_single_text,
 			emptyList()
 		)
 		
@@ -119,12 +120,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		data: List<Vehicle>
 	): BaseDropAdapter<Vehicle>(context, layoutId, data) {
 		
+		@SuppressLint("SetTextI18n")
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 			val vehicle: Vehicle = getItem(position)
 			val childView : View = convertView ?:
 			                       LayoutInflater.from(context).inflate(layoutId, null)
 			
-			childView.findViewById<TextView>(R.id.tvDropSingleText).text = "${vehicle.brand} ${vehicle.model}"
+			childView.findViewById<TextView>(R.id.tvDropSingleText).text =
+				"${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}"
 //			childView.findViewById<ImageView>(R.id.ivDropCarBrand).setImageResource(vehicle.brandIcon)
 			return childView
 		}

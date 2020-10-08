@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 07.10.2020 16:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,10 +37,10 @@ class FuelPriceMappersFacade {
 	// in: dto, out: * summary entity, prices and stations entity
 	fun listApiDtosToDbEntities(input: response, date: String):
 			Pair<List<FuelStationEntity>, List<FuelPriceEntity>> =
-		FuelPricesDtoMappers.listApiDtoToDbEntity(input, date)
+		DtoMappers.listApiDtoToDbEntity(input, date)
 	
 	fun listApiDtosSummaryToDb(input: response): List<FuelSummaryEntity> =
-		FuelPricesDtoMappers.apiDtoFuelSummaryToDbEntity(input)
+		DtoMappers.apiDtoFuelSummaryToDbEntity(input)
 	
 	fun makeMapperFuelResponseToDm(input: response): List<FuelStationWithPrices> {
 		val listOfFuelPrices = mutableListOf<FuelPrice>()
@@ -96,13 +96,13 @@ class FuelPriceMappersFacade {
 //		FuelPricesDbEntityMappers.summaryEntityToDomain(entity)
 	
 	fun dbSummaryEntitiesToDomains(input: List<FuelSummaryEntity>): List<FuelSummary> =
-		mapList(input) { FuelPricesDbEntityMappers.summaryEntityToDomain(it) }
+		mapList(input) { EntityMappers.summaryEntityToDomain(it) }
 	
 	
 	
 	// in: FuelStationAndPrices entity, out * domain
 	fun dbFuelStationAndPricesToDomains(input: List<FuelStationAndPrices>): List<FuelStationWithPrices> =
-		FuelPricesDbEntityMappers.listFuelStationAndPricesToDomain(input)
+		EntityMappers.listFuelStationAndPricesToDomain(input)
 	
 	
 }

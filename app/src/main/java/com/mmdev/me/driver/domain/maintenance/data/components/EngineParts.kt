@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:10
+ * Last modified 09.10.2020 02:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 enum class EngineParts: SparePart {
 	MOUNT, //подушка двигателя
 	SILENCER_CORRUGATION, //гофра глушителя
-	PLUG, //свеча (зажигания или накалывания)
+	TIMING_CHAIN_KIT, //комплект цепи грм, меняется редко (может прослужить даже до 350к км)
 	
 	CYLINDER_UNIT_HEADS, //гбц
 	CYLINDER_UNIT_HEADS_GASKET, //прокладка гбц

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 21:28
+  ~ Last modified 09.10.2020 03:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -118,7 +118,7 @@
 	<string-array name="fg_maintenance_engine_components">
 		<item>Mount</item>
 		<item>Silencer corrugation</item>
-		<item>Plugs (glow, spark)</item>
+		<item>Timing chain kit</item>
 		
 		<item>Cylinder unit heads</item>
 		<item>Cylinder unit heads gasket</item>
@@ -160,6 +160,7 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_transmission_components">
+		<item>Speed sensor</item>
 		<item>Clutch kit (disk, basket)</item>
 		<item>Clutch bearing</item>
 		<item>Clutch Flywheel</item>
@@ -172,7 +173,13 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_electric_components">
-	
+		<item>Battery</item>
+		<item>Generator</item>
+		<item>Ignition coil</item>
+		<item>Starter</item>
+		<item>Lambda probe</item>
+		<item>High voltage wire</item>
+		<item>Other</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_suspension_components">
@@ -203,7 +210,31 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_body_components">
-	
+		<item>Wiper front</item>
+		<item>Wiper back</item>
+		<item>Windshield front</item>
+		<item>Windshield back</item>
+		<item>Hood</item>
+		<item>Hood damper</item>
+		<item>Trunk damper</item>
+		<item>Headlight left</item>
+		<item>Headlight right</item>
+		<item>Taillight left</item>
+		<item>Taillight right</item>
+		<item>Foglight left</item>
+		<item>Foglight right</item>
+		<item>Radiator grill</item>
+		<item>Front bumper grill</item>
+		<item>Front bumper</item>
+		<item>Back bumper</item>
+		<item>Front left fender</item>
+		<item>Front right fender</item>
+		<item>Back left fender</item>
+		<item>Back right fender</item>
+		<item>Sill left</item>
+		<item>Sill right</item>
+		<item>Washer reservoir</item>
+		<item>Other</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_other_components">
@@ -217,7 +248,8 @@
 		<item>Cabin filter</item>
 		<item>Brakes fluid</item>
 		<item>Engine oil</item>
-		<item>Grm kit</item>
+		<item>Grm kit (belt and roller)</item>
+		<item>Plugs (glow or spark)</item>
 		<item>Antifreeze</item>
 		<item>Transmission oil</item>
 		<item>Transmission filter</item>

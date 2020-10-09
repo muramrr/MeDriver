@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 21:28
+  ~ Last modified 09.10.2020 03:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,7 +99,7 @@
 	<string-array name="fg_maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушника</item>
-		<item>Свічки (запалювання, розжарювання)</item>
+		<item>Ланцюг ГРМ (з натягувачем)</item>
 		
 		<item>ГБЦ</item>
 		<item>Прокладка ГБЦ</item>
@@ -141,6 +141,7 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_transmission_components">
+		<item>Датчик швидкості</item>
 		<item>Комплект зчеплення (диск, корзинка)</item>
 		<item>Підшипник зчеплення</item>
 		<item>Маховик</item>
@@ -153,7 +154,13 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_electric_components">
-	
+		<item>Акумулятор</item>
+		<item>Генератор</item>
+		<item>Котушка запалювання</item>
+		<item>Стартер</item>
+		<item>Лямбда-зонд</item>
+		<item>Високовольтний провід</item>
+		<item>Інше</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_suspension_components">
@@ -184,7 +191,31 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_body_components">
-	
+		<item>Щітки склоочисника (передні)</item>
+		<item>Щітки склоочисника (задні)</item>
+		<item>Вітрове скло</item>
+		<item>Заднє скло</item>
+		<item>Капот</item>
+		<item>Армотизатор капота</item>
+		<item>Армотизатор багажника</item>
+		<item>Фара (ліва)</item>
+		<item>Фара (права)</item>
+		<item>Фонар (лівий)</item>
+		<item>Фонар (правий)</item>
+		<item>Протитуманна фара (ліва)</item>
+		<item>Протитуманна фара (права)</item>
+		<item>Решітка радіатору</item>
+		<item>Решітка бамперу</item>
+		<item>Передній бампер</item>
+		<item>Задній бампер</item>
+		<item>Переднє крило (ліве)</item>
+		<item>Переднє крило (праве)</item>
+		<item>Заднє крило (ліве)</item>
+		<item>Заднє крило (праве)</item>
+		<item>Поріг зліва</item>
+		<item>Поріг зправа</item>
+		<item>Бачок омивача</item>
+		<item>Інше</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_other_components">
@@ -198,7 +229,8 @@
 		<item>Фільтр салону</item>
 		<item>Гальмівна рідина</item>
 		<item>Моторне мастило</item>
-		<item>Комплект ГРМ (ремінь, ролик, сальник)</item>
+		<item>Комплект ГРМ (ремінь и ролики)</item>
+		<item>Свічки (запалювання або розжарювання)</item>
 		<item>Антифріз</item>
 		<item>Мастило для КПП</item>
 		<item>Фільтр для КПП</item>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:48
+ * Last modified 09.10.2020 02:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ enum class PlannedParts: SparePart {
 	BRAKES_FLUID,
 	ENGINE_OIL,
 	GRM_KIT,
+	PLUGS, //свеча (зажигания или накалывания)
 	ANTIFREEZE,
 	TRANSMISSION_OIL, //масло для кпп
 	TRANSMISSION_FILTER, //для акпп

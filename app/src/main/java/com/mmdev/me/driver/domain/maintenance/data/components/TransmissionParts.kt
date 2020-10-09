@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:57
+ * Last modified 09.10.2020 02:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,14 +17,15 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
  */
 
 enum class TransmissionParts: SparePart {
+	SPEED_SENSOR,
 	CLUTCH_KIT, //комплект
-	CLUTCH_BEARING, //подшипник/выключатель
+	CLUTCH_BEARING, //подшипник
 	CLUTCH_FLYWHEEL, //маховик
 	HOMOKINETIC_JOINT, // "граната"
 	HOMOKINETIC_JOINT_DUSTER, //пыльник "гранаты"
 	CROSS_STEERING, //крестовина рулевого
 	CROSS_GEAR, //крестовина привода
-	SEMIAXIS, //полуось, вал
+	SEMIAXIS, //полуось
 	OTHER
 	;
 	

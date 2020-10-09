@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 21:28
+  ~ Last modified 09.10.2020 03:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,7 +99,7 @@
 	<string-array name="fg_maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушителя</item>
-		<item>Свечи (зажигания, накалывания)</item>
+		<item>Цепь ГРМ (с натяжителем)</item>
 		
 		<item>ГБЦ</item>
 		<item>Прокладка ГБЦ</item>
@@ -141,6 +141,7 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_transmission_components">
+		<item>Датчик скорости</item>
 		<item>Комплект сцепления (диск, корзинка)</item>
 		<item>Подшипник сцепления</item>
 		<item>Маховик</item>
@@ -153,7 +154,13 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_electric_components">
-	
+		<item>Аккумулятор</item>
+		<item>Генератор</item>
+		<item>Катушка зажигания</item>
+		<item>Стартер</item>
+		<item>Лямбда-зонд</item>
+		<item>Высоковольтный провод</item>
+		<item>Другое</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_suspension_components">
@@ -184,7 +191,31 @@
 	</string-array>
 	
 	<string-array name="fg_maintenance_body_components">
-	
+		<item>Дворники (передние)</item>
+		<item>Дворники (задние)</item>
+		<item>Лобовое стекло</item>
+		<item>Заднее стекло</item>
+		<item>Капот</item>
+		<item>Армотизатор капота</item>
+		<item>Армотизатор багажника</item>
+		<item>Фара (левая)</item>
+		<item>Фара (правая)</item>
+		<item>Фонарь (левый)</item>
+		<item>Фонарь (правый)</item>
+		<item>Противотуманная фара (левая)</item>
+		<item>Противотуманная фара (правая)</item>
+		<item>Решетка радиатора</item>
+		<item>Решетка бампера</item>
+		<item>Передний бампер</item>
+		<item>Задний бампер</item>
+		<item>Переднее крыло (левое)</item>
+		<item>Переднее крыло (правое)</item>
+		<item>Заднее крыло (левое)</item>
+		<item>Заднее крыло (правое)</item>
+		<item>Порог левый</item>
+		<item>Порог правый</item>
+		<item>Бачок омывателя</item>
+		<item>Другое</item>
 	</string-array>
 	
 	<string-array name="fg_maintenance_other_components">
@@ -195,10 +226,11 @@
 		<item>Фильтр воздушный</item>
 		<item>Фильтр масляной</item>
 		<item>Фильтр топливный</item>
-		<item>Фильтр салону</item>
+		<item>Фильтр салона</item>
 		<item>Тормозная жидкость</item>
 		<item>Моторное масло</item>
-		<item>Комплект ГРМ (ремень, ролики)</item>
+		<item>Комплект ГРМ (ремень и ролики)</item>
+		<item>Свечи (зажигания или накалывания)</item>
 		<item>Антифриз</item>
 		<item>Масло для КПП</item>
 		<item>Фильтр для КПП</item>

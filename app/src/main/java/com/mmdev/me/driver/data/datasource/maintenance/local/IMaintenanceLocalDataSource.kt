@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:29
+ * Last modified 09.10.2020 03:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,11 +19,38 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 
 interface IMaintenanceLocalDataSource {
 	
+	suspend fun findLastReplaced(
+		vin: String,
+		systemNode: String,
+		customNodeComponent: String
+	): SimpleResult<VehicleSparePartEntity>
+	
 	suspend fun getMaintenanceHistory(
-		vin: String, limit: Int, offset: Int
+		vin: String,
+		limit: Int,
+		offset: Int
 	): SimpleResult<List<VehicleSparePartEntity>>
 	
-	suspend fun insertReplacedSparePart(replacedSparePart: VehicleSparePartEntity): SimpleResult<Unit>
+	
+	suspend fun getByTypedQuery(
+		vin: String,
+		typedQuery: String
+	): SimpleResult<List<VehicleSparePartEntity>>
+	
+	suspend fun getSystemNodeHistory(
+		vin: String,
+		systemNode: String,
+		limit: Int,
+		offset: Int
+	): SimpleResult<List<VehicleSparePartEntity>>
+	
+	suspend fun insertReplacedSpareParts(
+		replacedSpareParts: List<VehicleSparePartEntity>
+	): SimpleResult<Unit>
+	
+	suspend fun updateReplacedSparePart(
+		replacedSparePart: VehicleSparePartEntity
+	): SimpleResult<Unit>
 	
 	suspend fun deleteFuelHistoryEntry(replacedSparePart: VehicleSparePartEntity): SimpleResult<Unit>
 	

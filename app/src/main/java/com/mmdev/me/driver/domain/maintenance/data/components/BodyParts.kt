@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 15:48
+ * Last modified 09.10.2020 03:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,32 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
  */
 
 enum class BodyParts: SparePart {
-	HEADLIGHTS;
+	WIPER_FRONT,
+	WIPER_BACK,
+	WINDSHIELD_FRONT,
+	WINDSHIELD_BACK,
+	HOOD,
+	HOOD_DAMPER,
+	TRUNK_DAMPER,
+	HEADLIGHT_LEFT,
+	HEADLIGHT_RIGHT,
+	TAILLIGHT_LEFT,
+	TAILLIGHT_RIGHT,
+	FOGLIGHT_LEFT,
+	FOGLIGHT_RIGHT,
+	RADIATOR_GRILL,
+	FRONT_BUMPER_GRILL,
+	FRONT_BUMPER,
+	BACK_BUMPER,
+	FRONT_LEFT_FENDER,
+	FRONT_RIGHT_FENDER,
+	BACK_LEFT_FENDER,
+	BACK_RIGHT_FENDER,
+	SILL_LEFT,
+	SILL_RIGHT,
+	WASHER_RESERVOIR,
+	OTHER
+	;
 	
 	override fun getSparePartName(): String = name
 }

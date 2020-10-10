@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.10.2020 19:42
+  ~ Last modified 10.10.2020 19:27
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -370,7 +370,9 @@
 			android:textAllCaps="false"
 			
 			
-			android:drawableEnd="@drawable/ic_arrow_right_24"
+			app:icon="@drawable/ic_arrow_right_24"
+			app:iconGravity="textEnd"
+			app:iconSize="12dp"
 			
 			style="@style/Widget.MaterialComponents.Button.TextButton"
 			

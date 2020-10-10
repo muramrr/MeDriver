@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.09.2020 16:01
+ * Last modified 09.10.2020 14:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -67,10 +67,10 @@ dependencies {
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
 	implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.1.0"
-	implementation "androidx.core:core-ktx:1.5.0-alpha03"
+	implementation "androidx.core:core-ktx:1.5.0-alpha04"
 //	implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
-	implementation "androidx.constraintlayout:constraintlayout:2.0.1"
-	implementation "com.google.android.material:material:1.3.0-alpha02"
+	implementation "androidx.constraintlayout:constraintlayout:2.0.2"
+	implementation "com.google.android.material:material:1.3.0-alpha03"
 
 	//di
 	implementation "org.koin:koin-androidx-viewmodel:2.1.6"
@@ -84,9 +84,9 @@ dependencies {
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
 	//ViewModel Scope
-	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07"
+	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-beta01"
 	//LiveData extensions
-	implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07"
+	implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01"
 
 	//network
 	implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -98,17 +98,17 @@ dependencies {
 	kapt "androidx.room:room-compiler:2.3.0-alpha02"
 
 	//firebase
-	implementation "com.google.firebase:firebase-firestore-ktx:21.6.0"
+	implementation "com.google.firebase:firebase-firestore-ktx:21.7.1"
 	implementation "com.google.firebase:firebase-auth-ktx:19.4.0"
 
 	//prefs wrapper
 	implementation 'com.cioccarellia:ksprefs:2.0.0'
 
 	testImplementation "junit:junit:4.13"
-	testImplementation "io.mockk:mockk:1.10.0"
+	testImplementation "io.mockk:mockk:1.10.2"
 	testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
 	testImplementation "androidx.arch.core:core-testing:2.1.0"
-	androidTestImplementation "io.mockk:mockk-android:1.10.0"
+	androidTestImplementation "io.mockk:mockk-android:1.10.2"
 	androidTestImplementation "androidx.test.ext:junit:1.1.2"
 	androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
 	androidTestImplementation "org.koin:koin-test:2.1.6"

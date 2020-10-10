@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.10.2020 20:25
+  ~ Last modified 10.10.2020 16:36
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,7 @@
 	android:id="@+id/tvDropSingleText"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:background="?selectableItemBackground"
 	
 	android:padding="16dp"
 	android:ellipsize="end"

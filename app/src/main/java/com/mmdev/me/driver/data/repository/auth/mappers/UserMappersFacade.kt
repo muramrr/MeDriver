@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:33
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,8 +26,7 @@ class UserMappersFacade {
 	fun userDomainToDto(domain: UserData): FirestoreUserDto = DomainMappers.toDto(domain)
 	
 	// entities
-	fun userEntityToDto(entity: UserEntity): FirestoreUserDto =
-		EntityMappers.toDto(entity)
+	fun userEntityToDto(entity: UserEntity): FirestoreUserDto = EntityMappers.toDto(entity)
 	
 	fun userEntityToDomain(entity: UserEntity): UserData = EntityMappers.toDomain(entity)
 	

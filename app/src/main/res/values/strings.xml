@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 09.10.2020 03:04
+  ~ Last modified 10.10.2020 18:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -64,35 +64,6 @@
 
 
 
-<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_title">Engine</string>
-	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Valve\n&#8226; Radiators\n&#8226; Shaft\n&#8226; Spark plug\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_transmission_title">Transmission</string>
-	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_electrics_title">Electrics</string>
-	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_suspension_title">Suspension</string>
-	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_brakes_title">Brakes</string>
-	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_vehicle_body_title">Body</string>
-	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_other_title">Other</string>
-	<string name="btm_sheet_maintenance_add_other_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_planned_title">Planned</string>
-	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Fluids\n&#8226; Diagnostics</string>
-	
-<!-- ******************************************************************************************* -->
-
-
-
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
 	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
@@ -115,6 +86,41 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_add_engine_title">Engine</string>
+	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Cylinder head\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_transmission_title">Transmission</string>
+	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Speed sensor\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_electrics_title">Electrics</string>
+	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Battery\n&#8226; Generator\n&#8226; Starter\n&#8226; Coils\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_suspension_title">Suspension</string>
+	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeve, arms\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_brakes_title">Brakes</string>
+	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Pads, discs, drums\n&#8226; Caliper\n&#8226; Sensors\n&#8226; Parking cable\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_vehicle_body_title">Body</string>
+	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers, fenders\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_other_title">Other</string>
+	<string name="btm_sheet_maintenance_add_other_components">Not sure what category the replaced part belongs to?</string>
+	
+	<string name="btm_sheet_maintenance_add_planned_title">Planned</string>
+	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil, filters\n&#8226; Timing kit\n&#8226; Fluids\n&#8226; Plugs (spark, glow)</string>
+	
+	
+	<string name="btm_sheet_maintenance_btn_multi_select_choose">Choose</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_clear">Clear</string>
+	
 	<string-array name="fg_maintenance_engine_components">
 		<item>Mount</item>
 		<item>Silencer corrugation</item>
@@ -164,8 +170,8 @@
 		<item>Clutch kit (disk, basket)</item>
 		<item>Clutch bearing</item>
 		<item>Clutch Flywheel</item>
-		<item>Homokinetic</item>
-		<item>Homokinetic duster</item>
+		<item>Homokinetic joint</item>
+		<item>Homokinetic joint duster</item>
 		<item>Cross steering</item>
 		<item>Cross gear</item>
 		<item>Semiaxis</item>
@@ -280,6 +286,18 @@
 
 
 
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/L</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_km">+%s km</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s miles</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
+<!-- ******************************************************************************************* -->
+
+
+
 <!-- ******************************** dialog_fuel_history_add ******************************** -->
 	<string name="fg_fuel_history_add_distance_passed_title">Passed</string>
 	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s km</string>
@@ -381,18 +399,6 @@
 	<string name="fg_settings_auth_email_sent_success">Email sent</string>
 <!-- ******************************************************************************************* -->
 
-
-
-
-<!-- ********************************* item_fuel_history_entry ********************************* -->
-	<string name="item_fuel_history_entry_price_per_liter">₴%s/L</string>
-	
-	<string name="item_fuel_history_entry_distance_passed_km">+%s km</string>
-	<string name="item_fuel_history_entry_distance_passed_mi">+%s miles</string>
-	
-	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
-	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
-<!-- ******************************************************************************************* -->
 	
 
 	

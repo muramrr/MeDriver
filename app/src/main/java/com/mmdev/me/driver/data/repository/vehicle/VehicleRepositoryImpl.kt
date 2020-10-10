@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,7 +50,7 @@ class VehicleRepositoryImpl(
 	override suspend fun addVehicle(
 		user: UserData?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.insertVehicle(mappers.domainToDbEntity(vehicle)).fold(
+		localDataSource.insertVehicle(mappers.domainToEntity(vehicle)).fold(
 			success = { result ->
 				//check if user is premium to backup to backend
 				if (user != null && user.isPremium && user.isSyncEnabled)
@@ -99,7 +99,7 @@ class VehicleRepositoryImpl(
 	private suspend fun getAllVehiclesFromCache(): SimpleResult<List<Vehicle>> =
 		localDataSource.getAllVehicles().fold(
 			success = { data ->
-				if (data.isNotEmpty()) ResultState.success(mappers.listDbEntityToDomain(data))
+				if (data.isNotEmpty()) ResultState.success(mappers.listEntitiesToDomain(data))
 				else ResultState.failure(Exception("Empty cache"))
 			},
 			failure = { throwable -> ResultState.failure(throwable) }
@@ -122,7 +122,7 @@ class VehicleRepositoryImpl(
 				result.fold(
 					success = { data ->
 						data.forEach { dto ->
-							localDataSource.insertVehicle(mappers.apiDtoToDbEntity(dto)).fold(
+							localDataSource.insertVehicle(mappers.apiDtoToEntity(dto)).fold(
 								success = {},
 								failure = { emit(ResultState.failure(it)) }
 							)

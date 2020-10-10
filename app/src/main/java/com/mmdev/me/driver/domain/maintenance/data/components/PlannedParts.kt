@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.10.2020 02:07
+ * Last modified 09.10.2020 17:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,17 +17,17 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
  */
 
 enum class PlannedParts: SparePart {
-	AIR_FILTER,
-	OIL_FILTER,
-	FUEL_FILTER,
-	CABIN_FILTER,
+	FILTER_AIR,
+	FILTER_OIL,
+	FILTER_FUEL,
+	FILTER_CABIN,
 	BRAKES_FLUID,
-	ENGINE_OIL,
+	OIL_ENGINE,
 	GRM_KIT,
 	PLUGS, //свеча (зажигания или накалывания)
 	ANTIFREEZE,
-	TRANSMISSION_OIL, //масло для кпп
-	TRANSMISSION_FILTER, //для акпп
+	OIL_TRANSMISSION, //масло для кпп
+	FILTER_TRANSMISSION, //для акпп
 	;
 	
 	override fun getSparePartName(): String = name

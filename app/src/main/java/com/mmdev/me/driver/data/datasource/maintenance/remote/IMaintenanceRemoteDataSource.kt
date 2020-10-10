@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:27
+ * Last modified 10.10.2020 15:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,10 +23,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMaintenanceRemoteDataSource {
 	
-	fun addMaintenanceEntry(
+	fun addMaintenanceHistoryItems(
 		email: String,
 		vin: String,
-		dto: VehicleSparePartDto
+		items: List<VehicleSparePartDto>
 	): Flow<SimpleResult<Unit>>
 	
 	fun getMaintenanceHistory(

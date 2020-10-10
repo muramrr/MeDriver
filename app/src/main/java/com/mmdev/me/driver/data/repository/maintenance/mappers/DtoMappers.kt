@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:35
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,49 @@
 
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePartDto
+import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
+import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildBy
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+
 /**
- *
+ * In [VehicleSparePartDto] -> Out: [VehicleSparePart], [VehicleSparePartEntity]
  */
 
-object DtoMappers
+object DtoMappers {
+	
+	fun toDomain(dto: VehicleSparePartDto): VehicleSparePart =
+		VehicleSparePart(
+			date = LocalDateTime.parse(dto.date),
+			dateAdded = dto.dateAdded,
+			articulus = dto.articulus,
+			vendor = dto.vendor,
+			systemNode = VehicleSystemNodeType.valueOf(dto.systemNode),
+			systemNodeComponent = VehicleSystemNodeType.valueOf(dto.systemNode).getChildBy(dto.systemNodeComponent),
+			customNodeComponent = dto.customNodeComponent,
+			commentary = dto.commentary,
+			moneySpent = dto.moneySpent,
+			odometerValueBound = dto.odometerValueBound,
+			vehicleVinCode = dto.vehicleVinCode
+		)
+	
+	
+	fun toEntity(dto: VehicleSparePartDto): VehicleSparePartEntity =
+		VehicleSparePartEntity(
+			date = Instant.parse(dto.date).toEpochMilliseconds(),
+			dateAdded = dto.dateAdded,
+			articulus = dto.articulus,
+			vendor = dto.vendor,
+			systemNode = dto.systemNode,
+			systemNodeComponent = dto.systemNodeComponent,
+			customNodeComponent = dto.customNodeComponent,
+			commentary = dto.commentary,
+			moneySpent = dto.moneySpent,
+			odometerValueBound = dto.odometerValueBound,
+			vehicleVinCode = dto.vehicleVinCode
+		)
+	
+}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.10.2020 03:38
+ * Last modified 10.10.2020 04:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,9 +43,9 @@ class MaintenanceLocalDataSourceImpl(private val dao: MaintenanceDao) :
 	}
 	
 	override suspend fun getSystemNodeHistory(
-		vin: String, systemNode: String, limit: Int, offset: Int
+		vin: String, systemNode: String
 	): SimpleResult<List<VehicleSparePartEntity>> = safeCall(TAG) {
-		dao.getSystemNodeHistory(vin, systemNode, limit, offset)
+		dao.getSystemNodeHistory(vin, systemNode)
 	}
 	
 	override suspend fun insertReplacedSpareParts(

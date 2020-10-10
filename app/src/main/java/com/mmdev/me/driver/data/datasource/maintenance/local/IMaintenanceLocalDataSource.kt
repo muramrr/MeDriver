@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.10.2020 03:29
+ * Last modified 10.10.2020 04:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,9 +39,7 @@ interface IMaintenanceLocalDataSource {
 	
 	suspend fun getSystemNodeHistory(
 		vin: String,
-		systemNode: String,
-		limit: Int,
-		offset: Int
+		systemNode: String
 	): SimpleResult<List<VehicleSparePartEntity>>
 	
 	suspend fun insertReplacedSpareParts(

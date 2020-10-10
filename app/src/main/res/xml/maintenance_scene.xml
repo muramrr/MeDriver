@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 19:09
+  ~ Last modified 10.10.2020 18:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -164,7 +164,6 @@
 			android:translationX="0dp"
 			
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/tvToolbarTitle"
 			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
 			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
@@ -177,8 +176,19 @@
 			android:translationX="0dp"
 			
 			app:layout_constraintStart_toEndOf="@id/btnBack"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			/>
+		
+		<Constraint android:id="@+id/btnMultiSelect"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
+			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
 		
 		<Constraint android:id="@+id/rvNodeChildComponents"
@@ -206,7 +216,6 @@
 			android:translationX="0dp"
 			
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/tvToolbarTitle"
 			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
 			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
@@ -219,8 +228,21 @@
 			android:translationX="0dp"
 			
 			app:layout_constraintStart_toEndOf="@id/btnBack"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			/>
+		
+		<Constraint android:id="@+id/btnMultiSelect"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			android:scaleX="0"
+			android:scaleY="0"
+			
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
+			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
 		
 		<Constraint android:id="@+id/rvNodeChildComponents"

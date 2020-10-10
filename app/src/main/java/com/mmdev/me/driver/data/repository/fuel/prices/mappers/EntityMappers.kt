@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.10.2020 16:24
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,12 +35,16 @@ object EntityMappers {
 			)
 		}
 	
+	
+	
 	/** Out: [FuelPrice] */
 	private fun priceEntityToDomain(entity: FuelPriceEntity): FuelPrice =
 		FuelPrice(price = entity.price, typeCode = entity.typeCode)
 	
 	private fun listPriceEntitiesToDomain(input: List<FuelPriceEntity>): List<FuelPrice> =
 		mapList(input) { priceEntityToDomain(it)}
+	
+	
 	
 	/** Out: [FuelStation] */
 	private fun stationEntityToDomain(entity: FuelStationEntity): FuelStation =
@@ -49,6 +53,8 @@ object EntityMappers {
 			slug = entity.slug,
 			updatedDate = entity.updatedDate
 		)
+	
+	
 	
 	/** Out: [FuelSummary] */
 	fun summaryEntityToDomain(entity: FuelSummaryEntity): FuelSummary =

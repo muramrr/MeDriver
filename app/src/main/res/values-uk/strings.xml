@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 09.10.2020 03:04
+  ~ Last modified 10.10.2020 18:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,35 +45,6 @@
 
 
 
-<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_title">Двигун</string>
-	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Поршні\n&#8226; Радіатор\n&#8226; ГРМ\n&#8226; Свічки\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_transmission_title">Трансмісія</string>
-	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_electrics_title">Електрика</string>
-	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_suspension_title">Підвіска</string>
-	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_brakes_title">Гальма</string>
-	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
-	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_other_title">Інше</string>
-	<string name="btm_sheet_maintenance_add_other_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_planned_title">Планове</string>
-	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Мастило\n&#8226; Фільтри\n&#8226; Рідина\n&#8226; Діагностика</string>
-	
-<!-- ******************************************************************************************* -->
-
-
-
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
 	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_error">Неправильний формат VIN</string>
@@ -96,6 +67,44 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_add_engine_title">Двигун</string>
+	<string name="btm_sheet_maintenance_add_engine_components">&#8226; ГБЦ\n&#8226; Поршні\n&#8226; Гофра\n&#8226; Паливна система\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_transmission_title">Трансмісія</string>
+	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Датчик швидкості\n&#8226; Зчеплення\n&#8226; Напіввісь\n&#8226; РШ шарнір\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_electrics_title">Електрика</string>
+	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Акумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Котушки\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_suspension_title">Підвіска</string>
+	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Амортизація\n&#8226; Пружина\n&#8226; Маточина колеса\n&#8226; Втулки, стійки\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_brakes_title">Гальма</string>
+	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Диск, колодки, барабан\n&#8226; Супорт\n&#8226; Трос ручника\n&#8226; Датчики\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
+	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Щітки\n&#8226; Фари, ліхтарі\n&#8226; Скло\n&#8226; Бампери\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_other_title">Інше</string>
+	<string name="btm_sheet_maintenance_add_other_components">Не впевнені до якої категорії віднести замінену деталь?</string>
+	
+	<string name="btm_sheet_maintenance_add_planned_title">Планове</string>
+	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Мастило, фільтри\n&#8226; ГРМ\n&#8226; Рідина\n&#8226; Свічки</string>
+	
+	
+	
+	<string name="btm_sheet_maintenance_btn_multi_select_choose">Вибрати</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистити</string>
+	
+	
+	
 	<string-array name="fg_maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушника</item>
@@ -200,8 +209,8 @@
 		<item>Армотизатор багажника</item>
 		<item>Фара (ліва)</item>
 		<item>Фара (права)</item>
-		<item>Фонар (лівий)</item>
-		<item>Фонар (правий)</item>
+		<item>Ліхтар (лівий)</item>
+		<item>Ліхтар (правий)</item>
 		<item>Протитуманна фара (ліва)</item>
 		<item>Протитуманна фара (права)</item>
 		<item>Решітка радіатору</item>
@@ -257,6 +266,18 @@
 	<string name="fg_fuel_history_empty_hint_subtitle">Натисніть \'+\' щоб додати новий запис</string>
 	<string name="fg_fuel_history_empty_hint_title">Ваша історія порожня :(</string>
 	<string name="fg_fuel_history_empty_hint_image_desc">Порожня історія. Індикатор</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -361,18 +382,6 @@
 	<string name="fg_settings_auth_sign_up_error_message">Невідома помилка під час регистрації</string>
 	<string name="fg_settings_auth_email_sent_error_message">Помилка. Лист не відправлено</string>
 	<string name="fg_settings_auth_email_sent_success">Лист було успішно надіслано</string>
-<!-- ******************************************************************************************* -->
-
-
-
-<!-- ********************************* item_fuel_history_entry ********************************* -->
-	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
-	
-	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
-	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
-	
-	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
-	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
 <!-- ******************************************************************************************* -->
 
 	

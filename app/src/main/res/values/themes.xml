@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 18:47
+  ~ Last modified 10.10.2020 18:19
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,6 +48,8 @@
 		<!-- widgets styles -->
 		<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
 		<item name="bottomSheetDialogTheme">@style/My.BottomSheet.Overlay</item>
+		
+		<item name="checkboxStyle">@style/My.Widget.CheckBox</item>
 
 		<!-- text appearances -->
 		<item name="android:textViewStyle">@style/My.Widget.TextView</item>
@@ -72,6 +74,11 @@
 	<style name="My.BottomSheet.Overlay" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
 		<item name="bottomSheetStyle">@style/My.BottomSheet</item>
 		<item name="android:windowSoftInputMode">adjustResize</item>
+	</style>
+	
+	<style name="My.Checkbox.Overlay" parent="">
+		<item name="colorOnSurface">@color/colorOnSurface</item>
+		<item name="colorSecondary">@color/colorSecondaryDark</item>
 	</style>
 	
 	

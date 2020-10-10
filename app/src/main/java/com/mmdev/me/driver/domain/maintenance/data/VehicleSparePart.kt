@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 09.10.2020 17:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,15 +30,15 @@ import kotlinx.datetime.LocalDateTime
  * @param systemNodeComponent describes child component of vehicle system node (eg: Valve, Pads etc)
  */
 data class VehicleSparePart(
-	val date: LocalDateTime,
+	var date: LocalDateTime,
 	val dateAdded: Long = currentEpochTime(),
-	val articulus: String = "",
-	val vendor: String = "",
+	var articulus: String = "",
+	var vendor: String = "",
 	val systemNode: VehicleSystemNodeType,
 	val systemNodeComponent: SparePart,
-	val customNodeComponent: String = systemNodeComponent.getSparePartName(),
-	val commentary: String = "",
-	val moneySpent: Double,
+	var customNodeComponent: String = systemNodeComponent.getSparePartName(),
+	var commentary: String = "",
+	var moneySpent: Double,
 	val odometerValueBound: DistanceBound = DistanceBound(),
 	val vehicleVinCode: String
 )

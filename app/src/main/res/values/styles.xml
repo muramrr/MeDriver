@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 17:10
+  ~ Last modified 10.10.2020 19:38
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,10 +43,20 @@
 		<item name="loadStrokeWidth">4dp</item>
 	</style>
 	
-	<!-- button with icon at center
-	button size should be x2 than icon size you provided in
-	-->
-	<style name="My.Widget.Button.IconOnly.Rounded" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+	<!-- button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded.Unelevated" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+	
+	</style>
+	
+	<!-- button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded" parent="Widget.MaterialComponents.Button.Icon">
 		
 		<item name="android:insetLeft">0dp</item>
 		<item name="android:insetRight">0dp</item>
@@ -58,7 +68,7 @@
 	</style>
 	
 	<!-- button with letter at center -->
-	<style name="My.Widget.Button.LetterOnly.Rounded" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+	<style name="My.Widget.Button.LetterOnly.Rounded.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
 		
 		<item name="android:padding">1dp</item>
 		<item name="android:insetLeft">0dp</item>
@@ -68,6 +78,10 @@
 		
 		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
 	
+	</style>
+	
+	<style name="My.Widget.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+		<item name="materialThemeOverlay">@style/My.Checkbox.Overlay</item>
 	</style>
 	
 </resources>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:27
+ * Last modified 10.10.2020 15:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,8 @@ import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapMerge
 
 /**
  * [IMaintenanceRemoteDataSource] implementation
@@ -34,16 +36,19 @@ class MaintenanceRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 		private const val FS_DATE_FIELD = "date"
 	}
 	
-	override fun addMaintenanceEntry(
-		email: String, vin: String, dto: VehicleSparePartDto
+	override fun addMaintenanceHistoryItems(
+		email: String, vin: String, items: List<VehicleSparePartDto>
 	): Flow<SimpleResult<Unit>> =
-		fs.collection(FS_USERS_COLLECTION)
-			.document(email)
-			.collection(FS_VEHICLES_COLLECTION)
-			.document(vin)
-			.collection(FS_VEHICLE_REPLACED_PARTS)
-			.document(dto.date)
-			.setAsFlow(dto)
+		items.asFlow().flatMapMerge(5) { dto ->
+			fs.collection(FS_USERS_COLLECTION)
+				.document(email)
+				.collection(FS_VEHICLES_COLLECTION)
+				.document(vin)
+				.collection(FS_VEHICLE_REPLACED_PARTS)
+				.document(dto.date)
+				.setAsFlow(dto)
+		}
+		
 	
 	override fun getMaintenanceHistory(
 		email: String, vin: String

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 10.10.2020 14:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,7 @@ data class VehicleSparePartDto (
 	val vendor: String = "",
 	val systemNode: String = "",
 	val systemNodeComponent: String = "",
+	var customNodeComponent: String = "",
 	val commentary: String = "",
 	val moneySpent: Double = 0.0,
 	val odometerValueBound: DistanceBound = DistanceBound(),

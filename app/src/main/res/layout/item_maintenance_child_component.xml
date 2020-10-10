@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 10.10.2020 20:01
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="String"
+			/>
+		<variable
+			name="multiSelect"
+			type="Boolean"
+			/>
+	</data>
+	
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		>
+		
+		<com.google.android.material.checkbox.MaterialCheckBox
+			android:id="@+id/tvChildComponentTitleCheckable"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="16dp"
+			android:padding="16dp"
+			
+			android:checked="false"
+			android:ellipsize="end"
+			android:maxLines="1"
+			
+			android:text="@{bindItem}"
+			android:textAppearance="?textAppearanceBody1"
+			app:visibilityInvisible="@{multiSelect}"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvChildComponentTitle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?selectableItemBackground"
+			
+			android:padding="16dp"
+			android:ellipsize="end"
+			android:maxLines="1"
+			
+			android:text="@{bindItem}"
+			app:visibilityInvisible="@{!multiSelect}"
+			/>
+		
+	</FrameLayout>
+	
+	
+
+</layout>

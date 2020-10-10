@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 09.10.2020 03:04
+  ~ Last modified 10.10.2020 18:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,35 +45,6 @@
 
 
 
-<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_title">Двигатель</string>
-	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Valve\n&#8226; Radiators\n&#8226; Shaft\n&#8226; Spark plug\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_transmission_title">Трансмиссия</string>
-	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_electrics_title">Электрика</string>
-	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_suspension_title">Подвеска</string>
-	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_brakes_title">Тормоза</string>
-	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
-	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_other_title">Другое</string>
-	<string name="btm_sheet_maintenance_add_other_components">&#8226; 1\n&#8226; 2\n&#8226; 3\n&#8226; 4\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_planned_title">Плановое</string>
-	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Conditioning\n&#8226; Diagnostics</string>
-	
-<!-- ******************************************************************************************* -->
-
-
-
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
 	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_error">Неверный формат VIN</string>
@@ -96,6 +67,44 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_add_engine_title">Двигатель</string>
+	<string name="btm_sheet_maintenance_add_engine_components">&#8226; ГБЦ\n&#8226; Поршни\n&#8226; Гофра\n&#8226; Топливная система\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_transmission_title">Трансмиссия</string>
+	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Датчик скорости\n&#8226; Сцепление\n&#8226; Полуось\n&#8226; ШРУС ("граната")\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_electrics_title">Электрика</string>
+	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Аккумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Катушки\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_suspension_title">Подвеска</string>
+	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Амортизация\n&#8226; Пружина\n&#8226; Ступица колеса\n&#8226; Втулки, рычаги\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_brakes_title">Тормоза</string>
+	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Диски, колодки, барабан\n&#8226; Суппорт\n&#8226; Датчики\n&#8226; Трос ручника\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
+	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Дворники\n&#8226; Фары, фонари\n&#8226; Стекло\n&#8226; Бампера\n…</string>
+	
+	<string name="btm_sheet_maintenance_add_other_title">Другое</string>
+	<string name="btm_sheet_maintenance_add_other_components">Не знаете к какой категории отнести замененную деталь?</string>
+	
+	<string name="btm_sheet_maintenance_add_planned_title">Плановое</string>
+	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Масло, фильтры\n&#8226; ГРМ\n&#8226; Жидкости\n&#8226; Свечи</string>
+	
+	
+	
+	<string name="btm_sheet_maintenance_btn_multi_select_choose">Выбрать</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистить</string>
+	
+	
+	
 	<string-array name="fg_maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушителя</item>
@@ -261,6 +270,18 @@
 
 
 
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
+<!-- ******************************************************************************************* -->
+
+
+
 <!-- ******************************** dialog_fuel_history_add ******************************** -->
 	<string name="fg_fuel_history_add_distance_passed_title">Пройдено</string>
 	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s км</string>
@@ -363,17 +384,6 @@
 	<string name="fg_settings_auth_email_sent_success">Письмо успешно отправлено</string>
 <!-- ******************************************************************************************* -->
 
-
-
-<!-- ********************************* item_fuel_history_entry ********************************* -->
-	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
-	
-	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
-	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
-	
-	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
-	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
-<!-- ******************************************************************************************* -->
 
 
 

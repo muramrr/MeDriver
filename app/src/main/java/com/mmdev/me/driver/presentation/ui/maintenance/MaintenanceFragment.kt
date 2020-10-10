@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 10.10.2020 18:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.FragmentMaintenanceBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddBottomSheet
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -29,6 +30,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	override fun setupViews() {
 		
 		binding.fabAddMaintenance.setOnClickListener {
+			mViewModel.clearDialogData()
 			MaintenanceAddBottomSheet()
 				.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 		}

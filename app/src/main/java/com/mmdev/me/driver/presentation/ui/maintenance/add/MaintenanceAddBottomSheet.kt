@@ -1,19 +1,20 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 10.10.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.maintenance
+package com.mmdev.me.driver.presentation.ui.maintenance.add
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,12 +25,12 @@ import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
-import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.*
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildren
-import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
+import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.text
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -66,10 +67,13 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private val mViewModel: MaintenanceViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	private var parentNode = ""
-	private var childComponent = ""
+	private var childComponentLocalized = ""
 	
 	
-	private var childComponentsAdapter = NodeChildComponentsAdapter(emptyList())
+	private var childComponentsAdapter = ChildComponentsAdapter(emptyList())
+	
+	private var multiSelectButtonChooseText = ""
+	private var multiSelectButtonClearText = ""
 	
 	private var engineComponents: List<String> = emptyList()
 	private var transmissionComponents: List<String> = emptyList()
@@ -80,6 +84,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private var otherComponents: List<String> = emptyList()
 	private var plannedComponents: List<String> = emptyList()
 	
+	
+	private var btnNextFromMultiSelectStartPos = 0f
 	
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View =
@@ -121,13 +127,15 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	}
 	
 	private fun initStringRes() {
+		multiSelectButtonChooseText = getString(R.string.btm_sheet_maintenance_btn_multi_select_choose)
+		multiSelectButtonClearText = getString(R.string.btm_sheet_maintenance_btn_multi_select_clear)
+		
 		engineComponents = resources.getStringArray(R.array.fg_maintenance_engine_components).toList()
 		transmissionComponents = resources.getStringArray(R.array.fg_maintenance_transmission_components).toList()
 		electricComponents = resources.getStringArray(R.array.fg_maintenance_electric_components).toList()
 		suspensionComponents = resources.getStringArray(R.array.fg_maintenance_suspension_components).toList()
 		brakesComponents = resources.getStringArray(R.array.fg_maintenance_brakes_components).toList()
 		bodyComponents = resources.getStringArray(R.array.fg_maintenance_body_components).toList()
-		otherComponents = resources.getStringArray(R.array.fg_maintenance_other_components).toList()
 		plannedComponents = resources.getStringArray(R.array.fg_maintenance_planned_components).toList()
 	}
 	
@@ -140,10 +148,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 				override fun onTransitionChange(container: MotionLayout, start: Int, end: Int, pos: Float) {}
 				
 				override fun onTransitionCompleted(container: MotionLayout, currentId: Int) {
-					when (currentId) {
-						R.id.childPickSet -> (requireDialog() as BottomSheetDialog).behavior.isDraggable = false
-						else -> (requireDialog() as BottomSheetDialog).behavior.isDraggable = true
-					}
+					(requireDialog() as BottomSheetDialog).behavior.isDraggable = currentId != R.id.childPickSet
+					if (currentId == R.id.parentPickSet) childComponentsAdapter.turnOffMultiSelect()
 				}
 				
 				override fun onTransitionTrigger(
@@ -152,72 +158,55 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 			})
 			
 			
-			
-			
 			btnBack.setDebounceOnClick(500) {
 				//transition to start motion state and the next click dismisses dialog
 				when (motionMaintenance.currentState) {
-					R.id.parentPickSet -> dismiss()
+					R.id.parentPickSet -> dismissAllowingStateLoss()
 					R.id.childPickSet -> motionMaintenance.transitionToState(R.id.parentPickSet)
-					R.id.formSet -> {
-						tvToolbarTitle.text = parentNode
-						motionMaintenance.transitionToStart()
-					}
+					R.id.formSet -> motionMaintenance.transitionToStart()
+					
 				}
 				hideKeyboard(rootView)
 			}
 			
+			btnMultiSelect.setDebounceOnClick(500) {
+				childComponentsAdapter.toggleMultiSelect()
+			}
+			
+			btnNextFromMultiSelectStartPos = btnNextFromMultiSelect.translationY
+			btnNextFromMultiSelect.setOnClickListener {
+				motionMaintenance.transitionToState(R.id.formSet)
+			}
 			
 		}
 		
-		setupParentPickSet()
+		
 		setupChildPickSet()
 		setupFormSet()
 	}
 	
-	private fun setupParentPickSet() {
-		binding.apply {
-			cvEngineNode.setOnClickListener {
-				parentNodeSelected(ENGINE, tvEngineNodeTitle.text.toString())
-			}
-			
-			cvTransmissionNode.setOnClickListener {
-				parentNodeSelected(TRANSMISSION, tvTransmissionNodeTitle.text.toString())
-			}
-			
-			cvElectricsNode.setOnClickListener {
-				parentNodeSelected(ELECTRICS, tvElectricsNodeTitle.text.toString())
-			}
-			
-			cvSuspensionNode.setOnClickListener {
-				parentNodeSelected(SUSPENSION, tvSuspensionNodeTitle.text.toString())
-			}
-			
-			cvBrakesNode.setOnClickListener {
-				parentNodeSelected(BRAKES, tvBrakesNodeTitle.text.toString())
-			}
-			
-			cvBodyNode.setOnClickListener {
-				parentNodeSelected(BODY, tvBodyNodeTitle.text.toString())
-			}
-			
-			cvOtherNode.setOnClickListener {
-				parentNodeSelected(OTHERS, tvOtherNodeTitle.text.toString())
-			}
-			
-			cvPlannedNode.setOnClickListener {
-				parentNodeSelected(PLANNED, tvPlannedNodeTitle.text.toString())
-			}
-		}
-	}
 	
 	private fun setupChildPickSet() {
+		
+		childComponentsAdapter.multiSelectState.observe(this, {
+			binding.btnMultiSelect.text = if (it) multiSelectButtonClearText
+			else  multiSelectButtonChooseText
+			
+			binding.btnNextFromMultiSelect.animate().apply {
+				translationY(
+					if (it) 0f else btnNextFromMultiSelectStartPos
+				)
+				interpolator = OvershootInterpolator()
+				duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+			}
+			
+		})
+		
 		binding.apply {
 			
 			childComponentsAdapter.setOnItemClickListener { view, position, item ->
 				childComponentSelected(
-					mViewModel.selectedVehicleSystemNode.value!!.getChildren()[position],
-					item
+					mViewModel.selectedVehicleSystemNode.value!!.getChildren()[position], item
 				)
 			}
 			
@@ -236,17 +225,25 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private fun observeSelectedNode() {
 		mViewModel.selectedVehicleSystemNode.observe(this, {
 			
-			logWtf(TAG, "parent " + it.name)
+			logWtf(TAG, "parent " + it?.name)
 			
 			when (it) {
-				ENGINE -> childComponentsAdapter.setNewData(engineComponents)
-				TRANSMISSION -> childComponentsAdapter.setNewData(transmissionComponents)
-				ELECTRICS -> childComponentsAdapter.setNewData(electricComponents)
-				SUSPENSION -> childComponentsAdapter.setNewData(suspensionComponents)
-				BRAKES -> childComponentsAdapter.setNewData(brakesComponents)
-				BODY -> childComponentsAdapter.setNewData(bodyComponents)
-				OTHERS -> childComponentsAdapter.setNewData(otherComponents)
-				PLANNED -> childComponentsAdapter.setNewData(plannedComponents)
+				ENGINE -> {
+					parentNodeSelected(binding.tvEngineNodeTitle.text.toString(), engineComponents)
+				}
+				TRANSMISSION -> {
+					parentNodeSelected(binding.tvTransmissionNodeTitle.text(), transmissionComponents)
+				}
+				ELECTRICS -> {
+					parentNodeSelected(binding.tvElectricsNodeTitle.text(), electricComponents)
+				}
+				SUSPENSION -> {
+					parentNodeSelected(binding.tvSuspensionNodeTitle.text(), suspensionComponents)
+				}
+				BRAKES -> { parentNodeSelected(binding.tvBrakesNodeTitle.text(), brakesComponents) }
+				BODY -> { parentNodeSelected(binding.tvBodyNodeTitle.text(), bodyComponents) }
+				OTHERS -> { parentNodeSelected(binding.tvOtherNodeTitle.text(), otherComponents) }
+				PLANNED -> { parentNodeSelected(binding.tvPlannedNodeTitle.text(), plannedComponents) }
 				else -> {}
 			}
 		})
@@ -255,30 +252,25 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private fun observeSelectedChildComponent() {
 		mViewModel.selectedChildComponent.observe(this, {
 			
-			logWtf(TAG, "child = " + it.getSparePartName())
+			logWtf(TAG, "child = " + it?.getSparePartName())
 			
 		})
 	}
 	
-	private fun parentNodeSelected(parent: VehicleSystemNodeType, title: String) {
-		mViewModel.selectedVehicleSystemNode.postValue(parent)
+	private fun parentNodeSelected(title: String, data: List<String>) {
 		parentNode = title
 		binding.tvToolbarTitle.text = parentNode
+		childComponentsAdapter.setNewData(data)
 		
-		if (parent != OTHERS) {
-			binding.motionMaintenance.transitionToState(R.id.childPickSet)
-		}
-		else {
-			binding.motionMaintenance.transitionToState(R.id.formSet)
-			childComponentSelected(OtherParts.OTHER, title)
-		}
+		/** empty list contains only [OTHERS] system node */
+		if (data.isNotEmpty()) binding.motionMaintenance.transitionToState(R.id.childPickSet)
+		else childComponentSelected(OtherParts.OTHER, title)
 	}
 	
 	private fun childComponentSelected(component: SparePart, title: String) {
 		binding.motionMaintenance.transitionToState(R.id.formSet)
 		mViewModel.selectedChildComponent.postValue(component)
-		childComponent = title
-		binding.tvToolbarTitle.text = childComponent
+		childComponentLocalized = title
 	}
 	
 	
@@ -288,10 +280,5 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		super.onDestroyView()
 	}
 	
-	
-	
-	
-	private class NodeChildComponentsAdapter(data: List<String>) :
-			BaseRecyclerAdapter<String>(data, R.layout.item_single_text)
 	
 }

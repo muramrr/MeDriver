@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:33
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,12 +20,11 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 /**
  * MappersFacade used inside [com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl]
  * contains mappers between layers [data <-> domain]
- * mapping between sources [dto -> dbEntity], [dbEntity -> DomainModel], [dto -> DomainModel]
+ * mapping between sources [dto -> entity], [entity -> Domain], [dto -> Domain]
  *
- * DTO = Data Transfer Object
- * DB = database
- * Entity = room database @Entity data class
- * DM = Domain Model
+ * DTO = Data Transfer Object (used only to store inside FirebaseFirestore)
+ * ENTITY = Room database data class (annotation @Entity)
+ * DM = Domain class
  */
 
 class VehicleMappersFacade {
@@ -41,43 +40,31 @@ class VehicleMappersFacade {
 		)
 	
 	// in: dto, out: * entity, domain
-	fun apiDtoToDomain(dto: VehicleDto): Vehicle =
-		DtoMappers.toDomain(dto)
-	
-	fun apiDtoToDbEntity(dto: VehicleDto): VehicleEntity =
-		DtoMappers.toEntity(dto)
+	fun apiDtoToEntity(dto: VehicleDto): VehicleEntity = DtoMappers.toEntity(dto)
 	
 	fun listApiDtoToDomain(input: List<VehicleDto>): List<Vehicle> =
-		mapList(input) { apiDtoToDomain(it) }
+		mapList(input) { DtoMappers.toDomain(it) }
 	
-	fun listApiDtoToDbEntity(input: List<VehicleDto>): List<VehicleEntity> =
-		mapList(input) { apiDtoToDbEntity(it) }
+	fun listApiDtoToEntity(input: List<VehicleDto>): List<VehicleEntity> =
+		mapList(input) { apiDtoToEntity(it) }
 	
 	
 	
 	
 	// in: domain, out: * entity, dto
-	fun domainToDbEntity(domain: Vehicle): VehicleEntity =
-		DomainMappers.toEntity(domain)
+	fun domainToEntity(domain: Vehicle): VehicleEntity = DomainMappers.toEntity(domain)
 	
-	fun domainToApiDto(domain: Vehicle): VehicleDto =
-		DomainMappers.toDto(domain)
+	fun domainToApiDto(domain: Vehicle): VehicleDto = DomainMappers.toDto(domain)
 	
 	
 	
 	
 	// in: entity, out: * domain, dto
-	fun dbEntityToApiDto(entity: VehicleEntity): VehicleDto =
-		EntityMappers.toDto(entity)
+	fun listEntitiesToDomain(input: List<VehicleEntity>): List<Vehicle> =
+		mapList(input) { EntityMappers.toDomain(it) }
 	
-	fun dbEntityToDomain(entity: VehicleEntity): Vehicle =
-		EntityMappers.toDomain(entity)
-	
-	fun listDbEntityToDomain(input: List<VehicleEntity>): List<Vehicle> =
-		mapList(input) { dbEntityToDomain(it) }
-	
-	fun listDbEntityToDtos(input: List<VehicleEntity>): List<VehicleDto> =
-		mapList(input) { dbEntityToApiDto(it) }
+	fun listEntitiesToDto(input: List<VehicleEntity>): List<VehicleDto> =
+		mapList(input) { EntityMappers.toDto(it) }
 	
 	
 }

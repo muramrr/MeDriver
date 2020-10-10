@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.10.2020 16:24
+ * Last modified 10.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,17 +26,19 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelSummary
  * contains mappers between layers [data -> domain]
  * mappers between sources [remoteModel -> dbEntity], [dbEntity -> DomainModel]
  *
- * DTO = Data Transfer Object
- * DB = database
- * DM = Domain Model
+ * DTO = Data Transfer Object (used only to store inside FirebaseFirestore)
+ * ENTITY = Room database data class (annotation @Entity)
+ * DM = Domain class
  */
 
 class FuelPriceMappersFacade {
 	
 	
 	// in: dto, out: * summary entity, prices and stations entity
-	fun listApiDtosToDbEntities(input: response, date: String):
-			Pair<List<FuelStationEntity>, List<FuelPriceEntity>> =
+	fun listApiDtosToDbEntities(
+		input: response,
+		date: String
+	): Pair<List<FuelStationEntity>, List<FuelPriceEntity>> =
 		DtoMappers.listApiDtoToDbEntity(input, date)
 	
 	fun listApiDtosSummaryToDb(input: response): List<FuelSummaryEntity> =

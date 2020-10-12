@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 12.10.2020 17:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,10 +12,8 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
-import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.utils.extensions.gone
@@ -35,9 +33,8 @@ class FuelHistoryAdapter(
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		PriceHistoryViewHolder(
-			DataBindingUtil.inflate(
+			ItemFuelHistoryEntryBinding.inflate(
 				LayoutInflater.from(parent.context),
-				R.layout.item_fuel_history_entry,
 				parent,
 				false
 			),

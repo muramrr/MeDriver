@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 18:29
+ * Last modified 12.10.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,9 +25,11 @@ import com.mmdev.me.driver.domain.maintenance.data.components.TransmissionParts
 
 enum class VehicleSystemNodeType {
 	
-	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHERS;
+	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHER;
 	
 	companion object {
+		
+		val valuesArray = values()
 		
 		fun VehicleSystemNodeType.getChildBy(item: String): SparePart = when (this) {
 			ENGINE -> EngineParts.valueOf(item)
@@ -37,18 +39,18 @@ enum class VehicleSystemNodeType {
 			BRAKES -> BrakesParts.valueOf(item)
 			BODY -> BodyParts.valueOf(item)
 			PLANNED -> PlannedParts.valueOf(item)
-			OTHERS -> OtherParts.valueOf(item)
+			OTHER -> OtherParts.valueOf(item)
 		}
 		
 		fun VehicleSystemNodeType.getChildren(): Array<SparePart> = when (this) {
-			ENGINE -> EngineParts.values() as Array<SparePart>
-			TRANSMISSION -> TransmissionParts.values() as Array<SparePart>
-			ELECTRICS -> ElectricParts.values() as Array<SparePart>
-			SUSPENSION -> SuspensionParts.values() as Array<SparePart>
-			BRAKES -> BrakesParts.values() as Array<SparePart>
-			BODY -> BodyParts.values() as Array<SparePart>
-			PLANNED -> PlannedParts.values() as Array<SparePart>
-			OTHERS -> OtherParts.values() as Array<SparePart>
+			ENGINE -> EngineParts.valuesArray
+			TRANSMISSION -> TransmissionParts.valuesArray
+			ELECTRICS -> ElectricParts.valuesArray
+			SUSPENSION -> SuspensionParts.valuesArray
+			BRAKES -> BrakesParts.valuesArray
+			BODY -> BodyParts.valuesArray
+			PLANNED -> PlannedParts.valuesArray
+			OTHER -> OtherParts.valuesArray
 		}
 	}
 	

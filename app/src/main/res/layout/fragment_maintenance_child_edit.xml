@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 12.10.2020 20:58
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/view_card_bg_imitation_6"
+		>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvComponentTitle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:padding="8dp"
+			
+			android:textAppearance="?textAppearanceSubtitle2"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+		
+		<!-- input component -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputCustomComponent"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:hint="Component"
+			app:counterEnabled="true"
+			app:counterMaxLength="30"
+			
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvComponentTitle"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputCustomComponent"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="number"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="30"
+				
+				
+				app:hideKeyboardOnInputDone="@{true}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input vendor -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputVendor"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginEnd="4dp"
+			
+			android:hint="Vendor"
+			
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputPrice"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputVendor"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="textNoSuggestions"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="20"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input articulus -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputArticulus"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			
+			android:hint="Articulus"
+			
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputOdometer"
+			app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputArticulus"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="textNoSuggestions"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="20"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input vendor -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputPrice"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginEnd="4dp"
+			
+			android:hint="Price"
+			
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputVendor"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputPrice"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="numberDecimal"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="10"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input odometer -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputOdometer"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			
+			android:hint="@string/odometer_input_hint"
+			
+			app:errorEnabled="true"
+			
+			app:suffixKM="@{@string/kilometers}"
+			app:suffixMI="@{@string/miles}"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputArticulus"
+			app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputOdometer"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="number"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="6"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		
+		<!-- input commentary -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputCommentary"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
+			
+			android:hint="Commentary (optional)"
+			app:counterEnabled="true"
+			app:counterMaxLength="30"
+			
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputPrice"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputCommentary"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="number"
+				android:imeOptions="actionDone"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="30"
+				
+				
+				app:hideKeyboardOnInputDone="@{true}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		
+		<!-- center vertical -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineCenterVertical"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			app:layout_constraintGuide_percent="0.5"
+			/>
+		
+		
+		<!-- guideline start -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineStart"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_begin="8dp"
+			/>
+		
+		<!-- guideline end -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineEnd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_end="8dp"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

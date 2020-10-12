@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.10.2020 03:04
+ * Last modified 12.10.2020 18:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,4 +27,8 @@ enum class ElectricParts: SparePart {
 	;
 	
 	override fun getSparePartName(): String = name
+	
+	companion object {
+		val valuesArray: Array<SparePart> = values() as Array<SparePart>
+	}
 }

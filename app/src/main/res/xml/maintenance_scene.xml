@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 18:44
+  ~ Last modified 12.10.2020 21:01
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,12 +16,12 @@
 	
 	<Transition android:id="@+id/translateParentToChild"
 		app:constraintSetStart="@id/parentPickSet"
-		app:constraintSetEnd="@id/childPickSet"
+		app:constraintSetEnd="@id/childrenPickSet"
 		app:motionInterpolator="easeInOut"
 		/>
 	
 	<Transition android:id="@+id/translateChildToForm"
-		app:constraintSetStart="@id/childPickSet"
+		app:constraintSetStart="@id/childrenPickSet"
 		app:constraintSetEnd="@id/formSet"
 		app:motionInterpolator="easeInOut"
 		/>
@@ -29,155 +29,40 @@
 	<!-- backwards compatibility -->
 	<Transition android:id="@+id/translateFormToChild"
 		app:constraintSetStart="@id/formSet"
-		app:constraintSetEnd="@id/childPickSet"
+		app:constraintSetEnd="@id/childrenPickSet"
 		app:motionInterpolator="easeInOut"
 		/>
 	
 	<!-- step 1-->
 	<ConstraintSet android:id="@+id/parentPickSet">
 		
-		<Constraint android:id="@+id/cvEngineNode"
+		<Constraint android:id="@+id/rvParentNode"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginEnd="4dp"
 			
 			android:translationX="0dp"
 			
 			app:layout_constraintTop_toTopOf="@id/guidelineTop"
-			app:layout_constraintBottom_toTopOf="@id/cvTransmissionNode"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
-			/>
-		
-		<Constraint android:id="@+id/cvTransmissionNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginEnd="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toBottomOf="@id/cvEngineNode"
-			app:layout_constraintBottom_toTopOf="@id/guidelineCenterHorizontal"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
-			/>
-		
-		<Constraint android:id="@+id/cvElectricsNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginEnd="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toTopOf="@id/guidelineCenterHorizontal"
-			app:layout_constraintBottom_toTopOf="@id/cvSuspensionNode"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
-			/>
-		
-		<Constraint android:id="@+id/cvSuspensionNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginEnd="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toBottomOf="@id/cvElectricsNode"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
-			/>
-		
-		<Constraint android:id="@+id/cvBrakesNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginStart="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toTopOf="@id/guidelineTop"
-			app:layout_constraintBottom_toTopOf="@id/cvBodyNode"
-			app:layout_constraintStart_toStartOf="@id/guidelineCenterVertical"
-			app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-			/>
-		
-		<Constraint android:id="@+id/cvBodyNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginStart="4dp"
-			
-			android:translationX="-0dp"
-			
-			app:layout_constraintTop_toBottomOf="@id/cvBrakesNode"
-			app:layout_constraintBottom_toTopOf="@id/guidelineCenterHorizontal"
-			app:layout_constraintStart_toStartOf="@id/guidelineCenterVertical"
-			app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-			/>
-		
-		<Constraint android:id="@+id/cvOtherNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="4dp"
-			android:layout_marginStart="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toBottomOf="@id/guidelineCenterHorizontal"
-			app:layout_constraintBottom_toTopOf="@id/cvPlannedNode"
-			app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
-			app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-			/>
-		
-		<Constraint android:id="@+id/cvPlannedNode"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="8dp"
-			android:layout_marginStart="4dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintTop_toBottomOf="@id/cvOtherNode"
-			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
-			app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
-			app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
 			/>
 		
 	</ConstraintSet>
 	
 	<!-- step 2-->
-	<ConstraintSet android:id="@+id/childPickSet">
+	<ConstraintSet android:id="@+id/childrenPickSet">
 		
-		<Constraint android:id="@+id/btnBack"
-			android:layout_width="48dp"
-			android:layout_height="48dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
-			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
-			/>
-		
-		<Constraint android:id="@+id/tvToolbarTitle"
+		<Constraint android:id="@+id/layoutTopNavigation"
 			android:layout_width="0dp"
-			android:layout_height="?actionBarSize"
-			android:layout_marginStart="8dp"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
 			
 			android:translationX="0dp"
 			
-			app:layout_constraintStart_toEndOf="@id/btnBack"
-			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			/>
 		
 		<Constraint android:id="@+id/btnMultiSelect"
@@ -186,18 +71,17 @@
 			
 			android:translationX="0dp"
 			
+			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
-			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
 		
-		<Constraint android:id="@+id/rvNodeChildComponents"
+		<Constraint android:id="@+id/rvNodeChildren"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			
 			android:translationX="0dp"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvToolbarTitle"
+			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -209,49 +93,48 @@
 	<!-- step 3-->
 	<ConstraintSet android:id="@+id/formSet">
 		
-		<Constraint android:id="@+id/btnBack"
-			android:layout_width="48dp"
-			android:layout_height="48dp"
-			
-			android:translationX="0dp"
-			
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
-			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
-			/>
-		
-		<Constraint android:id="@+id/tvToolbarTitle"
+		<Constraint android:id="@+id/layoutTopNavigation"
 			android:layout_width="0dp"
-			android:layout_height="?actionBarSize"
-			android:layout_marginStart="8dp"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
 			
 			android:translationX="0dp"
 			
-			app:layout_constraintStart_toEndOf="@id/btnBack"
-			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			/>
 		
 		<Constraint android:id="@+id/btnMultiSelect"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:translationX="0dp"
 			android:scaleX="0"
 			android:scaleY="0"
 			
+			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			app:layout_constraintTop_toTopOf="@id/tvToolbarTitle"
-			app:layout_constraintBottom_toBottomOf="@id/tvToolbarTitle"
 			/>
 		
-		<Constraint android:id="@+id/rvNodeChildComponents"
+		<Constraint android:id="@+id/rvNodeChildren"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			
 			android:translationX="-400dp"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvToolbarTitle"
+			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/vpNodeEditChild"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

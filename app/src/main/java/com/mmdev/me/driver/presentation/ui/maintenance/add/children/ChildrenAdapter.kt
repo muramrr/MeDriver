@@ -1,36 +1,35 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 20:05
+ * Last modified 12.10.2020 20:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.maintenance.add
+package com.mmdev.me.driver.presentation.ui.maintenance.add.children
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
-import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildComponentBinding
+import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdapter.ChildComponentViewHolder
 
 /**
  *
  */
 
-class ChildComponentsAdapter(
+class ChildrenAdapter(
 	private var data: List<String>
-) : RecyclerView.Adapter<ChildComponentsAdapter.ChildComponentViewHolder>() {
+) : RecyclerView.Adapter<ChildComponentViewHolder>() {
 	
 	
-	// Keeps track of all the selected images
-	private val selectedItems = arrayListOf<String>()
+	// Keeps track of all the selected images and their positions
+	val selectedChildren = arrayListOf<Pair<String, Int>>()
 	
 	// true if the user in selection mode, false otherwise
 	// private flag
@@ -43,15 +42,23 @@ class ChildComponentsAdapter(
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		ChildComponentViewHolder(
-			DataBindingUtil.inflate(
+			ItemMaintenanceChildComponentBinding.inflate(
 				LayoutInflater.from(parent.context),
-				R.layout.item_maintenance_child_component,
 				parent,
-				false)
+				false
+			)
 		)
 	
 	override fun onBindViewHolder(holder: ChildComponentViewHolder, position: Int) =
 		holder.bind(data[position])
+	
+	/** this will prevent to recycle viewHolders
+	 * this affects situations when you input some inside first view then scroll to bottom and see
+	 * same inputs on another view
+	 * to avoid this make each view separated and prevent reusing created views
+	 * we do not have a lot of objects so performance decreasing is not significant
+	 */
+	override fun getItemViewType(position: Int): Int = position
 	
 	// default data setter
 	// override to implement another approach
@@ -66,7 +73,7 @@ class ChildComponentsAdapter(
 		if (multiSelect) {
 			multiSelect = false
 			multiSelectState.postValue(false)
-			selectedItems.clear()
+			selectedChildren.clear()
 			notifyItemRangeChanged(0, data.size)
 		}
 	}
@@ -75,7 +82,7 @@ class ChildComponentsAdapter(
 		multiSelect = !multiSelect
 		multiSelectState.postValue(multiSelect)
 		//clear list only once to do less job
-		if (multiSelect) selectedItems.clear()
+		if (multiSelect) selectedChildren.clear()
 		notifyItemRangeChanged(0, data.size)
 	}
 	
@@ -110,8 +117,8 @@ class ChildComponentsAdapter(
 			binding.tvChildComponentTitleCheckable.isChecked = false
 		
 			binding.tvChildComponentTitleCheckable.setOnCheckedChangeListener { _, isChecked ->
-				if (isChecked) selectedItems.add(item)
-				else selectedItems.remove(item)
+				if (isChecked) selectedChildren.add(Pair(item, adapterPosition))
+				else selectedChildren.remove(Pair(item, adapterPosition))
 			}
 			
 			binding.setVariable(BR.multiSelect, multiSelect)

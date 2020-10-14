@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.10.2020 20:05
+  ~ Last modified 14.10.2020 19:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -216,8 +216,6 @@
 				
 				android:text="@string/fg_settings_switcher_sync"
 				android:textAllCaps="false"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintBottom_toTopOf="@id/tvSubscriptionLabel"
@@ -245,8 +243,6 @@
 				android:layout_marginTop="32dp"
 				
 				android:text="@string/fg_settings_tv_subscription_expires"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvSyncLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
@@ -329,8 +325,6 @@
 				android:layout_marginTop="24dp"
 				
 				android:text="@string/fg_settings_switcher_dark_theme"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
 				
 				app:layout_constraintTop_toTopOf="@id/cvGeneralContainer"
 				app:layout_constraintBottom_toTopOf="@id/tvMetricSystemLabel"
@@ -360,8 +354,7 @@
 				android:labelFor="@id/switchTheme"
 				
 				android:text="@string/fg_settings_switcher_metric_system"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
+				
 				
 				app:layout_constraintTop_toBottomOf="@id/tvThemeLabel"
 				app:layout_constraintBottom_toTopOf="@id/tvLanguageLabel"
@@ -418,8 +411,7 @@
 				android:labelFor="@id/layoutLanguageChoose"
 				
 				android:text="@string/fg_settings_switcher_language"
-				android:textAppearance="?textAppearanceBody1"
-				android:textStyle="bold"
+				
 				
 				app:layout_constraintTop_toBottomOf="@id/tvMetricSystemLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"

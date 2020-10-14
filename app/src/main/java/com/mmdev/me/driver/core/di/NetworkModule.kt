@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 16:45
+ * Last modified 14.10.2020 18:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,7 +39,7 @@ val NetworkModule = module {
 
 private fun provideRetrofit(): Retrofit = Retrofit.Builder()
 	.apply {
-		addConverterFactory(Json{ ignoreUnknownKeys = true }.asConverterFactory(contentType))
+		addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(contentType))
 		baseUrl(BASE_URL)
 		if (MedriverApp.debug.isEnabled) client(okHttpClient)
 	}

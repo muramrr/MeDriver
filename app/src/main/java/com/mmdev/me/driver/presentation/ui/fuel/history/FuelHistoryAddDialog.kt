@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 20.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,10 +34,10 @@ import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import java.util.*
 
 /**
  * Fullscreen dialog used to add records to Fuel History
@@ -89,7 +88,7 @@ class FuelHistoryAddDialog(
 		observeFuelType()
 		observeInputOdometer()
 		
-		binding.run {
+		binding.apply {
 			//hide keyboard + clear focus while tapping somewhere on root view
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
@@ -154,46 +153,11 @@ class FuelHistoryAddDialog(
 
 	@SuppressLint("SetTextI18n")
 	private fun setupDatePicker() {
-		val calendar = Calendar.getInstance(TimeZone.getDefault())
-		val currentYear = calendar.get(Calendar.YEAR)
-		val currentMonth = calendar.get(Calendar.MONTH)
-		val currentMonthDisplay = currentMonth + 1 // january corresponds to 0
-		val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-		
-		val pickedDate = Calendar.getInstance(TimeZone.getDefault())
-		
-		binding.btnDatePicker.text =
-			(if (currentDay < 10) "0$currentDay." else "$currentDay.") +
-			(if (currentMonthDisplay < 10) "0$currentMonthDisplay" else "$currentMonthDisplay") +
-			".$currentYear"
-		
-		val datePickerDialog = DatePickerDialog(requireContext(), {
-				_, pickedYear, pickedMonth, pickedDay ->
-			
-			val pickedMonthDisplay = pickedMonth + 1 // january corresponds to 0
-			
-			// Display Selected date in Button
-			binding.btnDatePicker.text =
-				(if (pickedDay < 10) "0$pickedDay." else "$pickedDay.") +
-				(if (pickedMonthDisplay < 10) "0$pickedMonthDisplay" else "$pickedMonthDisplay") +
-				".$pickedYear"
-			
-			// set picked date to mViewModel
-			pickedDate.set(pickedYear, pickedMonth, pickedDay)
-			mViewModel.pickedDate = convertToLocalDateTime(pickedDate.timeInMillis)
-			
-			
-		}, currentYear, currentMonth, currentDay)
-		
-		// restrict dates min = last added history date if exists or start of epoch
-		datePickerDialog.datePicker.minDate = mViewModel.history.value!!
+		val lastHistoryEntryDate = mViewModel.history.value!!
 			.date.toInstant(currentSystemDefault()).toEpochMilliseconds()
 		
-		// max = current date
-		datePickerDialog.datePicker.maxDate = calendar.timeInMillis
-		
-		binding.btnDatePicker.setOnClickListener {
-			datePickerDialog.show()
+		binding.btnDatePickerFuelHistory.btnDatePicker.setupDatePicker(minDate = lastHistoryEntryDate) {
+			mViewModel.pickedDate = convertToLocalDateTime(this.timeInMillis)
 		}
 		
 	}

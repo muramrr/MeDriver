@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 16:03
+ * Last modified 15.10.2020 18:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,8 +27,7 @@ import kotlinx.coroutines.flow.flow
  * [IMaintenanceRepository] implementation
  */
 
-class
-	MaintenanceRepositoryImpl(
+class MaintenanceRepositoryImpl(
 	private val localDataSource: IMaintenanceLocalDataSource,
 	private val remoteDataSource: IMaintenanceRemoteDataSource,
 	private val mappers: MaintenanceMappersFacade
@@ -65,6 +64,14 @@ class
 			failure = { throwable -> emit(ResultState.failure(throwable)) }
 		)
 	}
+	
+	override suspend fun findLastReplaced(
+		vin: String, systemNode: String, customComponent: String
+	): SimpleResult<VehicleSparePart> =
+		localDataSource.findLastReplaced(vin, systemNode, customComponent).fold(
+			success = { ResultState.success(mappers.entityToDomain(it)) },
+			failure = { ResultState.failure(it) }
+		)
 	
 	override suspend fun getMaintenanceHistory(
 		vin: String, size: Int?

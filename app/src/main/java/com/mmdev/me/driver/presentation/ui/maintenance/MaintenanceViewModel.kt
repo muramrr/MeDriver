@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 18:59
+ * Last modified 20.10.2020 17:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,16 +28,23 @@ import kotlinx.coroutines.launch
  */
 
 class MaintenanceViewModel (private val repository: IMaintenanceRepository) : BaseViewModel() {
-
-
-
-
+	
+	
+	
+	fun loadMaintenanceHistory() {
+	
+	}
 
 
 /* bottom sheet maintenance add */
 	val selectedParentNode: MutableLiveData<ParentNodeUi?> = MutableLiveData()
 	val selectedVehicleSystemNode: MutableLiveData<VehicleSystemNodeType?> = MutableLiveData()
-	val selectedChildComponent: MutableLiveData<SparePart?> = MutableLiveData()
+	val selectedChildren: MutableLiveData<List<Pair<String, SparePart>>?> = MutableLiveData()
+	
+	val multiSelectState: MutableLiveData<Boolean> = MutableLiveData(false)
+	
+	val isSameDateForAll: MutableLiveData<Boolean> = MutableLiveData(false)
+	val isSameOdometerForAll: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	fun selectParentNode(parent: VehicleSystemNodeType, parentUi: ParentNodeUi) {
 		selectedVehicleSystemNode.postValue(parent)
@@ -51,12 +58,15 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 		}
 	}
 	
-	fun loadMaintenanceHistory() {
-	
+	fun loadLastTimeReplaced(vin: String, customComponent: String) {
+		viewModelScope.launch {
+			repository.findLastReplaced(vin, selectedVehicleSystemNode.value!!.toString(), customComponent)
+		}
 	}
+	
 	
 	fun clearDialogData() {
 		selectedVehicleSystemNode.value = null
-		selectedChildComponent.value = null
+		selectedChildren.value = null
 	}
 }

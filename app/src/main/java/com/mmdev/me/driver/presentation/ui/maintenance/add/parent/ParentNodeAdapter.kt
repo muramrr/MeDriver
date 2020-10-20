@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 19:39
+ * Last modified 15.10.2020 15:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,37 +29,37 @@ class ParentNodeAdapter (
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_engine_title,
 			string.btm_sheet_maintenance_add_engine_components,
-			R.array.fg_maintenance_engine_components,
+			R.array.maintenance_engine_components,
 			R.drawable.ic_node_engine_48
 		),
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_transmission_title,
 			string.btm_sheet_maintenance_add_transmission_components,
-			R.array.fg_maintenance_transmission_components,
+			R.array.maintenance_transmission_components,
 			R.drawable.ic_node_transmission_48
 		),
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_electrics_title,
 			string.btm_sheet_maintenance_add_electrics_components,
-			R.array.fg_maintenance_electric_components,
+			R.array.maintenance_electric_components,
 			R.drawable.ic_node_electrics_48
 		),
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_suspension_title,
 			string.btm_sheet_maintenance_add_suspension_components,
-			R.array.fg_maintenance_suspension_components,
+			R.array.maintenance_suspension_components,
 			R.drawable.ic_node_suspension_48
 		),
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_brakes_title,
 			string.btm_sheet_maintenance_add_brakes_components,
-			R.array.fg_maintenance_brakes_components,
+			R.array.maintenance_brakes_components,
 			R.drawable.ic_node_brakes_48
 		),
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_vehicle_body_title,
 			string.btm_sheet_maintenance_add_vehicle_body_components,
-			R.array.fg_maintenance_body_components,
+			R.array.maintenance_body_components,
 			R.drawable.ic_node_body_48
 		),
 		ParentNodeUi(
@@ -71,7 +71,7 @@ class ParentNodeAdapter (
 		ParentNodeUi(
 			string.btm_sheet_maintenance_add_planned_title,
 			string.btm_sheet_maintenance_add_planned_components,
-			R.array.fg_maintenance_planned_components,
+			R.array.maintenance_planned_components,
 			R.drawable.ic_node_planned_48
 		)
 	)

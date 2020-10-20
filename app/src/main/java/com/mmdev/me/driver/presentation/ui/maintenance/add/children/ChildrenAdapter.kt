@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 20:35
+ * Last modified 20.10.2020 17:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,14 +13,13 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add.children
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
-import com.mmdev.me.driver.databinding.ItemMaintenanceChildComponentBinding
+import com.mmdev.me.driver.databinding.ItemMaintenanceChildBinding
 import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdapter.ChildComponentViewHolder
 
 /**
- *
+ * Adapter for displaying list of children
  */
 
 class ChildrenAdapter(
@@ -34,15 +33,12 @@ class ChildrenAdapter(
 	// true if the user in selection mode, false otherwise
 	// private flag
 	private var multiSelect = false
-	// public mutable value to change parent behaviour
-	// this primary happens because of long pressed click listener attached inside ViewHolder
-	// without outer receiver
-	val multiSelectState: MutableLiveData<Boolean> = MutableLiveData(false)
+	
 	
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		ChildComponentViewHolder(
-			ItemMaintenanceChildComponentBinding.inflate(
+			ItemMaintenanceChildBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false
@@ -69,21 +65,19 @@ class ChildrenAdapter(
 	
 	override fun getItemCount(): Int = data.size
 	
-	fun turnOffMultiSelect() {
-		if (multiSelect) {
-			multiSelect = false
-			multiSelectState.postValue(false)
-			selectedChildren.clear()
-			notifyItemRangeChanged(0, data.size)
-		}
-	}
-	
-	fun toggleMultiSelect() {
+	fun toggleMultiSelect(): Boolean {
 		multiSelect = !multiSelect
-		multiSelectState.postValue(multiSelect)
 		//clear list only once to do less job
 		if (multiSelect) selectedChildren.clear()
 		notifyItemRangeChanged(0, data.size)
+		return multiSelect
+	}
+	
+	fun turnOffMultiSelect(): Boolean {
+		multiSelect = false
+		selectedChildren.clear()
+		notifyItemRangeChanged(0, data.size)
+		return multiSelect
 	}
 	
 	// allows clicks events to be caught
@@ -97,7 +91,7 @@ class ChildrenAdapter(
 	
 
 	
-	inner class ChildComponentViewHolder(private val binding: ItemMaintenanceChildComponentBinding):
+	inner class ChildComponentViewHolder(private val binding: ItemMaintenanceChildBinding):
 			RecyclerView.ViewHolder(binding.root){
 		
 		init {
@@ -114,7 +108,9 @@ class ChildrenAdapter(
 		
 		fun bind(item: String) {
 			
-			binding.tvChildComponentTitleCheckable.isChecked = false
+			binding.tvChildComponentTitleCheckable.isChecked =
+				selectedChildren.find { it.second == adapterPosition } != null
+			
 		
 			binding.tvChildComponentTitleCheckable.setOnCheckedChangeListener { _, isChecked ->
 				if (isChecked) selectedChildren.add(Pair(item, adapterPosition))

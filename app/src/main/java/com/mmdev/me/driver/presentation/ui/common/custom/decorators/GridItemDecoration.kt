@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.07.20 18:57
+ * Last modified 16.10.2020 20:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,10 +28,7 @@ class GridItemDecoration: ItemDecoration() {
 		val position = parent.getChildAdapterPosition(view)
 		val spanIndex = (view.layoutParams as GridLayoutManager.LayoutParams).spanIndex
 
-		// Add top margin only for the first item to avoid double space between items
-		if (position == 0 || position == 1) {
-			outRect.top = 30
-		}
+		
 
 		if (spanIndex == 0) {
 			outRect.left = 30

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.10.2020 16:24
+  ~ Last modified 15.10.2020 19:47
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -256,8 +256,7 @@
 		</com.google.android.material.textfield.TextInputLayout>
 		
 		<!-- button cancel -->
-		<include
-			android:id="@+id/btnCancel"
+		<include android:id="@+id/btnCancel"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="16dp"

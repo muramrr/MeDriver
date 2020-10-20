@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 21:28
+  ~ Last modified 15.10.2020 19:14
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -155,7 +155,7 @@
 			android:maxLines="1"
 			
 			android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
-			android:textAppearance="?textAppearanceOverline"
+			android:textAppearance="?textAppearanceCaption"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
 			app:layout_constraintStart_toEndOf="@id/tvMaintenanceEntryOdometer"

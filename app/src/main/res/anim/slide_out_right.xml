@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 16.10.2020 20:10
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+	<translate
+		android:duration="@android:integer/config_mediumAnimTime"
+		android:fromXDelta="0"
+		android:toXDelta="100%p" />
+	<alpha
+		android:duration="@android:integer/config_mediumAnimTime"
+		android:fromAlpha="1.0"
+		android:toAlpha="0.0" />
+</set>

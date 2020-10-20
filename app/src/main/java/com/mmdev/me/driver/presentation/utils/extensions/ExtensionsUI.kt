@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 20.10.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,12 +10,15 @@
 
 package com.mmdev.me.driver.presentation.utils.extensions
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 	Toast.makeText(this.context, text, length).show()
@@ -138,3 +141,50 @@ fun View.hideKeyboard(inputViewFocused: View? = null): Boolean {
 	finally { inputViewFocused?.clearFocus() }
 	return false
 }
+
+
+inline fun Button.setupDatePicker(
+	minDate: Long = 0, maxDate: Long? = null, crossinline block: Calendar.() -> Unit
+) {
+	val calendar = Calendar.getInstance(TimeZone.getDefault())
+	val currentYear = calendar.get(Calendar.YEAR)
+	val currentMonth = calendar.get(Calendar.MONTH)
+	val currentMonthDisplay = currentMonth + 1 // january corresponds to 0
+	val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+	
+	val pickedDate = Calendar.getInstance(TimeZone.getDefault())
+	
+	
+	text = dateToText(currentDay, currentMonthDisplay, currentYear)
+	
+	
+	val datePickerDialog = DatePickerDialog(this.context, {
+			_, pickedYear, pickedMonth, pickedDay ->
+		
+		val pickedMonthDisplay = pickedMonth + 1 // january corresponds to 0
+		
+		// Display Selected date in Button
+		text = dateToText(pickedDay, pickedMonthDisplay, pickedYear)
+		
+		pickedDate.set(pickedYear, pickedMonth, pickedDay)
+		
+		//inside block apply selected date to whatever you want
+		pickedDate.block()
+		
+		//mViewModel.pickedDate = convertToLocalDateTime(pickedDate.timeInMillis)
+		
+		
+	}, currentYear, currentMonth, currentDay)
+	
+	// if min not specified then minDate = start of epoch (0)
+	datePickerDialog.datePicker.minDate = minDate
+	
+	// if max not specified then maxDate = current date
+	datePickerDialog.datePicker.maxDate = maxDate ?: calendar.timeInMillis
+	
+	setOnClickListener { datePickerDialog.show() }
+	
+}
+
+fun dateToText(day: Int, month: Int, year: Int): String =
+	(if (day < 10) "0$day." else "$day.") + (if (month < 10) "0$month" else "$month") + ".$year"

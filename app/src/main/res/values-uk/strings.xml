@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 18:44
+  ~ Last modified 16.10.2020 20:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,6 +41,9 @@
 	
 	<string name="odometer_input_error">Неправильне значення одометра</string>
 	<string name="odometer_input_hint">Одометр</string>
+	
+	<string name="price_input_hint">Ціна</string>
+	<string name="commentary_input_hint">Коментар (необов’язково)</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -102,10 +105,13 @@
 	
 	<string name="btm_sheet_maintenance_btn_multi_select_choose">Вибрати</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистити</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_error">Потрібно обрати хоча б 1 деталь</string>
+	
+	<string name="btm_sheet_maintenance_btn_add">Додати все</string>
 	
 	
 	
-	<string-array name="fg_maintenance_engine_components">
+	<string-array name="maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушника</item>
 		<item>Ланцюг ГРМ (з натягувачем)</item>
@@ -149,7 +155,7 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_transmission_components">
+	<string-array name="maintenance_transmission_components">
 		<item>Датчик швидкості</item>
 		<item>Комплект зчеплення (диск, корзинка)</item>
 		<item>Підшипник зчеплення</item>
@@ -162,7 +168,7 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_electric_components">
+	<string-array name="maintenance_electric_components">
 		<item>Акумулятор</item>
 		<item>Генератор</item>
 		<item>Котушка запалювання</item>
@@ -172,7 +178,7 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_suspension_components">
+	<string-array name="maintenance_suspension_components">
 		<item>Амортизатори (передні)</item>
 		<item>Амортизатори (задні)</item>
 		<item>Пружина</item>
@@ -187,7 +193,7 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_brakes_components">
+	<string-array name="maintenance_brakes_components">
 		<item>Колодки + диски або барабан (передні)</item>
 		<item>Колодки + диски або барабан (задні)</item>
 		<item>Супорт</item>
@@ -199,7 +205,7 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_body_components">
+	<string-array name="maintenance_body_components">
 		<item>Щітки склоочисника (передні)</item>
 		<item>Щітки склоочисника (задні)</item>
 		<item>Вітрове скло</item>
@@ -227,11 +233,11 @@
 		<item>Інше</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_other_components">
+	<string-array name="maintenance_other_components">
 	
 	</string-array>
 	
-	<string-array name="fg_maintenance_planned_components">
+	<string-array name="maintenance_planned_components">
 		<item>Фільтр повітря</item>
 		<item>Масляний фільтр</item>
 		<item>Паливний фільтр</item>
@@ -244,6 +250,21 @@
 		<item>Мастило для КПП</item>
 		<item>Фільтр для КПП</item>
 	</string-array>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ***************************** fragment_maintenance_child_edit ***************************** -->
+	<string name="fg_maintenance_child_edit_last_replaced_label">Остання заміна</string>
+	
+	<string name="fg_maintenance_child_edit_component_hint">Деталь</string>
+	
+	<string name="fg_maintenance_child_edit_vendor_hint">Виробник</string>
+	<string name="fg_maintenance_child_edit_vendor_helper">Наприклад: Bosch</string>
+	
+	<string name="fg_maintenance_child_edit_articulus_hint">Артикул</string>
+	<string name="fg_maintenance_child_edit_articulus_helper">Наприклад: LP676</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -312,15 +333,12 @@
 	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
 	
 	<string name="fg_fuel_history_add_fuel_price_input_error">Ціна не вказана</string>
-	<string name="fg_fuel_history_add_fuel_price_input_hint">Ціна</string>
 	
 	<string name="fg_fuel_history_add_fuel_type_error">Тип пального не вказано</string>
 	<string name="fg_fuel_history_add_fuel_type_hint">Оберіть тип пального</string>
 	
 	<string name="fg_fuel_history_add_liters_input_hint">Заправлено</string>
 	<string name="fg_fuel_history_add_date_picker_btn_default">01.01.1970</string>
-	
-	<string name="fg_fuel_history_add_commentary_input_hint">Коментар (необов\'язково)</string>
 	
 <!-- ******************************************************************************************* -->
 

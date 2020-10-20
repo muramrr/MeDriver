@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 20.10.2020 14:54
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+<layout
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+	
+	<com.google.android.material.button.MaterialButton android:id="@+id/btnDatePicker"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		
+		android:text="@string/fg_fuel_history_add_date_picker_btn_default"
+		
+		app:icon="@drawable/ic_pencil_24"
+		app:iconGravity="end"
+		app:iconPadding="16dp"
+		
+		style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+		/>
+
+</layout>

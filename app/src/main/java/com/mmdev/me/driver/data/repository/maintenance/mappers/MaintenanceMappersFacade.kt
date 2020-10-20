@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:52
+ * Last modified 15.10.2020 18:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,6 +33,9 @@ class MaintenanceMappersFacade {
 	
 	fun listEntitiesToDto(input: List<VehicleSparePartEntity>): List<VehicleSparePartDto> =
 		mapList(input) { EntityMappers.toDto(it) }
+	
+	fun entityToDomain(entity: VehicleSparePartEntity): VehicleSparePart =
+		EntityMappers.toDomain(entity)
 	
 	
 	// in: domain, out: * dto, entity

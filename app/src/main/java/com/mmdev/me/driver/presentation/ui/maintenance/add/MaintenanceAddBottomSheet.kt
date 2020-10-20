@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 21:01
+ * Last modified 20.10.2020 17:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,32 +22,29 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
-import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
-import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart.Companion.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildren
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
-import com.mmdev.me.driver.presentation.ui.maintenance.add.child.EditChildAdapter
 import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdapter
 import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeAdapter
 import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeUi
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
- *
+ * Container for adding new maintenance records
  */
 
 class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	private val mViewModel: MaintenanceViewModel by lazy { requireParentFragment().getViewModel() }
-	
-	private val dismissWithAnimationBool = true
 	
 	//automatically dismiss to prevent half expanded state
 	private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -58,10 +55,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 			                         BottomSheetBehavior.STATE_SETTLING))
 				dismiss()
 		}
-		
-		override fun onSlide(bottomSheet: View, slideOffset: Float) {
-			// Do something for slide offset
-		}
+		// Do something for slide offset
+		override fun onSlide(bottomSheet: View, slideOffset: Float) {}
 	}
 	
 	// prevent view being leaked
@@ -73,12 +68,13 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	
 	private val mParentNodesAdapter = ParentNodeAdapter()
 	private val mChildrenAdapter = ChildrenAdapter(emptyList())
-	private lateinit var mEditChildAdapter: EditChildAdapter
+	//private lateinit var mEditChildAdapter: EditChildAdapter
 	
 	
-	
+	// local multi select flag
 	private var multiSelectEnabled = false
 	
+	//text to be shown on multi select toggle button
 	private var multiSelectButtonChooseText = ""
 	private var multiSelectButtonClearText = ""
 	
@@ -96,12 +92,12 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 			}.root
 	
 	
-    //attach callback, force dismiss with animation, set state
+	//attach callback, force dismiss with animation, set state
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 		//dismissWithAnimation = arguments?.getBoolean(ARG_DISMISS_WITH_ANIMATION) ?: true
 		(requireDialog() as BottomSheetDialog).apply {
-			dismissWithAnimation = dismissWithAnimationBool
+			dismissWithAnimation = true
 			behavior.state = BottomSheetBehavior.STATE_EXPANDED
 			behavior.addBottomSheetCallback(bottomSheetCallback)
 		}
@@ -113,13 +109,14 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		val sheetContainer = requireView().parent as? ViewGroup ?: return
 		sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 	}
-
+	
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		initStringRes()
 		
-		observeSelectedNode()
-		observeSelectedChildComponent()
+		observeParentSelected()
+		observeChildrenSelected()
+		observeMultiSelect()
 		
 		setupViews()
 	}
@@ -127,58 +124,67 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private fun initStringRes() {
 		multiSelectButtonChooseText = getString(R.string.btm_sheet_maintenance_btn_multi_select_choose)
 		multiSelectButtonClearText = getString(R.string.btm_sheet_maintenance_btn_multi_select_clear)
-	
+		
 	}
 	
 	private fun setupViews() {
 		binding.apply {
 			
+			//hide keyboard by pressing anywhere
+			root.setOnTouchListener { rootView, _ ->
+				rootView.performClick()
+				rootView.hideKeyboard(rootView)
+			}
+			
+			//transition to start motion state and the next click dismisses dialog
+			btnBack.setDebounceOnClick(500) {
+				when (motionMaintenance.currentState) {
+					R.id.parentPickSet -> dismissAllowingStateLoss()
+					R.id.childrenPickSet -> motionMaintenance.transitionToState(R.id.parentPickSet)
+					R.id.formSet -> motionMaintenance.transitionToStart()
+				}
+				hideKeyboard(rootView)
+			}
+			
+			//save button initial translationY (i guess 100dp, see layout xml)
+			btnNextFromMultiSelectStartPos = btnNextFromMultiSelect.translationY
+			
+			
 			motionMaintenance.addTransitionListener(object : MotionLayout.TransitionListener {
 				override fun onTransitionStarted(container: MotionLayout, start: Int, end: Int) {}
-				
 				override fun onTransitionChange(container: MotionLayout, start: Int, end: Int, pos: Float) {}
+				override fun onTransitionTrigger(container: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {}
+				
 				
 				override fun onTransitionCompleted(container: MotionLayout, currentId: Int) {
+					//disable "drag down to close" only on children list
 					(requireDialog() as BottomSheetDialog).behavior.isDraggable = currentId != R.id.childrenPickSet
-					if (currentId == R.id.parentPickSet) mChildrenAdapter.turnOffMultiSelect()
 					
-					btnNextFromMultiSelect.animate().apply {
-						translationY(
-							if (multiSelectEnabled && currentId == R.id.childrenPickSet ) 0f
-							else btnNextFromMultiSelectStartPos
-						)
-						interpolator = OvershootInterpolator()
-						duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+					if (currentId == R.id.parentPickSet)
+						mChildrenAdapter.turnOffMultiSelect().also {
+							mViewModel.multiSelectState.postValue(false)
+						}
+					
+					// animate btnNextFromMultiSelect appearance depending on flag and current state
+					animateBtnNextFromMultiSelect {
+						if (multiSelectEnabled && currentId == R.id.childrenPickSet ) 0f
+						else btnNextFromMultiSelectStartPos
 					}
 				}
 				
-				override fun onTransitionTrigger(
-					container: MotionLayout, triggerId: Int, positive: Boolean, progress: Float
-				) {}
 			})
 			
-			
-			btnMultiSelect.setDebounceOnClick(500) {
-				mChildrenAdapter.toggleMultiSelect()
-			}
 		}
 		
 		setupParentPickSet()
-		setupNavigationButtons()
 		setupChildrenPickSet()
 		setupFormSet()
 	}
 	
 	
 	
-	/**
-	 * setup parent adapter, click listener, manager
-	 * observe selected [ParentNodeUi]
-	 */
+	/** setup parent adapter, manager, adapter click listener */
 	private fun setupParentPickSet() {
-		mViewModel.selectedParentNode.observe(this, {
-			if (it != null) renderParentSelected(it)
-		})
 		
 		binding.rvParentNode.apply {
 			adapter = mParentNodesAdapter
@@ -192,131 +198,124 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		}
 	}
 	
-	/** render selected [ParentNodeUi] */
-	private fun renderParentSelected(parentNodeUi: ParentNodeUi) {
-		
-		/** 0 res int contains only [OTHER] in [ParentNodeUi] */
-		if (parentNodeUi.children != 0) {
-			binding.tvToolbarTitle.text = getString(parentNodeUi.title)
-			mChildrenAdapter.setNewData(
-				resources.getStringArray(parentNodeUi.children).toList()
-			)
-			binding.motionMaintenance.transitionToState(R.id.childrenPickSet)
-		}
-		else {
-			mChildrenAdapter.setNewData(emptyList())
-			mEditChildAdapter.setNewData(
-				listOf(Pair(getString(parentNodeUi.title), OtherParts.OTHER))
-			)
-			binding.motionMaintenance.transitionToState(R.id.formSet)
-		}
-		
-	}
-	
-	
-	
-	
-	
-	
-	private fun setupNavigationButtons() {
-		binding.apply {
-			btnBack.setDebounceOnClick(500) {
-				//transition to start motion state and the next click dismisses dialog
-				when (motionMaintenance.currentState) {
-					R.id.parentPickSet -> dismissAllowingStateLoss()
-					R.id.childrenPickSet -> motionMaintenance.transitionToState(R.id.parentPickSet)
-					R.id.formSet -> motionMaintenance.transitionToStart()
-					
-				}
-				hideKeyboard(rootView)
-			}
-			
-			btnNextFromMultiSelectStartPos = btnNextFromMultiSelect.translationY
-			btnNextFromMultiSelect.setDebounceOnClick {
-				childrenSelected(mChildrenAdapter.selectedChildren.map {
-					Pair(
-						it.first,
-						mViewModel.selectedVehicleSystemNode.value!!.getChildren()[it.second]
-					)
-				})
-			}
-		}
-	}
-	
 	private fun setupChildrenPickSet() {
-		
-		observeMultiSelect()
-		
 		binding.rvNodeChildren.apply {
 			adapter = mChildrenAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			setHasFixedSize(true)
 		}
 		
-		
+		// click on single children
 		mChildrenAdapter.setOnItemClickListener { view, position, item ->
 			
-			childrenSelected(mChildrenAdapter.selectedChildren.map {
-				Pair(
-					it.first,
-					mViewModel.selectedVehicleSystemNode.value!!.getChildren()[it.second]
+			mViewModel.selectedChildren.postValue(
+				listOf(
+					Pair(item, mViewModel.selectedVehicleSystemNode.value!!.getChildren()[position])
 				)
-			})
+			)
+		}
+		
+		binding.btnMultiSelect.setDebounceOnClick(500) {
+			mChildrenAdapter.toggleMultiSelect().also { mViewModel.multiSelectState.postValue(it) }
+		}
+		
+		// if no children selected and you press next -> show snack info, else -> proceed
+		binding.btnNextFromMultiSelect.setDebounceOnClick {
 			
-			binding.motionMaintenance.transitionToState(R.id.formSet)
+			if (mChildrenAdapter.selectedChildren.isEmpty()) {
+				rootView.showSnack(R.string.btm_sheet_maintenance_btn_multi_select_error)
+			}
+			else {
+				mViewModel.selectedChildren.postValue(
+					mChildrenAdapter.selectedChildren.map {
+						Pair(
+							it.first,
+							mViewModel.selectedVehicleSystemNode.value!!.getChildren()[it.second]
+						)
+					}
+				)
+			}
 		}
 	}
 	
-	private fun observeMultiSelect() {
-		mChildrenAdapter.multiSelectState.observe(this, {
-			multiSelectEnabled = it
-			binding.btnMultiSelect.text = if (it) multiSelectButtonClearText
-			else  multiSelectButtonChooseText
+	
+	private inline fun animateBtnNextFromMultiSelect(condition: () -> Float) {
+		binding.btnNextFromMultiSelect.animate().apply {
+			translationY(condition())
+			interpolator = OvershootInterpolator()
+			duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+		}
+	}
+	
+	private fun setupFormSet() {
+//		mEditChildAdapter = EditChildAdapter(emptyList(), childFragmentManager, lifecycle)
+//		mEditChildAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+//			@SuppressLint("SetTextI18n")
+//			override fun onChanged() {
+//				binding.tvSelectedChildrenCount.text = "${1}/${mEditChildAdapter.itemCount}"
+//			}
+//		})
+//
+//		binding.vpNodeEditChild.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+//			@SuppressLint("SetTextI18n")
+//			override fun onPageSelected(position: Int) {
+//				binding.tvSelectedChildrenCount.text = "${position + 1}/${mEditChildAdapter.itemCount}"
+//			}
+//		})
+//
+//		binding.vpNodeEditChild.apply {
+//			adapter = mEditChildAdapter
+//		}
+//
+	}
+	
+	
+	private fun observeParentSelected() {
+		mViewModel.selectedParentNode.observe(this, { parentNodeUi ->
 			
-			binding.btnNextFromMultiSelect.animate().apply {
-				translationY(
-					if (it) 0f else btnNextFromMultiSelectStartPos
-				)
-				interpolator = OvershootInterpolator()
-				duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+			parentNodeUi?.let {
+				binding.tvToolbarTitle.text = getString(it.title)
+				
+				/** check [ParentNodeUi] contains children if yes -> navigate to next step */
+				if (it.children != 0) {
+					
+					mChildrenAdapter.setNewData(resources.getStringArray(it.children).toList())
+					binding.motionMaintenance.transitionToState(R.id.childrenPickSet)
+				}
+				/** navigate directly to final form because of [OTHER] doesn't has any children */
+				else {
+					mChildrenAdapter.setNewData(emptyList())
+					//mEditChildAdapter.setNewData(listOf(Pair(getString(parentNodeUi.title), OTHER)))
+					binding.motionMaintenance.transitionToState(R.id.formSet)
+				}
 			}
 			
 		})
 	}
 	
-	
-	
-	private fun setupFormSet() {
-		mEditChildAdapter = EditChildAdapter(emptyList(), childFragmentManager, lifecycle)
-		
-		binding.vpNodeEditChild.apply {
-			adapter = mEditChildAdapter
-		}
-		
-	}
-	
-	private fun observeSelectedNode() {
-		mViewModel.selectedVehicleSystemNode.observe(this, {
+	private fun observeMultiSelect() {
+		mViewModel.multiSelectState.observe(this, {
+			multiSelectEnabled = it
+			if (!it) mChildrenAdapter.turnOffMultiSelect()
 			
-			logWtf(TAG, "parent " + it?.name)
+			//change multi select button text after pressing
+			binding.btnMultiSelect.text = if (it) multiSelectButtonClearText
+			else multiSelectButtonChooseText
+			
+			animateBtnNextFromMultiSelect { if (it) 0f else btnNextFromMultiSelectStartPos }
 			
 		})
 	}
 	
-	
-	
-	
-	private fun observeSelectedChildComponent() {
-		mViewModel.selectedChildComponent.observe(this, {
+	private fun observeChildrenSelected() {
+		mViewModel.selectedChildren.observe(this, {
 			
-			logWtf(TAG, "child = " + it?.getSparePartName())
+			it?.let {
+				//mEditChildAdapter.setNewData(it)
+				binding.motionMaintenance.transitionToState(R.id.formSet)
+			}
 			
 		})
-	}
-	
-	private fun childrenSelected(selectedItems: List<Pair<String, SparePart>>) {
-		mEditChildAdapter.setNewData(selectedItems)
-		binding.motionMaintenance.transitionToState(R.id.formSet)
 	}
 	
 	

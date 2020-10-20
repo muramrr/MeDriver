@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 18:42
+  ~ Last modified 16.10.2020 20:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,6 +41,9 @@
 	
 	<string name="odometer_input_error">Неправильное значение одометра</string>
 	<string name="odometer_input_hint">Одометр</string>
+	
+	<string name="price_input_hint">Цена</string>
+	<string name="commentary_input_hint">Комментарий (необятазельно)</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -102,10 +105,13 @@
 	
 	<string name="btm_sheet_maintenance_btn_multi_select_choose">Выбрать</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистить</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_error">Нужно выбрать хотя бы 1 деталь</string>
+	
+	<string name="btm_sheet_maintenance_btn_add">Добавить всё</string>
 	
 	
 	
-	<string-array name="fg_maintenance_engine_components">
+	<string-array name="maintenance_engine_components">
 		<item>Подушка</item>
 		<item>Гофра глушителя</item>
 		<item>Цепь ГРМ (с натяжителем)</item>
@@ -149,7 +155,7 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_transmission_components">
+	<string-array name="maintenance_transmission_components">
 		<item>Датчик скорости</item>
 		<item>Комплект сцепления (диск, корзинка)</item>
 		<item>Подшипник сцепления</item>
@@ -162,7 +168,7 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_electric_components">
+	<string-array name="maintenance_electric_components">
 		<item>Аккумулятор</item>
 		<item>Генератор</item>
 		<item>Катушка зажигания</item>
@@ -172,7 +178,7 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_suspension_components">
+	<string-array name="maintenance_suspension_components">
 		<item>Амортизаторы (передние)</item>
 		<item>Амортизаторы (задние)</item>
 		<item>Пружина</item>
@@ -187,7 +193,7 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_brakes_components">
+	<string-array name="maintenance_brakes_components">
 		<item>Колодки + диски или барабаны (передние)</item>
 		<item>Колодки + диски или барабаны (задние)</item>
 		<item>Суппорт</item>
@@ -199,7 +205,7 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_body_components">
+	<string-array name="maintenance_body_components">
 		<item>Дворники (передние)</item>
 		<item>Дворники (задние)</item>
 		<item>Лобовое стекло</item>
@@ -227,11 +233,11 @@
 		<item>Другое</item>
 	</string-array>
 	
-	<string-array name="fg_maintenance_other_components">
+	<string-array name="maintenance_other_components">
 	
 	</string-array>
 	
-	<string-array name="fg_maintenance_planned_components">
+	<string-array name="maintenance_planned_components">
 		<item>Фильтр воздушный</item>
 		<item>Фильтр масляной</item>
 		<item>Фильтр топливный</item>
@@ -244,6 +250,21 @@
 		<item>Масло для КПП</item>
 		<item>Фильтр для КПП</item>
 	</string-array>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ***************************** fragment_maintenance_child_edit ***************************** -->
+	<string name="fg_maintenance_child_edit_last_replaced_label">Последняя замена</string>
+	
+	<string name="fg_maintenance_child_edit_component_hint">Деталь</string>
+	
+	<string name="fg_maintenance_child_edit_vendor_hint">Производитель</string>
+	<string name="fg_maintenance_child_edit_vendor_helper">Например: Bosch</string>
+	
+	<string name="fg_maintenance_child_edit_articulus_hint">Артикул</string>
+	<string name="fg_maintenance_child_edit_articulus_helper">Например: GDB1010</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -312,15 +333,12 @@
 	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
 	
 	<string name="fg_fuel_history_add_fuel_price_input_error">Цена не указана</string>
-	<string name="fg_fuel_history_add_fuel_price_input_hint">Цена</string>
 	
 	<string name="fg_fuel_history_add_fuel_type_error">Не выбран тип бензина</string>
 	<string name="fg_fuel_history_add_fuel_type_hint">Выберите тип бензина</string>
 	
 	<string name="fg_fuel_history_add_liters_input_hint">Заправлено</string>
 	<string name="fg_fuel_history_add_date_picker_btn_default">01.01.1970</string>
-	
-	<string name="fg_fuel_history_add_commentary_input_hint">Комментарий (необятазельно)</string>
 	
 <!-- ******************************************************************************************* -->
 

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 12.10.2020 20:59
+  ~ Last modified 20.10.2020 17:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@
 			type="com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel"
 			/>
 	</data>
-
+	
 	<androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/motionMaintenance"
 		
 		android:layout_height="match_parent"
@@ -104,7 +104,7 @@
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				/>
-			
+		
 		</LinearLayout>
 		
 		<!-- multiSelect button-->
@@ -130,25 +130,7 @@
 			
 			android:translationX="500dp"
 			
-			tools:listitem="@layout/item_maintenance_child_component"
-			
-			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			/>
-		
-		
-		
-		
-		
-		<!-- list of final step items, edit it -->
-		<androidx.viewpager2.widget.ViewPager2 android:id="@+id/vpNodeEditChild"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:overScrollMode="never"
-			
-			android:translationX="500dp"
+			tools:listitem="@layout/item_maintenance_child"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
 			app:layout_constraintBottom_toBottomOf="parent"
@@ -168,6 +150,33 @@
 			app:icon="@drawable/ic_arrow_right_24"
 			
 			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		
+		
+		<!-- list of final step items, edit it -->
+		<androidx.viewpager2.widget.ViewPager2 android:id="@+id/vpNodeEditChild"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:overScrollMode="never"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
+			app:layout_constraintBottom_toTopOf="@id/tvSelectedChildrenCount"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSelectedChildrenCount"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
 		
@@ -232,5 +241,5 @@
 			/>
 	
 	</androidx.constraintlayout.motion.widget.MotionLayout>
-	
+
 </layout>

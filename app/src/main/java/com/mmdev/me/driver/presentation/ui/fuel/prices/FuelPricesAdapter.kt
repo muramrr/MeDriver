@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 17:51
+ * Last modified 21.10.2020 17:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -59,6 +59,8 @@ class FuelPricesAdapter (
 	}
 	
 	override fun getItemCount(): Int = data.size
+	
+	override fun getItemViewType(position: Int): Int = position
 	
 	private fun getItem(position: Int): FuelStationWithPrices = data[position]
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 04:24
+ * Last modified 21.10.2020 18:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,11 @@
 
 package com.mmdev.me.driver.data.datasource.maintenance.local.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 
 /**
@@ -27,7 +31,7 @@ interface MaintenanceDao {
 		SELECT * FROM vehicle_replaced_parts
 		WHERE vehicleVinCode = :vin
 		AND systemNode = :systemNode
-		AND customNodeComponent = :customNodeComponent
+		AND customNodeComponent = :component
 		ORDER BY date DESC
 		LIMIT 1
 	"""
@@ -35,7 +39,7 @@ interface MaintenanceDao {
 	suspend fun findLastReplaced(
 		vin: String,
 		systemNode: String,
-		customNodeComponent: String
+		component: String
 	): VehicleSparePartEntity
 	
 	

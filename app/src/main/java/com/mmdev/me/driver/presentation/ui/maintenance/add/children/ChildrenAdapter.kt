@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.10.2020 17:17
+ * Last modified 21.10.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ class ChildrenAdapter(
 	
 	
 	// Keeps track of all the selected images and their positions
-	val selectedChildren = arrayListOf<Pair<String, Int>>()
+	val selectedChildren: MutableList<Pair<String, Int>> = mutableListOf()
 	
 	// true if the user in selection mode, false otherwise
 	// private flag

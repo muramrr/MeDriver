@@ -2,14 +2,16 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 12.10.2020 19:37
+  ~ Last modified 21.10.2020 16:54
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
 	
 	<data>
 		<variable
@@ -55,6 +57,10 @@
 			
 			android:text="@{bindItem.components}"
 			android:textAppearance="?textAppearanceBody2"
+			
+			app:autoSizeMaxTextSize="14sp"
+			app:autoSizeMinTextSize="12sp"
+			app:autoSizeTextType="uniform"
 			/>
 	
 	</LinearLayout>

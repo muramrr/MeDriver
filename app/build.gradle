@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.10.2020 18:51
+ * Last modified 21.10.2020 17:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,6 +47,9 @@ android {
 	}
 
 	compileOptions {
+		// Flag to enable support for the new language APIs
+		coreLibraryDesugaringEnabled true
+		// Sets Java compatibility to Java 8
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
@@ -62,7 +65,7 @@ android {
 }
 
 dependencies {
-
+	coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 	implementation fileTree(dir: "libs", include: ["*.jar"])
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0"

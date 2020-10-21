@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.10.2020 20:49
+  ~ Last modified 21.10.2020 19:12
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -255,8 +255,10 @@
 
 
 
-<!-- ***************************** fragment_maintenance_child_edit ***************************** -->
+<!-- ***************************** item_maintenance_child_edit ***************************** -->
 	<string name="fg_maintenance_child_edit_last_replaced_label">Последняя замена</string>
+	<string name="fg_maintenance_child_edit_last_replaced_value_never">Никогда</string>
+	<string name="fg_maintenance_child_edit_last_detail_value_not_found">Не найдено</string>
 	
 	<string name="fg_maintenance_child_edit_component_hint">Деталь</string>
 	

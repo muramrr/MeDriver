@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 18:37
+ * Last modified 21.10.2020 18:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,7 +30,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	override fun setupViews() {
 		
 		binding.fabAddMaintenance.setOnClickListener {
-			mViewModel.clearDialogData()
 			MaintenanceAddBottomSheet()
 				.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 		}

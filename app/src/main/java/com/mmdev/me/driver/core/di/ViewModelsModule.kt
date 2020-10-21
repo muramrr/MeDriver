@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.09.2020 23:46
+ * Last modified 21.10.2020 18:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
 import com.mmdev.me.driver.presentation.ui.settings.SettingsViewModel
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,6 +30,7 @@ val ViewModelsModule = module {
 
 	viewModel { HomeViewModel() }
 	viewModel { MaintenanceViewModel(repository = get()) }
+	viewModel { MaintenanceAddViewModel(repository = get()) }
 	viewModel { VehicleViewModel(repository = get()) }
 	viewModel { FuelPricesViewModel(repository = get()) }
 	viewModel { FuelHistoryViewModel(repository = get()) }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 17:51
+ * Last modified 22.10.2020 19:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.gone
 
 class FuelHistoryAdapter(
 	private val data: MutableList<FuelHistory> = mutableListOf()
-) : RecyclerView.Adapter<FuelHistoryAdapter.PriceHistoryViewHolder>() {
+) : RecyclerView.Adapter<FuelHistoryAdapter.FuelHistoryViewHolder>() {
 	
 	
 	private companion object {
@@ -32,7 +32,7 @@ class FuelHistoryAdapter(
 	private var startPos = 0
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-		PriceHistoryViewHolder(
+		FuelHistoryViewHolder(
 			ItemFuelHistoryEntryBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
@@ -41,7 +41,7 @@ class FuelHistoryAdapter(
 			viewType
 		)
 	
-	override fun onBindViewHolder(holder: PriceHistoryViewHolder, position: Int) =
+	override fun onBindViewHolder(holder: FuelHistoryViewHolder, position: Int) =
 		holder.bind(data[position])
 	
 	override fun getItemCount(): Int = data.size
@@ -85,7 +85,7 @@ class FuelHistoryAdapter(
 		notifyItemRangeInserted(startPos, newData.size)
 	}
 	
-	inner class PriceHistoryViewHolder(
+	inner class FuelHistoryViewHolder(
 		private var binding: ItemFuelHistoryEntryBinding, viewType: Int
 	): RecyclerView.ViewHolder(binding.root) {
 		

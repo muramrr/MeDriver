@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.10.2020 19:08
+ * Last modified 22.10.2020 18:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,6 +39,6 @@ data class VehicleSparePart(
 	var customNodeComponent: String = systemNodeComponent.getSparePartName(),
 	var commentary: String = "",
 	var moneySpent: Double = 0.0,
-	val odometerValueBound: DistanceBound = DistanceBound(),
+	val odometerValueBound: DistanceBound,
 	val vehicleVinCode: String
 )

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:31
+ * Last modified 22.10.2020 18:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,3 +23,20 @@ fun DistanceBound.getValue(): Int = when (MedriverApp.metricSystem) {
 	MetricSystem.KILOMETERS -> kilometers
 	MetricSystem.MILES -> miles
 }
+
+/**
+ * Build [DistanceBound] data class for specified [value] according to what metric system app
+ * is using.
+ * Metric system can be changed at SettingsFragment
+ */
+fun buildDistanceBound(value: Int): DistanceBound =
+	when (MedriverApp.metricSystem) {
+		MetricSystem.KILOMETERS -> DistanceBound(
+			kilometers = value,
+			miles = null
+		)
+		MetricSystem.MILES -> DistanceBound(
+			kilometers = null,
+			miles = value
+		)
+	}

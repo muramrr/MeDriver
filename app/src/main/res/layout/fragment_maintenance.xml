@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.10.2020 19:39
+  ~ Last modified 22.10.2020 19:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,8 +27,7 @@
 		android:layout_height="match_parent"
 		>
 	
-		<androidx.appcompat.widget.SearchView
-			android:id="@+id/searchMaintenance"
+		<androidx.appcompat.widget.SearchView android:id="@+id/searchMaintenance"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			
@@ -38,10 +37,10 @@
 			
 			/>
 		
-		<com.google.android.material.button.MaterialButton
-			android:id="@+id/btnMaintenanceFilter"
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnMaintenanceFilter"
 			android:layout_width="48dp"
 			android:layout_height="0dp"
+			android:enabled="false"
 			
 			android:insetTop="0dp"
 			android:insetBottom="0dp"
@@ -60,8 +59,7 @@
 			
 			/>
 		
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/rvMaintenance"
+		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvMaintenance"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			
@@ -80,13 +78,14 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="16dp"
 			
-			android:enabled="true"
+			android:enabled="false"
 			
 			android:src="@drawable/ic_plus_24"
 			
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
 			
+			android:contentDescription="@null"
 			/>
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>

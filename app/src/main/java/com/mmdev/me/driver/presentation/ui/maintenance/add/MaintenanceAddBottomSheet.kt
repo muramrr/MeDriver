@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 19:39
+ * Last modified 22.10.2020 19:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
@@ -326,7 +327,7 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 				
 				binding.tvSelectedChildrenCount.text = "${1}/${mChildEditAdapter.itemCount}"
 				
-				mViewModel.loadLastTimeSparePartReplaced("some vin", it)
+				mViewModel.loadLastTimeSparePartReplaced(MedriverApp.currentVehicleVinCode, it)
 				
 				binding.motionMaintenance.transitionToState(R.id.formSet)
 			}

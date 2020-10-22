@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 19:38
+ * Last modified 22.10.2020 17:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ class ChildEditAdapter (
 		notifyDataSetChanged()
 	}
 	
-	override fun createFragment(position: Int): Fragment = ChildEditFragment(data[position])
+	override fun createFragment(position: Int): Fragment = ChildEditFragment.newInstance(position)
 	
 	override fun getItemCount(): Int = data.size
 	

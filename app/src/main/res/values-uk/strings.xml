@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.10.2020 19:12
+  ~ Last modified 22.10.2020 20:07
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -70,37 +70,33 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
-
+	<string name="maintenance_node_engine">Двигун</string>
+	<string name="maintenance_node_transmission">Трансмісія</string>
+	<string name="maintenance_node_electrics">Електрика</string>
+	<string name="maintenance_node_suspension">Підвіска</string>
+	<string name="maintenance_node_brakes">Гальма</string>
+	<string name="maintenance_node_body">Кузов</string>
+	<string name="maintenance_node_other">Інше</string>
+	<string name="maintenance_node_planned">Планове</string>
 	
+	<string name="maintenance_dialog_filter_node_no_filter_item">Без фильтру</string>
+	<string name="maintenance_dialog_filter_btn_positive">Застосувати</string>
+	<string name="maintenance_dialog_filter_btn_neutral">Відмінити</string>
+	<string name="maintenance_dialog_filter_title">Оберіть системний вузол автомобіля</string>
+	<string name="maintenance_dialog_filter_message">Відфільтрує деталі за обраним вузлом</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_title">Двигун</string>
 	<string name="btm_sheet_maintenance_add_engine_components">&#8226; ГБЦ\n&#8226; Поршні\n&#8226; Гофра\n&#8226; Паливна система\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_transmission_title">Трансмісія</string>
 	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Датчик швидкості\n&#8226; Зчеплення\n&#8226; Напіввісь\n&#8226; РШ шарнір\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_electrics_title">Електрика</string>
 	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Акумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Котушки\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_suspension_title">Підвіска</string>
 	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Амортизація\n&#8226; Пружина\n&#8226; Маточина колеса\n&#8226; Втулки, стійки\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_brakes_title">Гальма</string>
 	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Диск, колодки, барабан\n&#8226; Супорт\n&#8226; Трос ручника\n&#8226; Датчики\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_vehicle_body_title">Кузов</string>
 	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Щітки\n&#8226; Фари, ліхтарі\n&#8226; Скло\n&#8226; Бампери\n…</string>
-	
-	<string name="btm_sheet_maintenance_add_other_title">Інше</string>
 	<string name="btm_sheet_maintenance_add_other_components">Не впевнені до якої категорії віднести замінену деталь?</string>
-	
-	<string name="btm_sheet_maintenance_add_planned_title">Планове</string>
 	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Мастило, фільтри\n&#8226; ГРМ\n&#8226; Рідина\n&#8226; Свічки</string>
-	
 	
 	
 	<string name="btm_sheet_maintenance_btn_multi_select_choose">Вибрати</string>

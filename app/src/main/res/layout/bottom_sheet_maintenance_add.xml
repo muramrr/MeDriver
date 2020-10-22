@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.10.2020 18:08
+  ~ Last modified 22.10.2020 18:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -172,10 +172,11 @@
 		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSelectedChildrenCount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
 			
 			android:translationX="500dp"
 			
-			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>

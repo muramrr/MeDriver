@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.10.2020 19:28
+  ~ Last modified 22.10.2020 17:55
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,12 +54,13 @@
 			<!-- date -->
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedDate"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="0dp"
 				android:padding="8dp"
 				android:maxLines="1"
 				
 				android:text="@string/fg_maintenance_child_edit_last_replaced_value_never"
 				android:textAppearance="?textAppearanceCaption"
+				android:textAlignment="center"
 				
 				app:layout_constraintHorizontal_chainStyle="spread_inside"
 				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
@@ -72,12 +73,13 @@
 			<!-- odometer -->
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedOdometer"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="0dp"
 				android:padding="8dp"
 				android:maxLines="1"
 				
 				android:text="@string/default_OdometerValue"
 				android:textAppearance="?textAppearanceOverline"
+				android:textAlignment="center"
 				
 				
 				app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -118,7 +120,7 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvComponentTitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="8dp"
 				android:padding="16dp"
 				
 				android:textAppearance="?textAppearanceSubtitle2"
@@ -183,7 +185,7 @@
 				android:id="@+id/layoutInputVendor"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="2dp"
 				android:layout_marginEnd="4dp"
 				
 				android:hint="@string/fg_maintenance_child_edit_vendor_hint"
@@ -220,7 +222,7 @@
 				android:id="@+id/layoutInputArticulus"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="2dp"
 				android:layout_marginStart="4dp"
 				
 				android:hint="@string/fg_maintenance_child_edit_articulus_hint"
@@ -257,7 +259,7 @@
 				android:id="@+id/layoutInputPrice"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="2dp"
 				android:layout_marginEnd="4dp"
 				
 				android:hint="@string/price_input_hint"
@@ -293,7 +295,7 @@
 				android:id="@+id/layoutInputOdometer"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="2dp"
 				android:layout_marginStart="4dp"
 				
 				android:hint="@string/odometer_input_hint"
@@ -332,8 +334,8 @@
 				android:id="@+id/layoutInputCommentary"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
-				android:paddingBottom="16dp"
+				
+				android:paddingBottom="8dp"
 				
 				android:hint="@string/commentary_input_hint"
 				app:counterEnabled="true"
@@ -364,6 +366,21 @@
 					/>
 			
 			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+				android:id="@+id/fabChildAdd"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="16dp"
+				
+				android:text="Add"
+				android:textAlignment="center"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCommentary"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				/>
 			
 			
 			<!-- center vertical -->

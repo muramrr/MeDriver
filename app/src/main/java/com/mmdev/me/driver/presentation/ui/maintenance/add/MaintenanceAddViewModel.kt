@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 19:05
+ * Last modified 22.10.2020 19:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,17 +12,20 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
+import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.Child
 import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeUi
+import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 
 /**
  *
@@ -68,12 +71,72 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 			}
 		}
 		
-		
 	}
 	
-	fun addMaintenanceHistoryItems(list: List<VehicleSparePart>) {
+	
+	fun addMaintenanceEntry(
+		user: UserData?,
+		dateInput: LocalDateTime,
+		vendorInput: String,
+		articulusInput: String,
+		componentSelected: SparePart,
+		customComponentInput: String,
+		commentaryInput: String,
+		priceInput: Double,
+		odometerInput: Int,
+		vin: String
+	) {
 		viewModelScope.launch(MyDispatchers.io()) {
-			repository.addMaintenanceItems(MedriverApp.currentUser, list)
+			repository.addMaintenanceItems(
+				user,
+				listOf(
+					buildInputtedVehicleSparePart(
+						dateInput,
+						vendorInput,
+						articulusInput,
+						componentSelected,
+						customComponentInput,
+						commentaryInput,
+						priceInput,
+						odometerInput,
+						vin
+					)
+				)
+			).collect { result ->
+				result.fold(
+					success = { logWtf(TAG, "successfully added") },
+					failure = { logWtf(TAG, "$it")}
+				)
+			}
 		}
 	}
+	
+	private fun buildInputtedVehicleSparePart(
+		dateInput: LocalDateTime,
+		vendorInput: String,
+		articulusInput: String,
+		componentSelected: SparePart,
+		customComponentInput: String,
+		commentaryInput: String,
+		priceInput: Double,
+		odometerInput: Int,
+		vin: String
+	): VehicleSparePart = VehicleSparePart(
+		date = dateInput,
+		articulus = articulusInput,
+		vendor = vendorInput,
+		systemNode = selectedVehicleSystemNode.value!!,
+		systemNodeComponent = componentSelected,
+		customNodeComponent = customComponentInput,
+		commentary = commentaryInput,
+		moneySpent = priceInput,
+		odometerValueBound = buildDistanceBound(odometerInput),
+		vehicleVinCode = vin
+	)
+	
+//	fun addMaintenanceHistoryItems(list: List<VehicleSparePart>) {
+//		viewModelScope.launch(MyDispatchers.io()) {
+//			repository.addMaintenanceItems(MedriverApp.currentUser, list)
+//		}
+//	}
 }

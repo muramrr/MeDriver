@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.10.2020 20:07
+  ~ Last modified 23.10.2020 18:59
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -263,6 +263,8 @@
 	<string name="fg_maintenance_child_edit_articulus_hint">Артикул</string>
 	<string name="fg_maintenance_child_edit_articulus_helper">Например: GDB1010</string>
 	
+	<string name="fg_maintenance_add_operation_successful">Успешно добавлено</string>
+	<string name="fg_maintenance_add_operation_fails">Ошибка</string>
 <!-- ******************************************************************************************* -->
 
 

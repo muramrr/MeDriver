@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:00
+ * Last modified 23.10.2020 18:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.utils.MyDispatchers
+import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
@@ -33,6 +34,8 @@ import kotlinx.datetime.LocalDateTime
 
 class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : BaseViewModel() {
 	
+	val viewStateMap: HashMap<Int, MutableLiveData<MaintenanceAddViewState>> = hashMapOf()
+	val parentShouldBeUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	val selectedParentNode: MutableLiveData<ParentNodeUi?> = MutableLiveData()
 	val selectedVehicleSystemNode: MutableLiveData<VehicleSystemNodeType?> = MutableLiveData()
@@ -75,6 +78,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 	
 	
 	fun addMaintenanceEntry(
+		position: Int,
 		user: UserData?,
 		dateInput: LocalDateTime,
 		vendorInput: String,
@@ -87,6 +91,9 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vin: String
 	) {
 		viewModelScope.launch(MyDispatchers.io()) {
+			
+			viewStateMap[position]!!.postValue(MaintenanceAddViewState.Loading)
+			
 			repository.addMaintenanceItems(
 				user,
 				listOf(
@@ -104,8 +111,15 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 				)
 			).collect { result ->
 				result.fold(
-					success = { logWtf(TAG, "successfully added") },
-					failure = { logWtf(TAG, "$it")}
+					success = {
+						viewStateMap[position]!!.postValue(MaintenanceAddViewState.Success)
+						parentShouldBeUpdated.postValue(true)
+					},
+					failure = {
+						viewStateMap[position]!!.postValue(
+							MaintenanceAddViewState.Error(it.localizedMessage)
+						)
+					}
 				)
 			}
 		}
@@ -123,6 +137,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vin: String
 	): VehicleSparePart = VehicleSparePart(
 		date = dateInput,
+		dateAdded = currentEpochTime(),
 		articulus = articulusInput,
 		vendor = vendorInput,
 		systemNode = selectedVehicleSystemNode.value!!,

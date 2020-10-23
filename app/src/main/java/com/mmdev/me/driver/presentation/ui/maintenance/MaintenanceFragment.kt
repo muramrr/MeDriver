@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 20:22
+ * Last modified 23.10.2020 18:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,7 @@ import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentMaintenanceBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,10 +40,12 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		observeUpdateRequires()
 		mViewModel.loadMaintenanceHistory()
 	}
 	
 	override fun setupViews() {
+		
 		mViewModel.viewState.observe(this, {
 			renderState(it)
 		})
@@ -51,6 +54,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			rvMaintenance.apply {
 				adapter = mAdapter
 				layoutManager = LinearLayoutManager(requireContext())
+				addItemDecoration(LinearItemDecoration())
 			}
 			
 			btnMaintenanceFilter.isEnabled = MedriverApp.currentVehicle != null
@@ -67,6 +71,10 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			}
 		}
 		
+	}
+	
+	private fun observeUpdateRequires() {
+		mViewModel.updateTrigger.observe(this, {})
 	}
 
 	override fun renderState(state: ViewState) {

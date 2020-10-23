@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 20:25
+ * Last modified 23.10.2020 18:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Loading
+import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.launch
 
 /**
@@ -30,6 +31,13 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 	
 	//indicates is history empty or not
 	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
+	val isAddDialogShowing: MutableLiveData<Boolean> = MutableLiveData(false)
+	val shouldUpdateData: MutableLiveData<Boolean> = MutableLiveData(false)
+	val updateTrigger = isAddDialogShowing.combineWith(shouldUpdateData) { dialog, update ->
+		if (dialog != null && update != null) {
+			if (!dialog && update) loadMaintenanceHistory()
+		}
+	}
 	
 	fun loadMaintenanceHistory(size: Int? = null) {
 		viewModelScope.launch {

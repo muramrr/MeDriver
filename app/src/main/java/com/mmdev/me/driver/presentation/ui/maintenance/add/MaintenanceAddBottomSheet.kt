@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:02
+ * Last modified 23.10.2020 18:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,12 +11,14 @@
 package com.mmdev.me.driver.presentation.ui.maintenance.add
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -25,13 +27,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart.Companion.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildren
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
+import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Idle
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.Child
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditAdapter
 import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdapter
@@ -40,6 +43,7 @@ import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeUi
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -50,6 +54,7 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	private val mViewModel: MaintenanceAddViewModel by viewModel()
+	private val parentViewModel: MaintenanceViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	//automatically dismiss to prevent half expanded state
 	private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -86,6 +91,11 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	
 	private var btnNextFromMultiSelectStartPos = 0f
 	
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		parentViewModel.isAddDialogShowing.postValue(true)
+	}
+	
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View =
 		BottomSheetMaintenanceAddBinding.inflate(inflater, container, false)
@@ -119,6 +129,7 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		initStringRes()
 		
+		observeShouldBeUpdated()
 		observeParentSelected()
 		observeChildrenSelected()
 		observeMultiSelect()
@@ -275,7 +286,11 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 
 	}
 	
-	
+	private fun observeShouldBeUpdated() {
+		mViewModel.parentShouldBeUpdated.observe(this, {
+			parentViewModel.shouldUpdateData.postValue(it)
+		})
+	}
 	
 	/** observe selected parent node, defines next children list */
 	private fun observeParentSelected() {
@@ -320,14 +335,16 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	@SuppressLint("SetTextI18n")
 	private fun observeChildrenSelected() {
 		mViewModel.selectedChildren.observe(this, {
-			logWtf(TAG, "$it")
 			
 			it?.let {
 				mChildEditAdapter.setNewData(it)
 				
+				for (i in it.indices) mViewModel.viewStateMap[i] = MutableLiveData(Idle)
+				
 				binding.tvSelectedChildrenCount.text = "${1}/${mChildEditAdapter.itemCount}"
 				
 				mViewModel.loadLastTimeSparePartReplaced(MedriverApp.currentVehicleVinCode, it)
+				
 				
 				binding.motionMaintenance.transitionToState(R.id.formSet)
 			}
@@ -342,5 +359,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		super.onDestroyView()
 	}
 	
-	
+	override fun onDismiss(dialog: DialogInterface) {
+		parentViewModel.isAddDialogShowing.postValue(false)
+		super.onDismiss(dialog)
+	}
 }

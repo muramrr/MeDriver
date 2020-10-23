@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:00
+ * Last modified 23.10.2020 19:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add.child
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
@@ -19,10 +20,14 @@ import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildEditBinding
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import com.mmdev.me.driver.presentation.utils.extensions.text
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -54,6 +59,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	
 	private var lastReplacedEntry: VehicleSparePart? = null
 	
+	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		argPosition = arguments?.getInt(POSITION_KEY) ?: 0
@@ -61,6 +67,13 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	}
 	
 	override fun setupViews() {
+		with(mViewModel.viewStateMap) {
+			if (argPosition < this.size) {
+				this[argPosition]!!.observe(this@ChildEditFragment, {
+					renderState(it)
+				})
+			}
+		}
 		
 		binding.apply {
 			root.setOnTouchListener { rootView, _ ->
@@ -68,8 +81,9 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 				rootView.hideKeyboard(rootView)
 			}
 			
-			fabChildAdd.setOnClickListener {
+			fabChildAdd.setDebounceOnClick {
 				mViewModel.addMaintenanceEntry(
+					position = argPosition,
 					user = MedriverApp.currentUser,
 					dateInput = pickedDate,
 					vendorInput = etInputVendor.text(),
@@ -88,6 +102,29 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		}
 	}
 	
+	override fun renderState(state: ViewState) {
+		super.renderState(state)
+		when(state) {
+			is MaintenanceAddViewState.Success -> {
+				// if only one entry planned to add -> dismiss automatically dialog
+				// else show successful snack message
+				if (mViewModel.selectedChildren.value!!.size == 1) (requireParentFragment() as BottomSheetDialogFragment).dialog!!.dismiss()
+				else {
+					binding.root.rootView.showSnack(
+						R.string.fg_maintenance_add_operation_successful
+					)
+					binding.fabChildAdd.isEnabled = false
+				}
+			}
+			is MaintenanceAddViewState.Error -> {
+				binding.root.rootView.showSnack(
+					state.errorMessage ?:
+					getString(R.string.fg_maintenance_add_operation_successful)
+				)
+			}
+		}
+	}
+	
 	private fun findSelectedChildByPosition(){
 		mViewModel.selectedChildren.observe(this, {
 			it?.let {
@@ -98,7 +135,6 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 					setupLastReplaced(child)
 					setupFillForm(child)
 				}
-				
 			}
 		})
 	}

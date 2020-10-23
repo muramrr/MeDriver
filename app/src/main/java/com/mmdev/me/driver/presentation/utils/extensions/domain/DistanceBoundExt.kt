@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 18:32
+ * Last modified 23.10.2020 21:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@
 
 package com.mmdev.me.driver.presentation.utils.extensions.domain
 
+import android.content.Context
+import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
@@ -22,6 +24,11 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 fun DistanceBound.getValue(): Int = when (MedriverApp.metricSystem) {
 	MetricSystem.KILOMETERS -> kilometers
 	MetricSystem.MILES -> miles
+}
+
+fun DistanceBound.getTextValue(context: Context): String = when (MedriverApp.metricSystem) {
+	MetricSystem.KILOMETERS -> context.getString(R.string.formatter_odometer_km).format(kilometers)
+	MetricSystem.MILES -> context.getString(R.string.formatter_odometer_mi).format(miles)
 }
 
 /**

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 08.10.2020 21:28
+  ~ Last modified 23.10.2020 21:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -86,12 +86,8 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			
+			android:text="@{DistanceBoundExtKt.getTextValue(bindItem.distancePassedBound, context)}"
 			android:textAppearance="?textAppearanceSubtitle1"
-			
-			app:value="@{`` + DistanceBoundExtKt.getValue(bindItem.distancePassedBound)}"
-			app:formatterKM="@{@string/item_fuel_history_entry_distance_passed_km}"
-			app:formatterMI="@{@string/item_fuel_history_entry_distance_passed_mi}"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"
 			app:layout_constraintStart_toEndOf="@id/barrierLogo"
@@ -108,12 +104,8 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			
+			android:text="@{FuelHistoryRecordExtKt.getTextValue(bindItem.fuelConsumptionBound, context)}"
 			android:textAppearance="?textAppearanceCaption"
-			
-			app:value="@{`` + FuelHistoryRecordExtKt.getValue(bindItem.fuelConsumptionBound)}"
-			app:formatterKM="@{@string/item_fuel_history_entry_consumption_km}"
-			app:formatterMI="@{@string/item_fuel_history_entry_consumption_mi}"
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryDistancePassed"
 			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryOdometer"
@@ -128,13 +120,8 @@
 			android:layout_height="wrap_content"
 			android:maxLines="1"
 			
-			android:text="@string/default_OdometerValue"
+			android:text="@{DistanceBoundExtKt.getTextValue(bindItem.odometerValueBound, context)}"
 			android:textAppearance="?textAppearanceOverline"
-			
-			app:value="@{`` + DistanceBoundExtKt.getValue(bindItem.odometerValueBound)}"
-			app:formatterKM="@{@string/formatter_odometer_km}"
-			app:formatterMI="@{@string/formatter_odometer_mi}"
-			
 			
 			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryFuelConsumption"
 			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"

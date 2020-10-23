@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.09.2020 19:55
+ * Last modified 23.10.2020 21:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,17 +29,6 @@ import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntVa
  */
 
 object BindingTextView {
-	
-	@JvmStatic
-	@BindingAdapter("app:value", "app:formatterKM", "app:formatterMI", requireAll = true)
-	fun setFormattedTextMetricSysDependent(
-		textView: TextView, value: String, kilometers: String, miles: String
-	) {
-		when (MedriverApp.metricSystem) {
-			KILOMETERS -> textView.text = kilometers.format(value)
-			MILES -> textView.text = miles.format(value)
-		}
-	}
 	
 	@JvmStatic
 	@BindingAdapter("app:kilometers", "app:miles", requireAll = true)

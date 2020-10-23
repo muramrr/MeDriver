@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 23.10.2020 21:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
+import android.content.Context
+import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -21,6 +23,11 @@ import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 fun ConsumptionBound.getValue(): Double = when (MedriverApp.metricSystem) {
 	MetricSystem.KILOMETERS -> consumptionPer100KM
 	MetricSystem.MILES -> consumptionPer100MI
+}
+
+fun ConsumptionBound.getTextValue(context: Context): String = when (MedriverApp.metricSystem) {
+	MetricSystem.KILOMETERS -> context.getString(R.string.item_fuel_history_entry_consumption_km).format(consumptionPer100KM)
+	MetricSystem.MILES -> context.getString(R.string.item_fuel_history_entry_consumption_mi).format(consumptionPer100MI)
 }
 
 

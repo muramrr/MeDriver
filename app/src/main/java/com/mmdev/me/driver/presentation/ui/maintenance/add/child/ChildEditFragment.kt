@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 19:12
+ * Last modified 23.10.2020 21:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getTextValue
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
@@ -145,6 +146,8 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		
 		lastReplacedEntry?.let {
 			binding.tvLastReplacedDate.text = it.date.toString()
+			
+			binding.tvLastReplacedOdometer.text = it.odometerValueBound.getTextValue(requireContext())
 			
 			if (it.vendor.isNotEmpty() || it.articulus.isNotEmpty())
 				binding.tvLastReplacedDetail.text = "${it.vendor} ${it.articulus}"

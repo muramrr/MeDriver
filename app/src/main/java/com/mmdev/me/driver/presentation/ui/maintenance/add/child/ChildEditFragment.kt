@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 21:32
+ * Last modified 24.10.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -156,7 +156,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	}
  
 	private fun setupFillForm(child: Child) {
-		binding.tvComponentTitle.text = child.title
+		binding.tvComponentTitle.text = getString(child.title)
 		binding.etInputCustomComponent.setText(child.title)
 		
 		binding.layoutInputCustomComponent.isEnabled = child.sparePart.getSparePartName() == SparePart.OTHER

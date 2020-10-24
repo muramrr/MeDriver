@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.10.2020 18:59
+  ~ Last modified 24.10.2020 19:54
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -140,145 +140,113 @@
 	<string name="btm_sheet_maintenance_btn_add">Add all</string>
 	
 	
-	<string-array name="maintenance_engine_components">
-		<item>Mount</item>
-		<item>Silencer corrugation</item>
-		<item>Timing chain kit</item>
-		
-		<item>Cylinder unit heads</item>
-		<item>Cylinder unit heads gasket</item>
-		<item>Cylinder head bolts</item>
-		
-		<item>Cylinder</item>
-		<item>Cylinder shell</item>
-		<item>Cylinder unit liner</item>
-		<item>Cylinder unit</item>
-		
-		<item>Belt generator</item>
-		<item>Belt air conditioner</item>
-		
-		<item>Turbo</item>
-		<item>Intercooler</item>
-		<item>Compressor</item>
-		<item>Belt compressor</item>
-		
-		<item>Piston rings</item>
-		<item>Piston</item>
-		
-		<item>Pump fuel</item>
-		<item>Fuel burner</item>
-		<item>Belt pump fuel</item>
-		<item>Pipe fuel</item>
-		
-		<item>Radiator</item>
-		<item>Pump water</item>
-		
-		<item>Damper</item>
-		<item>Valve</item>
-		<item>Roller</item>
-		<item>Connecting rod</item>
-		
-		<item>Camshaft</item>
-		<item>Crankshaft</item>
-		
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_other_component">Other</string>
 	
-	<string-array name="maintenance_transmission_components">
-		<item>Speed sensor</item>
-		<item>Clutch kit (disk, basket)</item>
-		<item>Clutch bearing</item>
-		<item>Clutch Flywheel</item>
-		<item>Homokinetic joint</item>
-		<item>Homokinetic joint duster</item>
-		<item>Cross steering</item>
-		<item>Cross gear</item>
-		<item>Semiaxis</item>
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_engine_mount">Mount</string>
+	<string name="maintenance_engine_silencer_corrugation">Silencer corrugation</string>
+	<string name="maintenance_engine_timing_chain_kit">Timing chain kit</string>
+	<string name="maintenance_engine_cylinder_unit_heads">Cylinder unit heads</string>
+	<string name="maintenance_engine_cylinder_unit_heads_gasket">Cylinder unit heads gasket</string>
+	<string name="maintenance_engine_cylinder_head_bolts">Cylinder head bolts</string>
+	<string name="maintenance_engine_cylinder">Cylinder</string>
+	<string name="maintenance_engine_cylinder_shell">Cylinder shell</string>
+	<string name="maintenance_engine_cylinder_unit_liner">Cylinder unit liner</string>
+	<string name="maintenance_engine_cylinder_unit">Cylinder unit</string>
+	<string name="maintenance_engine_belt_generator">Belt generator</string>
+	<string name="maintenance_engine_belt_air_conditioner">Belt air conditioner</string>
+	<string name="maintenance_engine_turbo">Turbo</string>
+	<string name="maintenance_engine_intercooler">Intercooler</string>
+	<string name="maintenance_engine_compressor">Compressor</string>
+	<string name="maintenance_engine_belt_compressor">Belt compressor</string>
+	<string name="maintenance_engine_piston_rings">Piston rings</string>
+	<string name="maintenance_engine_piston">Piston</string>
+	<string name="maintenance_engine_pump_fuel">Pump fuel</string>
+	<string name="maintenance_engine_fuel_burner">Fuel burner</string>
+	<string name="maintenance_engine_belt_pump_fuel">Belt pump fuel</string>
+	<string name="maintenance_engine_pipe_fuel">Pipe fuel</string>
+	<string name="maintenance_engine_radiator">Radiator</string>
+	<string name="maintenance_engine_pump_water">Pump water</string>
+	<string name="maintenance_engine_damper">Damper</string>
+	<string name="maintenance_engine_valve">Valve</string>
+	<string name="maintenance_engine_roller">Roller</string>
+	<string name="maintenance_engine_connecting_rod">Connecting rod</string>
+	<string name="maintenance_engine_camshaft">Camshaft</string>
+	<string name="maintenance_engine_crankshaft">Crankshaft</string>
 	
-	<string-array name="maintenance_electric_components">
-		<item>Battery</item>
-		<item>Generator</item>
-		<item>Ignition coil</item>
-		<item>Starter</item>
-		<item>Lambda probe</item>
-		<item>High voltage wire</item>
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_transmission_speed_sensor">Speed sensor</string>
+	<string name="maintenance_transmission_clutch_kit">Clutch kit (disk, basket)</string>
+	<string name="maintenance_transmission_clutch_bearing">Clutch bearing</string>
+	<string name="maintenance_transmission_clutch_flywheel">Clutch Flywheel</string>
+	<string name="maintenance_transmission_homokinetic_joint">Homokinetic joint</string>
+	<string name="maintenance_transmission_homokinetic_joint_duster">Homokinetic joint duster</string>
+	<string name="maintenance_transmission_cross_steering">Cross steering</string>
+	<string name="maintenance_transmission_cross_gear">Cross gear</string>
+	<string name="maintenance_transmission_semiaxis">Semiaxis</string>
 	
-	<string-array name="maintenance_suspension_components">
-		<item>Shock absorbers (front)</item>
-		<item>Shock absorbers (back)</item>
-		<item>Shock absorber support</item>
-		<item>Silentblock</item>
-		<item>Spring</item>
-		<item>Spherical bearing</item>
-		<item>Wheel hub</item>
-		<item>Wheel hub bearing</item>
-		<item>Sleeve</item>
-		<item>Arm</item>
-		<item>Rack stabilizer</item>
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_electrics_battery">Battery</string>
+	<string name="maintenance_electrics_generator">Generator</string>
+	<string name="maintenance_electrics_ignition_coil">Ignition coil</string>
+	<string name="maintenance_electrics_starter">Starter</string>
+	<string name="maintenance_electrics_lambda_probe">Lambda probe</string>
+	<string name="maintenance_electrics_high_voltage_wire">High voltage wire</string>
 	
-	<string-array name="maintenance_brakes_components">
-		<item>Pads + discs or drums (front)</item>
-		<item>Pads + discs or drums (back)</item>
-		<item>Caliper</item>
-		<item>Pipe</item>
-		<item>Cylinder</item>
-		<item>Sensor abs</item>
-		<item>Sensor deterioration</item>
-		<item>Parking cable</item>
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_suspension_shock_absorbers_front">Shock absorbers (front)</string>
+	<string name="maintenance_suspension_shock_absorbers_back">Shock absorbers (back)</string>
+	<string name="maintenance_suspension_shock_absorber_support">Shock absorber support</string>
+	<string name="maintenance_suspension_spring">Spring</string>
+	<string name="maintenance_suspension_silentblock">Silentblock</string>
+	<string name="maintenance_suspension_spherical_bearing">Spherical bearing</string>
+	<string name="maintenance_suspension_wheel_hub">Wheel hub</string>
+	<string name="maintenance_suspension_wheel_hub_bearing">Wheel hub bearing</string>
+	<string name="maintenance_suspension_sleeve">Sleeve</string>
+	<string name="maintenance_suspension_arm">Arm</string>
+	<string name="maintenance_suspension_rack_stabilizer">Rack stabilizer</string>
 	
-	<string-array name="maintenance_body_components">
-		<item>Wiper front</item>
-		<item>Wiper back</item>
-		<item>Windshield front</item>
-		<item>Windshield back</item>
-		<item>Hood</item>
-		<item>Hood damper</item>
-		<item>Trunk damper</item>
-		<item>Headlight left</item>
-		<item>Headlight right</item>
-		<item>Taillight left</item>
-		<item>Taillight right</item>
-		<item>Foglight left</item>
-		<item>Foglight right</item>
-		<item>Radiator grill</item>
-		<item>Front bumper grill</item>
-		<item>Front bumper</item>
-		<item>Back bumper</item>
-		<item>Front left fender</item>
-		<item>Front right fender</item>
-		<item>Back left fender</item>
-		<item>Back right fender</item>
-		<item>Sill left</item>
-		<item>Sill right</item>
-		<item>Washer reservoir</item>
-		<item>Other</item>
-	</string-array>
+	<string name="maintenance_brakes_pads_discs_drums_front">Pads + discs or drums (front)</string>
+	<string name="maintenance_brakes_pads_discs_drums_back">Pads + discs or drums (back)</string>
+	<string name="maintenance_brakes_caliper">Caliper</string>
+	<string name="maintenance_brakes_pipe">Pipe</string>
+	<string name="maintenance_brakes_cylinder">Cylinder</string>
+	<string name="maintenance_brakes_sensor_abs">Sensor abs</string>
+	<string name="maintenance_brakes_sensor_deterioration">Sensor deterioration</string>
+	<string name="maintenance_brakes_parking_cable">Parking cable</string>
 	
-	<string-array name="maintenance_other_components">
+	<string name="maintenance_body_wiper_front">Wiper front</string>
+	<string name="maintenance_body_wiper_back">Wiper back</string>
+	<string name="maintenance_body_windshield_front">Windshield front</string>
+	<string name="maintenance_body_windshield_back">Windshield back</string>
+	<string name="maintenance_body_hood">Hood</string>
+	<string name="maintenance_body_hood_damper">Hood damper</string>
+	<string name="maintenance_body_trunk_damper">Trunk damper</string>
+	<string name="maintenance_body_headlight_left">Headlight left</string>
+	<string name="maintenance_body_headlight_right">Headlight right</string>
+	<string name="maintenance_body_taillight_left">Taillight left</string>
+	<string name="maintenance_body_taillight_right">Taillight right</string>
+	<string name="maintenance_body_foglight_left">Foglight left</string>
+	<string name="maintenance_body_foglight_right">Foglight right</string>
+	<string name="maintenance_body_radiator_grill">Radiator grill</string>
+	<string name="maintenance_body_front_bumper_grill">Front bumper grill</string>
+	<string name="maintenance_body_front_bumper">Front bumper</string>
+	<string name="maintenance_body_back_bumper">Back bumper</string>
+	<string name="maintenance_body_front_left_fender">Front left fender</string>
+	<string name="maintenance_body_front_right_fender">Front right fender</string>
+	<string name="maintenance_body_back_left_fender">Back left fender</string>
+	<string name="maintenance_body_back_right_fender">Back right fender</string>
+	<string name="maintenance_body_sill_left">Sill left</string>
+	<string name="maintenance_body_sill_right">Sill right</string>
+	<string name="maintenance_body_washer_reservoir">Washer reservoir</string>
 	
-	</string-array>
-	
-	<string-array name="maintenance_planned_components">
-		<item>Air filter</item>
-		<item>Oil filter</item>
-		<item>Fuel filter</item>
-		<item>Cabin filter</item>
-		<item>Brakes fluid</item>
-		<item>Engine oil</item>
-		<item>Grm kit (belt and roller)</item>
-		<item>Plugs (glow or spark)</item>
-		<item>Antifreeze</item>
-		<item>Transmission oil</item>
-		<item>Transmission filter</item>
-	</string-array>
+	<string name="maintenance_planned_air_filter">Air filter</string>
+	<string name="maintenance_planned_oil_filter">Oil filter</string>
+	<string name="maintenance_planned_fuel_filter">Fuel filter</string>
+	<string name="maintenance_planned_cabin_filter">Cabin filter</string>
+	<string name="maintenance_planned_brakes_fluid">Brakes fluid</string>
+	<string name="maintenance_planned_engine_oil">Engine oil</string>
+	<string name="maintenance_planned_grm_kit">Grm kit (belt and roller)</string>
+	<string name="maintenance_planned_plugs">Plugs (glow or spark)</string>
+	<string name="maintenance_planned_antifreeze">Antifreeze</string>
+	<string name="maintenance_planned_transmission_oil">Transmission oil</string>
+	<string name="maintenance_planned_transmission_filter">Transmission filter</string>
 	
 <!-- ******************************************************************************************* -->
 

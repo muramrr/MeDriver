@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 18:45
+ * Last modified 24.10.2020 20:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
+import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart.Companion.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
@@ -77,7 +78,7 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		)
 	
 	private val mParentNodesAdapter = ParentNodeAdapter()
-	private val mChildrenAdapter = ChildrenAdapter(emptyList())
+	private val mChildrenAdapter = ChildrenAdapter(IntArray(0))
 	private lateinit var mChildEditAdapter: ChildEditAdapter
 	
 	
@@ -225,11 +226,11 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		}
 		
 		// click on single children
-		mChildrenAdapter.setOnItemClickListener { view, position, item ->
+		mChildrenAdapter.setOnItemClickListener { view, position, stringRes ->
 			
 			mViewModel.selectedChildren.postValue(
 				listOf(
-					Child(item, mViewModel.selectedVehicleSystemNode.value!!.getChildren()[position])
+					Child(stringRes, mViewModel.selectedVehicleSystemNode.value!!.getChildren()[position])
 				)
 			)
 		}
@@ -248,8 +249,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 				mViewModel.selectedChildren.postValue(
 					mChildrenAdapter.selectedChildren.map {
 						Child(
-							title = it.first,
-							sparePart = mViewModel.selectedVehicleSystemNode.value!!.getChildren()[it.second]
+							title = it.value,
+							sparePart = mViewModel.selectedVehicleSystemNode.value!!.getChildren()[it.key]
 						)
 					}
 				)
@@ -300,15 +301,17 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 				binding.tvToolbarTitle.text = getString(it.title)
 				
 				/** check [ParentNodeUi] contains children if yes -> navigate to next step */
-				if (it.children != 0) {
+				if (it.children.isNotEmpty()) {
 					
-					mChildrenAdapter.setNewData(resources.getStringArray(it.children).toList())
+					mChildrenAdapter.setNewData(it.children)
 					binding.motionMaintenance.transitionToState(R.id.childrenPickSet)
 				}
 				/** navigate directly to final form because of [OTHER] doesn't has any children */
 				else {
-					mChildrenAdapter.setNewData(emptyList())
-					//mEditChildAdapter.setNewData(listOf(Pair(getString(parentNodeUi.title), OTHER)))
+					mChildrenAdapter.setNewData(IntArray(0))
+					mViewModel.selectedChildren.postValue(
+						listOf(Child(R.string.maintenance_other_component, OtherParts.OTHER))
+					)
 					binding.motionMaintenance.transitionToState(R.id.formSet)
 				}
 			}

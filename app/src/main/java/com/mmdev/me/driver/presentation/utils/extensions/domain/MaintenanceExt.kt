@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 21:15
+ * Last modified 24.10.2020 18:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,8 @@ import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstant
 fun VehicleSparePart.getRelatedString(context: Context): String {
 	return if (systemNodeComponent.getSparePartName() != SparePart.OTHER) {
 		val pos = systemNode.getChildren().indexOf(systemNodeComponent)
-		val a = context.resources.getStringArray(VehicleSystemNodeConstants.childrenMap[systemNode]!!)
-		a[pos]
+		val childrenResArray = VehicleSystemNodeConstants.childrenMap[systemNode]!!
+		context.getString(childrenResArray[pos])
 	}
 	else customNodeComponent
 	

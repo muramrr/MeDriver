@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 18:40
+ * Last modified 24.10.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -63,7 +63,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 				showFilterDialog()
 			}
 			
-			fabAddMaintenance.isEnabled = MedriverApp.currentVehicle != null
+			fabAddMaintenance.isEnabled = true //MedriverApp.currentVehicle != null
 			
 			fabAddMaintenance.setDebounceOnClick {
 				MaintenanceAddBottomSheet()

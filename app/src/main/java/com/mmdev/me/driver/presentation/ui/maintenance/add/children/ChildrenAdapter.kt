@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 19:24
+ * Last modified 24.10.2020 18:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,12 +23,12 @@ import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdap
  */
 
 class ChildrenAdapter(
-	private var data: List<String>
+	private var data: IntArray //string resources
 ) : RecyclerView.Adapter<ChildComponentViewHolder>() {
 	
 	
-	// Keeps track of all the selected images and their positions
-	val selectedChildren: MutableList<Pair<String, Int>> = mutableListOf()
+	// Keeps track of all the selected items from list to their positions
+	val selectedChildren: MutableMap<Int, Int> = mutableMapOf()
 	
 	// true if the user in selection mode, false otherwise
 	// private flag
@@ -58,7 +58,7 @@ class ChildrenAdapter(
 	
 	// default data setter
 	// override to implement another approach
-	fun setNewData(newData: List<String>) {
+	fun setNewData(newData: IntArray) {
 		data = newData
 		notifyDataSetChanged()
 	}
@@ -81,13 +81,13 @@ class ChildrenAdapter(
 	}
 	
 	// allows clicks events to be caught
-	fun setOnItemClickListener(listener: (view: View, position: Int, item: String) -> Unit) {
+	fun setOnItemClickListener(listener: (view: View, position: Int, stringRes: Int) -> Unit) {
 		mClickListener = listener
 	}
 	
 	// needed nullability to prevent attach click listener without handling it
 	// clicks animation will be shown but not handled
-	private var mClickListener: ((view: View, position: Int, item: String) -> Unit)? = null
+	private var mClickListener: ((view: View, position: Int, stringRes: Int) -> Unit)? = null
 	
 
 	
@@ -106,19 +106,18 @@ class ChildrenAdapter(
 			}
 		}
 		
-		fun bind(item: String) {
+		fun bind(stringRes: Int) {
 			
-			binding.tvChildComponentTitleCheckable.isChecked =
-				selectedChildren.find { it.second == adapterPosition } != null
+			binding.tvChildComponentTitleCheckable.isChecked = selectedChildren[adapterPosition] != null
 			
 		
 			binding.tvChildComponentTitleCheckable.setOnCheckedChangeListener { _, isChecked ->
-				if (isChecked) selectedChildren.add(Pair(item, adapterPosition))
-				else selectedChildren.remove(Pair(item, adapterPosition))
+				if (isChecked) selectedChildren[adapterPosition] = stringRes
+				else selectedChildren.remove(adapterPosition)
 			}
 			
 			binding.setVariable(BR.multiSelect, multiSelect)
-			binding.setVariable(BR.bindItem, item)
+			binding.setVariable(BR.bindItem, stringRes)
 			binding.executePendingBindings()
 		}
 	}

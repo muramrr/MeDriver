@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:51
+ * Last modified 24.10.2020 20:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.databinding.ItemMaintenanceParentNodeBinding
 import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
+import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 
 /**
  * Used to display parent nodes list
@@ -29,49 +30,49 @@ class ParentNodeAdapter (
 		ParentNodeUi(
 			string.maintenance_node_engine,
 			string.btm_sheet_maintenance_add_engine_components,
-			R.array.maintenance_engine_components,
+			VehicleSystemNodeConstants.engineComponents,
 			R.drawable.ic_node_engine_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_transmission,
 			string.btm_sheet_maintenance_add_transmission_components,
-			R.array.maintenance_transmission_components,
+			VehicleSystemNodeConstants.transmissionComponents,
 			R.drawable.ic_node_transmission_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_electrics,
 			string.btm_sheet_maintenance_add_electrics_components,
-			R.array.maintenance_electric_components,
+			VehicleSystemNodeConstants.electricsComponents,
 			R.drawable.ic_node_electrics_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_suspension,
 			string.btm_sheet_maintenance_add_suspension_components,
-			R.array.maintenance_suspension_components,
+			VehicleSystemNodeConstants.suspensionComponents,
 			R.drawable.ic_node_suspension_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_brakes,
 			string.btm_sheet_maintenance_add_brakes_components,
-			R.array.maintenance_brakes_components,
+			VehicleSystemNodeConstants.brakesComponents,
 			R.drawable.ic_node_brakes_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_body,
 			string.btm_sheet_maintenance_add_vehicle_body_components,
-			R.array.maintenance_body_components,
+			VehicleSystemNodeConstants.bodyComponents,
 			R.drawable.ic_node_body_48
 		),
 		ParentNodeUi(
 			string.maintenance_node_other,
 			string.btm_sheet_maintenance_add_other_components,
-			0,
+			IntArray(0),
 			0
 		),
 		ParentNodeUi(
 			string.maintenance_node_planned,
 			string.btm_sheet_maintenance_add_planned_components,
-			R.array.maintenance_planned_components,
+			VehicleSystemNodeConstants.plannedComponents,
 			R.drawable.ic_node_planned_48
 		)
 	)

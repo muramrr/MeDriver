@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.10.2020 18:59
+  ~ Last modified 24.10.2020 20:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -106,146 +106,113 @@
 	<string name="btm_sheet_maintenance_btn_add">Додати все</string>
 	
 	
+	<string name="maintenance_other_component">Інше</string>
 	
-	<string-array name="maintenance_engine_components">
-		<item>Подушка</item>
-		<item>Гофра глушника</item>
-		<item>Ланцюг ГРМ (з натягувачем)</item>
-		
-		<item>ГБЦ</item>
-		<item>Прокладка ГБЦ</item>
-		<item>Болти ГБЦ</item>
-		
-		<item>Циліндр</item>
-		<item>Гільза циліндра</item>
-		<item>Вкладиші блоку циліндрів</item>
-		<item>Блок циліндрів</item>
-		
-		<item>Ремінь генератора</item>
-		<item>Ремінь кондиціонера</item>
-		
-		<item>Турбіна</item>
-		<item>Інтеркулер</item>
-		<item>Компресор</item>
-		<item>Ремінь компресора</item>
-		
-		<item>Комплект поршневих кілець</item>
-		<item>Поршень</item>
-		
-		<item>Паливний насос</item>
-		<item>Паливна форсунка</item>
-		<item>Паливний ремінь</item>
-		<item>Паливний шланг</item>
-		
-		<item>Радіатор (двигун)</item>
-		<item>Помпа (вода)</item>
-		
-		<item>Демпфер</item>
-		<item>Клапан</item>
-		<item>Ролик натягувача ременя</item>
-		<item>Шатун</item>
-		
-		<item>Розподільний вал</item>
-		<item>Колінчатий вал</item>
-		
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_engine_mount">Подушка</string>
+	<string name="maintenance_engine_silencer_corrugation">Гофра глушника</string>
+	<string name="maintenance_engine_timing_chain_kit">Ланцюг ГРМ (з натягувачем)</string>
+	<string name="maintenance_engine_cylinder_unit_heads">ГБЦ</string>
+	<string name="maintenance_engine_cylinder_unit_heads_gasket">Прокладка ГБЦ</string>
+	<string name="maintenance_engine_cylinder_head_bolts">Болти ГБЦ</string>
+	<string name="maintenance_engine_cylinder">Циліндр</string>
+	<string name="maintenance_engine_cylinder_shell">Гільза циліндра</string>
+	<string name="maintenance_engine_cylinder_unit_liner">Вкладиші блоку циліндрів</string>
+	<string name="maintenance_engine_cylinder_unit">Блок циліндрів</string>
+	<string name="maintenance_engine_belt_generator">Ремінь генератора</string>
+	<string name="maintenance_engine_belt_air_conditioner">Ремінь кондиціонера</string>
+	<string name="maintenance_engine_turbo">Турбіна</string>
+	<string name="maintenance_engine_intercooler">Інтеркулер</string>
+	<string name="maintenance_engine_compressor">Компресор</string>
+	<string name="maintenance_engine_belt_compressor">Ремінь компресора</string>
+	<string name="maintenance_engine_piston_rings">Комплект поршневих кілець</string>
+	<string name="maintenance_engine_piston">Поршень</string>
+	<string name="maintenance_engine_pump_fuel">Паливний насос</string>
+	<string name="maintenance_engine_fuel_burner">Паливна форсунка</string>
+	<string name="maintenance_engine_belt_pump_fuel">Паливний ремінь</string>
+	<string name="maintenance_engine_pipe_fuel">Паливний шланг</string>
+	<string name="maintenance_engine_radiator">Радіатор (двигун)</string>
+	<string name="maintenance_engine_pump_water">Помпа (вода)</string>
+	<string name="maintenance_engine_damper">Демпфер</string>
+	<string name="maintenance_engine_valve">Клапан</string>
+	<string name="maintenance_engine_roller">Ролик натягувача ременя</string>
+	<string name="maintenance_engine_connecting_rod">Шатун</string>
+	<string name="maintenance_engine_camshaft">Розподільний вал</string>
+	<string name="maintenance_engine_crankshaft">Колінчатий вал</string>
 	
-	<string-array name="maintenance_transmission_components">
-		<item>Датчик швидкості</item>
-		<item>Комплект зчеплення (диск, корзинка)</item>
-		<item>Підшипник зчеплення</item>
-		<item>Маховик</item>
-		<item>РШ шарнір ("граната")</item>
-		<item>Пильовик РШ шарніру ("гранати")</item>
-		<item>Хрестовина (рульове)</item>
-		<item>Хрестовина (привід)</item>
-		<item>Напіввісь</item>
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_transmission_speed_sensor">Датчик швидкості</string>
+	<string name="maintenance_transmission_clutch_kit">Комплект зчеплення (диск, корзинка)</string>
+	<string name="maintenance_transmission_clutch_bearing">Підшипник зчеплення</string>
+	<string name="maintenance_transmission_clutch_flywheel">Маховик</string>
+	<string name="maintenance_transmission_homokinetic_joint">РШ шарнір ("граната")</string>
+	<string name="maintenance_transmission_homokinetic_joint_duster">Пильовик РШ шарніру ("гранати")</string>
+	<string name="maintenance_transmission_cross_steering">Хрестовина (рульове)</string>
+	<string name="maintenance_transmission_cross_gear">Хрестовина (привід)</string>
+	<string name="maintenance_transmission_semiaxis">Напіввісь</string>
 	
-	<string-array name="maintenance_electric_components">
-		<item>Акумулятор</item>
-		<item>Генератор</item>
-		<item>Котушка запалювання</item>
-		<item>Стартер</item>
-		<item>Лямбда-зонд</item>
-		<item>Високовольтний провід</item>
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_electrics_battery">Акумулятор</string>
+	<string name="maintenance_electrics_generator">Генератор</string>
+	<string name="maintenance_electrics_ignition_coil">Котушка запалювання</string>
+	<string name="maintenance_electrics_starter">Стартер</string>
+	<string name="maintenance_electrics_lambda_probe">Лямбда-зонд</string>
+	<string name="maintenance_electrics_high_voltage_wire">Високовольтний провід</string>
 	
-	<string-array name="maintenance_suspension_components">
-		<item>Амортизатори (передні)</item>
-		<item>Амортизатори (задні)</item>
-		<item>Пружина</item>
-		<item>Опора армотизатора</item>
-		<item>Сайлентблок</item>
-		<item>Кульова опора</item>
-		<item>Маточина колеса</item>
-		<item>Підшипник маточини колеса</item>
-		<item>Втулка</item>
-		<item>Важіль</item>
-		<item>Стійка стабілізатора</item>
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_suspension_shock_absorbers_front">Амортизатори (передні)</string>
+	<string name="maintenance_suspension_shock_absorbers_back">Амортизатори (задні)</string>
+	<string name="maintenance_suspension_shock_absorber_support">Опора амортизатора</string>
+	<string name="maintenance_suspension_spring">Пружина</string>
+	<string name="maintenance_suspension_silentblock">Сайлентблок</string>
+	<string name="maintenance_suspension_spherical_bearing">Кульова опора</string>
+	<string name="maintenance_suspension_wheel_hub">Маточина колеса</string>
+	<string name="maintenance_suspension_wheel_hub_bearing">Підшипник маточини колеса</string>
+	<string name="maintenance_suspension_sleeve">Втулка</string>
+	<string name="maintenance_suspension_arm">Важіль</string>
+	<string name="maintenance_suspension_rack_stabilizer">Стійка стабілізатора</string>
 	
-	<string-array name="maintenance_brakes_components">
-		<item>Колодки + диски або барабан (передні)</item>
-		<item>Колодки + диски або барабан (задні)</item>
-		<item>Супорт</item>
-		<item>Шланг</item>
-		<item>Циліндр</item>
-		<item>Датчик ABS</item>
-		<item>Датчик зносу</item>
-		<item>Трос ручника</item>
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_brakes_pads_discs_drums_front">Колодки + диски або барабан (передні)</string>
+	<string name="maintenance_brakes_pads_discs_drums_back">Колодки + диски або барабан (задні)</string>
+	<string name="maintenance_brakes_caliper">Супорт</string>
+	<string name="maintenance_brakes_pipe">Шланг</string>
+	<string name="maintenance_brakes_cylinder">Циліндр</string>
+	<string name="maintenance_brakes_sensor_abs">Датчик ABS</string>
+	<string name="maintenance_brakes_sensor_deterioration">Датчик зносу</string>
+	<string name="maintenance_brakes_parking_cable">Трос ручника</string>
 	
-	<string-array name="maintenance_body_components">
-		<item>Щітки склоочисника (передні)</item>
-		<item>Щітки склоочисника (задні)</item>
-		<item>Вітрове скло</item>
-		<item>Заднє скло</item>
-		<item>Капот</item>
-		<item>Армотизатор капота</item>
-		<item>Армотизатор багажника</item>
-		<item>Фара (ліва)</item>
-		<item>Фара (права)</item>
-		<item>Ліхтар (лівий)</item>
-		<item>Ліхтар (правий)</item>
-		<item>Протитуманна фара (ліва)</item>
-		<item>Протитуманна фара (права)</item>
-		<item>Решітка радіатору</item>
-		<item>Решітка бамперу</item>
-		<item>Передній бампер</item>
-		<item>Задній бампер</item>
-		<item>Переднє крило (ліве)</item>
-		<item>Переднє крило (праве)</item>
-		<item>Заднє крило (ліве)</item>
-		<item>Заднє крило (праве)</item>
-		<item>Поріг зліва</item>
-		<item>Поріг зправа</item>
-		<item>Бачок омивача</item>
-		<item>Інше</item>
-	</string-array>
+	<string name="maintenance_body_wiper_front">Щітки склоочисника (передні)</string>
+	<string name="maintenance_body_wiper_back">Щітки склоочисника (задні)</string>
+	<string name="maintenance_body_windshield_front">Вітрове скло</string>
+	<string name="maintenance_body_windshield_back">Заднє скло</string>
+	<string name="maintenance_body_hood">Капот</string>
+	<string name="maintenance_body_hood_damper">Амортизатор капота</string>
+	<string name="maintenance_body_trunk_damper">Амортизатор багажника</string>
+	<string name="maintenance_body_headlight_left">Фара (ліва)</string>
+	<string name="maintenance_body_headlight_right">Фара (права)</string>
+	<string name="maintenance_body_taillight_left">Ліхтар (лівий)</string>
+	<string name="maintenance_body_taillight_right">Ліхтар (правий)</string>
+	<string name="maintenance_body_foglight_left">Протитуманна фара (ліва)</string>
+	<string name="maintenance_body_foglight_right">Протитуманна фара (права)</string>
+	<string name="maintenance_body_radiator_grill">Решітка радіатору</string>
+	<string name="maintenance_body_front_bumper_grill">Решітка бамперу</string>
+	<string name="maintenance_body_front_bumper">Передній бампер</string>
+	<string name="maintenance_body_back_bumper">Задній бампер</string>
+	<string name="maintenance_body_front_left_fender">Переднє крило (ліве)</string>
+	<string name="maintenance_body_front_right_fender">Переднє крило (праве)</string>
+	<string name="maintenance_body_back_left_fender">Заднє крило (ліве)</string>
+	<string name="maintenance_body_back_right_fender">Заднє крило (праве)</string>
+	<string name="maintenance_body_sill_left">Поріг зліва</string>
+	<string name="maintenance_body_sill_right">Поріг зправа</string>
+	<string name="maintenance_body_washer_reservoir">Бачок омивача</string>
 	
-	<string-array name="maintenance_other_components">
-	
-	</string-array>
-	
-	<string-array name="maintenance_planned_components">
-		<item>Фільтр повітря</item>
-		<item>Масляний фільтр</item>
-		<item>Паливний фільтр</item>
-		<item>Фільтр салону</item>
-		<item>Гальмівна рідина</item>
-		<item>Моторне мастило</item>
-		<item>Комплект ГРМ (ремінь и ролики)</item>
-		<item>Свічки (запалювання або розжарювання)</item>
-		<item>Антифріз</item>
-		<item>Мастило для КПП</item>
-		<item>Фільтр для КПП</item>
-	</string-array>
+	<string name="maintenance_planned_air_filter">Фільтр повітря</string>
+	<string name="maintenance_planned_oil_filter">Масляний фільтр</string>
+	<string name="maintenance_planned_fuel_filter">Паливний фільтр</string>
+	<string name="maintenance_planned_cabin_filter">Фільтр салону</string>
+	<string name="maintenance_planned_brakes_fluid">Гальмівна рідина</string>
+	<string name="maintenance_planned_engine_oil">Моторне мастило</string>
+	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремінь и ролики)</string>
+	<string name="maintenance_planned_plugs">Свічки (запалювання або розжарювання)</string>
+	<string name="maintenance_planned_antifreeze">Антифріз</string>
+	<string name="maintenance_planned_transmission_oil">Мастило для КПП</string>
+	<string name="maintenance_planned_transmission_filter">Фільтр для КПП</string>
 	
 <!-- ******************************************************************************************* -->
 

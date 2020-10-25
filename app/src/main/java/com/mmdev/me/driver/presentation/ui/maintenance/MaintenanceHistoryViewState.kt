@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:42
+ * Last modified 25.10.2020 19:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,5 +30,5 @@ sealed class MaintenanceHistoryViewState: ViewState {
 	data class Init(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
 	data class Paginate(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
 	data class Filter(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
-	data class Error(val errorMessage: String): MaintenanceHistoryViewState()
+	data class Error(val errorMessage: String?): MaintenanceHistoryViewState()
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 18:38
+ * Last modified 25.10.2020 19:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,8 +17,9 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Loading
+import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -47,18 +48,18 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 				success = { data ->
 					if (size == null) {
 						//in case below no matter if list is empty or not
-						viewState.postValue(MaintenanceHistoryViewState.Init(data = data))
+						viewState.postValue(Init(data = data))
 						
 						//handle empty state visibility
 						isHistoryEmpty.value = data.isEmpty()
 						
 					} // if size was specified
-					else viewState.postValue(MaintenanceHistoryViewState.Paginate(data = data))
+					else viewState.postValue(Paginate(data = data))
 					
 					//loadedHistory.addAll(data)
 				},
 				failure = {
-					viewState.postValue(MaintenanceHistoryViewState.Error(it.localizedMessage!!))
+					viewState.postValue(Error(it.localizedMessage!!))
 				}
 			)
 		}
@@ -76,11 +77,25 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 			
 			repository.getSystemNodeHistory(MedriverApp.currentVehicleVinCode, node.name).fold(
 				success = { data ->
-					viewState.postValue(MaintenanceHistoryViewState.Filter(data = data))
+					viewState.postValue(Filter(data = data))
 				},
 				failure = {
-					viewState.postValue(MaintenanceHistoryViewState.Error(it.localizedMessage!!))
+					viewState.postValue(Error(it.localizedMessage!!))
 				}
+			)
+		}
+	}
+	
+	
+	fun searchMaintenanceHistory(query: String) {
+		viewModelScope.launch {
+			
+			delay(500)
+			viewState.postValue(Loading)
+			
+			repository.getHistoryByTypedQuery(MedriverApp.currentVehicleVinCode, query).fold(
+				success = { viewState.postValue(Init(it)) },
+				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
 		}
 	}

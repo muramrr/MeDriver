@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:11
+ * Last modified 25.10.2020 19:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,7 +30,7 @@ object DomainMappers {
 			vendor = domain.vendor,
 			systemNode = domain.systemNode.name,
 			systemNodeComponent = domain.systemNodeComponent.getSparePartName(),
-			customNodeComponent = domain.customNodeComponent,
+			searchCriteria = domain.searchCriteria.toString(),
 			commentary = domain.commentary,
 			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,
@@ -46,7 +46,7 @@ object DomainMappers {
 			vendor = domain.vendor,
 			systemNode = domain.systemNode.name,
 			systemNodeComponent = domain.systemNodeComponent.getSparePartName(),
-			customNodeComponent = domain.customNodeComponent,
+			searchCriteria = domain.searchCriteria,
 			commentary = domain.commentary,
 			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,

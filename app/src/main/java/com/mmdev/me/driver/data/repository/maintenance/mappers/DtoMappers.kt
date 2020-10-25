@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:52
+ * Last modified 25.10.2020 19:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ object DtoMappers {
 			vendor = dto.vendor,
 			systemNode = VehicleSystemNodeType.valueOf(dto.systemNode),
 			systemNodeComponent = VehicleSystemNodeType.valueOf(dto.systemNode).getChildBy(dto.systemNodeComponent),
-			customNodeComponent = dto.customNodeComponent,
+			searchCriteria = dto.searchCriteria,
 			commentary = dto.commentary,
 			moneySpent = dto.moneySpent,
 			odometerValueBound = dto.odometerValueBound,
@@ -48,7 +48,7 @@ object DtoMappers {
 			vendor = dto.vendor,
 			systemNode = dto.systemNode,
 			systemNodeComponent = dto.systemNodeComponent,
-			customNodeComponent = dto.customNodeComponent,
+			searchCriteria = dto.searchCriteria.toString(),
 			commentary = dto.commentary,
 			moneySpent = dto.moneySpent,
 			odometerValueBound = dto.odometerValueBound,

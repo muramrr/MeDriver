@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 18:29
+ * Last modified 25.10.2020 19:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ interface MaintenanceDao {
 		SELECT * FROM vehicle_replaced_parts
 		WHERE vehicleVinCode = :vin
 		AND systemNode = :systemNode
-		AND customNodeComponent = :component
+		AND searchCriteria = :component
 		ORDER BY date DESC
 		LIMIT 1
 	"""
@@ -76,13 +76,15 @@ interface MaintenanceDao {
 	): List<VehicleSparePartEntity>
 	
 	
-	
-	
+	/**
+	 * @param typedQuery should be in format "%typedQuery%"
+	 * this one transformation applied in datasource
+	 */
 	@Query(
 		"""
 		SELECT * FROM vehicle_replaced_parts
 		WHERE vehicleVinCode = :vin
-		AND systemNode LIKE :typedQuery
+		AND searchCriteria LIKE :typedQuery
 		OR systemNodeComponent LIKE :typedQuery
 		OR articulus LIKE :typedQuery
 		OR vendor LIKE :typedQuery
@@ -91,7 +93,7 @@ interface MaintenanceDao {
 	)
 	suspend fun getByTypedQuery(
 		vin: String,
-		typedQuery: String //should be in format "%typedQuery%"
+		typedQuery: String
 	): List<VehicleSparePartEntity>
 	
 	

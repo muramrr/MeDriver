@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.10.2020 19:42
+  ~ Last modified 25.10.2020 20:40
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,15 +27,32 @@
 		android:layout_height="match_parent"
 		>
 	
-		<androidx.appcompat.widget.SearchView android:id="@+id/searchMaintenance"
+		<com.google.android.material.textfield.TextInputLayout android:id="@+id/layoutSearchMaintenance"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:background="@null"
+			
+			android:hint="Search"
+			app:startIconDrawable="@drawable/abc_ic_search_api_material"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
 			
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toStartOf="@id/btnMaintenanceFilter"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
 			
-			/>
+			<com.google.android.material.textfield.TextInputEditText android:id="@+id/etSearchMaintenance"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="@null"
+				android:imeOptions="actionSearch"
+				android:inputType="text"
+				android:singleLine="true"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
 		
 		<com.google.android.material.button.MaterialButton android:id="@+id/btnMaintenanceFilter"
 			android:layout_width="48dp"
@@ -53,8 +70,7 @@
 			style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
 			
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="@id/searchMaintenance"
-			app:layout_constraintStart_toEndOf="@id/searchMaintenance"
+			app:layout_constraintBottom_toBottomOf="@id/layoutSearchMaintenance"
 			app:layout_constraintEnd_toEndOf="parent"
 			
 			/>
@@ -65,7 +81,7 @@
 			
 			tools:listitem="@layout/item_maintenance"
 			
-			app:layout_constraintTop_toBottomOf="@id/searchMaintenance"
+			app:layout_constraintTop_toBottomOf="@id/layoutSearchMaintenance"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"

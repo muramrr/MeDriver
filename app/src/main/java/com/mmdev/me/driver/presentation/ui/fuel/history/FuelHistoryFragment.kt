@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 25.10.2020 19:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,6 +62,7 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 			addOnScrollListener(object: EndlessRecyclerViewScrollListener(linearLayoutManager) {
 				override fun onLoadMore(lastVisiblePosition: Int, totalCount: Int, shouldBeLoaded: Int) {
 					
+					//todo: properly load
 					//mViewModel.getHistoryRecords(shouldBeLoaded)
 					logWarn(TAG, "scrolled")
 				}

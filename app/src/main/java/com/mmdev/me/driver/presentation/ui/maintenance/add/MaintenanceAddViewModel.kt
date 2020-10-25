@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 18:50
+ * Last modified 25.10.2020 19:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
@@ -92,6 +93,8 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 	) {
 		viewModelScope.launch(MyDispatchers.io()) {
 			
+			val odometerBound = buildDistanceBound(odometerInput)
+			
 			viewStateMap[position]!!.postValue(MaintenanceAddViewState.Loading)
 			
 			repository.addMaintenanceItems(
@@ -105,14 +108,14 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 						customComponentInput,
 						commentaryInput,
 						priceInput,
-						odometerInput,
+						odometerBound,
 						vin
 					)
 				)
 			).collect { result ->
 				result.fold(
 					success = {
-						viewStateMap[position]!!.postValue(MaintenanceAddViewState.Success)
+						viewStateMap[position]!!.postValue(MaintenanceAddViewState.Success(odometerBound))
 						parentShouldBeUpdated.postValue(true)
 					},
 					failure = {
@@ -133,7 +136,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		customComponentInput: String,
 		commentaryInput: String,
 		priceInput: Double,
-		odometerInput: Int,
+		odometerBound: DistanceBound,
 		vin: String
 	): VehicleSparePart = VehicleSparePart(
 		date = dateInput,
@@ -142,10 +145,10 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vendor = vendorInput,
 		systemNode = selectedVehicleSystemNode.value!!,
 		systemNodeComponent = componentSelected,
-		customNodeComponent = customComponentInput,
+		searchCriteria = listOf(customComponentInput),
 		commentary = commentaryInput,
 		moneySpent = priceInput,
-		odometerValueBound = buildDistanceBound(odometerInput),
+		odometerValueBound = odometerBound,
 		vehicleVinCode = vin
 	)
 	

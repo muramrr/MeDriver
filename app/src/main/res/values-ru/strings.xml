@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.10.2020 19:58
+  ~ Last modified 26.10.2020 17:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,6 +44,8 @@
 	
 	<string name="price_input_hint">Цена</string>
 	<string name="commentary_input_hint">Комментарий (необятазельно)</string>
+	
+	<string name="input_empty_error">Пустое поле</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -54,10 +56,7 @@
 	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
-	<string name="btm_sheet_vehicle_add_enter_brand_error">Пустое поле</string>
-	
 	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
-	<string name="btm_sheet_vehicle_add_enter_model_error">Пустое поле</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_year_hint">Год выпуска</string>
 	<string name="btm_sheet_vehicle_add_enter_year_error">Неправильное значение</string>
@@ -84,6 +83,14 @@
 	<string name="maintenance_dialog_filter_btn_neutral">Отмена</string>
 	<string name="maintenance_dialog_filter_title">Выберите узел автомобиля</string>
 	<string name="maintenance_dialog_filter_message">Отфильтрует детали по выбранному узлу</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* item_maintenance ************************************ -->
+	<string name="item_maintenance_not_defined_vendor_articulus">Не указано</string>
+	
+	
 <!-- ******************************************************************************************* -->
 
 
@@ -219,20 +226,20 @@
 
 
 <!-- ***************************** item_maintenance_child_edit ***************************** -->
-	<string name="fg_maintenance_child_edit_last_replaced_label">Последняя замена</string>
-	<string name="fg_maintenance_child_edit_last_replaced_value_never">Никогда</string>
-	<string name="fg_maintenance_child_edit_last_detail_value_not_found">Не найдено</string>
+	<string name="item_maintenance_child_edit_last_replaced_label">Последняя замена</string>
+	<string name="item_maintenance_child_edit_last_replaced_value_never">Никогда</string>
+	<string name="item_maintenance_child_edit_last_detail_value_not_found">Не найдено</string>
 	
-	<string name="fg_maintenance_child_edit_component_hint">Деталь</string>
+	<string name="item_maintenance_child_edit_component_hint">Деталь</string>
 	
-	<string name="fg_maintenance_child_edit_vendor_hint">Производитель</string>
-	<string name="fg_maintenance_child_edit_vendor_helper">Например: Bosch</string>
+	<string name="item_maintenance_child_edit_vendor_hint">Производитель</string>
+	<string name="item_maintenance_child_edit_vendor_helper">Например: Bosch</string>
 	
-	<string name="fg_maintenance_child_edit_articulus_hint">Артикул</string>
-	<string name="fg_maintenance_child_edit_articulus_helper">Например: GDB1010</string>
+	<string name="item_maintenance_child_edit_articulus_hint">Артикул</string>
+	<string name="item_maintenance_child_edit_articulus_helper">Например: GDB1010</string>
 	
-	<string name="fg_maintenance_add_operation_successful">Успешно добавлено</string>
-	<string name="fg_maintenance_add_operation_fails">Ошибка</string>
+	<string name="item_maintenance_add_operation_successful">Успешно добавлено</string>
+	<string name="item_maintenance_add_operation_fails">Ошибка</string>
 <!-- ******************************************************************************************* -->
 
 

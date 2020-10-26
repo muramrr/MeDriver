@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 20:35
+ * Last modified 26.10.2020 15:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,7 +25,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.TransmissionParts
 
 enum class VehicleSystemNodeType {
 	
-	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, PLANNED, OTHER;
+	ENGINE, TRANSMISSION, ELECTRICS, SUSPENSION, BRAKES, BODY, OTHER, PLANNED;
 	
 	companion object {
 		
@@ -38,8 +38,8 @@ enum class VehicleSystemNodeType {
 			SUSPENSION -> SuspensionParts.valueOf(item)
 			BRAKES -> BrakesParts.valueOf(item)
 			BODY -> BodyParts.valueOf(item)
-			PLANNED -> PlannedParts.valueOf(item)
 			OTHER -> OtherParts.valueOf(item)
+			PLANNED -> PlannedParts.valueOf(item)
 		}
 		
 		fun VehicleSystemNodeType.getChildren(): Array<SparePart> = when (this) {
@@ -49,8 +49,8 @@ enum class VehicleSystemNodeType {
 			SUSPENSION -> SuspensionParts.valuesArray
 			BRAKES -> BrakesParts.valuesArray
 			BODY -> BodyParts.valuesArray
-			PLANNED -> PlannedParts.valuesArray
 			OTHER -> OtherParts.valuesArray
+			PLANNED -> PlannedParts.valuesArray
 		}
 	}
 	

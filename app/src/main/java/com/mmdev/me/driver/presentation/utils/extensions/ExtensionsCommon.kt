@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.10.2020 18:07
+ * Last modified 26.10.2020 16:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,7 +23,7 @@ import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 
 
-fun TextView.text(): String = text.toString()
+fun TextView.text(): String = if (!text.isNullOrBlank()) text.toString() else ""
 
 /**
  * Extension method to provide simpler access to {@link View#getResources()#getString(int)}.

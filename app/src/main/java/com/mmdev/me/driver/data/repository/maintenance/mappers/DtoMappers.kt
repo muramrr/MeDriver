@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:04
+ * Last modified 26.10.2020 16:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,7 +48,7 @@ object DtoMappers {
 			vendor = dto.vendor,
 			systemNode = dto.systemNode,
 			systemNodeComponent = dto.systemNodeComponent,
-			searchCriteria = dto.searchCriteria.toString(),
+			searchCriteria = dto.searchCriteria.joinToString(),
 			commentary = dto.commentary,
 			moneySpent = dto.moneySpent,
 			odometerValueBound = dto.odometerValueBound,

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 20:41
+ * Last modified 26.10.2020 17:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,10 +35,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaintenanceBinding>(
 	layoutId = R.layout.fragment_maintenance
 ) {
-
+	
 	override val mViewModel: MaintenanceViewModel by viewModel()
 	
 	private val mAdapter = MaintenanceHistoryAdapter()
+	
+	private var checkedDialogItem = 0
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -47,22 +49,40 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	}
 	
 	override fun setupViews() {
-		setupAddMaintenance()
-		setupFilter()
-		setupSearch()
-		
 		mViewModel.viewState.observe(this, { renderState(it) })
 		
-		binding.rvMaintenance.apply {
-			adapter = mAdapter
-			layoutManager = LinearLayoutManager(requireContext())
-			addItemDecoration(LinearItemDecoration())
+		setupSearch()
+		
+		binding.apply {
 			
-			setOnTouchListener { v, event ->
-				performClick()
-				hideKeyboard(binding.etSearchMaintenance)
+			with(MedriverApp.currentVehicle != null) {
+				fabAddMaintenance.isEnabled = this
+				btnMaintenanceFilter.isEnabled = this
+				layoutSearchMaintenance.isEnabled = this
+			}
+			
+			btnMaintenanceFilter.setOnClickListener {
+				binding.etSearchMaintenance.text = null //clear any typed search text
+				showFilterDialog()
+			}
+			
+			rvMaintenance.apply {
+				adapter = mAdapter
+				layoutManager = LinearLayoutManager(requireContext())
+				addItemDecoration(LinearItemDecoration())
+				
+				setOnTouchListener { v, event ->
+					performClick()
+					hideKeyboard(binding.etSearchMaintenance)
+				}
+			}
+			
+			fabAddMaintenance.setDebounceOnClick {
+				MaintenanceAddBottomSheet()
+					.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 			}
 		}
+		
 		
 		
 	}
@@ -83,23 +103,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			}
 		}
 	}
-	
-	private fun setupFilter() {
-		binding.btnMaintenanceFilter.isEnabled = MedriverApp.currentVehicle != null
-		binding.btnMaintenanceFilter.setOnClickListener {
-			binding.etSearchMaintenance.text = null //clear any typed search text
-			showFilterDialog()
-		}
-	}
-	
-	private fun setupAddMaintenance() {
-		binding.fabAddMaintenance.isEnabled = true //MedriverApp.currentVehicle != null
-		binding.fabAddMaintenance.setDebounceOnClick {
-			MaintenanceAddBottomSheet()
-				.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
-		}
-	}
-	
 
 	override fun renderState(state: ViewState) {
 		super.renderState(state)
@@ -124,7 +127,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	
 	private fun showFilterDialog() {
 		val singleItems = resources.getStringArray(R.array.maintenance_dialog_filter_node_list)
-		var checkedItem = 0
 		
 		MaterialAlertDialogBuilder(requireContext())
 			.setTitle(getString(R.string.maintenance_dialog_filter_title))
@@ -133,10 +135,10 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 				dialog.dismiss()
 			}
 			.setPositiveButton(getString(R.string.maintenance_dialog_filter_btn_positive)) { _, which ->
-				mViewModel.filterHistory(checkedItem)
+				mViewModel.filterHistory(checkedDialogItem)
 			}
 			// Single-choice items (initialized with checked item)
-			.setSingleChoiceItems(singleItems, checkedItem) { _, position -> checkedItem = position }
+			.setSingleChoiceItems(singleItems, checkedDialogItem) { _, position -> checkedDialogItem = position }
 			.show()
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:17
+ * Last modified 26.10.2020 17:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add.child
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
@@ -77,6 +78,8 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 			}
 		}
 		
+		setupInput()
+		
 		binding.apply {
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
@@ -84,24 +87,59 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 			}
 			
 			fabChildAdd.setDebounceOnClick {
-				mViewModel.addMaintenanceEntry(
-					position = argPosition,
-					user = MedriverApp.currentUser,
-					dateInput = pickedDate,
-					vendorInput = etInputVendor.text(),
-					articulusInput = etInputArticulus.text(),
-					componentSelected = child.sparePart,
-					customComponentInput =
-					if (child.sparePart.getSparePartName() != SparePart.OTHER)
-						child.sparePart.getSparePartName()
-					else etInputCustomComponent.text(),
-					commentaryInput = etInputCommentary.text(),
-					priceInput = etInputPrice.text().toDouble(),
-					odometerInput = etInputOdometer.text().toInt(),
-					vin = MedriverApp.currentVehicleVinCode
-				)
+				
+				if (checkAreInputCorrect())
+					
+					mViewModel.addMaintenanceEntry(
+						position = argPosition,
+						user = MedriverApp.currentUser,
+						dateInput = pickedDate,
+						vendorInput = etInputVendor.text(),
+						articulusInput = etInputArticulus.text(),
+						componentSelected = child.sparePart,
+						customComponentInput = if (child.sparePart.getSparePartName() != SparePart.OTHER)
+							child.sparePart.getSparePartName()
+						else etInputCustomComponent.text(),
+						commentaryInput = etInputCommentary.text(),
+						priceInput = etInputPrice.text().toDouble(),
+						odometerInput = etInputOdometer.text().toInt(),
+						vin = MedriverApp.currentVehicleVinCode
+					)
 			}
 		}
+	}
+	
+	private fun setupInput() {
+		binding.etInputCustomComponent.doOnTextChanged { text, start, before, count ->
+			if (text.isNullOrBlank()) binding.layoutInputCustomComponent.error = getString(R.string.input_empty_error)
+			else binding.layoutInputCustomComponent.error = null
+		}
+		
+		binding.etInputPrice.doOnTextChanged { text, start, before, count ->
+			if (text.isNullOrBlank()) binding.layoutInputPrice.error = getString(R.string.input_empty_error)
+			else binding.layoutInputPrice.error = null
+		}
+		
+		binding.etInputOdometer.doOnTextChanged { text, start, before, count ->
+			if (text.isNullOrBlank()) binding.layoutInputOdometer.error = getString(R.string.input_empty_error)
+			else binding.layoutInputOdometer.error = null
+		}
+	}
+	
+	/** return true if all required fields have been inputted correctly  */
+	private fun checkAreInputCorrect(): Boolean {
+		if (binding.etInputCustomComponent.text.isNullOrBlank())
+			binding.layoutInputCustomComponent.error = getString(R.string.input_empty_error)
+		
+		if (binding.etInputPrice.text.isNullOrBlank())
+			binding.layoutInputPrice.error = getString(R.string.input_empty_error)
+		
+		if (binding.etInputOdometer.text.isNullOrBlank())
+			binding.layoutInputOdometer.error = getString(R.string.input_empty_error)
+			
+		return !binding.etInputCustomComponent.text.isNullOrBlank() &&
+		       !binding.etInputPrice.text.isNullOrBlank() &&
+		       !binding.etInputOdometer.text.isNullOrBlank()
 	}
 	
 	override fun renderState(state: ViewState) {
@@ -113,7 +151,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 				if (mViewModel.selectedChildren.value!!.size == 1) (requireParentFragment() as BottomSheetDialogFragment).dialog!!.dismiss()
 				else {
 					binding.root.rootView.showSnack(
-						R.string.fg_maintenance_add_operation_successful
+						R.string.item_maintenance_add_operation_successful
 					)
 					binding.fabChildAdd.isEnabled = false
 				}
@@ -128,7 +166,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 			is MaintenanceAddViewState.Error -> {
 				binding.root.rootView.showSnack(
 					state.errorMessage ?:
-					getString(R.string.fg_maintenance_add_operation_successful)
+					getString(R.string.item_maintenance_add_operation_successful)
 				)
 			}
 		}

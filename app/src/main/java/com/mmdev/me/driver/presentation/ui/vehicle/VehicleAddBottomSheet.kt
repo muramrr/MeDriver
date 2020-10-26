@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 26.10.2020 17:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -98,7 +98,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		mViewModel.brandInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isBrandReady = false
-				binding.layoutInputBrand.error = getString(R.string.btm_sheet_vehicle_add_enter_brand_error)
+				binding.layoutInputBrand.error = getString(R.string.input_empty_error)
 			}
 			else {
 				binding.layoutInputBrand.error = null
@@ -111,7 +111,7 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 		mViewModel.modelInput.observe(this, {
 			if (it.isNullOrBlank()) {
 				mViewModel.isModelReady = false
-				binding.layoutInputModel.error = getString(R.string.btm_sheet_vehicle_add_enter_model_error)
+				binding.layoutInputModel.error = getString(R.string.input_empty_error)
 			}
 			else {
 				binding.layoutInputModel.error = null

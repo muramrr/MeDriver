@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.09.2020 19:17
+  ~ Last modified 26.10.2020 17:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -149,7 +149,7 @@
 				android:gravity="center"
 				android:maxLines="1"
 				
-				android:text="2123 km"
+				android:text="@string/default_OdometerValue"
 				android:textAlignment="gravity"
 				android:textAppearance="?textAppearanceHeadline5"
 				android:textStyle="bold"
@@ -170,7 +170,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				
-				android:text="+ 213 km \nsince last refill"
+				android:text="+ 000000 km \nsince last refill"
 				android:textAlignment="center"
 				android:textAppearance="?textAppearanceOverline"
 				
@@ -278,7 +278,7 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				
-				android:text="8423 km left"
+				android:text="000000 km left"
 				android:textAlignment="center"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -355,7 +355,7 @@
 				android:gravity="center"
 				android:maxLines="1"
 				
-				android:text="12300034.5 $"
+				android:text="0000.0000 $"
 				android:textAlignment="center"
 				android:textAppearance="?textAppearanceHeadline5"
 				android:textStyle="bold"
@@ -375,7 +375,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				
-				android:text="+ 1200$\nlast operation"
+				android:text="+ 00000$\nlast operation"
 				android:textAlignment="center"
 				android:textAppearance="?textAppearanceOverline"
 				

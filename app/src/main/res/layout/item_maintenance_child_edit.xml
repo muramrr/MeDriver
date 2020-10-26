@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.10.2020 17:55
+  ~ Last modified 26.10.2020 17:08
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,7 +42,7 @@
 				
 				android:padding="8dp"
 				
-				android:text="@string/fg_maintenance_child_edit_last_replaced_label"
+				android:text="@string/item_maintenance_child_edit_last_replaced_label"
 				android:textAppearance="?textAppearanceSubtitle2"
 				
 				app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -58,7 +58,7 @@
 				android:padding="8dp"
 				android:maxLines="1"
 				
-				android:text="@string/fg_maintenance_child_edit_last_replaced_value_never"
+				android:text="@string/item_maintenance_child_edit_last_replaced_value_never"
 				android:textAppearance="?textAppearanceCaption"
 				android:textAlignment="center"
 				
@@ -95,7 +95,7 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				
-				android:text="@string/fg_maintenance_child_edit_last_detail_value_not_found"
+				android:text="@string/item_maintenance_child_edit_last_detail_value_not_found"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvLastReplacedLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -151,7 +151,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				
-				android:hint="@string/fg_maintenance_child_edit_component_hint"
+				android:hint="@string/item_maintenance_child_edit_component_hint"
 				app:counterEnabled="true"
 				app:counterMaxLength="30"
 				
@@ -169,7 +169,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					
-					android:inputType="number"
+					android:inputType="text"
 					android:imeOptions="actionNext"
 					android:gravity="center"
 					
@@ -188,10 +188,9 @@
 				android:layout_marginTop="2dp"
 				android:layout_marginEnd="4dp"
 				
-				android:hint="@string/fg_maintenance_child_edit_vendor_hint"
+				android:hint="@string/item_maintenance_child_edit_vendor_hint"
 				
-				app:errorEnabled="true"
-				app:helperText="@string/fg_maintenance_child_edit_vendor_helper"
+				app:helperText="@string/item_maintenance_child_edit_vendor_helper"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
@@ -225,10 +224,9 @@
 				android:layout_marginTop="2dp"
 				android:layout_marginStart="4dp"
 				
-				android:hint="@string/fg_maintenance_child_edit_articulus_hint"
+				android:hint="@string/item_maintenance_child_edit_articulus_hint"
 				
-				app:errorEnabled="true"
-				app:helperText="@string/fg_maintenance_child_edit_articulus_helper"
+				app:helperText="@string/item_maintenance_child_edit_articulus_helper"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:44
+ * Last modified 26.10.2020 17:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,10 +34,7 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 	override suspend fun addFuelStationsAndPrices(
 		fuelStationEntities: List<FuelStationEntity>, fuelPriceEntities: List<FuelPriceEntity>
 	) = dao.insertFuelStationsAndPrices(fuelStationEntities, fuelPriceEntities).also {
-		fuelStationEntities.forEach {
-			logDebug(TAG, "Adding Station: ${it.slug}")
-			logDebug(TAG, "")
-		}
+		fuelStationEntities.forEach { logDebug(TAG, "Adding Station: ${it.slug}") }
 		fuelPriceEntities.forEach {
 			logDebug(TAG, "Adding Price: station = ${it.fuelStationId}, " +
 			              "price = ${it.price}, type = ${it.typeCode}"

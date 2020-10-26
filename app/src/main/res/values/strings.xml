@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.10.2020 19:25
+  ~ Last modified 26.10.2020 17:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -79,6 +79,8 @@
 	<string name="commentary_input_hint">Comment (optional)</string>
 	<string name="price_input_hint">Price</string>
 	
+	<string name="input_empty_error">Empty field</string>
+	
 <!-- ******************************************************************************************* -->
 
 
@@ -89,10 +91,7 @@
 	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
-	<string name="btm_sheet_vehicle_add_enter_brand_error">Should not be blank</string>
-	
 	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
-	<string name="btm_sheet_vehicle_add_enter_model_error">Should not be blank</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
 	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
@@ -119,6 +118,15 @@
 	<string name="maintenance_dialog_filter_btn_neutral">Cancel</string>
 	<string name="maintenance_dialog_filter_title">Choose vehicle system node</string>
 	<string name="maintenance_dialog_filter_message">Filters parts by selected node</string>
+	
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* item_maintenance ************************************ -->
+	<string name="item_maintenance_not_defined_vendor_articulus">Not defined</string>
+	
 	
 <!-- ******************************************************************************************* -->
 
@@ -254,20 +262,20 @@
 
 
 <!-- ***************************** item_maintenance_child_edit ***************************** -->
-	<string name="fg_maintenance_child_edit_last_replaced_label">Last replaced</string>
-	<string name="fg_maintenance_child_edit_last_replaced_value_never">Never</string>
-	<string name="fg_maintenance_child_edit_last_detail_value_not_found">Not found</string>
+	<string name="item_maintenance_child_edit_last_replaced_label">Last replaced</string>
+	<string name="item_maintenance_child_edit_last_replaced_value_never">Never</string>
+	<string name="item_maintenance_child_edit_last_detail_value_not_found">Not found</string>
 	
-	<string name="fg_maintenance_child_edit_component_hint">Component</string>
+	<string name="item_maintenance_child_edit_component_hint">Component</string>
 	
-	<string name="fg_maintenance_child_edit_vendor_hint">Vendor</string>
-	<string name="fg_maintenance_child_edit_vendor_helper">Eg: Bosch</string>
+	<string name="item_maintenance_child_edit_vendor_hint">Vendor</string>
+	<string name="item_maintenance_child_edit_vendor_helper">Eg: Bosch</string>
 	
-	<string name="fg_maintenance_child_edit_articulus_hint">Articulus</string>
-	<string name="fg_maintenance_child_edit_articulus_helper">Eg: GDB1010</string>
+	<string name="item_maintenance_child_edit_articulus_hint">Articulus</string>
+	<string name="item_maintenance_child_edit_articulus_helper">Eg: GDB1010</string>
 	
-	<string name="fg_maintenance_add_operation_successful">Successfully added</string>
-	<string name="fg_maintenance_add_operation_fails">Failure</string>
+	<string name="item_maintenance_add_operation_successful">Successfully added</string>
+	<string name="item_maintenance_add_operation_fails">Failure</string>
 
 <!-- ******************************************************************************************* -->
 

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 04:24
+ * Last modified 26.10.2020 17:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -55,7 +55,8 @@ class MaintenanceLocalDataSourceImpl(private val dao: MaintenanceDao) :
 			logDebug(TAG,
 				"Adding Replaced spare part: " + "id = ${it.date}, " +
 				"date = ${convertToLocalDateTime(it.date).date}, " +
-				"part details = ${it.vendor}, ${it.articulus}"
+				"part vendor and articulus = ${it.vendor}, ${it.articulus}, " +
+				"parent = ${it.systemNode} child = ${it.systemNodeComponent} criteria = ${it.searchCriteria}"
 			)
 		}
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 28.10.2020 19:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,12 +22,7 @@ import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
-import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
-import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewState
-import com.mmdev.me.driver.presentation.ui.settings.AuthViewState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -50,18 +45,6 @@ class SharedViewModel(
 			currentVehicle.postValue(fetcher.getSavedVehicle(MedriverApp.currentVehicleVinCode))
 		}
 	}
-	
-	val showLoading: MutableLiveData<LoadingStatus> = MutableLiveData(LoadingStatus.HIDE)
-	
-	fun handleLoading(state: ViewState) {
-		when (state) {
-			is FuelHistoryViewState.Loading -> showLoading.value = LoadingStatus.SHOW
-			is FuelPricesViewState.Loading -> showLoading.value = LoadingStatus.SHOW
-			is AuthViewState.Loading -> showLoading.value = LoadingStatus.SHOW
-			else -> showLoading.value = LoadingStatus.HIDE
-		}
-	}
-	
 	
 	/**
 	 * Used in different parts of application

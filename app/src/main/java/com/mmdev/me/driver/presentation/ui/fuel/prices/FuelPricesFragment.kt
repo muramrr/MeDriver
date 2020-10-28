@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 28.10.2020 18:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.prices
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
@@ -18,6 +19,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
+import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -43,7 +45,10 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 	}
 	
 	override fun renderState(state: ViewState) {
-		super.renderState(state)
+		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
+			state == FuelPricesViewState.Loading
+		}
+		
 		when (state) {
 			is FuelPricesViewState.Success -> {
 				if (state.data.isNullOrEmpty())

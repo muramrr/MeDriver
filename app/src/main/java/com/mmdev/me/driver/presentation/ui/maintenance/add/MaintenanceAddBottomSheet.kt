@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 16:03
+ * Last modified 28.10.2020 15:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,8 +13,6 @@ package com.mmdev.me.driver.presentation.ui.maintenance.add
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -24,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logWtf
@@ -34,6 +31,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart.Companion.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildren
+import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Idle
@@ -52,31 +50,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Container for adding new maintenance records
  */
 
-class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
-	private val TAG = "mylogs_${javaClass.simpleName}"
+class MaintenanceAddBottomSheet: BaseBottomSheetFragment
+                                 <MaintenanceAddViewModel, BottomSheetMaintenanceAddBinding>(
+	layoutId = R.layout.bottom_sheet_maintenance_add
+) {
 	
-	private val mViewModel: MaintenanceAddViewModel by viewModel()
+	override val mViewModel: MaintenanceAddViewModel by viewModel()
 	private val parentViewModel: MaintenanceViewModel by lazy { requireParentFragment().getViewModel() }
 	
-	//automatically dismiss to prevent half expanded state
-	private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-		
-		override fun onStateChanged(bottomSheet: View, newState: Int) {
-			if (newState !in arrayOf(BottomSheetBehavior.STATE_EXPANDED,
-			                         BottomSheetBehavior.STATE_DRAGGING,
-			                         BottomSheetBehavior.STATE_SETTLING))
-				dismiss()
-		}
-		// Do something for slide offset
-		override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-	}
-	
-	// prevent view being leaked
-	private var _binding: BottomSheetMaintenanceAddBinding? = null
-	private val binding: BottomSheetMaintenanceAddBinding
-		get() = _binding ?: throw IllegalStateException(
-			"Trying to access the binding outside of the view lifecycle."
-		)
 	
 	private val mParentNodesAdapter = ParentNodeAdapter()
 	private val mChildrenAdapter = ChildrenAdapter(IntArray(0))
@@ -98,17 +79,6 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		parentViewModel.isAddDialogShowing.postValue(true)
 	}
 	
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View =
-		BottomSheetMaintenanceAddBinding.inflate(inflater, container, false)
-			.apply {
-				_binding = this
-				lifecycleOwner = viewLifecycleOwner
-				viewModel = mViewModel
-				executePendingBindings()
-			}.root
-	
-	
 	//attach callback, force dismiss with animation, set state
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
@@ -128,7 +98,8 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 	}
 	
 	
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+	
+	override fun setupViews() {
 		initStringRes()
 		
 		observeShouldBeUpdated()
@@ -136,18 +107,6 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		observeChildrenSelected()
 		observeMultiSelect()
 		
-		setupViews()
-	}
-	
-	
-	
-	private fun initStringRes() {
-		multiSelectButtonChooseText = getString(R.string.btm_sheet_maintenance_btn_multi_select_choose)
-		multiSelectButtonClearText = getString(R.string.btm_sheet_maintenance_btn_multi_select_clear)
-		
-	}
-	
-	private fun setupViews() {
 		binding.apply {
 			
 			//hide keyboard by pressing anywhere
@@ -201,7 +160,11 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 		setupFormSet()
 	}
 	
-	
+	private fun initStringRes() {
+		multiSelectButtonChooseText = getString(R.string.btm_sheet_maintenance_btn_multi_select_choose)
+		multiSelectButtonClearText = getString(R.string.btm_sheet_maintenance_btn_multi_select_clear)
+		
+	}
 	
 	/** setup parent adapter, manager, adapter click listener (step 1 in motion scene) */
 	private fun setupParentPickSet() {
@@ -354,13 +317,6 @@ class MaintenanceAddBottomSheet: BottomSheetDialogFragment() {
 			}
 			
 		})
-	}
-	
-	
-	override fun onDestroyView() {
-		binding.unbind()
-		_binding = null
-		super.onDestroyView()
 	}
 	
 	override fun onDismiss(dialog: DialogInterface) {

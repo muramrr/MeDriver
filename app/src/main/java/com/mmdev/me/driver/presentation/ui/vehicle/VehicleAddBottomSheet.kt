@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:17
+ * Last modified 28.10.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 	
-	private val dismissWithAnimation = true
+	//private val dismissWithAnimation = true
 	
 	// prevent view being leaked
 	private var _binding: BottomSheetVehicleAddBinding? = null
@@ -55,7 +55,9 @@ class VehicleAddBottomSheet : BottomSheetDialogFragment() {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 		//dismissWithAnimation = arguments?.getBoolean(ARG_DISMISS_WITH_ANIMATION) ?: true
-		(requireDialog() as BottomSheetDialog).dismissWithAnimation = dismissWithAnimation
+		(requireDialog() as BottomSheetDialog).apply {
+			dismissWithAnimation = true
+		}
 	}
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) { setupViews() }

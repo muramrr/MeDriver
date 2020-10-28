@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.10.2020 19:17
+  ~ Last modified 28.10.2020 18:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -166,7 +166,7 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				
 				/>
 			

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 28.10.2020 18:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,21 +16,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
-import com.mmdev.me.driver.presentation.ui.common.LoadingDialogFragment
-import com.mmdev.me.driver.presentation.ui.common.LoadingStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class MainActivity: AppCompatActivity() {
 	
@@ -40,8 +34,7 @@ class MainActivity: AppCompatActivity() {
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
 	
-	private var loadingShowingTime: Long = 0
-	private val loadingDialog = LoadingDialogFragment()
+	//private var loadingShowingTime: Long = 0
 	
 	//used to force chosen language as base context
 	override fun attachBaseContext(base: Context) {
@@ -101,16 +94,12 @@ class MainActivity: AppCompatActivity() {
 
 			return@setOnNavigationItemSelectedListener true
 		}
+		
+//		Timer().schedule(
+//			// if loading showing less than 500 millis (half of second) -> delay, else no delay
+//			if (currentEpochTime() - loadingShowingTime < 500) 500 else 0
+//		) { hideLoadingDialog() }
 
-	
-
-		sharedViewModel.showLoading.observe(this, {
-			if (it == LoadingStatus.SHOW) showLoadingDialog()
-			else Timer().schedule(
-				// if loading showing less than 500 millis (half of second) -> delay, else no delay
-				if (currentEpochTime() - loadingShowingTime < 500) 500 else 0
-			) { hideLoadingDialog() }
-		})
 		
 		sharedViewModel.userData.observe(this, {
 			if (it != null) logDebug(TAG, "authStatus = $AUTHENTICATED")
@@ -134,27 +123,6 @@ class MainActivity: AppCompatActivity() {
 		
 		})
 		
-	}
-	
-	private fun hideLoadingDialog() {
-		if (supportFragmentManager.findFragmentByTag(LoadingDialogFragment::class.java.canonicalName) != null) {
-			supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
-		}
-	}
-	
-	private fun showLoadingDialog() {
-		
-		val ft: FragmentTransaction = supportFragmentManager.beginTransaction().apply {
-			val prev = supportFragmentManager.findFragmentByTag(
-				LoadingDialogFragment::class.java.canonicalName
-			)
-			prev?.let { remove(it) }
-			addToBackStack(null)
-		}
-		
-		loadingDialog.show(ft, LoadingDialogFragment::class.java.canonicalName).also {
-			loadingShowingTime = currentEpochTime()
-		}
 	}
 	
 }

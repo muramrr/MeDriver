@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 17:59
+ * Last modified 28.10.2020 15:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,29 +17,22 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.ui.SharedViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- * This is the documentation block about the class
+ * Base class for [BottomSheetDialogFragment] used in application
+ * Uses similar behavior as [BaseFragment]
  */
 
-
-abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
+abstract class BaseBottomSheetFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	@LayoutRes private val layoutId: Int
-) : Fragment() {
-
-	protected lateinit var navController: NavController
+): BottomSheetDialogFragment() {
+	
 	protected val TAG = "mylogs_" + javaClass.simpleName
-
-	protected val sharedViewModel: SharedViewModel by sharedViewModel()
-
-
+	
 	protected abstract val mViewModel: VM?
 	
 	private var _binding: Binding? = null
@@ -48,8 +41,22 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 		get() = _binding ?: throw IllegalStateException(
 			"Trying to access the binding outside of the view lifecycle."
 		)
-
-
+	
+	
+	//automatically dismiss to prevent half expanded state
+	protected val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+		
+		override fun onStateChanged(bottomSheet: View, newState: Int) {
+			if (newState !in arrayOf(
+						BottomSheetBehavior.STATE_EXPANDED,
+						BottomSheetBehavior.STATE_DRAGGING,
+						BottomSheetBehavior.STATE_SETTLING))
+				dismiss()
+		}
+		// Do something for slide offset
+		override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+	}
+	
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -70,12 +77,6 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 		setupViews()
 	}
 	
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
-		navController = findNavController()
-	}
-	
-
 	open fun renderState(state: ViewState) {}
 	
 	override fun onDestroyView() {

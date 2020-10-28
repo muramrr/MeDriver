@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.10.2020 17:17
+  ~ Last modified 28.10.2020 16:25
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -385,7 +385,7 @@
 
 
 
-<!-- ********************************* dialog_settings_auth ********************************** -->
+<!-- *********************************** bottom_sheet_auth ************************************* -->
 	<string name="fg_settings_auth_header1">The best \</string>
 	<string name="fg_settings_auth_header2">Car Accounting</string>
 	<string name="fg_settings_auth_header3">experience</string>

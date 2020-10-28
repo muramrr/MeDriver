@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:24
+ * Last modified 28.10.2020 16:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
@@ -30,6 +29,7 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
+import com.mmdev.me.driver.presentation.ui.settings.auth.AuthDialog
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
@@ -46,8 +46,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 ) {
 
 	override val mViewModel: SettingsViewModel by viewModel()
-	
-	private val authDialog = SettingsAuthDialog()
 	
 	private var notSignedIn = ""
 	private var emailSent = ""
@@ -72,20 +70,9 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		
 		
 		binding.apply {
+			
 			btnSignInPopUp.setDebounceOnClick(2000) {
-				
-				// DialogFragment.show() will take care of adding the fragment
-				// in a transaction.  We also want to remove any currently showing
-				// dialog, so make our own transaction and take care of that here.
-				val ft: FragmentTransaction = childFragmentManager.beginTransaction().apply {
-					val prev = childFragmentManager.findFragmentByTag(
-						SettingsAuthDialog::class.java.canonicalName
-					)
-					prev?.let { remove(it) }
-					addToBackStack(null)
-				}
-				
-				authDialog.show(ft, SettingsAuthDialog::class.java.canonicalName)
+				AuthDialog().show(childFragmentManager, AuthDialog::class.java.canonicalName)
 			}
 			
 			btnSignOut.setOnClickListener { mViewModel.signOut() }
@@ -115,25 +102,19 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		
 		when (state) {
 			
-			is AuthViewState.Success.SendVerification -> {
+			is SettingsViewState.Success.SendVerification -> {
 				binding.root.showSnack(emailSent)
 			}
 			
-			is AuthViewState.Error.SendVerification -> {
+			is SettingsViewState.Error.SendVerification -> {
 				binding.root.showSnack(state.errorMsg ?: emailNotSent, Snackbar.LENGTH_LONG)
 			}
-			
-			// sign in success
-			is AuthViewState.Success.SignIn -> { closeAuthDialog() }
-		
-			// sign up success
-			is AuthViewState.Success.SignUp -> { closeAuthDialog() }
 			
 		}
 	}
 	
 	private fun observeSendVerificationStatus() {
-		mViewModel.authViewState.observe(this, {
+		mViewModel.viewState.observe(this, {
 			renderState(it)
 		})
 	}
@@ -265,16 +246,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				}
 				
 			}
-			
-		}
-		
-	}
-	
-	private fun closeAuthDialog() {
-		if (childFragmentManager.findFragmentByTag(
-					SettingsAuthDialog::class.java.canonicalName
-				) != null) {
-			childFragmentManager.beginTransaction().remove(authDialog).commitAllowingStateLoss()
 			
 		}
 		

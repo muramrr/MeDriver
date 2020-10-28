@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 19:27
+  ~ Last modified 28.10.2020 17:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="com.mmdev.me.driver.presentation.ui.settings.SettingsViewModel"
+			type="com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewModel"
 			/>
 	</data>
 	
@@ -25,9 +25,26 @@
 		android:id="@+id/motionAuth"
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
+		android:background="@color/colorBackground"
 		android:focusableInTouchMode="true"
 		app:layoutDescription="@xml/auth_scene"
 		>
+		
+		<!-- drag indicator -->
+		<ImageView android:id="@+id/ivTopIndicator"
+			android:layout_width="0dp"
+			android:layout_height="6dp"
+			android:layout_marginTop="6dp"
+			
+			android:scaleType="centerCrop"
+			android:src="@drawable/ic_horizontal_line"
+			
+			app:layout_constraintWidth_percent="0.1"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:contentDescription="@null"
+			/>
 		
 		<!-- image background -->
 		<View android:id="@+id/authBackground"
@@ -140,13 +157,15 @@
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				
-				android:imeOptions="actionNext"
+				android:imeOptions="actionDone"
 				android:inputType="textEmailAddress"
-				android:maxLength="30"
+				android:maxLength="50"
 				android:maxLines="1"
 				
 				android:text="@={viewModel.inputEmail}"
 				android:textAlignment="center"
+				
+				app:hideKeyboardOnInputDone="@{true}"
 				/>
 		
 		
@@ -314,7 +333,7 @@
 			android:translationY="400dp"
 			
 			app:layout_constraintTop_toBottomOf="@id/btnResetPassword"
-			app:layout_constraintBottom_toBottomOf="@id/tvCheckMail"
+			app:layout_constraintBottom_toTopOf="@id/tvCheckMail"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			android:contentDescription="@null"
@@ -325,6 +344,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:labelFor="@id/ivCheckMail"
+			android:layout_marginBottom="8dp"
 			
 			android:text="@string/fg_settings_auth_tv_check_mail"
 			android:textAlignment="center"
@@ -384,7 +404,18 @@
 		
 			/>
 		
-		
+		<include android:id="@+id/viewLoading"
+			layout="@layout/dialog_loading"
+			android:layout_height="0dp"
+			android:layout_width="0dp"
+			
+			android:visibility="invisible"
+			
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			/>
 		
 		
 		<androidx.constraintlayout.widget.Barrier

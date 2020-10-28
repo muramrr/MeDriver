@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:41
+ * Last modified 28.10.2020 15:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -92,6 +92,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			
 			doOnTextChanged { text, start, before, count ->
 				if (!text.isNullOrBlank()) mViewModel.searchMaintenanceHistory(text.toString())
+				else mViewModel.loadMaintenanceHistory()
 			}
 			
 			setOnEditorActionListener { _, actionId, _ ->

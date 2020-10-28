@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.09.2020 17:02
+  ~ Last modified 28.10.2020 18:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,14 +13,27 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
-
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/rvFuelStations"
+	
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="match_parent">
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/rvFuelStations"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			
+			tools:listitem="@layout/item_fuel_prices_station"
+			/>
 		
-		tools:listitem="@layout/item_fuel_prices_station"
-		
-		/>
+		<include android:id="@+id/viewLoading"
+			layout="@layout/dialog_loading"
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			
+			android:visibility="invisible"
+			/>
+	
+	</FrameLayout>
 
 </layout>

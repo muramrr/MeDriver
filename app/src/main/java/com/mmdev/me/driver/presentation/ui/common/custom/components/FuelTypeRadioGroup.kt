@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 17:50
+ * Last modified 28.10.2020 18:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,6 +42,8 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 	private var colorPrimary = 0
 	private var colorSecondary = 0
 	
+	private var selectedButtonId: Int = 0
+	
 	init {
 		colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary)
 		colorSecondary = ContextCompat.getColor(context, R.color.colorSecondary)
@@ -53,6 +55,7 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 			child.setOnClickListener {
 				setAllButtonsToUnselectedState()
 				invokeOnClickListener(child)
+				selectedButtonId = it.id
 				setSelectedButtonToSelectedState(child)
 			}
 		}
@@ -114,6 +117,8 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 		}
 	}
 	
+	fun getSelectedButtonId(): Int = selectedButtonId
+	
 	private fun setAllButtonsToUnselectedState() {
 		children.forEach { child ->
 			if (child is Button) setButtonToUnselectedState(child)
@@ -126,6 +131,7 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 	}
 	
 	private fun setSelectedButtonToSelectedState(selectedButton: Button) {
+		selectedButtonId = selectedButton.id
 		selectedButton.setBackgroundColor(colorSecondary)
 		selectedButton.setTextColor(Color.BLACK)
 	}

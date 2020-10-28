@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 18:19
+  ~ Last modified 28.10.2020 17:05
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -73,7 +73,7 @@
 	
 	<style name="My.BottomSheet.Overlay" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
 		<item name="bottomSheetStyle">@style/My.BottomSheet</item>
-		<item name="android:windowSoftInputMode">adjustResize</item>
+		<item name="android:windowSoftInputMode">adjustPan</item>
 	</style>
 	
 	<style name="My.Checkbox.Overlay" parent="">

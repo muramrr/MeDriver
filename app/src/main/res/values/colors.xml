@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.10.2020 19:57
+  ~ Last modified 28.10.2020 18:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,6 +50,7 @@
 	<color name="disabled_foreground">#EBEBE4</color>
 	<color name="disabled_background">#C6C6C6</color>
 	
+	<color name="loading_background">#D9000000</color>
 	
 	<color name="tag1">#0779e4</color>
 	<color name="tag2">#7579e7</color>

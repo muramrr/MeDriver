@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 17:13
+ * Last modified 28.10.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 
 class FuelPricesAdapter (
 	
-	private var data: List<FuelStationWithPrices> = List(10){ FuelStationWithPrices() }
+	private var data: List<FuelStationWithPrices> = emptyList()
 
 ): RecyclerView.Adapter<FuelPricesAdapter.PriceViewHolder>(){
 	
@@ -50,7 +50,7 @@ class FuelPricesAdapter (
 		)
 	
 	override fun onBindViewHolder(holder: PriceViewHolder, position: Int) =
-		holder.bind(getItem(position))
+		holder.bind(data[position])
 	
 	
 	fun setNewData(newData: List<FuelStationWithPrices>) {
@@ -62,10 +62,9 @@ class FuelPricesAdapter (
 	
 	override fun getItemViewType(position: Int): Int = position
 	
-	private fun getItem(position: Int): FuelStationWithPrices = data[position]
-	
 	inner class PriceViewHolder(private val binding: ItemFuelPricesStationBinding):
 			RecyclerView.ViewHolder(binding.root) {
+		
 		
 		init {
 			inAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_in).apply {
@@ -75,24 +74,24 @@ class FuelPricesAdapter (
 			outAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_out).apply {
 				duration = 300
 			}
-			priceFormatter = binding.root.getStringRes(R.string.price_formatter)
-		}
-		
-		
-		
-		fun bind(item: FuelStationWithPrices) {
-			
 			//apply anim to textSwitcher
 			binding.tvFuelPrice.apply {
 				inAnimation = inAnim
 				outAnimation = outAnim
 			}
 			
-			//init A95 price for all
-			binding.tvFuelPrice.setCurrentText(
-				priceFormatter.format(getPriceByType(item, FuelType.A95))
-			).also {
+			priceFormatter = binding.root.getStringRes(R.string.price_formatter)
+		}
+		
+		fun bind(item: FuelStationWithPrices) {
+			
+			if (binding.radioFuelTypes.getSelectedButtonId() == 0) {
+				//init A95 price for all
 				binding.radioFuelTypes.setInitialSelected(R.id.btnFuelType95)
+				
+				binding.tvFuelPrice.setCurrentText(
+					priceFormatter.format(getPriceByType(data[adapterPosition], FuelType.A95))
+				)
 			}
 			
 			binding.radioFuelTypes.setOnClickListener { _, id ->
@@ -121,6 +120,7 @@ class FuelPricesAdapter (
 				}
 			}
 			
+			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()
 		}
@@ -128,10 +128,7 @@ class FuelPricesAdapter (
 		private fun getPriceByType(item: FuelStationWithPrices, fuelType: FuelType): String =
 			(item.prices.find { it.type == fuelType } ?: noPrice).priceString()
 		
-		
 		private fun FuelPrice.priceString(): String = if (price != 0.0) price.toString() else "--.--"
-		
 	}
-	
 	
 }

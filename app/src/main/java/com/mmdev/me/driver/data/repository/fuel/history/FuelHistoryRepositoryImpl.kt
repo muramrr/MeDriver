@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 16:03
+ * Last modified 30.10.2020 18:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,6 +49,15 @@ class FuelHistoryRepositoryImpl (
 	): SimpleResult<List<FuelHistory>> =
 		if (size == null || size < 0) loadFirstFuelHistory(vin)
 		else loadMoreFuelHistory(vin, size)
+	
+	override suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?> =
+		localDataSource.getFirstFuelHistoryEntry(vin).fold(
+			success = {
+				if (it != null) ResultState.success(mappers.entityToDomain(it))
+				else ResultState.success(null)
+			},
+			failure = { ResultState.Failure(it) }
+		)
 	
 	
 	private suspend fun loadFirstFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =

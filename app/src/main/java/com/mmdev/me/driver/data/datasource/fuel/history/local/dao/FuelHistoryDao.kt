@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:29
+ * Last modified 30.10.2020 18:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,6 +35,16 @@ interface FuelHistoryDao {
 	"""
 	)
 	suspend fun getVehicleFuelHistory(vin: String, limit: Int, offset: Int): List<FuelHistoryEntity>
+	
+	@Query(
+		"""
+		SELECT * FROM fuel_history
+		WHERE vehicleVinCode = :vin
+		ORDER BY date DESC
+		LIMIT 1
+	"""
+	)
+	suspend fun getVehicleFuelHistoryFirst(vin: String): FuelHistoryEntity?
 	
 	@Insert(onConflict = OnConflictStrategy.ABORT)
 	suspend fun insertFuelHistoryEntity(fuelHistoryEntity: FuelHistoryEntity)

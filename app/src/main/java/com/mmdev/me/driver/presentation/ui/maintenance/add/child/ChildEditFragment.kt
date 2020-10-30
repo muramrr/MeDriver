@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:25
+ * Last modified 30.10.2020 19:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,8 +25,8 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getTextValue
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerValue
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
@@ -44,6 +44,8 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	R.layout.item_maintenance_child_edit
 ) {
 	
+	override val mViewModel: MaintenanceAddViewModel by lazy { requireParentFragment().getViewModel() }
+	
 	private var argPosition = 0
 	private lateinit var child: Child
 	
@@ -57,8 +59,6 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 				arguments = Bundle().also { it.putInt(POSITION_KEY, position) }
 			}
 	}
-	
-	override val mViewModel: MaintenanceAddViewModel by lazy { requireParentFragment().getViewModel() }
 	
 	private var lastReplacedEntry: VehicleSparePart? = null
 	
@@ -83,7 +83,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		binding.apply {
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
-				rootView.hideKeyboard(rootView)
+				return@setOnTouchListener rootView.hideKeyboard(rootView)
 			}
 			
 			fabChildAdd.setDebounceOnClick {
@@ -155,7 +155,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 					)
 					binding.fabChildAdd.isEnabled = false
 				}
-				if (state.odometerBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
+				if (state.odometerBound.getOdometerValue() > MedriverApp.currentVehicle!!.odometerValueBound.getOdometerValue()) {
 					//update vehicle with new odometer value
 					sharedViewModel.updateVehicle(
 						MedriverApp.currentUser,
@@ -193,7 +193,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		lastReplacedEntry?.let {
 			binding.tvLastReplacedDate.text = it.date.toString()
 			
-			binding.tvLastReplacedOdometer.text = it.odometerValueBound.getTextValue(requireContext())
+			binding.tvLastReplacedOdometer.text = it.odometerValueBound.getOdometerFormatted(requireContext())
 			
 			if (it.vendor.isNotEmpty() || it.articulus.isNotEmpty())
 				binding.tvLastReplacedDetail.text = "${it.vendor} ${it.articulus}"

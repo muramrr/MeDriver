@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:15
+ * Last modified 30.10.2020 16:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -94,8 +94,6 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		viewModelScope.launch(MyDispatchers.io()) {
 			
 			val odometerBound = buildDistanceBound(odometerInput)
-			
-			viewStateMap[position]!!.postValue(MaintenanceAddViewState.Loading)
 			
 			repository.addMaintenanceItems(
 				user,

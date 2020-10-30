@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:19
+ * Last modified 30.10.2020 19:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.gone
 
 
 class FuelHistoryAdapter(
-	private val data: MutableList<FuelHistory> = mutableListOf()
+	private var data: MutableList<FuelHistory> = mutableListOf()
 ) : RecyclerView.Adapter<FuelHistoryAdapter.FuelHistoryViewHolder>() {
 	
 	
@@ -56,27 +56,9 @@ class FuelHistoryAdapter(
 	}
 	
 	fun setInitData(data: List<FuelHistory>) {
+		this.data.clear()
 		this.data.addAll(data)
 		notifyDataSetChanged()
-	}
-	
-	fun insertNewRecord(item: FuelHistory) {
-		// add new record on top
-		if (data.isEmpty() || item.date > data.first().date) {
-			data.add(FIRST_POS, item)
-			notifyItemInserted(FIRST_POS)
-		}
-		else {
-			// find item before which will be inserted
-			val indexBefore = data.indexOf(data.find { it.date < item.date }) // -1 if not exist
-			
-			// if item was found and it is not last index
-			if (indexBefore in 1 until data.size) {
-				data.add(indexBefore, item)
-				notifyItemInserted(indexBefore)
-			}
-		}
-		
 	}
 	
 	fun insertPaginationData(newData: List<FuelHistory>) {

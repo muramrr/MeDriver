@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 16:06
+ * Last modified 30.10.2020 17:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
+import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
@@ -35,6 +36,7 @@ val ViewModelsModule = module {
 	viewModel { VehicleViewModel(repository = get()) }
 	viewModel { FuelPricesViewModel(repository = get()) }
 	viewModel { FuelHistoryViewModel(repository = get()) }
+	viewModel { FuelHistoryAddViewModel(repository = get()) }
 	viewModel { SettingsViewModel(repository = get()) }
 	viewModel { AuthViewModel(repository = get()) }
 

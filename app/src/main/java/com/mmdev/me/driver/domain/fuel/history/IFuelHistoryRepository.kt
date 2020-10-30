@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 30.10.2020 18:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,16 +21,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFuelHistoryRepository {
 	
-	suspend fun addFuelHistoryRecord(
-		user: UserData?, history: FuelHistory
-	): Flow<SimpleResult<Unit>>
+	suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory): Flow<SimpleResult<Unit>>
 	
 	/**
 	 * @param size defines how many entries should be loaded to display in UI
 	 */
-	suspend fun loadFuelHistory(
-		vin: String, size: Int?
-	): SimpleResult<List<FuelHistory>>
+	suspend fun loadFuelHistory(vin: String, size: Int?): SimpleResult<List<FuelHistory>>
+	
+	suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?>
 	
 	suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit>
 	

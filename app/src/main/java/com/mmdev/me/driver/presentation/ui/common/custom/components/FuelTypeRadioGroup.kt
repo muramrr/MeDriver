@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 18:37
+ * Last modified 30.10.2020 19:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,8 +54,8 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 		if (child is Button) {
 			child.setOnClickListener {
 				setAllButtonsToUnselectedState()
-				invokeOnClickListener(child)
-				selectedButtonId = it.id
+				listener?.invoke(child, child.id)
+				selectedButtonId = child.id
 				setSelectedButtonToSelectedState(child)
 			}
 		}
@@ -101,10 +101,6 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 		this.listener = listener
 	}
 	
-	private fun invokeOnClickListener(selectedButton: View) {
-		listener?.invoke(selectedButton, selectedButton.id)
-	}
-	
 	/**
 	 * Set child button selected by default if such exists
 	 */
@@ -112,6 +108,7 @@ class FuelTypeRadioGroup @JvmOverloads constructor(
 		children.find { it.id == id }?.let {
 			if (it is Button) {
 				setAllButtonsToUnselectedState()
+				listener?.invoke(it, it.id)
 				setSelectedButtonToSelectedState(it)
 			}
 		}

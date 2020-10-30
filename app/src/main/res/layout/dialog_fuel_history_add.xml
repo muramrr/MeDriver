@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.10.2020 14:54
+  ~ Last modified 30.10.2020 17:57
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel"
+			type="com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewModel"
 			/>
 	</data>
 	
@@ -526,7 +526,6 @@
 				android:focusable="false"
 				
 				android:hint="@string/odometer_input_hint"
-				app:errorEnabled="@{!viewModel.odometerReady}"
 				
 				app:suffixKM="@{@string/kilometers}"
 				app:suffixMI="@{@string/miles}"
@@ -656,8 +655,6 @@
 				android:id="@+id/btnDone"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
-				android:enabled="@{viewModel.allFieldsAreCorrect}"
 				
 				android:text="@string/btn_add"
 				

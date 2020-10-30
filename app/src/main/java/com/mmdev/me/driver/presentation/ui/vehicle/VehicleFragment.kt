@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:35
+ * Last modified 30.10.2020 19:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,7 +23,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getTextValue
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -104,7 +104,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	
 	private fun updateMileageCard(vehicle: Vehicle?) {
-		binding.tvMileageValue.text = vehicle?.odometerValueBound?.getTextValue(requireContext()) ?: getString(R.string.default_OdometerValue)
+		binding.tvMileageValue.text = vehicle?.odometerValueBound?.getOdometerFormatted(requireContext()) ?: getString(R.string.default_OdometerValue)
 		
 		
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 18:00
+ * Last modified 30.10.2020 20:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,11 +23,9 @@ import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListener
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
+import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddDialog
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -35,17 +33,17 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	R.layout.fragment_fuel_history
 ) {
 	override val mViewModel: FuelHistoryViewModel by viewModel()
-	private val fuelPricesViewModel: FuelPricesViewModel by sharedViewModel()
 	
 	private val mFuelHistoryAdapter = FuelHistoryAdapter()
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mViewModel.getHistoryRecords()
+		mViewModel.shouldBeUpdated.observe(this, { if (it) mViewModel.getHistoryRecords() })
 	}
 	
 	override fun setupViews() {
-		mViewModel.fuelHistoryState.observe(this, {
+		mViewModel.viewState.observe(this, {
 			renderState(it)
 		})
 		
@@ -74,8 +72,7 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		
 		binding.fabAddHistoryEntry.setDebounceOnClick {
 			
-			FuelHistoryAddDialog(fuelPricesViewModel.fuelPrices.value!!)
-				.show(childFragmentManager, FuelHistoryAddDialog::class.java.canonicalName)
+			FuelHistoryAddDialog().show(childFragmentManager, FuelHistoryAddDialog::class.java.canonicalName)
 		}
 	}
 	
@@ -89,21 +86,6 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 				logInfo(TAG, "init data size = ${state.data.size}")
 				mFuelHistoryAdapter.setInitData(state.data)
 				logWtf(TAG, "${state.data}")
-			}
-			is FuelHistoryViewState.InsertNewOne -> {
-				logInfo(TAG, "insert new data: " +
-				             "odometer = ${state.item.odometerValueBound.kilometers } km," +
-				             "vehicle = ${state.item.vehicleVinCode}")
-						           
-				mFuelHistoryAdapter.insertNewRecord(state.item)
-				
-				if (state.item.odometerValueBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue())
-					//update vehicle with new odometer value
-					sharedViewModel.updateVehicle(
-						MedriverApp.currentUser,
-						MedriverApp.currentVehicle!!.copy(odometerValueBound = state.item.odometerValueBound)
-					)
-				
 			}
 			is FuelHistoryViewState.Paginate -> {
 				logInfo(TAG, "paginate data size = ${state.data.size}")

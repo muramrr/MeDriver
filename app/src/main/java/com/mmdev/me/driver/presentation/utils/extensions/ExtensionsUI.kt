@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.10.2020 14:52
+ * Last modified 30.10.2020 20:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -152,11 +152,7 @@ inline fun Button.setupDatePicker(
 	val currentMonthDisplay = currentMonth + 1 // january corresponds to 0
 	val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 	
-	val pickedDate = Calendar.getInstance(TimeZone.getDefault())
-	
-	
 	text = dateToText(currentDay, currentMonthDisplay, currentYear)
-	
 	
 	val datePickerDialog = DatePickerDialog(this.context, {
 			_, pickedYear, pickedMonth, pickedDay ->
@@ -166,10 +162,10 @@ inline fun Button.setupDatePicker(
 		// Display Selected date in Button
 		text = dateToText(pickedDay, pickedMonthDisplay, pickedYear)
 		
-		pickedDate.set(pickedYear, pickedMonth, pickedDay)
+		calendar.set(pickedYear, pickedMonth, pickedDay)
 		
 		//inside block apply selected date to whatever you want
-		pickedDate.block()
+		calendar.block()
 		
 		//mViewModel.pickedDate = convertToLocalDateTime(pickedDate.timeInMillis)
 		
@@ -181,6 +177,7 @@ inline fun Button.setupDatePicker(
 	
 	// if max not specified then maxDate = current date
 	datePickerDialog.datePicker.maxDate = maxDate ?: calendar.timeInMillis
+	
 	
 	setOnClickListener { datePickerDialog.show() }
 	

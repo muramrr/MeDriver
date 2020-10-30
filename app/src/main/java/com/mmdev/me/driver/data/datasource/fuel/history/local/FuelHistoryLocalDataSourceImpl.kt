@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:44
+ * Last modified 30.10.2020 18:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,9 @@ class FuelHistoryLocalDataSourceImpl(private val dao: FuelHistoryDao) :
 		vin: String, limit: Int, offset: Int
 	): SimpleResult<List<FuelHistoryEntity>> =
 		safeCall(TAG) { dao.getVehicleFuelHistory(vin, limit, offset) }
+	
+	override suspend fun getFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistoryEntity?> =
+		safeCall(TAG) { dao.getVehicleFuelHistoryFirst(vin) }
 	
 	override suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {

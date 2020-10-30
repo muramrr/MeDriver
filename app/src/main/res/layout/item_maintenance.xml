@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.10.2020 17:35
+  ~ Last modified 30.10.2020 19:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,7 +99,7 @@
 			android:padding="8dp"
 			android:maxLines="1"
 			
-			android:text="@{DistanceBoundExtKt.getTextValue(bindItem.odometerValueBound, context)}"
+			android:text="@{DistanceBoundExtKt.getOdometerFormatted(bindItem.odometerValueBound, context)}"
 			android:textAppearance="?textAppearanceOverline"
 			
 			app:layout_constraintHorizontal_chainStyle="spread_inside"

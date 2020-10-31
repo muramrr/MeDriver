@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 16:54
+ * Last modified 31.10.2020 16:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -85,7 +85,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vendorInput: String,
 		articulusInput: String,
 		componentSelected: SparePart,
-		customComponentInput: String,
+		searchCriteria: List<String>,
 		commentaryInput: String,
 		priceInput: Double,
 		odometerInput: Int,
@@ -103,7 +103,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 						vendorInput,
 						articulusInput,
 						componentSelected,
-						customComponentInput,
+						searchCriteria,
 						commentaryInput,
 						priceInput,
 						odometerBound,
@@ -131,7 +131,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vendorInput: String,
 		articulusInput: String,
 		componentSelected: SparePart,
-		customComponentInput: String,
+		searchCriteria: List<String>,
 		commentaryInput: String,
 		priceInput: Double,
 		odometerBound: DistanceBound,
@@ -143,7 +143,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 		vendor = vendorInput,
 		systemNode = selectedVehicleSystemNode.value!!,
 		systemNodeComponent = componentSelected,
-		searchCriteria = listOf(customComponentInput),
+		searchCriteria = searchCriteria,
 		commentary = commentaryInput,
 		moneySpent = priceInput,
 		odometerValueBound = odometerBound,

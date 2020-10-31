@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 16:09
+ * Last modified 31.10.2020 17:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -226,7 +226,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	private fun initLanguageChooser() {
 		val languagesAdapter = LanguageDropAdapter(
-			requireContext(), R.layout.item_single_text, languagesArray.toList()
+			requireContext(), R.layout.item_drop_single_text, languagesArray.toList()
 		)
 		
 		binding.dropLanguage.apply {

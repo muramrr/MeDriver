@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 18:15
+ * Last modified 31.10.2020 14:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,10 +37,37 @@ class FuelHistoryRepositoryImpl (
 		private const val startItemsCount = 20
 		private const val startHistoryOffset = 0
 	}
-	
-	
 	//offset cursor position
 	private var historyOffset = 0
+	
+	
+	
+	
+	/**
+	 * Add [history] to local cache
+	 * Also check if given user is not null and premium
+	 * If that is true -> write also to backend
+	 */
+	override suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory):
+			Flow<SimpleResult<Unit>> = flow {
+		
+		localDataSource.insertFuelHistoryEntry(mappers.domainToDbEntity(history)).fold(
+			success = { result ->
+				//check if user is premium && is sync enabled to write to backend
+				if (user != null && user.isPremium && user.isSyncEnabled)
+					remoteDataSource.addFuelHistory(
+						user.email,
+						history.vehicleVinCode,
+						mappers.domainToApiDto(history)
+					).collect { emit(it) }
+				
+				//otherwise result is success because writing to database was successful
+				else emit(ResultState.success(result))
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
+		
+	}
 	
 	
 	override suspend fun loadFuelHistory(
@@ -84,37 +111,6 @@ class FuelHistoryRepositoryImpl (
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
-	
-	
-	/**
-	 * Add [history] to local cache
-	 * Also check if given user is not null and premium
-	 * If that is true -> write also to backend
-	 */
-	override suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory):
-			Flow<SimpleResult<Unit>> = flow {
-		
-		localDataSource.insertFuelHistoryEntry(mappers.domainToDbEntity(history)).fold(
-			success = { result ->
-				//check if user is premium && is sync enabled to write to backend
-				if (user != null && user.isPremium && user.isSyncEnabled)
-					remoteDataSource.addFuelHistory(
-						user.email,
-						history.vehicleVinCode,
-						mappers.domainToApiDto(history)
-					).collect { emit(it) }
-					
-				//otherwise result is success because writing to database was successful
-				else emit(ResultState.success(result))
-			},
-			failure = { throwable -> emit(ResultState.failure(throwable)) }
-		)
-		
-	}
-	
-	
-	
-	
 	
 	override suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit> =
 		localDataSource.deleteFuelHistoryEntry(mappers.domainToDbEntity(history))

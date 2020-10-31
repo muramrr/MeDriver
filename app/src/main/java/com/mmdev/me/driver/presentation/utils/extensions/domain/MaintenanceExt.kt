@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 16:54
+ * Last modified 31.10.2020 16:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,7 +34,6 @@ fun VehicleSparePart.getRelatedString(context: Context): String {
 		context.getString(childRes)
 	}
 	else searchCriteria.first() // other
-	
 }
 
 

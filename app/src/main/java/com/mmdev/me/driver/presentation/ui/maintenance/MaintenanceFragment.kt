@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 15:24
+ * Last modified 31.10.2020 16:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,7 +45,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mViewModel.updateTrigger.observe(this, {})
-		mViewModel.loadMaintenanceHistory()
 	}
 	
 	override fun setupViews() {
@@ -91,8 +90,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 		binding.etSearchMaintenance.apply {
 			
 			doOnTextChanged { text, start, before, count ->
-				if (!text.isNullOrBlank()) mViewModel.searchMaintenanceHistory(text.toString())
-				else mViewModel.loadMaintenanceHistory()
+				mViewModel.searchMaintenanceHistory(text.toString())
 			}
 			
 			setOnEditorActionListener { _, actionId, _ ->

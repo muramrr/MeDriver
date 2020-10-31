@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:26
+ * Last modified 31.10.2020 16:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,6 +39,8 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 			if (!dialog && update) loadMaintenanceHistory()
 		}
 	}
+	
+	init { loadMaintenanceHistory() }
 	
 	fun loadMaintenanceHistory(size: Int? = null) {
 		viewModelScope.launch {
@@ -90,7 +92,7 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 	fun searchMaintenanceHistory(query: String) {
 		viewModelScope.launch {
 			
-			delay(500)
+			delay(1000)
 			viewState.postValue(Loading)
 			
 			repository.getHistoryByTypedQuery(MedriverApp.currentVehicleVinCode, query).fold(

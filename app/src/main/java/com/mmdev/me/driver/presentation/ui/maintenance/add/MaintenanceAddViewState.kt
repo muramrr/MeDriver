@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 17:00
+ * Last modified 31.10.2020 14:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,7 @@ import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewSta
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Success
 
 /**
+ * [ViewState] for [MaintenanceAddBottomSheet]
  * state [Idle] indicates that nothing is really happening and adding process is in queue
  * state [Success] indicates that adding operation was successful
  * state [Error] responsible for indicating errors

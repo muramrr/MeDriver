@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 19:53
+ * Last modified 31.10.2020 16:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildEditBinding
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
@@ -78,7 +79,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 			}
 		}
 		
-		setupInput()
+		setupInputFields()
 		
 		binding.apply {
 			root.setOnTouchListener { rootView, _ ->
@@ -97,9 +98,9 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 						vendorInput = etInputVendor.text(),
 						articulusInput = etInputArticulus.text(),
 						componentSelected = child.sparePart,
-						customComponentInput = if (child.sparePart.getSparePartName() != SparePart.OTHER)
-							child.sparePart.getSparePartName()
-						else etInputCustomComponent.text(),
+						searchCriteria = if (child.sparePart.getSparePartName() != SparePart.OTHER)
+							LocaleHelper.getStringFromAllLocales(requireContext(), child.title).map { it.value }
+						else listOf(etInputCustomComponent.text()),
 						commentaryInput = etInputCommentary.text(),
 						priceInput = etInputPrice.text().toDouble(),
 						odometerInput = etInputOdometer.text().toInt(),
@@ -109,7 +110,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		}
 	}
 	
-	private fun setupInput() {
+	private fun setupInputFields() {
 		binding.etInputCustomComponent.doOnTextChanged { text, start, before, count ->
 			if (text.isNullOrBlank()) binding.layoutInputCustomComponent.error = getString(R.string.input_empty_error)
 			else binding.layoutInputCustomComponent.error = null

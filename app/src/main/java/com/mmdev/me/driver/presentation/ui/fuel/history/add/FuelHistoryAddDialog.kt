@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 20:21
+ * Last modified 31.10.2020 17:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -103,7 +103,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				rootView.hideKeyboard(rootView)
 			}
 			
-			btnCancel.setOnClickListener { dialog?.dismiss() }
+			btnCancel.setOnClickListener { dismiss() }
 			
 			btnDone.setDebounceOnClick {
 				if (checkAreInputCorrect()) mViewModel.addHistoryRecord(MedriverApp.currentUser)
@@ -215,7 +215,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	private fun setupInputStationDropList() {
 		val adapter = FuelStationDropAdapter(
 			requireContext(),
-			R.layout.drop_item_fuel_station,
+			R.layout.item_drop_image_text,
 			mFuelStationWithPrices.map { it.fuelStation }
 		)
 		// drop down fuel station chooser
@@ -341,8 +341,8 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			            LayoutInflater.from(context).inflate(layoutId, parent, false)
 			
 			fuelStation = getItem(position)
-			childView.findViewById<TextView>(R.id.tvFuelStationTitle).text = fuelStation.brandTitle
-			childView.findViewById<ImageView>(R.id.ivDropFuelStationIcon).setImageResource(fuelStation.brandIcon())
+			childView.findViewById<TextView>(R.id.tvDropItemText).text = fuelStation.brandTitle
+			childView.findViewById<ImageView>(R.id.ivDropItemIcon).setImageResource(fuelStation.brandIcon())
 			return childView
 		}
 		

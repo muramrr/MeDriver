@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.10.2020 17:10
+ * Last modified 31.10.2020 15:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -102,8 +102,9 @@ dependencies {
 	kapt "androidx.room:room-compiler:2.3.0-alpha02"
 
 	//firebase
-	implementation "com.google.firebase:firebase-firestore-ktx:21.7.1"
-	implementation "com.google.firebase:firebase-auth-ktx:19.4.0"
+	implementation platform('com.google.firebase:firebase-bom:26.0.0')
+	implementation 'com.google.firebase:firebase-auth-ktx'
+	implementation 'com.google.firebase:firebase-firestore-ktx'
 
 	//prefs wrapper
 	implementation 'com.cioccarellia:ksprefs:2.0.0'

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:52
+ * Last modified 31.10.2020 15:35
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.data.repository.vehicle
 
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
@@ -48,7 +47,8 @@ class VehicleRepositoryImpl(
 	 * local data will be written without being obstructed
 	 */
 	override suspend fun addVehicle(
-		user: UserData?, vehicle: Vehicle
+		user: UserData?,
+		vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertVehicle(mappers.domainToEntity(vehicle)).fold(
 			success = { result ->
@@ -68,41 +68,17 @@ class VehicleRepositoryImpl(
 	
 	
 	/**
-	 * Get list of [Vehicle].
-	 * First of all, try to get it from local database.
-	 * If there is data, request to backend won't be executed.
-	 * @see getAllVehiclesFromCache
-	 * If there is empty list - check is user premium and request data from backend.
-	 * @see getAllVehiclesFromBackend
-	 * Otherwise return emptyList()
-	 *
-	 * @return [ResultState.Success] when list contains data or not
-	 * @return [ResultState.Failure] when failure occurred
-	 */
-	override suspend fun getAllSavedVehicles(user: UserData?): Flow<SimpleResult<List<Vehicle>>> = flow {
-		getAllVehiclesFromCache().fold(
-			success = { data -> emit(ResultState.success(data)) },
-			failure = { throwable ->
-				logError(TAG, throwable.message ?: "Boundary local cache error")
-				if (user != null && user.isPremium && user.isSyncEnabled)
-					getAllVehiclesFromBackend(user).collect { emit(it) }
-				else emit(ResultState.success(emptyList<Vehicle>()))
-			}
-		)
-	}
-	
-	/**
 	 * Get list of [Vehicle] from cache.
 	 * @return [ResultState.Success] when list contains data and convert it
 	 * @return [ResultState.Failure] when list is empty or failure occurred
 	 */
-	private suspend fun getAllVehiclesFromCache(): SimpleResult<List<Vehicle>> =
+	override suspend fun getAllSavedVehicles(): SimpleResult<List<Vehicle>> =
 		localDataSource.getAllVehicles().fold(
 			success = { data ->
 				if (data.isNotEmpty()) ResultState.success(mappers.listEntitiesToDomain(data))
 				else ResultState.failure(Exception("Empty cache"))
 			},
-			failure = { throwable -> ResultState.failure(throwable) }
+			failure = { ResultState.failure(it) }
 		)
 	
 	
@@ -116,28 +92,28 @@ class VehicleRepositoryImpl(
 	 * @return [ResultState.Success] when list contains data, convert it, save to local database
 	 * @return [ResultState.Failure] when failure occurred
 	 */
-	private fun getAllVehiclesFromBackend(user: UserData): Flow<SimpleResult<List<Vehicle>>> = flow {
-		try {
-			remoteDataSource.getAllVehicles(user.email).collect { result ->
-				result.fold(
-					success = { data ->
-						data.forEach { dto ->
-							localDataSource.insertVehicle(mappers.apiDtoToEntity(dto)).fold(
-								success = {},
-								failure = { emit(ResultState.failure(it)) }
-							)
-						}
-						emit(ResultState.success(mappers.listApiDtoToDomain(data)))
-					},
-					failure = { throwable -> emit(ResultState.failure(throwable)) })
-			}
-		}
-		catch (e: Exception) {
-			logError(TAG, "${e.message}")
-			emit(ResultState.failure(e))
-		}
-		
-	}
+//	private fun getAllVehiclesFromBackend(user: UserData): Flow<SimpleResult<List<Vehicle>>> = flow {
+//		try {
+//			remoteDataSource.getAllVehicles(user.email).collect { result ->
+//				result.fold(
+//					success = { data ->
+//						data.forEach { dto ->
+//							localDataSource.insertVehicle(mappers.apiDtoToEntity(dto)).fold(
+//								success = {},
+//								failure = { emit(ResultState.failure(it)) }
+//							)
+//						}
+//						emit(ResultState.success(mappers.listApiDtoToDomain(data)))
+//					},
+//					failure = { throwable -> emit(ResultState.failure(throwable)) })
+//			}
+//		}
+//		catch (e: Exception) {
+//			logError(TAG, "${e.message}")
+//			emit(ResultState.failure(e))
+//		}
+//
+//	}
 	
 	/**
 	 * Used to retrieve vehicle base info by typed in VIN code
@@ -155,6 +131,5 @@ class VehicleRepositoryImpl(
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }
 		)
-	
 	
 }

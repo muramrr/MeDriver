@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.10.2020 17:32
+  ~ Last modified 01.11.2020 16:47
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,25 +37,24 @@
 				android:id="@+id/cvCarChoose"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="?colorSurface"
 				
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toBottomOf="@id/layoutMyCarChooseCar"
 				/>
+			
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/layoutMyCarChooseCar"
-				android:layout_height="0dp"
+				android:layout_height="?actionBarSize"
 				android:layout_width="0dp"
 				
 				app:boxStrokeWidth="0dp"
-				
 				app:hintEnabled="false"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
 				
-				app:layout_constraintHeight_percent="0.1"
 				app:layout_constraintTop_toTopOf="@id/cvCarChoose"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -69,11 +68,10 @@
 					android:cursorVisible="false"
 					
 					android:focusable="false"
-					android:imeOptions="actionDone"
-					android:inputType="textNoSuggestions"
+					android:inputType="none"
 					android:maxLines="1"
 					
-					android:text="Choose car"
+					android:text="@string/fg_vehicle_choose_vehicle"
 					android:textAppearance="?textAppearanceHeadline6"
 					/>
 			

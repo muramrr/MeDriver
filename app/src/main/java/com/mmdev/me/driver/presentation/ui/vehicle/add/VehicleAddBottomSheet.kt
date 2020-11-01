@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 15:58
+ * Last modified 01.11.2020 17:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.vehicle.add
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,6 +23,7 @@ import com.mmdev.me.driver.core.utils.currentTimeAndDate
 import com.mmdev.me.driver.databinding.BottomSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
+import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
@@ -83,13 +85,21 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, Bottom
 	
 	override fun setupViews() {
 		initStringRes()
+		setupInputBrandDropList()
 		setupInputFields()
 		
-		
-		binding.btnAdd.setDebounceOnClick {
-			if (checkAreInputCorrect()) mViewModel.checkAndAdd(MedriverApp.currentUser)
+		binding.apply {
+			root.setOnTouchListener { rootView, _ ->
+				rootView.performClick()
+				rootView.hideKeyboard(rootView)
+			}
+			
+			btnAdd.setDebounceOnClick {
+				if (checkAreInputCorrect()) mViewModel.checkAndAdd(MedriverApp.currentUser)
+			}
+			
+			btnCancel.setOnClickListener { dismiss() }
 		}
-		binding.btnCancel.setOnClickListener { dismiss() }
 	}
 	
 	private fun initStringRes() {
@@ -98,6 +108,27 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, Bottom
 		engineInputError = getString(R.string.btm_sheet_vehicle_add_enter_engine_cap_error)
 		odometerInputError = getString(R.string.odometer_input_error)
 		emptyError = getString(R.string.input_empty_error)
+	}
+	
+	private fun setupInputBrandDropList() {
+		val brandsAdapter = ArrayAdapter(
+			requireContext(),
+			R.layout.item_drop_single_text,
+			VehicleConstants.vehicleBrands
+		)
+		// drop down fuel station chooser
+		binding.etInputBrand.apply {
+			
+			setAdapter(brandsAdapter)
+			threshold = 1
+			
+			setOnItemClickListener { _, _, position, _ ->
+				
+				//cast to global variable current selected station
+				mViewModel.brandInput.value = brandsAdapter.getItem(position)
+				hideKeyboard(this@apply)
+			}
+		}
 	}
 	
 	private fun setupInputFields() {
@@ -167,4 +198,5 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, Bottom
 		       (!binding.etInputEngineCap.text.isNullOrBlank() || binding.layoutInputEngineCap.error == null) &&
 		       (!binding.etInputOdometer.text.isNullOrBlank() || binding.layoutInputOdometer.error == null)
 	}
+	
 }

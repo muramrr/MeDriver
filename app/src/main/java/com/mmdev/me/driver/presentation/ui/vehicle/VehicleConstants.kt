@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 19:06
+ * Last modified 01.11.2020 16:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,47 +18,47 @@ import com.mmdev.me.driver.R
 
 object VehicleConstants {
 	
-	private val vehicleBrandVariations: List<List<String>> = listOf(
-		listOf("acura", "акура"),
-		listOf("alfa", "alfa romeo", "alfaromeo", "альфа", "альфа ромео", "альфаромео"),
-		listOf("aston martin", "астон мартин"),
-		listOf("audi", "ауди"),
-		listOf("bentley", ""),
-		listOf("bmw", ""),
-		listOf("chevrolet", ""),
-		listOf("chrysler", ""),
-		listOf("dacia", ""),
-		listOf("daewoo", ""),
-		listOf("daihatsu", ""),
-		listOf("ferrari", ""),
-		listOf("fiat", ""),
-		listOf("ford", ""),
-		listOf("gmc", ""),
-		listOf("honda", ""),
-		listOf("hummer", ""),
-		listOf("hyundai", ""),
-		listOf("infiniti", ""),
-		listOf("isuzu", ""),
-		listOf("jaguar", ""),
-		listOf("jeep", ""),
-		listOf("kia", ""),
-		listOf("lada", ""),
-		listOf("land rover", ""),
-		listOf("lexus", ""),
-		listOf("mercedes", ""),
-		listOf("mini", ""),
-		listOf("mitsubishi", ""),
-		listOf("nissan", ""),
-		listOf("opel", ""),
-		listOf("peugeot", ""),
-		listOf("porsche", ""),
-		listOf("saab", ""),
-		listOf("skoda", ""),
-		listOf("subaru", ""),
-		listOf("tesla", ""),
-		listOf("toyota", ""),
-		listOf("volkswagen", ""),
-		listOf("volvo", "")
+	val vehicleBrands: List<String> = listOf(
+		"Acura",
+		"Alfa Romeo",
+		"Aston Martin",
+		"Audi",
+		"Bentley",
+		"BMW",
+		"Chevrolet",
+		"Chrysler",
+		"Dacia",
+		"Daewoo",
+		"Daihatsu",
+		"Ferrari",
+		"Fiat",
+		"Ford",
+		"GMC",
+		"Honda",
+		"Hummer",
+		"Hyundai",
+		"Infiniti",
+		"Isuzu",
+		"Jaguar",
+		"Jeep",
+		"KIA",
+		"Lada",
+		"Land Rover",
+		"Lexus",
+		"Mercedes-Benz",
+		"Mini",
+		"Mitsubishi",
+		"Nissan",
+		"Opel",
+		"Peugeot",
+		"Porsche",
+		"Saab",
+		"Skoda",
+		"Subaru",
+		"Tesla",
+		"Toyota",
+		"Volkswagen",
+		"Volvo"
 	)
 	
 	private val vehicleIconList: List<Int> = listOf(
@@ -105,5 +105,6 @@ object VehicleConstants {
 	)
 	
 	
-	val vehicleBrandIconMap: Map<List<String>, Int> = vehicleBrandVariations.zip(vehicleIconList).toMap()
+	val vehicleBrandIconMap: Map<String, Int> =
+		vehicleBrands.zip(vehicleIconList).toMap().withDefault { 0 }
 }

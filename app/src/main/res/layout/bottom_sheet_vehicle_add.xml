@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 31.10.2020 14:58
+  ~ Last modified 01.11.2020 17:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -83,19 +83,19 @@
 			app:counterEnabled="true"
 			app:counterMaxLength="20"
 			
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputVin"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
 			>
 			
-			<com.google.android.material.textfield.TextInputEditText
+			<com.google.android.material.textfield.MaterialAutoCompleteTextView
 				android:id="@+id/etInputBrand"
-				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				
-				android:inputType="textNoSuggestions"
+				android:inputType="text"
 				android:imeOptions="actionNext"
 				android:gravity="center"
 				
@@ -103,6 +103,7 @@
 				android:maxLength="20"
 				
 				android:text="@={viewModel.brandInput}"
+				
 				/>
 		
 		</com.google.android.material.textfield.TextInputLayout>

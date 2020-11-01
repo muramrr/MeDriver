@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 16:25
+  ~ Last modified 01.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,24 +46,6 @@
 	<string name="commentary_input_hint">Комментарий (необятазельно)</string>
 	
 	<string name="input_empty_error">Пустое поле</string>
-<!-- ******************************************************************************************* -->
-
-
-
-<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_error">Неверный формат VIN</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
-	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_year_hint">Год выпуска</string>
-	<string name="btm_sheet_vehicle_add_enter_year_error">Неправильное значение</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
-	
 <!-- ******************************************************************************************* -->
 
 
@@ -240,6 +222,32 @@
 	
 	<string name="item_maintenance_add_operation_successful">Успешно добавлено</string>
 	<string name="item_maintenance_add_operation_fails">Ошибка</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_vehicle ************************************** -->
+	<string name="fg_vehicle_add_new_vehicle">Добавить новый транспорт</string>
+	<string name="fg_vehicle_choose_vehicle">Выберите транспорт</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Неверный формат VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Год выпуска</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Неправильное значение</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
+	
 <!-- ******************************************************************************************* -->
 
 

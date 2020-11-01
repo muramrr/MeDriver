@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 18:03
+ * Last modified 01.11.2020 16:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,12 +20,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.text
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -39,6 +42,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	override val mViewModel: VehicleViewModel by viewModel()
 	
 	private lateinit var mVehicleDropAdapter: VehicleDropAdapter
+	
+	private var currentTextOnDropDownList = ""
 	
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,39 +73,50 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		binding.dropMyCarChooseCar.apply {
 			setAdapter(mVehicleDropAdapter)
 			
-			setOnItemClickListener { _, _, position, _ ->
-				if (position == mVehicleDropAdapter.count - 1) showModalBottomSheet()
-				else {
-					mViewModel.chosenVehicle.postValue(mViewModel.vehicleList.value!![position])
-					sharedViewModel.currentVehicle.postValue(mViewModel.vehicleList.value!![position])
+			setOnItemClickListener { _, view, position, _ ->
+				
+				if (view.isEnabled) {
+					if (position == mVehicleDropAdapter.count - 1) {
+						
+						setText(currentTextOnDropDownList, false)
+						showModalBottomSheet()
+						
+					}
+					else {
+						mViewModel.setVehicle(position)
+					}
 				}
+				else setText(currentTextOnDropDownList, false)
+				
 			}
+			
 		}
 	}
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
 			vehicle?.let {
-				binding.dropMyCarChooseCar.setText("${it.brand} ${it.model}", false)
+				binding.dropMyCarChooseCar.setText("${vehicle.brand} ${vehicle.model}", false)
 				sharedViewModel.currentVehicle.postValue(it)
 				updateMileageCard(it)
-			} ?: binding.dropMyCarChooseCar.setText("Add new car", false)
+			} ?: binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
+			
+			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 		})
 	}
 	
 	private fun observeVehicleList() {
-		mViewModel.vehicleList.observe(this, {
-			mVehicleDropAdapter.setNewData(mViewModel.mapToUi(it))
+		mViewModel.vehicleUiList.observe(this, {
+			mVehicleDropAdapter.setNewData(it)
 			if (!it.isNullOrEmpty()) binding.dropMyCarChooseCar.setOnClickListener(null)
 		})
 	}
 	
 	
 	
-	private fun showModalBottomSheet() {
-		val vehicleAdd = VehicleAddBottomSheet()
-		vehicleAdd.show(childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName)
-	}
+	private fun showModalBottomSheet() = VehicleAddBottomSheet().show(
+		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
+	)
 	
 	private fun updateMileageCard(vehicle: Vehicle?) {
 		binding.tvMileageValue.text = vehicle?.odometerValueBound?.getOdometerFormatted(requireContext()) ?: getString(R.string.default_OdometerValue)
@@ -122,8 +138,16 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			val childView: View = convertView ?:
 			                       LayoutInflater.from(context).inflate(layoutId, null)
 			
-			childView.findViewById<TextView>(R.id.tvDropItemText).text = vehicle.title
-			childView.findViewById<ImageView>(R.id.ivDropItemIcon).setImageResource(vehicle.icon)
+			childView.findViewById<TextView>(R.id.tvDropItemText).apply {
+				text = if (vehicle.titleRes != null) getStringRes(vehicle.titleRes) else vehicle.title
+				isEnabled = position != count-1
+			}
+			childView.findViewById<ImageView>(R.id.ivDropItemIcon).apply {
+				setImageResource(vehicle.icon)
+				isEnabled = position != count-1
+			}
+			//if no premium, only first position will be available
+			childView.isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isPremium)
 			return childView
 		}
 		

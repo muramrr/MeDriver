@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 18:45
+ * Last modified 01.11.2020 16:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,32 +33,35 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	val chosenVehicle: MutableLiveData<Vehicle?> = MutableLiveData(MedriverApp.currentVehicle)
 	
 	//init vehicle list
-	val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
-	init { getSavedVehicles() }
+	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
+	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
 	
+	init {
+		getSavedVehicles()
+	}
 	
 	
 	fun getSavedVehicles() {
 		viewModelScope.launch {
-			repository.getAllSavedVehicles().fold(
-				success = { vehicleList.postValue(it) },
-				failure = { logError(TAG, "${it.message}") }
-			)
+			repository.getAllSavedVehicles().fold(success = {
+				vehicleList.postValue(it)
+				vehicleUiList.postValue(mapToUi(it))
+			}, failure = { logError(TAG, "${it.message}") })
 			
 		}
 	}
 	
-	fun mapToUi(input: List<Vehicle>): List<VehicleUi> {
+	private fun mapToUi(input: List<Vehicle>): List<VehicleUi> {
 		return input.map { vehicle ->
-			VehicleUi(
-				icon = VehicleConstants.vehicleBrandIconMap.get(
-					VehicleConstants.vehicleBrandIconMap.keys.find { possibleNames ->
-						possibleNames.any { it.equals(vehicle.brand, true) }
-					}
-				) ?: 0,
-				title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
-				vin = vehicle.vin
-			)
-		}.plus(VehicleUi(R.drawable.ic_plus_in_frame_24, "Add new vehicle", ""))
+			VehicleUi(icon = VehicleConstants.vehicleBrandIconMap.getOrDefault(vehicle.brand, 0),
+			          title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
+			          vin = vehicle.vin)
+		}.plus(VehicleUi(R.drawable.ic_plus_in_frame_24, "", R.string.fg_vehicle_add_new_vehicle, ""))
 	}
+	
+	fun setVehicle(position: Int) {
+		if (position > vehicleList.value!!.size) return
+		chosenVehicle.postValue(vehicleList.value!![position])
+	}
+	
 }

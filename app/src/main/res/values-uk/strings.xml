@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 16:25
+  ~ Last modified 01.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,24 +46,6 @@
 	<string name="commentary_input_hint">Коментар (необов’язково)</string>
 	
 	<string name="input_empty_error">Поле порожнє</string>
-<!-- ******************************************************************************************* -->
-
-
-
-<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_error">Неправильний формат VIN</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автозаповнення інформації про авто</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
-	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_year_hint">Рік випуску</string>
-	<string name="btm_sheet_vehicle_add_enter_year_error">Некоректне значення</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об\'єм двигуна</string>
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Некоректне значення</string>
-	
 <!-- ******************************************************************************************* -->
 
 
@@ -240,6 +222,32 @@
 	
 	<string name="item_maintenance_add_operation_successful">Успішно додано</string>
 	<string name="item_maintenance_add_operation_fails">Помилка</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_vehicle ************************************** -->
+	<string name="fg_vehicle_add_new_vehicle">Додати новий транспорт</string>
+	<string name="fg_vehicle_choose_vehicle">Обрати транспорт</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Неправильний формат VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автозаповнення інформації про авто</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Рік випуску</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Некоректне значення</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об\'єм двигуна</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Некоректне значення</string>
+	
 <!-- ******************************************************************************************* -->
 
 

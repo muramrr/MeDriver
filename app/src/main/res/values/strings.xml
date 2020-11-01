@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 16:25
+  ~ Last modified 01.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -80,24 +80,6 @@
 	<string name="price_input_hint">Price</string>
 	
 	<string name="input_empty_error">Empty field</string>
-	
-<!-- ******************************************************************************************* -->
-
-
-
-<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
-	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
-	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
-	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
-	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
-	
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Wrong value</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -277,6 +259,32 @@
 	<string name="item_maintenance_add_operation_successful">Successfully added</string>
 	<string name="item_maintenance_add_operation_fails">Failure</string>
 
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_vehicle ************************************** -->
+	<string name="fg_vehicle_add_new_vehicle">Add new vehicle</string>
+	<string name="fg_vehicle_choose_vehicle">Choose vehicle</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Wrong value</string>
+	
 <!-- ******************************************************************************************* -->
 
 

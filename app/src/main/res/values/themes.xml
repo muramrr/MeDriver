@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 17:05
+  ~ Last modified 01.11.2020 19:24
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -92,12 +92,17 @@
 		<item name="android:windowNoTitle">true</item>
 		<!-- This is important! Don't forget to set window background -->
 		<item name="android:windowBackground">@color/colorBackground</item>
-		<item name="android:windowAnimationStyle">@style/AppTheme.AnimFade</item>
+<!--		<item name="android:windowAnimationStyle">@style/AppTheme.AnimFade</item>-->
 	</style>
 	
 	<style name="AppTheme.AnimFade">
 		<item name="android:windowEnterAnimation">@android:anim/fade_in</item>
 		<item name="android:windowExitAnimation">@android:anim/fade_out</item>
+	</style>
+	
+	<style name="AppTheme.AppearingFromFab">
+		<item name="android:windowEnterAnimation">@anim/scale_in</item>
+		<item name="android:windowExitAnimation">@anim/scale_out</item>
 	</style>
 	
 	<style name="AppTheme.AnimSlideFromBottomToBottom">

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 17:11
+ * Last modified 01.11.2020 19:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,6 +48,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 /**
  * Fullscreen dialog used to add records to Fuel History
  * Hosted by FuelFragmentHistory
@@ -56,14 +57,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFuelHistoryAddBinding>(
 	layoutId = R.layout.dialog_fuel_history_add
 )   {
-	
-	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
-	
-	//get same scope as FuelFragmentHistory
 	override val mViewModel: FuelHistoryAddViewModel by viewModel()
+	//get same scope as FuelFragmentHistory
 	private val parentViewModel: FuelHistoryViewModel by lazy { requireParentFragment().getViewModel() }
 	private val fuelPricesViewModel: FuelPricesViewModel by sharedViewModel()
 	private val sharedViewModel: SharedViewModel by sharedViewModel()
+	
+	
+	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
 	
 	private val distancePassedAnimator = ValueAnimator.ofInt().apply { duration = 1200 }
 	
@@ -80,8 +81,15 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		super.onCreate(savedInstanceState)
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
 		mFuelStationWithPrices = fuelPricesViewModel.fuelPrices.value ?:
-		                         FuelStationConstants.fuelStationList.map { FuelStationWithPrices(it) }
+		                         FuelStationConstants.fuelStationList.map { FuelStationWithPrices(
+			                         it
+		                         ) }
 		mViewModel.viewState.observe(this, { renderState(it) })
+	}
+	
+	override fun onStart() {
+		super.onStart()
+		dialog!!.window!!.setWindowAnimations(R.style.AppTheme_AppearingFromFab)
 	}
 	
 	override fun setupViews() {
@@ -110,8 +118,8 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			}
 			
 			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
-				mViewModel.lastAddedEntry.value?.odometerValueBound?.getOdometerValue() ?:
-				MedriverApp.currentVehicle!!.odometerValueBound.getOdometerValue()
+				mViewModel.lastAddedEntry.value?.odometerValueBound?.getOdometerValue()
+				?: MedriverApp.currentVehicle!!.odometerValueBound.getOdometerValue()
 			)
 		
 		}
@@ -192,7 +200,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		val lastHistoryEntryDate =
 			lastEntry?.date?.toInstant(currentSystemDefault())?.toEpochMilliseconds() ?: 0
 		
-		binding.btnDatePickerFuelHistory.btnDatePicker.setupDatePicker(minDate = lastHistoryEntryDate) {
+		binding.btnDatePickerFuelHistory.btnDatePicker.setupDatePicker(
+			minDate = lastHistoryEntryDate
+		) {
 			mViewModel.pickedDate = convertToLocalDateTime(this.timeInMillis)
 		}
 		
@@ -213,11 +223,8 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	}
 	
 	private fun setupInputStationDropList() {
-		val adapter = FuelStationDropAdapter(
-			requireContext(),
-			R.layout.item_drop_image_text,
-			mFuelStationWithPrices.map { it.fuelStation }
-		)
+		val adapter = FuelStationDropAdapter(requireContext(), R.layout.item_drop_image_text,
+		                                     mFuelStationWithPrices.map { it.fuelStation })
 		// drop down fuel station chooser
 		binding.etFuelStationDrop.apply {
 			
@@ -226,7 +233,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			setOnItemClickListener { _, _, position, _ ->
 				
 				//cast to global variable current selected station
-				mViewModel.findFuelStationBySlug(adapter.getItem(position).slug, mFuelStationWithPrices)
+				mViewModel.findFuelStationBySlug(
+					adapter.getItem(position).slug, mFuelStationWithPrices
+				)
 				hideKeyboard(this@apply)
 			}
 		}
@@ -241,7 +250,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		}
 		
 		binding.etInputPrice.doOnTextChanged { text, start, before, count ->
-			if (text.isNullOrBlank()) binding.layoutInputPrice.error = getString(R.string.input_empty_error)
+			if (text.isNullOrBlank()) binding.layoutInputPrice.error = getString(
+				R.string.input_empty_error
+			)
 			else binding.layoutInputPrice.isErrorEnabled = false
 		}
 	}
@@ -283,7 +294,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 					DT -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelTypeDT.id)
 					A92 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType92.id)
 					A95 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType95.id)
-					A95PLUS -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType95PLUS.id)
+					A95PLUS -> binding.radioFuelTypes.setInitialSelected(
+						binding.btnFuelType95PLUS.id
+					)
 					A98 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType98.id)
 					A100 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType100.id)
 				}
@@ -309,7 +322,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				 * check if oldValue is same with given [distancePassed] if no ->
 				 * set oldValue as start
 				 */
-				if (distancePassed != oldValue) distancePassedAnimator.setIntValues(oldValue, distancePassed)
+				if (distancePassed != oldValue) distancePassedAnimator.setIntValues(
+					oldValue, distancePassed
+				)
 				else distancePassedAnimator.setIntValues(0, distancePassed)
 				
 				distancePassedAnimator.start()
@@ -328,9 +343,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	
 	
 	private class FuelStationDropAdapter(
-		context: Context,
-		@LayoutRes private val layoutId: Int,
-		data: List<FuelStation>
+		context: Context, @LayoutRes private val layoutId: Int, data: List<FuelStation>
 	): BaseDropAdapter<FuelStation>(context, layoutId, data) {
 		
 		private lateinit var childView: View
@@ -342,7 +355,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			
 			fuelStation = getItem(position)
 			childView.findViewById<TextView>(R.id.tvDropItemText).text = fuelStation.brandTitle
-			childView.findViewById<ImageView>(R.id.ivDropItemIcon).setImageResource(fuelStation.brandIcon())
+			childView.findViewById<ImageView>(R.id.ivDropItemIcon).setImageResource(
+				fuelStation.brandIcon()
+			)
 			return childView
 		}
 		

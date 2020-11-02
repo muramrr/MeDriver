@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:09
+ * Last modified 02.11.2020 16:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -105,11 +105,8 @@ class AuthFlowProviderImpl (
 	 * email verification (if not equals -> update field), also overwrite local user info whenever
 	 * result from backend is and emit mapped retrieved user info
 	 *
-	 * if user info doesn't exists on backend -> look for stored user at local storage and write
-	 * to backend and also emit stored user at local storage as a result
-	 *
-	 * if user doesn't exists at local storage then its probably SIGN_UP case flow:
-	 * write both to backend and local storage converted [FirebaseUser] and also emit it as a result
+	 * if user info doesn't exists on backend -> write both to backend and local storage
+	 * converted [FirebaseUser] and also emit it as a result
 	 *
 	 * keep in case that all of these scenarios triggered only when auth returns [firebaseUser != null]
 	 */
@@ -138,8 +135,7 @@ class AuthFlowProviderImpl (
 	
 	/**
 	 * Trying to get user from firestore and update email if needed
-	 * If failure -> try to get user from local storage
-	 * @see [getUserFromLocalStorage]
+	 * If failure -> convert given [FirebaseUser] and save it
 	 */
 	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserData?> = flow {
 		logDebug(TAG, "Retrieving user info from backend...")
@@ -159,64 +155,16 @@ class AuthFlowProviderImpl (
 				failure = { error ->
 					logError(TAG, "Failed to retrieve user info from backend... ${error.message}")
 					
-					//if document not exist on backend -> read from local and write to backend
-					//todo: calling this method is unsafe
-					// user can modify shared prefs file and substitute some significant params
-					// must be removed
-					getUserFromLocalStorage(firebaseUser).collect {
-						emit(it)
-					}
+					/** probably, we have SIGN_UP case, so convert [FirebaseUser] */
+					firebaseUser.sendEmailVerification()
+					writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
 					
 				}
 			)
 		}
 	}
 	
-	
-	/**
-	 * Trying to get user from local storage
-	 * if failure -> convert [firebaseUser] and save both to backend and local
-	 * Last case is probably invoked in signUp procession
-	 */
-	private fun getUserFromLocalStorage(firebaseUser: FirebaseUser) : Flow<UserData?> = flow {
-		
-		logDebug(TAG, "Trying to get user from local storage...")
-		
-		userLocalDataSource.getUser().collect { cachedUser ->
-			
-			if (cachedUser != null) {
-				
-				logInfo(TAG, "Checking saved user info...")
-				
-				if (cachedUser.id == firebaseUser.uid) {
-					
-					logInfo(TAG, "User was found, writing to backend...")
-					userRemoteDataSource.writeFirestoreUser(
-						mappers.userEntityToDto(cachedUser)
-					)
-					
-					//emit user info from local storage
-					emit(mappers.userEntityToDomain(cachedUser))
-					
-				}
-				else {
-					logWarn(TAG, "User exists on local storage, but it differs. Rewriting...")
-					
-					//combine both writing to backend and to local storage operations results
-					writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
-				}
-				
-			}
-			else {
-				logWarn(TAG, "User wasn't found on local, " +
-				             "trying to convert user provided by auth...")
-				
-				//combine both writing to backend and to local storage operations results
-				writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
-			}
-		}
-	}
-	
+	//combine both writing to backend and to local storage operations result
 	private fun writeToFirestoreAndLocalStorage(firebaseUser: FirebaseUser): Flow<UserData?> =
 		userRemoteDataSource.writeFirestoreUser(
 			mappers.mapFirebaseUserToUserDto(firebaseUser)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 17:05
+ * Last modified 02.11.2020 16:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,6 +30,7 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthDialog
+import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
@@ -48,6 +49,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	override val mViewModel: SettingsViewModel by viewModel()
 	
 	private var notSignedIn = ""
+	private var accVerified = ""
+	private var accNotVerified = ""
 	private var emailSent = ""
 	private var emailNotSent = ""
 	private var languagesArray = emptyArray<String>()
@@ -88,6 +91,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	private fun initStringRes() {
 		notSignedIn = getString(R.string.fg_settings_not_signed_in)
+		accVerified = getString(R.string.fg_settings_tv_verified)
+		accNotVerified = getString(R.string.fg_settings_tv_not_verified)
 		emailSent = getString(R.string.fg_settings_email_confirm_sent_success)
 		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
 		getPremium = getString(R.string.fg_settings_btn_get_premium_not_active)
@@ -126,39 +131,60 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			
 			binding.apply {
 				
-				// defines visibility of sign in/out buttons
-				btnSignOut.setDisabledIfConditionElseViceVersa { user == null }
-				btnSignInPopUp.setDisabledIfConditionElseViceVersa { user != null }
-				
-				// show premium label
-				tvYourAccountPremium.visibleIf(otherwise = View.GONE) {
-					user != null && user.isPremium
+				if (user != null) {
+					
+					// show premium label
+					tvYourAccountPremium.visibleIf(otherwise = View.INVISIBLE) { user.isPremium }
+					
+					// defines visibility of sign in/out buttons
+					btnSignOut.setEnabledAndVisible()
+					btnSignInPopUp.setDisabledAndInvisible()
+					
+					tvYourAccountVerificationHint.apply {
+						visible()
+						text = if (!user.isEmailVerified) accNotVerified else accVerified
+					}
+					
+					// show email confirmed indicator
+					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) { user.isEmailVerified }
+					tvEmailAddressConfirmed.text = user.email
+					
+					// show tap to verify hint
+					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) { !user.isEmailVerified }
+					
+					// if user need to verify his email show related indicator
+					btnSendVerification.apply {
+						isClickable = true
+						text = user.email
+						if (user.isEmailVerified) setDisabledAndInvisible()
+					}
+					
 				}
-				
-				// if user need to verify his email show related indicator
-				btnSendVerification.isClickable = user != null
-				btnSendVerification.setDisabledIfConditionElseViceVersa {
-					user != null && user.isEmailVerified
+				else {
+					// hide premium label
+					tvYourAccountPremium.gone()
+					
+					// defines visibility of sign in/out buttons
+					btnSignOut.setDisabledAndInvisible()
+					btnSignInPopUp.setEnabledAndVisible()
+					
+					tvYourAccountVerificationHint.invisible()
+					
+					// hide email confirmed indicator
+					tvEmailAddressConfirmed.apply {
+						tvEmailAddressConfirmed.text = notSignedIn
+						invisible()
+					}
+					
+					// hide tap to verify hint
+					tvTapToVerifyHint.invisible()
+					
+					btnSendVerification.apply {
+						isClickable = false
+						text = notSignedIn
+						setEnabledAndVisible()
+					}
 				}
-				btnSendVerification.text = user?.email ?: notSignedIn
-				
-				// show email not verified hint
-				tvYourAccountIsNotVerifiedHint.visibleIf(otherwise = View.INVISIBLE) {
-					user != null && !user.isEmailVerified
-				}
-				
-				// enable tap to verify hint
-				tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) {
-					user != null && !user.isEmailVerified
-				}
-				
-				// control email confirmed indicator visibility (is non-clickable by default)
-				tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) {
-					user != null && user.isEmailVerified
-				}
-				
-				// control email confirmed text
-				tvEmailAddressConfirmed.text = user?.email ?: notSignedIn
 				
 				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
 				btnGetPremium.text = if (user != null && user.isPremium) premiumObtained else getPremium
@@ -251,21 +277,15 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		
 	}
 	
-	/**
-	 * makes button [invisible] and disabled if [condition] == true
-	 * else make button [visible] and enabled
-	 */
-	private inline fun Button.setDisabledIfConditionElseViceVersa(condition: () -> Boolean) =
-		if (condition())
-			apply {
-				isEnabled = false
-				invisible()
-			}
-		else apply {
-			isEnabled = true
-			visible()
-		}
+	private fun Button.setDisabledAndInvisible() = apply {
+		isEnabled = false
+		invisible()
+	}
 	
+	private fun Button.setEnabledAndVisible() = apply {
+		isEnabled = true
+		visible()
+	}
 	
 	
 	

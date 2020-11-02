@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.11.2020 16:09
+  ~ Last modified 02.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -332,7 +332,8 @@
 	<string name="fg_settings_header_account">Аккаунт</string>
 	<string name="fg_settings_header_general">Общие</string>
 	
-	<string name="fg_settings_tv_not_verified">Ваш аккаунт не активировано</string>
+	<string name="fg_settings_tv_not_verified">Ваш аккаунт не активирован</string>
+	<string name="fg_settings_tv_verified">Ваш аккаунт активирован!</string>
 	<string name="fg_settings_tv_tap_to_verify">Нажмите для отправки письма с подтверждением</string>
 	
 	<string name="fg_settings_tv_subscription_expires">Подписка до</string>

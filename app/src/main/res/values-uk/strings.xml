@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.11.2020 16:09
+  ~ Last modified 02.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -333,6 +333,7 @@
 	<string name="fg_settings_header_general">Загальні</string>
 	
 	<string name="fg_settings_tv_not_verified">Ваш аккаунт не активовано</string>
+	<string name="fg_settings_tv_verified">Ваш аккаунт активовано!</string>
 	<string name="fg_settings_tv_tap_to_verify">Натисніть, щоб надіслати лист з підтвердженням</string>
 	
 	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>

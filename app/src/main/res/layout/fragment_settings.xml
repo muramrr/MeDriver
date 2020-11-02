@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 18:16
+  ~ Last modified 02.11.2020 16:09
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,7 +81,7 @@
 			
 			<!-- not verified label -->
 			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvYourAccountIsNotVerifiedHint"
+				android:id="@+id/tvYourAccountVerificationHint"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
@@ -94,7 +94,7 @@
 				app:layout_constraintTop_toTopOf="@id/cvAccountContainer"
 				app:layout_constraintBottom_toTopOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>
 			<!-- send verification -->
 			<com.google.android.material.button.MaterialButton
@@ -148,7 +148,7 @@
 				app:iconSize="16dp"
 				app:iconTintMode="multiply"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvYourAccountIsNotVerifiedHint"
+				app:layout_constraintTop_toBottomOf="@id/tvYourAccountVerificationHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
 				app:layout_constraintBottom_toTopOf="@id/tvSyncLabel"

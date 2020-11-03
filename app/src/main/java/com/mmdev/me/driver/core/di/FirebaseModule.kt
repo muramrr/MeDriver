@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 19:20
+ * Last modified 02.11.2020 17:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,9 @@
 
 package com.mmdev.me.driver.core.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import org.koin.dsl.module
 
 /**
@@ -21,7 +22,7 @@ import org.koin.dsl.module
 
 val FirebaseModule = module {
 	
-	single { FirebaseFirestore.getInstance() }
-	single { FirebaseAuth.getInstance() }
+	single { Firebase.firestore }
+	single { Firebase.auth }
 	
 }

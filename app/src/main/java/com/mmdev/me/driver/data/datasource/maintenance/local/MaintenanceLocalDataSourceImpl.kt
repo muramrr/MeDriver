@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:30
+ * Last modified 03.11.2020 17:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -70,5 +70,7 @@ class MaintenanceLocalDataSourceImpl(private val dao: MaintenanceDao) :
 	): SimpleResult<Unit> = safeCall(TAG) { dao.deleteVehicleReplacedSparePart(replacedSparePart) }.also {
 		logDebug(TAG, "Deleting Replaced spare part entry: id = ${replacedSparePart.date}")
 	}
+	
+	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearHistory() }
 	
 }

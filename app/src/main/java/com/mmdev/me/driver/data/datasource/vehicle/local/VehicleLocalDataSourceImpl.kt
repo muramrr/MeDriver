@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:44
+ * Last modified 03.11.2020 17:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  * [IVehicleLocalDataSource] implementation
  */
 
-class VehicleLocalDataSourceImpl (private val dao: VehicleDao):
+class VehicleLocalDataSourceImpl(private val dao: VehicleDao):
 		IVehicleLocalDataSource, BaseDataSource() {
 	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =
@@ -34,8 +34,8 @@ class VehicleLocalDataSourceImpl (private val dao: VehicleDao):
 	override suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.deleteVehicle(vehicleEntity) }
 	
-	override suspend fun deleteAll(): SimpleResult<Unit> =
-		safeCall(TAG) { dao.deleteAll() }
+	override suspend fun clearAll(): SimpleResult<Unit> =
+		safeCall(TAG) { dao.clearAll() }
 	
 	
 }

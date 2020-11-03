@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 18:10
+ * Last modified 03.11.2020 17:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,9 +40,14 @@ class FuelHistoryLocalDataSourceImpl(private val dao: FuelHistoryDao) :
 			              "date = ${convertToLocalDateTime(fuelHistoryEntity.date).date}")
 		}
 	
+	override suspend fun importFuelHistory(import: List<FuelHistoryEntity>): SimpleResult<Unit> =
+		safeCall(TAG) { import.forEach { dao.insertFuelHistoryEntity(it) }}
+	
 	override suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.deleteFuelHistoryEntity(fuelHistoryEntity) }.also {
 			logDebug(TAG, "Deleting History entry: id = ${fuelHistoryEntity.date}")
 		}
-		
+	
+	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearHistory() }
+	
 }

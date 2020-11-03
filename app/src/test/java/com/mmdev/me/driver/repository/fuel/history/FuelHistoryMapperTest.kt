@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 03.11.2020 16:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -78,13 +78,13 @@ class FuelHistoryMapperTest {
 	
 	@Test
 	fun testMapDmHistoryToDb() {
-		val mappingResult = mappers.domainToDbEntity(domainList.first())
+		val mappingResult = mappers.domainToEntity(domainList.first())
 		Assert.assertEquals(mappingResult, historyList.first())
 	}
 	
 	@Test
 	fun testMapDbHistoryToDm() {
-		val mappingResult = mappers.listDbEntitiesToDomains(historyList)
+		val mappingResult = mappers.listEntitiesToDomain(historyList)
 		logWtf("mylogs", "${mappingResult.first().date.date}")
 		Assert.assertEquals(mappingResult.first(), domainList.first())
 	}

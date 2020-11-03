@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.09.2020 21:15
+ * Last modified 02.11.2020 19:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,10 +14,11 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Auth repository responsible for authentication and registration new users
+ * Settings repository responsible for authentication and registration new users,
+ * also to fetch user data stored on backend
  */
 
-interface IAuthRepository {
+interface ISettingsRepository {
 	
 	fun resetPassword(email: String) : Flow<SimpleResult<Unit>>
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.10.2020 18:45
+ * Last modified 03.11.2020 17:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.serialization.asConverterFactory
+import com.mmdev.me.driver.data.datasource.DataManipulator
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi
 import com.mmdev.me.driver.data.datasource.vin.remote.api.VinCodeApi
 import kotlinx.serialization.json.Json
@@ -29,6 +30,7 @@ private val contentType = "application/json".toMediaType()
 
 val NetworkModule = module {
 
+	single { DataManipulator(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
 	single { provideRetrofit() }
 

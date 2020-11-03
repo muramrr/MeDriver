@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 18:27
+ * Last modified 03.11.2020 15:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@
 package com.mmdev.me.driver.data.datasource.fuel.history.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
@@ -24,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
  * [IFuelHistoryRemoteDataSource] implementation
  */
 
-class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
+class FuelHistoryRemoteDataSourceImpl(private val fs: FirebaseFirestore) :
 		BaseDataSource(), IFuelHistoryRemoteDataSource {
 	
 	private companion object {
@@ -52,7 +51,7 @@ class FuelHistoryRemoteDataSourceImpl (private val fs: FirebaseFirestore) :
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.orderBy(FS_DATE_FIELD, Query.Direction.DESCENDING)
+			//.orderBy(FS_DATE_FIELD, Query.Direction.DESCENDING)
 			.executeAndDeserializeAsFlow(FuelHistoryDto::class.java)
 	
 	override fun updateFuelHistoryField(

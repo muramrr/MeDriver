@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 17:32
+  ~ Last modified 03.11.2020 19:52
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,9 +35,8 @@
 			android:layout_width="0dp"
 			android:layout_height="6dp"
 			android:layout_marginTop="6dp"
-			
-			android:scaleType="centerCrop"
 			android:src="@drawable/ic_horizontal_line"
+			android:scaleType="centerCrop"
 			
 			app:layout_constraintWidth_percent="0.1"
 			app:layout_constraintTop_toTopOf="parent"
@@ -47,15 +46,16 @@
 			/>
 		
 		<!-- image background -->
-		<View android:id="@+id/authBackground"
+		<ImageView android:id="@+id/authBackground"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
-			android:background="@drawable/auth_back"
+			android:src="@drawable/auth_back"
 			
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
+			app:layout_constraintBottom_toTopOf="@id/cvAuth"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
+			android:contentDescription="@null"
 			/>
 		
 		<!-- card imitation background -->
@@ -339,8 +339,7 @@
 			android:contentDescription="@null"
 			/>
 		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvCheckMail"
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvCheckMail"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:labelFor="@id/ivCheckMail"
@@ -358,8 +357,7 @@
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
 		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvNotRegistered"
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvNotRegistered"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
@@ -378,8 +376,7 @@
 			/>
 		
 		<!-- button sign up -->
-		<com.google.android.material.button.MaterialButton
-			android:id="@+id/btnSignUp"
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnSignUp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:minHeight="0dp"

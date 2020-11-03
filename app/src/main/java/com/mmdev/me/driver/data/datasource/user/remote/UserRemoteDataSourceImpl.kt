@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:33
+ * Last modified 02.11.2020 16:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
  * [IUserRemoteDataSource] implementation
  */
 
-class UserRemoteDataSourceImpl (private val fs: FirebaseFirestore):
+class UserRemoteDataSourceImpl(private val fs: FirebaseFirestore):
 		IUserRemoteDataSource, BaseDataSource() {
 	
 	private companion object {

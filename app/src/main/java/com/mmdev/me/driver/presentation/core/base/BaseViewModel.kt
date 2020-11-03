@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.09.2020 21:05
+ * Last modified 03.11.2020 18:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,7 +35,7 @@ abstract class BaseViewModel: ViewModel() {
 //	}
 
 	override fun onCleared() {
-		logDebug(message = "$TAG on cleared called")
+		logDebug(TAG, "${javaClass.simpleName} on cleared called")
 		super.onCleared()
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 18:44
+ * Last modified 03.11.2020 17:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,6 +27,6 @@ interface IVehicleLocalDataSource {
 	
 	suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit>
 	
-	suspend fun deleteAll(): SimpleResult<Unit>
+	suspend fun clearAll(): SimpleResult<Unit>
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 03.11.2020 19:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
 import com.mmdev.me.driver.core.di.DatabaseModule
 import com.mmdev.me.driver.core.di.FirebaseModule
+import com.mmdev.me.driver.core.di.MappersModule
 import com.mmdev.me.driver.core.di.NetworkModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
@@ -25,6 +26,7 @@ import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.ENGLISH
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
+import com.mmdev.me.driver.core.utils.getAndroidId
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode
@@ -66,6 +68,8 @@ class MedriverApp : Application() {
 				//	encryptionType = EncryptionType.KeyStore("key")
 			}
 		}
+		
+		val androidId: String by lazy { getAndroidId(appContext) }
 		
 		// public because the initial UI is built from these values
 		// and some of these values are used across application
@@ -153,7 +157,7 @@ class MedriverApp : Application() {
 				// some kind of "layers" inside dependencies.
 				listOf(
 					ViewModelsModule,
-					RepositoryModule,
+					RepositoryModule, MappersModule,
 					DataSourceRemoteModule, DataSourceLocalModule,
 					NetworkModule, FirebaseModule, DatabaseModule
 				)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.09.2020 15:11
+ * Last modified 03.11.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,24 +11,21 @@
 package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.data.repository.auth.AuthFlowProviderImpl
-import com.mmdev.me.driver.data.repository.auth.AuthRepositoryImpl
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
 import com.mmdev.me.driver.data.repository.fetching.FetchingMappersFacade
 import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
-import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.data.repository.maintenance.MaintenanceRepositoryImpl
-import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
+import com.mmdev.me.driver.data.repository.settings.SettingsRepositoryImpl
 import com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl
-import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
-import com.mmdev.me.driver.domain.user.auth.IAuthRepository
+import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import org.koin.dsl.module
 
@@ -49,7 +46,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IAuthRepository> { AuthRepositoryImpl(authDataSource = get()) }
+	single<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
 	
 	
 	
@@ -66,7 +63,7 @@ val RepositoryModule = module {
 		MaintenanceRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
-			mappers = MaintenanceMappersFacade()
+			mappers = get()
 		)
 	}
 	
@@ -78,7 +75,7 @@ val RepositoryModule = module {
 			remoteDataSource = get(),
 			localVinDecoder = get(),
 			remoteVinDecoder = get(),
-			mappers = VehicleMappersFacade()
+			mappers = get()
 		)
 	}
 	
@@ -95,7 +92,7 @@ val RepositoryModule = module {
 		FuelHistoryRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
-			mappers = FuelHistoryMappersFacade()
+			mappers = get()
 		)
 	}
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 14:35
+ * Last modified 03.11.2020 16:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -51,14 +51,14 @@ class FuelHistoryRepositoryImpl (
 	override suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory):
 			Flow<SimpleResult<Unit>> = flow {
 		
-		localDataSource.insertFuelHistoryEntry(mappers.domainToDbEntity(history)).fold(
+		localDataSource.insertFuelHistoryEntry(mappers.domainToEntity(history)).fold(
 			success = { result ->
 				//check if user is premium && is sync enabled to write to backend
 				if (user != null && user.isPremium && user.isSyncEnabled)
 					remoteDataSource.addFuelHistory(
 						user.email,
 						history.vehicleVinCode,
-						mappers.domainToApiDto(history)
+						mappers.domainToDto(history)
 					).collect { emit(it) }
 				
 				//otherwise result is success because writing to database was successful
@@ -93,7 +93,7 @@ class FuelHistoryRepositoryImpl (
 				//reset offset
 				historyOffset = 0
 				
-				ResultState.Success(mappers.listDbEntitiesToDomains(dto)).also {
+				ResultState.Success(mappers.listEntitiesToDomain(dto)).also {
 					//update offset after first items was loaded
 					historyOffset += it.data.size
 				}
@@ -104,7 +104,7 @@ class FuelHistoryRepositoryImpl (
 	private suspend fun loadMoreFuelHistory(vin: String, size: Int): SimpleResult<List<FuelHistory>> =
 		localDataSource.getFuelHistory(vin, size, historyOffset).fold(
 			success = { dto ->
-				ResultState.Success(mappers.listDbEntitiesToDomains(dto)).also {
+				ResultState.Success(mappers.listEntitiesToDomain(dto)).also {
 					//update offset
 					historyOffset += it.data.size
 				}
@@ -113,5 +113,5 @@ class FuelHistoryRepositoryImpl (
 		)
 	
 	override suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit> =
-		localDataSource.deleteFuelHistoryEntry(mappers.domainToDbEntity(history))
+		localDataSource.deleteFuelHistoryEntry(mappers.domainToEntity(history))
 }

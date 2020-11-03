@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 16:39
+ * Last modified 02.11.2020 19:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.presentation.ui.settings.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.domain.user.auth.IAuthRepository
+import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.flow.collect
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  *
  */
 
-class AuthViewModel(private val repository: IAuthRepository): BaseViewModel() {
+class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel() {
 	
 	val viewState: MutableLiveData<AuthViewState> = MutableLiveData()
 	

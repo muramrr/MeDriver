@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:44
+ * Last modified 03.11.2020 15:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,7 +37,7 @@ class FuelPricesRemoteDataSourceImpl(private val fuelApi: FuelApi) :
 		date:String,
 		fuelTypes: Iterable<FuelType>
 	): Map<FuelType, FuelPricesDtoResponse> =
-		fuelTypes.asFlow().flatMapMerge(concurrency = 7) { fuelType ->
+		fuelTypes.asFlow().flatMapMerge(concurrency = fuelTypes.count()) { fuelType ->
 			flow { emit(fuelType to fuelApi.getFuelInfoFromApi(date, fuelType.code)) }
 		}.toMap()
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 03.11.2020 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,7 +47,7 @@ class FuelPricesRepositoryImpl (
 			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
-				logError(message = it.message ?: "Boundary local cache error")
+				logError(TAG, it.message ?: "Boundary local cache error")
 				getFuelDataFromRemote(date)
 			})
 	}

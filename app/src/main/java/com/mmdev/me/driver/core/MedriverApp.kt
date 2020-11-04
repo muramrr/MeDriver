@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 19:56
+ * Last modified 04.11.2020 15:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,6 +37,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.user.UserData
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
+import com.revenuecat.purchases.Purchases
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -183,6 +184,9 @@ class MedriverApp : Application() {
 		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
 		logInfo(TAG, "loaded language - ${appLanguage.name}")
 		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
+		
+		Purchases.debugLogsEnabled = debug.isEnabled
+		Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
 	}
 	
 	//called only on app startup to pull saved value or assign default & also write default to prefs

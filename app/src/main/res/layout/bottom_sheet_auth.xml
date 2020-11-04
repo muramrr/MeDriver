@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.11.2020 19:52
+  ~ Last modified 04.11.2020 17:21
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,8 +33,8 @@
 		<!-- drag indicator -->
 		<ImageView android:id="@+id/ivTopIndicator"
 			android:layout_width="0dp"
-			android:layout_height="6dp"
-			android:layout_marginTop="6dp"
+			android:layout_height="2dp"
+			android:layout_marginTop="8dp"
 			android:src="@drawable/ic_horizontal_line"
 			android:scaleType="centerCrop"
 			
@@ -290,6 +290,8 @@
 			android:layout_height="wrap_content"
 			
 			android:text="@string/fg_settings_auth_btn_sign_in"
+			
+			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
 			
 			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
 			app:layout_constraintStart_toEndOf="@id/btnCancel"

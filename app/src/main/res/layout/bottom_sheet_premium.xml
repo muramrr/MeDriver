@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 04.11.2020 21:16
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:background="?colorSurface"
+		>
+		
+		<!-- drag indicator -->
+		<ImageView android:id="@+id/ivTopIndicator"
+			android:layout_width="0dp"
+			android:layout_height="2dp"
+			android:layout_marginTop="6dp"
+			
+			android:scaleType="centerCrop"
+			android:src="@drawable/ic_horizontal_line"
+			
+			app:layout_constraintWidth_percent="0.1"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:contentDescription="@null"
+			/>
+		
+		<ImageView android:id="@+id/ivPremiumIcon"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			
+			android:src="@drawable/ic_premium_24"
+			
+			app:layout_constraintHeight_percent="0.15"
+			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:contentDescription="@null"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeaturesLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:text="@string/btm_sheet_premium_features_label"
+			android:textAppearance="?textAppearanceHeadline6"
+			
+			app:layout_constraintTop_toBottomOf="@id/ivPremiumIcon"
+			app:layout_constraintBottom_toTopOf="@id/rvPremiumFeatures"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+		
+		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPremiumFeatures"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:overScrollMode="never"
+			android:orientation="horizontal"
+			
+			tools:listitem="@layout/item_premium_feature"
+			tools:itemCount="1"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvFeaturesLabel"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlansLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:text="@string/btm_sheet_premium_plans_label"
+			android:textAppearance="?textAppearanceHeadline6"
+			
+			app:layout_constraintTop_toBottomOf="@id/rvPremiumFeatures"
+			app:layout_constraintBottom_toTopOf="@id/rvPremiumPlans"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+		
+		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPremiumPlans"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:overScrollMode="never"
+			android:orientation="vertical"
+			
+			tools:listitem="@layout/item_premium_plan"
+			tools:itemCount="3"
+			
+			app:layout_constraintHeight_percent="0.5"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<!-- guideline start -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineStart"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_begin="8dp"
+			/>
+		
+		<!-- guideline end -->
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/guidelineEnd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_end="8dp"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+</layout>

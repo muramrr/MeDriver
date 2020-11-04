@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.11.2020 16:09
+  ~ Last modified 04.11.2020 21:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -80,6 +80,29 @@
 	<string name="price_input_hint">Price</string>
 	
 	<string name="input_empty_error">Empty field</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************ bottom_sheet_premium ********************************* -->
+	<string name="btm_sheet_premium_features_label">Features</string>
+	<string name="btm_sheet_premium_plans_label">Available plans</string>
+	
+	<string name="btm_sheet_premium_feature_sync_title">Backup</string>
+	<string name="btm_sheet_premium_feature_sync_subtitle">Backup all of your history and expenses</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_vehicles_title">Multiple vehicles</string>
+	<string name="btm_sheet_premium_feature_multiple_vehicles_subtitle">Keep records for multiple vehicles</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_devices_title">Sync</string>
+	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Sync and access your data across any device</string>
+	
+	<string name="btm_sheet_premium_plan_monthly_duration">1 month</string>
+	<string name="btm_sheet_premium_plan_semi_annual_duration">6 month</string>
+	<string name="btm_sheet_premium_plan_annual_duration">12 month</string>
+	<string name="btm_sheet_premium_plan_per_month_formatter">per month</string>
+	<string name="btm_sheet_premium_plan_saving_label">SAVE</string>
 	
 <!-- ******************************************************************************************* -->
 

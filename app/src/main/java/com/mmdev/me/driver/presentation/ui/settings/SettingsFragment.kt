@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.11.2020 16:44
+ * Last modified 04.11.2020 18:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthDialog
+import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
@@ -75,7 +75,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		binding.apply {
 			
 			btnSignInPopUp.setDebounceOnClick(2000) {
-				AuthDialog().show(childFragmentManager, AuthDialog::class.java.canonicalName)
+				AuthBottomSheet().show(childFragmentManager, AuthBottomSheet::class.java.canonicalName)
 			}
 			
 			btnSignOut.setOnClickListener { mViewModel.signOut() }

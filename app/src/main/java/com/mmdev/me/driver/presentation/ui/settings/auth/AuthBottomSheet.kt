@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 17:36
+ * Last modified 04.11.2020 18:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,7 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Hosted by SettingsFragment
  */
 
-class AuthDialog: BaseBottomSheetFragment<AuthViewModel, BottomSheetAuthBinding> (
+class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BottomSheetAuthBinding> (
 	layoutId = R.layout.bottom_sheet_auth
 ) {
 	

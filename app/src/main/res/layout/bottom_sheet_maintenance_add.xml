@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.10.2020 18:04
+  ~ Last modified 04.11.2020 17:19
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,9 +24,9 @@
 	</data>
 	
 	<androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/motionMaintenance"
-		
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
+		android:background="?colorSurface"
 		
 		app:layoutDescription="@xml/maintenance_scene"
 		>
@@ -34,14 +34,14 @@
 		<!-- drag indicator -->
 		<ImageView android:id="@+id/ivTopIndicator"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="2dp"
+			android:layout_marginTop="6dp"
 			
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_horizontal_line"
 			
 			app:layout_constraintWidth_percent="0.1"
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toTopOf="@id/guidelineTop"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			android:contentDescription="@null"
@@ -51,6 +51,7 @@
 		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvParentNode"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
+			android:layout_marginTop="8dp"
 			android:overScrollMode="never"
 			
 			android:translationX="-500dp"
@@ -61,10 +62,10 @@
 			app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 			tools:listitem="@layout/item_maintenance_parent_node"
 			
-			app:layout_constraintTop_toTopOf="@id/guidelineTop"
+			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
 		
@@ -78,7 +79,7 @@
 			
 			android:translationX="500dp"
 			
-			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			>
@@ -118,7 +119,7 @@
 			
 			style="@style/Widget.MaterialComponents.Button.TextButton"
 			
-			app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
 		
@@ -205,14 +206,6 @@
 			app:layout_constraintGuide_percent="0.5"
 			/>
 		
-		<!-- guideline top -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineTop"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			app:layout_constraintGuide_begin="16dp"
-			/>
 		
 		<!-- guideline bottom -->
 		<androidx.constraintlayout.widget.Guideline

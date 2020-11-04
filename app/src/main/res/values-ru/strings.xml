@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.11.2020 16:09
+  ~ Last modified 04.11.2020 21:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,6 +46,29 @@
 	<string name="commentary_input_hint">Комментарий (необятазельно)</string>
 	
 	<string name="input_empty_error">Пустое поле</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************ bottom_sheet_premium ********************************* -->
+	<string name="btm_sheet_premium_features_label">Возможности</string>
+	<string name="btm_sheet_premium_plans_label">Доступные подписки</string>
+	
+	<string name="btm_sheet_premium_feature_sync_title">Резервная копия</string>
+	<string name="btm_sheet_premium_feature_sync_subtitle">Сохранит историю всех расходов на сервере</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_vehicles_title">Несколько авто</string>
+	<string name="btm_sheet_premium_feature_multiple_vehicles_subtitle">Ведите учет нескольких транспортных средств</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронизация</string>
+	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ ко всей истории с любого девайса</string>
+	
+	<string name="btm_sheet_premium_plan_monthly_duration">1 месяц</string>
+	<string name="btm_sheet_premium_plan_semi_annual_duration">6 месяцев</string>
+	<string name="btm_sheet_premium_plan_annual_duration">12 месяцев</string>
+	<string name="btm_sheet_premium_plan_per_month_formatter">в месяц</string>
+	<string name="btm_sheet_premium_plan_saving_label">СКИДКА</string>
+	
 <!-- ******************************************************************************************* -->
 
 

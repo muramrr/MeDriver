@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 18:13
+ * Last modified 04.11.2020 19:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,9 +21,13 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.identifyWith
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -102,10 +106,19 @@ class MainActivity: AppCompatActivity() {
 
 		
 		sharedViewModel.userData.observe(this, {
-			if (it != null) logDebug(TAG, "authStatus = $AUTHENTICATED")
-			else logDebug(TAG, "authStatus = $UNAUTHENTICATED")
+			if (it != null) {
+				logDebug(TAG, "authStatus = $AUTHENTICATED")
+				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
+				//	logWtf(TAG, "$purchaserInfo")
+				}
+			}
+			else {
+				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
+				Purchases.sharedInstance.reset()
+			}
 			
 			MedriverApp.currentUser = it
+			
 		})
 		
 		/**
@@ -123,6 +136,15 @@ class MainActivity: AppCompatActivity() {
 		
 		})
 		
+		
+		Purchases.sharedInstance.getOfferingsWith(
+			onError = { error ->
+				logWtf(TAG, error.message)
+			},
+			onSuccess = { offerings ->
+				logWtf(TAG, "${offerings.all}")
+			}
+		)
 	}
 	
 }

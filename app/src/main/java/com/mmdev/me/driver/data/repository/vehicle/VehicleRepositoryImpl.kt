@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 15:35
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
@@ -47,13 +47,13 @@ class VehicleRepositoryImpl(
 	 * local data will be written without being obstructed
 	 */
 	override suspend fun addVehicle(
-		user: UserData?,
+		user: UserDataInfo?,
 		vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertVehicle(mappers.domainToEntity(vehicle)).fold(
 			success = { result ->
 				//check if user is premium to backup to backend
-				if (user != null && user.isPremium && user.isSyncEnabled)
+				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled)
 					remoteDataSource.addVehicle(user.email, mappers.domainToApiDto(vehicle)).collect {
 						emit(it)
 					}

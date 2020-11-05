@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 05.11.2020 16:37
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState
 import io.mockk.coEvery
@@ -82,7 +82,6 @@ class FuelHistoryViewModelTest {
 			)
 		)
 	)
-	private val insertNewOneState = FuelHistoryViewState.InsertNewOne(fuelHistoryRecord)
 	
 	
 	@get:Rule
@@ -97,7 +96,7 @@ class FuelHistoryViewModelTest {
 		coEvery { repository.loadFuelHistory("vin", 10) } returns repoSuccessStateGet
 		coEvery { repository.loadFuelHistory("vin", -1) } returns repoFailureStateGet
 		
-		coEvery { repository.addFuelHistoryRecord(UserData(), fuelHistoryRecord) } returns repoSuccessStateUnit
+		coEvery { repository.addFuelHistoryRecord(UserDataInfo(), fuelHistoryRecord) } returns repoSuccessStateUnit
 		
 		viewModel = FuelHistoryViewModel(repository)
 	}
@@ -117,21 +116,11 @@ class FuelHistoryViewModelTest {
 	fun clearInputFields() {
 	
 	}
-
-	@Test
-	fun addHistoryRecord() = runBlocking {
-		viewModel.fuelHistoryState.observeForever(historyStateObserver)
-		viewModel.addHistoryRecord(UserData())
-		coVerify { repository.addFuelHistoryRecord(UserData(), fuelHistoryRecord) }
-		coVerify {
-			historyStateObserver.onChanged(insertNewOneState)
-		}
-	}
 	
 
 	@Test
 	fun getHistoryRecords() = runBlocking {
-		viewModel.fuelHistoryState.observeForever(historyStateObserver)
+		viewModel.viewState.observeForever(historyStateObserver)
 		
 		//init
 		viewModel.getHistoryRecords(null)

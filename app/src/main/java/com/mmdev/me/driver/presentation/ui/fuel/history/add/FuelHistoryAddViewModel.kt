@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 20:36
+ * Last modified 05.11.2020 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
@@ -206,7 +206,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	 * [IFuelHistoryRepository] call
 	 * This should guarantee that all liveData contains value
 	 */
-	fun addHistoryRecord(user: UserData?) {
+	fun addHistoryRecord(user: UserDataInfo?) {
 		viewModelScope.launch {
 			with(buildFuelHistoryRecord()) {
 				repository.addFuelHistoryRecord(user, this).collect { result ->

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 19:56
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.map
  * Wrapper for [AuthCollector] provider
  * Main features:
  * convert [FirebaseAuth] callbacks to simplified [AuthStatus]
- * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserData]
+ * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserDataInfo]
  */
 
 class AuthFlowProviderImpl(
@@ -89,7 +89,7 @@ class AuthFlowProviderImpl(
 	 *
 	 * keep in case that all of these scenarios triggered only when auth returns [firebaseUser != null]
 	 */
-	override fun getAuthUserFlow(): Flow<UserData?> = flow {
+	override fun getAuthUserFlow(): Flow<UserDataInfo?> = flow {
 		firebaseUserFlow.collect { firebaseUser ->
 			
 			logInfo(TAG, "Collecting auth information...")
@@ -116,7 +116,7 @@ class AuthFlowProviderImpl(
 	 * Trying to get user from firestore and update email if needed
 	 * If failure -> convert given [FirebaseUser] and save it
 	 */
-	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserData?> = flow {
+	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserDataInfo?> = flow {
 		logDebug(TAG, "Retrieving user info from backend...")
 		
 		userRemoteDataSource.getFirestoreUser(firebaseUser.email!!).collect { remoteUserState ->
@@ -159,9 +159,9 @@ class AuthFlowProviderImpl(
 	}
 	
 	//combine both writing to backend and to local storage operations result
-	private fun writeToFirestoreAndLocalStorage(firebaseUser: FirebaseUser): Flow<UserData?> =
-		userRemoteDataSource.writeFirestoreUser(mappers.mapFirebaseUserToUserDto(firebaseUser)).combine(
-			userLocalDataSource.saveUser(mappers.mapFirebaseUserToEntity(firebaseUser))
+	private fun writeToFirestoreAndLocalStorage(firebaseUser: FirebaseUser): Flow<UserDataInfo?> =
+		userRemoteDataSource.writeFirestoreUser(mappers.firebaseUserToUserDto(firebaseUser)).combine(
+			userLocalDataSource.saveUser(mappers.firebaseUserToEntity(firebaseUser))
 		) { writeRemote, writeLocal ->
 			
 			logDebug(TAG, "Trying to write both to backend and local storage...")
@@ -194,7 +194,7 @@ class AuthFlowProviderImpl(
 	private fun checkEmailVerification(
 		firestoreUserDto: FirestoreUserDto,
 		firebaseUser: FirebaseUser
-	): Flow<UserData> = flow {
+	): Flow<UserDataInfo> = flow {
 		
 		logInfo(TAG, "Checking email verification status...")
 		
@@ -233,7 +233,7 @@ class AuthFlowProviderImpl(
 	private fun updateEmailVerification(
 		firestoreUserDto: FirestoreUserDto,
 		firebaseUser: FirebaseUser
-	): Flow<UserData> = flow {
+	): Flow<UserDataInfo> = flow {
 		
 		userRemoteDataSource.updateFirestoreUserField(
 			email = firestoreUserDto.email,
@@ -272,11 +272,11 @@ class AuthFlowProviderImpl(
 		}
 	}
 	
-	override fun updateUserModel(user: UserData): Flow<SimpleResult<Unit>> =
+	override fun updateUserModel(user: UserDataInfo): Flow<SimpleResult<Unit>> =
 		userRemoteDataSource.writeFirestoreUser(
-			mappers.userDomainToDto(user)
+			mappers.domainToDto(user)
 		).combine(
-			userLocalDataSource.saveUser(mappers.userDomainToEntity(user))
+			userLocalDataSource.saveUser(mappers.domainToEntity(user))
 		) { writeRemote, writeLocal ->
 			
 			logDebug(TAG, "Trying to update user...")

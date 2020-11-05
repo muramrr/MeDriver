@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 18:10
+ * Last modified 05.11.2020 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.domain.fuel.history
 
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFuelHistoryRepository {
 	
-	suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory): Flow<SimpleResult<Unit>>
+	suspend fun addFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
 	
 	/**
 	 * @param size defines how many entries should be loaded to display in UI

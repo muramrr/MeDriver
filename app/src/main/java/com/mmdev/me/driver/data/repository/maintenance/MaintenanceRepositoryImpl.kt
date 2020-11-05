@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.10.2020 18:19
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -45,13 +45,13 @@ class MaintenanceRepositoryImpl(
 	
 	
 	override suspend fun addMaintenanceItems(
-		user: UserData?,
+		user: UserDataInfo?,
 		items: List<VehicleSparePart>
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertReplacedSpareParts(mappers.listDomainsToEntities(items)).fold(
 			success = { result ->
 				//check if user is premium && is sync enabled to write to backend
-				if (user != null && user.isPremium && user.isSyncEnabled)
+				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled)
 					remoteDataSource.addMaintenanceHistoryItems(
 						user.email,
 						items.first().vehicleVinCode,

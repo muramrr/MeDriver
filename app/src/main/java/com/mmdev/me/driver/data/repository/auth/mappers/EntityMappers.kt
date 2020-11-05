@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:33
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,10 +12,10 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
- * Used to convert [UserEntity] into [UserData] and [FirestoreUserDto]
+ * Used to convert [UserEntity] into [UserDataInfo] and [FirestoreUserDto]
  */
 
 object EntityMappers {
@@ -25,16 +25,16 @@ object EntityMappers {
 			id = entity.id,
 			email = entity.email,
 			emailVerified = entity.isEmailVerified,
-			premium = entity.isPremium,
+			//subscription = entity.isPremium,
 			syncEnabled = entity.isSyncEnabled
 		)
 	
-	fun toDomain(entity: UserEntity): UserData =
-		UserData(
+	fun toDomain(entity: UserEntity): UserDataInfo =
+		UserDataInfo(
 			id = entity.id,
 			email = entity.email,
 			isEmailVerified = entity.isEmailVerified,
-			isPremium = entity.isPremium,
+			//subscription = entity.isPremium,
 			isSyncEnabled = entity.isSyncEnabled
 		)
 	

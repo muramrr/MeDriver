@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.11.2020 18:42
+ * Last modified 05.11.2020 16:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -125,7 +125,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	private fun observeSignedInUser() {
-		sharedViewModel.userData.observe(this, { user ->
+		sharedViewModel.userDataInfo.observe(this, { user ->
 			
 			logInfo(TAG, "UserData = $user")
 			
@@ -134,7 +134,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				if (user != null) {
 					
 					// show premium label
-					tvYourAccountPremium.visibleIf(otherwise = View.INVISIBLE) { user.isPremium }
+					tvYourAccountPremium.visibleIf(otherwise = View.INVISIBLE) { user.isSubscriptionValid() }
 					
 					// defines visibility of sign in/out buttons
 					btnSignOut.setEnabledAndVisible()
@@ -186,11 +186,11 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 					}
 				}
 				
-				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isPremium
-				btnGetPremium.text = if (user != null && user.isPremium) premiumObtained else getPremium
+				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isSubscriptionValid()
+				btnGetPremium.text = if (user != null && user.isSubscriptionValid()) premiumObtained else getPremium
 			
 				// defines can be accessed synchronization switcher
-				switchSync.isEnabled = (user != null && user.isPremium).also { initSyncSwitcher(it) }
+				switchSync.isEnabled = (user != null && user.isSubscriptionValid()).also { initSyncSwitcher(it) }
 				
 			}
 			

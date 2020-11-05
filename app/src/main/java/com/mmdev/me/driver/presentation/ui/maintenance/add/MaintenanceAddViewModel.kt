@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 16:16
+ * Last modified 05.11.2020 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.Child
 import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeUi
@@ -80,7 +80,7 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 	
 	fun addMaintenanceEntry(
 		position: Int,
-		user: UserData?,
+		user: UserDataInfo?,
 		dateInput: LocalDateTime,
 		vendorInput: String,
 		articulusInput: String,

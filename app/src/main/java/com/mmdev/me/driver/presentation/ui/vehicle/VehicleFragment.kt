@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.11.2020 16:16
+ * Last modified 05.11.2020 16:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -147,7 +147,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				isEnabled = position != count-1
 			}
 			//if no premium, only first position will be available
-			childView.isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isPremium)
+			childView.isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isSubscriptionValid())
 			return childView
 		}
 		

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 19:06
+ * Last modified 05.11.2020 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
@@ -37,7 +37,7 @@ class SharedViewModel(
 	private val authProvider: IAuthFlowProvider, private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
-	val userData: LiveData<UserData?> = authProvider.getAuthUserFlow().asLiveData()
+	val userDataInfo: LiveData<UserDataInfo?> = authProvider.getAuthUserFlow().asLiveData()
 	
 	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
 	init {
@@ -51,7 +51,7 @@ class SharedViewModel(
 	 * For example: when user adds new fuel history entry or some maintenance changes
 	 * this function is triggered to update actual info.
 	 */
-	fun updateVehicle(user: UserData?, vehicle: Vehicle) {
+	fun updateVehicle(user: UserDataInfo?, vehicle: Vehicle) {
 		logWarn(TAG, "Updating vehicle..")
 		viewModelScope.launch {
 			fetcher.updateVehicle(user, vehicle).collect { result ->
@@ -63,7 +63,7 @@ class SharedViewModel(
 		}
 	}
 	
-	fun updateUser(user: UserData) {
+	fun updateUser(user: UserDataInfo) {
 		if (user != MedriverApp.currentUser!!) {
 			
 			logWarn(TAG, "Updating user..")

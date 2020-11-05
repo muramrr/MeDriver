@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 16:37
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -48,13 +48,13 @@ class FuelHistoryRepositoryImpl (
 	 * Also check if given user is not null and premium
 	 * If that is true -> write also to backend
 	 */
-	override suspend fun addFuelHistoryRecord(user: UserData?, history: FuelHistory):
+	override suspend fun addFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory):
 			Flow<SimpleResult<Unit>> = flow {
 		
 		localDataSource.insertFuelHistoryEntry(mappers.domainToEntity(history)).fold(
 			success = { result ->
 				//check if user is premium && is sync enabled to write to backend
-				if (user != null && user.isPremium && user.isSyncEnabled)
+				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled)
 					remoteDataSource.addFuelHistory(
 						user.email,
 						history.vehicleVinCode,

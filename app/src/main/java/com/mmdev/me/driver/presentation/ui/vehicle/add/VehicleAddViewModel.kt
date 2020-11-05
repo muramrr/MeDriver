@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 15:49
+ * Last modified 05.11.2020 15:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
@@ -53,7 +53,7 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 	
 	// check null or empty vehicle list (no vehicles have been added yet)
 	// or vehicle with same vin doesn't exists
-	fun checkAndAdd(user: UserData?) {
+	fun checkAndAdd(user: UserDataInfo?) {
 		with(buildVehicle()) {
 			if (vehicleList.value.isNullOrEmpty() || !vehicleList.value!!.any { it.vin == this.vin }) {
 				addVehicle(user, this)
@@ -62,7 +62,7 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 		
 	}
 	
-	private fun addVehicle(user: UserData?, vehicle: Vehicle) {
+	private fun addVehicle(user: UserDataInfo?, vehicle: Vehicle) {
 		viewModelScope.launch {
 			repository.addVehicle(user, vehicle).collect { result ->
 				result.fold(

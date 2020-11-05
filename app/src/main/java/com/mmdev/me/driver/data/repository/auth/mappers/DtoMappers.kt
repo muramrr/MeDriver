@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:33
+ * Last modified 05.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,19 +12,20 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.user.UserData
+import com.mmdev.me.driver.domain.user.SubscriptionType.NONE
+import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
- * Used to convert [FirestoreUserDto] into [UserData] and [UserEntity]
+ * Used to convert [FirestoreUserDto] into [UserDataInfo] and [UserEntity]
  */
 
 object DtoMappers {
 	
-	fun toDomain(dto: FirestoreUserDto): UserData = UserData(
+	fun toDomain(dto: FirestoreUserDto): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
 		isEmailVerified = dto.emailVerified,
-		isPremium = dto.premium,
+		subscription = dto.subscription,
 		isSyncEnabled = dto.syncEnabled
 	)
 	
@@ -32,7 +33,7 @@ object DtoMappers {
 		id = dto.id,
 		email = dto.email,
 		isEmailVerified = dto.emailVerified,
-		isPremium = dto.premium,
+		isPremium = dto.subscription.type != NONE,
 		isSyncEnabled = dto.syncEnabled
 	)
 	

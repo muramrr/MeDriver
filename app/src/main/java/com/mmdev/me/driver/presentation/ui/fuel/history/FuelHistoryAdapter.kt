@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 19:49
+ * Last modified 05.11.2020 16:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,7 +25,6 @@ class FuelHistoryAdapter(
 	
 	
 	private companion object {
-		private const val FIRST_POS = 0
 		private const val SHOW_MONTH_SEPARATOR = 0
 		private const val HIDE_MONTH_SEPARATOR = 1
 	}

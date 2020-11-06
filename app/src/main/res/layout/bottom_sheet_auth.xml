@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 04.11.2020 17:21
+  ~ Last modified 05.11.2020 16:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -306,6 +306,8 @@
 			android:text="@string/fg_settings_auth_btn_create"
 			android:translationX="300dp"
 			
+			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+			
 			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toEndOf="@id/btnCancel"
@@ -321,6 +323,8 @@
 			
 			android:text="@string/fg_settings_auth_btn_reset"
 			android:translationY="500dp"
+			
+			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputEmail"
 			app:layout_constraintStart_toEndOf="@id/btnCancel"

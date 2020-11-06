@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 16:24
+ * Last modified 06.11.2020 15:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentMaintenanceBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -38,7 +39,17 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	
 	override val mViewModel: MaintenanceViewModel by viewModel()
 	
-	private val mAdapter = MaintenanceHistoryAdapter()
+	private val mAdapter = MaintenanceHistoryAdapter().apply {
+		setToBottomScrollListener {
+			logWtf(TAG, "scrolled to bottom, time to insert data to bottom and delete from top")
+			mViewModel.loadNextMaintenanceHistory()
+		}
+		
+		setToTopScrollListener {
+			logWtf(TAG, "scrolled to top, time to insert data on top and delete from bottom")
+			mViewModel.loadPreviousMaintenanceHistory()
+		}
+	}
 	
 	private var checkedDialogItem = 0
 	
@@ -80,6 +91,11 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 				MaintenanceAddBottomSheet()
 					.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 			}
+			
+			fabAddMaintenance.setOnLongClickListener {
+				mViewModel.addRandomEntries(); true
+			}
+			
 		}
 		
 		
@@ -110,9 +126,13 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 				logInfo(TAG, "init data size = ${state.data.size}")
 				mAdapter.setInitData(state.data)
 			}
-			is MaintenanceHistoryViewState.Paginate -> {
-				logInfo(TAG, "paginate data size = ${state.data.size}")
-				mAdapter.insertPaginationData(state.data)
+			is MaintenanceHistoryViewState.LoadNext -> {
+				logInfo(TAG, "load next = ${state.data.size}")
+				mAdapter.insertNextData(state.data)
+			}
+			is MaintenanceHistoryViewState.LoadPrevious -> {
+				logInfo(TAG, "load previous = ${state.data.size}")
+				mAdapter.insertPreviousData(state.data)
 			}
 			is MaintenanceHistoryViewState.Filter -> {
 				logInfo(TAG, "showing filtered parts")

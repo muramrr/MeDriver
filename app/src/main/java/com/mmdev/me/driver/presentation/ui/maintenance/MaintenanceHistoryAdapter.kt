@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.10.2020 19:42
+ * Last modified 06.11.2020 15:24
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ItemMaintenanceBinding
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 
@@ -22,13 +23,19 @@ import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
  */
 
 class MaintenanceHistoryAdapter(
-	private val data: MutableList<VehicleSparePart> = mutableListOf()
+	private var data: MutableList<VehicleSparePart> = mutableListOf()
 ) : RecyclerView.Adapter<MaintenanceHistoryAdapter.MaintenanceHistoryViewHolder>() {
 	
 	private companion object{
 		private const val FIRST_POS = 0
+		private const val OPTIMAL_ITEMS_COUNT = 40
 	}
 	private var startPos = 0
+	private var itemsLoaded = 0
+	private var itemsOffset = 0
+	
+	private var scrollToTopListener: (() -> Unit)? = null
+	private var scrollToBottomListener: (() -> Unit)? = null
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		MaintenanceHistoryViewHolder(
@@ -48,14 +55,44 @@ class MaintenanceHistoryAdapter(
 		this.data.clear()
 		startPos = FIRST_POS
 		this.data.addAll(data)
+		itemsLoaded = data.size
 		notifyDataSetChanged()
 	}
 	
+	//here, topData comes already reversed to properly display in list
+	fun insertPreviousData(topData: List<VehicleSparePart>) {
+		data.addAll(FIRST_POS, topData)
+		notifyItemRangeInserted(FIRST_POS, topData.size)
+		
+		if (data.size > OPTIMAL_ITEMS_COUNT) {
+			val shouldBeRemovedCount = data.size - OPTIMAL_ITEMS_COUNT
+			data = data.dropLast(shouldBeRemovedCount).toMutableList()
+			itemsLoaded -= shouldBeRemovedCount
+			notifyItemRangeRemoved((data.size - 1), shouldBeRemovedCount)
+		}
+		logWtf("mylogs_adapter", "data size = ${data.size}, loaded = $itemsLoaded")
+	}
 	
-	fun insertPaginationData(newData: List<VehicleSparePart>) {
+	
+	fun insertNextData(bottomData: List<VehicleSparePart>) {
 		startPos = data.size
-		data.addAll(newData)
-		notifyItemRangeInserted(startPos, newData.size)
+		data.addAll(bottomData)
+		itemsLoaded += bottomData.size
+		notifyItemRangeInserted(startPos, bottomData.size)
+		if (data.size > OPTIMAL_ITEMS_COUNT) {
+			val shouldBeRemovedCount = data.size - OPTIMAL_ITEMS_COUNT
+			data = data.drop(shouldBeRemovedCount).toMutableList()
+			notifyItemRangeRemoved(FIRST_POS, shouldBeRemovedCount)
+		}
+		logWtf("mylogs_adapter", "data size = ${data.size}, loaded = $itemsLoaded")
+	}
+	
+	fun setToTopScrollListener(listener: () -> Unit) {
+		scrollToTopListener = listener
+	}
+	
+	fun setToBottomScrollListener(listener: () -> Unit) {
+		scrollToBottomListener = listener
 	}
 	
 	inner class MaintenanceHistoryViewHolder(
@@ -63,6 +100,13 @@ class MaintenanceHistoryAdapter(
 	): RecyclerView.ViewHolder(binding.root) {
 		
 		fun bind(item: VehicleSparePart) {
+			
+			if (adapterPosition == (itemsLoaded - 5))
+				scrollToBottomListener?.invoke()
+			
+			if (itemsLoaded > data.size && adapterPosition == 10)
+				scrollToTopListener?.invoke()
+			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()
 		}

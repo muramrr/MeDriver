@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 04.11.2020 21:16
+  ~ Last modified 07.11.2020 19:12
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -343,7 +343,8 @@
 	<string name="fg_fuel_history_add_fuel_type_hint">Оберіть тип пального</string>
 	
 	<string name="fg_fuel_history_add_liters_input_hint">Заправлено</string>
-	<string name="fg_fuel_history_add_date_picker_btn_default">01.01.1970</string>
+	
+	<string name="fg_fuel_history_add_adding_error">Помилка при додаванні нового запису</string>
 	
 <!-- ******************************************************************************************* -->
 

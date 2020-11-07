@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.09.2020 16:06
+ * Last modified 07.11.2020 18:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,12 +17,10 @@ import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 /**
  * Firebase extensions
@@ -84,5 +82,19 @@ fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<Li
 
 
 
-fun <T> DocumentReference.setAsFlow(dataClass: T): Flow<SimpleResult<Unit>> =
-	this@setAsFlow.set(dataClass!!).asFlow().map { it.toUnit() }
+fun <T> DocumentReference.setAsFlow(dataClass: T): Flow<SimpleResult<Unit>> = flow {
+	this@setAsFlow.set(dataClass!!).asFlow().collect{ result ->
+		result.fold(
+			success = {
+				logInfo(TAG, "set document successfully")
+				emit(ResultState.success(Unit))
+			},
+			failure = {
+				logError(TAG, "set document error, $it")
+				emit(ResultState.failure(it))
+			}
+		)
+		
+	}
+}
+

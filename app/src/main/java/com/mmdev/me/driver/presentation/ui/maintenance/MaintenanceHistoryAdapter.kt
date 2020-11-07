@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.11.2020 15:24
+ * Last modified 07.11.2020 19:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ItemMaintenanceBinding
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 
@@ -32,7 +31,6 @@ class MaintenanceHistoryAdapter(
 	}
 	private var startPos = 0
 	private var itemsLoaded = 0
-	private var itemsOffset = 0
 	
 	private var scrollToTopListener: (() -> Unit)? = null
 	private var scrollToBottomListener: (() -> Unit)? = null
@@ -59,7 +57,7 @@ class MaintenanceHistoryAdapter(
 		notifyDataSetChanged()
 	}
 	
-	//here, topData comes already reversed to properly display in list
+	
 	fun insertPreviousData(topData: List<VehicleSparePart>) {
 		data.addAll(FIRST_POS, topData)
 		notifyItemRangeInserted(FIRST_POS, topData.size)
@@ -70,7 +68,6 @@ class MaintenanceHistoryAdapter(
 			itemsLoaded -= shouldBeRemovedCount
 			notifyItemRangeRemoved((data.size - 1), shouldBeRemovedCount)
 		}
-		logWtf("mylogs_adapter", "data size = ${data.size}, loaded = $itemsLoaded")
 	}
 	
 	
@@ -84,7 +81,6 @@ class MaintenanceHistoryAdapter(
 			data = data.drop(shouldBeRemovedCount).toMutableList()
 			notifyItemRangeRemoved(FIRST_POS, shouldBeRemovedCount)
 		}
-		logWtf("mylogs_adapter", "data size = ${data.size}, loaded = $itemsLoaded")
 	}
 	
 	fun setToTopScrollListener(listener: () -> Unit) {
@@ -101,7 +97,7 @@ class MaintenanceHistoryAdapter(
 		
 		fun bind(item: VehicleSparePart) {
 			
-			if (adapterPosition == (itemsLoaded - 5))
+			if (adapterPosition == (data.size - 10))
 				scrollToBottomListener?.invoke()
 			
 			if (itemsLoaded > data.size && adapterPosition == 10)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:27
+ * Last modified 07.11.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,11 +34,24 @@ class FuelHistoryRepositoryImpl (
 ) : BaseRepository(), IFuelHistoryRepository {
 	
 	private companion object {
-		private const val startItemsCount = 20
-		private const val startHistoryOffset = 0
+		private const val ITEMS_COUNT_PER_LOAD = 20
+		private const val ITEMS_COUNT_IN_POOL = ITEMS_COUNT_PER_LOAD * 2
+		private const val NO_OFFSET = 0
 	}
-	//offset cursor position
-	private var historyOffset = 0
+	
+	//offset cursor position, also represents how many items we've loaded
+	private var nextHistoryOffset = 0
+		private set(value) {
+			field = value
+			if (value > ITEMS_COUNT_IN_POOL){
+				previousHistoryOffset = value - ITEMS_COUNT_IN_POOL - ITEMS_COUNT_PER_LOAD
+			}
+		}
+	private var previousHistoryOffset = 0
+		private set(value) {
+			field = if (value < 0) 0
+			else value
+		}
 	
 	
 	
@@ -48,8 +61,9 @@ class FuelHistoryRepositoryImpl (
 	 * Also check if given user is not null and premium
 	 * If that is true -> write also to backend
 	 */
-	override suspend fun addFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory):
-			Flow<SimpleResult<Unit>> = flow {
+	override suspend fun addFuelHistoryRecord(
+		user: UserDataInfo?, history: FuelHistory
+	): Flow<SimpleResult<Unit>> = flow {
 		
 		localDataSource.insertFuelHistoryEntry(mappers.domainToEntity(history)).fold(
 			success = { result ->
@@ -69,47 +83,50 @@ class FuelHistoryRepositoryImpl (
 		
 	}
 	
-	
-	override suspend fun loadFuelHistory(
-		vin: String,
-		size: Int?,
-	): SimpleResult<List<FuelHistory>> =
-		if (size == null || size < 0) loadFirstFuelHistory(vin)
-		else loadMoreFuelHistory(vin, size)
-	
 	override suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?> =
 		localDataSource.getFirstFuelHistoryEntry(vin).fold(
 			success = {
 				if (it != null) ResultState.success(mappers.entityToDomain(it))
 				else ResultState.success(null)
 			},
-			failure = { ResultState.Failure(it) }
+			failure = { ResultState.failure(it) }
 		)
 	
 	
-	private suspend fun loadFirstFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =
-		localDataSource.getFuelHistory(vin, startItemsCount, startHistoryOffset).fold(
+	override suspend fun getInitFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =
+		localDataSource.getFuelHistory(vin, ITEMS_COUNT_PER_LOAD, NO_OFFSET).fold(
 			success = { dto ->
 				//reset offset
-				historyOffset = 0
+				nextHistoryOffset = 0
 				
 				ResultState.Success(mappers.listEntitiesToDomain(dto)).also {
 					//update offset after first items was loaded
-					historyOffset += it.data.size
+					nextHistoryOffset += it.data.size
 				}
 			},
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
-	private suspend fun loadMoreFuelHistory(vin: String, size: Int): SimpleResult<List<FuelHistory>> =
-		localDataSource.getFuelHistory(vin, size, historyOffset).fold(
+	override suspend fun getMoreFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =
+		localDataSource.getFuelHistory(vin, ITEMS_COUNT_PER_LOAD, nextHistoryOffset).fold(
 			success = { dto ->
-				ResultState.Success(mappers.listEntitiesToDomain(dto)).also {
+				ResultState.success(mappers.listEntitiesToDomain(dto)).also {
 					//update offset
-					historyOffset += it.data.size
+					nextHistoryOffset += it.data.size
 				}
 			},
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
+		)
+	
+	override suspend fun getPreviousFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =
+		localDataSource.getFuelHistory(vin, ITEMS_COUNT_PER_LOAD, previousHistoryOffset).fold(
+			success = { dto ->
+				ResultState.success(mappers.listEntitiesToDomain(dto)).also {
+					//update offset
+					nextHistoryOffset -= it.data.size
+				}
+			},
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
 	override suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit> =

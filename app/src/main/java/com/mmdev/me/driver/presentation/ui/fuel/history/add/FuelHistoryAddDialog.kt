@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.11.2020 19:24
+ * Last modified 07.11.2020 19:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
 import com.mmdev.me.driver.domain.fuel.FuelType.*
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
@@ -42,6 +44,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerValue
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -144,6 +147,14 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				dismiss()
 			}
 			is FuelHistoryAddViewState.Error -> {
+				
+				logError(TAG, "${state.errorMessage}")
+				
+				binding.root.rootView.showSnack(
+					state.errorMessage ?:
+					getString(R.string.fg_fuel_history_add_adding_error),
+					Snackbar.LENGTH_LONG
+				)
 				parentViewModel.shouldBeUpdated.postValue(false)
 			}
 		}

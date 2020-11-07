@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 20:37
+ * Last modified 07.11.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,6 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Error
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Init
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Loading
-import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Paginate
 
 /**
  * state [Loading] controls if loading animation should be displayed
@@ -27,6 +26,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewState.Pag
 sealed class FuelHistoryViewState: ViewState {
 	object Loading: FuelHistoryViewState()
 	data class Init(val data: List<FuelHistory>): FuelHistoryViewState()
-	data class Paginate(val data: List<FuelHistory>): FuelHistoryViewState()
+	data class LoadPrevious(val data: List<FuelHistory>): FuelHistoryViewState()
+	data class LoadNext(val data: List<FuelHistory>): FuelHistoryViewState()
 	data class Error(val errorMessage: String): FuelHistoryViewState()
 }

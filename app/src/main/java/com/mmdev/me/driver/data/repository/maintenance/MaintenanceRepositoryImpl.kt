@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.11.2020 16:49
+ * Last modified 07.11.2020 19:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,7 +36,7 @@ class MaintenanceRepositoryImpl(
 	private companion object {
 		private const val ITEMS_COUNT_PER_LOAD = 20
 		private const val ITEMS_COUNT_IN_POOL = ITEMS_COUNT_PER_LOAD * 2
-		private const val startHistoryOffset = 0
+		private const val NO_OFFSET = 0
 	}
 	
 	//offset cursor position, also represents how many items we've loaded
@@ -86,40 +86,40 @@ class MaintenanceRepositoryImpl(
 		)
 	
 	override suspend fun getInitMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>> =
-		localDataSource.getMaintenanceHistory(vin, ITEMS_COUNT_PER_LOAD, startHistoryOffset).fold(
+		localDataSource.getMaintenanceHistory(vin, ITEMS_COUNT_PER_LOAD, NO_OFFSET).fold(
 			success = { entities ->
 				//reset offset
 				nextHistoryOffset = 0
 				
-				ResultState.Success(mappers.listEntitiesToDomains(entities)).also {
+				ResultState.success(mappers.listEntitiesToDomains(entities)).also {
 					//update offset after first items was loaded
 					nextHistoryOffset += it.data.size
 				}
 			},
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
 	override suspend fun getMoreMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>> =
 		localDataSource.getMaintenanceHistory(vin, ITEMS_COUNT_PER_LOAD, nextHistoryOffset).fold(
 			success = { entities ->
-				ResultState.Success(mappers.listEntitiesToDomains(entities)).also {
+				ResultState.success(mappers.listEntitiesToDomains(entities)).also {
 					//update offset
 					nextHistoryOffset += it.data.size
 					//logWtf(TAG, "$nextHistoryOffset")
 				}
 			},
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
 	override suspend fun getPreviousMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>> =
 		localDataSource.getMaintenanceHistory(vin, ITEMS_COUNT_PER_LOAD, previousHistoryOffset).fold(
 			success = { entities ->
-				ResultState.Success(mappers.listEntitiesToDomains(entities)).also {
+				ResultState.success(mappers.listEntitiesToDomains(entities)).also {
 					//update offset
 					nextHistoryOffset -= it.data.size
 				}
 			},
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
 	override suspend fun getSystemNodeHistory(
@@ -127,7 +127,7 @@ class MaintenanceRepositoryImpl(
 	): SimpleResult<List<VehicleSparePart>> =
 		localDataSource.getSystemNodeHistory(vin, systemNode).fold(
 			success = { ResultState.success(mappers.listEntitiesToDomains(it)) },
-			failure = { throwable -> ResultState.Failure(throwable) }
+			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
 	override suspend fun getHistoryByTypedQuery(

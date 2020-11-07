@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.11.2020 15:20
+ * Last modified 07.11.2020 19:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,7 +49,7 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 	
 	init { loadInitMaintenanceHistory() }
 	
-	fun loadInitMaintenanceHistory() {
+	private fun loadInitMaintenanceHistory() {
 		viewModelScope.launch {
 			viewState.postValue(Loading)
 			

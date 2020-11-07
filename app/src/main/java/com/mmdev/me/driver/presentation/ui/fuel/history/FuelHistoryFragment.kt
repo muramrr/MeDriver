@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 20:39
+ * Last modified 07.11.2020 19:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,12 +17,9 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
-import com.mmdev.me.driver.presentation.ui.common.EndlessRecyclerViewScrollListener
 import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddDialog
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
@@ -34,39 +31,32 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 ) {
 	override val mViewModel: FuelHistoryViewModel by viewModel()
 	
-	private val mFuelHistoryAdapter = FuelHistoryAdapter()
+	private val mAdapter = FuelHistoryAdapter().apply {
+		setToBottomScrollListener {
+			mViewModel.loadNextHistory()
+		}
+		
+		setToTopScrollListener {
+			mViewModel.loadPreviousHistory()
+		}
+	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		mViewModel.getHistoryRecords()
-		mViewModel.shouldBeUpdated.observe(this, { if (it) mViewModel.getHistoryRecords() })
+		mViewModel.shouldBeUpdated.observe(this, { if (it) mViewModel.loadInitHistory() })
 	}
 	
 	override fun setupViews() {
-		mViewModel.viewState.observe(this, {
-			renderState(it)
-		})
+		mViewModel.viewState.observe(this, { renderState(it) })
 		
 		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentVehicle != null
-		
-		val linearLayoutManager = LinearLayoutManager(requireContext())
 		
 		binding.rvFuelHistory.apply {
 			setHasFixedSize(true)
 			//register data observer to automatically scroll to top when new history record added
-			adapter = mFuelHistoryAdapter
+			adapter = mAdapter
 			
-			layoutManager = linearLayoutManager
-			
-			//load more data on scroll
-			addOnScrollListener(object: EndlessRecyclerViewScrollListener(linearLayoutManager) {
-				override fun onLoadMore(lastVisiblePosition: Int, totalCount: Int, shouldBeLoaded: Int) {
-					
-					//todo: properly load
-					//mViewModel.getHistoryRecords(shouldBeLoaded)
-					logWarn(TAG, "scrolled")
-				}
-			})
+			layoutManager = LinearLayoutManager(requireContext())
 		}
 		
 		
@@ -84,12 +74,16 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		when (state) {
 			is FuelHistoryViewState.Init -> {
 				logInfo(TAG, "init data size = ${state.data.size}")
-				mFuelHistoryAdapter.setInitData(state.data)
-				logWtf(TAG, "${state.data}")
+				mAdapter.setInitData(state.data)
+				
 			}
-			is FuelHistoryViewState.Paginate -> {
-				logInfo(TAG, "paginate data size = ${state.data.size}")
-				mFuelHistoryAdapter.insertPaginationData(state.data)
+			is FuelHistoryViewState.LoadNext -> {
+				logInfo(TAG, "loaded next = ${state.data.size}")
+				mAdapter.insertNextData(state.data)
+			}
+			is FuelHistoryViewState.LoadPrevious -> {
+				logInfo(TAG, "loaded previous = ${state.data.size}")
+				mAdapter.insertPreviousData(state.data)
 			}
 			is FuelHistoryViewState.Error -> {
 				logError(TAG, state.errorMessage)

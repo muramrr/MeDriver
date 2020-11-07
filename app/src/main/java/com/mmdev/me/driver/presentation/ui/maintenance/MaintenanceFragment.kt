@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 06.11.2020 15:31
+ * Last modified 07.11.2020 19:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,6 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentMaintenanceBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -41,12 +40,10 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	
 	private val mAdapter = MaintenanceHistoryAdapter().apply {
 		setToBottomScrollListener {
-			logWtf(TAG, "scrolled to bottom, time to insert data to bottom and delete from top")
 			mViewModel.loadNextMaintenanceHistory()
 		}
 		
 		setToTopScrollListener {
-			logWtf(TAG, "scrolled to top, time to insert data on top and delete from bottom")
 			mViewModel.loadPreviousMaintenanceHistory()
 		}
 	}
@@ -77,6 +74,8 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			}
 			
 			rvMaintenance.apply {
+				setHasFixedSize(true)
+				
 				adapter = mAdapter
 				layoutManager = LinearLayoutManager(requireContext())
 				addItemDecoration(LinearItemDecoration())
@@ -120,7 +119,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	}
 
 	override fun renderState(state: ViewState) {
-		super.renderState(state)
 		when (state) {
 			is MaintenanceHistoryViewState.Init -> {
 				logInfo(TAG, "init data size = ${state.data.size}")

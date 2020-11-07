@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 18:20
+ * Last modified 07.11.2020 19:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,9 +13,7 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
-import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.launch
 
@@ -33,43 +31,44 @@ class FuelHistoryViewModel(private val repository: IFuelHistoryRepository): Base
 	//indicates is history empty or not
 	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
-	private val loadedHistory = mutableListOf<FuelHistory>()
+	init { loadInitHistory() }
 	
-	
-	
-	/**
-	 * [repository] call
-	 * @param size defines how many records should be loaded
-	 * if [size] is not specified we are probably loading initial data
-	 * if [size] is specified then we are probably paginating existing data
-	 * If response contains empty list on initial data -> change [isHistoryEmpty] value
-	 *
-	 * todo: make pagination in both sides. loadNext, loadPrev (this one works only loadNext)
-	 */
-	fun getHistoryRecords(size: Int? = null) {
+	fun loadInitHistory() {
 		viewModelScope.launch {
-			
 			viewState.postValue(FuelHistoryViewState.Loading)
 			
-			repository.loadFuelHistory(MedriverApp.currentVehicleVinCode, size).fold(
-				success = { data ->
-					if (size == null) {
-						//in case below no matter if list is empty or not
-						viewState.postValue(FuelHistoryViewState.Init(data = data))
-						
-						//handle empty state visibility
-						isHistoryEmpty.value = data.isEmpty()
-					} // if size was specified
-					else viewState.postValue(FuelHistoryViewState.Paginate(data = data))
-					logDebug(TAG,"history empty? = ${isHistoryEmpty.value}")
-					loadedHistory.addAll(data)
+			repository.getInitFuelHistory(MedriverApp.currentVehicleVinCode).fold(
+				success = {
+					//in case below no matter if list is empty or not
+					viewState.postValue(FuelHistoryViewState.Init(data = it))
+					
+					//handle empty state visibility
+					isHistoryEmpty.value = it.isEmpty()
 				},
-				failure = {
-					if (loadedHistory.isEmpty()) isHistoryEmpty.value = true
-					viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!))
-				}
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
 			)
+		}
+	}
+	
+	fun loadNextHistory() {
+		viewModelScope.launch {
+			//viewState.postValue(Loading)
 			
+			repository.getMoreFuelHistory(MedriverApp.currentVehicleVinCode).fold(
+				success = { viewState.postValue(FuelHistoryViewState.LoadNext(data = it)) },
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
+			)
+		}
+	}
+	
+	fun loadPreviousHistory() {
+		viewModelScope.launch {
+			//viewState.postValue(Loading)
+			
+			repository.getPreviousFuelHistory(MedriverApp.currentVehicleVinCode).fold(
+				success = { viewState.postValue(FuelHistoryViewState.LoadPrevious(data = it)) },
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
+			)
 		}
 	}
 	

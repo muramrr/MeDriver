@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 19:15
+ * Last modified 08.11.2020 16:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -165,6 +165,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		when (MedriverApp.metricSystem) {
 			MetricSystem.KILOMETERS -> {
 				
+				//todo: strange crash, needs fix
 				distancePassedAnimator.apply {
 					addUpdateListener {
 						binding.tvDistancePassedValue.text = String.format(
@@ -184,6 +185,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			
 			MetricSystem.MILES -> {
 				
+				//todo: strange crash, needs fix
 				distancePassedAnimator.apply {
 					addUpdateListener {
 						binding.tvDistancePassedValue.text = String.format(

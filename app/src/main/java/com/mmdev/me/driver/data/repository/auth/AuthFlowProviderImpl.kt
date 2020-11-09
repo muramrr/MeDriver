@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:27
+ * Last modified 08.11.2020 17:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,7 @@ import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
+import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
@@ -125,23 +126,12 @@ class AuthFlowProviderImpl(
 				success = { firestoreUser ->
 					logInfo(TAG, "User retrieved from backend, proceeding...")
 					
-					logDebug(TAG, "Updating installation token...")
-					FirebaseInstallations.getInstance().id.asFlow().collect { result ->
-						result.fold(
-							success = { token ->
-								userRemoteDataSource.updateFirestoreUserField(
-									email = firestoreUser.email,
-									field = INSTALLATION_TOKENS_FIELD,
-									value = mapOf(MedriverApp.androidId to token)
-								).collect {}
-							},
-							failure = { logError(TAG, "${it.message}")}
-						)
-					}
-					
-					
 					// check is email verified fetched
-					checkEmailVerification(firestoreUser, firebaseUser).collect { emit(it) }
+					checkEmailVerification(firestoreUser, firebaseUser).collect {
+						emit(it)
+						logDebug(TAG, "Trying to update device token...")
+						updateDeviceToken(it.email)
+					}
 					
 				},
 				
@@ -271,6 +261,25 @@ class AuthFlowProviderImpl(
 			)
 		}
 	}
+	
+	private suspend fun updateDeviceToken(email: String) =
+		FirebaseInstallations.getInstance().id.asFlow().collect { result ->
+			result.fold(
+				success = { token ->
+					userRemoteDataSource.updateFirestoreUserField(
+						email = email,
+						field = INSTALLATION_TOKENS_FIELD,
+						value = mapOf(MedriverApp.androidId to token)
+					).map { it.toUnit() }.collect { updateResult ->
+						updateResult.fold(
+							success = { logInfo(TAG, "device token has been updated") },
+							failure = { logError(TAG, "device token has NOT been updated")}
+						)
+					}
+				},
+				failure = { logError(TAG, "${it.message}")}
+			)
+		}
 	
 	override fun updateUserModel(user: UserDataInfo): Flow<SimpleResult<Unit>> =
 		userRemoteDataSource.writeFirestoreUser(

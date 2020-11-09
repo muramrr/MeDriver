@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 09.11.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,7 @@ import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.ENGLISH
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
+import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.getAndroidId
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper
@@ -38,9 +39,13 @@ import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.revenuecat.purchases.Purchases
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Contains dependency modules
@@ -123,7 +128,33 @@ class MedriverApp : Application() {
 		@Volatile
 		var currentVehicle: Vehicle? = null
 			@Synchronized set
-	
+		
+		
+		@Volatile
+		var isNetworkAvailable: Boolean = false
+			@Synchronized set
+		
+		fun isInternetWorking(): Boolean = if (isNetworkAvailable) {
+			runBlocking {
+				withContext(MyDispatchers.io()) {
+					try {
+						//ping firestore api
+						val url = URL("https://firestore.googleapis.com/")
+						//val url = URL("https://google.com")
+						val connection = url.openConnection() as HttpURLConnection
+						connection.connectTimeout = 10000
+						connection.connect()
+						//logWtf(TAG, "${connection.responseCode}")
+						connection.responseCode in arrayOf(200, 404)
+					} catch (e: Throwable) {
+						e.printStackTrace()
+						false
+					}
+				}
+			}
+		}
+		else false
+		
 		
 		@Volatile
 		var debug: DebugConfig = DebugConfig.Default

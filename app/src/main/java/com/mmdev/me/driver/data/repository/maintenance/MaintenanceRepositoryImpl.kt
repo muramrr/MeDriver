@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 19:39
+ * Last modified 09.11.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.repository.maintenance
 
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
@@ -62,19 +63,21 @@ class MaintenanceRepositoryImpl(
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertReplacedSpareParts(mappers.listDomainsToEntities(items)).fold(
 			success = { result ->
-				//check if user is premium && is sync enabled to write to backend
-				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled)
+				
+				//check if user is premium && is sync enabled && network is accessible
+				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled && MedriverApp.isNetworkAvailable) {
 					remoteDataSource.addMaintenanceHistoryItems(
-						user.email,
-						items.first().vehicleVinCode,
-						mappers.listDomainsToDto(items)
+						user.email, items.first().vehicleVinCode, mappers.listDomainsToDto(items)
 					).collect { emit(it) }
+				}
 				
 				//otherwise result is success because writing to database was successful
-				else emit(ResultState.success(result))
+				else {
+					//todo: write operation id to cache
+					emit(ResultState.success(result))
+				}
 			},
-			failure = { throwable -> emit(ResultState.failure(throwable)) }
-		)
+			failure = { throwable -> emit(ResultState.failure(throwable)) })
 	}
 	
 	override suspend fun findLastReplaced(

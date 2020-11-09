@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 18:45
+ * Last modified 09.11.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,15 +29,18 @@ import kotlinx.coroutines.flow.flow
 private const val TAG = "mylogs_FirestoreExtensions"
 
 fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<T>> = flow {
-	logDebug(TAG, "Trying to retrieve document from backend...")
+	logDebug(TAG, "Trying to retrieve document `$path` from backend...")
 	this@getAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { snapshot ->
 				logInfo(TAG, "Document retrieve success")
+				logDebug(TAG, "is from cache? ${snapshot?.metadata?.isFromCache}, " +
+				              "has pending writes? ${snapshot?.metadata?.hasPendingWrites()}")
+				
 				if (snapshot.exists() && snapshot.data != null) {
-					logInfo(TAG, "Data is not null, deserialization in process...")
+					logDebug(TAG, "Data is not null, deserialization in process...")
 					val serializedDoc: T = snapshot.toObject(clazz)!!
-					logInfo(TAG, "Deserialization succeed...")
+					logInfo(TAG, "Deserialization to ${clazz.simpleName} succeed...")
 					emit(ResultState.success(serializedDoc))
 				}
 				else {
@@ -55,15 +58,15 @@ fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleR
 }
 
 fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<List<T>>> = flow {
-	logDebug(TAG, "Trying to execute given query...")
+	logDebug(TAG, "Trying to execute given $this@executeAndDeserializeAsFlow query...")
 	this@executeAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { querySnapshot ->
 				logInfo(TAG, "Query execute successfully")
 				if (!querySnapshot.isEmpty) {
-					logInfo(TAG, "Query result is not empty, deserialization in process...")
+					logDebug(TAG, "Query result is not empty, deserialization in process...")
 					val resultList = querySnapshot.map { it.toObject(clazz) }
-					logInfo(TAG, "Deserialization succeed...")
+					logInfo(TAG, "Deserialization to ${clazz.simpleName} succeed...")
 					emit(ResultState.success(resultList))
 				}
 				else {
@@ -86,15 +89,14 @@ fun <T> DocumentReference.setAsFlow(dataClass: T): Flow<SimpleResult<Unit>> = fl
 	this@setAsFlow.set(dataClass!!).asFlow().collect{ result ->
 		result.fold(
 			success = {
-				logInfo(TAG, "set document successfully")
+				logInfo(TAG, "Set $dataClass as document successfully")
 				emit(ResultState.success(Unit))
 			},
 			failure = {
-				logError(TAG, "set document error, $it")
+				logError(TAG, "set $dataClass as document error, $it")
 				emit(ResultState.failure(it))
 			}
 		)
 		
 	}
 }
-

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 09.11.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,22 +19,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.getOfferingsWith
-import com.revenuecat.purchases.identifyWith
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
 	
-	companion object {
-		private const val TAG = "mylogs_MainActivity"
-	}
+	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
 	
@@ -108,13 +104,13 @@ class MainActivity: AppCompatActivity() {
 		sharedViewModel.userDataInfo.observe(this, {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
-				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
+			//	Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
 				//	logWtf(TAG, "$purchaserInfo")
-				}
+				//}
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
-				Purchases.sharedInstance.reset()
+			//	Purchases.sharedInstance.reset()
 			}
 			
 			MedriverApp.currentUser = it
@@ -136,15 +132,21 @@ class MainActivity: AppCompatActivity() {
 		
 		})
 		
+		setListeners()
 		
-		Purchases.sharedInstance.getOfferingsWith(
-			onError = { error ->
-				logWtf(TAG, error.message)
-			},
-			onSuccess = { offerings ->
-				logWtf(TAG, "${offerings.all}")
-			}
-		)
+//		Purchases.sharedInstance.getOfferingsWith(
+//			onError = { error ->
+//				logWtf(TAG, error.message)
+//			},
+//			onSuccess = { offerings ->
+//				logWtf(TAG, "${offerings.all}")
+//			}
+//		)
 	}
-	
+	private fun setListeners() {
+		ConnectionManager(this, this) { isConnected ->
+			MedriverApp.isNetworkAvailable = isConnected
+			logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
+		}
+	}
 }

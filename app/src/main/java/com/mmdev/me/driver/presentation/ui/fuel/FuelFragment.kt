@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.10.2020 15:05
+ * Last modified 09.11.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesFragment
  *
  */
 
-class FuelFragment : BaseFlowFragment<Nothing, FragmentFuelBinding>(
+class FuelFragment: BaseFlowFragment<Nothing, FragmentFuelBinding>(
 	R.layout.fragment_fuel
 ) {
 	
@@ -44,7 +44,6 @@ class FuelFragment : BaseFlowFragment<Nothing, FragmentFuelBinding>(
 				1 -> tab.text = getString(R.string.fg_fuel_tab_history)
 			}
 		}.attach()
-		
 	}
 	
 	private class FuelPagerAdapter (fm: FragmentManager, lifecycle: Lifecycle) :

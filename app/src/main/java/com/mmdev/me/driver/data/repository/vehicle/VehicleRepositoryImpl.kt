@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:27
+ * Last modified 09.11.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.repository.vehicle
 
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
@@ -52,13 +53,18 @@ class VehicleRepositoryImpl(
 	): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.insertVehicle(mappers.domainToEntity(vehicle)).fold(
 			success = { result ->
-				//check if user is premium to backup to backend
-				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled)
-					remoteDataSource.addVehicle(user.email, mappers.domainToApiDto(vehicle)).collect {
-						emit(it)
-					}
+			
+				//check if user is premium && is sync enabled && network is accessible
+				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled && MedriverApp.isNetworkAvailable) {
+					remoteDataSource.addVehicle(
+						user.email, mappers.domainToApiDto(vehicle)
+					).collect { emit(it) }
+				}
 				//otherwise result is success because writing to database was successful
-				else emit(ResultState.success(result))
+				else {
+					//todo: write operation id to cache
+					emit(ResultState.success(result))
+				}
 			},
 			failure = { throwable -> emit(ResultState.failure(throwable)) }
 		)

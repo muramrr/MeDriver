@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 17:36
+ * Last modified 10.11.2020 18:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,9 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
+import com.mmdev.me.driver.core.utils.log.logWarn
+import com.mmdev.me.driver.data.cache.CacheDao
+import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
@@ -19,8 +22,15 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  * [IVehicleLocalDataSource] implementation
  */
 
-class VehicleLocalDataSourceImpl(private val dao: VehicleDao):
-		IVehicleLocalDataSource, BaseDataSource() {
+class VehicleLocalDataSourceImpl(
+	private val dao: VehicleDao,
+	private val cache: CacheDao
+): IVehicleLocalDataSource, BaseDataSource() {
+	
+	override suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit> =
+		safeCall(TAG) { cache.insertOperation(cachedOperation) }.also {
+			logWarn(TAG, "Something doesn't require to write to backend, caching operation:$cachedOperation")
+		}
 	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =
 		safeCall(TAG) { dao.getAllVehicles() }

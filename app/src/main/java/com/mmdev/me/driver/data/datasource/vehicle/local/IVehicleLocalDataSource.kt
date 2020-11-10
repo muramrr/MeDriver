@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 17:23
+ * Last modified 10.11.2020 18:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
+import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -18,6 +19,8 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  */
 
 interface IVehicleLocalDataSource {
+	
+	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
 	suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>>
 	

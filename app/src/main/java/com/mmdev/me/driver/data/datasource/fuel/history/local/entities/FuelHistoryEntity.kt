@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 18:50
+ * Last modified 10.11.2020 17:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ package com.mmdev.me.driver.data.datasource.fuel.history.local.entities
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -25,7 +26,7 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  * @see com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
  */
 
-@Entity(tableName = "fuel_history")
+@Entity(tableName = MeDriverRoomDatabase.FUEL_HISTORY_TABLE)
 data class FuelHistoryEntity(
 	val commentary: String,
 	val date: Long,

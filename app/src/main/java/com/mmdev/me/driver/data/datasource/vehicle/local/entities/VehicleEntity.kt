@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 10.11.2020 17:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,12 +13,13 @@ package com.mmdev.me.driver.data.datasource.vehicle.local.entities
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 /**
  *
  */
-@Entity(tableName = "vehicles")
+@Entity(tableName = MeDriverRoomDatabase.VEHICLES_TABLE)
 data class VehicleEntity (
 	val brand: String,
 	val model: String,

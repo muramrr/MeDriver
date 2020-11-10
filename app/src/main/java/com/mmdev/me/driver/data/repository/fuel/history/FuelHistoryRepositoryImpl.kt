@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 18:01
+ * Last modified 10.11.2020 18:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,10 @@
 package com.mmdev.me.driver.data.repository.fuel.history
 
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
@@ -65,22 +68,31 @@ class FuelHistoryRepositoryImpl (
 	override suspend fun addFuelHistoryRecord(
 		user: UserDataInfo?, history: FuelHistory
 	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.insertFuelHistoryEntry(mappers.domainToEntity(history)).fold(
-			success = { result ->
-				
+		val entity = mappers.domainToEntity(history)
+		localDataSource.insertFuelHistoryEntry(entity).fold(
+			success = {
 				//check if user is premium && is sync enabled && network is accessible
-				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled && MedriverApp.isInternetWorking()) {
-					remoteDataSource.addFuelHistory(
-						user.email, history.vehicleVinCode, mappers.domainToDto(history)
-					).collect { emit(it) }
-				}
+				addToBackend(
+					user,
+					MedriverApp.isInternetWorking(),
+					cacheOperation = { reason ->
+						emit(
+							localDataSource.cachePendingWriteToBackend(
+								CachedOperation(
+									MeDriverRoomDatabase.FUEL_HISTORY_TABLE,
+									entity.dateAdded.toString(),
+									reason.name
+								)
+							)
+						)
+					},
+					serverOperation = {
+						remoteDataSource.addFuelHistory(
+							user!!.email, history.vehicleVinCode, mappers.domainToDto(history)
+						).collect { emit(it) }
+					}
+				)
 				
-				//otherwise result is success because writing to database was successful +
-				// remember operation id to invoke work manager when network will be available
-				else {
-					//todo: write operation id to cache
-					emit(ResultState.success(result))
-				}
 			}, failure = { throwable -> emit(ResultState.failure(throwable)) })
 		
 	}

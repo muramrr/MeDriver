@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:27
+ * Last modified 10.11.2020 18:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,10 @@
 package com.mmdev.me.driver.data.repository.vehicle
 
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
 import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
@@ -51,20 +54,29 @@ class VehicleRepositoryImpl(
 		user: UserDataInfo?,
 		vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.insertVehicle(mappers.domainToEntity(vehicle)).fold(
-			success = { result ->
-			
-				//check if user is premium && is sync enabled && network is accessible
-				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled && MedriverApp.isNetworkAvailable) {
-					remoteDataSource.addVehicle(
-						user.email, mappers.domainToApiDto(vehicle)
-					).collect { emit(it) }
-				}
-				//otherwise result is success because writing to database was successful
-				else {
-					//todo: write operation id to cache
-					emit(ResultState.success(result))
-				}
+		val entity = mappers.domainToEntity(vehicle)
+		localDataSource.insertVehicle(entity).fold(
+			success = {
+				addToBackend(
+					user,
+					MedriverApp.isInternetWorking(),
+					cacheOperation = { reason ->
+						emit(
+							localDataSource.cachePendingWriteToBackend(
+								CachedOperation(
+									MeDriverRoomDatabase.VEHICLES_TABLE,
+									entity.vin,
+									reason.name
+								)
+							)
+						)
+					},
+					serverOperation = {
+						remoteDataSource.addVehicle(
+							user!!.email, mappers.domainToApiDto(vehicle)
+						).collect { emit(it) }
+					}
+				)
 			},
 			failure = { throwable -> emit(ResultState.failure(throwable)) }
 		)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 17:30
+ * Last modified 10.11.2020 18:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,12 +34,12 @@ val DataSourceLocalModule = module {
 	
 	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataManipulator = get()) }
 	
-	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get()) }
+	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get(), cache = get()) }
 	
-	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get()) }
+	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get(), cache = get()) }
 	single<IVinLocalDataSource> { VinLocalDataSourceImpl() }
 	
 	single<IFuelPricesLocalDataSource> { FuelPricesLocalDataSourceImpl(dao = get()) }
-	single<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get()) }
+	single<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get(), cache = get()) }
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 17:52
+ * Last modified 10.11.2020 17:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,8 @@ package com.mmdev.me.driver.data.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.mmdev.me.driver.data.cache.CacheDao
+import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
@@ -24,10 +26,11 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 
 /**
- * RoomDatabase
+ * Local [RoomDatabase]
  */
 
 @Database(entities = [
+	CachedOperation::class,
 	FuelStationEntity::class,
 	FuelPriceEntity::class,
 	FuelSummaryEntity::class,
@@ -37,7 +40,18 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 ],
           version = 1,
           exportSchema = false)
-abstract class MeDriverRoomDatabase : RoomDatabase() {
+abstract class MeDriverRoomDatabase: RoomDatabase() {
+	
+	companion object {
+		const val CACHE_OPERATIONS_TABLE = "cached_operations"
+		const val FUEL_HISTORY_TABLE = "fuel_history"
+		const val FUEL_STATIONS_TABLE = "fuel_stations"
+		const val FUEL_SUMMARY_TABLE = "fuel_summary"
+		const val VEHICLES_TABLE = "vehicles"
+		const val MAINTENANCE_HISTORY_TABLE = "vehicle_replaced_parts"
+	}
+	
+	abstract fun getCacheDao(): CacheDao
 	
 	abstract fun getMaintenanceDao(): MaintenanceDao
 	

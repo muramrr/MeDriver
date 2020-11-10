@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:27
+ * Last modified 10.11.2020 18:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,10 @@
 package com.mmdev.me.driver.data.repository.maintenance
 
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
@@ -61,23 +64,34 @@ class MaintenanceRepositoryImpl(
 		user: UserDataInfo?,
 		items: List<VehicleSparePart>
 	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.insertReplacedSpareParts(mappers.listDomainsToEntities(items)).fold(
-			success = { result ->
-				
-				//check if user is premium && is sync enabled && network is accessible
-				if (user != null && user.isSubscriptionValid() && user.isSyncEnabled && MedriverApp.isNetworkAvailable) {
-					remoteDataSource.addMaintenanceHistoryItems(
-						user.email, items.first().vehicleVinCode, mappers.listDomainsToDto(items)
-					).collect { emit(it) }
-				}
-				
-				//otherwise result is success because writing to database was successful
-				else {
-					//todo: write operation id to cache
-					emit(ResultState.success(result))
-				}
+		val entities = mappers.listDomainsToEntities(items)
+		localDataSource.insertReplacedSpareParts(entities).fold(
+			success = {
+				addToBackend(
+					user,
+					MedriverApp.isInternetWorking(),
+					cacheOperation = { cachingReason ->
+						emit(
+							localDataSource.cachePendingWriteToBackend(
+								entities.map {
+									CachedOperation(
+										MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE,
+										it.dateAdded.toString(),
+										cachingReason.name
+									)
+								}
+							)
+						)
+					},
+					serverOperation = {
+						remoteDataSource.addMaintenanceHistoryItems(
+							user!!.email, items.first().vehicleVinCode, mappers.listDomainsToDto(items)
+						).collect { emit(it) }
+					}
+				)
 			},
-			failure = { throwable -> emit(ResultState.failure(throwable)) })
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
 	}
 	
 	override suspend fun findLastReplaced(

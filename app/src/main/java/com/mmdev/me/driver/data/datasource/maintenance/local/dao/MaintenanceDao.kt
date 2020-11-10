@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:04
+ * Last modified 10.11.2020 17:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 
 /**
@@ -28,7 +29,7 @@ interface MaintenanceDao {
 	
 	@Query(
 		"""
-		SELECT * FROM vehicle_replaced_parts
+		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		AND systemNode = :systemNode
 		AND searchCriteria = :component
@@ -47,7 +48,7 @@ interface MaintenanceDao {
 	
 	@Query(
 		"""
-		SELECT * FROM vehicle_replaced_parts
+		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		ORDER BY date DESC
 		LIMIT :limit OFFSET :offset
@@ -64,7 +65,7 @@ interface MaintenanceDao {
 	
 	@Query(
 		"""
-		SELECT * FROM vehicle_replaced_parts
+		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		AND systemNode = :systemNode
 		ORDER BY date DESC
@@ -82,7 +83,7 @@ interface MaintenanceDao {
 	 */
 	@Query(
 		"""
-		SELECT * FROM vehicle_replaced_parts
+		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		AND searchCriteria LIKE :typedQuery
 		OR systemNodeComponent LIKE :typedQuery
@@ -96,7 +97,8 @@ interface MaintenanceDao {
 		typedQuery: String
 	): List<VehicleSparePartEntity>
 	
-	
+	@Query("SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE} WHERE dateAdded = :key")
+	suspend fun getById(key: Long): VehicleSparePartEntity?
 	
 	
 	
@@ -109,6 +111,6 @@ interface MaintenanceDao {
 	@Delete
 	suspend fun deleteVehicleReplacedSparePart(replacedSparePart: VehicleSparePartEntity)
 	
-	@Query("DELETE FROM vehicle_replaced_parts")
+	@Query("DELETE FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}")
 	suspend fun clearHistory()
 }

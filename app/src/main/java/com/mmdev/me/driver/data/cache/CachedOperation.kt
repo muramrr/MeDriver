@@ -1,30 +1,27 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:15
+ * Last modified 10.11.2020 17:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.datasource.fuel.prices.local.entities
+package com.mmdev.me.driver.data.cache
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 
 /**
- *
+ * Describes database entity to store cached operation info
  */
-@Entity(tableName = MeDriverRoomDatabase.FUEL_SUMMARY_TABLE)
-data class FuelSummaryEntity(
-	val typeCode: Int,
-	val minPrice: String,
-	val maxPrice: String,
-	val avgPrice: String,
-	val updatedDate: String
-) {
+
+@Entity(tableName = MeDriverRoomDatabase.CACHE_OPERATIONS_TABLE)
+data class CachedOperation(
+	val tableName: String,
 	@PrimaryKey
-	var summaryId: String = updatedDate + "_$typeCode"
-}
+	val recordId: String,
+	val reasonAddingToCache: String
+)

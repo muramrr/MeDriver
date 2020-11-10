@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 10.11.2020 18:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -52,7 +53,7 @@ class SharedViewModel(
 	 * this function is triggered to update actual info.
 	 */
 	fun updateVehicle(user: UserDataInfo?, vehicle: Vehicle) {
-		logWarn(TAG, "Updating vehicle..")
+		logInfo(TAG, "Updating vehicle..")
 		viewModelScope.launch {
 			fetcher.updateVehicle(user, vehicle).collect { result ->
 				result.fold(

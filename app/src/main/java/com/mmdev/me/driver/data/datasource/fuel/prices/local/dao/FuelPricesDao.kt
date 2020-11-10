@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.10.2020 16:41
+ * Last modified 10.11.2020 17:15
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPrices
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
@@ -29,7 +30,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummar
 interface FuelPricesDao {
 	
 	@Transaction
-	@Query("SELECT * FROM fuel_stations WHERE updatedDate = :date")
+	@Query("SELECT * FROM ${MeDriverRoomDatabase.FUEL_STATIONS_TABLE} WHERE updatedDate = :date")
 	suspend fun getFuelPrices(date: String): List<FuelStationAndPrices>
 	
 	@Transaction
@@ -45,21 +46,21 @@ interface FuelPricesDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertFuelPrices(fuelPrices: List<FuelPriceEntity>)
 	
-	@Query("DELETE FROM fuel_stations")
+	@Query("DELETE FROM ${MeDriverRoomDatabase.FUEL_STATIONS_TABLE}")
 	suspend fun deleteAllFuelStations()
 	
 	
 	@VisibleForTesting
-	@Query("SELECT * FROM fuel_summary")
+	@Query("SELECT * FROM ${MeDriverRoomDatabase.FUEL_SUMMARY_TABLE}")
 	suspend fun getFuelSummaries(): List<FuelSummaryEntity>
 	
-	@Query("SELECT * FROM fuel_summary WHERE typeCode = :fuelType AND updatedDate = :updatedDate")
+	@Query("SELECT * FROM ${MeDriverRoomDatabase.FUEL_SUMMARY_TABLE} WHERE typeCode = :fuelType AND updatedDate = :updatedDate")
 	suspend fun getFuelSummary(fuelType: Int, updatedDate: String): List<FuelSummaryEntity>
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFuelSummary(fuelSummaryEntity: FuelSummaryEntity)
 	
-	@Query("DELETE FROM fuel_summary")
+	@Query("DELETE FROM ${MeDriverRoomDatabase.FUEL_SUMMARY_TABLE}")
 	suspend fun deleteAllFuelSummaries()
 	
 }

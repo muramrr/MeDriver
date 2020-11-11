@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:17
+ * Last modified 11.11.2020 18:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,13 +21,12 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 interface IVehicleLocalDataSource {
 	
 	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
+	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
+	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
 	suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>>
-	
 	suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity>
-	
 	suspend fun insertVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit>
-	
 	suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit>
 	
 	suspend fun clearAll(): SimpleResult<Unit>

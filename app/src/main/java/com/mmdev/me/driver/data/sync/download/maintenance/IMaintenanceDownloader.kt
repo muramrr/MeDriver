@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 16:40
+ * Last modified 11.11.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.sync.fuel.download
+package com.mmdev.me.driver.data.sync.download.maintenance
 
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
  *
  */
 
-interface IFuelHistoryDownloader {
+interface IMaintenanceDownloader {
 	suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
 	suspend fun clear(): SimpleResult<Unit>
 }

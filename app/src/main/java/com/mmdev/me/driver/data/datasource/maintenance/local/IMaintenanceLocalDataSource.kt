@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:12
+ * Last modified 11.11.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,8 @@ interface IMaintenanceLocalDataSource {
 	
 	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
 	suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit>
+	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
+	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
 	suspend fun findLastReplaced(
 		vin: String,
@@ -35,6 +37,7 @@ interface IMaintenanceLocalDataSource {
 		offset: Int
 	): SimpleResult<List<VehicleSparePartEntity>>
 	
+	suspend fun getRecordById(key: Long): SimpleResult<VehicleSparePartEntity?>
 	
 	suspend fun getByTypedQuery(
 		vin: String,

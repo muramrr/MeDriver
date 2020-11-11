@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 16:37
+ * Last modified 11.11.2020 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,15 +38,14 @@ class FuelHistoryMappersFacade {
 	
 	// in: domain, out: * entity, dto
 	fun domainToEntity(domain: FuelHistory): FuelHistoryEntity = DomainMappers.toEntity(domain)
-	
 	fun domainToDto(domain: FuelHistory): FuelHistoryDto = DomainMappers.toDto(domain)
 	
 	
 	
 	
 	// in: Db Entity, out: * domain, dto
-	// in: Db Entity, out: * domain, dto
-	fun entityToDomain(input: FuelHistoryEntity): FuelHistory = EntityMappers.toDomain(input)
+	fun entityToDomain(entity: FuelHistoryEntity): FuelHistory = EntityMappers.toDomain(entity)
+	fun entityToDto(entity: FuelHistoryEntity): FuelHistoryDto = EntityMappers.toDto(entity)
 	
 	fun listEntitiesToDomain(input: List<FuelHistoryEntity>): List<FuelHistory> =
 		mapList(input) { EntityMappers.toDomain(it) }

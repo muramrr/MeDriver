@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:04
+ * Last modified 11.11.2020 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,8 +21,12 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 interface IFuelHistoryLocalDataSource {
 	
 	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
+	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
+	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
+	
 	suspend fun getFuelHistory(vin: String, limit: Int, offset: Int): SimpleResult<List<FuelHistoryEntity>>
 	suspend fun getFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistoryEntity?>
+	suspend fun getRecordById(key: Long): SimpleResult<FuelHistoryEntity?>
 	suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit>
 	suspend fun importFuelHistory(import: List<FuelHistoryEntity>): SimpleResult<Unit>
 	suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit>

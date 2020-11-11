@@ -1,14 +1,14 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:15
+ * Last modified 11.11.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.sync.vehicle.download
+package com.mmdev.me.driver.data.sync.download.vehicle
 
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
@@ -40,7 +40,7 @@ class VehicleDownloader(
 					vehicles.asFlow().flatMapMerge { vehicleDto ->
 						logDebug(TAG, "Inserting vehicle: ${vehicleDto.brand} ${vehicleDto.model}")
 						flow {
-							local.insertVehicle(mappers.apiDtoToEntity(vehicleDto)).fold(
+							local.insertVehicle(mappers.dtoToEntity(vehicleDto)).fold(
 								success = { emit(ResultState.success(vehicleDto.vin)) },
 								failure = { emit(ResultState.failure(it)) }
 							)

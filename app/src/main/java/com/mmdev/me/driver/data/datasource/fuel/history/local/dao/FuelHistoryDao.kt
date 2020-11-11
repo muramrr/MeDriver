@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:21
+ * Last modified 11.11.2020 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,7 +48,7 @@ interface FuelHistoryDao {
 	suspend fun getVehicleFuelHistoryFirst(vin: String): FuelHistoryEntity?
 	
 	@Query("SELECT * FROM ${MeDriverRoomDatabase.FUEL_HISTORY_TABLE} WHERE dateAdded = :key")
-	suspend fun getVehicleFuelHistoryById(key: Long): FuelHistoryEntity?
+	suspend fun getRecordById(key: Long): FuelHistoryEntity?
 	
 	@Insert(onConflict = OnConflictStrategy.ABORT)
 	suspend fun insertFuelHistoryEntity(fuelHistoryEntity: FuelHistoryEntity)

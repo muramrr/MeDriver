@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:52
+ * Last modified 11.11.2020 18:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,13 +40,13 @@ class VehicleMappersFacade {
 		)
 	
 	// in: dto, out: * entity, domain
-	fun apiDtoToEntity(dto: VehicleDto): VehicleEntity = DtoMappers.toEntity(dto)
+	fun dtoToEntity(dto: VehicleDto): VehicleEntity = DtoMappers.toEntity(dto)
 	
-	fun listApiDtoToDomain(input: List<VehicleDto>): List<Vehicle> =
+	fun listDtoToDomain(input: List<VehicleDto>): List<Vehicle> =
 		mapList(input) { DtoMappers.toDomain(it) }
 	
-	fun listApiDtoToEntity(input: List<VehicleDto>): List<VehicleEntity> =
-		mapList(input) { apiDtoToEntity(it) }
+	fun listDtoToEntity(input: List<VehicleDto>): List<VehicleEntity> =
+		mapList(input) { dtoToEntity(it) }
 	
 	
 	
@@ -54,12 +54,14 @@ class VehicleMappersFacade {
 	// in: domain, out: * entity, dto
 	fun domainToEntity(domain: Vehicle): VehicleEntity = DomainMappers.toEntity(domain)
 	
-	fun domainToApiDto(domain: Vehicle): VehicleDto = DomainMappers.toDto(domain)
+	fun domainToDto(domain: Vehicle): VehicleDto = DomainMappers.toDto(domain)
 	
 	
 	
 	
 	// in: entity, out: * domain, dto
+	fun entityToDto(entity: VehicleEntity): VehicleDto = EntityMappers.toDto(entity)
+	
 	fun listEntitiesToDomain(input: List<VehicleEntity>): List<Vehicle> =
 		mapList(input) { EntityMappers.toDomain(it) }
 	

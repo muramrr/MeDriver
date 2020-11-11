@@ -1,23 +1,23 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:26
+ * Last modified 11.11.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.data.sync
+package com.mmdev.me.driver.data.sync.download
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
-import com.mmdev.me.driver.data.sync.fuel.download.IFuelHistoryDownloader
-import com.mmdev.me.driver.data.sync.maintenance.download.IMaintenanceDownloader
-import com.mmdev.me.driver.data.sync.vehicle.download.IVehicleDownloader
+import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
+import com.mmdev.me.driver.data.sync.download.maintenance.IMaintenanceDownloader
+import com.mmdev.me.driver.data.sync.download.vehicle.IVehicleDownloader
 import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.core.combineWith
+import com.mmdev.me.driver.domain.core.combineResultStates
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
@@ -57,10 +57,9 @@ class DataDownloader(
 	}
 	
 	private suspend fun downloadCombination(email: String, vin: String) =
-		fuelHistory.download(email, vin).combine(
-			maintenance.download(email, vin)
-		) { fuel, maintenance ->
+		fuelHistory.download(email, vin)
+			.combine(maintenance.download(email, vin)) { fuelResult, maintenanceResult ->
 			logDebug(TAG, "Running combination of downloading both fuel and maintenance history...")
-			fuel.combineWith(maintenance)
+			combineResultStates(fuelResult, maintenanceResult)
 		}
 }

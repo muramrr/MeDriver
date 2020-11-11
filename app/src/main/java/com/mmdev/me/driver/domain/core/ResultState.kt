@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 16:58
+ * Last modified 11.11.2020 17:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,10 +41,11 @@ sealed class ResultState<out T, out E> {
 	
 }
 
-fun SimpleResult<Unit>.combineWith(
-	other: SimpleResult<Unit>
+fun combineResultStates(
+	first: SimpleResult<Unit>,
+	second: SimpleResult<Unit>
 ): SimpleResult<Unit> = when {
-	this is ResultState.Failure -> ResultState.failure(this.error)
-	other is ResultState.Failure -> ResultState.failure(other.error)
+	first is ResultState.Failure -> ResultState.failure(first.error)
+	second is ResultState.Failure -> ResultState.failure(second.error)
 	else -> ResultState.success(Unit)
 }

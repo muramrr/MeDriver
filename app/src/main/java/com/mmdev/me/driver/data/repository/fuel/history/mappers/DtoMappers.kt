@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.10.2020 14:52
+ * Last modified 11.11.2020 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,8 +17,9 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStatio
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 
 /**
  * In [FuelHistoryDto] -> Out: [FuelHistoryEntity], [FuelHistory]
@@ -30,7 +31,7 @@ object DtoMappers {
 	fun toEntity(dto: FuelHistoryDto): FuelHistoryEntity =
 		FuelHistoryEntity(
 			commentary = dto.commentary,
-			date = Instant.parse(dto.date).toEpochMilliseconds(),
+			date = LocalDateTime.parse(dto.date).toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
 			dateAdded = dto.dateAdded,
 			distancePassedBound = dto.distancePassedBound,
 			filledLiters = dto.filledLiters,

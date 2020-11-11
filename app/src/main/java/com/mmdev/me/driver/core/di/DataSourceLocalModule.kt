@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:18
+ * Last modified 11.11.2020 17:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ import org.koin.dsl.module
 
 val DataSourceLocalModule = module {
 	
-	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataManipulator = get()) }
+	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataDownloader = get()) }
 	
 	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get(), cache = get()) }
 	

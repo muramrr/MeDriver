@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 18:25
+ * Last modified 11.11.2020 16:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,8 @@ import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.core.base.BaseDataSource
-import com.mmdev.me.driver.data.datasource.DataManipulator
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
+import com.mmdev.me.driver.data.sync.DataDownloader
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ import kotlinx.serialization.json.Json
 
 class UserLocalDataSourceImpl(
 	private val prefs: KsPrefs,
-	private val dataManipulator: DataManipulator
+	private val dataDownloader: DataDownloader
 ): IUserLocalDataSource, BaseDataSource() {
 	
 	private companion object {
@@ -56,13 +56,13 @@ class UserLocalDataSourceImpl(
 					
 					if (savedUser.email != userEntity.email){
 						logWtf(TAG, "Email differs")
-						dataManipulator.deleteAll()
-						dataManipulator.downloadData(userEntity.email).collect {
+						dataDownloader.deleteAll()
+						dataDownloader.downloadData(userEntity.email).collect {
 							logWtf(TAG, "$it")
 						}
 					}
 				}
-				else dataManipulator.downloadData(userEntity.email).collect {
+				else dataDownloader.downloadData(userEntity.email).collect {
 					logWtf(TAG, "$it")
 				}
 				

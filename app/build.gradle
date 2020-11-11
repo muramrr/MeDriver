@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.11.2020 19:19
+ * Last modified 11.11.2020 14:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,11 +65,11 @@ android {
 }
 
 dependencies {
-	coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+	coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.0'
 	implementation fileTree(dir: "libs", include: ["*.jar"])
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
-	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0"
-	implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20-RC"
+	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1"
+	implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 	implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.1.0"
 	implementation "androidx.core:core-ktx:1.5.0-alpha04"
 //	implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
@@ -85,8 +85,8 @@ dependencies {
 	implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
 
 	//Kotlin Coroutines
-	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0"
-	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0"
+	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
 	//ViewModel Scope
 	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-beta01"
 	//LiveData extensions
@@ -111,11 +111,14 @@ dependencies {
 	implementation 'com.cioccarellia:ksprefs:2.0.0'
 
 	//purchases
-	implementation 'com.revenuecat.purchases:purchases:3.5.3'
+	implementation 'com.revenuecat.purchases:purchases:4.0.0'
+
+	//WorkManager
+	implementation "androidx.work:work-runtime-ktx:2.5.0-beta01"
 
 	testImplementation "junit:junit:4.13.1"
 	testImplementation "io.mockk:mockk:1.10.2"
-	testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.0"
+	testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1"
 	testImplementation "androidx.arch.core:core-testing:2.1.0"
 	androidTestImplementation "io.mockk:mockk-android:1.10.2"
 	androidTestImplementation "androidx.test.ext:junit:1.1.3-alpha02"

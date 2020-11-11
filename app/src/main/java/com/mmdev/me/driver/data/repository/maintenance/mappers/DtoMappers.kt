@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 16:33
+ * Last modified 11.11.2020 17:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,9 @@ import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePa
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildBy
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 
 /**
  * In [VehicleSparePartDto] -> Out: [VehicleSparePart], [VehicleSparePartEntity]
@@ -42,7 +43,7 @@ object DtoMappers {
 	
 	fun toEntity(dto: VehicleSparePartDto): VehicleSparePartEntity =
 		VehicleSparePartEntity(
-			date = Instant.parse(dto.date).toEpochMilliseconds(),
+			date = LocalDateTime.parse(dto.date).toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
 			dateAdded = dto.dateAdded,
 			articulus = dto.articulus,
 			vendor = dto.vendor,

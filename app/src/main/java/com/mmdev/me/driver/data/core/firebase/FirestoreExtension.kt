@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:08
+ * Last modified 11.11.2020 17:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,8 +34,6 @@ fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleR
 		result.fold(
 			success = { snapshot ->
 				logInfo(TAG, "Document retrieve success")
-				logDebug(TAG, "is from cache? ${snapshot?.metadata?.isFromCache}, " +
-				              "has pending writes? ${snapshot?.metadata?.hasPendingWrites()}")
 				
 				if (snapshot.exists() && snapshot.data != null) {
 					logDebug(TAG, "Data is not null, deserialization in process...")
@@ -58,7 +56,7 @@ fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleR
 }
 
 fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<List<T>>> = flow {
-	logDebug(TAG, "Trying to execute given $this@executeAndDeserializeAsFlow query...")
+	logDebug(TAG, "Trying to execute given ${this@executeAndDeserializeAsFlow} query...")
 	this@executeAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { querySnapshot ->

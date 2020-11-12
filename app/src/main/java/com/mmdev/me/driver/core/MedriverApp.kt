@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 20:03
+ * Last modified 12.11.2020 15:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,15 +13,6 @@ package com.mmdev.me.driver.core
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Log
-import androidx.work.Configuration.Builder
-import androidx.work.Configuration.Provider
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
-import androidx.work.workDataOf
 import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
@@ -32,7 +23,6 @@ import com.mmdev.me.driver.core.di.NetworkModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.SyncModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
-import com.mmdev.me.driver.core.sync.SyncWorker
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.ENGLISH
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -54,6 +44,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import java.net.HttpURLConnection
 import java.net.URL
@@ -66,7 +57,7 @@ import java.net.URL
  * and so on.
  */
 
-class MedriverApp: Application(), Provider {
+class MedriverApp: Application() {
 	
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
@@ -194,7 +185,7 @@ class MedriverApp: Application(), Provider {
 		startKoin {
 			androidContext(this@MedriverApp)
 			if (debug.isEnabled) androidLogger()
-			koin.loadModules(
+			loadKoinModules(
 				// The lines on which modules are written represents
 				// some kind of "layers" inside dependencies.
 				listOf(
@@ -204,7 +195,6 @@ class MedriverApp: Application(), Provider {
 					NetworkModule, FirebaseModule, DatabaseModule
 				)
 			)
-			koin.createRootScope()
 		}
 		
 		/** if not exists - apply [LIGHT_MODE] as default theme */
@@ -229,25 +219,7 @@ class MedriverApp: Application(), Provider {
 		Purchases.debugLogsEnabled = debug.isEnabled
 		//Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
 		
-		val constraints = Constraints.Builder()
-			.setRequiresBatteryNotLow(true)
-			.setRequiredNetworkType(NetworkType.CONNECTED)
-			.build()
 		
-		val uploadWorkRequest: WorkRequest =
-			OneTimeWorkRequestBuilder<SyncWorker>()
-				.setConstraints(constraints)
-				.setInputData(
-					workDataOf(
-						"USER_KEY" to currentUser?.email
-					)
-				)
-				.build()
-		
-		
-		WorkManager
-			.getInstance(applicationContext)
-			.enqueue(uploadWorkRequest)
 			
 	}
 	
@@ -275,9 +247,9 @@ class MedriverApp: Application(), Provider {
 		LocaleHelper.overrideLocale(this, appLanguage)
 	}
 	
-	override fun getWorkManagerConfiguration(): androidx.work.Configuration =
-		Builder()
-			.setMinimumLoggingLevel(Log.VERBOSE)
-			.build()
+//	override fun getWorkManagerConfiguration(): androidx.work.Configuration =
+//		Builder()
+//			.setMinimumLoggingLevel(Log.VERBOSE)
+//			.build()
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:09
+ * Last modified 12.11.2020 17:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -57,7 +57,7 @@ class FetchingRepositoryImpl(
 						emit(
 							vehicleLocalDS.cachePendingWriteToBackend(
 								CachedOperation(
-									MeDriverRoomDatabase.FUEL_HISTORY_TABLE,
+									MeDriverRoomDatabase.VEHICLES_TABLE,
 									entity.vin,
 									reason.name
 								)

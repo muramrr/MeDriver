@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:08
+ * Last modified 12.11.2020 16:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,8 +17,14 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
+import androidx.work.workDataOf
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.sync.SyncWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
@@ -104,6 +110,7 @@ class MainActivity: AppCompatActivity() {
 		sharedViewModel.userDataInfo.observe(this, {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
+				if (it.isSyncEnabled && it.isSubscriptionValid()) startFetchingWorker(it.email)
 			//	Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
 				//	logWtf(TAG, "$purchaserInfo")
 				//}
@@ -143,6 +150,25 @@ class MainActivity: AppCompatActivity() {
 //			}
 //		)
 	}
+	
+	private fun startFetchingWorker(email: String) {
+		val constraints = Constraints.Builder()
+			.setRequiresBatteryNotLow(true)
+			
+			.build()
+		
+		val uploadWorkRequest: WorkRequest =
+			OneTimeWorkRequestBuilder<SyncWorker>()
+				.setConstraints(constraints)
+				.setInputData(workDataOf("USER_KEY" to email))
+				.build()
+		
+		
+		WorkManager
+			.getInstance(applicationContext)
+			.enqueue(uploadWorkRequest)
+	}
+	
 	private fun setListeners() {
 		ConnectionManager(this, this) { isConnected ->
 			MedriverApp.isNetworkAvailable = isConnected

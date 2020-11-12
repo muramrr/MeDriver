@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 12.11.2020 17:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import kotlinx.datetime.todayAt
 class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
 	val fuelPricesState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
-	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData(listOf())
+	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData()
 	
 	init { getFuelPrices() }
 	

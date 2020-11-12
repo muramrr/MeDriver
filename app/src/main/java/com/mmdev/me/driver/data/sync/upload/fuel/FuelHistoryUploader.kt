@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 20:08
+ * Last modified 12.11.2020 17:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,9 @@
 
 package com.mmdev.me.driver.data.sync.upload.fuel
 
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
@@ -33,9 +35,12 @@ class FuelHistoryUploader(
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	override suspend fun fetch(email: String) = flow {
+		logDebug(TAG, "getting fuel history cached operations...")
 		local.getCachedOperations().fold(
 			success = { operations ->
+				logInfo(TAG, "fuel history cached operations count = ${operations.size}")
 				operations.asFlow().flatMapMerge { operation ->
+					logDebug(TAG, "executing $operation")
 					flow {
 						local.getRecordById(operation.recordId.toLong()).fold(
 							success = { record ->
@@ -65,6 +70,7 @@ class FuelHistoryUploader(
 				}.collect { emit(it) }
 			},
 			failure = {
+				logError(TAG, "${it.message}")
 				emit(ResultState.failure(it))
 			}
 		)

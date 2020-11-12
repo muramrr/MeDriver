@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 11.11.2020 20:09
+  ~ Last modified 12.11.2020 15:15
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,14 +37,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<provider
-			android:name="androidx.work.impl.WorkManagerInitializer"
-			android:authorities="${applicationId}.workmanager-init"
-			android:exported="false"
-			android:multiprocess="true"
-			
-			/>
 		
 	</application>
 

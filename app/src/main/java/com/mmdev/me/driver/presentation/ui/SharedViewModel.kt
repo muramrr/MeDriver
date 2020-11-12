@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:22
+ * Last modified 12.11.2020 16:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,9 +10,7 @@
 
 package com.mmdev.me.driver.presentation.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
@@ -38,11 +36,16 @@ class SharedViewModel(
 	private val authProvider: IAuthFlowProvider, private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
-	val userDataInfo: LiveData<UserDataInfo?> = authProvider.getAuthUserFlow().asLiveData()
+	val userDataInfo: MutableLiveData<UserDataInfo?> = MutableLiveData(null)
 	
 	val currentVehicleVin: MutableLiveData<String> = MutableLiveData(MedriverApp.currentVehicleVinCode)
 	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
-	init { getSavedVehicle(MedriverApp.currentVehicleVinCode) }
+	init {
+		getSavedVehicle(MedriverApp.currentVehicleVinCode)
+		viewModelScope.launch {
+			authProvider.getAuthUserFlow().collect { userDataInfo.value = it }
+		}
+	}
 	
 	fun getSavedVehicle(vin: String) {
 		viewModelScope.launch {
@@ -76,7 +79,7 @@ class SharedViewModel(
 				
 				authProvider.updateUserModel(user).collect { result ->
 					result.fold(
-						success = { MedriverApp.currentUser = user },
+						success = { userDataInfo.value = user },
 						failure = { logError(TAG, "$it") }
 					)
 				}

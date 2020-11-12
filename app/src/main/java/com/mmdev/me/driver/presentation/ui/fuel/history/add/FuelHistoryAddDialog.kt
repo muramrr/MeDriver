@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.11.2020 16:27
+ * Last modified 12.11.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -83,10 +83,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
-		mFuelStationWithPrices = fuelPricesViewModel.fuelPrices.value ?:
-		                         FuelStationConstants.fuelStationList.map { FuelStationWithPrices(
-			                         it
-		                         ) }
+		mFuelStationWithPrices =
+			fuelPricesViewModel.fuelPrices.value ?:
+			FuelStationConstants.fuelStationList.map { FuelStationWithPrices(it) }
 		mViewModel.viewState.observe(this, { renderState(it) })
 	}
 	

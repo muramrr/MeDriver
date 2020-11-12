@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 12.11.2020 18:55
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	android:background="?selectableItemBackground"
+	
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+		android:id="@+id/ivDropCarItemIcon"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_margin="4dp"
+		android:layout_gravity="center"
+		app:imgCornerRadius="4dp"
+		
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toStartOf="@id/tvDropCarItemText"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvDropCarItemText"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+		
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toEndOf="@id/ivDropCarItemIcon"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvDropCarItemProLabel"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="@drawable/pro_label_background"
+		android:padding="16dp"
+		android:maxLines="1"
+		
+		android:text="PRO"
+		android:textColor="?colorOnPrimary"
+		android:textAppearance="?textAppearanceOverline"
+		
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

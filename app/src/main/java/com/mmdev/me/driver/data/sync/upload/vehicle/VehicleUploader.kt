@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 17:59
+ * Last modified 12.11.2020 19:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,7 +54,10 @@ class VehicleUploader(
 								}
 							},
 							failure = {
-								emit(ResultState.failure(it))
+								emit(
+									if (it is NullPointerException) local.deleteCachedOperation(operation)
+									else ResultState.failure(it)
+								)
 							}
 						)
 					}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:36
+ * Last modified 12.11.2020 19:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.data.datasource.fuel.history.local
 
 import com.mmdev.me.driver.core.utils.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.cache.CacheDao
 import com.mmdev.me.driver.data.cache.CachedOperation
@@ -40,7 +41,9 @@ class FuelHistoryLocalDataSourceImpl(
 	}
 	
 	override suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.deleteOperation(cachedOperation) }
+		safeCall(TAG) { cache.deleteOperation(cachedOperation) }.also {
+			logInfo(TAG, "Deleting operation: $cachedOperation")
+		}
 	
 	override suspend fun getFuelHistory(
 		vin: String, limit: Int, offset: Int

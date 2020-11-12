@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 16:30
+ * Last modified 12.11.2020 19:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -30,6 +31,7 @@ import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
+import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -110,7 +112,7 @@ class MainActivity: AppCompatActivity() {
 		sharedViewModel.userDataInfo.observe(this, {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
-				if (it.isSyncEnabled && it.isSubscriptionValid()) startFetchingWorker(it.email)
+				startFetchingWorker(it)
 			//	Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
 				//	logWtf(TAG, "$purchaserInfo")
 				//}
@@ -151,27 +153,37 @@ class MainActivity: AppCompatActivity() {
 //		)
 	}
 	
-	private fun startFetchingWorker(email: String) {
-		val constraints = Constraints.Builder()
-			.setRequiresBatteryNotLow(true)
-			
-			.build()
-		
-		val uploadWorkRequest: WorkRequest =
-			OneTimeWorkRequestBuilder<SyncWorker>()
-				.setConstraints(constraints)
-				.setInputData(workDataOf("USER_KEY" to email))
+	private fun startFetchingWorker(user: UserDataInfo) {
+		if (user.isSyncEnabled && user.isSubscriptionValid()) {
+			val constraints = Constraints.Builder()
+				.setRequiresBatteryNotLow(true)
+				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
+			
+			val uploadWorkRequest: WorkRequest =
+				OneTimeWorkRequestBuilder<SyncWorker>()
+					.setConstraints(constraints)
+					.setInputData(workDataOf("USER_KEY" to user.email))
+					.build()
+			
+			
+			WorkManager
+				.getInstance(applicationContext)
+				.enqueue(uploadWorkRequest)
+		}
 		
-		
-		WorkManager
-			.getInstance(applicationContext)
-			.enqueue(uploadWorkRequest)
 	}
 	
 	private fun setListeners() {
 		ConnectionManager(this, this) { isConnected ->
-			MedriverApp.isNetworkAvailable = isConnected
+			if (MedriverApp.isNetworkAvailable != isConnected) {
+				MedriverApp.isNetworkAvailable = isConnected
+				if (MedriverApp.isNetworkAvailable) {
+					//todo: start sync worker while internet is available again
+					//MedriverApp.currentUser?.let { startFetchingWorker(it) }
+				}
+			}
+			
 			logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
 		}
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.11.2020 16:40
+ * Last modified 12.11.2020 19:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,10 +43,14 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	
 	fun getSavedVehicles() {
 		viewModelScope.launch {
-			repository.getAllSavedVehicles().fold(success = {
-				vehicleList.postValue(it)
-				vehicleUiList.postValue(mapToUi(it))
-			}, failure = { logError(TAG, "${it.message}") })
+			repository.getAllSavedVehicles().fold(
+				success = {
+					if (!it.contains(MedriverApp.currentVehicle)) chosenVehicle.value = null
+					vehicleList.postValue(it)
+					vehicleUiList.postValue(mapToUi(it))
+				},
+				failure = { logError(TAG, "${it.message}") }
+			)
 			
 		}
 	}

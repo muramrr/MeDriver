@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:03
+ * Last modified 12.11.2020 19:18
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.cache.CacheDao
 import com.mmdev.me.driver.data.cache.CachedOperation
@@ -38,7 +39,9 @@ class VehicleLocalDataSourceImpl(
 	}
 	
 	override suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.deleteOperation(cachedOperation) }
+		safeCall(TAG) { cache.deleteOperation(cachedOperation) }.also {
+			logInfo(TAG, "Deleting operation: $cachedOperation")
+		}
 	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =
 		safeCall(TAG) { dao.getAllVehicles() }

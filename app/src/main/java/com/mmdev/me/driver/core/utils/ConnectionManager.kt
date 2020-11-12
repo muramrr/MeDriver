@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 19:02
+ * Last modified 12.11.2020 18:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -68,13 +68,12 @@ class ConnectionManager(
 		callback.invoke(getInitialConnectionStatus())
 	}
 	
-	@Suppress("unused")
 	@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
 	fun onResume() {
 		connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 	}
 	
-	@Suppress("unused")
+	
 	@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
 	fun onPause() {
 		connectivityManager.unregisterNetworkCallback(networkCallback)
@@ -118,6 +117,7 @@ class ConnectionManager(
 			callback.invoke(activeNetworks.isNotEmpty())
 		}
 		
+		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 		override fun onCapabilitiesChanged(
 			network: Network,
 			networkCapabilities: NetworkCapabilities
@@ -127,12 +127,14 @@ class ConnectionManager(
 			//lastInternetConnectionCheck()
 		}
 		
+		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 		override fun onLosing(network: Network, maxMsToLive: Int) {
 			super.onLosing(network, maxMsToLive)
 			logWarn(this@ConnectionManager.javaClass, "onLosing")
 			//lastInternetConnectionCheck()
 		}
 		
+		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 		override fun onUnavailable() {
 			super.onUnavailable()
 			logWarn(this@ConnectionManager.javaClass, "onUnavailable")

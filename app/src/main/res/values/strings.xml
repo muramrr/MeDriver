@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 07.11.2020 19:11
+  ~ Last modified 13.11.2020 20:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -85,9 +85,19 @@
 
 
 
-<!-- ************************************ bottom_sheet_premium ********************************* -->
-	<string name="btm_sheet_premium_features_label">Features</string>
-	<string name="btm_sheet_premium_plans_label">Available plans</string>
+<!-- ******************************** bottom_sheet_subscription ******************************** -->
+	<string name="btm_sheet_subscription_choose_plan_label">Choose your plan</string>
+	<string name="btm_sheet_subscription_plan_type_free">Free</string>
+	<string name="btm_sheet_subscription_plan_type_premium">Premium</string>
+	<string name="btm_sheet_subscription_plan_type_pro">Pro</string>
+	
+	<string name="btm_sheet_subscription_choose_plan">Choose</string>
+	
+	<string name="btm_sheet_subscription_feature1">Feature 1</string>
+	<string name="btm_sheet_subscription_feature2">Feature 2</string>
+	<string name="btm_sheet_subscription_feature3">Feature 3</string>
+	<string name="btm_sheet_subscription_feature4">Feature 4</string>
+	<string name="btm_sheet_subscription_feature5">Feature 5</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Backup</string>
 	<string name="btm_sheet_premium_feature_sync_subtitle">Backup all of your history and expenses</string>
@@ -98,11 +108,13 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Sync</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Sync and access your data across any device</string>
 	
-	<string name="btm_sheet_premium_plan_monthly_duration">1 month</string>
+	<string name="btm_sheet_premium_plan_monthly_duration">per 1 month</string>
 	<string name="btm_sheet_premium_plan_semi_annual_duration">6 month</string>
 	<string name="btm_sheet_premium_plan_annual_duration">12 month</string>
-	<string name="btm_sheet_premium_plan_per_month_formatter">per month</string>
+	<string name="btm_sheet_subscription_plan_per_month">/month</string>
 	<string name="btm_sheet_premium_plan_saving_label">SAVE</string>
+	
+	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on Settings screen.</string>
 	
 <!-- ******************************************************************************************* -->
 

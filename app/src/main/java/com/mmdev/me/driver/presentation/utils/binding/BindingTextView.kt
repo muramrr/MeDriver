@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.10.2020 21:42
+ * Last modified 13.11.2020 20:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,9 @@ package com.mmdev.me.driver.presentation.utils.binding
 
 import android.animation.ValueAnimator
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import com.mmdev.me.driver.core.MedriverApp
@@ -20,6 +23,7 @@ import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.roundTo
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfDoubleValues
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntValues
+import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 
 /**
  * Contains binding methods related to [TextView]
@@ -29,6 +33,25 @@ import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntVa
  */
 
 object BindingTextView {
+	
+	@JvmStatic
+	@BindingAdapter("android:text")
+	fun setTextRes(textView: TextView, resource: Int) {
+		if (resource == 0) return
+		textView.apply { text = this.getStringRes(resource) }
+	}
+	
+	@JvmStatic
+	@BindingAdapter("android:textColor")
+	fun setTextColor(textView: TextView, @ColorRes color: Int) {
+		textView.setTextColor(ContextCompat.getColor(textView.context, color))
+	}
+	
+	@JvmStatic
+	@BindingAdapter("android:drawableStart")
+	fun setDrawableStart(textView: TextView, @DrawableRes drawable: Int) {
+		textView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, 0, 0, 0)
+	}
 	
 	@JvmStatic
 	@BindingAdapter("app:kilometers", "app:miles", requireAll = true)

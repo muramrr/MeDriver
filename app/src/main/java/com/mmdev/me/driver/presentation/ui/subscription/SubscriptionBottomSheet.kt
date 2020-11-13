@@ -1,33 +1,34 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.11.2020 21:09
+ * Last modified 13.11.2020 20:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.presentation.ui.premium
+package com.mmdev.me.driver.presentation.ui.subscription
 
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.BottomSheetPremiumBinding
+import com.mmdev.me.driver.databinding.BottomSheetSubscriptionBinding
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
-import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
+import com.mmdev.me.driver.presentation.ui.common.custom.HorizontalCarouselLayoutManager
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.CentralFirstLastItemDecoration
 import com.mmdev.me.driver.presentation.utils.extensions.showToast
 
 /**
  *
  */
 
-class PremiumBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetPremiumBinding>(
-	layoutId = R.layout.bottom_sheet_premium
+class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetSubscriptionBinding>(
+	layoutId = R.layout.bottom_sheet_subscription
 ) {
 	
 	override val mViewModel: Nothing? = null
@@ -52,32 +53,21 @@ class PremiumBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetPremiumBin
 	
 	
 	override fun setupViews() {
-	
-		binding.rvPremiumFeatures.apply {
-			adapter = FeaturesAdapter()
-			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-			
-			addItemDecoration(
-				LinearItemDecoration(
-					RecyclerView.HORIZONTAL, FeaturesAdapter.SPACE_PER_ITEM * 3
-				)
-			)
-		}
 		
-		binding.rvPremiumPlans.apply {
+		binding.rvSubscriptionPlans.apply {
 			adapter = PlansAdapter().apply {
 				setOnItemClickListener { view, position, item ->
-					showToast("Clicked = ${item.duration}")
+					showToast("Clicked = $position")
 				}
 			}
-			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+			
+			layoutManager = HorizontalCarouselLayoutManager(this.context,false)
+			//adjust auto swipe to item center
+			val snapHelper: SnapHelper = LinearSnapHelper()
+			snapHelper.attachToRecyclerView(this)
 			
 			addItemDecoration(
-				LinearItemDecoration(
-					RecyclerView.VERTICAL,
-					PlansAdapter.SPACE_PER_ITEM * 3,
-					300
-				)
+				CentralFirstLastItemDecoration(PlansAdapter.CHILD_MARGIN)
 			)
 		}
 	}

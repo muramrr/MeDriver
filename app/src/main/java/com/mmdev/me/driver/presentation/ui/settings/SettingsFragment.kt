@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:42
+ * Last modified 13.11.2020 20:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,8 +29,8 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.ui.premium.PremiumBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
+import com.mmdev.me.driver.presentation.ui.subscription.SubscriptionBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
@@ -86,7 +86,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			}
 		
 			btnGetPremium.setDebounceOnClick {
-				PremiumBottomSheet().show(childFragmentManager, PremiumBottomSheet::class.java .canonicalName)
+				SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java .canonicalName)
 			}
 			
 		}

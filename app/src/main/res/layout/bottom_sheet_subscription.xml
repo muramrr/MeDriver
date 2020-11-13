@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 04.11.2020 21:16
+  ~ Last modified 13.11.2020 19:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:background="?colorSurface"
+		android:background="@color/colorBackground"
 		>
 		
 		<!-- drag indicator -->
@@ -55,59 +55,46 @@
 			android:layout_height="wrap_content"
 			android:padding="8dp"
 			
-			android:text="@string/btm_sheet_premium_features_label"
+			android:text="@string/btm_sheet_subscription_choose_plan_label"
 			android:textAppearance="?textAppearanceHeadline6"
 			
 			app:layout_constraintTop_toBottomOf="@id/ivPremiumIcon"
-			app:layout_constraintBottom_toTopOf="@id/rvPremiumFeatures"
+			app:layout_constraintBottom_toTopOf="@id/rvSubscriptionPlans"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			
 			/>
 		
-		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPremiumFeatures"
+		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvSubscriptionPlans"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:overScrollMode="never"
+			android:layout_height="0dp"
+			android:clipToPadding="false"
 			android:orientation="horizontal"
+			android:overScrollMode="never"
 			
-			tools:listitem="@layout/item_premium_feature"
+			tools:listitem="@layout/item_subscription_plan"
 			tools:itemCount="1"
 			
 			app:layout_constraintTop_toBottomOf="@id/tvFeaturesLabel"
+			app:layout_constraintBottom_toTopOf="@id/tvSubscriptionInforming"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			/>
 		
-		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlansLabel"
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSubscriptionInforming"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:padding="8dp"
+			android:layout_marginBottom="8dp"
 			
-			android:text="@string/btm_sheet_premium_plans_label"
-			android:textAppearance="?textAppearanceHeadline6"
+			android:text="@string/btm_sheet_subscription_policy"
+			android:textAppearance="?textAppearanceCaption"
+			android:textAlignment="center"
 			
-			app:layout_constraintTop_toBottomOf="@id/rvPremiumFeatures"
-			app:layout_constraintBottom_toTopOf="@id/rvPremiumPlans"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			
 			/>
 		
-		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPremiumPlans"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:overScrollMode="never"
-			android:orientation="vertical"
-			
-			tools:listitem="@layout/item_premium_plan"
-			tools:itemCount="3"
-			
-			app:layout_constraintHeight_percent="0.5"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
 		
 		<!-- guideline start -->
 		<androidx.constraintlayout.widget.Guideline

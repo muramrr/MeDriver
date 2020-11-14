@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 18:34
+ * Last modified 14.11.2020 17:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.prices
 
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
@@ -19,12 +18,11 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
-import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesBinding>(
-	R.layout.fragment_fuel_prices
+	layoutId = R.layout.fragment_fuel_prices
 ) {
 
 	override val mViewModel: FuelPricesViewModel by sharedViewModel()
@@ -32,7 +30,7 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 	private val mPricesAdapter = FuelPricesAdapter()
 	
 	override fun setupViews() {
-		mViewModel.fuelPricesState.observe(this, {
+		mViewModel.viewState.observe(this, {
 			renderState(it)
 		})
 		
@@ -45,9 +43,6 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 	}
 	
 	override fun renderState(state: ViewState) {
-		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
-			state == FuelPricesViewState.Loading
-		}
 		
 		when (state) {
 			is FuelPricesViewState.Success -> {
@@ -56,7 +51,10 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 				else mPricesAdapter.setNewData(state.data)
 			}
 			is FuelPricesViewState.Error -> {
-				binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)
+				binding.root.showSnack(
+					state.errorMessage ?: getString(R.string.fg_fuel_prices_empty_list),
+					Snackbar.LENGTH_LONG
+				)
 			}
 		}
 		

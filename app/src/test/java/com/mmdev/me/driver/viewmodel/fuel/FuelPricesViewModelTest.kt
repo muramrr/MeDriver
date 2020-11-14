@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 14.11.2020 19:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -73,8 +73,8 @@ class FuelPricesViewModelTest {
 
 	@Test
 	fun getFuelPrices() = runBlocking {
-		viewModel.fuelPricesState.observeForever(fuelPricesStateObserver)
-		viewModel.getFuelPrices()
+		viewModel.viewState.observeForever(fuelPricesStateObserver)
+		//viewModel.getFuelPrices()
 		coVerify { repository.getFuelStationsWithPrices(validDate) }
 
 		delay(10)

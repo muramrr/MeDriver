@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.11.2020 20:22
+ * Last modified 14.11.2020 19:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -100,8 +100,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		accNotVerified = getString(R.string.fg_settings_tv_not_verified)
 		emailSent = getString(R.string.fg_settings_email_confirm_sent_success)
 		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
-		getPremium = getString(R.string.fg_settings_btn_get_premium_not_active)
-		premiumObtained = getString(R.string.fg_settings_btn_get_premium_active)
+		getPremium = getString(R.string.fg_settings_btn_get_subscription_not_active)
+		premiumObtained = getString(R.string.fg_settings_btn_get_subscription_active)
 		languagesArray = resources.getStringArray(R.array.languages)
 		languagesMap = Language.values().zip(languagesArray).toMap()
 		

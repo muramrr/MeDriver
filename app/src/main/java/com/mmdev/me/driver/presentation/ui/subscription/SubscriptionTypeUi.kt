@@ -10,17 +10,14 @@
 
 package com.mmdev.me.driver.presentation.ui.subscription
 
-import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import com.mmdev.me.driver.domain.user.SubscriptionType
 
 /**
- * Represents premium plans visual appearance in [SubscriptionBottomSheet]
+ * Bound to represent [SubscriptionType] in UI
  */
 
-data class PlanUi(
-	@ColorRes val backgroundColor: Int,
-	@ColorRes val textColor: Int,
-	val features: List<FeatureUi>,
-	val isChosen: Boolean,
-	val pricePerMonth: String,
-	val subscription: SubscriptionTypeUi
+data class SubscriptionTypeUi(
+	val type: SubscriptionType,
+	@StringRes val title: Int
 )

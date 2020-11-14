@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.11.2020 20:10
+  ~ Last modified 14.11.2020 19:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -57,6 +57,7 @@
 	<string name="btm_sheet_subscription_plan_type_pro">Професійна</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Обрати</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Поточна підписка</string>
 	
 	<string name="btm_sheet_subscription_feature1">Feature 1</string>
 	<string name="btm_sheet_subscription_feature2">Feature 2</string>
@@ -87,6 +88,8 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+	<string name="fg_maintenance_search_hint">Пошук (колодки, шланг тощо)</string>
+	
 	<string name="maintenance_node_engine">Двигун</string>
 	<string name="maintenance_node_transmission">Трансмісія</string>
 	<string name="maintenance_node_electrics">Електрика</string>
@@ -97,7 +100,7 @@
 	<string name="maintenance_node_planned">Планове</string>
 	
 	<string name="maintenance_dialog_filter_node_no_filter_item">Без фильтру</string>
-	<string name="maintenance_dialog_filter_btn_positive">Застосувати</string>
+	<string name="maintenance_dialog_filter_btn_positive">Фільтрувати</string>
 	<string name="maintenance_dialog_filter_btn_neutral">Відмінити</string>
 	<string name="maintenance_dialog_filter_title">Оберіть системний вузол автомобіля</string>
 	<string name="maintenance_dialog_filter_message">Відфільтрує деталі за обраним вузлом</string>
@@ -227,6 +230,7 @@
 	<string name="maintenance_body_sill_right">Поріг зправа</string>
 	<string name="maintenance_body_washer_reservoir">Бачок омивача</string>
 	
+	<string name="maintenance_planned_insurance">Страхування</string>
 	<string name="maintenance_planned_air_filter">Фільтр повітря</string>
 	<string name="maintenance_planned_oil_filter">Масляний фільтр</string>
 	<string name="maintenance_planned_fuel_filter">Паливний фільтр</string>
@@ -264,7 +268,13 @@
 
 <!-- *********************************** fragment_vehicle ************************************** -->
 	<string name="fg_vehicle_add_new_vehicle">Додати новий транспорт</string>
-	<string name="fg_vehicle_choose_vehicle">Обрати транспорт</string>
+	<string name="fg_vehicle_choose_vehicle">Оберіть транспорт</string>
+	
+	<string name="fg_vehicle_mileage_card_title">Пробіг</string>
+	<string name="fg_vehicle_mileage_card_subtitle">Історія</string>
+	
+	<string name="fg_vehicle_expenses_card_title">Витрати</string>
+	<string name="fg_vehicle_expenses_card_subtitle">Остання операція</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -376,11 +386,11 @@
 	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>
 	<string name="fg_settings_tv_subscription_expires_value">Пробна</string>
 	
-	<string name="fg_settings_btn_premium">Премуім</string>
+	<string name="fg_settings_btn_subscription_type">Премуім</string>
 	<string name="fg_settings_btn_sign_in">Увійти</string>
 	<string name="fg_settings_btn_sign_out">Вийти</string>
-	<string name="fg_settings_btn_get_premium_not_active">Отримати Преміум!</string>
-	<string name="fg_settings_btn_get_premium_active">Преміум активовано!</string>
+	<string name="fg_settings_btn_get_subscription_not_active">Отримати більше функцій!</string>
+	<string name="fg_settings_btn_get_subscription_active">Преміум активовано!</string>
 	
 	<string name="fg_settings_switcher_sync">Синхронізація</string>
 	<string name="fg_settings_switcher_dark_theme">Темна тема</string>

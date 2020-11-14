@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.10.2020 20:40
+  ~ Last modified 14.11.2020 17:55
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,9 +30,8 @@
 		<com.google.android.material.textfield.TextInputLayout android:id="@+id/layoutSearchMaintenance"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:background="@null"
 			
-			android:hint="Search"
+			android:hint="@string/fg_maintenance_search_hint"
 			app:startIconDrawable="@drawable/abc_ic_search_api_material"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -45,7 +44,7 @@
 			<com.google.android.material.textfield.TextInputEditText android:id="@+id/etSearchMaintenance"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:background="@null"
+				android:background="?colorSurface"
 				android:imeOptions="actionSearch"
 				android:inputType="text"
 				android:singleLine="true"

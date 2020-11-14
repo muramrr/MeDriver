@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 19:13
+ * Last modified 14.11.2020 17:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,10 +24,12 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.text
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,6 +62,9 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		observeVehicleList()
 		observeChosenCar()
 		
+		binding.btnMileageHistory.setDebounceOnClick {
+			MainActivity.bottomNavMain.selectedItemId = R.id.bottomNavFuel
+		}
 	}
 	
 	private fun initDropList() {
@@ -68,8 +73,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			R.layout.item_drop_vehicles,
 			emptyList()
 		)
-		
-		binding.dropMyCarChooseCar.setOnClickListener { showModalBottomSheet() }
 		
 		binding.dropMyCarChooseCar.apply {
 			setAdapter(mVehicleDropAdapter)
@@ -96,11 +99,10 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
-			vehicle?.let {
+			if (vehicle != null)
 				binding.dropMyCarChooseCar.setText("${vehicle.brand} ${vehicle.model}", false)
-				updateMileageCard(it)
-			} ?: binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
 			
+			updateMileageCard(vehicle)
 			sharedViewModel.currentVehicle.postValue(vehicle)
 			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 		})
@@ -109,7 +111,18 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private fun observeVehicleList() {
 		mViewModel.vehicleUiList.observe(this, {
 			mVehicleDropAdapter.setNewData(it)
-			if (!it.isNullOrEmpty()) binding.dropMyCarChooseCar.setOnClickListener(null)
+			when {
+				!it.isNullOrEmpty() -> {
+					binding.dropMyCarChooseCar.setOnClickListener(null)
+					if (mViewModel.chosenVehicle.value == null)
+						binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_choose_vehicle)
+				}
+				it.isNullOrEmpty() -> {
+					binding.dropMyCarChooseCar.setOnClickListener { showModalBottomSheet() }
+					binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
+				}
+			}
+			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 		})
 	}
 	

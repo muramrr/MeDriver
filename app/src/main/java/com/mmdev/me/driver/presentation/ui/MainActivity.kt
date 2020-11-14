@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 19:25
+ * Last modified 14.11.2020 16:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.SyncWorker
@@ -37,6 +38,11 @@ import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
+	
+	
+	companion object {
+		lateinit var bottomNavMain: BottomNavigationView
+	}
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
@@ -102,6 +108,8 @@ class MainActivity: AppCompatActivity() {
 
 			return@setOnNavigationItemSelectedListener true
 		}
+		
+		bottomNavMain = binding.bottomNavMain
 		
 //		Timer().schedule(
 //			// if loading showing less than 500 millis (half of second) -> delay, else no delay

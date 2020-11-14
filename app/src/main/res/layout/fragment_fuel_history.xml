@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 17:58
+  ~ Last modified 14.11.2020 17:41
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -107,18 +107,18 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			/>
 		
-		<include android:id="@+id/viewLoading"
-			layout="@layout/dialog_loading"
-			android:layout_height="0dp"
-			android:layout_width="0dp"
-			
-			android:visibility="invisible"
-			
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			/>
+<!--		<include android:id="@+id/viewLoading"-->
+<!--			layout="@layout/dialog_loading"-->
+<!--			android:layout_height="0dp"-->
+<!--			android:layout_width="0dp"-->
+<!--			-->
+<!--			android:visibility="invisible"-->
+<!--			-->
+<!--			app:layout_constraintStart_toStartOf="parent"-->
+<!--			app:layout_constraintEnd_toEndOf="parent"-->
+<!--			app:layout_constraintTop_toTopOf="parent"-->
+<!--			app:layout_constraintBottom_toBottomOf="parent"-->
+<!--			/>-->
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>
 	

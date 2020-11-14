@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 18:53
+  ~ Last modified 14.11.2020 15:46
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,6 +49,8 @@
 	
 	<color name="disabled_foreground">#EBEBE4</color>
 	<color name="disabled_background">#C6C6C6</color>
+	
+	<color name="selected_subscription_mask">#A6000000</color>
 	
 	<color name="loading_background">#D9000000</color>
 	

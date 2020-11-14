@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.10.2020 15:06
+  ~ Last modified 14.11.2020 16:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,44 +13,58 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
 	
-	<LinearLayout
-	
-		android:layout_height="match_parent"
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:orientation="vertical"
+		android:layout_height="match_parent">
+	
+		<LinearLayout
 		
-		>
-		
-		<com.google.android.material.tabs.TabLayout
-			android:id="@+id/tabLayoutContainer"
+			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			
-			style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+			android:orientation="vertical"
 			
 			>
 			
-			<com.google.android.material.tabs.TabItem
-				android:layout_width="wrap_content"
+			<com.google.android.material.tabs.TabLayout
+				android:id="@+id/tabLayoutContainer"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="@string/fg_fuel_tab_prices"
+				
+				style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+				
+				>
+				
+				<com.google.android.material.tabs.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/fg_fuel_tab_prices"
+					/>
+				
+				<com.google.android.material.tabs.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/fg_fuel_tab_history"
+					/>
+			
+			</com.google.android.material.tabs.TabLayout>
+			
+			<androidx.viewpager2.widget.ViewPager2
+				android:id="@+id/viewPagerContainer"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
 				/>
 			
-			<com.google.android.material.tabs.TabItem
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/fg_fuel_tab_history"
-				/>
+		</LinearLayout>
 		
-		</com.google.android.material.tabs.TabLayout>
-		
-		<androidx.viewpager2.widget.ViewPager2
-			android:id="@+id/viewPagerContainer"
-			android:layout_width="match_parent"
+		<include android:id="@+id/viewLoading"
+			layout="@layout/dialog_loading"
 			android:layout_height="match_parent"
+			android:layout_width="match_parent"
 			
+			android:visibility="invisible"
 			/>
-		
-	</LinearLayout>
+	
+	</FrameLayout>
 	
 </layout>

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.11.2020 20:10
+  ~ Last modified 14.11.2020 19:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -57,6 +57,7 @@
 	<string name="btm_sheet_subscription_plan_type_pro">Профи</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Выбрать</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Текущая подписка</string>
 	
 	<string name="btm_sheet_subscription_feature1">Feature 1</string>
 	<string name="btm_sheet_subscription_feature2">Feature 2</string>
@@ -87,6 +88,8 @@
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+	<string name="fg_maintenance_search_hint">Поиск (колодки, шланг и прочее)</string>
+	
 	<string name="maintenance_node_engine">Двигатель</string>
 	<string name="maintenance_node_transmission">Трансмиссия</string>
 	<string name="maintenance_node_electrics">Электрика</string>
@@ -227,6 +230,7 @@
 	<string name="maintenance_body_sill_right">Порог правый</string>
 	<string name="maintenance_body_washer_reservoir">Бачок омывателя</string>
 	
+	<string name="maintenance_planned_insurance">Страховка</string>
 	<string name="maintenance_planned_air_filter">Фильтр воздушный</string>
 	<string name="maintenance_planned_oil_filter">Фильтр масляной</string>
 	<string name="maintenance_planned_fuel_filter">Фильтр топливный</string>
@@ -265,6 +269,12 @@
 <!-- *********************************** fragment_vehicle ************************************** -->
 	<string name="fg_vehicle_add_new_vehicle">Добавить новый транспорт</string>
 	<string name="fg_vehicle_choose_vehicle">Выберите транспорт</string>
+	
+	<string name="fg_vehicle_mileage_card_title">Пробег</string>
+	<string name="fg_vehicle_mileage_card_subtitle">История</string>
+	
+	<string name="fg_vehicle_expenses_card_title">Расходы</string>
+	<string name="fg_vehicle_expenses_card_subtitle">Последняя операция</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -376,11 +386,11 @@
 	<string name="fg_settings_tv_subscription_expires">Подписка до</string>
 	<string name="fg_settings_tv_subscription_expires_value">Пробная</string>
 	
-	<string name="fg_settings_btn_premium">Премуим</string>
+	<string name="fg_settings_btn_subscription_type">Премуим</string>
 	<string name="fg_settings_btn_sign_in">Войти</string>
 	<string name="fg_settings_btn_sign_out">Выйти</string>
-	<string name="fg_settings_btn_get_premium_not_active">Получить Премиум!</string>
-	<string name="fg_settings_btn_get_premium_active">Премиум активировано!</string>
+	<string name="fg_settings_btn_get_subscription_not_active">Получить больше функций!</string>
+	<string name="fg_settings_btn_get_subscription_active">Премиум активировано!</string>
 	
 	<string name="fg_settings_switcher_sync">Синхронизация</string>
 	<string name="fg_settings_switcher_dark_theme">Темная тема</string>

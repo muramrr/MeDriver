@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.11.2020 20:10
+  ~ Last modified 14.11.2020 19:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,6 @@
 	</string-array>
 	
 	<string-array name="maintenance_dialog_filter_node_list">
-		<item>@string/maintenance_dialog_filter_node_no_filter_item</item>
 		<item>@string/maintenance_node_engine</item>
 		<item>@string/maintenance_node_transmission</item>
 		<item>@string/maintenance_node_electrics</item>
@@ -28,6 +27,7 @@
 		<item>@string/maintenance_node_body</item>
 		<item>@string/maintenance_node_other</item>
 		<item>@string/maintenance_node_planned</item>
+		<item>@string/maintenance_dialog_filter_node_no_filter_item</item>
 	</string-array>
 	
 	
@@ -92,6 +92,7 @@
 	<string name="btm_sheet_subscription_plan_type_pro">Pro</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Choose</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Current plan</string>
 	
 	<string name="btm_sheet_subscription_feature1">Feature 1</string>
 	<string name="btm_sheet_subscription_feature2">Feature 2</string>
@@ -114,13 +115,15 @@
 	<string name="btm_sheet_subscription_plan_per_month">/month</string>
 	<string name="btm_sheet_premium_plan_saving_label">SAVE</string>
 	
-	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on Settings screen.</string>
+	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on this screen by selecting "FREE" plan.</string>
 	
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- *********************************** fragment_maintenance ********************************** -->
+	<string name="fg_maintenance_search_hint">Search (pads, camshaft etc)</string>
+	
 	<string name="maintenance_node_engine">Engine</string>
 	<string name="maintenance_node_transmission">Transmission</string>
 	<string name="maintenance_node_electrics">Electrics</string>
@@ -262,6 +265,7 @@
 	<string name="maintenance_body_sill_right">Sill right</string>
 	<string name="maintenance_body_washer_reservoir">Washer reservoir</string>
 	
+	<string name="maintenance_planned_insurance">Insurance</string>
 	<string name="maintenance_planned_air_filter">Air filter</string>
 	<string name="maintenance_planned_oil_filter">Oil filter</string>
 	<string name="maintenance_planned_fuel_filter">Fuel filter</string>
@@ -301,6 +305,12 @@
 <!-- *********************************** fragment_vehicle ************************************** -->
 	<string name="fg_vehicle_add_new_vehicle">Add new vehicle</string>
 	<string name="fg_vehicle_choose_vehicle">Choose vehicle</string>
+	
+	<string name="fg_vehicle_mileage_card_title">Mileage</string>
+	<string name="fg_vehicle_mileage_card_subtitle">History</string>
+	
+	<string name="fg_vehicle_expenses_card_title">Expenses</string>
+	<string name="fg_vehicle_expenses_card_subtitle">See last action</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -412,11 +422,11 @@
 	<string name="fg_settings_tv_subscription_expires">Subscription expires</string>
 	<string name="fg_settings_tv_subscription_expires_value">Trial</string>
 	
-	<string name="fg_settings_btn_premium">Premium</string>
+	<string name="fg_settings_btn_subscription_type">Premium</string>
 	<string name="fg_settings_btn_sign_in">Sign In</string>
 	<string name="fg_settings_btn_sign_out">Sign Out</string>
-	<string name="fg_settings_btn_get_premium_not_active">Get Premium!</string>
-	<string name="fg_settings_btn_get_premium_active">Premium Activated!</string>
+	<string name="fg_settings_btn_get_subscription_not_active">Unlock new features!</string>
+	<string name="fg_settings_btn_get_subscription_active">Premium Activated!</string>
 	
 	<string name="fg_settings_switcher_sync">Sync enabled</string>
 	<string name="fg_settings_switcher_dark_theme">Dark theme</string>

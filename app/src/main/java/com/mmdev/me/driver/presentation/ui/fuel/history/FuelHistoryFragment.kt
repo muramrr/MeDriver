@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 19:48
+ * Last modified 14.11.2020 17:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.os.Bundle
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
@@ -22,7 +21,6 @@ import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddDialog
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -67,9 +65,9 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	}
 	
 	override fun renderState(state: ViewState) {
-		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
-			state == FuelHistoryViewState.Loading
-		}
+//		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
+//			state == FuelHistoryViewState.Loading
+//		}
 		
 		when (state) {
 			is FuelHistoryViewState.Init -> {

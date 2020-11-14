@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 17:29
+ * Last modified 14.11.2020 17:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.datetime.Clock
@@ -28,30 +29,31 @@ import kotlinx.datetime.todayAt
 
 class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
-	val fuelPricesState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
+	val viewState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
 	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData()
 	
 	init { getFuelPrices() }
 	
-	fun getFuelPrices() {
-		if (fuelPricesState.value != null && !fuelPrices.value.isNullOrEmpty())
+	private fun getFuelPrices() {
+		if (viewState.value != null && !fuelPrices.value.isNullOrEmpty())
 			return
 		
 		val localDate = Clock.System.todayAt(currentSystemDefault()).toString()
 		
 		viewModelScope.launch {
 			
-			fuelPricesState.postValue(FuelPricesViewState.Loading)
+			viewState.postValue(FuelPricesViewState.Loading)
 			
 			withTimeout(30000) {
+				delay(500)
 				
 				repository.getFuelStationsWithPrices(localDate).fold(
 					success = {
-						fuelPricesState.postValue(FuelPricesViewState.Success(data = it))
+						viewState.postValue(FuelPricesViewState.Success(data = it))
 						fuelPrices.value = it
 					},
 					failure = {
-						fuelPricesState.postValue(FuelPricesViewState.Error(it.localizedMessage!!))
+						viewState.postValue(FuelPricesViewState.Error(it.localizedMessage))
 					}
 				)
 			}

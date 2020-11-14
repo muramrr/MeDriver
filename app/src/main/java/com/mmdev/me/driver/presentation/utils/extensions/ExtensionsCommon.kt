@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 16:05
+ * Last modified 14.11.2020 17:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,16 +46,13 @@ fun Int.toIntArray(context: Context): IntArray {
 
 inline fun <T: View> T.setDebounceOnClick(
 	debounceTime: Long = 1000L, crossinline block: T.() -> Unit
-) =
-	setOnClickListener {
-		when {
-			tag != null && (tag as Long) > System.currentTimeMillis() -> return@setOnClickListener
-			else -> {
-				tag = System.currentTimeMillis() + debounceTime
-				block()
-			}
-		}
+) = setOnClickListener {
+	if (tag != null && (tag as Long) > System.currentTimeMillis()) return@setOnClickListener
+	else {
+		tag = System.currentTimeMillis() + debounceTime
+		block()
 	}
+}
 
 inline fun <T: View> T.setSingleOnClick(crossinline block: T.() -> Unit) = setOnClickListener {
 	block()

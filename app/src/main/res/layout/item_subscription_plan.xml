@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 13.11.2020 20:20
+  ~ Last modified 14.11.2020 16:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,7 +38,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="16dp"
 				
-				android:text="@{bindItem.type}"
+				android:text="@{bindItem.subscription.title}"
 				android:textAppearance="?textAppearanceHeadline5"
 				android:textColor="@{bindItem.textColor}"
 				
@@ -167,7 +167,7 @@
 				android:layout_marginBottom="16dp"
 				android:clickable="false"
 				
-				android:text="@string/btm_sheet_subscription_choose_plan"
+				android:text="@{!bindItem.isChosen ? @string/btm_sheet_subscription_choose_plan : @string/btm_sheet_subscription_already_chosen_plan}"
 				android:textColor="@{bindItem.textColor}"
 				
 				app:cornerRadius="16dp"
@@ -179,6 +179,33 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintBottom_toBottomOf="parent"
 				/>
+			
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.TouchLayout
+				android:id="@+id/tlSelectedPlan"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				
+				android:background="@color/selected_subscription_mask"
+				
+				app:visibilityInvisible="@{bindItem.isChosen}"
+				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				>
+				<ImageView
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_marginTop="16dp"
+					android:layout_marginEnd="16dp"
+					android:src="@drawable/ic_check_mark_24"
+					android:layout_gravity="end"
+					app:tint="@color/colorSuccess"
+					android:contentDescription="@null"
+					/>
+				
+			</com.mmdev.me.driver.presentation.ui.common.custom.components.TouchLayout>
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		

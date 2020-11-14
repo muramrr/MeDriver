@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.11.2020 16:09
+  ~ Last modified 14.11.2020 19:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,7 +50,7 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				
-				android:text="@string/fg_settings_btn_premium"
+				android:text="@string/fg_settings_btn_subscription_type"
 				android:textColor="?colorSecondary"
 				
 				android:visibility="gone"
@@ -273,7 +273,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				
-				android:text="@string/fg_settings_btn_get_premium_not_active"
+				android:text="@string/fg_settings_btn_get_subscription_not_active"
 				android:textAllCaps="false"
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"

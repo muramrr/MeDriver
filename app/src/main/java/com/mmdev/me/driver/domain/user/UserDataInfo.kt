@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 17:28
+ * Last modified 14.11.2020 15:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.domain.user
 
 import com.mmdev.me.driver.domain.user.SubscriptionDuration.TRIAL
-import com.mmdev.me.driver.domain.user.SubscriptionType.NONE
+import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
 
 data class UserDataInfo(
 	val id: String = "",
@@ -22,5 +22,5 @@ data class UserDataInfo(
 ) {
 	//todo: check subscription time actuality
 	fun isSubscriptionValid(): Boolean =
-		subscription.type != NONE && subscription.duration != TRIAL
+		subscription.type != FREE && subscription.duration != TRIAL
 }

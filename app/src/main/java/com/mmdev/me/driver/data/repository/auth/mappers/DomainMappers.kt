@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:28
+ * Last modified 14.11.2020 15:17
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.user.SubscriptionType.NONE
+import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
@@ -26,7 +26,7 @@ object DomainMappers {
 			id = domain.id,
 			email = domain.email,
 			isEmailVerified = domain.isEmailVerified,
-			isPremium = domain.subscription.type != NONE,
+			isPremium = domain.subscription.type != FREE,
 			isSyncEnabled = domain.isSyncEnabled
 		)
 	

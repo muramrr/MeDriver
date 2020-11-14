@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.10.2020 20:01
+ * Last modified 14.11.2020 18:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -134,6 +134,7 @@ object VehicleSystemNodeConstants {
 	val otherComponents = IntArray(0)
 	
 	val plannedComponents = intArrayOf(
+		R.string.maintenance_planned_insurance,
 		R.string.maintenance_planned_air_filter,
 		R.string.maintenance_planned_oil_filter,
 		R.string.maintenance_planned_fuel_filter,

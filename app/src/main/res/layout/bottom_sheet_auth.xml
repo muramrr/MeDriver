@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.11.2020 16:32
+  ~ Last modified 15.11.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,7 +62,7 @@
 		<View android:id="@+id/cvAuth"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
-			android:background="@drawable/view_bg_top_round_corners"
+			android:background="@drawable/view_bg_surface_top_24"
 			
 			app:layout_constraintHeight_percent="0.75"
 			

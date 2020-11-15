@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.10.2020 16:54
+  ~ Last modified 15.11.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,50 +20,57 @@
 			/>
 	</data>
 	
-	<LinearLayout
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:background="@drawable/view_bg_surface_6"
 		
-		android:background="@drawable/view_card_bg_imitation_6_clickable"
-		android:orientation="vertical"
-		android:padding="4dp"
 		>
-		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvNodeTitle"
+	
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			
-			android:maxLines="1"
-			
-			android:text="@{bindItem.title}"
-			android:textAlignment="center"
-			android:textAppearance="?textAppearanceHeadline6"
-			
-			/>
-		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvNodeComponents"
 			android:layout_height="match_parent"
-			android:layout_width="match_parent"
 			
-			android:paddingStart="16dp"
-			android:paddingEnd="16dp"
+			android:background="?selectableItemBackgroundBorderless"
+			android:orientation="vertical"
+			android:padding="4dp"
+			>
 			
-			android:drawableEnd="@{bindItem.icon}"
-			android:gravity="center_vertical"
-			android:ellipsize="end"
-			android:maxLines="6"
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvNodeTitle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				
+				android:maxLines="1"
+				
+				android:text="@{bindItem.title}"
+				android:textAlignment="center"
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				/>
 			
-			android:text="@{bindItem.components}"
-			android:textAppearance="?textAppearanceBody2"
-			
-			app:autoSizeMaxTextSize="14sp"
-			app:autoSizeMinTextSize="12sp"
-			app:autoSizeTextType="uniform"
-			/>
-	
-	</LinearLayout>
-	
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvNodeComponents"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				android:paddingStart="16dp"
+				android:paddingEnd="16dp"
+				
+				android:drawableEnd="@{bindItem.icon}"
+				android:gravity="center_vertical"
+				android:ellipsize="end"
+				android:maxLines="6"
+				
+				android:text="@{bindItem.components}"
+				android:textAppearance="?textAppearanceBody2"
+				
+				app:autoSizeMaxTextSize="14sp"
+				app:autoSizeMinTextSize="12sp"
+				app:autoSizeTextType="uniform"
+				/>
+		
+		</LinearLayout>
+	</FrameLayout>
 	
 </layout>

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.10.2020 17:57
+  ~ Last modified 15.11.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,7 +39,7 @@
 				android:layout_height="0dp"
 				android:layout_marginEnd="2dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
@@ -105,7 +105,7 @@
 				android:layout_height="0dp"
 				android:layout_marginStart="2dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -194,7 +194,7 @@
 				android:layout_height="0dp"
 				android:layout_marginEnd="2dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
@@ -262,7 +262,7 @@
 				android:layout_height="0dp"
 				android:layout_marginStart="2dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

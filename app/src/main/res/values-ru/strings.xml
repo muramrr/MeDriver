@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.11.2020 19:16
+  ~ Last modified 15.11.2020 15:26
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -54,7 +54,7 @@
 	<string name="btm_sheet_subscription_choose_plan_label">Доступные подписки</string>
 	<string name="btm_sheet_subscription_plan_type_free">Бесплатная</string>
 	<string name="btm_sheet_subscription_plan_type_premium">Премиум</string>
-	<string name="btm_sheet_subscription_plan_type_pro">Профи</string>
+	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Выбрать</string>
 	<string name="btm_sheet_subscription_already_chosen_plan">Текущая подписка</string>
@@ -74,11 +74,7 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронизация</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ ко всей истории с любого девайса</string>
 	
-	<string name="btm_sheet_premium_plan_monthly_duration">1 месяц</string>
-	<string name="btm_sheet_premium_plan_semi_annual_duration">6 месяцев</string>
-	<string name="btm_sheet_premium_plan_annual_duration">12 месяцев</string>
 	<string name="btm_sheet_subscription_plan_per_month">/месяц</string>
-	<string name="btm_sheet_premium_plan_saving_label">СКИДКА</string>
 	
 	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on Settings screen.</string>
 	

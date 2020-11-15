@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 19:37
+  ~ Last modified 15.11.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@
 	
 	<androidx.constraintlayout.widget.ConstraintLayout
 		
-		android:background="@drawable/view_card_bg_imitation_16"
+		android:background="@drawable/view_bg_surface_16"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		>

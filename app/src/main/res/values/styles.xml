@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 10.10.2020 19:38
+  ~ Last modified 15.11.2020 19:35
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,8 +30,8 @@
 	<style name="Switcher" parent="BaseSwitcher"/>
 
 	<style name="BaseProgress">
-		<item name="barBackgroundColor">#e1e7e9</item>
-		<item name="barForegroundColor">@color/colorSecondary</item>
+		<item name="barBackgroundColor">#4D434141</item>
+		<item name="barForegroundColor">?colorPrimary</item>
 		<item name="android:textColor">?attr/colorOnBackground</item>
 
 	</style>
@@ -44,7 +44,20 @@
 	</style>
 	
 	<!-- button with icon at center -->
-	<style name="My.Widget.Button.IconOnly.Rounded.Unelevated" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+	<style name="My.Widget.Button.IconOnly.Text" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded.Text" parent="Widget.MaterialComponents.Button.TextButton.Icon">
 		
 		<item name="android:insetLeft">0dp</item>
 		<item name="android:insetRight">0dp</item>
@@ -55,7 +68,20 @@
 	
 	</style>
 	
-	<!-- button with icon at center -->
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
 	<style name="My.Widget.Button.IconOnly.Rounded" parent="Widget.MaterialComponents.Button.Icon">
 		
 		<item name="android:insetLeft">0dp</item>
@@ -67,7 +93,7 @@
 	
 	</style>
 	
-	<!-- button with letter at center -->
+	<!-- circle button with letter at center -->
 	<style name="My.Widget.Button.LetterOnly.Rounded.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
 		
 		<item name="android:padding">1dp</item>

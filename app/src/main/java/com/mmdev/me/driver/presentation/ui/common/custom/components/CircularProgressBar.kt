@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.07.20 20:47
+ * Last modified 15.11.2020 19:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,11 @@ package com.mmdev.me.driver.presentation.ui.common.custom.components
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -32,7 +36,7 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 		private const val STROKE_THICKNESS_FRACTION = 0.075f
 		private const val TEXT_SIZE_FRACTION = 0.25f
 		private const val MAX_PROGRESS = 100f
-		private const val ANIM_DURATION_MS = 800L
+		private const val ANIM_DURATION_MS = 700L
 	}
 
 	private var strokeThickness: Float = 0f
@@ -46,13 +50,13 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 
 	private val progressTextBounds = Rect()
 
-	private var progress = 0f
+	private var progress = 0
 
-	private val progressValueAnimator = ValueAnimator.ofFloat(0f, progress).apply {
+	private val progressValueAnimator = ValueAnimator.ofInt(0, progress).apply {
 		duration = ANIM_DURATION_MS
 		interpolator = AccelerateDecelerateInterpolator()
 		addUpdateListener {
-			progress = animatedValue as Float
+			progress = animatedValue as Int
 			invalidate()
 		}
 	}
@@ -69,19 +73,28 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 					it,
 					R.styleable.CircularProgressBar,
 					defStyleAttr,
-					R.style.CircularProgress)
+					R.style.CircularProgress
+			)
 
 			backgroundColor = typedArray.getColor(
 					R.styleable.CircularProgressBar_barBackgroundColor,
-					Color.parseColor("#e1e7e9"))
+					Color.parseColor("#e1e7e9")
+			)
 
 			foregroundColor = typedArray.getColor(
 					R.styleable.CircularProgressBar_barForegroundColor,
-					Color.BLUE)
+					Color.BLUE
+			)
+			
+			progress = typedArray.getInteger(
+				R.styleable.CircularProgressBar_barProgress,
+				0
+			)
 
 			textColor = typedArray.getColor(
 					R.styleable.CircularProgressBar_android_textColor,
-					Color.BLACK)
+					Color.BLACK
+			)
 
 			typedArray.recycle()
 		}
@@ -100,7 +113,7 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 	override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
 		super.onSizeChanged(w, h, oldw, oldh)
 
-		val diameter = min(w, h)
+		val diameter = min(w - (paddingLeft + paddingRight), h - (paddingTop + paddingBottom))
 		strokeThickness = diameter * STROKE_THICKNESS_FRACTION
 
 		val centerX = w / 2
@@ -118,11 +131,11 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 		progressTextSize = diameter * TEXT_SIZE_FRACTION
 	}
 
-	fun updateProgress(progress: Float) {
+	fun updateProgress(progress: Int) {
 		if (progressValueAnimator.isRunning) {
 			progressValueAnimator.cancel()
 		}
-		progressValueAnimator.setFloatValues(this.progress, progress)
+		progressValueAnimator.setIntValues(this.progress, progress)
 		progressValueAnimator.start()
 	}
 
@@ -146,7 +159,7 @@ class CircularProgressBar @JvmOverloads constructor(context: Context,
 	}
 
 	private fun drawProgressText(canvas: Canvas) {
-		val text = "${progress.toInt()}%"
+		val text = "${progress}%"
 
 		paint.apply {
 			textColor?.let { color = it }

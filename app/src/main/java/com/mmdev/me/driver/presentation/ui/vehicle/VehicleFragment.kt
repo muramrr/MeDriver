@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 17:48
+ * Last modified 15.11.2020 19:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,6 +65,23 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		binding.btnMileageHistory.setDebounceOnClick {
 			MainActivity.bottomNavMain.selectedItemId = R.id.bottomNavFuel
 		}
+		
+		
+		
+		//add callback to check what button is being checked
+		binding.radioTiresType.addOnButtonCheckedListener { _, checkedId, isChecked ->
+			// redundant if (value != field) check because toggling checks this by itself
+			when {
+				checkedId == binding.btnTiresSummer.id && isChecked -> {
+					binding.pgTiresWear.updateProgress(20)
+				}
+				
+				checkedId == binding.btnTiresWinter.id && isChecked -> {
+					binding.pgTiresWear.updateProgress(70)
+				}
+			}
+		}
+		binding.radioTiresType.check(binding.btnTiresSummer.id)
 	}
 	
 	private fun initDropList() {

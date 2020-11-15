@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.11.2020 19:17
+  ~ Last modified 15.11.2020 19:38
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@
 	>
 	
 	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
 		<variable
 			name="viewModel"
 			type="com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel"
@@ -32,68 +33,11 @@
 			android:layout_width="match_parent"
 			>
 			
-			<!-- vehicle specs card header -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvVehicleSpecsHeader"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:padding="16dp"
-				
-				android:text="Vehicle specs"
-				android:textAppearance="?textAppearanceHeadline6"
-				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
-				/>
-			
-			<!-- account card header -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnEditVehicleSpecs"
-				android:layout_width="48dp"
-				android:layout_height="wrap_content"
-				
-				app:iconPadding="-4dp"
-				app:icon="@drawable/ic_pencil_24"
-				app:iconGravity="textStart"
-				app:iconSize="16dp"
-				app:cornerRadius="4dp"
-				
-				style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-				
-				app:layout_constraintTop_toTopOf="@id/tvVehicleSpecsHeader"
-				app:layout_constraintBottom_toBottomOf="@id/tvVehicleSpecsHeader"
-				app:layout_constraintEnd_toEndOf="@id/tvVehicleSpecsHeader"
-				/>
-			
-			<!-- vehicle specs card container imitation -->
-			<View android:id="@+id/cvVehicleBoundSpecs"
-				android:layout_width="0dp"
-				android:layout_height="200dp"
-				android:background="@drawable/view_card_bg_imitation_6"
-				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/tvVehicleSpecsHeader"
-				
-				/>
-			
-			<!-- drop car chooser-->
-			<View
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:background="?colorSurface"
-				
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintBottom_toBottomOf="@id/layoutMyCarChooseCar"
-				/>
-			
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/layoutMyCarChooseCar"
 				android:layout_height="?actionBarSize"
 				android:layout_width="0dp"
+				android:background="?colorSurface"
 				
 				app:boxStrokeWidth="0dp"
 				app:hintEnabled="false"
@@ -109,7 +53,6 @@
 					android:id="@+id/dropMyCarChooseCar"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
-					
 					android:cursorVisible="false"
 					
 					android:focusable="false"
@@ -122,67 +65,48 @@
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
-			
-			
-			
-			
-			
-			
 			<!-- cv mileage -->
-			<View
-				android:id="@+id/cvMileage"
+			<View android:id="@+id/cvMileage"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginTop="8dp"
 				android:layout_marginEnd="4dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintTop_toBottomOf="@id/cvVehicleBoundSpecs"
+				app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
 				app:layout_constraintBottom_toBottomOf="@id/btnMileageHistory"
 				app:layout_constraintEnd_toEndOf="@id/guidelineCenterVertical"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				/>
-			<ImageView
-				android:id="@+id/ivMileage"
-				android:layout_width="wrap_content"
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvMileage"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
+			
+				android:drawableEnd="@drawable/ic_mileage_24"
 				
-				android:src="@drawable/ic_mileage_24"
+				android:text="@string/fg_vehicle_mileage_card_title"
+				android:textAppearance="?textAppearanceBody2"
 				
 				app:layout_constraintTop_toTopOf="@id/cvMileage"
-				app:layout_constraintBottom_toTopOf="@id/tvMileage"
-				app:layout_constraintStart_toStartOf="@id/cvMileage"
-				app:layout_constraintEnd_toEndOf="@id/cvMileage"
-				android:contentDescription="@null"
-				/>
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvMileage"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-			
-				android:text="@string/fg_vehicle_mileage_card_title"
-				android:textAlignment="center"
-				android:textAppearance="?textAppearanceSubtitle2"
-				
-				app:layout_constraintTop_toBottomOf="@id/ivMileage"
+				app:layout_constraintBottom_toTopOf="@id/tvMileageValue"
 				app:layout_constraintStart_toStartOf="@id/cvMileage"
 				app:layout_constraintEnd_toEndOf="@id/cvMileage"
 				/>
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvMileageValue"
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvMileageValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="4dp"
-				android:layout_marginHorizontal="4dp"
+				android:layout_marginHorizontal="16dp"
 				
-				android:gravity="center"
+				android:gravity="center_vertical"
 				android:maxLines="1"
 				
-				android:text="@string/default_OdometerValue"
-				android:textAppearance="?textAppearanceHeadline5"
+				android:text="@{DistanceBoundExtKt.getOdometerFormatted(viewModel.chosenVehicle.odometerValueBound, context)}"
+				android:textAppearance="?textAppearanceHeadline4"
+				android:textColor="?colorOnSurface"
 				android:textStyle="bold"
 				
 				app:autoSizeTextType="uniform"
@@ -191,12 +115,12 @@
 				
 				
 				app:layout_constraintTop_toBottomOf="@id/tvMileage"
+				app:layout_constraintBottom_toTopOf="@id/btnMileageHistory"
 				app:layout_constraintEnd_toEndOf="@id/cvMileage"
 				app:layout_constraintStart_toStartOf="@id/cvMileage"
 				
 				/>
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnMileageHistory"
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnMileageHistory"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="4dp"
@@ -216,10 +140,6 @@
 				/>
 			
 			
-			
-			
-			
-			
 			<!-- cv expenses -->
 			<View android:id="@+id/cvExpenses"
 				android:layout_width="0dp"
@@ -227,52 +147,43 @@
 				android:layout_marginTop="8dp"
 				android:layout_marginStart="4dp"
 				
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintTop_toBottomOf="@id/cvVehicleBoundSpecs"
+				app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
 				app:layout_constraintBottom_toBottomOf="@id/btnExpensesHistory"
 				app:layout_constraintStart_toStartOf="@id/guidelineCenterVertical"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				
 				/>
-			<ImageView android:id="@+id/ivMoney"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				
-				android:src="@drawable/ic_expenses_24"
-				
-				app:layout_constraintTop_toTopOf="@id/cvExpenses"
-				app:layout_constraintBottom_toTopOf="@id/tvExpensesTitle"
-				app:layout_constraintStart_toStartOf="@id/cvExpenses"
-				app:layout_constraintEnd_toEndOf="@id/cvExpenses"
-				android:contentDescription="@null"
-				/>
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvExpensesTitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
+				
+				android:drawableEnd="@drawable/ic_hryvnia_24"
 				
 				android:text="@string/fg_vehicle_expenses_card_title"
-				android:textAlignment="center"
-				android:textAppearance="?textAppearanceSubtitle2"
 				
-				app:layout_constraintTop_toBottomOf="@id/ivMoney"
+				android:textAppearance="?textAppearanceBody2"
+				
+				app:layout_constraintTop_toTopOf="@id/cvExpenses"
+				app:layout_constraintBottom_toTopOf="@id/tvExpensesValue"
 				app:layout_constraintStart_toStartOf="@id/cvExpenses"
 				app:layout_constraintEnd_toEndOf="@id/cvExpenses"
 				/>
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvExpensesValue"
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvExpensesValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="4dp"
-				android:layout_marginHorizontal="4dp"
+				android:layout_marginHorizontal="16dp"
 				
-				android:gravity="center"
+				android:gravity="center_vertical"
 				android:maxLines="1"
 				
-				android:text="0000000000.00 ₴"
-				android:textAppearance="?textAppearanceHeadline5"
+				android:text="00000.00 ₴"
+				android:textAppearance="?textAppearanceHeadline4"
+				android:textColor="?colorOnSurface"
 				android:textStyle="bold"
 				
 				app:autoSizeTextType="uniform"
@@ -280,13 +191,12 @@
 				app:autoSizeMaxTextSize="28sp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvExpensesTitle"
+				app:layout_constraintBottom_toTopOf="@id/btnExpensesHistory"
 				app:layout_constraintStart_toStartOf="@id/cvExpenses"
 				app:layout_constraintEnd_toEndOf="@id/cvExpenses"
 				
 				/>
-			
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnExpensesHistory"
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnExpensesHistory"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="4dp"
@@ -304,6 +214,228 @@
 				app:layout_constraintEnd_toEndOf="@id/cvExpenses"
 				
 				/>
+			
+			
+			<!-- cv Insurance -->
+			<View android:id="@+id/cvInsurance"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginTop="8dp"
+				
+				android:background="@drawable/view_bg_secondary_6"
+				
+				app:layout_constraintTop_toBottomOf="@id/cvMileage"
+				app:layout_constraintBottom_toBottomOf="@id/ivInsuranceIcon"
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvInsuranceTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
+				
+				android:text="Insurance"
+				android:textAppearance="?textAppearanceSubtitle2"
+				android:textColor="?colorOnSecondary"
+				
+				app:layout_constraintTop_toTopOf="@id/cvInsurance"
+				app:layout_constraintBottom_toTopOf="@id/tvInsuranceValue"
+				app:layout_constraintStart_toStartOf="@id/cvInsurance"
+				app:layout_constraintEnd_toEndOf="@id/cvInsurance"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvInsuranceValue"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:layout_marginHorizontal="16dp"
+				
+				android:gravity="center_vertical"
+				android:maxLines="1"
+				
+				android:text="PZU"
+				android:textAppearance="?textAppearanceHeadline5"
+				android:textColor="?colorOnSecondary"
+				
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="14sp"
+				app:autoSizeMaxTextSize="28sp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvInsuranceTitle"
+				app:layout_constraintBottom_toTopOf="@id/tvInsuranceSubtitle"
+				app:layout_constraintStart_toStartOf="@id/cvInsurance"
+				app:layout_constraintEnd_toStartOf="@id/ivInsuranceIcon"
+				
+				/>
+			<ImageView android:id="@+id/ivInsuranceIcon"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
+				android:layout_margin="16dp"
+				
+				android:src="@drawable/ic_insurance_24"
+				
+				app:layout_constraintTop_toTopOf="@id/cvInsurance"
+				app:layout_constraintBottom_toBottomOf="@id/cvInsurance"
+				app:layout_constraintEnd_toEndOf="@id/cvInsurance"
+				
+				android:contentDescription="@null"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvInsuranceSubtitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:layout_marginHorizontal="16dp"
+				
+				android:gravity="center_vertical"
+				android:maxLines="1"
+				
+				android:text="Valid until 01.01.1970"
+				android:textAppearance="?textAppearanceCaption"
+				android:textColor="?colorOnSecondary"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvInsuranceValue"
+				app:layout_constraintStart_toStartOf="@id/cvInsurance"
+				app:layout_constraintEnd_toStartOf="@id/ivInsuranceIcon"
+				
+				/>
+			
+			
+			<!-- cv tires -->
+			<View android:id="@+id/cvTires"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginEnd="4dp"
+				
+				android:background="@drawable/view_bg_surface_6"
+				
+				app:layout_constraintTop_toBottomOf="@id/cvInsurance"
+				app:layout_constraintBottom_toBottomOf="@id/viewProgressBottomMargin"
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineCenterVertical"
+				
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvTiresWearTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
+				
+				android:text="Tires wear"
+				android:textAppearance="?textAppearanceBody2"
+				
+				app:layout_constraintTop_toTopOf="@id/cvTires"
+				app:layout_constraintStart_toStartOf="@id/cvTires"
+				app:layout_constraintEnd_toEndOf="@id/cvTires"
+				/>
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircularProgressBar
+				android:id="@+id/pgTiresWear"
+				android:layout_width="100dp"
+				android:layout_height="100dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
+				
+				app:barProgress="50"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvTiresWearTitle"
+				app:layout_constraintBottom_toTopOf="@id/viewProgressBottomMargin"
+				app:layout_constraintStart_toStartOf="@id/cvTires"
+				/>
+			<View android:id="@+id/viewProgressBottomMargin"
+				android:layout_width="0dp"
+				android:layout_height="16dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/pgTiresWear"
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineCenterVertical"
+				
+				/>
+			<com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/radioTiresType"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				
+				android:orientation="vertical"
+				
+				app:checkedButton="@id/btnTiresSummer"
+				app:selectionRequired="true"
+				app:singleSelection="true"
+				
+				app:layout_constraintTop_toTopOf="@id/pgTiresWear"
+				app:layout_constraintBottom_toBottomOf="@id/pgTiresWear"
+				app:layout_constraintStart_toEndOf="@id/pgTiresWear"
+				app:layout_constraintEnd_toEndOf="@id/cvTires"
+				>
+			
+				<com.google.android.material.button.MaterialButton android:id="@+id/btnTiresSummer"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					
+					app:icon="@drawable/ic_sun_24"
+					
+					style="@style/My.Widget.Button.IconOnly.Text"
+					/>
+				<com.google.android.material.button.MaterialButton android:id="@+id/btnTiresWinter"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					
+					app:icon="@drawable/ic_snowflake_24"
+					
+					style="@style/My.Widget.Button.IconOnly.Text"
+					/>
+				
+			</com.google.android.material.button.MaterialButtonToggleGroup>
+			
+			
+			
+			
+			
+			<!-- vehicle specs card header -->
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvVehicleSpecsHeader"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:padding="16dp"
+				
+				android:text="Vehicle specs"
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintBottom_toBottomOf="parent"
+				/>
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnEditVehicleSpecs"
+				android:layout_width="48dp"
+				android:layout_height="0dp"
+				
+				app:icon="@drawable/ic_pencil_24"
+				app:iconGravity="textEnd"
+				app:iconSize="16dp"
+				app:cornerRadius="4dp"
+				
+				style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+				
+				app:layout_constraintTop_toTopOf="@id/tvVehicleSpecsHeader"
+				app:layout_constraintBottom_toBottomOf="@id/tvVehicleSpecsHeader"
+				app:layout_constraintEnd_toEndOf="@id/tvVehicleSpecsHeader"
+				/>
+			
+			<!-- vehicle specs card container imitation -->
+			<View android:id="@+id/cvVehicleBoundSpecs"
+				android:layout_width="0dp"
+				android:layout_height="200dp"
+				android:background="@drawable/view_bg_surface_6"
+				
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintTop_toBottomOf="@id/tvVehicleSpecsHeader"
+				
+				/>
+			
+			
+			
+			
 			
 			<!-- guideline start -->
 			<androidx.constraintlayout.widget.Guideline
@@ -329,15 +461,9 @@
 				android:orientation="vertical"
 				app:layout_constraintGuide_percent="0.5"
 				/>
-			<!-- guideline center horizontal -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineCenterHorizontal"
-				android:layout_width="match_parent"
-				android:layout_height="0dp"
-				android:orientation="horizontal"
-				app:layout_constraintGuide_percent="0.5"
-				/>
+			
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>
+		
 	</androidx.core.widget.NestedScrollView>
 </layout>

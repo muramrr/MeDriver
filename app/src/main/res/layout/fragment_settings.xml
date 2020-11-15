@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.11.2020 19:10
+  ~ Last modified 15.11.2020 18:22
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,6 @@
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
 			android:focusableInTouchMode="true"
-	
 			>
 			
 			<!-- account card header -->
@@ -70,7 +69,7 @@
 			<View android:id="@+id/cvAccountContainer"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:background="@drawable/view_card_bg_imitation_16"
+				android:background="@drawable/view_bg_surface_16"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
@@ -307,7 +306,7 @@
 			<View android:id="@+id/cvGeneralContainer"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:background="@drawable/view_card_bg_imitation_16"
+				android:background="@drawable/view_bg_surface_16"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"

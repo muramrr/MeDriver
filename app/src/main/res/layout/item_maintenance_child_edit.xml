@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 26.10.2020 17:08
+  ~ Last modified 15.11.2020 16:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginHorizontal="8dp"
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvLastReplacedDetail"
@@ -109,7 +109,7 @@
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginHorizontal="8dp"
-				android:background="@drawable/view_card_bg_imitation_6"
+				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintTop_toTopOf="@id/tvComponentTitle"
 				app:layout_constraintBottom_toBottomOf="@id/layoutInputCommentary"

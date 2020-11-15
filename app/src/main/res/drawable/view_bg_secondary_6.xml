@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.09.2020 17:10
+  ~ Last modified 15.11.2020 17:21
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,7 +35,11 @@
 	<!-- Background -->
 	<item>
 		<shape>
-			<solid android:color="@color/surface2dpImitation" />
+			<gradient
+				android:angle="0"
+				android:startColor="?colorSecondary"
+				android:endColor="?colorSecondaryVariant"
+				/>
 			<corners android:radius="6dp" />
 		</shape>
 	</item>

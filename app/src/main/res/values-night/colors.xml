@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 06.10.2020 17:02
+  ~ Last modified 16.11.2020 20:12
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,9 +39,9 @@
 
 	<color name="colorStatusBar">#000000</color>
 
-	<color name="surface2dpImitation">#1E1E1E</color>
-	<color name="surface2dpElevation1">#26000000</color>
-	<color name="surface2dpElevation2">#1A2B2B2B</color>
+	<color name="surface1dpImitation">#1E1E1E</color>
+	<color name="surface1dpElevation1">#26000000</color>
+	<color name="surface1dpElevation2">#1A2B2B2B</color>
 	
 	<color name="disabled_foreground">#646464</color>
 	<color name="disabled_background">#323232</color>

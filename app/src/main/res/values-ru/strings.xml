@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 15:26
+  ~ Last modified 17.11.2020 16:41
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -228,11 +228,10 @@
 	
 	<string name="maintenance_planned_insurance">Страховка</string>
 	<string name="maintenance_planned_air_filter">Фильтр воздушный</string>
-	<string name="maintenance_planned_oil_filter">Фильтр масляной</string>
+	<string name="maintenance_planned_engine_oil_filter">Моторное масло и Фильтр</string>
 	<string name="maintenance_planned_fuel_filter">Фильтр топливный</string>
 	<string name="maintenance_planned_cabin_filter">Фильтр салона</string>
 	<string name="maintenance_planned_brakes_fluid">Тормозная жидкость</string>
-	<string name="maintenance_planned_engine_oil">Моторное масло</string>
 	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремень и ролики)</string>
 	<string name="maintenance_planned_plugs">Свечи (зажигания или накалывания)</string>
 	<string name="maintenance_planned_antifreeze">Антифриз</string>

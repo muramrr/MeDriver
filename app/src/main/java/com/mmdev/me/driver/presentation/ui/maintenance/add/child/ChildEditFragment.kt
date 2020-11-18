@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 16:16
+ * Last modified 18.11.2020 17:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -72,7 +72,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	
 	override fun setupViews() {
 		with(mViewModel.viewStateMap) {
-			if (argPosition < this.size) {
+			if (argPosition < size) {
 				this[argPosition]!!.observe(this@ChildEditFragment, {
 					renderState(it)
 				})
@@ -144,7 +144,6 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	}
 	
 	override fun renderState(state: ViewState) {
-		super.renderState(state)
 		when(state) {
 			is MaintenanceAddViewState.Success -> {
 				// if only one entry planned to add -> dismiss automatically dialog
@@ -188,16 +187,27 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 	}
 	
 	@SuppressLint("SetTextI18n")
+	//todo: temporary fix backpressure
 	private fun setupLastReplaced(child: Child) {
 		lastReplacedEntry = mViewModel.lastReplacedChildren[child.sparePart]
 		
-		lastReplacedEntry?.let {
-			binding.tvLastReplacedDate.text = it.date.toString()
+		if (lastReplacedEntry != null) {
 			
-			binding.tvLastReplacedOdometer.text = it.odometerValueBound.getOdometerFormatted(requireContext())
-			
-			if (it.vendor.isNotEmpty() || it.articulus.isNotEmpty())
-				binding.tvLastReplacedDetail.text = "${it.vendor} ${it.articulus}"
+			binding.apply {
+				binding.tvLastReplacedDate.text = lastReplacedEntry!!.date.date.toString()
+				
+				binding.tvLastReplacedOdometer.text = lastReplacedEntry!!.odometerValueBound.getOdometerFormatted(requireContext())
+				
+				if (lastReplacedEntry!!.vendor.isNotEmpty() || lastReplacedEntry!!.articulus.isNotEmpty())
+					binding.tvLastReplacedDetail.text = "${lastReplacedEntry!!.vendor} " +
+					                                    "${lastReplacedEntry!!.articulus}"
+				else binding.tvLastReplacedDetail.text = getString(R.string.item_maintenance_not_defined_vendor_articulus)
+			}
+		}
+		else {
+			binding.tvLastReplacedOdometer.text = getString(R.string.default_OdometerValue)
+			binding.tvLastReplacedDetail.text = getString(R.string.item_maintenance_not_defined_vendor_articulus)
+			binding.tvLastReplacedDate.text = getString(R.string.item_maintenance_child_edit_last_replaced_value_never)
 		}
 		
 	}

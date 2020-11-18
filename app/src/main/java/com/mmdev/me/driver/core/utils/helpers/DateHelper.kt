@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.10.2020 19:12
+ * Last modified 17.11.2020 17:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,8 @@ import java.util.*
  */
 
 object DateHelper {
+	
+	const val YEAR_DURATION = 31557600000
 	
 	private val ukrainianMonths: Array<String> = arrayOf(
 		"", // this corresponds to 0 position
@@ -65,6 +67,8 @@ object DateHelper {
 		"November",
 		"December"
 	)
+	
+	fun getYearsCount(millis: Long): Int = (millis / YEAR_DURATION).toInt()
 	
 	fun getMonthText(monthNumber: Int, locale: Locale): String =
 		if (monthNumber in 1..12) {

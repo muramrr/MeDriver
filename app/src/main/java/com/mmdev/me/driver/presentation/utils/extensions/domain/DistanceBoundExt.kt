@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 19:53
+ * Last modified 16.11.2020 17:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,9 +26,13 @@ fun DistanceBound.getOdometerValue(): Int = when (MedriverApp.metricSystem) {
 	MetricSystem.MILES -> miles
 }
 
-fun DistanceBound.getOdometerFormatted(context: Context): String = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> context.getString(R.string.formatter_odometer_km).format(kilometers)
-	MetricSystem.MILES -> context.getString(R.string.formatter_odometer_mi).format(miles)
+fun DistanceBound?.getOdometerFormatted(context: Context): String = when (MedriverApp.metricSystem) {
+	MetricSystem.KILOMETERS -> context.getString(R.string.formatter_odometer_km).format(
+		this?.kilometers ?: context.getString(R.string.default_OdometerValue)
+	)
+	MetricSystem.MILES -> context.getString(R.string.formatter_odometer_mi).format(
+		this?.miles ?: context.getString(R.string.default_OdometerValue)
+	)
 }
 
 fun DistanceBound.getDistancePassed(context: Context): String = when (MedriverApp.metricSystem) {

@@ -12,24 +12,15 @@ package com.mmdev.me.driver.data.datasource.vehicle.local.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 /**
  *
  */
 
-@Entity(tableName = MeDriverRoomDatabase.VEHICLES_TABLE)
-data class VehicleEntity(
-	val brand: String,
-	val model: String,
-	val year: Int,
-	@PrimaryKey
-	val vin: String,
-	@Embedded(prefix = "odometer_current_")
-	val odometerValueBound: DistanceBound,
-	val engineCapacity: Double,
-	@Embedded
-	val maintenanceRegulations: MaintenanceRegulationsEntity
+@Entity
+data class RegulationEntity(
+	@Embedded(prefix = "regulations_distance_")
+	val distance: DistanceBound,
+	val time: Long
 )

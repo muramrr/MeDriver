@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:27
+ * Last modified 18.11.2020 15:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,12 +10,22 @@
 
 package com.mmdev.me.driver.data.repository.vehicle.mappers
 
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
+import com.mmdev.me.driver.core.utils.toCurrentTimeAndDate
 import com.mmdev.me.driver.data.core.mappers.mapList
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.data.datasource.vehicle.remote.dto.VehicleDto
 import com.mmdev.me.driver.data.datasource.vin.remote.dto.VehicleByVin
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 
 /**
  * MappersFacade used inside [com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl]
@@ -68,5 +78,30 @@ class VehicleMappersFacade {
 	fun listEntitiesToDto(input: List<VehicleEntity>): List<VehicleDto> =
 		mapList(input) { EntityMappers.toDto(it) }
 	
+	
+	fun sparePartToReplacementCalculated(input: Map<String, VehicleSparePartEntity?>, vehicle: Vehicle):
+			Map<SparePart, PendingReplacement?> = input.mapKeys { PlannedParts.valueOf(it.key) }
+		.mapValues { entry ->
+			entry.value?.let {
+				PendingReplacement(
+					distanceRemain = DistanceBound(
+						vehicle.maintenanceRegulations[entry.key]!!.distance.kilometers -
+						(vehicle.odometerValueBound.kilometers - it.odometerValueBound.kilometers),
+						vehicle.maintenanceRegulations[entry.key]!!.distance.miles -
+						(vehicle.odometerValueBound.miles - it.odometerValueBound.miles)
+					),
+					finalDate = (Instant.fromEpochMilliseconds(it.date).plus(
+						DateTimePeriod(
+							years = DateHelper.getYearsCount(
+								vehicle.maintenanceRegulations[entry.key]!!.time
+							)
+						),
+						TimeZone.currentSystemDefault()
+					)).toCurrentTimeAndDate().date
+				)
+			}
+			
+		}
+		
 	
 }

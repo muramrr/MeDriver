@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 20:36
+ * Last modified 16.11.2020 20:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@
 
 package com.mmdev.me.driver.presentation.utils.extensions
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
@@ -19,6 +21,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
+
 
 fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 	Toast.makeText(this.context, text, length).show()
@@ -40,9 +43,9 @@ fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
  * Show a SnackBar with [messageRes] resource, execute [f] and show it
  * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
  */
-inline fun View.showSnackWithAction(@StringRes messageRes: Int,
-                                    length: Int = Snackbar.LENGTH_SHORT,
-                                    f: Snackbar.() -> Unit) {
+inline fun View.showSnackWithAction(
+	@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT, f: Snackbar.() -> Unit
+) {
 	val snack = Snackbar.make(this, messageRes, length)
 	snack.f()
 	snack.show()
@@ -52,9 +55,9 @@ inline fun View.showSnackWithAction(@StringRes messageRes: Int,
  * Show a SnackBar with [message] string, execute [f] and show it
  * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
  */
-inline fun View.showSnackWithAction(message: String,
-                                    length: Int = Snackbar.LENGTH_SHORT,
-                                    f: Snackbar.() -> Unit) {
+inline fun View.showSnackWithAction(
+	message: String, length: Int = Snackbar.LENGTH_SHORT, f: Snackbar.() -> Unit
+) {
 	val snack = Snackbar.make(this, message, length)
 	snack.f()
 	snack.show()
@@ -63,9 +66,48 @@ inline fun View.showSnackWithAction(message: String,
 /**
  * Show the view (visibility = View.VISIBLE)
  */
-fun View.visible() : View {
+fun View.visible(delay: Int = 300) : View {
 	if (visibility != View.VISIBLE) {
+		//check if previous state was GONE to prevent unexpected crash "No such view"
+		if (visibility == View.GONE) visibility = View.INVISIBLE
+		clearAnimation()
+		alpha = 0.0f
 		visibility = View.VISIBLE
+		animate().alpha(1.0f).setDuration(delay.toLong()).setListener(null)
+	}
+	return this
+}
+
+/**
+ * Hide the view (visibility = [View.INVISIBLE])
+ */
+fun View.invisible(delay: Int = 300): View {
+	if (visibility != View.INVISIBLE) {
+		clearAnimation()
+		animate().alpha(0.0f).setDuration(delay.toLong())
+			.setListener(object: AnimatorListenerAdapter() {
+				override fun onAnimationEnd(animation: Animator) {
+					visibility = View.INVISIBLE
+				}
+			})
+		
+	}
+	return this
+}
+
+/**
+ * Remove the view (visibility = View.GONE)
+ */
+fun View.gone(delay: Int = 300) : View {
+	if (visibility != View.GONE) {
+		clearAnimation()
+		animate().alpha(0.0f).setDuration(delay.toLong())
+			.setListener(object: AnimatorListenerAdapter() {
+				override fun onAnimationEnd(animation: Animator) {
+					clearAnimation()
+					visibility = View.GONE
+				}
+			})
 	}
 	return this
 }
@@ -75,38 +117,12 @@ fun View.visible() : View {
  * Set visibility to [View.VISIBLE] if [condition] returns true else apply visibility from [otherwise]
  * @param otherwise if not specified explicitly -> use default visibility from given [View]
  */
-inline fun View.visibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
-	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (condition()) View.VISIBLE else otherwise
-	return this
-}
-
-/**
- * Remove the view (visibility = View.GONE)
- */
-fun View.gone() : View {
-	if (visibility != View.GONE) {
-		visibility = View.GONE
+inline fun View.visibleIf(otherwise: Int, delay: Int = 300, condition: () -> Boolean) : View {
+	if (otherwise == View.INVISIBLE) {
+		if (condition()) visible(delay) else invisible(delay)
 	}
-	return this
-}
-
-/**
- * Remove [View] if [condition] returns true else apply visibility from [otherwise]
- * @param otherwise if not specified explicitly -> use default visibility from given [View]
- */
-inline fun View.goneIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
-	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (condition()) View.GONE else otherwise
-	return this
-}
-
-/**
- * Hide the view (visibility = [View.INVISIBLE])
- */
-fun View.invisible() : View {
-	if (visibility != View.INVISIBLE) {
-		visibility = View.INVISIBLE
+	if (otherwise == View.GONE) {
+		if (condition()) visible(delay) else gone(delay)
 	}
 	return this
 }
@@ -115,11 +131,23 @@ fun View.invisible() : View {
  * Hide the view if [condition] returns true else apply visibility from [otherwise]
  * @param otherwise if not specified explicitly -> use default visibility from given [View]
  */
-inline fun View.invisibleIf(otherwise: Int = this.visibility, condition: () -> Boolean) : View {
-	if (otherwise in arrayOf(View.VISIBLE, View.INVISIBLE, View.GONE) )
-		visibility = if (condition()) View.INVISIBLE else otherwise
+inline fun View.invisibleIf(delay: Int = 300, condition: () -> Boolean): View {
+	if (condition()) invisible(delay) else visible(delay)
 	return this
 }
+
+/**
+ * Remove [View] if [condition] returns true else apply visibility from [otherwise]
+ * @param otherwise if not specified explicitly -> use default visibility from given [View]
+ */
+inline fun View.goneIf(delay: Int = 300, condition: () -> Boolean): View {
+	if (condition()) gone(delay) else visible(delay)
+	return this
+}
+
+
+
+
 
 /**
  * Extension method to show a keyboard for View.
@@ -136,7 +164,9 @@ fun View.showKeyboard() {
 fun View.hideKeyboard(inputViewFocused: View? = null): Boolean {
 	try {
 		val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		return inputMethodManager.hideSoftInputFromWindow(applicationWindowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+		return inputMethodManager.hideSoftInputFromWindow(
+			applicationWindowToken, InputMethodManager.HIDE_NOT_ALWAYS
+		)
 	} catch (ignored: RuntimeException) { }
 	finally { inputViewFocused?.clearFocus() }
 	return false
@@ -154,8 +184,7 @@ inline fun Button.setupDatePicker(
 	
 	text = dateToText(currentDay, currentMonthDisplay, currentYear)
 	
-	val datePickerDialog = DatePickerDialog(this.context, {
-			_, pickedYear, pickedMonth, pickedDay ->
+	val datePickerDialog = DatePickerDialog(this.context, { _, pickedYear, pickedMonth, pickedDay ->
 		
 		val pickedMonthDisplay = pickedMonth + 1 // january corresponds to 0
 		

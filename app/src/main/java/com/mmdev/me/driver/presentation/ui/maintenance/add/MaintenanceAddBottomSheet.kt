@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 15:57
+ * Last modified 18.11.2020 17:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
@@ -302,7 +301,7 @@ class MaintenanceAddBottomSheet: BaseBottomSheetFragment
 	@SuppressLint("SetTextI18n")
 	private fun observeChildrenSelected() {
 		mViewModel.selectedChildren.observe(this, {
-			logWtf(TAG, "$it")
+			
 			it?.let {
 				mChildEditAdapter.setNewData(it)
 				

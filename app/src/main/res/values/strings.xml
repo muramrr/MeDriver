@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 15:26
+  ~ Last modified 17.11.2020 16:41
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -263,11 +263,10 @@
 	
 	<string name="maintenance_planned_insurance">Insurance</string>
 	<string name="maintenance_planned_air_filter">Air filter</string>
-	<string name="maintenance_planned_oil_filter">Oil filter</string>
+	<string name="maintenance_planned_engine_oil_filter">Engine oil and filter</string>
 	<string name="maintenance_planned_fuel_filter">Fuel filter</string>
 	<string name="maintenance_planned_cabin_filter">Cabin filter</string>
 	<string name="maintenance_planned_brakes_fluid">Brakes fluid</string>
-	<string name="maintenance_planned_engine_oil">Engine oil</string>
 	<string name="maintenance_planned_grm_kit">Grm kit (belt and roller)</string>
 	<string name="maintenance_planned_plugs">Plugs (glow or spark)</string>
 	<string name="maintenance_planned_antifreeze">Antifreeze</string>

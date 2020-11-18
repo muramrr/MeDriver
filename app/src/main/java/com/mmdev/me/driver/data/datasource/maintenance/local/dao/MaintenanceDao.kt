@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:21
+ * Last modified 18.11.2020 17:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ interface MaintenanceDao {
 		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		AND systemNode = :systemNode
-		AND searchCriteria = :component
+		AND systemNodeComponent = :component
 		ORDER BY date DESC
 		LIMIT 1
 	"""

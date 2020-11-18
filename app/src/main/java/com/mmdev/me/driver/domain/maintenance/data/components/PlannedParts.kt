@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 18:17
+ * Last modified 17.11.2020 16:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,11 +19,10 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 enum class PlannedParts: SparePart {
 	INSURANCE,
 	FILTER_AIR,
-	FILTER_OIL,
+	ENGINE_OIL_FILTER,
 	FILTER_FUEL,
 	FILTER_CABIN,
 	BRAKES_FLUID,
-	OIL_ENGINE,
 	GRM_KIT,
 	PLUGS, //свеча (зажигания или накалывания)
 	ANTIFREEZE,

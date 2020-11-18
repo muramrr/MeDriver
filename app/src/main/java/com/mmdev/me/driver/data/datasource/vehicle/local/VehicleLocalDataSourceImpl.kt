@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 19:18
+ * Last modified 17.11.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.data.cache.CacheDao
 import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -43,6 +44,11 @@ class VehicleLocalDataSourceImpl(
 			logInfo(TAG, "Deleting operation: $cachedOperation")
 		}
 	
+	
+	
+	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity?>> =
+		safeCall(TAG) { dao.getPlannedReplacements(vin) }
+	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =
 		safeCall(TAG) { dao.getAllVehicles() }
 	
@@ -55,8 +61,7 @@ class VehicleLocalDataSourceImpl(
 	override suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.deleteVehicle(vehicleEntity) }
 	
-	override suspend fun clearAll(): SimpleResult<Unit> =
-		safeCall(TAG) { dao.clearAll() }
+	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearAll() }
 	
 	
 }

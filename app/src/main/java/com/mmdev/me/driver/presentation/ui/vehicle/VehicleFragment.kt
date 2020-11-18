@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.11.2020 19:41
+ * Last modified 18.11.2020 17:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,18 +19,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.view.children
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.vehicle.data.Vehicle
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_AIR
+import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
+import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.text
+import com.mmdev.me.driver.presentation.utils.extensions.visible
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -59,8 +67,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	override fun setupViews() {
 		initDropList()
 		
+		setupCardAirFilter()
+		setupCardEngineOilAndFilter()
+		
 		observeVehicleList()
 		observeChosenCar()
+		observePendingReplacements()
 		
 		binding.btnMileageHistory.setDebounceOnClick {
 			MainActivity.bottomNavMain.selectedItemId = R.id.bottomNavFuel
@@ -82,6 +94,53 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			}
 		}
 		binding.radioTiresType.check(binding.btnTiresSummer.id)
+		
+	
+		
+		
+		
+	}
+	
+	private fun setupCardAirFilter() {
+		binding.apply {
+			
+			tvAirFilterTitle.setOnClickListener {
+				radioAirFilterChangeCalculation.radioChangeCalculation.run {
+					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
+				}
+			}
+			
+			radioAirFilterChangeCalculation.radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
+				when (checkedId) {
+					group.children.toList()[0].id -> {
+						tvAirFilterFinalDate.visible(0)
+						tvAirFilterKilometersLeft.invisible(0)
+					}
+					group.children.toList()[1].id -> {
+						tvAirFilterFinalDate.invisible(0)
+						tvAirFilterKilometersLeft.visible(0)
+					}
+				}
+				group.invisible()
+			}
+		}
+		
+	}
+	
+	private fun setupCardEngineOilAndFilter() {
+		binding.apply {
+			
+			tvOilTitle.setOnClickListener {
+				radioOilChangeCalculation.radioChangeCalculation.run {
+					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
+				}
+			}
+			
+			radioOilChangeCalculation.radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
+				group.invisible()
+			}
+		}
+		
 	}
 	
 	private fun initDropList() {
@@ -100,7 +159,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 					if (position == mVehicleDropAdapter.count - 1) {
 						
 						setText(currentTextOnDropDownList, false)
-						showModalBottomSheet()
+						showAddVehicleBottomSheet()
 						
 					}
 					else {
@@ -116,10 +175,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
-			if (vehicle != null)
+			if (vehicle != null) {
 				binding.dropMyCarChooseCar.setText("${vehicle.brand} ${vehicle.model}", false)
+				setAirFilterLimits(vehicle.maintenanceRegulations[FILTER_AIR])
+			}
 			
-			updateMileageCard(vehicle)
+			
 			sharedViewModel.currentVehicle.postValue(vehicle)
 			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 		})
@@ -135,7 +196,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 						binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_choose_vehicle)
 				}
 				it.isNullOrEmpty() -> {
-					binding.dropMyCarChooseCar.setOnClickListener { showModalBottomSheet() }
+					binding.dropMyCarChooseCar.setOnClickListener { showAddVehicleBottomSheet() }
 					binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
 				}
 			}
@@ -143,17 +204,40 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		})
 	}
 	
-	
-	
-	private fun showModalBottomSheet() = VehicleAddBottomSheet().show(
-		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
-	)
-	
-	private fun updateMileageCard(vehicle: Vehicle?) {
-		binding.tvMileageValue.text = vehicle?.odometerValueBound?.getOdometerFormatted(requireContext()) ?: getString(R.string.default_OdometerValue)
+	private fun observePendingReplacements() {
+		mViewModel.replacements.observe(this, {
+			logWtf(TAG, "$it")
+			setAirFilterPendingReplacement(it[FILTER_AIR])
+		})
 	}
 	
 	
+	
+	private fun showAddVehicleBottomSheet() = VehicleAddBottomSheet().show(
+		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
+	)
+	
+	private fun setAirFilterLimits(regulation: Regulation?) {
+		binding.apply {
+			if (regulation != null) {
+				tvAirFilterSubtitle.text =
+					"${regulation.distance.getOdometerFormatted(requireContext())}" +
+					" or ${DateHelper.getYearsCount(regulation.time)} Year"
+			}
+		}
+	}
+	private fun setAirFilterPendingReplacement(pendingReplacement: PendingReplacement?) {
+		binding.apply {
+			if (pendingReplacement != null) {
+				tvAirFilterKilometersLeft.text = pendingReplacement.distanceRemain.getOdometerFormatted(requireContext())
+				tvAirFilterFinalDate.text = pendingReplacement.finalDate.humanDate()
+			}
+			else {
+				tvAirFilterKilometersLeft.text = "Not replaced yet"
+				tvAirFilterFinalDate.text = "Not replaced yet"
+			}
+		}
+	}
 	
 	
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:27
+ * Last modified 18.11.2020 16:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,8 +22,10 @@ import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
+import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -39,7 +41,7 @@ class VehicleRepositoryImpl(
 	private val localVinDecoder: IVinLocalDataSource, //todo
 	private val remoteVinDecoder: IVinRemoteDataSource,
 	private val mappers: VehicleMappersFacade
-) : IVehicleRepository, BaseRepository() {
+): IVehicleRepository, BaseRepository() {
 	
 	
 	/**
@@ -82,7 +84,11 @@ class VehicleRepositoryImpl(
 		)
 	}
 	
-	
+	override suspend fun getPendingReplacements(vehicle: Vehicle): SimpleResult<Map<SparePart, PendingReplacement?>> =
+		localDataSource.gePlannedReplacements(vehicle.vin).fold(
+			success = { ResultState.success(mappers.sparePartToReplacementCalculated(it, vehicle)) },
+			failure = { ResultState.failure(it) }
+		)
 	
 	
 	/**

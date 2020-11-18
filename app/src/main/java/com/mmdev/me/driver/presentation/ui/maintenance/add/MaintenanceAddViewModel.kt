@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 18.11.2020 17:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.currentEpochTime
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
@@ -54,13 +55,10 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 	
 	
 	
-	val lastReplacedChildren: HashMap<SparePart, VehicleSparePart> = hashMapOf()
+	val lastReplacedChildren: HashMap<SparePart, VehicleSparePart?> = hashMapOf()
 	
 	fun loadLastTimeSparePartReplaced(vin: String, list: List<Child>) {
 		viewModelScope.launch(MyDispatchers.io()) {
-			
-			//clear previous found
-			lastReplacedChildren.clear()
 			
 			list.forEach { child ->
 				if (child.sparePart.getSparePartName() != SparePart.OTHER)
@@ -69,8 +67,15 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 						selectedVehicleSystemNode.value!!.toString(),
 						child.sparePart.getSparePartName()
 					).fold(
-						success = { lastReplacedChildren.put(child.sparePart, it) },
-						failure = { logWtf(TAG, "$it") }
+						success = {
+							logWtf(TAG, "last replace = $it")
+							logWtf(TAG, "searched = ${child.sparePart.getSparePartName()}")
+							lastReplacedChildren.put(child.sparePart, it)
+						},
+						failure = {
+							logError(TAG, "$it")
+							lastReplacedChildren[child.sparePart] = null
+						}
 					)
 			}
 		}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 18.11.2020 15:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.datasource.vehicle.remote.dto
 
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.vehicle.data.Regulation
 
 /**
  *
@@ -22,5 +23,6 @@ data class VehicleDto (
 	val year: Int = 0,
 	val vin: String = "",
 	val odometerValueBound: DistanceBound = DistanceBound(),
-	val engineCapacity: Double = 0.0
+	val engineCapacity: Double = 0.0,
+	val maintenanceRegulations: Map<String, Regulation?> = mapOf()
 )

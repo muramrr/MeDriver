@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 15:52
+ * Last modified 20.11.2020 21:58
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,7 @@ package com.mmdev.me.driver.domain.vehicle.data
 
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.ENGINE_OIL_FILTER
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_AIR
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.*
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 
 /**
@@ -38,12 +37,31 @@ data class Vehicle(
 	val vin: String,
 	val odometerValueBound: DistanceBound,
 	val engineCapacity: Double,
-	val maintenanceRegulations: Map<SparePart, Regulation?> = mapOf(
+	val maintenanceRegulations: Map<SparePart, Regulation> = mapOf(
+		INSURANCE to Regulation(DistanceBound(), DateHelper.YEAR_DURATION),
 		FILTER_AIR to Regulation(
 			DistanceBound(kilometers = 10000, miles = null), DateHelper.YEAR_DURATION
 		),
 		ENGINE_OIL_FILTER to Regulation(
 			DistanceBound(kilometers = 12000, miles = null), DateHelper.YEAR_DURATION
+		),
+		FILTER_FUEL to Regulation(
+			DistanceBound(kilometers = 30000, miles = null), DateHelper.YEAR_DURATION *2
+		),
+		FILTER_CABIN to Regulation(
+			DistanceBound(kilometers = 15000, miles = null), DateHelper.YEAR_DURATION *2
+		),
+		BRAKES_FLUID to Regulation(
+			DistanceBound(kilometers = 60000, miles = null), DateHelper.YEAR_DURATION *2
+		),
+		GRM_KIT to Regulation(
+			DistanceBound(kilometers = 80000, miles = null), DateHelper.YEAR_DURATION *5
+		),
+		PLUGS to Regulation(
+			DistanceBound(kilometers = 90000, miles = null), DateHelper.YEAR_DURATION *5
+		),
+		TRANSMISSION_OIL_FILTER to Regulation(
+			DistanceBound(kilometers = 60000, miles = null), DateHelper.YEAR_DURATION *7
 		)
 	)
 )

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 17:01
+ * Last modified 20.11.2020 21:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,11 +15,13 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import kotlinx.coroutines.launch
 
 /**
@@ -37,7 +39,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	//init vehicle list
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
 	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
-	val replacements: MutableLiveData<Map<SparePart, PendingReplacement?>> = MutableLiveData()
+	val replacements: MutableLiveData<Map<SparePart, PendingReplacement?>?> = MutableLiveData()
 	
 	
 	init {
@@ -52,7 +54,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 				success = {
 					if (!it.contains(MedriverApp.currentVehicle)) chosenVehicle.value = null
 					vehicleList.postValue(it)
-					vehicleUiList.postValue(mapToUi(it))
+					vehicleUiList.postValue(mapVehicle(it))
 				},
 				failure = { logError(TAG, "${it.message}") }
 			)
@@ -60,20 +62,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		}
 	}
 	
-	private fun getReplacementsList(vehicle: Vehicle?) {
-		if (vehicle == null)
-			return
-		viewModelScope.launch {
-			repository.getPendingReplacements(vehicle).fold(
-				success = { replacements.value = it },
-				failure = {
-					logError(TAG, "${it.message}")
-				}
-			)
-		}
-	}
-	
-	private fun mapToUi(input: List<Vehicle>): List<VehicleUi> {
+	private fun mapVehicle(input: List<Vehicle>): List<VehicleUi> {
 		return input.map { vehicle ->
 			VehicleUi(
 				icon = VehicleConstants.vehicleBrandIconMap.getOrDefault(vehicle.brand, 0),
@@ -85,7 +74,34 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	
 	fun setVehicle(position: Int) {
 		if (position > vehicleList.value!!.size) return
-		chosenVehicle.postValue(vehicleList.value!![position])
+		with(vehicleList.value!![position]) {
+			chosenVehicle.postValue(this)
+			getReplacementsList(this)
+		}
 	}
+	
+	
+	private fun getReplacementsList(vehicle: Vehicle?) {
+		if (vehicle == null) replacements.value = null
+		else {
+			viewModelScope.launch {
+				repository.getPendingReplacements(vehicle).fold(
+					success = { replacements.value = it },
+					failure = { logError(TAG, "${it.message}") }
+				)
+			}
+		}
+	}
+	
+	fun buildConsumables(replacements: Map<SparePart, PendingReplacement?>?): List<ConsumablePartUi> =
+		replacements?.map {
+			ConsumablePartUi(
+				VehicleSystemNodeConstants.plannedComponents[replacements.keys.indexOf(it.key)],
+				it.value,
+				chosenVehicle.value!!.maintenanceRegulations[it.key]
+			)
+		} ?: List(PlannedParts.valuesArray.size) {
+			ConsumablePartUi(VehicleSystemNodeConstants.plannedComponents[it])
+		}
 	
 }

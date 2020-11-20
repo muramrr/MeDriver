@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 15:58
+ * Last modified 20.11.2020 18:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -69,7 +69,7 @@ class MedriverApp: Application() {
 		private const val LANGUAGE_KEY = "language"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
-		private lateinit var appContext: Context
+		lateinit var appContext: Context
 		val prefs by lazy {
 			KsPrefs(appContext, PREFERENCES_NAME) {
 				//	encryptionType = EncryptionType.KeyStore("key")
@@ -217,7 +217,7 @@ class MedriverApp: Application() {
 		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
 		
 		Purchases.debugLogsEnabled = debug.isEnabled
-		//Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
+		Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
 		
 		
 			

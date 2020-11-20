@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 17:09
+ * Last modified 20.11.2020 21:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,26 +19,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.core.view.children
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.helpers.DateHelper
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_AIR
-import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
-import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.ConsumableVerticalItemDecorator
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
-import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
-import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.text
-import com.mmdev.me.driver.presentation.utils.extensions.visible
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,6 +49,10 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	private lateinit var mVehicleDropAdapter: VehicleDropAdapter
 	
+	private var mFrequentlyConsumablesAdapter = ConsumablesAdapter(emptyList())
+	private var mLessFrequentlyConsumablesAdapter1 = ConsumablesAdapter(emptyList())
+	private var mLessFrequentlyConsumablesAdapter2 = ConsumablesAdapter(emptyList())
+	
 	private var currentTextOnDropDownList = ""
 	
 	
@@ -67,15 +66,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	override fun setupViews() {
 		initDropList()
 		
-		setupCardAirFilter()
-		setupCardEngineOilAndFilter()
+		setupMoreFrequentlyReplacements()
 		
 		observeVehicleList()
 		observeChosenCar()
-		observePendingReplacements()
+		observeReplacements()
 		
 		binding.btnMileageHistory.setDebounceOnClick {
-			MainActivity.bottomNavMain.selectedItemId = R.id.bottomNavFuel
+			(requireActivity() as MainActivity).navigateTo(R.id.bottomNavFuel)
 		}
 		
 		
@@ -95,51 +93,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 		binding.radioTiresType.check(binding.btnTiresSummer.id)
 		
-	
-		
-		
-		
-	}
-	
-	private fun setupCardAirFilter() {
-		binding.apply {
-			
-			tvAirFilterTitle.setOnClickListener {
-				radioAirFilterChangeCalculation.radioChangeCalculation.run {
-					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
-				}
-			}
-			
-			radioAirFilterChangeCalculation.radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
-				when (checkedId) {
-					group.children.toList()[0].id -> {
-						tvAirFilterFinalDate.visible(0)
-						tvAirFilterKilometersLeft.invisible(0)
-					}
-					group.children.toList()[1].id -> {
-						tvAirFilterFinalDate.invisible(0)
-						tvAirFilterKilometersLeft.visible(0)
-					}
-				}
-				group.invisible()
-			}
-		}
-		
-	}
-	
-	private fun setupCardEngineOilAndFilter() {
-		binding.apply {
-			
-			tvOilTitle.setOnClickListener {
-				radioOilChangeCalculation.radioChangeCalculation.run {
-					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
-				}
-			}
-			
-			radioOilChangeCalculation.radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
-				group.invisible()
-			}
-		}
 		
 	}
 	
@@ -173,11 +126,24 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 	}
 	
+	private fun setupMoreFrequentlyReplacements() {
+		binding.rvFrequentlyConsumables.apply {
+			adapter = mFrequentlyConsumablesAdapter
+			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+			addItemDecoration(GridItemDecoration(true))
+		}
+		
+		binding.rvLessFrequentlyConsumables.apply {
+			adapter = mLessFrequentlyConsumablesAdapter1
+			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+			addItemDecoration(ConsumableVerticalItemDecorator())
+		}
+	}
+	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
 			if (vehicle != null) {
 				binding.dropMyCarChooseCar.setText("${vehicle.brand} ${vehicle.model}", false)
-				setAirFilterLimits(vehicle.maintenanceRegulations[FILTER_AIR])
 			}
 			
 			
@@ -204,10 +170,13 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		})
 	}
 	
-	private fun observePendingReplacements() {
+	private fun observeReplacements() {
 		mViewModel.replacements.observe(this, {
-			logWtf(TAG, "$it")
-			setAirFilterPendingReplacement(it[FILTER_AIR])
+			with(mViewModel.buildConsumables(it)) {
+				mFrequentlyConsumablesAdapter.setNewData(this.drop(1).take(4))
+				mLessFrequentlyConsumablesAdapter1.setNewData(this.drop(5).take(2))
+				mLessFrequentlyConsumablesAdapter2.setNewData(this.drop(7))
+			}
 		})
 	}
 	
@@ -217,27 +186,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
 	)
 	
-	private fun setAirFilterLimits(regulation: Regulation?) {
-		binding.apply {
-			if (regulation != null) {
-				tvAirFilterSubtitle.text =
-					"${regulation.distance.getOdometerFormatted(requireContext())}" +
-					" or ${DateHelper.getYearsCount(regulation.time)} Year"
-			}
-		}
-	}
-	private fun setAirFilterPendingReplacement(pendingReplacement: PendingReplacement?) {
-		binding.apply {
-			if (pendingReplacement != null) {
-				tvAirFilterKilometersLeft.text = pendingReplacement.distanceRemain.getOdometerFormatted(requireContext())
-				tvAirFilterFinalDate.text = pendingReplacement.finalDate.humanDate()
-			}
-			else {
-				tvAirFilterKilometersLeft.text = "Not replaced yet"
-				tvAirFilterFinalDate.text = "Not replaced yet"
-			}
-		}
-	}
 	
 	
 	

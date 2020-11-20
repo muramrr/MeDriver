@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.11.2020 18:04
+ * Last modified 20.11.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,7 +46,7 @@ class VehicleLocalDataSourceImpl(
 	
 	
 	
-	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity?>> =
+	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>> =
 		safeCall(TAG) { dao.getPlannedReplacements(vin) }
 	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =

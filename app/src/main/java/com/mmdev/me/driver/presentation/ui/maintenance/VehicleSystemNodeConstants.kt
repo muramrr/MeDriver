@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.11.2020 16:41
+ * Last modified 20.11.2020 16:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystem
 object VehicleSystemNodeConstants {
 	
 	val engineComponents = intArrayOf(
+		R.string.maintenance_engine_antifreeze,
 		R.string.maintenance_engine_mount,
 		R.string.maintenance_engine_silencer_corrugation,
 		R.string.maintenance_engine_timing_chain_kit,
@@ -142,9 +143,7 @@ object VehicleSystemNodeConstants {
 		R.string.maintenance_planned_brakes_fluid,
 		R.string.maintenance_planned_grm_kit,
 		R.string.maintenance_planned_plugs,
-		R.string.maintenance_planned_antifreeze,
-		R.string.maintenance_planned_transmission_oil,
-		R.string.maintenance_planned_transmission_filter,
+		R.string.maintenance_planned_transmission_oil_filter,
 	)
 	
 	

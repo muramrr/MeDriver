@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.10.2020 20:16
+ * Last modified 20.11.2020 18:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,9 +14,7 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.annotation.StringRes
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.Language.ENGLISH
-import com.mmdev.me.driver.core.utils.Language.RUSSIAN
-import com.mmdev.me.driver.core.utils.Language.UKRAINIAN
+import com.mmdev.me.driver.core.utils.Language.*
 import java.util.*
 
 /**
@@ -74,13 +72,17 @@ object LocaleHelper {
 		val newConfig = Configuration()
 		newConfig.setLocale(savedLocale)
 		
+		
 		// as part of creating a new context that contains the new locale we also need to override the default locale.
 		// override the locale on the given context (Activity, Fragment, etc...)
-		context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
-		
 		// override the locale on the application context
 		if (context != context.applicationContext) {
-			context.applicationContext.resources.run { updateConfiguration(newConfig, displayMetrics) }
+			context.applicationContext.resources.apply {
+				updateConfiguration(newConfig, displayMetrics)
+			}
+		}
+		else {
+			context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
 		}
 	}
 	

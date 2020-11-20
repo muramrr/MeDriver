@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.11.2020 16:41
+ * Last modified 20.11.2020 16:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,9 +25,7 @@ enum class PlannedParts: SparePart {
 	BRAKES_FLUID,
 	GRM_KIT,
 	PLUGS, //свеча (зажигания или накалывания)
-	ANTIFREEZE,
-	OIL_TRANSMISSION, //масло для кпп
-	FILTER_TRANSMISSION, //для акпп
+	TRANSMISSION_OIL_FILTER,
 	;
 	
 	override fun getSparePartName(): String = name

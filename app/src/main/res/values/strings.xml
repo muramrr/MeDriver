@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.11.2020 16:41
+  ~ Last modified 20.11.2020 19:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -167,6 +167,7 @@
 	
 	<string name="maintenance_other_component">Other</string>
 	
+	<string name="maintenance_engine_antifreeze">Antifreeze</string>
 	<string name="maintenance_engine_mount">Mount</string>
 	<string name="maintenance_engine_silencer_corrugation">Silencer corrugation</string>
 	<string name="maintenance_engine_timing_chain_kit">Timing chain kit</string>
@@ -269,9 +270,7 @@
 	<string name="maintenance_planned_brakes_fluid">Brakes fluid</string>
 	<string name="maintenance_planned_grm_kit">Grm kit (belt and roller)</string>
 	<string name="maintenance_planned_plugs">Plugs (glow or spark)</string>
-	<string name="maintenance_planned_antifreeze">Antifreeze</string>
-	<string name="maintenance_planned_transmission_oil">Transmission oil</string>
-	<string name="maintenance_planned_transmission_filter">Transmission filter</string>
+	<string name="maintenance_planned_transmission_oil_filter">Transmission oil and filter</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -306,6 +305,19 @@
 	
 	<string name="fg_vehicle_expenses_card_title">Expenses</string>
 	<string name="fg_vehicle_expenses_card_subtitle">See last action</string>
+	
+	<string name="fg_vehicle_insurance_title">Compulsory insurance</string>
+	<string name="fg_vehicle_insurance_subtitle">Valid until </string>
+	
+	<string name="fg_vehicle_consumable_reminders_header">Consumable reminders</string>
+	
+	
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Not replaced yet</string>
+	
+	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">No vehicle chosen</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s or %2$s year</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s or %2$s years</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s or %2$s years</string>
 	
 <!-- ******************************************************************************************* -->
 

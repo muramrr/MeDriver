@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 15:52
+ * Last modified 20.11.2020 17:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,5 +24,5 @@ data class VehicleDto (
 	val vin: String = "",
 	val odometerValueBound: DistanceBound = DistanceBound(),
 	val engineCapacity: Double = 0.0,
-	val maintenanceRegulations: Map<String, Regulation?> = mapOf()
+	val maintenanceRegulations: Map<String, Regulation> = mapOf()
 )

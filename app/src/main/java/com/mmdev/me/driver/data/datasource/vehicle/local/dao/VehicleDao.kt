@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.11.2020 18:04
+ * Last modified 20.11.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 interface VehicleDao {
 	
 	@Transaction
-	suspend fun getPlannedReplacements(vin: String, ): Map<String, VehicleSparePartEntity?> {
+	suspend fun getPlannedReplacements(vin: String, ): Map<String, VehicleSparePartEntity> {
 		return PlannedParts.valuesArray.map { it.getSparePartName() }.zip(
 			PlannedParts.valuesArray.map {
 				getPlannedLastReplacement(vin, it.getSparePartName())
@@ -45,9 +45,7 @@ interface VehicleDao {
 		LIMIT 1
 		"""
 	)
-	fun getPlannedLastReplacement(
-		vin: String, plannedSparePart: String
-	): VehicleSparePartEntity?
+	fun getPlannedLastReplacement(vin: String, plannedSparePart: String): VehicleSparePartEntity
 	
 	@Query("SELECT * FROM ${MeDriverRoomDatabase.VEHICLES_TABLE}")
 	suspend fun getAllVehicles(): List<VehicleEntity>

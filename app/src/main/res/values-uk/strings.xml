@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.11.2020 16:41
+  ~ Last modified 20.11.2020 19:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -132,6 +132,7 @@
 	
 	<string name="maintenance_other_component">Інше</string>
 	
+	<string name="maintenance_engine_antifreeze">Антифріз</string>
 	<string name="maintenance_engine_mount">Подушка</string>
 	<string name="maintenance_engine_silencer_corrugation">Гофра глушника</string>
 	<string name="maintenance_engine_timing_chain_kit">Ланцюг ГРМ (з натягувачем)</string>
@@ -234,9 +235,7 @@
 	<string name="maintenance_planned_brakes_fluid">Гальмівна рідина</string>
 	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремінь и ролики)</string>
 	<string name="maintenance_planned_plugs">Свічки (запалювання або розжарювання)</string>
-	<string name="maintenance_planned_antifreeze">Антифріз</string>
-	<string name="maintenance_planned_transmission_oil">Мастило для КПП</string>
-	<string name="maintenance_planned_transmission_filter">Фільтр для КПП</string>
+	<string name="maintenance_planned_transmission_oil_filter">Мастило та фільтр для КПП</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -270,6 +269,19 @@
 	
 	<string name="fg_vehicle_expenses_card_title">Витрати</string>
 	<string name="fg_vehicle_expenses_card_subtitle">Остання операція</string>
+	
+	<string name="fg_vehicle_insurance_title">Автоцивілка</string>
+	<string name="fg_vehicle_insurance_subtitle">Дійсна до </string>
+	
+	<string name="fg_vehicle_consumable_reminders_header">Витратні матеріали</string>
+	
+	
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Ще не замінено</string>
+	
+	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не вибрано</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s або %2$s рік</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s або %2$s роки</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s або %2$s років</string>
 	
 <!-- ******************************************************************************************* -->
 

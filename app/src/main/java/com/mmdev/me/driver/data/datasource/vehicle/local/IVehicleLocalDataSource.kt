@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 17.11.2020 18:04
+ * Last modified 20.11.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,9 +25,7 @@ interface IVehicleLocalDataSource {
 	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
 	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
-	suspend fun gePlannedReplacements(
-		vin: String,
-	): SimpleResult<Map<String, VehicleSparePartEntity?>>
+	suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>>
 	
 	suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>>
 	suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity>

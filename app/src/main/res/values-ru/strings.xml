@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 17.11.2020 16:41
+  ~ Last modified 20.11.2020 19:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -132,6 +132,7 @@
 	
 	<string name="maintenance_other_component">Другое</string>
 	
+	<string name="maintenance_engine_antifreeze">Антифриз</string>
 	<string name="maintenance_engine_mount">Подушка</string>
 	<string name="maintenance_engine_silencer_corrugation">Гофра глушителя</string>
 	<string name="maintenance_engine_timing_chain_kit">Цепь ГРМ (с натяжителем)</string>
@@ -234,9 +235,7 @@
 	<string name="maintenance_planned_brakes_fluid">Тормозная жидкость</string>
 	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремень и ролики)</string>
 	<string name="maintenance_planned_plugs">Свечи (зажигания или накалывания)</string>
-	<string name="maintenance_planned_antifreeze">Антифриз</string>
-	<string name="maintenance_planned_transmission_oil">Масло для КПП</string>
-	<string name="maintenance_planned_transmission_filter">Фильтр для КПП</string>
+	<string name="maintenance_planned_transmission_oil_filter">Масло и фильтр для КПП</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -270,6 +269,19 @@
 	
 	<string name="fg_vehicle_expenses_card_title">Расходы</string>
 	<string name="fg_vehicle_expenses_card_subtitle">Последняя операция</string>
+	
+	<string name="fg_vehicle_insurance_title">ОСАГО</string>
+	<string name="fg_vehicle_insurance_subtitle">Действительна до </string>
+	
+	<string name="fg_vehicle_consumable_reminders_header">Расходные детали</string>
+	
+	
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Еще не заменено</string>
+	
+	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не выбрано</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s или %2$s год</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s или %2$s года</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s или %2$s лет</string>
 	
 <!-- ******************************************************************************************* -->
 

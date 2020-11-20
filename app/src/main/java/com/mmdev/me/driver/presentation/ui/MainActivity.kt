@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 16:34
+ * Last modified 20.11.2020 18:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,7 +23,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.SyncWorker
@@ -33,20 +32,26 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.identifyWith
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
 	
 	
-	companion object {
-		lateinit var bottomNavMain: BottomNavigationView
-	}
-	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
+	
 	private val sharedViewModel: SharedViewModel by viewModel()
+	private var _binding: ActivityMainBinding? = null
+	
+	private val binding: ActivityMainBinding
+		get() = _binding ?: throw IllegalStateException(
+			"Trying to access the binding outside of the view lifecycle."
+		)
+	
 	
 	//private var loadingShowingTime: Long = 0
 	
@@ -70,7 +75,7 @@ class MainActivity: AppCompatActivity() {
 		}
 
 		super.onCreate(savedInstanceState)
-		val binding = ActivityMainBinding.inflate(layoutInflater)
+		_binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
 		val navController = findNavController(R.id.navHostMain)
@@ -109,7 +114,6 @@ class MainActivity: AppCompatActivity() {
 			return@setOnNavigationItemSelectedListener true
 		}
 		
-		bottomNavMain = binding.bottomNavMain
 		
 //		Timer().schedule(
 //			// if loading showing less than 500 millis (half of second) -> delay, else no delay
@@ -121,13 +125,13 @@ class MainActivity: AppCompatActivity() {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
 				startFetchingWorker(it)
-			//	Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
-				//	logWtf(TAG, "$purchaserInfo")
-				//}
+				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
+					//binding.root.showToast("offerings = $purchaserInfo")
+				}
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
-			//	Purchases.sharedInstance.reset()
+				Purchases.sharedInstance.reset()
 			}
 			
 			MedriverApp.currentUser = it
@@ -151,14 +155,14 @@ class MainActivity: AppCompatActivity() {
 		
 		setListeners()
 		
-//		Purchases.sharedInstance.getOfferingsWith(
-//			onError = { error ->
-//				logWtf(TAG, error.message)
-//			},
-//			onSuccess = { offerings ->
-//				logWtf(TAG, "${offerings.all}")
-//			}
-//		)
+		Purchases.sharedInstance.getOfferingsWith(
+			onError = { error ->
+				//binding.root.showToast("error = ${error.message}")
+			},
+			onSuccess = { offerings ->
+				//binding.root.showToast("offerings = ${offerings.all}")
+			}
+		)
 	}
 	
 	private fun startFetchingWorker(user: UserDataInfo) {
@@ -183,7 +187,7 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	private fun setListeners() {
-		ConnectionManager(this, this) { isConnected ->
+		ConnectionManager(MedriverApp.appContext, this) { isConnected ->
 			if (MedriverApp.isNetworkAvailable != isConnected) {
 				MedriverApp.isNetworkAvailable = isConnected
 				if (MedriverApp.isNetworkAvailable) {
@@ -194,5 +198,13 @@ class MainActivity: AppCompatActivity() {
 			
 			logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
 		}
+	}
+	
+	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
+	
+	override fun onDestroy() {
+		binding.unbind()
+		_binding = null
+		super.onDestroy()
 	}
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 20.11.2020 21:54
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	<data>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.presentation.ui.vehicle.ConsumablePartUi"
+			/>
+	</data>
+	
+	<com.google.android.material.card.MaterialCardView android:id="@+id/cvConsumablePart"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="6dp"
+		>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:padding="8dp">
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvConsumableTitle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:drawableEnd="@drawable/ic_change_16"
+				
+				android:text="@{bindItem.title}"
+				android:textAppearance="?textAppearanceOverline"
+				/>
+			<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1">
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvConsumableFinalDate"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_vertical"
+					
+					android:textAppearance="?textAppearanceHeadline6"
+					android:visibility="invisible"
+					
+					app:dateUntil="@{bindItem.replacement.finalDate}"
+					/>
+				
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvConsumableDistanceLeft"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_vertical"
+					
+					android:textAppearance="?textAppearanceHeadline6"
+					
+					app:distanceRemain="@{bindItem.replacement.distanceRemain}"
+					/>
+			</FrameLayout>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tConsumableSubtitle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				
+				android:text="@string/fg_vehicle_card_replacements_subtitle_no_vehicle"
+				android:textAppearance="?textAppearanceCaption"
+				app:regulation="@{bindItem.regulation}"
+				/>
+		
+		
+		</LinearLayout>
+		
+		<include layout="@layout/radio_calculations"
+			android:id="@+id/radioConsumableChangeCalculation"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="invisible"
+			/>
+	
+	</com.google.android.material.card.MaterialCardView>
+	
+</layout>

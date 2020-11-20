@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 15:52
+ * Last modified 20.11.2020 17:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,7 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.entities.MaintenanceReg
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.RegulationEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.data.datasource.vehicle.remote.dto.VehicleDto
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.ENGINE_OIL_FILTER
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_AIR
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.*
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
@@ -49,13 +48,19 @@ object EntityMappers {
 		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations)
 	)
 	
-	private fun maintenanceRegulationsMap(input: MaintenanceRegulationsEntity): Map<SparePart, Regulation?> =
+	private fun maintenanceRegulationsMap(input: MaintenanceRegulationsEntity): Map<SparePart, Regulation> =
 		mapOf(
+			INSURANCE to regulationsMap(input.insurance),
 			FILTER_AIR to regulationsMap(input.airFilter),
-			ENGINE_OIL_FILTER to regulationsMap(input.engineFilterOil)
+			ENGINE_OIL_FILTER to regulationsMap(input.engineFilterOil),
+			FILTER_FUEL to regulationsMap(input.fuelFilter),
+			FILTER_CABIN to regulationsMap(input.cabinFilter),
+			BRAKES_FLUID to regulationsMap(input.brakesFluid),
+			GRM_KIT to regulationsMap(input.grmKit),
+			PLUGS to regulationsMap(input.plugs),
+			TRANSMISSION_OIL_FILTER to regulationsMap(input.transmissionFilterOil),
 		)
 	
-	private fun regulationsMap(input: RegulationEntity?): Regulation? =
-		if (input != null) Regulation(input.distance, input.time) else null
+	private fun regulationsMap(input: RegulationEntity): Regulation = Regulation(input.distance, input.time)
 	
 }

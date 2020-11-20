@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.11.2020 20:10
+ * Last modified 20.11.2020 20:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,13 +17,19 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
+import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.MetricSystem.*
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.roundTo
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfDoubleValues
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntValues
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import kotlinx.datetime.LocalDate
 
 /**
  * Contains binding methods related to [TextView]
@@ -70,6 +76,52 @@ object BindingTextView {
 			MILES -> inputLayout.suffixText = miles
 		}
 	}
+	
+	@JvmStatic
+	@BindingAdapter("app:regulation")
+	fun setRegulation(textView: TextView, regulation: Regulation?) {
+		textView.apply {
+			text = if (regulation != null) {
+				
+				//due to subtleties of language here is a method to check last char for year count
+				when (DateHelper.getYearsCount(regulation.time).toString().last()) {
+					'1' -> getStringRes(
+						R.string.fg_vehicle_card_replacements_subtitle_formatter_1_year
+					)
+					in arrayOf('2', '3', '4') -> getStringRes(
+						R.string.fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year
+					)
+					else -> getStringRes(
+						R.string.fg_vehicle_card_replacements_subtitle_formatter_other
+					)
+				}.format(
+					regulation.distance.getOdometerFormatted(context),
+					DateHelper.getYearsCount(regulation.time)
+				)
+				
+			}
+			else getStringRes(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
+		}
+	}
+	
+	@JvmStatic
+	@BindingAdapter("app:distanceRemain")
+	fun setDistanceRemaining(textView: TextView, distanceBound: DistanceBound?) {
+		textView.apply {
+			text = distanceBound?.getOdometerFormatted(context) ?:
+			       getStringRes(R.string.fg_vehicle_card_replacements_value_not_replaced)
+		}
+	}
+	
+	@JvmStatic
+	@BindingAdapter("app:dateUntil")
+	fun setDistanceRemaining(textView: TextView, time: LocalDate?) {
+		textView.apply {
+			text = time?.humanDate() ?:
+			       getStringRes(R.string.fg_vehicle_card_replacements_value_not_replaced)
+		}
+	}
+	
 	
 	private val mapOfIntValues = HashMap<Int, Int>()
 	private val mapOfDoubleValues = HashMap<Int, Double>()

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 18:11
+ * Last modified 21.11.2020 01:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,14 +25,15 @@ import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.sync.SyncWorker
+import com.mmdev.me.driver.core.sync.UploadWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getOfferingsWith
 import com.revenuecat.purchases.identifyWith
@@ -173,7 +174,7 @@ class MainActivity: AppCompatActivity() {
 				.build()
 			
 			val uploadWorkRequest: WorkRequest =
-				OneTimeWorkRequestBuilder<SyncWorker>()
+				OneTimeWorkRequestBuilder<UploadWorker>()
 					.setConstraints(constraints)
 					.setInputData(workDataOf("USER_KEY" to user.email))
 					.build()

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.11.2020 19:53
+  ~ Last modified 21.11.2020 01:36
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,6 +49,17 @@
 	<string name="default_error" translatable="false">Unknown error</string>
 	<string name="hryvnia_symbol" translatable="false">₴</string>
 	
+	
+<!-- ************************************** notifications ************************************** -->
+	<string name="notification_channel_consumable_replace_id" translatable="false">consumable_replacement</string>
+	<string name="notification_channel_consumable_replace_name">Consumable replacement</string>
+	<string name="notification_channel_consumable_replace_description">Remind about consumable replacement</string>
+	<string name="notification_consumable_replace_title">It\'s time to visit the service station</string>
+	<string name="notification_consumable_replace_text">The lifetime for component \'%s\' is about to end</string>
+	
+	
+	
+<!-- ******************************************************************************************* -->
 	
 	
 	

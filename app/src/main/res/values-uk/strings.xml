@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.11.2020 19:53
+  ~ Last modified 21.11.2020 01:36
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,15 @@
 	
 	<string name="btn_fuel_type_gas">Газ</string>
 	<string name="btn_fuel_type_dt">ДП</string>
+	
+	
+<!-- ************************************** notifications ************************************** -->
+	<string name="notification_channel_consumable_replace_name">Заміна компонентів</string>
+	<string name="notification_channel_consumable_replace_description">Нагадувати про заміну витратних компонентів</string>
+	<string name="notification_consumable_replace_title">Саме час навідатись до СТО</string>
+	<string name="notification_consumable_replace_text">Строк служби для компонента \'%s\' закінчується</string>
+	
+<!-- ******************************************************************************************* -->
 
 
 	
@@ -273,7 +282,7 @@
 	<string name="fg_vehicle_insurance_title">Автоцивілка</string>
 	<string name="fg_vehicle_insurance_subtitle">Дійсна до </string>
 	
-	<string name="fg_vehicle_consumable_reminders_header">Витратні матеріали</string>
+	<string name="fg_vehicle_consumable_reminders_header">Витратні компоненти</string>
 	
 	
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Ще не замінено</string>

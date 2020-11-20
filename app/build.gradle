@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 18:19
+ * Last modified 21.11.2020 00:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -106,6 +106,7 @@ dependencies {
 	implementation 'com.google.firebase:firebase-auth-ktx'
 	implementation "com.google.firebase:firebase-core"
 	implementation 'com.google.firebase:firebase-firestore-ktx'
+	implementation 'com.google.firebase:firebase-messaging-ktx'
 
 	//prefs wrapper
 	implementation 'com.cioccarellia:ksprefs:2.0.0'

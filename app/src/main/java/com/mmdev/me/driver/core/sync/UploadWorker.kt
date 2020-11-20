@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 17:24
+ * Last modified 21.11.2020 01:41
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -31,7 +32,8 @@ import org.koin.core.component.inject
  */
 
 
-class SyncWorker(appContext: Context, workerParams: WorkerParameters):
+@KoinApiExtension
+class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 		CoroutineWorker(appContext, workerParams), KoinComponent {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"

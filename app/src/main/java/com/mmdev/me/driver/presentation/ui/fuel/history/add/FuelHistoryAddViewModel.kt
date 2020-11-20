@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 21.11.2020 01:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerValue
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -86,12 +86,12 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 				//if history is not empty
 				if (lastAddedEntry != null) {
 					//make sure that distance passed > 0
-					with(typedOdometer.toInt() - lastAddedEntry.odometerValueBound.getOdometerValue()) {
+					with(typedOdometer.toInt() - lastAddedEntry.odometerValueBound.getValue()) {
 						//-1 because needed to check for correct input
 						if (this < 0) -1 else this
 					}
 				}
-				else with(typedOdometer.toInt() - MedriverApp.currentVehicle!!.odometerValueBound.getOdometerValue()) {
+				else with(typedOdometer.toInt() - MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
 					//-1 because needed to check for correct input
 					if (this < 0) -1 else this
 				}

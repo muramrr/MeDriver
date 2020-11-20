@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.11.2020 17:20
+ * Last modified 21.11.2020 01:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  * Used to free domain classes from application logic and use inside xml DataBinding
  */
 
-fun DistanceBound.getOdometerValue(): Int = when (MedriverApp.metricSystem) {
+fun DistanceBound.getValue(): Int = when (MedriverApp.metricSystem) {
 	MetricSystem.KILOMETERS -> kilometers
 	MetricSystem.MILES -> miles
 }

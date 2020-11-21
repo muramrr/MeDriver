@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 15:52
+ * Last modified 21.11.2020 18:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -84,6 +84,7 @@ class VehicleMappersFacade {
 		.mapValues { entry ->
 			entry.value?.let {
 				PendingReplacement(
+					componentSpecs = "${it.vendor} ${it.articulus}",
 					distanceRemain = DistanceBound(
 						vehicle.maintenanceRegulations[entry.key]!!.distance.kilometers -
 						(vehicle.odometerValueBound.kilometers - it.odometerValueBound.kilometers),

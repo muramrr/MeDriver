@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 01:36
+  ~ Last modified 21.11.2020 18:40
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@
 	<string name="notification_channel_consumable_replace_name">Заміна компонентів</string>
 	<string name="notification_channel_consumable_replace_description">Нагадувати про заміну витратних компонентів</string>
 	<string name="notification_consumable_replace_title">Саме час навідатись до СТО</string>
-	<string name="notification_consumable_replace_text">Строк служби для компонента \'%s\' закінчується</string>
+	<string name="notification_consumable_replace_text">Строк служби для компонента \'<b>%1$s</b>\' закінчується</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -55,6 +55,11 @@
 	<string name="commentary_input_hint">Коментар (необов’язково)</string>
 	
 	<string name="input_empty_error">Поле порожнє</string>
+	
+	<string name="never">Ніколи</string>
+	<string name="not_found">Не знайдено</string>
+	<string name="not_defined">Не вказано</string>
+	
 <!-- ******************************************************************************************* -->
 
 
@@ -114,7 +119,7 @@
 
 
 <!-- ************************************* item_maintenance ************************************ -->
-	<string name="item_maintenance_not_defined_vendor_articulus">Не вказано</string>
+
 	
 	
 <!-- ******************************************************************************************* -->
@@ -236,13 +241,13 @@
 	<string name="maintenance_body_sill_right">Поріг зправа</string>
 	<string name="maintenance_body_washer_reservoir">Бачок омивача</string>
 	
-	<string name="maintenance_planned_insurance">Страхування</string>
+	<string name="maintenance_planned_insurance">Автоцивілка</string>
 	<string name="maintenance_planned_air_filter">Фільтр повітря</string>
 	<string name="maintenance_planned_engine_oil_filter">Моторне мастило та фільтр</string>
 	<string name="maintenance_planned_fuel_filter">Паливний фільтр</string>
 	<string name="maintenance_planned_cabin_filter">Фільтр салону</string>
 	<string name="maintenance_planned_brakes_fluid">Гальмівна рідина</string>
-	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремінь и ролики)</string>
+	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремінь та ролики)</string>
 	<string name="maintenance_planned_plugs">Свічки (запалювання або розжарювання)</string>
 	<string name="maintenance_planned_transmission_oil_filter">Мастило та фільтр для КПП</string>
 	
@@ -252,8 +257,7 @@
 
 <!-- ***************************** item_maintenance_child_edit ***************************** -->
 	<string name="item_maintenance_child_edit_last_replaced_label">Остання заміна</string>
-	<string name="item_maintenance_child_edit_last_replaced_value_never">Ніколи</string>
-	<string name="item_maintenance_child_edit_last_detail_value_not_found">Не знайдено</string>
+	
 	
 	<string name="item_maintenance_child_edit_component_hint">Деталь</string>
 	
@@ -279,8 +283,10 @@
 	<string name="fg_vehicle_expenses_card_title">Витрати</string>
 	<string name="fg_vehicle_expenses_card_subtitle">Остання операція</string>
 	
+	<string name="fg_vehicle_copy_vin">VIN скопійовано: %s</string>
+	
 	<string name="fg_vehicle_insurance_title">Автоцивілка</string>
-	<string name="fg_vehicle_insurance_subtitle">Дійсна до </string>
+	<string name="fg_vehicle_insurance_subtitle">Дійсна до %s</string>
 	
 	<string name="fg_vehicle_consumable_reminders_header">Витратні компоненти</string>
 	

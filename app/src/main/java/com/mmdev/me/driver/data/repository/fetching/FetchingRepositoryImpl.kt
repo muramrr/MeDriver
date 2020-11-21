@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 17:38
+ * Last modified 21.11.2020 19:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.repository.fetching
 
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
@@ -38,7 +39,10 @@ class FetchingRepositoryImpl(
 	//called only on app startup
 	override suspend fun getSavedVehicle(vin: String): Vehicle? = 
 		vehicleLocalDS.getVehicle(vin).fold(
-			success = { entity -> mappers.vehicleDbToDomain(entity) },
+			success = { entity ->
+				logWtf(javaClass, "${vehicleLocalDS.getExpenses(vin)}")
+				mappers.vehicleDbToDomain(entity)
+			},
 			failure = { throwable -> null }
 		)
 	

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 21.11.2020 18:33
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -58,7 +58,7 @@
 				android:padding="8dp"
 				android:maxLines="1"
 				
-				android:text="@string/item_maintenance_child_edit_last_replaced_value_never"
+				android:text="@string/never"
 				android:textAppearance="?textAppearanceCaption"
 				android:textAlignment="center"
 				
@@ -95,7 +95,7 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				
-				android:text="@string/item_maintenance_child_edit_last_detail_value_not_found"
+				android:text="@string/not_found"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvLastReplacedLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"

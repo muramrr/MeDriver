@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:41
+ * Last modified 21.11.2020 14:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,7 +36,6 @@ import org.koin.core.component.inject
 class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 		CoroutineWorker(appContext, workerParams), KoinComponent {
 	
-	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	private val fuelHistoryUploader: IFuelHistoryUploader by inject()
 	private val maintenanceUploader: IMaintenanceUploader by inject()
@@ -45,7 +44,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 	
 	override suspend fun doWork(): Result = withContext(MyDispatchers.io()) {
 		if (MedriverApp.isInternetWorking()) {
-			logWtf(TAG, "Doing work...")
+			logWtf(javaClass, "Doing work...")
 			val email = inputData.getString("USER_KEY")
 			if (!email.isNullOrBlank()) {
 				val syncOperations = listOf(
@@ -60,7 +59,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 			
 		}
 		else {
-			logWtf(TAG, "Internet is not working...")
+			logWtf(javaClass, "Internet is not working...")
 //			if (runAttemptCount < 5) {
 //				logWtf(TAG, "retrying...")
 //				Result.retry()

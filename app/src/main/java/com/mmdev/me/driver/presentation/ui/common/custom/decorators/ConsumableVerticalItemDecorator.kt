@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:49
+ * Last modified 21.11.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,9 +19,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.toPx
  *
  */
 
-class ConsumableVerticalItemDecorator(
-	private val onlyBetweenPadding: Boolean = false
-): RecyclerView.ItemDecoration() {
+class ConsumableVerticalItemDecorator: RecyclerView.ItemDecoration() {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	

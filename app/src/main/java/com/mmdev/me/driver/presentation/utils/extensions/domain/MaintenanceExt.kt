@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 16:05
+ * Last modified 21.11.2020 18:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,5 +39,5 @@ fun VehicleSparePart.getRelatedString(context: Context): String {
 
 fun VehicleSparePart.getVendorAndArticulus(context: Context): String {
 	return if (vendor.isNotEmpty() && articulus.isNotEmpty()) "$vendor $articulus"
-	else context.getString(R.string.item_maintenance_not_defined_vendor_articulus)
+	else context.getString(R.string.not_defined)
 }

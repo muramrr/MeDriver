@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 01:36
+  ~ Last modified 21.11.2020 18:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,12 +41,14 @@
 	<string name="btn_fuel_type_100" translatable="false">100</string>
 	
 	<string name="price_formatter" translatable="false">₴%s</string>
+	<string name="two_strings_whitespace_formatter" translatable="false">%1$s %2$s</string>
 	
 	<string name="default_FuelStation" translatable="false">StationDef</string>
 	<string name="default_OdometerValue" translatable="false">000000</string>
 	<string name="default_date" translatable="false">01.01.1970</string>
 	<string name="default_price" translatable="false">₴--.--</string>
 	<string name="default_error" translatable="false">Unknown error</string>
+	<string name="default_vin" translatable="false">00000000000000000</string>
 	<string name="hryvnia_symbol" translatable="false">₴</string>
 	
 	
@@ -55,7 +57,7 @@
 	<string name="notification_channel_consumable_replace_name">Consumable replacement</string>
 	<string name="notification_channel_consumable_replace_description">Remind about consumable replacement</string>
 	<string name="notification_consumable_replace_title">It\'s time to visit the service station</string>
-	<string name="notification_consumable_replace_text">The lifetime for component \'%s\' is about to end</string>
+	<string name="notification_consumable_replace_text">The lifetime for component \'<b>%1$s</b>\' is about to end</string>
 	
 	
 	
@@ -91,6 +93,10 @@
 	<string name="price_input_hint">Price</string>
 	
 	<string name="input_empty_error">Empty field</string>
+	
+	<string name="never">Never</string>
+	<string name="not_found">Not found</string>
+	<string name="not_defined">Not defined</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -152,7 +158,6 @@
 
 
 <!-- ************************************* item_maintenance ************************************ -->
-	<string name="item_maintenance_not_defined_vendor_articulus">Not defined</string>
 	
 	
 <!-- ******************************************************************************************* -->
@@ -273,7 +278,7 @@
 	<string name="maintenance_body_sill_right">Sill right</string>
 	<string name="maintenance_body_washer_reservoir">Washer reservoir</string>
 	
-	<string name="maintenance_planned_insurance">Insurance</string>
+	<string name="maintenance_planned_insurance">Compulsory insurance</string>
 	<string name="maintenance_planned_air_filter">Air filter</string>
 	<string name="maintenance_planned_engine_oil_filter">Engine oil and filter</string>
 	<string name="maintenance_planned_fuel_filter">Fuel filter</string>
@@ -289,8 +294,6 @@
 
 <!-- ***************************** item_maintenance_child_edit ***************************** -->
 	<string name="item_maintenance_child_edit_last_replaced_label">Last replaced</string>
-	<string name="item_maintenance_child_edit_last_replaced_value_never">Never</string>
-	<string name="item_maintenance_child_edit_last_detail_value_not_found">Not found</string>
 	
 	<string name="item_maintenance_child_edit_component_hint">Component</string>
 	
@@ -317,8 +320,10 @@
 	<string name="fg_vehicle_expenses_card_title">Expenses</string>
 	<string name="fg_vehicle_expenses_card_subtitle">See last action</string>
 	
+	<string name="fg_vehicle_copy_vin">VIN copied: %s</string>
+	
 	<string name="fg_vehicle_insurance_title">Compulsory insurance</string>
-	<string name="fg_vehicle_insurance_subtitle">Valid until </string>
+	<string name="fg_vehicle_insurance_subtitle">Valid until %s</string>
 	
 	<string name="fg_vehicle_consumable_reminders_header">Consumable reminders</string>
 	

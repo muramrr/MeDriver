@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:47
+ * Last modified 21.11.2020 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,12 +25,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
+import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.ConsumableVerticalItemDecorator
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
+import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.text
@@ -133,17 +137,49 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			addItemDecoration(GridItemDecoration(true))
 		}
 		
-		binding.rvLessFrequentlyConsumables.apply {
+		binding.rvLessFrequentlyConsumables1.apply {
 			adapter = mLessFrequentlyConsumablesAdapter1
 			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 			addItemDecoration(ConsumableVerticalItemDecorator())
+		}
+		
+		binding.rvLessFrequentlyConsumables2.apply {
+			adapter = mLessFrequentlyConsumablesAdapter2
+			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+			addItemDecoration(GridItemDecoration(true))
+		}
+	}
+	
+	private fun setupInsuranceCard(pendingReplacement: PendingReplacement?) {
+		binding.apply {
+			if (pendingReplacement != null) {
+				tvInsuranceSubtitle.text = getString(
+					R.string.fg_vehicle_insurance_subtitle,
+					pendingReplacement.finalDate.humanDate()
+				)
+				tvInsuranceValue.text = pendingReplacement.componentSpecs
+			}
+			else {
+				tvInsuranceSubtitle.text = getString(R.string.fg_vehicle_card_replacements_value_not_replaced)
+				tvInsuranceValue.text = getString(R.string.not_defined)
+			}
+			
 		}
 	}
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
 			if (vehicle != null) {
-				binding.dropMyCarChooseCar.setText("${vehicle.brand} ${vehicle.model}", false)
+				binding.dropMyCarChooseCar.setText(
+					getString(R.string.two_strings_whitespace_formatter, vehicle.brand, vehicle.model),
+					false
+				)
+				binding.btnCopyVin.attachClickToCopyText(requireContext(), R.string.fg_vehicle_copy_vin)
+				binding.btnCopyVin.text = vehicle.vin
+			}
+			else {
+				binding.btnCopyVin.setOnClickListener(null)
+				binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
 			}
 			
 			
@@ -173,10 +209,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private fun observeReplacements() {
 		mViewModel.replacements.observe(this, {
 			with(mViewModel.buildConsumables(it)) {
-				mFrequentlyConsumablesAdapter.setNewData(this.drop(1).take(4))
-				mLessFrequentlyConsumablesAdapter1.setNewData(this.drop(5).take(2))
-				mLessFrequentlyConsumablesAdapter2.setNewData(this.drop(7))
+				mFrequentlyConsumablesAdapter.setNewData(drop(1).take(4))
+				mLessFrequentlyConsumablesAdapter1.setNewData(drop(5).take(2))
+				mLessFrequentlyConsumablesAdapter2.setNewData(drop(7))
 			}
+			
+			setupInsuranceCard(it?.get(PlannedParts.INSURANCE))
 		})
 	}
 	

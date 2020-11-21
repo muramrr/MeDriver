@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:05
+ * Last modified 21.11.2020 19:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.data.datasource.vehicle.local
 
 import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.Expenses
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -25,6 +26,7 @@ interface IVehicleLocalDataSource {
 	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
 	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
+	suspend fun getExpenses(vin: String): SimpleResult<Expenses>
 	suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>>
 	
 	suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>>

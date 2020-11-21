@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:41
+ * Last modified 21.11.2020 17:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,10 +13,14 @@ package com.mmdev.me.driver.core.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -93,7 +97,7 @@ class NotificationWorker(
 	}
 	
 	private fun calculateThresholds(replacements: Map<SparePart, PendingReplacement?>) {
-		replacements.forEach { key, value ->
+		replacements.forEach { (key, value) ->
 			value?.let {
 				if ((it.distanceRemain.kilometers <= DISTANCE_LIMIT.kilometers) ||
 				    (it.finalDate.minus(currentTimeAndDate().date)).months <= TIME_LIMIT) {
@@ -108,22 +112,38 @@ class NotificationWorker(
 	private fun showNotification(@StringRes componentRes: Int) {
 		
 		val component = context.getString(componentRes)
+		val title = context.getString(R.string.notification_consumable_replace_title)
+		val bodyText = context.getString(R.string.notification_consumable_replace_text, component)
 		
-		val pendingIntent = NavDeepLinkBuilder(context).setComponentName(MainActivity::class.java)
-			.setGraph(R.navigation.navigation_main).setDestination(R.id.vehicleFragment)
+		val pendingIntent = NavDeepLinkBuilder(context)
+			.setComponentName(MainActivity::class.java)
+			.setGraph(R.navigation.navigation_main)
+			.setDestination(R.id.homeFragment)
 			.createPendingIntent()
 		
 		val channelId = context.getString(R.string.notification_channel_consumable_replace_id)
 		val channelName = context.getString(R.string.notification_channel_consumable_replace_name)
 		val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+		
+		//note: is it bad to show app icon in notification?
+		val drawable = ResourcesCompat.getDrawable(
+			context.resources, R.mipmap.ic_launcher, context.theme
+		)
+		val bitmap = drawable!!.toBitmap(300, 300, Bitmap.Config.ARGB_8888)
+		
 		val notificationBuilder = NotificationCompat.Builder(context, channelId)
 			.setAutoCancel(true)
+			.setCategory(NotificationCompat.CATEGORY_RECOMMENDATION)
 			.setContentIntent(pendingIntent)
-			.setContentTitle(context.getString(R.string.notification_consumable_replace_title))
-			.setContentText(context.getString(R.string.notification_consumable_replace_text, component))
-			.setSmallIcon(R.drawable.ic_maintenance_24)
+			.setContentTitle(title)
+			.setContentText(bodyText)
+			.setContentInfo(component)
+			.setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+			.setLargeIcon(bitmap)
 			.setPriority(NotificationCompat.PRIORITY_HIGH)
 			.setSound(defaultSoundUri)
+			.setSmallIcon(R.drawable.ic_notification_warning)
+			.setStyle(NotificationCompat.BigTextStyle().bigText(bodyText))
 		
 		val notificationManager =
 			context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

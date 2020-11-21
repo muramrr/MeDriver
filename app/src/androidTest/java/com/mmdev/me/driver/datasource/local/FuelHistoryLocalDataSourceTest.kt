@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 21.11.2020 15:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,6 +62,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog100,
 			fuelStation = FuelConstants.fuelStationEntityWog,
+			moneySpent = 300.0,
 			odometerValueBound = DistanceBound(kilometers = 1000, miles = null),
 			vehicleVinCode = "someVin",
 		)
@@ -74,6 +75,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
+			moneySpent = 300.0,
 			odometerValueBound = DistanceBound(kilometers = 1500, miles = null),
 			vehicleVinCode = "someVin",
 		)
@@ -86,6 +88,7 @@ class FuelHistoryLocalDataSourceTest : KoinTest {
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
 			fuelPrice = FuelConstants.fuelPriceEntityWog95,
 			fuelStation = FuelConstants.fuelStationEntityWog,
+			moneySpent = 300.0,
 			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
 			vehicleVinCode = "someVin",
 		)

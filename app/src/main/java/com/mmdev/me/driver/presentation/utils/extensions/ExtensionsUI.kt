@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.11.2020 20:07
+ * Last modified 21.11.2020 18:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,10 +13,13 @@ package com.mmdev.me.driver.presentation.utils.extensions
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.DatePickerDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
@@ -214,3 +217,15 @@ inline fun Button.setupDatePicker(
 
 fun dateToText(day: Int, month: Int, year: Int): String =
 	(if (day < 10) "0$day." else "$day.") + (if (month < 10) "0$month" else "$month") + ".$year"
+
+
+/** @param formatter used to display snack in formatted way */
+fun TextView.attachClickToCopyText(context: Context, @StringRes formatter: Int) {
+	setOnClickListener {
+		val textToCopy = text.toString()
+		val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+		val clip = ClipData.newPlainText(textToCopy, text)
+		clipboard.setPrimaryClip(clip)
+		showSnack(getStringRes(formatter).format(textToCopy))
+	}
+}

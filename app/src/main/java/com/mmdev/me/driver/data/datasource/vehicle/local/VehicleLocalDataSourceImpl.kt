@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:05
+ * Last modified 21.11.2020 19:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.Expenses
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -44,6 +45,8 @@ class VehicleLocalDataSourceImpl(
 			logInfo(TAG, "Deleting operation: $cachedOperation")
 		}
 	
+	override suspend fun getExpenses(vin: String): SimpleResult<Expenses> =
+		safeCall(TAG) { dao.getExpenses(vin) }
 	
 	
 	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>> =

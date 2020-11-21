@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 18:06
+ * Last modified 21.11.2020 15:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,9 @@ package com.mmdev.me.driver.core
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
@@ -23,6 +26,7 @@ import com.mmdev.me.driver.core.di.NetworkModule
 import com.mmdev.me.driver.core.di.RepositoryModule
 import com.mmdev.me.driver.core.di.SyncModule
 import com.mmdev.me.driver.core.di.ViewModelsModule
+import com.mmdev.me.driver.core.notifications.NotificationWorker
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.Language.ENGLISH
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -48,6 +52,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 /**
  * Contains dependency modules
@@ -61,6 +66,7 @@ class MedriverApp: Application() {
 	
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
+		private const val JOB_TAG = "notification_Worker"
 		
 		private const val PREFERENCES_NAME = "settings"
 		
@@ -219,7 +225,7 @@ class MedriverApp: Application() {
 		Purchases.debugLogsEnabled = debug.isEnabled
 		Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
 		
-		
+		initNotificationWorker()
 			
 	}
 	
@@ -251,5 +257,18 @@ class MedriverApp: Application() {
 //		Builder()
 //			.setMinimumLoggingLevel(Log.VERBOSE)
 //			.build()
+	
+	private fun initNotificationWorker() {
+		logDebug(javaClass, "Enqueueing worker...")
+		val notificationWorkRequest =
+			PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS).build()
+		
+		WorkManager.getInstance(applicationContext)
+			.enqueueUniquePeriodicWork(
+				JOB_TAG,
+				ExistingPeriodicWorkPolicy.KEEP,
+				notificationWorkRequest
+			)
+	}
 	
 }

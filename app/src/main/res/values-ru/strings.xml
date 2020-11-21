@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 01:36
+  ~ Last modified 21.11.2020 18:40
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@
 	<string name="notification_channel_consumable_replace_name">Замена компонентов</string>
 	<string name="notification_channel_consumable_replace_description">Напоминать об замене расходных компонентов</string>
 	<string name="notification_consumable_replace_title">Время заглянуть на СТО</string>
-	<string name="notification_consumable_replace_text">Срок службы для компонента \'%s\' подходит к концу</string>
+	<string name="notification_consumable_replace_text">Срок службы для компонента \'<b>%1$s</b>\'  подходит к концу</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -55,6 +55,11 @@
 	<string name="commentary_input_hint">Комментарий (необятазельно)</string>
 	
 	<string name="input_empty_error">Пустое поле</string>
+	
+	<string name="never">Никогда</string>
+	<string name="not_found">Не найдено</string>
+	<string name="not_defined">Не указано</string>
+	
 <!-- ******************************************************************************************* -->
 
 
@@ -114,7 +119,7 @@
 
 
 <!-- ************************************* item_maintenance ************************************ -->
-	<string name="item_maintenance_not_defined_vendor_articulus">Не указано</string>
+
 	
 	
 <!-- ******************************************************************************************* -->
@@ -236,7 +241,7 @@
 	<string name="maintenance_body_sill_right">Порог правый</string>
 	<string name="maintenance_body_washer_reservoir">Бачок омывателя</string>
 	
-	<string name="maintenance_planned_insurance">Страховка</string>
+	<string name="maintenance_planned_insurance">ОСАГО</string>
 	<string name="maintenance_planned_air_filter">Фильтр воздушный</string>
 	<string name="maintenance_planned_engine_oil_filter">Моторное масло и Фильтр</string>
 	<string name="maintenance_planned_fuel_filter">Фильтр топливный</string>
@@ -252,8 +257,6 @@
 
 <!-- ***************************** item_maintenance_child_edit ***************************** -->
 	<string name="item_maintenance_child_edit_last_replaced_label">Последняя замена</string>
-	<string name="item_maintenance_child_edit_last_replaced_value_never">Никогда</string>
-	<string name="item_maintenance_child_edit_last_detail_value_not_found">Не найдено</string>
 	
 	<string name="item_maintenance_child_edit_component_hint">Деталь</string>
 	
@@ -279,8 +282,10 @@
 	<string name="fg_vehicle_expenses_card_title">Расходы</string>
 	<string name="fg_vehicle_expenses_card_subtitle">Последняя операция</string>
 	
+	<string name="fg_vehicle_copy_vin">VIN скопирован: %s</string>
+	
 	<string name="fg_vehicle_insurance_title">ОСАГО</string>
-	<string name="fg_vehicle_insurance_subtitle">Действительна до </string>
+	<string name="fg_vehicle_insurance_subtitle">Действительна до %s</string>
 	
 	<string name="fg_vehicle_consumable_reminders_header">Расходные детали</string>
 	

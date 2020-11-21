@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:27
+ * Last modified 21.11.2020 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.maintenance.add.child
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -186,7 +185,6 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		})
 	}
 	
-	@SuppressLint("SetTextI18n")
 	//todo: temporary fix backpressure
 	private fun setupLastReplaced(child: Child) {
 		lastReplacedEntry = mViewModel.lastReplacedChildren[child.sparePart]
@@ -199,15 +197,18 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 				binding.tvLastReplacedOdometer.text = lastReplacedEntry!!.odometerValueBound.getOdometerFormatted(requireContext())
 				
 				if (lastReplacedEntry!!.vendor.isNotEmpty() || lastReplacedEntry!!.articulus.isNotEmpty())
-					binding.tvLastReplacedDetail.text = "${lastReplacedEntry!!.vendor} " +
-					                                    "${lastReplacedEntry!!.articulus}"
-				else binding.tvLastReplacedDetail.text = getString(R.string.item_maintenance_not_defined_vendor_articulus)
+					binding.tvLastReplacedDetail.text = getString(
+						R.string.two_strings_whitespace_formatter,
+						lastReplacedEntry!!.vendor,
+						lastReplacedEntry!!.articulus
+					)
+				else binding.tvLastReplacedDetail.text = getString(R.string.not_defined)
 			}
 		}
 		else {
 			binding.tvLastReplacedOdometer.text = getString(R.string.default_OdometerValue)
-			binding.tvLastReplacedDetail.text = getString(R.string.item_maintenance_not_defined_vendor_articulus)
-			binding.tvLastReplacedDate.text = getString(R.string.item_maintenance_child_edit_last_replaced_value_never)
+			binding.tvLastReplacedDetail.text = getString(R.string.not_defined)
+			binding.tvLastReplacedDate.text = getString(R.string.never)
 		}
 		
 	}

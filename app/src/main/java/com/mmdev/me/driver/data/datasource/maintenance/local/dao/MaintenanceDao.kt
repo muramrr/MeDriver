@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 17:19
+ * Last modified 22.11.2020 02:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSpare
 /**
  * Dao interface responsible to retrieve cached replaced vehicle spare parts from database
  *
- * Primary used in [com.mmdev.me.driver.data.datasource.maintenance.local]
+ * Primary used in [com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource]
  */
 
 @Dao
@@ -104,9 +104,6 @@ interface MaintenanceDao {
 	
 	@Insert(onConflict = OnConflictStrategy.ABORT)
 	suspend fun insertVehicleReplacedSparePart(replacedSpareParts: List<VehicleSparePartEntity>)
-	
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun updateVehicleReplacedSparePart(replacedSparePart: VehicleSparePartEntity)
 	
 	@Delete
 	suspend fun deleteVehicleReplacedSparePart(replacedSparePart: VehicleSparePartEntity)

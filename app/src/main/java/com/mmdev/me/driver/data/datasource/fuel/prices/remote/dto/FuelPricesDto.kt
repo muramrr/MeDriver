@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 01:41
+ * Last modified 22.11.2020 01:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,8 @@ import kotlinx.serialization.Serializable
 
 /**
  * Api DTOs used by [com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi]
+ *
+ * Represents data from JSON response
  */
 
 @Serializable

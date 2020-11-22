@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:19
+ * Last modified 22.11.2020 01:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +10,13 @@
 
 package com.mmdev.me.driver.core.utils.helpers
 
+import com.mmdev.me.driver.core.utils.helpers.DateHelper.YEAR_DURATION
 import java.util.*
 
 /**
- * Used to convert dates
+ * Used to convert dates, also contains some properly localized months names
+ *
+ * @property YEAR_DURATION contains duration of year (approx 365.25 days)
  */
 
 object DateHelper {

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:51
+ * Last modified 22.11.2020 00:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,11 +11,13 @@
 package com.mmdev.me.driver.data.sync.download.vehicle
 
 import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapMerge
@@ -48,6 +50,20 @@ class VehicleDownloader(
 					}.collect { emit(it) }
 				},
 				failure = { emit(ResultState.failure(it)) }
+			)
+		}
+	}
+	
+	override suspend fun downloadSingle(
+		email: String, vin: String
+	): Flow<SimpleResult<Unit>> = flow {
+		server.getVehicle(email, vin).collect { resultServer ->
+			resultServer.fold(
+				success = { local.insertVehicle(mappers.dtoToEntity(it)) },
+				failure = {
+					logError(TAG, "${it.message}")
+					emit(ResultState.failure(it))
+				}
 			)
 		}
 	}

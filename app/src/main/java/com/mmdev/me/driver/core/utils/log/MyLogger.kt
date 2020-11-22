@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.09.2020 17:59
+ * Last modified 22.11.2020 01:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.core.utils.log.MyLogger.Default
 /**
  * May be used to create a custom logging solution to override the [Default] behaviour.
  */
+
 interface MyLogger {
 
 	/**

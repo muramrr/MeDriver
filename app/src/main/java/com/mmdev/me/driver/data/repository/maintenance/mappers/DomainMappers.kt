@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 16:33
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
 /**
- * In [VehicleSparePart] -> Out [VehicleSparePartEntity], [VehicleSparePartDto]
+ * In [VehicleSparePart] -> Out: [VehicleSparePartEntity], [VehicleSparePartDto]
  */
 
 object DomainMappers {

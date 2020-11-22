@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:44
+ * Last modified 22.11.2020 00:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,6 +41,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
 	
+	companion object {
+		const val USER_KEY = "USER_KEY"
+	}
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
@@ -176,7 +179,7 @@ class MainActivity: AppCompatActivity() {
 			val uploadWorkRequest: WorkRequest =
 				OneTimeWorkRequestBuilder<UploadWorker>()
 					.setConstraints(constraints)
-					.setInputData(workDataOf("USER_KEY" to user.email))
+					.setInputData(workDataOf(USER_KEY to user.email))
 					.build()
 			
 			

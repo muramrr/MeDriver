@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 18:39
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,13 +28,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 
 /**
- * MappersFacade used inside [com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl]
- * contains mappers between layers [data <-> domain]
- * mapping between sources [dto -> entity], [entity -> Domain], [dto -> Domain]
- *
- * DTO = Data Transfer Object (used only to store inside FirebaseFirestore)
- * ENTITY = Room database data class (annotation @Entity)
- * DM = Domain class
+ * Mapping between Vehicle DTOs/entities/domain data classes
  */
 
 class VehicleMappersFacade {

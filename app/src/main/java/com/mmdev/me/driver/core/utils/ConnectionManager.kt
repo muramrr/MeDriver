@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 18:36
+ * Last modified 22.11.2020 01:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -69,13 +69,13 @@ class ConnectionManager(
 	}
 	
 	@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-	fun onResume() {
+	private fun onResume() {
 		connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 	}
 	
 	
 	@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-	fun onPause() {
+	private fun onPause() {
 		connectivityManager.unregisterNetworkCallback(networkCallback)
 	}
 	

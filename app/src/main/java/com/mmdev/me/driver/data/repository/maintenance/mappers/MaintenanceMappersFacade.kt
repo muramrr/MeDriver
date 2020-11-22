@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.10.2020 18:19
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,16 +16,10 @@ import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePa
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 
 /**
- * MappersFacade for multiple mappers used in MaintenanceRepository
- * contains mappers between layers [data -> domain]
- *
- * DTO = Data Transfer Object (used only to store inside FirebaseFirestore)
- * ENTITY = Room database data class (annotation @Entity)
- * DM = Domain class
+ * Mapping between VehicleSparePart DTOs/entities/domain data classes
  */
 
 class MaintenanceMappersFacade {
-	
 	
 	// in: entities, out: * dto, domain
 	fun listEntitiesToDomains(input: List<VehicleSparePartEntity>): List<VehicleSparePart> =
@@ -47,6 +41,7 @@ class MaintenanceMappersFacade {
 	
 	
 	// in: dto, out: * entities, domain
+	fun dtoToEntity(dto: VehicleSparePartDto): VehicleSparePartEntity = DtoMappers.toEntity(dto)
 	fun listDtoToDomains(input: List<VehicleSparePartDto>): List<VehicleSparePart> =
 		mapList(input) { DtoMappers.toDomain(it) }
 	

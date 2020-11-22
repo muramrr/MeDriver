@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 15:17
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
- * Used to convert domain [UserDataInfo] into [UserEntity] and [FirestoreUserDto]
+ * In [UserDataInfo] -> Out: [UserEntity], [FirestoreUserDto]
  */
 
 object DomainMappers {

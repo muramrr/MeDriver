@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 19:18
+ * Last modified 22.11.2020 02:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -89,10 +89,6 @@ class MaintenanceLocalDataSourceImpl(
 			)
 		}
 	}
-	
-	override suspend fun updateReplacedSparePart(
-		replacedSparePart: VehicleSparePartEntity
-	): SimpleResult<Unit> = safeCall(TAG) { dao.updateVehicleReplacedSparePart(replacedSparePart) }
 	
 	override suspend fun deleteFuelHistoryEntry(
 		replacedSparePart: VehicleSparePartEntity

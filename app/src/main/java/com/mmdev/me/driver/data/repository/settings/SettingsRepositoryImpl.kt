@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.11.2020 19:16
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,8 +23,7 @@ import kotlinx.coroutines.flow.map
  */
 
 class SettingsRepositoryImpl(
-	private val authDataSource: IFirebaseAuthDataSource,
-	
+	private val authDataSource: IFirebaseAuthDataSource
 ): ISettingsRepository, BaseRepository() {
 	
 	override fun resetPassword(email: String) : Flow<SimpleResult<Unit>> =

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:48
+ * Last modified 22.11.2020 00:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,9 +33,23 @@ class FuelHistoryDownloader(
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
-		server.getFuelHistory(email, vin).collect { result ->
+		server.getAllFuelHistory(email, vin).collect { result ->
 			result.fold(
 				success = { emit(local.importFuelHistory(mappers.listDtoToEntities(it))) },
+				failure = {
+					logError(TAG, "${it.message}")
+					emit(ResultState.failure(it))
+				}
+			)
+		}
+	}
+	
+	override suspend fun downloadSingle(
+		email: String, vin: String, id: String
+	): Flow<SimpleResult<Unit>> = flow {
+		server.getFuelHistoryById(email, vin, id).collect { resultServer ->
+			resultServer.fold(
+				success = { local.insertFuelHistoryEntry(mappers.dtoToEntity(it)) },
 				failure = {
 					logError(TAG, "${it.message}")
 					emit(ResultState.failure(it))

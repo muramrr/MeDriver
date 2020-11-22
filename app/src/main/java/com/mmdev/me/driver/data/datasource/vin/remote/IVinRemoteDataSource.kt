@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 21:09
+ * Last modified 22.11.2020 02:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,14 @@ import com.mmdev.me.driver.data.datasource.vin.remote.dto.VehicleByVinResponse
 import com.mmdev.me.driver.domain.core.SimpleResult
 
 /**
- * Datasource to retrieve vehicle info by typed VinCode
+ * Wrapper for retrofit api call
  */
 
 interface IVinRemoteDataSource {
-
+	
+	/**
+	 * Retrieve vehicle info by typed VinCode
+	 */
 	suspend fun getVehicleByVin(vinCode: String) : SimpleResult<VehicleByVinResponse>
 
 }

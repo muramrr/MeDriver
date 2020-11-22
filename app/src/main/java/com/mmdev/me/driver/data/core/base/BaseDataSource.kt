@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 17:36
+ * Last modified 22.11.2020 01:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,9 +15,12 @@ import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 
+/**
+ * Base class for any datasource class
+ * Primary usage for datasource is wrapping (server or local database) get/set operations
+ */
 
-
-open class BaseDataSource {
+abstract class BaseDataSource {
 	
 	protected val TAG = "mylogs_${javaClass.simpleName}"
 

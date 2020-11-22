@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:09
+ * Last modified 22.11.2020 01:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
+import com.mmdev.me.driver.data.core.firebase.getAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -45,7 +46,7 @@ class FuelHistoryRemoteDataSourceImpl(private val fs: FirebaseFirestore) :
 			.setAsFlow(dto)
 			
 	
-	override fun getFuelHistory(email: String, vin: String):
+	override fun getAllFuelHistory(email: String, vin: String):
 			Flow<SimpleResult<List<FuelHistoryDto>>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
@@ -55,15 +56,26 @@ class FuelHistoryRemoteDataSourceImpl(private val fs: FirebaseFirestore) :
 			//.orderBy(FS_DATE_FIELD, Query.Direction.DESCENDING)
 			.executeAndDeserializeAsFlow(FuelHistoryDto::class.java)
 	
+	override fun getFuelHistoryById(
+		email: String, vin: String, id: String
+	): Flow<SimpleResult<FuelHistoryDto>> =
+		fs.collection(FS_USERS_COLLECTION)
+			.document(email)
+			.collection(FS_VEHICLES_COLLECTION)
+			.document(vin)
+			.collection(FS_FUEL_HISTORY_COLLECTION)
+			.document(id)
+			.getAndDeserializeAsFlow(FuelHistoryDto::class.java)
+	
 	override fun updateFuelHistoryField(
-		email: String, vin: String, documentId: String, field: String, value: Any
+		email: String, vin: String, id: String, field: String, value: Any
 	): Flow<SimpleResult<Void>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(vin)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(documentId)
+			.document(id)
 			.update(field, value)
 			.asFlow()
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:21
+ * Last modified 22.11.2020 01:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,6 +27,9 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 
 /**
  * Local [RoomDatabase]
+ * Only 1 database instance is used in Application
+ * That means if u clear the app data - all cached operations, which were not written to server
+ * will be lost
  */
 
 @Database(entities = [

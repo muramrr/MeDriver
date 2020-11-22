@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 15:56
+ * Last modified 22.11.2020 01:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,8 @@ class FuelPricesRemoteDataSourceImpl(private val fuelApi: FuelApi) :
 		safeCall(TAG) { getPricesPerType(date, FuelType.values().asIterable()) }
 	
 	//get all prices for every fuel type
-	//response contains list of fuelProviders and their prices for specified fuel type
+	//response contains list of FuelStations and FuelPrices for specified fuel type
+	//single response per each fuel type, so flow concurrency comes in here
 	private suspend fun getPricesPerType(
 		date:String,
 		fuelTypes: Iterable<FuelType>

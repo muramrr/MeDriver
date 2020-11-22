@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.10.2020 16:24
+ * Last modified 22.11.2020 02:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPriceAndSt
 import com.mmdev.me.driver.domain.fuel.FuelType
 
 /**
- * In [response] -> Out [FuelStationAndPrices], [FuelStationWithPrices], [FuelSummaryEntity], [FuelSummary]
+ * In [response] -> Out: [FuelStationAndPrices], [FuelStationWithPrices], [FuelSummaryEntity], [FuelSummary]
  */
 
 object DtoMappers {

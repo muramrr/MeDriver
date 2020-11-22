@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 14:59
+ * Last modified 22.11.2020 01:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,7 @@ import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.sync.upload.fuel.IFuelHistoryUploader
 import com.mmdev.me.driver.data.sync.upload.maintenance.IMaintenanceUploader
 import com.mmdev.me.driver.data.sync.upload.vehicle.IVehicleUploader
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
@@ -28,7 +29,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 /**
- *
+ * Worker responsible for manage local cached operations
+ * If any cached operation exists -> execute upload to server
+ * Controls from [MainActivity]
  */
 
 
@@ -45,7 +48,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 	override suspend fun doWork(): Result = withContext(MyDispatchers.io()) {
 		if (MedriverApp.isInternetWorking()) {
 			logWtf(javaClass, "Doing work...")
-			val email = inputData.getString("USER_KEY")
+			val email = inputData.getString(MainActivity.USER_KEY)
 			if (!email.isNullOrBlank()) {
 				val syncOperations = listOf(
 					async { fuelHistoryUploader.fetch(email).collect {  } },

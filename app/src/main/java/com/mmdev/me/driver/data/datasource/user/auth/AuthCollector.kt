@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 09.11.2020 17:06
+ * Last modified 22.11.2020 02:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 /**
- * Class used only to provide auth callbacks as [Flow]
+ * Class used only to provide [FirebaseAuth] callbacks as [Flow]
  */
 
 class AuthCollector(private val auth: FirebaseAuth) {

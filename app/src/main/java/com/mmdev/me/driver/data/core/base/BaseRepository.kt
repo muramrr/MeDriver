@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 15.08.2020 19:19
+ * Last modified 22.11.2020 01:21
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,11 @@
 package com.mmdev.me.driver.data.core.base
 
 /**
- *
+ * Base class for all repositories classes
+ * Idk why I need it, but just in case
  */
 
-open class BaseRepository {
+abstract class BaseRepository {
 	
 	protected val TAG = "mylogs_${javaClass.simpleName}"
 	

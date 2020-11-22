@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 18:36
+ * Last modified 22.11.2020 01:22
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 /**
  * Dao interface responsible to retrieve cached history entries from database
  *
- * Primary used in [com.mmdev.me.driver.data.datasource.fuel.history.local]
+ * Primary used in [com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource]
  */
 
 @Dao

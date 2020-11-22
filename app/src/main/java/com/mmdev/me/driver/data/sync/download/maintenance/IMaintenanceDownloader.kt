@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 20:09
+ * Last modified 22.11.2020 00:34
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,5 +19,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMaintenanceDownloader {
 	suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
+	suspend fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
 	suspend fun clear(): SimpleResult<Unit>
 }

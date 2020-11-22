@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:52
+ * Last modified 22.11.2020 14:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
@@ -40,11 +41,12 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
 	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
 	val replacements: MutableLiveData<Map<SparePart, PendingReplacement?>?> = MutableLiveData()
-	
+	val expenses: MutableLiveData<Expenses> = MutableLiveData()
 	
 	init {
 		getSavedVehicles()
 		getReplacementsList(chosenVehicle.value)
+		getExpenses(chosenVehicle.value)
 	}
 	
 	
@@ -104,4 +106,16 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 			ConsumablePartUi(VehicleSystemNodeConstants.plannedComponents[it])
 		}
 	
+	
+	private fun getExpenses(vehicle: Vehicle?) {
+		if (vehicle == null) replacements.value = null
+		else {
+			viewModelScope.launch {
+				repository.getExpensesInfo(vehicle.vin).fold(
+					success = { expenses.value = it },
+					failure = { logError(TAG, "${it.message}") }
+				)
+			}
+		}
+	}
 }

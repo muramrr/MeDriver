@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 21:31
+ * Last modified 22.11.2020 16:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -55,12 +55,12 @@ class ConsumablesAdapter(private var data: List<ConsumablePartUi> = emptyList())
 		fun bind(item: ConsumablePartUi) {
 			binding.apply {
 				cvConsumablePart.setOnClickListener {
-					radioConsumableChangeCalculation.radioChangeCalculation.run {
+					radioChangeCalculation.run {
 						visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
 					}
 				}
 				
-				radioConsumableChangeCalculation.radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
+				radioChangeCalculation.setOnCheckedChangeListener { group, checkedId ->
 					when (checkedId) {
 						group.children.toList()[0].id -> {
 							tvConsumableFinalDate.visible(0)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:44
+ * Last modified 22.11.2020 16:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,16 +25,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
-import com.mmdev.me.driver.core.utils.convertToLocalDateTime
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.databinding.DialogFuelHistoryAddBinding
-import com.mmdev.me.driver.domain.fuel.FuelType.A100
-import com.mmdev.me.driver.domain.fuel.FuelType.A92
-import com.mmdev.me.driver.domain.fuel.FuelType.A95
-import com.mmdev.me.driver.domain.fuel.FuelType.A95PLUS
-import com.mmdev.me.driver.domain.fuel.FuelType.A98
-import com.mmdev.me.driver.domain.fuel.FuelType.DT
-import com.mmdev.me.driver.domain.fuel.FuelType.GAS
+import com.mmdev.me.driver.domain.fuel.FuelType.*
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices

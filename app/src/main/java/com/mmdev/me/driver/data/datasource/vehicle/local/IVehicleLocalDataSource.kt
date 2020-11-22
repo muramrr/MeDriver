@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:19
+ * Last modified 22.11.2020 16:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,9 +12,9 @@ package com.mmdev.me.driver.data.datasource.vehicle.local
 
 import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
-import com.mmdev.me.driver.data.datasource.vehicle.local.entities.Expenses
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
  * Wrapper for [com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao]

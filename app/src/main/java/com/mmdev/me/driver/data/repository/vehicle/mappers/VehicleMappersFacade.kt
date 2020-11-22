@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 22.11.2020 16:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,8 @@
 
 package com.mmdev.me.driver.data.repository.vehicle.mappers
 
+import com.mmdev.me.driver.core.utils.extensions.toCurrentTimeAndDate
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
-import com.mmdev.me.driver.core.utils.toCurrentTimeAndDate
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity

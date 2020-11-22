@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 18:40
+  ~ Last modified 22.11.2020 16:08
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -290,6 +290,8 @@
 	
 	<string name="fg_vehicle_consumable_reminders_header">Витратні компоненти</string>
 	
+	<string name="fg_vehicle_card_replacements_value_change_date">Кінцева дата</string>
+	<string name="fg_vehicle_card_replacements_value_change_distance">Залишилось проїхати</string>
 	
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Ще не замінено</string>
 	
@@ -427,9 +429,9 @@
 
 
 <!-- *********************************** bottom_sheet_auth ************************************* -->
-	<string name="fg_settings_auth_header1">Лучший \</string>
-	<string name="fg_settings_auth_header2">Car Management</string>
-	<string name="fg_settings_auth_header3">experience</string>
+	<string name="fg_settings_auth_header_sign_in">Увійти</string>
+	<string name="fg_settings_auth_header_sign_up">Створити аккаунт</string>
+	<string name="fg_settings_auth_header_reset_password">Скинути пароль</string>
 	
 	<string name="fg_settings_auth_email_input_error">Неправильний формат адреси</string>
 	<string name="fg_settings_auth_email_input_hint">Ваш Email</string>
@@ -445,7 +447,7 @@
 	<string name="fg_settings_auth_btn_reset">Скинути</string>
 	<string name="fg_settings_auth_btn_sign_up">Реєстрація</string>
 	
-	<string name="fg_settings_auth_tv_check_mail">Перейдіть за посиланням у відправленому листі.</string>
+	<string name="fg_settings_auth_tv_check_mail">Перейдіть за посиланням в отриманому листі.</string>
 	<string name="fg_settings_auth_tv_dont_have_account">Немає аккаунта?</string>
 	
 	<string name="fg_settings_auth_sign_in_error_message">Невідома помилка під час входу</string>

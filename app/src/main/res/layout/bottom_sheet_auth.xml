@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 22.11.2020 15:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -71,62 +71,60 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
-		<!-- header 1 -->
+		<!-- sign in -->
 		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHeader1"
+			android:id="@+id/tvAuthHeaderSignIn"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="16dp"
 			
-			android:text="@string/fg_settings_auth_header1"
-			android:textAppearance="?textAppearanceHeadline4"
-			android:textColor="?colorOnSurface"
-			android:textSize="24sp"
-			android:textStyle="bold"
-			
-			app:layout_constraintTop_toTopOf="@id/cvAuth"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/tvHeader2"
-			/>
-		<!-- header 2 -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHeader2"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			
-			android:gravity="center_vertical"
 			android:maxLines="1"
 			
-			android:text="@string/fg_settings_auth_header2"
-			android:textAppearance="?textAppearanceHeadline4"
-			
-			android:textColor="?colorPrimary"
-			android:textSize="28sp"
-			android:textStyle="bold"
-			
-			app:autoSizeMaxTextSize="24sp"
-			app:autoSizeMinTextSize="20sp"
-			app:autoSizeTextType="uniform"
-			
-			
-			app:layout_constraintTop_toTopOf="@id/tvHeader1"
-			app:layout_constraintBottom_toBottomOf="@id/tvHeader1"
-			app:layout_constraintStart_toEndOf="@id/tvHeader1"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			/>
-		<!-- header 3 -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHeader3"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			
-			android:text="@string/fg_settings_auth_header3"
+			android:text="@string/fg_settings_auth_header_sign_in"
 			android:textAppearance="?textAppearanceHeadline4"
 			android:textColor="?colorOnSurface"
-			android:textSize="24sp"
-			android:textStyle="bold"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvHeader2"
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- sign up -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvAuthHeaderSignUp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:maxLines="1"
+			
+			android:text="@string/fg_settings_auth_header_sign_up"
+			android:textAppearance="?textAppearanceHeadline4"
+			android:textColor="?colorOnSurface"
+			
+			android:translationX="400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- reset password -->
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvAuthHeaderResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:maxLines="1"
+			
+			android:text="@string/fg_settings_auth_header_reset_password"
+			android:textAppearance="?textAppearanceHeadline4"
+			android:textColor="?colorOnSurface"
+			
+			android:translationX="-400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
@@ -145,7 +143,7 @@
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
-			app:layout_constraintVertical_bias="0.25"
+			app:layout_constraintVertical_bias="0.2"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			app:layout_constraintTop_toTopOf="@id/cvAuth"

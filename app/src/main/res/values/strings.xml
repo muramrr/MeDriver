@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 18:43
+  ~ Last modified 22.11.2020 16:08
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,7 +40,8 @@
 	<string name="btn_fuel_type_98" translatable="false">98</string>
 	<string name="btn_fuel_type_100" translatable="false">100</string>
 	
-	<string name="price_formatter" translatable="false">₴%s</string>
+	<string name="price_formatter_left" translatable="false">₴%s</string>
+	<string name="price_formatter_right" translatable="false">%s ₴</string>
 	<string name="two_strings_whitespace_formatter" translatable="false">%1$s %2$s</string>
 	
 	<string name="default_FuelStation" translatable="false">StationDef</string>
@@ -327,6 +328,8 @@
 	
 	<string name="fg_vehicle_consumable_reminders_header">Consumable reminders</string>
 	
+	<string name="fg_vehicle_card_replacements_value_change_date">End date</string>
+	<string name="fg_vehicle_card_replacements_value_change_distance">Distance remain</string>
 	
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Not replaced yet</string>
 	
@@ -464,9 +467,9 @@
 
 
 <!-- *********************************** bottom_sheet_auth ************************************* -->
-	<string name="fg_settings_auth_header1">The best \</string>
-	<string name="fg_settings_auth_header2">Car Accounting</string>
-	<string name="fg_settings_auth_header3">experience</string>
+	<string name="fg_settings_auth_header_sign_in">Sign in</string>
+	<string name="fg_settings_auth_header_sign_up">Sign up</string>
+	<string name="fg_settings_auth_header_reset_password">Reset password</string>
 	
 	<string name="fg_settings_auth_email_input_error">Invalid email address</string>
 	<string name="fg_settings_auth_email_input_hint">Email</string>

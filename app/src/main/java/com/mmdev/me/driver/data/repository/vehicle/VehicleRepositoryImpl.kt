@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 16:33
+ * Last modified 22.11.2020 14:54
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
@@ -84,6 +85,9 @@ class VehicleRepositoryImpl(
 		)
 	}
 	
+	override suspend fun getExpensesInfo(vin: String): SimpleResult<Expenses> =
+		localDataSource.getExpenses(vin)
+	
 	override suspend fun getPendingReplacements(vehicle: Vehicle): SimpleResult<Map<SparePart, PendingReplacement?>> =
 		localDataSource.gePlannedReplacements(vehicle.vin).fold(
 			success = { ResultState.success(mappers.sparePartToReplacementCalculated(it, vehicle)) },
@@ -105,39 +109,6 @@ class VehicleRepositoryImpl(
 			failure = { ResultState.failure(it) }
 		)
 	
-	
-	/**
-	 * Get list of [Vehicle] from backend if user is logged in.
-	 * Uses when local database is empty.
-	 * This method invokes only when we know for sure that this user is premium
-	 * @see getAllSavedVehicles
-	 * Collect result from request, save it to local cache and return
-	 *
-	 * @return [ResultState.Success] when list contains data, convert it, save to local database
-	 * @return [ResultState.Failure] when failure occurred
-	 */
-//	private fun getAllVehiclesFromBackend(user: UserData): Flow<SimpleResult<List<Vehicle>>> = flow {
-//		try {
-//			remoteDataSource.getAllVehicles(user.email).collect { result ->
-//				result.fold(
-//					success = { data ->
-//						data.forEach { dto ->
-//							localDataSource.insertVehicle(mappers.apiDtoToEntity(dto)).fold(
-//								success = {},
-//								failure = { emit(ResultState.failure(it)) }
-//							)
-//						}
-//						emit(ResultState.success(mappers.listApiDtoToDomain(data)))
-//					},
-//					failure = { throwable -> emit(ResultState.failure(throwable)) })
-//			}
-//		}
-//		catch (e: Exception) {
-//			logError(TAG, "${e.message}")
-//			emit(ResultState.failure(e))
-//		}
-//
-//	}
 	
 	/**
 	 * Used to retrieve vehicle base info by typed in VIN code

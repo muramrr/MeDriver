@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 17:29
+ * Last modified 22.11.2020 16:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.MyDispatchers
-import com.mmdev.me.driver.core.utils.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound

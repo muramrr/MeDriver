@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 22.11.2020 16:04
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,6 +40,7 @@
 			android:text="@{DateTimeExtKt.dateMonthText(bindItem.date.date.monthNumber)}"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
+			android:visibility="gone"
 			
 			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
 			app:layout_constraintBottom_toTopOf="@id/cvFuelHistoryEntryContainer"

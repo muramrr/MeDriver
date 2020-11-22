@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 20.11.2020 21:54
+  ~ Last modified 22.11.2020 16:11
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -80,12 +80,37 @@
 		
 		</LinearLayout>
 		
-		<include layout="@layout/radio_calculations"
-			android:id="@+id/radioConsumableChangeCalculation"
+		<RadioGroup android:id="@+id/radioChangeCalculation"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:animateLayoutChanges="true"
+			
+			android:background="?colorSurface"
+			android:checkedButton="@id/btnDistance"
+			
 			android:visibility="invisible"
-			/>
+			>
+			
+			<com.google.android.material.radiobutton.MaterialRadioButton
+				android:id="@+id/btnTime"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				
+				android:text="@string/fg_vehicle_card_replacements_value_change_date"
+				android:textAppearance="?textAppearanceBody2"
+				/>
+			
+			<com.google.android.material.radiobutton.MaterialRadioButton
+				android:id="@+id/btnDistance"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				
+				android:text="@string/fg_vehicle_card_replacements_value_change_distance"
+				android:textAppearance="?textAppearanceBody2"
+				/>
+		
+		
+		</RadioGroup>
 	
 	</com.google.android.material.card.MaterialCardView>
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:19
+ * Last modified 22.11.2020 16:20
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,9 +18,9 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
-import com.mmdev.me.driver.data.datasource.vehicle.local.entities.Expenses
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
  * Dao responsible for storing and retrieving vehicles info from database
@@ -29,14 +29,31 @@ import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 @Dao
 interface VehicleDao {
 	
+	@Transaction
+	suspend fun getExpenses(vin: String): Expenses {
+		return Expenses(
+			getExpensesMaintenance(vin) ?: 0.0,
+			getExpensesFuelHistory(vin) ?: 0.0
+		)
+	}
+	
 	@Query(
 		"""
-		SELECT COALESCE(sum(COALESCE(moneySpent, 0.0)), 0.0) as maintenanceExpenses
+		SELECT SUM(moneySpent) as fuelExpenses
+		FROM ${MeDriverRoomDatabase.FUEL_HISTORY_TABLE}
+		WHERE vehicleVinCode = :vin
+		"""
+	)
+	suspend fun getExpensesFuelHistory(vin: String): Double?
+	
+	@Query(
+		"""
+		SELECT SUM(moneySpent)
 		FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
 		"""
 	)
-	suspend fun getExpenses(vin: String): Expenses
+	suspend fun getExpensesMaintenance(vin: String): Double?
 	
 	@Transaction
 	suspend fun getPlannedReplacements(vin: String): Map<String, VehicleSparePartEntity> {

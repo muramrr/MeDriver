@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.09.2020 18:10
+  ~ Last modified 22.11.2020 16:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,18 @@
 		android:layout_width="match_parent"
 
 		>
+		
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnCrash"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:text="Simulate crash"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
 		
 		
 		<androidx.constraintlayout.widget.Guideline

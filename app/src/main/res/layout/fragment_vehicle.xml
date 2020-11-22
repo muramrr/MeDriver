@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 18:53
+  ~ Last modified 22.11.2020 15:59
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,7 @@
 	>
 	
 	<data>
+		<import type="com.mmdev.me.driver.core.utils.extensions.NumberExtensionsKt"/>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
 		<import type="com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts"/>
 		<variable
@@ -190,9 +191,9 @@
 						android:layout_marginHorizontal="16dp"
 						
 						android:gravity="center_vertical"
-						android:maxLines="1"
+						android:singleLine="true"
 						
-						android:text="00000.00 ₴"
+						android:text="@{String.format(@string/price_formatter_right, NumberExtensionsKt.roundTo(viewModel.expenses.maintenance + viewModel.expenses.fuel, 2))}"
 						android:textAppearance="?textAppearanceHeadline4"
 						android:textColor="?colorOnSurface"
 						android:textStyle="bold"

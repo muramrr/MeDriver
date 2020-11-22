@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 18:58
+ * Last modified 22.11.2020 16:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.domain.maintenance.data
 
-import com.mmdev.me.driver.core.utils.currentEpochTime
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType

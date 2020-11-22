@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 28.10.2020 17:19
+  ~ Last modified 22.11.2020 15:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,13 @@
 		app:motionInterpolator="easeInOut"
 		>
 		
+		<KeyFrameSet>
+			<KeyAttribute app:framePosition="30"
+				android:scaleX="0.5"
+				android:scaleY="0.5"
+				app:motionTarget="@id/tvAuthHeaderSignIn"/>
+		</KeyFrameSet>
+		
 		<OnClick app:targetId="@id/btnSignUp"
 			app:clickAction="transitionToEnd"
 			/>
@@ -33,6 +40,13 @@
 		app:motionInterpolator="easeInOut"
 		>
 		
+		<KeyFrameSet>
+			<KeyAttribute app:framePosition="30"
+				android:scaleX="0.5"
+				android:scaleY="0.5"
+				app:motionTarget="@id/tvAuthHeaderSignIn"/>
+		</KeyFrameSet>
+		
 		<OnClick app:targetId="@id/btnForgotPassword"
 			app:clickAction="transitionToEnd"
 			/>
@@ -44,6 +58,31 @@
 	<ConstraintSet android:id="@+id/signInSet"/>
 	
 	<ConstraintSet android:id="@+id/signUpSet">
+		
+		<Constraint android:id="@+id/tvAuthHeaderSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="-400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- sign up -->
+		<Constraint android:id="@+id/tvAuthHeaderSignUp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
 		
 		<!-- password repeat -->
 		<Constraint android:id="@+id/layoutInputPasswordConfirm"
@@ -140,6 +179,42 @@
 	</ConstraintSet>
 	
 	<ConstraintSet android:id="@+id/forgotPasswordSet">
+		
+		<Constraint android:id="@+id/tvAuthHeaderSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvAuthHeaderResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvAuthHeaderResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
 		
 		<!-- password input -->
 		<Constraint android:id="@+id/layoutInputPassword"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 22.11.2020 16:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.domain.fuel.history.data
 
-import com.mmdev.me.driver.core.utils.roundTo
+import com.mmdev.me.driver.core.utils.extensions.roundTo
 
 
 /**

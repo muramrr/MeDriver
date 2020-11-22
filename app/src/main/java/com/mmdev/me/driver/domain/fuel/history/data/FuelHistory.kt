@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 22.11.2020 16:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,8 @@
 
 package com.mmdev.me.driver.domain.fuel.history.data
 
-import com.mmdev.me.driver.core.utils.currentEpochTime
-import com.mmdev.me.driver.core.utils.roundTo
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
+import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import kotlinx.datetime.LocalDateTime

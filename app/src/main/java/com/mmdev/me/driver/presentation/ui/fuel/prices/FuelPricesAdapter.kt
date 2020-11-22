@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.10.2020 19:01
+ * Last modified 22.11.2020 15:19
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -68,11 +68,11 @@ class FuelPricesAdapter (
 		
 		init {
 			inAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_in).apply {
-				duration = 300
+				duration = 200
 			}
 			// price disappearing anim
 			outAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_out).apply {
-				duration = 300
+				duration = 200
 			}
 			//apply anim to textSwitcher
 			binding.tvFuelPrice.apply {
@@ -80,7 +80,7 @@ class FuelPricesAdapter (
 				outAnimation = outAnim
 			}
 			
-			priceFormatter = binding.root.getStringRes(R.string.price_formatter)
+			priceFormatter = binding.root.getStringRes(R.string.price_formatter_left)
 		}
 		
 		fun bind(item: FuelStationWithPrices) {

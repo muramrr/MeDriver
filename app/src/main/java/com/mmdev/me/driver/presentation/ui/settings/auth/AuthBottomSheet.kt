@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.11.2020 18:42
+ * Last modified 22.11.2020 15:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,8 +20,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BottomSheetAuthBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.Error
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.Success
+import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
@@ -42,6 +41,10 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BottomSheetAuthBin
 	override val mViewModel: AuthViewModel by viewModel()
 	
 	private val emailRegex = Regex("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")
+	
+	private var headerSignIn = ""
+	private var headerSignUp = ""
+	private var headerResetPass = ""
 	
 	private var emailInputError = ""
 	private var emailResetSent = ""
@@ -144,6 +147,10 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BottomSheetAuthBin
 	}
 	
 	private fun initStringRes() {
+		headerSignIn = getString(R.string.fg_settings_auth_header_sign_in)
+		headerSignUp = getString(R.string.fg_settings_auth_header_sign_up)
+		headerResetPass = getString(R.string.fg_settings_auth_header_reset_password)
+		
 		emailInputError = getString(R.string.fg_settings_auth_email_input_error)
 		emailResetSent = getString(R.string.fg_settings_auth_email_sent_success)
 		emailResetNotSent = getString(R.string.fg_settings_auth_email_sent_error_message)

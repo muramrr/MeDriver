@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 21.11.2020 18:33
+  ~ Last modified 22.11.2020 15:51
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -357,7 +357,7 @@
 					android:imeOptions="actionDone"
 					android:gravity="center"
 					
-					android:maxLines="1"
+					android:singleLine="true"
 					android:maxLength="30"
 					
 					app:hideKeyboardOnInputDone="@{true}"

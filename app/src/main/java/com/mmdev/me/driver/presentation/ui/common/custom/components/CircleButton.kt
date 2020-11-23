@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.09.2020 20:13
+ * Last modified 23.11.2020 16:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButton
  * Utility button class with circle appearance
  */
 
+@Deprecated("Use MaterialButton with round shape style")
 class CircleButton : MaterialButton {
 	constructor(context: Context): super(context)
 	constructor(context: Context, attrs: AttributeSet?): super(context, attrs)

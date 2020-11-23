@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 18:22
+  ~ Last modified 23.11.2020 19:48
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -150,7 +150,7 @@
 				app:layout_constraintTop_toBottomOf="@id/tvYourAccountVerificationHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
-				app:layout_constraintBottom_toTopOf="@id/tvSyncLabel"
+				app:layout_constraintBottom_toTopOf="@id/switchSync"
 				/>
 			<!-- tap to verify label -->
 			<com.google.android.material.textview.MaterialTextView
@@ -204,35 +204,19 @@
 				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
 				/>
 			
-			
-			<!-- sync label -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvSyncLabel"
+			<!-- sync switcher -->
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.SwitcherLayout
+				android:id="@+id/switchSync"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:labelFor="@id/switchSync"
 				android:layout_marginTop="32dp"
 				
-				android:text="@string/fg_settings_switcher_sync"
-				android:textAllCaps="false"
+				app:title="@string/fg_settings_switcher_sync"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
-				app:layout_constraintBottom_toTopOf="@id/tvSubscriptionLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/switchSync"
-				/>
-			<!-- sync switcher -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher
-				android:id="@+id/switchSync"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				
-				app:layout_constraintTop_toTopOf="@id/tvSyncLabel"
-				app:layout_constraintBottom_toBottomOf="@id/tvSyncLabel"
-				app:layout_constraintStart_toEndOf="@id/tvSyncLabel"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>
-			
 			
 			<!-- subscription expires label -->
 			<com.google.android.material.textview.MaterialTextView
@@ -243,7 +227,7 @@
 				
 				android:text="@string/fg_settings_tv_subscription_expires"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvSyncLabel"
+				app:layout_constraintTop_toBottomOf="@id/switchSync"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/tvSubscriptionValue"
 				/>
@@ -315,31 +299,19 @@
 				
 				/>
 			
-			<!-- theme label -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvThemeLabel"
+			<!-- theme switch -->
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.SwitcherLayout
+				android:id="@+id/switchTheme"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:labelFor="@id/switchTheme"
 				android:layout_marginTop="24dp"
 				
-				android:text="@string/fg_settings_switcher_dark_theme"
+				app:title="@string/fg_settings_switcher_dark_theme_title"
+				app:subtitle="@string/fg_settings_switcher_dark_theme_subtitle"
 				
 				app:layout_constraintTop_toTopOf="@id/cvGeneralContainer"
 				app:layout_constraintBottom_toTopOf="@id/tvMetricSystemLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/switchTheme"
-				
-				/>
-			<!-- theme switch -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher
-				android:id="@+id/switchTheme"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				
-				app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
-				app:layout_constraintBottom_toBottomOf="@id/tvThemeLabel"
-				app:layout_constraintStart_toEndOf="@id/tvThemeLabel"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>
 			
@@ -355,7 +327,7 @@
 				android:text="@string/fg_settings_switcher_metric_system"
 				
 				
-				app:layout_constraintTop_toBottomOf="@id/tvThemeLabel"
+				app:layout_constraintTop_toBottomOf="@id/switchTheme"
 				app:layout_constraintBottom_toTopOf="@id/tvLanguageLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/radioMetricSystem"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 17:39
+ * Last modified 23.11.2020 17:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,7 +34,10 @@ object EntityMappers {
 		vin = entity.vin,
 		odometerValueBound = entity.odometerValueBound,
 		engineCapacity = entity.engineCapacity,
-		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations).mapKeys { it.key.getSparePartName() }
+		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations).mapKeys {
+			it.key.getSparePartName()
+		},
+		lastRefillDate = entity.lastRefillDate
 	)
 	
 	/** Out: [Vehicle] */
@@ -45,7 +48,8 @@ object EntityMappers {
 		vin = entity.vin,
 		odometerValueBound = entity.odometerValueBound,
 		engineCapacity = entity.engineCapacity,
-		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations)
+		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations),
+		lastRefillDate = entity.lastRefillDate
 	)
 	
 	private fun maintenanceRegulationsMap(input: MaintenanceRegulationsEntity): Map<SparePart, Regulation> =

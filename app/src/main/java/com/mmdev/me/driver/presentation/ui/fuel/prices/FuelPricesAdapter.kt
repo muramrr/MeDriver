@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 15:19
+ * Last modified 23.11.2020 15:57
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -85,17 +85,8 @@ class FuelPricesAdapter (
 		
 		fun bind(item: FuelStationWithPrices) {
 			
-			if (binding.radioFuelTypes.getSelectedButtonId() == 0) {
-				//init A95 price for all
-				binding.radioFuelTypes.setInitialSelected(R.id.btnFuelType95)
-				
-				binding.tvFuelPrice.setCurrentText(
-					priceFormatter.format(getPriceByType(data[adapterPosition], FuelType.A95))
-				)
-			}
-			
-			binding.radioFuelTypes.setOnClickListener { _, id ->
-				when (id) {
+			binding.radioFuelTypes.addOnButtonCheckedListener { group, checkedId, isChecked ->
+				when (checkedId) {
 					R.id.btnFuelTypeGas -> binding.tvFuelPrice.setText(
 						priceFormatter.format(getPriceByType(item, FuelType.GAS))
 					)
@@ -120,6 +111,12 @@ class FuelPricesAdapter (
 				}
 			}
 			
+			//if no button checked (init state)
+			if (binding.radioFuelTypes.checkedButtonId == -1) {
+				//init A95 price for all
+				binding.radioFuelTypes.check(R.id.btnFuelType95)
+			}
+
 			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()

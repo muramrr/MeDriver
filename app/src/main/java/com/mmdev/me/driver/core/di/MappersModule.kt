@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 17:08
+ * Last modified 23.11.2020 16:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import org.koin.dsl.module
 
 /**
- *
+ * Module contains classes for mapping logic in repository layer
  */
 
 val MappersModule = module {

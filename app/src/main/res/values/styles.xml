@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.11.2020 16:35
+  ~ Last modified 23.11.2020 19:56
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -103,6 +103,20 @@
 		<item name="android:insetBottom">0dp</item>
 		
 		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+	
+	</style>
+	
+	<!-- circle button with letter at center -->
+	<style name="My.Widget.Button.LetterOnly.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">4dp</item>
+		<item name="android:paddingRight">4dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
 	
 	</style>
 	

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.11.2020 16:10
+  ~ Last modified 23.11.2020 20:20
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,10 +36,9 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanType"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="8dp"
 				
 				android:text="@{bindItem.subscription.title}"
-				android:textAppearance="?textAppearanceHeadline5"
 				android:textColor="@{bindItem.textColor}"
 				
 				app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +52,7 @@
 				android:layout_height="wrap_content"
 				
 				android:text="@{bindItem.pricePerMonth}"
-				android:textAppearance="?textAppearanceHeadline3"
+				android:textAppearance="?textAppearanceHeadline5"
 				android:textColor="@{bindItem.textColor}"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanType"
@@ -84,16 +83,17 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="8dp"
 				android:padding="8dp"
 				
-				android:text="@{bindItem.features[0].feature}"
+				android:text="@{bindItem.features[0].feature, default = `Feature 1`}"
 				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[0].availability}"
 				android:drawablePadding="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanPerMonthSubLabel"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature2"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -103,13 +103,14 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				
-				android:text="@{bindItem.features[1].feature}"
+				android:text="@{bindItem.features[1].feature, default = `Feature 2`}"
 				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[1].availability}"
 				android:drawablePadding="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFeature1"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature3"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -118,13 +119,14 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				
-				android:text="@{bindItem.features[2].feature}"
+				android:text="@{bindItem.features[2].feature, default = `Feature 3`}"
 				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[2].availability}"
 				android:drawablePadding="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFeature2"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature4"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -133,13 +135,14 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				
-				android:text="@{bindItem.features[3].feature}"
+				android:text="@{bindItem.features[3].feature, default = `Feature 4`}"
 				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[3].availability}"
 				android:drawablePadding="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFeature3"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature5"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -148,13 +151,14 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				
-				android:text="@{bindItem.features[4].feature}"
+				android:text="@{bindItem.features[4].feature, default = `Feature 5`}"
 				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[4].availability}"
 				android:drawablePadding="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFeature4"
+				app:layout_constraintBottom_toTopOf="@id/btnSelectPlan"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -164,7 +168,6 @@
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnSelectPlan"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="16dp"
 				android:clickable="false"
 				
 				android:text="@{!bindItem.isChosen ? @string/btm_sheet_subscription_choose_plan : @string/btm_sheet_subscription_already_chosen_plan}"
@@ -175,6 +178,7 @@
 				
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature5"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintBottom_toBottomOf="parent"

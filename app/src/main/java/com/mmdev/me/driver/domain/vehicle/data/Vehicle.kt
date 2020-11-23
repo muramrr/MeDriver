@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:02
+ * Last modified 23.11.2020 17:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,15 +12,7 @@ package com.mmdev.me.driver.domain.vehicle.data
 
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.BRAKES_FLUID
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.ENGINE_OIL_FILTER
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_AIR
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_CABIN
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.FILTER_FUEL
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.GRM_KIT
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.INSURANCE
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.PLUGS
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.TRANSMISSION_OIL_FILTER
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.*
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 
 /**
@@ -45,6 +37,7 @@ data class Vehicle(
 	val vin: String,
 	val odometerValueBound: DistanceBound,
 	val engineCapacity: Double,
+	val lastRefillDate: String = "",
 	val maintenanceRegulations: Map<SparePart, Regulation> = mapOf(
 		INSURANCE to Regulation(DistanceBound(), DateHelper.YEAR_DURATION),
 		FILTER_AIR to Regulation(

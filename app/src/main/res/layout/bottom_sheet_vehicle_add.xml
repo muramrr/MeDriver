@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.11.2020 17:00
+  ~ Last modified 23.11.2020 20:00
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -282,6 +282,8 @@
 			android:layout_marginBottom="16dp"
 			
 			android:text="@string/btn_add"
+			
+			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
 			
 			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

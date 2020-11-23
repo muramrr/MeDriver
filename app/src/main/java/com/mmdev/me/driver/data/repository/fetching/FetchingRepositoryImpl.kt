@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 14:52
+ * Last modified 23.11.2020 16:38
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
+import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
@@ -34,13 +35,13 @@ import kotlinx.coroutines.flow.flow
 class FetchingRepositoryImpl(
 	private val vehicleLocalDS: IVehicleLocalDataSource,
 	private val vehicleRemoteDS: IVehicleRemoteDataSource,
-	private val mappers: FetchingMappersFacade
+	private val mappers: VehicleMappersFacade
 ): IFetchingRepository, BaseRepository() {
 	
 	//called only on app startup
 	override suspend fun getSavedVehicle(vin: String): Vehicle? = 
 		vehicleLocalDS.getVehicle(vin).fold(
-			success = { entity -> mappers.vehicleDbToDomain(entity) },
+			success = { entity -> mappers.entityToDomain(entity) },
 			failure = { throwable ->
 				logError(TAG, "${throwable.message}")
 				null
@@ -51,7 +52,7 @@ class FetchingRepositoryImpl(
 	override suspend fun updateVehicle(
 		user: UserDataInfo?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
-		val entity = mappers.vehicleDomainToDb(vehicle)
+		val entity = mappers.domainToEntity(vehicle)
 		vehicleLocalDS.insertVehicle(entity).fold(
 			success = {
 				//check if user is premium && is sync enabled && network is accessible
@@ -72,7 +73,7 @@ class FetchingRepositoryImpl(
 					serverOperation = {
 						vehicleRemoteDS.addVehicle(
 							user!!.email,
-							mappers.vehicleDomainToApiDto(vehicle)
+							mappers.domainToDto(vehicle)
 						).collect { emit(it) }
 					}
 				)

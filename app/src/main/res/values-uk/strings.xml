@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 16:08
+  ~ Last modified 23.11.2020 19:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -58,8 +58,8 @@
 	
 	<string name="never">Ніколи</string>
 	<string name="not_found">Не знайдено</string>
-	<string name="not_defined">Не вказано</string>
-	
+	<string name="undefined">Не вказано</string>
+	<string name="unknown">Невідомо</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -277,18 +277,24 @@
 	<string name="fg_vehicle_add_new_vehicle">Додати новий транспорт</string>
 	<string name="fg_vehicle_choose_vehicle">Оберіть транспорт</string>
 	
-	<string name="fg_vehicle_mileage_card_title">Пробіг</string>
-	<string name="fg_vehicle_mileage_card_subtitle">Історія</string>
+	<string name="fg_vehicle_card_mileage_title">Пробіг</string>
+	<string name="fg_vehicle_card_mileage_subtitle">Історія</string>
 	
-	<string name="fg_vehicle_expenses_card_title">Витрати</string>
-	<string name="fg_vehicle_expenses_card_subtitle">Остання операція</string>
+	<string name="fg_vehicle_card_expenses_title">Витрати</string>
+	<string name="fg_vehicle_card_expenses_type_total">Всього:</string>
+	<string name="fg_vehicle_card_expenses_type_maintenance">ТО:</string>
+	<string name="fg_vehicle_card_expenses_type_fuel">Пальне:</string>
+	<string name="fg_vehicle_card_expenses_subtitle">Змінити тип витрат</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Загальні витрати</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Витрати на ТО</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Витрати на пальне</string>
 	
 	<string name="fg_vehicle_copy_vin">VIN скопійовано: %s</string>
 	
 	<string name="fg_vehicle_insurance_title">Автоцивілка</string>
 	<string name="fg_vehicle_insurance_subtitle">Дійсна до %s</string>
 	
-	<string name="fg_vehicle_consumable_reminders_header">Витратні компоненти</string>
+	<string name="fg_vehicle_consumable_reminders_header">Планове ТО</string>
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">Кінцева дата</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Залишилось проїхати</string>
@@ -315,7 +321,7 @@
 	<string name="btm_sheet_vehicle_add_enter_year_hint">Рік випуску</string>
 	<string name="btm_sheet_vehicle_add_enter_year_error">Некоректне значення</string>
 	
-	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об\'єм двигуна</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об’єм двигуна</string>
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Некоректне значення</string>
 	
 <!-- ******************************************************************************************* -->
@@ -417,7 +423,8 @@
 	<string name="fg_settings_btn_get_subscription_active">Преміум активовано!</string>
 	
 	<string name="fg_settings_switcher_sync">Синхронізація</string>
-	<string name="fg_settings_switcher_dark_theme">Темна тема</string>
+	<string name="fg_settings_switcher_dark_theme_title">Темна тема</string>
+	<string name="fg_settings_switcher_dark_theme_subtitle">Увімкнути темну тему</string>
 	<string name="fg_settings_switcher_metric_system">Метрична система</string>
 	
 	<string name="fg_settings_switcher_language">Мова</string>

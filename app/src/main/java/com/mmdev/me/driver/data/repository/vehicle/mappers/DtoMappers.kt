@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.11.2020 17:39
+ * Last modified 23.11.2020 17:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,7 +33,10 @@ object DtoMappers {
 		vin = dto.vin,
 		odometerValueBound = dto.odometerValueBound,
 		engineCapacity = dto.engineCapacity,
-		maintenanceRegulations = dto.maintenanceRegulations.mapKeys { PlannedParts.valueOf(it.key) }
+		maintenanceRegulations = dto.maintenanceRegulations.mapKeys {
+			PlannedParts.valueOf(it.key)
+		},
+		lastRefillDate = dto.lastRefillDate
 	)
 	
 	/** Out: [VehicleEntity] */
@@ -44,7 +47,8 @@ object DtoMappers {
 		vin = dto.vin,
 		odometerValueBound = dto.odometerValueBound,
 		engineCapacity = dto.engineCapacity,
-		maintenanceRegulations = maintenanceRegulationsMap(dto.maintenanceRegulations)
+		maintenanceRegulations = maintenanceRegulationsMap(dto.maintenanceRegulations),
+		lastRefillDate = dto.lastRefillDate
 	)
 	
 	private fun maintenanceRegulationsMap(input: Map<String, Regulation>): MaintenanceRegulationsEntity =

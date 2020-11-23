@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 16:08
+  ~ Last modified 23.11.2020 19:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -97,8 +97,8 @@
 	
 	<string name="never">Never</string>
 	<string name="not_found">Not found</string>
-	<string name="not_defined">Not defined</string>
-	
+	<string name="undefined">Undefined</string>
+	<string name="unknown">Unknown</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -315,18 +315,24 @@
 	<string name="fg_vehicle_add_new_vehicle">Add new vehicle</string>
 	<string name="fg_vehicle_choose_vehicle">Choose vehicle</string>
 	
-	<string name="fg_vehicle_mileage_card_title">Mileage</string>
-	<string name="fg_vehicle_mileage_card_subtitle">History</string>
+	<string name="fg_vehicle_card_mileage_title">Mileage</string>
+	<string name="fg_vehicle_card_mileage_subtitle">History</string>
 	
-	<string name="fg_vehicle_expenses_card_title">Expenses</string>
-	<string name="fg_vehicle_expenses_card_subtitle">See last action</string>
+	<string name="fg_vehicle_card_expenses_title">Expenses</string>
+	<string name="fg_vehicle_card_expenses_type_total">Total:</string>
+	<string name="fg_vehicle_card_expenses_type_maintenance">Maintenance:</string>
+	<string name="fg_vehicle_card_expenses_type_fuel">Fuel:</string>
+	<string name="fg_vehicle_card_expenses_subtitle">Change expenses type</string>
+	<string name="fg_vehicle_card_expenses_radio_total">General expenses</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Maintenance expenses</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Fuel expenses</string>
 	
 	<string name="fg_vehicle_copy_vin">VIN copied: %s</string>
 	
 	<string name="fg_vehicle_insurance_title">Compulsory insurance</string>
 	<string name="fg_vehicle_insurance_subtitle">Valid until %s</string>
 	
-	<string name="fg_vehicle_consumable_reminders_header">Consumable reminders</string>
+	<string name="fg_vehicle_consumable_reminders_header">Maintenance reminders</string>
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">End date</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Distance remain</string>
@@ -455,7 +461,8 @@
 	<string name="fg_settings_btn_get_subscription_active">Premium Activated!</string>
 	
 	<string name="fg_settings_switcher_sync">Sync enabled</string>
-	<string name="fg_settings_switcher_dark_theme">Dark theme</string>
+	<string name="fg_settings_switcher_dark_theme_title">Dark theme</string>
+	<string name="fg_settings_switcher_dark_theme_subtitle">Enable dark theme</string>
 	<string name="fg_settings_switcher_metric_system">Metric system</string>
 	
 	<string name="fg_settings_switcher_language">Language</string>

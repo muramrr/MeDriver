@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 23.11.2020 16:01
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -410,7 +410,7 @@
 				
 				android:text="@string/fg_fuel_history_add_fuel_type_hint"
 				android:textAlignment="center"
-				android:textAppearance="?textAppearanceBody2"
+				android:textAppearance="?textAppearanceSubtitle2"
 				
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -419,11 +419,14 @@
 				
 				/>
 			
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup
+			<com.google.android.material.button.MaterialButtonToggleGroup
 				android:id="@+id/radioFuelTypes"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="4dp"
+				
+				app:singleSelection="true"
+				app:selectionRequired="true"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFuelTypeHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -431,90 +434,111 @@
 				>
 				
 				<!-- gas -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelTypeGas"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_gas"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- dt -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelTypeDT"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_dt"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- 92 -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelType92"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_92"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- 95 -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelType95"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_95"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- 95plus -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelType95PLUS"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_95plus"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- 98 -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelType98"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_98"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 				
 				<!-- 100 -->
-				<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/btnFuelType100"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					
 					android:text="@string/btn_fuel_type_100"
 					android:textSize="12sp"
 					
-					style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+					app:backgroundTint="@color/checkable_button_secondary"
+					
+					style="@style/My.Widget.Button.LetterOnly.Outlined"
 					/>
 			
-			</com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup>
+			</com.google.android.material.button.MaterialButtonToggleGroup>
 			
 			
 			<!-- odometer input -->

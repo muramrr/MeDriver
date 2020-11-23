@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 19:40
+ * Last modified 23.11.2020 16:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,7 @@ import kotlin.math.roundToInt
  * Main Features: expand all buttons equally according to screen size, including gaps between
  */
 
+@Deprecated("Use MaterialButtonToggleGroup with child buttons style")
 class FuelTypeRadioGroup @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,

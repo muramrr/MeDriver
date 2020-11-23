@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:03
+ * Last modified 23.11.2020 17:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -213,7 +213,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 					result.fold(
 						//update screen on success
 						success = {
-							viewState.postValue(FuelHistoryAddViewState.Success(this.odometerValueBound))
+							viewState.postValue(FuelHistoryAddViewState.Success(this))
 						},
 						//catch error
 						failure = {

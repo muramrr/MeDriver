@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:12
+ * Last modified 23.11.2020 14:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,23 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+
+static def timestampVersion() {
+	def date = new Date()
+	def formattedDate = date.format('yyMMddHHmm')
+	return formattedDate.toInteger()
+
+
+}
+
+//static def gitVersion() {
+//	def process = "git rev-list master --first-parent --count".execute()
+//	return process.text.toInteger()
+//}
+
 android {
 	compileSdkVersion 30
 	buildToolsVersion "30.0.2"
@@ -23,8 +40,8 @@ android {
 		applicationId "com.mmdev.me.driver"
 		minSdkVersion 21
 		targetSdkVersion 30
-		versionCode 2
-		versionName "1.0"
+		versionCode timestampVersion()
+		versionName "${versionMajor}.${versionMinor}.TEST0${versionPatch}"
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 	}
@@ -88,10 +105,6 @@ dependencies {
 	//Kotlin Coroutines
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
-	//ViewModel Scope
-	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-beta01"
-	//LiveData extensions
-	implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01"
 
 	//network
 	implementation "com.squareup.retrofit2:retrofit:2.9.0"

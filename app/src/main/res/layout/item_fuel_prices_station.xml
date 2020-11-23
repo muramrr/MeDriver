@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 23.11.2020 18:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,23 +27,22 @@
 	
 	<androidx.constraintlayout.widget.ConstraintLayout
 		
-		android:background="@drawable/view_bg_surface_16"
+		android:background="@drawable/view_bg_surface_8"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		>
 		
 		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
 			android:id="@+id/ivFuelStationImg"
-			android:layout_width="@dimen/item_fuel_station_logo_size"
-			android:layout_height="@dimen/item_fuel_station_logo_size"
-			android:layout_margin="4dp"
+			android:layout_width="75dp"
+			android:layout_height="75dp"
+			android:layout_margin="8dp"
 			
 			android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
 			
-			app:imgCornerRadius="12dp"
+			app:imgCornerRadius="8dp"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
 		<com.google.android.material.textview.MaterialTextView
@@ -53,18 +52,15 @@
 			android:padding="8dp"
 			
 			android:text="@{bindItem.fuelStation.brandTitle, default = @string/default_FuelStation}"
-			android:textAppearance="?textAppearanceSubtitle1"
 			
 			app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"
 			app:layout_constraintEnd_toStartOf="@id/tvFuelPrice"
 			app:layout_constraintTop_toTopOf="@id/ivFuelStationImg"
-			app:layout_constraintBottom_toTopOf="@id/radioFuelTypes"
 			/>
 		
 		<TextSwitcher android:id="@+id/tvFuelPrice"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:textAlignment="center"
 			
 			app:layout_constraintStart_toEndOf="@id/tvFuelStationTitle"
 			app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +75,7 @@
 				
 				android:text="@string/default_price"
 				android:textAppearance="?textAppearanceSubtitle2"
+				android:textAlignment="textEnd"
 				
 				/>
 			
@@ -89,108 +86,134 @@
 				
 				android:text="@string/default_price"
 				android:textAppearance="?textAppearanceSubtitle2"
-			
+				android:textAlignment="textEnd"
 				/>
 		
 		</TextSwitcher>
 		
-		<com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup
+		<com.google.android.material.button.MaterialButtonToggleGroup
 			android:id="@+id/radioFuelTypes"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
+			android:layout_margin="8dp"
 			
-			app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"
+			app:singleSelection="true"
+			app:selectionRequired="true"
+			
+			app:layout_constraintTop_toBottomOf="@id/ivFuelStationImg"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/tvFuelStationTitle"
-			app:layout_constraintBottom_toBottomOf="@id/ivFuelStationImg"
 			>
 			
 			<!-- gas -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelTypeGas"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_gas"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- dt -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelTypeDT"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_dt"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- 92 -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType92"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_92"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- 95 -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType95"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_95"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- 95plus -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType95PLUS"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_95plus"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- 98 -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType98"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_98"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
 			
 			<!-- 100 -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.CircleButton
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnFuelType100"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				
 				android:text="@string/btn_fuel_type_100"
 				android:textSize="12sp"
 				
-				style="@style/My.Widget.Button.LetterOnly.Rounded.Outlined"
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
 				/>
+			
+		</com.google.android.material.button.MaterialButtonToggleGroup>
 		
-		</com.mmdev.me.driver.presentation.ui.common.custom.components.FuelTypeRadioGroup>
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

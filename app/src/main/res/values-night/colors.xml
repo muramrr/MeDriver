@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.11.2020 20:12
+  ~ Last modified 23.11.2020 15:53
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,7 @@
 
 <!-- see: https://material.io/design/color/dark-theme.html#ui-application -->
 
-	<color name="colorPrimary">#3594ED</color>
+	<color name="colorPrimary">#3085D5</color>
 	<color name="colorPrimaryVariant">@color/colorPrimaryDark</color>
 	<color name="colorOnPrimary">#000000</color>
 

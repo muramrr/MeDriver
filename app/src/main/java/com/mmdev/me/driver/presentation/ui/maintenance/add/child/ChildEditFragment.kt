@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 23.11.2020 17:50
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -202,12 +202,12 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 						lastReplacedEntry!!.vendor,
 						lastReplacedEntry!!.articulus
 					)
-				else binding.tvLastReplacedDetail.text = getString(R.string.not_defined)
+				else binding.tvLastReplacedDetail.text = getString(R.string.undefined)
 			}
 		}
 		else {
 			binding.tvLastReplacedOdometer.text = getString(R.string.default_OdometerValue)
-			binding.tvLastReplacedDetail.text = getString(R.string.not_defined)
+			binding.tvLastReplacedDetail.text = getString(R.string.undefined)
 			binding.tvLastReplacedDate.text = getString(R.string.never)
 		}
 		

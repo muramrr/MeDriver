@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 14:54
+ * Last modified 23.11.2020 17:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,7 +41,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
 	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
 	val replacements: MutableLiveData<Map<SparePart, PendingReplacement?>?> = MutableLiveData()
-	val expenses: MutableLiveData<Expenses> = MutableLiveData()
+	val expenses: MutableLiveData<Expenses> = MutableLiveData(Expenses())
 	
 	init {
 		getSavedVehicles()

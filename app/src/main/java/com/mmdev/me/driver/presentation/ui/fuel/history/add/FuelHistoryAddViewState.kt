@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.10.2020 17:00
+ * Last modified 23.11.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +10,9 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel.history.add
 
-import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewState.Error
-import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewState.Success
+import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewState.*
 
 /**
  * [ViewState] for [FuelHistoryAddDialog]
@@ -22,6 +21,6 @@ import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewSt
  */
 
 sealed class FuelHistoryAddViewState: ViewState {
-	data class Success(val odometerBound: DistanceBound): FuelHistoryAddViewState()
+	data class Success(val fuelHistory: FuelHistory): FuelHistoryAddViewState()
 	data class Error(val errorMessage: String?): FuelHistoryAddViewState()
 }

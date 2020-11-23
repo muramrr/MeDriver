@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (c) 2020. All rights reserved.
+  ~ Last modified 23.11.2020 19:47
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<merge
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	android:orientation="horizontal"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+	
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:layout_marginEnd="16dp"
+		android:orientation="vertical"
+		>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSwitcherTitle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:labelFor="@id/switcher"
+			android:maxLines="1"
+			
+			android:text=""
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSwitcherSubtitle"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			
+			android:text=""
+			android:textAppearance="?textAppearanceCaption"
+			android:visibility="gone"
+			/>
+	</LinearLayout>
+	
+	
+	
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.Switcher android:id="@+id/switcher"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+	
+	
+
+</merge>

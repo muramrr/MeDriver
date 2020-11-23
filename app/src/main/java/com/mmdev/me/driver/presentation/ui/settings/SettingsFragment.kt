@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 19:10
+ * Last modified 23.11.2020 20:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,8 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.MetricSystem.*
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
@@ -108,8 +107,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	override fun renderState(state: ViewState) {
-		super.renderState(state)
-		
 		when (state) {
 			
 			is SettingsViewState.Success.SendVerification -> {
@@ -191,7 +188,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 					}
 				}
 				
-				btnGetPremium.isEnabled = user != null && user.isEmailVerified && !user.isSubscriptionValid()
+				btnGetPremium.isEnabled = user != null  && !user.isSubscriptionValid()
 				btnGetPremium.text = if (user != null && user.isSubscriptionValid()) premiumObtained else getPremium
 			
 				// defines can be accessed synchronization switcher
@@ -208,14 +205,14 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	 */
 	private fun initSyncSwitcher(isEnabled: Boolean = false) {
 		// remove before changing state, because changing state also invokes onCheckedListener
-		if (!isEnabled) binding.switchSync.removeOnCheckedChangeListener()
+		if (!isEnabled) binding.switchSync.setSwitcherListener {_, _ -> }
 		
 		// init default switcher position
-		binding.switchSync.isChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
+		binding.switchSync.setChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
 		
 		// add callback to switcher toggle
 		if (isEnabled) {
-			binding.switchSync.setOnCheckedChangeListener { _, isChecked ->
+			binding.switchSync.setSwitcherListener { _, isChecked ->
 				sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
 			}
 		}
@@ -224,10 +221,10 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	private fun initThemeSwitcher() {
 		// init default switcher position
-		binding.switchTheme.isChecked(MedriverApp.themeMode != LIGHT_MODE)
+		binding.switchTheme.setChecked(MedriverApp.themeMode != LIGHT_MODE)
 		
 		// add callback to switcher toggle
-		binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+		binding.switchTheme.setSwitcherListener { _, isChecked ->
 			mViewModel.setThemeMode(isChecked)
 		}
 	}

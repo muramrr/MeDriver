@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:02
+ * Last modified 23.11.2020 16:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,6 +65,8 @@ class VehicleMappersFacade {
 	
 	// in: entity, out: * domain, dto
 	fun entityToDto(entity: VehicleEntity): VehicleDto = EntityMappers.toDto(entity)
+	fun entityToDomain(entity: VehicleEntity): Vehicle = EntityMappers.toDomain(entity)
+	
 	
 	fun listEntitiesToDomain(input: List<VehicleEntity>): List<Vehicle> =
 		mapList(input) { EntityMappers.toDomain(it) }

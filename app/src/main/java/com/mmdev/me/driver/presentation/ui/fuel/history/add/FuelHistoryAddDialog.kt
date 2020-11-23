@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:03
+ * Last modified 23.11.2020 17:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,6 +41,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.brandIcon
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
@@ -132,10 +133,13 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			is FuelHistoryAddViewState.Success -> {
 				
 				//update vehicle with new odometer value
-				if (state.odometerBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
+				if (state.fuelHistory.odometerValueBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
 					sharedViewModel.updateVehicle(
 						MedriverApp.currentUser,
-						MedriverApp.currentVehicle!!.copy(odometerValueBound = state.odometerBound)
+						MedriverApp.currentVehicle!!.copy(
+							odometerValueBound = state.fuelHistory.odometerValueBound,
+							lastRefillDate = state.fuelHistory.date.date.humanDate()
+						)
 					)
 				}
 				
@@ -221,8 +225,8 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	}
 	
 	private fun setupFuelButtons() {
-		binding.radioFuelTypes.setOnClickListener { _, id ->
-			when (id) {
+		binding.radioFuelTypes.addOnButtonCheckedListener { group, checkedId, isChecked ->
+			when (checkedId) {
 				binding.btnFuelTypeGas.id -> mViewModel.selectFuelType(GAS)
 				binding.btnFuelTypeDT.id -> mViewModel.selectFuelType(DT)
 				binding.btnFuelType92.id -> mViewModel.selectFuelType(A92)
@@ -302,15 +306,13 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			if (lastEntry != null) {
 				
 				when (lastEntry.fuelPrice.type) {
-					GAS -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelTypeGas.id)
-					DT -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelTypeDT.id)
-					A92 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType92.id)
-					A95 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType95.id)
-					A95PLUS -> binding.radioFuelTypes.setInitialSelected(
-						binding.btnFuelType95PLUS.id
-					)
-					A98 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType98.id)
-					A100 -> binding.radioFuelTypes.setInitialSelected(binding.btnFuelType100.id)
+					GAS -> binding.radioFuelTypes.check(binding.btnFuelTypeGas.id)
+					DT -> binding.radioFuelTypes.check(binding.btnFuelTypeDT.id)
+					A92 -> binding.radioFuelTypes.check(binding.btnFuelType92.id)
+					A95 -> binding.radioFuelTypes.check(binding.btnFuelType95.id)
+					A95PLUS -> binding.radioFuelTypes.check(binding.btnFuelType95PLUS.id)
+					A98 -> binding.radioFuelTypes.check(binding.btnFuelType98.id)
+					A100 -> binding.radioFuelTypes.check(binding.btnFuelType100.id)
 				}
 				
 				mViewModel.findFuelStationBySlug(lastEntry.fuelStation.slug, mFuelStationWithPrices)

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 16:08
+  ~ Last modified 23.11.2020 19:49
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -58,8 +58,8 @@
 	
 	<string name="never">Никогда</string>
 	<string name="not_found">Не найдено</string>
-	<string name="not_defined">Не указано</string>
-	
+	<string name="undefined">Не указано</string>
+	<string name="unknown">Неизвестно</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -276,18 +276,24 @@
 	<string name="fg_vehicle_add_new_vehicle">Добавить новый транспорт</string>
 	<string name="fg_vehicle_choose_vehicle">Выберите транспорт</string>
 	
-	<string name="fg_vehicle_mileage_card_title">Пробег</string>
-	<string name="fg_vehicle_mileage_card_subtitle">История</string>
+	<string name="fg_vehicle_card_mileage_title">Пробег</string>
+	<string name="fg_vehicle_card_mileage_subtitle">История</string>
 	
-	<string name="fg_vehicle_expenses_card_title">Расходы</string>
-	<string name="fg_vehicle_expenses_card_subtitle">Последняя операция</string>
+	<string name="fg_vehicle_card_expenses_title">Расходы</string>
+	<string name="fg_vehicle_card_expenses_type_total">Всего:</string>
+	<string name="fg_vehicle_card_expenses_type_maintenance">ТО:</string>
+	<string name="fg_vehicle_card_expenses_type_fuel">Топливо:</string>
+	<string name="fg_vehicle_card_expenses_subtitle">Изменить вид расходов</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Общие расходы</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Расходы на ТО</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Расходы на топливо</string>
 	
 	<string name="fg_vehicle_copy_vin">VIN скопирован: %s</string>
 	
 	<string name="fg_vehicle_insurance_title">ОСАГО</string>
 	<string name="fg_vehicle_insurance_subtitle">Действительна до %s</string>
 	
-	<string name="fg_vehicle_consumable_reminders_header">Расходные детали</string>
+	<string name="fg_vehicle_consumable_reminders_header">Плановое ТО</string>
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">Конечная дата</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Осталось проехать</string>
@@ -416,7 +422,8 @@
 	<string name="fg_settings_btn_get_subscription_active">Премиум активировано!</string>
 	
 	<string name="fg_settings_switcher_sync">Синхронизация</string>
-	<string name="fg_settings_switcher_dark_theme">Темная тема</string>
+	<string name="fg_settings_switcher_dark_theme_title">Темная тема</string>
+	<string name="fg_settings_switcher_dark_theme_subtitle">Включить темную тему</string>
 	<string name="fg_settings_switcher_metric_system">Метрическая система</string>
 	
 	<string name="fg_settings_switcher_language">Язык</string>

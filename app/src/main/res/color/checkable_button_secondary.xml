@@ -2,19 +2,14 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 05.09.2020 20:13
+  ~ Last modified 23.11.2020 15:38
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 
-<resources>
-
-	<dimen name="home_ivCar_height">90dp</dimen>
-	<dimen name="home_cards_width">100dp</dimen>
-	<dimen name="home_cards_height">150dp</dimen>
-	<dimen name="home_circularProgress_size">40dp</dimen>
-	
-	<dimen name="item_fuel_station_logo_size">50dp</dimen>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:color="?colorSecondary" android:state_checked="true"/>
+	<item android:color="@android:color/transparent" android:state_checked="false"/>
+</selector>

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:50
+ * Last modified 24.11.2020 00:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,23 +15,21 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 /**
- * region (obl) == 3 is Kyiv
- *
- * //todo: support multiple regions
+ * Retrofit call to retrieve fuel prices for specific region, fuel type and date
  */
 
 interface FuelApi {
 	
 	// ?obl=3date=2020-08-02&type=1
 	private companion object {
-		private const val PRICE_URL = "https://carta.ua/ajax/fuelprice/price?obl=3"
+		private const val PRICE_URL = "https://carta.ua/ajax/fuelprice/price?"
 	}
 	
 	@GET(PRICE_URL)
 	suspend fun getFuelInfoFromApi(
 		@Query("date") date: String,
 		@Query("type") fuelType: Int,
-		//@Query("obl") region: Int = 3
+		@Query("obl") region: Int
 	): FuelPricesDtoResponse
 	
 }

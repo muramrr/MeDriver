@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 24.11.2020 01:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,6 +41,8 @@ import com.mmdev.me.driver.core.utils.log.DebugConfig
 import com.mmdev.me.driver.core.utils.log.MyLogger
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.domain.fuel.prices.data.Region
+import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.revenuecat.purchases.Purchases
@@ -73,9 +75,10 @@ class MedriverApp: Application() {
 		private const val THEME_MODE_KEY = "theme_mode"
 		private const val METRIC_SYSTEM_KEY = "metric_system"
 		private const val LANGUAGE_KEY = "language"
+		private const val PRICES_REGION_KEY = "prices_region"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
-		lateinit var appContext: Context
+		private lateinit var appContext: Context
 		val prefs by lazy {
 			KsPrefs(appContext, PREFERENCES_NAME) {
 				//	encryptionType = EncryptionType.KeyStore("key")
@@ -88,33 +91,35 @@ class MedriverApp: Application() {
 		// and some of these values are used across application
 		
 		var themeMode: ThemeMode = LIGHT_MODE
-			private set
-		
-		fun changeThemeMode(value: ThemeMode) {
-			themeMode = value
-			prefs.push(THEME_MODE_KEY, value)
-			logDebug(TAG, "AppTheme changed to $value")
-			ThemeHelper.applyTheme(value)
-		}
+			set(value) {
+				field = value
+				prefs.push(THEME_MODE_KEY, value)
+				logDebug(TAG, "AppTheme changed to $value")
+				ThemeHelper.applyTheme(value)
+			}
 		
 		var metricSystem: MetricSystem = KILOMETERS
-			private set
-		
-		fun changeMetricSystem(value: MetricSystem) {
-			metricSystem = value
-			prefs.push(METRIC_SYSTEM_KEY, value)
-			logDebug(TAG, "Metric system changed to $value")
-		}
+			set(value) {
+				field = value
+				prefs.push(METRIC_SYSTEM_KEY, value)
+				logDebug(TAG, "Metric system changed to $value")
+			}
 		
 		var appLanguage: Language = ENGLISH
-			private set
+			set(value) {
+				field = value
+				prefs.push(LANGUAGE_KEY, value)
+				logDebug(TAG, "Language changed to $value")
+			}
 		
-		fun changeAppLanguage(value: Language) {
-			appLanguage = value
-			prefs.push(LANGUAGE_KEY, value)
-			logDebug(TAG, "Language changed to $value")
-		}
-		
+		var pricesRegion: Region = KYIV
+			set(value) {
+				if (field != value) {
+					field = value
+					prefs.push(PRICES_REGION_KEY, value)
+					logDebug(TAG, "Region changed to $value")
+				}
+			}
 		
 		var currentVehicleVinCode: String = ""
 			private set
@@ -129,17 +134,15 @@ class MedriverApp: Application() {
 		
 		@Volatile
 		var currentUser: UserDataInfo? = null
-			@Synchronized set
 		
 		
 		@Volatile
 		var currentVehicle: Vehicle? = null
-			@Synchronized set
 		
 		
 		@Volatile
 		var isNetworkAvailable: Boolean = false
-			@Synchronized set
+		
 		
 		fun isInternetWorking(): Boolean = if (isNetworkAvailable) {
 			runBlocking {
@@ -211,10 +214,13 @@ class MedriverApp: Application() {
 		/** if not exists - apply [KILOMETERS] as default metric system and save */
 		metricSystem = loadInitialPropertyOrPushDefault(key = METRIC_SYSTEM_KEY, default = KILOMETERS)
 		
-		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")
-		
 		/** if not exists - apply [ENGLISH] language as app default */
 		appLanguage = loadInitialPropertyOrPushDefault(key = LANGUAGE_KEY, default = ENGLISH)
+		
+		/** if not exists - apply [KYIV] region as default */
+		pricesRegion = loadInitialPropertyOrPushDefault(key = PRICES_REGION_KEY, default = KYIV)
+		
+		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")
 		
 		super.onCreate()
 		logInfo(TAG, "loaded theme mode - $themeMode")

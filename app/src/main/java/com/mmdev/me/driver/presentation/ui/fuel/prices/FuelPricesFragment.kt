@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 17:23
+ * Last modified 24.11.2020 01:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,9 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
+import com.mmdev.me.driver.domain.fuel.prices.data.Region.VOLYNSKA
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
@@ -40,6 +42,8 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(LinearItemDecoration())
 		}
+		
+		MedriverApp.pricesRegion = VOLYNSKA
 	}
 	
 	override fun renderState(state: ViewState) {

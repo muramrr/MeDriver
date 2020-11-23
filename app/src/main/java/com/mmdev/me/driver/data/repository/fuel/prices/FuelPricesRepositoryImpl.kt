@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.11.2020 18:43
+ * Last modified 24.11.2020 00:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,7 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
+import com.mmdev.me.driver.domain.fuel.prices.data.Region
 
 /**
  * [IFuelPricesRepository] implementation
@@ -38,7 +39,10 @@ class FuelPricesRepositoryImpl (
 	 * else catch failure and make a network request
 	 * If network request fails -> emit failure from [getFuelDataFromRemote]
 	 */
-	override suspend fun getFuelStationsWithPrices(date: String): SimpleResult<List<FuelStationWithPrices>> {
+	override suspend fun getFuelStationsWithPrices(
+		date: String,
+		region: Region
+	): SimpleResult<List<FuelStationWithPrices>> {
 		
 		logInfo(TAG, "get prices for $date")
 		
@@ -48,13 +52,16 @@ class FuelPricesRepositoryImpl (
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
 				logError(TAG, it.message ?: "Boundary local cache error")
-				getFuelDataFromRemote(date)
+				getFuelDataFromRemote(date, region)
 			})
 	}
 	
 	//retrieve FuelPrices from remote source
-	private suspend fun getFuelDataFromRemote(date: String): SimpleResult<List<FuelStationWithPrices>> =
-		remoteDataSource.requestFuelPrices(date).fold(
+	private suspend fun getFuelDataFromRemote(
+		date: String,
+		region: Region
+	): SimpleResult<List<FuelStationWithPrices>> =
+		remoteDataSource.requestFuelPrices(date, region).fold(
 			success = { dto ->
 				//save to db
 				with(mappers.listApiDtosToDbEntities(dto, date)){

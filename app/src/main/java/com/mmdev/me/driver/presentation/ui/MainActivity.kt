@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 00:34
+ * Last modified 24.11.2020 01:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -191,7 +191,7 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	private fun setListeners() {
-		ConnectionManager(MedriverApp.appContext, this) { isConnected ->
+		ConnectionManager(this, this) { isConnected ->
 			if (MedriverApp.isNetworkAvailable != isConnected) {
 				MedriverApp.isNetworkAvailable = isConnected
 				if (MedriverApp.isNetworkAvailable) {

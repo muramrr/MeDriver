@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.11.2020 19:16
+ * Last modified 24.11.2020 01:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,11 +31,13 @@ class SettingsViewModel(private val repository: ISettingsRepository): BaseViewMo
 	val viewState: MutableLiveData<SettingsViewState> = MutableLiveData()
 	
 	fun setThemeMode(isChecked: Boolean) {
-		if (isChecked) MedriverApp.changeThemeMode(DARK_MODE)
-		else MedriverApp.changeThemeMode(LIGHT_MODE)
+		if (isChecked) MedriverApp.themeMode = DARK_MODE
+		else MedriverApp.themeMode = LIGHT_MODE
 	}
 	
-	fun setMetricSystem(metricSystem: MetricSystem) = MedriverApp.changeMetricSystem(metricSystem)
+	fun setMetricSystem(metricSystem: MetricSystem) {
+		MedriverApp.metricSystem = metricSystem
+	}
 	
 	
 	fun sendEmailVerification(email: String) {

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.11.2020 19:42
+  ~ Last modified 25.11.2020 00:46
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -117,6 +117,7 @@
 			android:layout_width="0dp"
 			
 			app:cardElevation="0dp"
+			app:contentPadding="8dp"
 			app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Card.TopCorners"
 			
 			app:cardPreventCornerOverlap="false"
@@ -131,7 +132,7 @@
 				android:layout_width="50dp"
 				android:layout_height="2dp"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="6dp"
+				android:layout_marginTop="4dp"
 				android:src="@drawable/ic_horizontal_line"
 				android:scaleType="centerCrop"
 				

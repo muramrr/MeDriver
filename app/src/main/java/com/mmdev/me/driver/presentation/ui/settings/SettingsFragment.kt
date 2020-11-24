@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 01:02
+ * Last modified 25.11.2020 01:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -191,8 +191,9 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				
 				btnGetPremium.isEnabled = user != null  && !user.isSubscriptionValid()
 				btnGetPremium.text = if (user != null && user.isSubscriptionValid()) premiumObtained else getPremium
-			
+				
 				// defines can be accessed synchronization switcher
+				//todo: fix enabled and disabled
 				switchSync.isEnabled = (user != null && user.isSubscriptionValid()).also { initSyncSwitcher(it) }
 				
 			}

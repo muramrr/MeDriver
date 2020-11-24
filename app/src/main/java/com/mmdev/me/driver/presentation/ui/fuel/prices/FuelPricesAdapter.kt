@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 20:30
+ * Last modified 25.11.2020 01:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,15 +13,18 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.gone
+import com.mmdev.me.driver.presentation.utils.extensions.visible
 
 /**
  *
@@ -45,7 +48,9 @@ class FuelPricesAdapter (
 			ItemFuelPricesStationBinding.inflate(
 				LayoutInflater.from(parent.context), parent, false
 			)
-		)
+		).also {
+			priceFormatter = parent.getStringRes(R.string.price_formatter_left)
+		}
 	
 	override fun onBindViewHolder(holder: PriceViewHolder, position: Int) =
 		holder.bind(data[position])
@@ -63,28 +68,19 @@ class FuelPricesAdapter (
 	inner class PriceViewHolder(private val binding: ItemFuelPricesStationBinding):
 			RecyclerView.ViewHolder(binding.root) {
 		
-		
-		init {
-			inAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_in).apply {
-				duration = 200
-			}
-			// price disappearing anim
-			outAnim = AnimationUtils.loadAnimation(binding.root.context, android.R.anim.fade_out).apply {
-				duration = 200
-			}
-			//apply anim to textSwitcher
-			binding.tvFuelPrice.apply {
-				inAnimation = inAnim
-				outAnimation = outAnim
-			}
-			
-			priceFormatter = binding.root.getStringRes(R.string.price_formatter_left)
-		}
-		
 		fun bind(item: FuelStationWithPrices) {
 			
+			logWtf(javaClass, "$item")
+			
+			FuelType.values().forEach { fuelType ->
+				if (item.prices.find { it.type == fuelType} == null) {
+					binding.radioFuelTypes[fuelType.ordinal].gone(0)
+				}
+				else binding.radioFuelTypes[fuelType.ordinal].visible(0)
+			}
+			
 			binding.radioFuelTypes.addOnButtonCheckedListener { group, checkedId, isChecked ->
-				binding.tvFuelPrice.setText(invokePriceSearch(item, checkedId))
+				binding.tvFuelPrice.text = invokePriceSearch(item, checkedId)
 			}
 			
 			//if no button checked (init state)
@@ -92,9 +88,7 @@ class FuelPricesAdapter (
 				//init A95 price for all
 				binding.radioFuelTypes.check(R.id.btnFuelType95)
 			} else {
-				binding.tvFuelPrice.setText(
-					invokePriceSearch(item, binding.radioFuelTypes.checkedButtonId)
-				)
+				binding.tvFuelPrice.text = invokePriceSearch(item, binding.radioFuelTypes.checkedButtonId)
 			}
 
 			

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 14:47
+ * Last modified 25.11.2020 00:26
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -85,7 +85,7 @@ android {
 dependencies {
 	coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 	implementation fileTree(dir: "libs", include: ["*.jar"])
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20-RC"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20"
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1"
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 	implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.1.0"

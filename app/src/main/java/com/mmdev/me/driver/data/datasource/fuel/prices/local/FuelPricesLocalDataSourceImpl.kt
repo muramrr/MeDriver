@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 26.10.2020 17:30
+ * Last modified 24.11.2020 19:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,8 +27,10 @@ import com.mmdev.me.driver.domain.fuel.FuelType
 class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 		BaseDataSource(), IFuelPricesLocalDataSource {
 	
-	override suspend fun getFuelStationsAndPrices(date: String):
-			SimpleResult<List<FuelStationAndPrices>> = safeCall(TAG) { dao.getFuelPrices(date) }
+	override suspend fun getFuelStationsAndPrices(
+		date: String,
+		regionId: Int
+	): SimpleResult<List<FuelStationAndPrices>> = safeCall(TAG) { dao.getFuelPrices(date, regionId) }
 		
 	
 	override suspend fun addFuelStationsAndPrices(

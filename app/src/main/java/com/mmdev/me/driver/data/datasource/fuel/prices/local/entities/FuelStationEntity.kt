@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:15
+ * Last modified 24.11.2020 20:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,10 @@ import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 @Entity(tableName = MeDriverRoomDatabase.FUEL_STATIONS_TABLE)
 data class FuelStationEntity(
 	val brandTitle: String,
-	@PrimaryKey
 	val slug: String,
-	val updatedDate: String
-)
+	val updatedDate: String,
+	val regionId: Int,
+) {
+	@PrimaryKey
+	var id: String = slug + "_$regionId"
+}

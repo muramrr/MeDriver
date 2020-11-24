@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 24.11.2020 20:16
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,6 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 
 /**
  * Basic [FuelStation] related constants
- *
- * note: This should not be placed inside domain package due to [R] dependent vars
  */
 
 object FuelStationConstants {
@@ -64,7 +62,7 @@ object FuelStationConstants {
 	)
 
 	val fuelStationIconMap =
-		fuelStationSlug.zip(fuelStationIcons).toMap().withDefault { 0 }
+		fuelStationSlug.zip(fuelStationIcons).toMap().withDefault { R.drawable.fuel_station_unknown_24 }
 	
 	val fuelStationList = fuelStationTitle.zip(fuelStationSlug).map {
 		FuelStation(it.first, it.second)

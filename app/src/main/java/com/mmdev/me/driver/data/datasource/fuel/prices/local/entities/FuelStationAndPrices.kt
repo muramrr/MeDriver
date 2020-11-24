@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 15:00
+ * Last modified 24.11.2020 20:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import androidx.room.Relation
 data class FuelStationAndPrices(
 	@Embedded val fuelStation: FuelStationEntity,
 	@Relation(
-		parentColumn = "slug",
+		parentColumn = "id",
 		entityColumn = "fuelStationId"
 	)
 	val prices: List<FuelPriceEntity>

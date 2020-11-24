@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 19:49
+  ~ Last modified 24.11.2020 19:51
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -375,6 +375,34 @@
 	
 <!-- ********************************** fragment_fuel_prices *********************************** -->
 	<string name="fg_fuel_prices_empty_list">Cannot get current prices</string>
+	
+	<string-array name="fg_fuel_prices_regions">
+		<item>Vinnytsia obl.</item>
+		<item>Volyn obl.</item>
+		<item>Dnipropetrovsk obl.</item>
+		<item>Donetsk obl.</item>
+		<item>Zhytomyr obl.</item>
+		<item>Zakarpattia obl.</item>
+		<item>Zaporizska obl.</item>
+		<item>Ivano-Franksivska obl.</item>
+		<item>Kyiv city</item>
+		<item>Kyiv obl.</item>
+		<item>Kirovohrad obl.</item>
+		<item>Luhansk obl.</item>
+		<item>Lviv obl.</item>
+		<item>Mykolaiv obl.</item>
+		<item>Odesa obl.</item>
+		<item>Poltava obl.</item>
+		<item>Rivne obl.</item>
+		<item>Sumy obl.</item>
+		<item>Ternopil obl.</item>
+		<item>Kharkiv obl.</item>
+		<item>Kherson obl.</item>
+		<item>Khmelnytskyi obl.</item>
+		<item>Cherkasy obl.</item>
+		<item>Chernivtsi obl.</item>
+		<item>Chernihiv obl.</item>
+	</string-array>
 <!-- ******************************************************************************************* -->
 
 

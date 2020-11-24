@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 19:49
+  ~ Last modified 24.11.2020 19:17
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -336,6 +336,34 @@
 
 <!-- ********************************** fragment_fuel_prices *********************************** -->
 	<string name="fg_fuel_prices_empty_list">Не удалось получить актуальные цены :(</string>
+	
+	<string-array name="fg_fuel_prices_regions">
+		<item>Винницкая обл.</item>
+		<item>Волынская обл.</item>
+		<item>Днепропетровская обл.</item>
+		<item>Донецкая обл.</item>
+		<item>Житомирская обл.</item>
+		<item>Закарпатская обл.</item>
+		<item>Запорожская обл.</item>
+		<item>Ивано-Франковская обл.</item>
+		<item>город Киев</item>
+		<item>Киевская обл.</item>
+		<item>Кировоградская обл.</item>
+		<item>Луганская обл.</item>
+		<item>Львовская обл.</item>
+		<item>Николаевская обл.</item>
+		<item>Одесская обл.</item>
+		<item>Полтавская обл.</item>
+		<item>Ровенская обл.</item>
+		<item>Сумская обл.</item>
+		<item>Тернопольская обл.</item>
+		<item>Харьковская обл.</item>
+		<item>Херсонская обл.</item>
+		<item>Хмельницкая обл.</item>
+		<item>Черкасская обл.</item>
+		<item>Черновицкая обл.</item>
+		<item>Черниговская обл.</item>
+	</string-array>
 <!-- ******************************************************************************************* -->
 
 

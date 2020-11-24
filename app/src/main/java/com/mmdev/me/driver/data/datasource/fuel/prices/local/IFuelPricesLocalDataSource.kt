@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:50
+ * Last modified 24.11.2020 19:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,10 @@ interface IFuelPricesLocalDataSource {
 	 * Get stored fuel station prices from database
 	 * Basically DAO logic here is to group [FuelStationEntity] to related pack of [FuelPriceEntity]
 	 */
-	suspend fun getFuelStationsAndPrices(date: String): SimpleResult<List<FuelStationAndPrices>>
+	suspend fun getFuelStationsAndPrices(
+		date: String,
+		regionId: Int
+	): SimpleResult<List<FuelStationAndPrices>>
 	
 	/**
 	 * Add [FuelStationEntity] entries and [FuelPriceEntity] to database, nothing special here

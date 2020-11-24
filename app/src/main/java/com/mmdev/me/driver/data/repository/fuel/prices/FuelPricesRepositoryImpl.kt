@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 00:49
+ * Last modified 24.11.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,13 +40,12 @@ class FuelPricesRepositoryImpl (
 	 * If network request fails -> emit failure from [getFuelDataFromRemote]
 	 */
 	override suspend fun getFuelStationsWithPrices(
-		date: String,
-		region: Region
+		date: String, region: Region
 	): SimpleResult<List<FuelStationWithPrices>> {
 		
 		logInfo(TAG, "get prices for $date")
 		
-		return getFuelDataFromLocal(date).fold(
+		return getFuelDataFromLocal(date, region).fold(
 			//get from local database
 			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
@@ -58,17 +57,16 @@ class FuelPricesRepositoryImpl (
 	
 	//retrieve FuelPrices from remote source
 	private suspend fun getFuelDataFromRemote(
-		date: String,
-		region: Region
+		date: String, region: Region
 	): SimpleResult<List<FuelStationWithPrices>> =
 		remoteDataSource.requestFuelPrices(date, region).fold(
 			success = { dto ->
 				//save to db
-				with(mappers.listApiDtosToDbEntities(dto, date)){
+				with(mappers.listApiDtosToDbEntities(dto, date, region)){
 					localDataSource.addFuelStationsAndPrices(this.first, this.second)
 				}
 				//after saving -> retrieve from database again
-				getFuelDataFromLocal(date)
+				getFuelDataFromLocal(date, region)
 				
 				//ResultState.Success(mappers.mapFuelResponseToDm(dto))
 				
@@ -77,10 +75,12 @@ class FuelPricesRepositoryImpl (
 		)
 
 	//retrieve FuelStationAndPrices from cache (room database)
-	private suspend fun getFuelDataFromLocal(date: String): SimpleResult<List<FuelStationWithPrices>> =
-		localDataSource.getFuelStationsAndPrices(date).fold(
+	private suspend fun getFuelDataFromLocal(
+		date: String, region: Region
+	): SimpleResult<List<FuelStationWithPrices>> =
+		localDataSource.getFuelStationsAndPrices(date, region.id).fold(
 			success = { dto ->
-				if (dto.isNotEmpty()) ResultState.Success(mappers.dbFuelStationAndPricesToDomains(dto))
+				if (dto.isNotEmpty()) ResultState.Success(mappers.listEntityToDomains(dto))
 				else ResultState.Failure(Exception("Empty cache"))
 			},
 			failure = { throwable -> ResultState.Failure(throwable) }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 15:57
+ * Last modified 24.11.2020 20:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,9 +28,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
  */
 
 class FuelPricesAdapter (
-	
 	private var data: List<FuelStationWithPrices> = emptyList()
-
 ): RecyclerView.Adapter<FuelPricesAdapter.PriceViewHolder>(){
 	
 	//no price stub
@@ -86,41 +84,36 @@ class FuelPricesAdapter (
 		fun bind(item: FuelStationWithPrices) {
 			
 			binding.radioFuelTypes.addOnButtonCheckedListener { group, checkedId, isChecked ->
-				when (checkedId) {
-					R.id.btnFuelTypeGas -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.GAS))
-					)
-					R.id.btnFuelTypeDT -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.DT))
-					)
-					R.id.btnFuelType92 -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.A92))
-					)
-					R.id.btnFuelType95 -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.A95))
-					)
-					R.id.btnFuelType95PLUS -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.A95PLUS))
-					)
-					R.id.btnFuelType98 -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.A98))
-					)
-					R.id.btnFuelType100 -> binding.tvFuelPrice.setText(
-						priceFormatter.format(getPriceByType(item, FuelType.A100))
-					)
-				}
+				binding.tvFuelPrice.setText(invokePriceSearch(item, checkedId))
 			}
 			
 			//if no button checked (init state)
 			if (binding.radioFuelTypes.checkedButtonId == -1) {
 				//init A95 price for all
 				binding.radioFuelTypes.check(R.id.btnFuelType95)
+			} else {
+				binding.tvFuelPrice.setText(
+					invokePriceSearch(item, binding.radioFuelTypes.checkedButtonId)
+				)
 			}
 
 			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()
 		}
+		
+		private fun invokePriceSearch(item: FuelStationWithPrices, buttonId: Int): String =
+			when(buttonId) {
+				R.id.btnFuelTypeGas -> priceFormatter.format(getPriceByType(item, FuelType.GAS))
+				R.id.btnFuelTypeDT -> priceFormatter.format(getPriceByType(item, FuelType.DT))
+				R.id.btnFuelType92 -> priceFormatter.format(getPriceByType(item, FuelType.A92))
+				R.id.btnFuelType95 -> priceFormatter.format(getPriceByType(item, FuelType.A95))
+				R.id.btnFuelType95PLUS -> priceFormatter.format(getPriceByType(item, FuelType.A95PLUS))
+				R.id.btnFuelType98 -> priceFormatter.format(getPriceByType(item, FuelType.A98))
+				R.id.btnFuelType100 -> priceFormatter.format(getPriceByType(item, FuelType.A100))
+				else -> "--.--"
+			}
+		
 		
 		private fun getPriceByType(item: FuelStationWithPrices, fuelType: FuelType): String =
 			(item.prices.find { it.type == fuelType } ?: noPrice).priceString()

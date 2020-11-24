@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:40
+ * Last modified 24.11.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,6 @@ import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDt
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -44,7 +42,8 @@ object DtoMappers {
 			fuelStation = FuelStationEntity(
 				brandTitle = dto.fuelStation.brandTitle,
 				slug = dto.fuelStation.slug,
-				updatedDate = dto.fuelStation.updatedDate
+				updatedDate = dto.fuelStation.updatedDate,
+				regionId = dto.fuelStation.regionId
 			),
 			moneySpent = dto.moneySpent,
 			odometerValueBound = dto.odometerValueBound,
@@ -60,15 +59,8 @@ object DtoMappers {
 			distancePassedBound = dto.distancePassedBound,
 			filledLiters = dto.filledLiters,
 			fuelConsumptionBound = dto.fuelConsumptionBound,
-			fuelPrice = FuelPrice(
-				price = dto.fuelPrice.price,
-				typeCode = dto.fuelPrice.type.code
-			),
-			fuelStation = FuelStation(
-				brandTitle = dto.fuelStation.brandTitle,
-				slug = dto.fuelStation.slug,
-				updatedDate = dto.fuelStation.updatedDate
-			),
+			fuelPrice = dto.fuelPrice,
+			fuelStation = dto.fuelStation,
 			moneySpent = dto.moneySpent,
 			odometerValueBound = dto.odometerValueBound,
 			vehicleVinCode = dto.vehicleVinCode

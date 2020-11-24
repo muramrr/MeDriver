@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 16:04
+  ~ Last modified 24.11.2020 19:54
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -72,6 +72,8 @@
 			android:layout_height="64dp"
 			android:layout_width="64dp"
 			android:layout_margin="8dp"
+			
+			app:imgCornerRadius="6dp"
 			
 			android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
 			

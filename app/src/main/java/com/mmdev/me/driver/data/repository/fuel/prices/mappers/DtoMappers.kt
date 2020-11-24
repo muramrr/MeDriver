@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 24.11.2020 20:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStatio
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPriceAndStationDto
 import com.mmdev.me.driver.domain.fuel.FuelType
+import com.mmdev.me.driver.domain.fuel.prices.data.Region
 
 /**
  * In [response] -> Out: [FuelStationAndPrices], [FuelStationWithPrices], [FuelSummaryEntity], [FuelSummary]
@@ -25,7 +26,7 @@ object DtoMappers {
 	
 	/** Out: [FuelStationAndPrices] */
 	fun listApiDtoToDbEntity(
-		input: response, date: String
+		input: response, date: String, region: Region
 	): Pair<List<FuelStationEntity>, List<FuelPriceEntity>> {
 		
 		val fuelPriceEntities = mutableListOf<FuelPriceEntity>()
@@ -35,7 +36,9 @@ object DtoMappers {
 			with(networkFuelModelResponse.result) {
 				//get every fuelStation with price and generate separate objects price and station
 				fuelPriceAndStationDtos.forEach { fuelPriceAndStationDto ->
-					val split = splitFuelPriceAndStationDto(date, fuelType, fuelPriceAndStationDto)
+					val split = splitFuelPriceAndStationDto(
+						date, fuelType, fuelPriceAndStationDto, region
+					)
 					//add price to general list
 					fuelPriceEntities.add(split.first)
 					
@@ -50,12 +53,18 @@ object DtoMappers {
 	}
 	
 	private fun splitFuelPriceAndStationDto(
-		date: String, fuelType: FuelType, input: FuelPriceAndStationDto
+		date: String, fuelType: FuelType, input: FuelPriceAndStationDto, region: Region
 	): Pair<FuelPriceEntity, FuelStationEntity> = Pair(
 		FuelPriceEntity(
-			fuelStationId = input.slug, price = input.price, typeCode = fuelType.code
-		), FuelStationEntity(
-			brandTitle = input.brand, slug = input.slug, updatedDate = date
+			fuelStationId = input.slug + "_${region.id}",
+			price = input.price,
+			typeCode = fuelType.code
+		),
+		FuelStationEntity(
+			brandTitle = input.brand,
+			slug = input.slug,
+			updatedDate = date,
+			regionId = region.id
 		)
 	)
 	

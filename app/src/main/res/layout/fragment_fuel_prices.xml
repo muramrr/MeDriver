@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.11.2020 01:51
+  ~ Last modified 24.11.2020 19:42
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,7 +38,7 @@
 			android:layout_height="0dp"
 			
 			app:iconTint="?colorOnPrimary"
-			app:icon="@drawable/ic_settings_24"
+			app:icon="@drawable/ic_menu_24"
 			
 			style="@style/My.Widget.Button.IconOnly.Text"
 			
@@ -53,6 +53,8 @@
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
 			
+			app:startIconTint="?colorOnPrimary"
+			app:startIconDrawable="@drawable/ic_location_24"
 			app:endIconTint="?colorOnPrimary"
 			
 			app:boxStrokeWidth="0dp"
@@ -75,8 +77,8 @@
 				android:inputType="none"
 				android:maxLines="1"
 				
-				android:text="Kyiv"
-				android:textAppearance="?textAppearanceHeadline6"
+				android:text="Choose region"
+				android:textAppearance="?textAppearanceBody1"
 				android:textColor="?colorOnPrimary"
 				/>
 		
@@ -85,19 +87,21 @@
 		<com.google.android.material.chip.ChipGroup android:id="@+id/temp1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			android:layout_marginHorizontal="8dp"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutRegions"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
-			<com.google.android.material.chip.Chip
+			<com.google.android.material.chip.Chip android:id="@+id/temp2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Temporary1"
 				/>
 			
-			<com.google.android.material.chip.Chip
+			<com.google.android.material.chip.Chip android:id="@+id/temp3"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Temporary2"
@@ -108,19 +112,42 @@
 		</com.google.android.material.chip.ChipGroup>
 		
 		
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/rvFuelStations"
+		<com.google.android.material.card.MaterialCardView android:id="@+id/frontContentContainer"
 			android:layout_height="0dp"
 			android:layout_width="0dp"
-			android:background="@drawable/view_bg_surface_top_24"
 			
-			tools:listitem="@layout/item_fuel_prices_station"
+			app:cardElevation="0dp"
+			app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Card.TopCorners"
+			
+			app:cardPreventCornerOverlap="false"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutRegions"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			/>
+			app:layout_constraintEnd_toEndOf="parent">
+			
+			<!-- drag indicator -->
+			<ImageView android:id="@+id/ivTopIndicator"
+				android:layout_width="50dp"
+				android:layout_height="2dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="6dp"
+				android:src="@drawable/ic_horizontal_line"
+				android:scaleType="centerCrop"
+				
+				/>
+			
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/rvFuelStations"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:layout_marginTop="16dp"
+				
+				tools:listitem="@layout/item_fuel_prices_station"
+				/>
+			
+		</com.google.android.material.card.MaterialCardView>
+		
 	
 	</androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

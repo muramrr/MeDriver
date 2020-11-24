@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 24.11.2020 19:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelSummary
+import com.mmdev.me.driver.domain.fuel.prices.data.Region
 
 
 /**
@@ -31,9 +32,10 @@ class FuelPriceMappersFacade {
 	// in: dto, out: * summary entity, prices and stations entity
 	fun listApiDtosToDbEntities(
 		input: response,
-		date: String
+		date: String,
+		region: Region
 	): Pair<List<FuelStationEntity>, List<FuelPriceEntity>> =
-		DtoMappers.listApiDtoToDbEntity(input, date)
+		DtoMappers.listApiDtoToDbEntity(input, date, region)
 	
 	fun listApiDtosSummaryToDb(input: response): List<FuelSummaryEntity> =
 		DtoMappers.apiDtoFuelSummaryToDbEntity(input)
@@ -91,13 +93,13 @@ class FuelPriceMappersFacade {
 //	fun summaryEntityToDomain(entity: FuelSummaryEntity): FuelSummary =
 //		FuelPricesDbEntityMappers.summaryEntityToDomain(entity)
 	
-	fun dbSummaryEntitiesToDomains(input: List<FuelSummaryEntity>): List<FuelSummary> =
+	fun listSummaryEntitiesToDomains(input: List<FuelSummaryEntity>): List<FuelSummary> =
 		mapList(input) { EntityMappers.summaryEntityToDomain(it) }
 	
 	
 	
 	// in: FuelStationAndPrices entity, out * domain
-	fun dbFuelStationAndPricesToDomains(input: List<FuelStationAndPrices>): List<FuelStationWithPrices> =
+	fun listEntityToDomains(input: List<FuelStationAndPrices>): List<FuelStationWithPrices> =
 		EntityMappers.listFuelStationAndPricesToDomain(input)
 	
 	

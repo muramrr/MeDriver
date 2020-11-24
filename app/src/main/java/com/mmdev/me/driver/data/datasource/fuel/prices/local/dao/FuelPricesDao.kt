@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 17:15
+ * Last modified 24.11.2020 20:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,8 +30,11 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummar
 interface FuelPricesDao {
 	
 	@Transaction
-	@Query("SELECT * FROM ${MeDriverRoomDatabase.FUEL_STATIONS_TABLE} WHERE updatedDate = :date")
-	suspend fun getFuelPrices(date: String): List<FuelStationAndPrices>
+	@Query("""
+		SELECT * FROM ${MeDriverRoomDatabase.FUEL_STATIONS_TABLE}
+		WHERE updatedDate = :date AND regionId = :regionId
+	""")
+	suspend fun getFuelPrices(date: String, regionId: Int): List<FuelStationAndPrices>
 	
 	@Transaction
 	suspend fun insertFuelStationsAndPrices(

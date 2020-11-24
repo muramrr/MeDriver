@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 24.11.2020 19:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,6 @@ import com.mmdev.me.driver.data.datasource.fuel.history.remote.dto.FuelHistoryDt
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
-import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
-import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 
@@ -43,7 +41,8 @@ object DomainMappers {
 			fuelStation = FuelStationEntity(
 				brandTitle = domain.fuelStation.brandTitle,
 				slug = domain.fuelStation.slug,
-				updatedDate = domain.fuelStation.updatedDate
+				updatedDate = domain.fuelStation.updatedDate,
+				regionId = domain.fuelStation.regionId
 			),
 			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,
@@ -60,15 +59,8 @@ object DomainMappers {
 			distancePassedBound = domain.distancePassedBound,
 			filledLiters = domain.filledLiters,
 			fuelConsumptionBound = domain.fuelConsumptionBound,
-			fuelPrice = FuelPrice(
-				price = domain.fuelPrice.price,
-				typeCode = domain.fuelPrice.type.code
-			),
-			fuelStation = FuelStation(
-				brandTitle = domain.fuelStation.brandTitle,
-				slug = domain.fuelStation.slug,
-				updatedDate = domain.fuelStation.updatedDate
-			),
+			fuelPrice = domain.fuelPrice,
+			fuelStation = domain.fuelStation,
 			moneySpent = domain.moneySpent,
 			odometerValueBound = domain.odometerValueBound,
 			vehicleVinCode = domain.vehicleVinCode

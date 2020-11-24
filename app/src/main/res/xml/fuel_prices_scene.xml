@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.11.2020 01:51
+  ~ Last modified 24.11.2020 18:32
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,8 +16,14 @@
 	<Transition app:constraintSetStart="@id/backdropCollapsed"
 		app:constraintSetEnd="@id/backdropExpanded">
 		
-		<OnSwipe app:dragDirection="dragDown"
-			app:touchAnchorId="@id/rvFuelStations"/>
+		<OnSwipe app:dragDirection="dragUp"
+			app:touchAnchorId="@id/frontContentContainer"
+			app:dragScale="1.5"
+			app:nestedScrollFlags="disableScroll"
+			/>
+		
+		<OnClick app:targetId="@id/btnOpenBackdrop"
+			app:clickAction="toggle"/>
 		
 	</Transition>
 	
@@ -25,7 +31,7 @@
 	
 	<ConstraintSet android:id="@+id/backdropExpanded">
 		
-		<Constraint android:id="@+id/rvFuelStations"
+		<Constraint android:id="@+id/frontContentContainer"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			
@@ -33,6 +39,18 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<Constraint android:id="@+id/btnOpenBackdrop"
+			android:layout_width="wrap_content"
+			android:layout_height="0dp"
+			
+			android:rotation="90"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="@id/layoutRegions"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/layoutRegions"
 			/>
 		
 	</ConstraintSet>

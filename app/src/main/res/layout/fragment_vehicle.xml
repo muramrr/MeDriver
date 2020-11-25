@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 20:02
+  ~ Last modified 25.11.2020 23:44
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -390,7 +390,7 @@
 							android:gravity="center_vertical"
 							android:maxLines="1"
 							
-							android:text="@{(@string/fg_vehicle_insurance_subtitle + ` ` + @string/default_date), default = `Valid until 01.01.1970`}"
+							android:text=""
 							android:textAppearance="?textAppearanceCaption"
 							android:textColor="?colorOnSecondary"
 							

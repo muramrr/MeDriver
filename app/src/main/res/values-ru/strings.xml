@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 19:52
+  ~ Last modified 25.11.2020 23:23
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -98,13 +98,14 @@
 
 
 <!-- ************************************** fragment_home ************************************** -->
-
+	<string name="fg_home_empty_garage_title">Ваш гараж пуст :(</string>
+	<string name="fg_home_empty_garage_subtitle">Перейдите на вкладку \'Мое авто\', чтобы добавить новый транспорт!</string>
 
 <!-- ******************************************************************************************* -->
 
 
 
-<!-- ***************************(******** item_home_garage ************************************* -->
+<!-- ************************************ item_home_garage ************************************* -->
 	<string name="garage_odometer_formatter">Пробег: %s</string>
 	<string name="garage_last_refill_formatter">Заправлено: %s</string>
 	
@@ -115,14 +116,9 @@
 <!-- *********************************** fragment_maintenance ********************************** -->
 	<string name="fg_maintenance_search_hint">Поиск (колодки, шланг и прочее)</string>
 	
-	<string name="maintenance_node_engine">Двигатель</string>
-	<string name="maintenance_node_transmission">Трансмиссия</string>
-	<string name="maintenance_node_electrics">Электрика</string>
-	<string name="maintenance_node_suspension">Подвеска</string>
-	<string name="maintenance_node_brakes">Тормоза</string>
-	<string name="maintenance_node_body">Кузов</string>
-	<string name="maintenance_node_other">Другое</string>
-	<string name="maintenance_node_planned">Плановое</string>
+	
+	<string name="fg_maintenance_history_empty_hint_title">Записей не найдено :(</string>
+	<string name="fg_maintenance_history_empty_hint_subtitle">Нажмите \'+\' чтобы добавить новую запись</string>
 	
 	<string name="maintenance_dialog_filter_node_no_filter_item">Без фильтра</string>
 	<string name="maintenance_dialog_filter_btn_positive">Применить</string>
@@ -142,21 +138,29 @@
 
 
 <!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_components">&#8226; ГБЦ\n&#8226; Поршни\n&#8226; Гофра\n&#8226; Топливная система\n…</string>
-	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Датчик скорости\n&#8226; Сцепление\n&#8226; Полуось\n&#8226; ШРУС ("граната")\n…</string>
-	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Аккумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Катушки\n…</string>
-	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Амортизация\n&#8226; Пружина\n&#8226; Ступица колеса\n&#8226; Втулки, рычаги\n…</string>
-	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Диски, колодки, барабан\n&#8226; Суппорт\n&#8226; Датчики\n&#8226; Трос ручника\n…</string>
-	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Дворники\n&#8226; Фары, фонари\n&#8226; Стекло\n&#8226; Бампера\n…</string>
-	<string name="btm_sheet_maintenance_add_other_components">Не знаете к какой категории отнести замененную деталь?</string>
-	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Масло, фильтры\n&#8226; ГРМ\n&#8226; Жидкости\n&#8226; Свечи</string>
-	
 	<string name="btm_sheet_maintenance_btn_multi_select_choose">Выбрать</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистить</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_error">Нужно выбрать хотя бы 1 деталь</string>
 	
 	<string name="btm_sheet_maintenance_btn_add">Добавить всё</string>
 	
+	<string name="maintenance_parent_node_engine">Двигатель</string>
+	<string name="maintenance_parent_node_transmission">Трансмиссия</string>
+	<string name="maintenance_parent_node_electrics">Электрика</string>
+	<string name="maintenance_parent_node_suspension">Подвеска</string>
+	<string name="maintenance_parent_node_brakes">Тормоза</string>
+	<string name="maintenance_parent_node_body">Кузов</string>
+	<string name="maintenance_parent_node_other">Другое</string>
+	<string name="maintenance_parent_node_planned">Плановое</string>
+	
+	<string name="maintenance_parent_node_engine_components">&#8226; ГБЦ\n&#8226; Поршни\n&#8226; Гофра\n&#8226; Топливная система\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Датчик скорости\n&#8226; Сцепление\n&#8226; Полуось\n&#8226; ШРУС ("граната")\n…</string>
+	<string name="maintenance_parent_node_electrics_components">&#8226; Аккумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Катушки\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Амортизация\n&#8226; Пружина\n&#8226; Ступица колеса\n&#8226; Втулки, рычаги\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Диски, колодки, барабан\n&#8226; Суппорт\n&#8226; Датчики\n&#8226; Трос ручника\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Дворники\n&#8226; Фары, фонари\n&#8226; Стекло\n&#8226; Бампера\n…</string>
+	<string name="maintenance_parent_node_other_components">Не знаете к какой категории отнести замененную деталь?</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Масло, фильтры\n&#8226; ГРМ\n&#8226; Жидкости\n&#8226; Свечи</string>
 	
 	
 	<string name="maintenance_other_component">Другое</string>
@@ -386,7 +390,6 @@
 <!-- ********************************** fragment_fuel_history ********************************** -->
 	<string name="fg_fuel_history_empty_hint_subtitle">Нажмите \'+\' чтобы добавить новую запись</string>
 	<string name="fg_fuel_history_empty_hint_title">Ваша история пуста :(</string>
-	<string name="fg_fuel_history_empty_hint_image_desc">Пустая история. Индикатор.</string>
 <!-- ******************************************************************************************* -->
 
 

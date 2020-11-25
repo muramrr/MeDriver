@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 19:40
+  ~ Last modified 25.11.2020 23:37
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,11 +49,49 @@
 			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 			tools:listitem="@layout/item_home_garage"
 			
+			app:visibilityInvisible="@{!viewModel.isVehicleListEmpty}"
+			
 			app:layout_constraintTop_toBottomOf="@id/tvMyGarageHeader"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			/>
 		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvEmptyGarageTitle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			
+			android:gravity="center_horizontal"
+			android:drawableTop="@drawable/ic_empty_garage"
+			android:drawablePadding="24dp"
+			
+			android:text="@string/fg_home_empty_garage_title"
+			android:textAppearance="?textAppearanceHeadline5"
+			
+			app:visibilityInvisible="@{viewModel.isVehicleListEmpty}"
+			
+			app:layout_constraintTop_toTopOf="@id/rvMyGarage"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvEmptyGarageSubtitle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			
+			android:text="@string/fg_home_empty_garage_subtitle"
+			android:textAppearance="?textAppearanceCaption"
+			android:textAlignment="center"
+			
+			app:visibilityInvisible="@{viewModel.isVehicleListEmpty}"
+			
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tvEmptyGarageTitle"
+			
+			/>
 		
 		
 		<androidx.constraintlayout.widget.Guideline

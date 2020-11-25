@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 14.11.2020 17:41
+  ~ Last modified 25.11.2020 23:31
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,48 +44,35 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
-		<ImageView
-			android:id="@+id/ivEmptyHistoryIndicator"
-			android:layout_width="0dp"
-			android:layout_height="200dp"
-			
-			app:visibilityInvisible="@{viewModel.isHistoryEmpty}"
-			
-			android:src="@drawable/ic_fuel_empty_512"
-			app:layout_constraintVertical_bias="0.3"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			android:contentDescription="@string/fg_fuel_history_empty_hint_image_desc"
-			/>
-		
 		<com.google.android.material.textview.MaterialTextView
 			android:id="@+id/tvEmptyHistoryTitle"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:labelFor="@id/ivEmptyHistoryIndicator"
+			
+			android:gravity="center_horizontal"
+			android:drawableTop="@drawable/ic_empty_history_fuel"
+			android:drawablePadding="24dp"
 			
 			android:text="@string/fg_fuel_history_empty_hint_title"
 			android:textAppearance="?textAppearanceHeadline5"
 			
 			app:visibilityInvisible="@{viewModel.isHistoryEmpty}"
 			
-			app:layout_constraintVertical_bias="0.2"
+			app:layout_constraintVertical_bias="0.3"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/ivEmptyHistoryIndicator"
+			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
 			/>
 		
 		<com.google.android.material.textview.MaterialTextView
 			android:id="@+id/tvEmptyHistorySubtitle"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:labelFor="@id/ivEmptyHistoryIndicator"
 			
 			android:text="@string/fg_fuel_history_empty_hint_subtitle"
 			android:textAppearance="?textAppearanceCaption"
+			android:textAlignment="center"
 			
 			app:visibilityInvisible="@{viewModel.isHistoryEmpty}"
 			

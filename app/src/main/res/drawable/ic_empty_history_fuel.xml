@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.08.2020 18:31
+  ~ Last modified 25.11.2020 22:35
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,10 +9,10 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="511.999dp"
-    android:height="511.999dp"
-    android:viewportWidth="511.999"
-    android:viewportHeight="511.999">
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
   <path
       android:pathData="M317.379,439.609l-26.148,-24.854c-2.801,-3.051 -2.599,-7.795 0.452,-10.597c3.051,-2.802 7.795,-2.601 10.597,0.452l26.148,24.854c2.801,3.051 2.599,7.795 -0.452,10.597C324.924,442.863 320.18,442.661 317.379,439.609z"
       android:fillColor="#585A60"/>

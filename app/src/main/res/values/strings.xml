@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 19:52
+  ~ Last modified 25.11.2020 23:23
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,14 +19,14 @@
 	</string-array>
 	
 	<string-array name="maintenance_dialog_filter_node_list">
-		<item>@string/maintenance_node_engine</item>
-		<item>@string/maintenance_node_transmission</item>
-		<item>@string/maintenance_node_electrics</item>
-		<item>@string/maintenance_node_suspension</item>
-		<item>@string/maintenance_node_brakes</item>
-		<item>@string/maintenance_node_body</item>
-		<item>@string/maintenance_node_other</item>
-		<item>@string/maintenance_node_planned</item>
+		<item>@string/maintenance_parent_node_engine</item>
+		<item>@string/maintenance_parent_node_transmission</item>
+		<item>@string/maintenance_parent_node_electrics</item>
+		<item>@string/maintenance_parent_node_suspension</item>
+		<item>@string/maintenance_parent_node_brakes</item>
+		<item>@string/maintenance_parent_node_body</item>
+		<item>@string/maintenance_parent_node_other</item>
+		<item>@string/maintenance_parent_node_planned</item>
 		<item>@string/maintenance_dialog_filter_node_no_filter_item</item>
 	</string-array>
 	
@@ -136,13 +136,15 @@
 
 
 <!-- ************************************** fragment_home ************************************** -->
+	<string name="fg_home_empty_garage_title">Your garage is empty :(</string>
+	<string name="fg_home_empty_garage_subtitle">Go to \'My vehicle\' tab to add some new vehicles!</string>
 
 
 <!-- ******************************************************************************************* -->
 
 
 
-<!-- ***************************(******** item_home_garage ************************************* -->
+<!-- ************************************ item_home_garage ************************************* -->
 	<string name="garage_odometer_formatter">Mileage: %s</string>
 	<string name="garage_last_refill_formatter">Last refueling: %s</string>
 
@@ -153,14 +155,8 @@
 <!-- *********************************** fragment_maintenance ********************************** -->
 	<string name="fg_maintenance_search_hint">Search (pads, camshaft etc)</string>
 	
-	<string name="maintenance_node_engine">Engine</string>
-	<string name="maintenance_node_transmission">Transmission</string>
-	<string name="maintenance_node_electrics">Electrics</string>
-	<string name="maintenance_node_suspension">Suspension</string>
-	<string name="maintenance_node_brakes">Brakes</string>
-	<string name="maintenance_node_body">Body</string>
-	<string name="maintenance_node_other">Other</string>
-	<string name="maintenance_node_planned">Planned</string>
+	<string name="fg_maintenance_history_empty_hint_title">There is nothing to display :(</string>
+	<string name="fg_maintenance_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
 	
 	<string name="maintenance_dialog_filter_node_no_filter_item">All</string>
 	<string name="maintenance_dialog_filter_btn_positive">Apply</string>
@@ -181,21 +177,29 @@
 
 
 <!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
-	<string name="btm_sheet_maintenance_add_engine_components">&#8226; Cylinder head\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
-	<string name="btm_sheet_maintenance_add_transmission_components">&#8226; Speed sensor\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
-	<string name="btm_sheet_maintenance_add_electrics_components">&#8226; Battery\n&#8226; Generator\n&#8226; Starter\n&#8226; Coils\n…</string>
-	<string name="btm_sheet_maintenance_add_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeve, arms\n…</string>
-	<string name="btm_sheet_maintenance_add_brakes_components">&#8226; Pads, discs, drums\n&#8226; Caliper\n&#8226; Sensors\n&#8226; Parking cable\n…</string>
-	<string name="btm_sheet_maintenance_add_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers, fenders\n…</string>
-	<string name="btm_sheet_maintenance_add_other_components">Not sure what category the replaced part belongs to?</string>
-	<string name="btm_sheet_maintenance_add_planned_components">&#8226; Oil, filters\n&#8226; Timing kit\n&#8226; Fluids\n&#8226; Plugs (spark, glow)</string>
-	
 	<string name="btm_sheet_maintenance_btn_multi_select_choose">Choose</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_clear">Clear</string>
 	<string name="btm_sheet_maintenance_btn_multi_select_error">Choose at least 1 component</string>
 	
 	<string name="btm_sheet_maintenance_btn_add">Add all</string>
 	
+	<string name="maintenance_parent_node_engine">Engine</string>
+	<string name="maintenance_parent_node_transmission">Transmission</string>
+	<string name="maintenance_parent_node_electrics">Electrics</string>
+	<string name="maintenance_parent_node_suspension">Suspension</string>
+	<string name="maintenance_parent_node_brakes">Brakes</string>
+	<string name="maintenance_parent_node_body">Body</string>
+	<string name="maintenance_parent_node_other">Other</string>
+	<string name="maintenance_parent_node_planned">Planned</string>
+	
+	<string name="maintenance_parent_node_engine_components">&#8226; Cylinder head\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Speed sensor\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
+	<string name="maintenance_parent_node_electrics_components">&#8226; Battery\n&#8226; Generator\n&#8226; Starter\n&#8226; Coils\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeve, arms\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Pads, discs, drums\n&#8226; Caliper\n&#8226; Sensors\n&#8226; Parking cable\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers, fenders\n…</string>
+	<string name="maintenance_parent_node_other_components">Not sure what category the replaced part belongs to?</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Oil, filters\n&#8226; Timing kit\n&#8226; Fluids\n&#8226; Plugs (spark, glow)</string>
 	
 	<string name="maintenance_other_component">Other</string>
 	
@@ -425,7 +429,6 @@
 <!-- ********************************** fragment_fuel_history ********************************** -->
 	<string name="fg_fuel_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
 	<string name="fg_fuel_history_empty_hint_title">Your history is empty :(</string>
-	<string name="fg_fuel_history_empty_hint_image_desc">Empty history indicator</string>
 <!-- ******************************************************************************************* -->
 
 

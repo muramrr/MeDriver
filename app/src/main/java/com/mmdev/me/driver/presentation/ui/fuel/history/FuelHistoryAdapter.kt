@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 19:48
+ * Last modified 25.11.2020 20:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -106,7 +106,8 @@ class FuelHistoryAdapter(
 	}
 	
 	inner class FuelHistoryViewHolder(
-		private var binding: ItemFuelHistoryEntryBinding, private val viewType: Int
+		private val binding: ItemFuelHistoryEntryBinding,
+		private val viewType: Int
 	): RecyclerView.ViewHolder(binding.root) {
 		
 		fun bind(item: FuelHistory) {

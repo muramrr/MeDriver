@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 15:59
+ * Last modified 25.11.2020 21:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.core.utils.extensions
 
+import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import kotlin.math.round
 
 /**
@@ -29,3 +30,6 @@ fun Double.roundTo(decimals: Int): Double {
 	repeat(decimals) { multiplier *= 10 }
 	return round(this * multiplier) / multiplier
 }
+
+fun Double.string() = String.format(LocaleHelper.ENGLISH_LOCALE, "%.2f", this)
+fun Float.string() = String.format(LocaleHelper.ENGLISH_LOCALE, "%.2f", this)

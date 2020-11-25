@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.11.2020 19:17
+  ~ Last modified 25.11.2020 19:52
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -93,7 +93,22 @@
 	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on Settings screen.</string>
 	
 	
-	<!-- ******************************************************************************************* -->
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************** fragment_home ************************************** -->
+
+
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ***************************(******** item_home_garage ************************************* -->
+	<string name="garage_odometer_formatter">Пробег: %s</string>
+	<string name="garage_last_refill_formatter">Заправлено: %s</string>
+	
+<!-- ******************************************************************************************* -->
 
 
 

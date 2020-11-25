@@ -1,17 +1,16 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 19.09.2020 04:04
+ * Last modified 25.11.2020 21:31
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.mmdev.me.driver.core.utils.serialization
+package com.mmdev.me.driver.data.core.serialization
 
-import com.mmdev.me.driver.core.utils.serialization.Serializer.FromBytes
-import com.mmdev.me.driver.core.utils.serialization.Serializer.FromString
+import com.mmdev.me.driver.data.core.serialization.Serializer.*
 import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.serializer

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 16:17
+  ~ Last modified 25.11.2020 19:40
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 <layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	>
 
 	<data>
@@ -26,17 +27,33 @@
 
 		>
 		
-		<com.google.android.material.button.MaterialButton android:id="@+id/btnCrash"
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvMyGarageHeader"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="16dp"
+			
+			android:text="My garage"
+			android:textAppearance="?textAppearanceHeadline6"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+			
+		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvMyGarage"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			
-			android:text="Simulate crash"
+			android:orientation="horizontal"
+			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+			tools:listitem="@layout/item_home_garage"
 			
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tvMyGarageHeader"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			/>
+		
 		
 		
 		<androidx.constraintlayout.widget.Guideline

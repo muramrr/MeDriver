@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 20.09.2020 01:46
+ * Last modified 25.11.2020 20:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ package com.mmdev.me.driver.presentation.ui.common
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -34,10 +35,12 @@ abstract class BaseRecyclerAdapter<T>(
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		BaseViewHolder<T>(
-			DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-			                        viewType,
-			                        parent,
-			                        false)
+			DataBindingUtil.inflate(
+				LayoutInflater.from(parent.context),
+				viewType,
+				parent,
+				false
+			)
 		)
 
 	override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) =
@@ -57,9 +60,15 @@ abstract class BaseRecyclerAdapter<T>(
 	protected fun getItem(position: Int): T = data[position]
 
 	// allows clicks events to be caught
-	open fun setOnItemClickListener(listener: (view: View, position: Int, item: T) -> Unit) {
+	open fun setOnItemClickListener(
+		@IdRes viewId: Int? = null,
+		listener: (view: View, position: Int, item: T) -> Unit
+	) {
+		this.viewId = viewId
 		mClickListener = listener
 	}
+	
+	@IdRes private var viewId: Int? = null
 	
 	// needed nullability to prevent attach click listener without handling it
 	// clicks animation will be shown but not handled
@@ -71,14 +80,25 @@ abstract class BaseRecyclerAdapter<T>(
 			RecyclerView.ViewHolder(binding.root){
 
 		init {
-			mClickListener?.let { mClickListener ->
-				itemView.setOnClickListener {
-					mClickListener.invoke(itemView, adapterPosition, getItem(adapterPosition))
+			if (viewId == null) {
+				mClickListener?.let { clickListener ->
+					binding.root.setOnClickListener {
+						clickListener.invoke(it, adapterPosition, getItem(adapterPosition))
+					}
 				}
 			}
 		}
 
 		open fun bind(item: T) {
+			viewId?.let { viewId ->
+				mClickListener?.let { clickListener ->
+					binding.root.findViewById<View>(viewId).setOnClickListener {
+						clickListener.invoke(it, adapterPosition, getItem(adapterPosition))
+					}
+				}
+			}
+			
+			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()
 		}

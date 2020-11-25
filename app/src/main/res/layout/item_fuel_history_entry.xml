@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 24.11.2020 19:54
+  ~ Last modified 25.11.2020 19:02
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,8 +17,8 @@
 	<data>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
-		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelHistoryRecordExtKt"/>
-		<import type="com.mmdev.me.driver.presentation.ui.fuel.FuelStationExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelHistoryRecordExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelStationExtKt"/>
 		
 		<variable
 			name="bindItem"

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 16:33
+ * Last modified 25.11.2020 21:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,12 +16,14 @@ import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
+import com.mmdev.me.driver.data.repository.home.HomeRepositoryImpl
 import com.mmdev.me.driver.data.repository.maintenance.MaintenanceRepositoryImpl
 import com.mmdev.me.driver.data.repository.settings.SettingsRepositoryImpl
 import com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
+import com.mmdev.me.driver.domain.home.IHomeRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
@@ -45,16 +47,19 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
-	
-	
-	
 	single<IAuthFlowProvider> {
 		AuthFlowProviderImpl(
 			authCollector = get(),
 			userLocalDataSource = get(),
 			userRemoteDataSource = get(),
 			mappers = UserMappersFacade()
+		)
+	}
+	
+	single<IHomeRepository> {
+		HomeRepositoryImpl(
+			localDataSource = get(),
+			mappers = get()
 		)
 	}
 	
@@ -66,8 +71,6 @@ val RepositoryModule = module {
 		)
 	}
 	
-	
-	
 	single<IVehicleRepository> {
 		VehicleRepositoryImpl(
 			localDataSource = get(),
@@ -77,8 +80,6 @@ val RepositoryModule = module {
 			mappers = get()
 		)
 	}
-	
-	
 	
 	single<IFuelPricesRepository> {
 		FuelPricesRepositoryImpl(
@@ -95,7 +96,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	
+	single<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
 
 }
 

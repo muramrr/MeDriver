@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 01:02
+ * Last modified 25.11.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.core.utils.extensions.string
 import com.mmdev.me.driver.databinding.ItemFuelPricesStationBinding
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
@@ -70,7 +70,6 @@ class FuelPricesAdapter (
 		
 		fun bind(item: FuelStationWithPrices) {
 			
-			logWtf(javaClass, "$item")
 			
 			FuelType.values().forEach { fuelType ->
 				if (item.prices.find { it.type == fuelType} == null) {
@@ -112,7 +111,7 @@ class FuelPricesAdapter (
 		private fun getPriceByType(item: FuelStationWithPrices, fuelType: FuelType): String =
 			(item.prices.find { it.type == fuelType } ?: noPrice).priceString()
 		
-		private fun FuelPrice.priceString(): String = if (price != 0.0) price.toString() else "--.--"
+		private fun FuelPrice.priceString(): String = if (price != 0.0) price.string() else "--.--"
 	}
 	
 }

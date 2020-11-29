@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 18:16
+ * Last modified 28.11.2020 18:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@
 
 package com.mmdev.me.driver.presentation.ui.vehicle
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -293,11 +292,9 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		data: List<VehicleUi>
 	): BaseDropAdapter<VehicleUi>(context, layoutId, data) {
 		
-		@SuppressLint("SetTextI18n")
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 			val vehicle: VehicleUi = getItem(position)
-			val childView: View = convertView ?:
-			                       LayoutInflater.from(context).inflate(layoutId, null)
+			val childView: View = convertView ?: LayoutInflater.from(context).inflate(layoutId, null)
 			
 			childView.findViewById<TextView>(R.id.tvDropCarItemText).apply {
 				text = if (vehicle.titleRes != null) getStringRes(vehicle.titleRes) else vehicle.title
@@ -309,8 +306,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			}
 			//if no premium, only first position will be available
 			childView.isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isSubscriptionValid())
-			childView.findViewById<TextView>(R.id.tvDropCarItemProLabel).visibleIf(otherwise = View.INVISIBLE) {
-				position == count - 1 && MedriverApp.currentUser != null && !MedriverApp.currentUser!!.isSubscriptionValid()
+			childView.findViewById<TextView>(R.id.tvDropCarItemProLabel).visibleIf(View.INVISIBLE, 0) {
+				position == count - 1 && !childView.isEnabled
 			}
 			return childView
 		}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 01:05
+ * Last modified 28.11.2020 20:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,7 +45,6 @@ import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
-import com.revenuecat.purchases.Purchases
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
@@ -228,8 +227,8 @@ class MedriverApp: Application() {
 		logInfo(TAG, "loaded language - ${appLanguage.name}")
 		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
 		
-		Purchases.debugLogsEnabled = debug.isEnabled
-		Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
+		//Purchases.debugLogsEnabled = debug.isEnabled
+		//Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
 		
 		initNotificationWorker()
 			

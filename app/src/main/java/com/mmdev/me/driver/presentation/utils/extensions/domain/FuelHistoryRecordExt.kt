@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 19:02
+ * Last modified 28.11.2020 17:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import android.content.Context
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 
 /**
@@ -21,13 +22,13 @@ import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
  */
 
 fun ConsumptionBound.getValue(): Double = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> consumptionPer100KM
-	MetricSystem.MILES -> consumptionPer100MI
+	MetricSystem.KILOMETERS -> consumptionPer100KM.roundTo(1)
+	MetricSystem.MILES -> consumptionPer100MI.roundTo(1)
 }
 
 fun ConsumptionBound.getTextValue(context: Context): String = when (MedriverApp.metricSystem) {
-	MetricSystem.KILOMETERS -> context.getString(R.string.item_fuel_history_entry_consumption_km).format(consumptionPer100KM)
-	MetricSystem.MILES -> context.getString(R.string.item_fuel_history_entry_consumption_mi).format(consumptionPer100MI)
+	MetricSystem.KILOMETERS -> context.getString(R.string.item_fuel_history_entry_consumption_km).format(consumptionPer100KM.roundTo(1))
+	MetricSystem.MILES -> context.getString(R.string.item_fuel_history_entry_consumption_mi).format(consumptionPer100MI.roundTo(1))
 }
 
 

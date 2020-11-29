@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:19
+ * Last modified 29.11.2020 01:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -85,10 +85,10 @@ interface MaintenanceDao {
 		"""
 		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
 		WHERE vehicleVinCode = :vin
-		AND searchCriteria LIKE :typedQuery
+		AND (searchCriteria LIKE :typedQuery
 		OR systemNodeComponent LIKE :typedQuery
 		OR articulus LIKE :typedQuery
-		OR vendor LIKE :typedQuery
+		OR vendor LIKE :typedQuery)
 		ORDER BY date DESC
 	"""
 	)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 20:51
+ * Last modified 29.11.2020 02:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -97,7 +97,7 @@ class MaintenanceHistoryAdapter(
 		
 		fun bind(item: VehicleSparePart) {
 			
-			if (adapterPosition == (data.size - 10))
+			if (adapterPosition > 9 && adapterPosition == (data.size - 10))
 				scrollToBottomListener?.invoke()
 			
 			if (itemsLoaded > data.size && adapterPosition == 10)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 07.11.2020 19:48
+ * Last modified 29.11.2020 19:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentMaintenanceBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -91,13 +92,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 					.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
 			}
 			
-			fabAddMaintenance.setOnLongClickListener {
-				mViewModel.addRandomEntries(); true
-			}
-			
 		}
-		
-		
 		
 	}
 	
@@ -105,7 +100,11 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 		binding.etSearchMaintenance.apply {
 			
 			doOnTextChanged { text, start, before, count ->
-				mViewModel.searchMaintenanceHistory(text.toString())
+				if (before != 0 && count != 0) {
+					logWtf(TAG, "text changed")
+					mViewModel.searchMaintenanceHistory(text.toString())
+				}
+				
 			}
 			
 			setOnEditorActionListener { _, actionId, _ ->
@@ -113,7 +112,7 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 					mViewModel.searchMaintenanceHistory(text.toString())
 					hideKeyboard(this)
 				}
-				false
+				true
 			}
 		}
 	}
@@ -148,11 +147,12 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 		MaterialAlertDialogBuilder(requireContext())
 			.setTitle(getString(R.string.maintenance_dialog_filter_title))
 			//.setMessage(getString(R.string.maintenance_dialog_filter_message))
-			.setNeutralButton(getString(R.string.maintenance_dialog_filter_btn_neutral)) { dialog, which ->
+			.setNeutralButton(getString(R.string.dialog_btn_cancel)) { dialog, which ->
 				dialog.dismiss()
 			}
-			.setPositiveButton(getString(R.string.maintenance_dialog_filter_btn_positive)) { _, which ->
+			.setPositiveButton(getString(R.string.dialog_btn_apply)) { _, which ->
 				mViewModel.filterHistory(checkedDialogItem)
+				logWtf(TAG, "showing filter for ${singleItems[checkedDialogItem]}")
 			}
 			// Single-choice items (initialized with checked item)
 			.setSingleChoiceItems(singleItems, checkedDialogItem) { _, position -> checkedDialogItem = position }

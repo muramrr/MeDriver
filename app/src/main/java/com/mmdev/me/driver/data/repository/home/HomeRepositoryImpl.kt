@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:30
+ * Last modified 30.11.2020 00:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.home.IHomeRepository
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 
 /**
@@ -27,9 +28,25 @@ class HomeRepositoryImpl(
 	private val mappers: VehicleMappersFacade
 ): BaseRepository(), IHomeRepository {
 	
-	override suspend fun getGarage(): SimpleResult<List<Vehicle>> = localDataSource.getMyGarage().fold(
+	override suspend fun getGarage(): SimpleResult<List<Pair<Vehicle, Expenses>>> =
+		localDataSource.getMyGarage().fold(
+			success = { result ->
+				ResultState.success(
+					result.map {
+						Pair(mappers.entityToDomain(it.vehicle), it.expenses)
+					}
+				)
+			},
+			failure = {
+				ResultState.failure(it)
+			}
+		)
+	
+	override suspend fun getExpensesByTimeRange(
+		start: Long, end: Long
+	): SimpleResult<List<Expenses>> = localDataSource.getExpensesBetweenTimeRange(start, end).fold(
 		success = {
-			ResultState.success(mappers.listEntitiesToDomain(it))
+			ResultState.success(listOf(it))
 		},
 		failure = {
 			ResultState.failure(it)

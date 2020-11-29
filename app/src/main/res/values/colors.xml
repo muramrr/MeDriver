@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 16.11.2020 20:12
+  ~ Last modified 27.11.2020 18:29
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,6 +62,20 @@
 	<color name="tag6">#CB9800</color>
 	<color name="tag7">#9c5518</color>
 	<color name="tag8">#ce0f3d</color>
+	
+	<color name="data1">#8dd3c7</color>
+	<color name="data2">#ffffb3</color>
+	<color name="data3">#bebada</color>
+	<color name="data4">#fb8072</color>
+	<color name="data5">#80b1d3</color>
+	<color name="data6">#fdb462</color>
+	<color name="data7">#b3de69</color>
+	<color name="data8">#fccde5</color>
+	<color name="data9">#d9d9d9</color>
+	<color name="data10">#bc80bd</color>
+	<color name="data11">#ccebc5</color>
+	<color name="data12">#ffed6f</color>
+	
 	
 	
 </resources>

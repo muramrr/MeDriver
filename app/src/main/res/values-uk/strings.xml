@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 23:27
+  ~ Last modified 29.11.2020 19:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -60,6 +60,9 @@
 	<string name="not_found">Не знайдено</string>
 	<string name="undefined">Не вказано</string>
 	<string name="unknown">Невідомо</string>
+	
+	<string name="dialog_btn_apply">Застосувати</string>
+	<string name="dialog_btn_cancel">Відмінити</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -98,8 +101,10 @@
 
 
 <!-- ************************************** fragment_home ************************************** -->
+	<string name="fg_home_my_garage_header">Мій гараж</string>
 	<string name="fg_home_empty_garage_title">Ваш гараж порожній :(</string>
 	<string name="fg_home_empty_garage_subtitle">Перейдіть до екрану \'Моє авто\', щоб додати новий транспорт!</string>
+	<string name="fg_home_dialog_chart_expenses_settings_title">Оберіть до 5 авто</string>
 
 <!-- ******************************************************************************************* -->
 
@@ -122,8 +127,6 @@
 	<string name="fg_maintenance_history_empty_hint_subtitle">Натисніть \'+\' щоб додати новий запис</string>
 	
 	<string name="maintenance_dialog_filter_node_no_filter_item">Без фильтру</string>
-	<string name="maintenance_dialog_filter_btn_positive">Фільтрувати</string>
-	<string name="maintenance_dialog_filter_btn_neutral">Відмінити</string>
 	<string name="maintenance_dialog_filter_title">Оберіть системний вузол автомобіля</string>
 	<string name="maintenance_dialog_filter_message">Відфільтрує деталі за обраним вузлом</string>
 <!-- ******************************************************************************************* -->

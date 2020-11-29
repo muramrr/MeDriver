@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 28.11.2020 18:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,12 +33,12 @@ class MaintenanceLocalDataSourceImpl(
 	
 	override suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit> =
 		safeCall(TAG) { cache.insertOperation(cachedOperations) }.also {
-			logWarn(TAG, "Something doesn't require to write to backend, caching operations:$cachedOperations")
+			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operations:$cachedOperations")
 		}
 	
 	override suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit> =
 		safeCall(TAG) { cache.insertOperation(cachedOperation) }.also {
-			logWarn(TAG, "Something doesn't require to write to backend, caching operation:$cachedOperation")
+			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operation:$cachedOperation")
 		}
 	
 	override suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>> = safeCall(TAG) {

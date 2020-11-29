@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 23:11
+ * Last modified 29.11.2020 19:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,19 +10,31 @@
 
 package com.mmdev.me.driver.presentation.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
-import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
+import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.setSingleOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 /**
  *
@@ -34,37 +46,24 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 
 	override val mViewModel: HomeViewModel by viewModel()
 	
-	private val myGarageAdapter = MyGarageAdapter(
-		listOf(
-			Vehicle(
-				"Ford",
-				"Focus",
-				2003,
-				"11111111111111111",
-				DistanceBound(kilometers = 201321, null),
-				1.8,
-				"03.10.2020"
-			),
-			Vehicle(
-				"Land Rover",
-				"Range Rover Sport",
-				2013,
-				"22222222222222222",
-				DistanceBound(kilometers = 120144, null),
-				5.0,
-				"25.11.2020"
-			),
-			Vehicle(
-				"Hyundai",
-				"Sonata",
-				2018,
-				"33333333333333333",
-				DistanceBound(kilometers = 10024, null),
-				1.6,
-				"20.11.2020"
-			),
-		)
+	private val colorPalette: ArrayList<Int> = arrayListOf(
+		R.color.data1,
+		R.color.data2,
+		R.color.data3,
+		R.color.data4,
+		R.color.data5,
+		R.color.data6,
+		R.color.data7,
+		R.color.data8,
+		R.color.data9,
+		R.color.data10,
+		R.color.data11,
+		R.color.data12,
 	)
+	
+	private val myGarageAdapter = MyGarageAdapter()
+	
+	private val checkedExpensesPositions = mutableListOf<Int>(0, 1, 2, 3, 4)
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -72,6 +71,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	}
 	
 	override fun setupViews() {
+		binding.tvMyGarageHeader.setSingleOnClick { mViewModel.generateRandomData(requireContext()) }
+		
 		binding.rvMyGarage.apply {
 			adapter = myGarageAdapter
 			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -83,18 +84,104 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			setHasFixedSize(true)
 		}
 		
-		mViewModel.vehicles.observe(this, {
-			myGarageAdapter.setNewData(it)
+		mViewModel.vehicles.observe(this, { vehiclesWithExpenses ->
+			myGarageAdapter.setNewData(vehiclesWithExpenses.map { it.first })
+			checkedExpensesPositions.removeAll { it > vehiclesWithExpenses.size }
+			setupPieChartExpenses(vehiclesWithExpenses)
 		})
 		
-//		binding.btnCrash.setOnClickListener {
-//			throw RuntimeException("Test Crash") // Force a crash
-//		}
-		//SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java.canonicalName)
-
+		
 	}
 	
+	private fun setupPieDataExpenses(input: List<Pair<Vehicle, Expenses>>): PieData {
+		
+		val entries = input.take(if (input.size > 5) 5 else input.size).map {
+			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
+		}
+		val dataSet = PieDataSet(entries, "")
+		
+		dataSet.apply {
+			colors = colorPalette.map { requireContext().getColorValue(it) }
+			valueLinePart1OffsetPercentage = 80f
+			valueLinePart1Length = 0.2f
+			valueLinePart2Length = 0.8f
+			valueLineColor = requireContext().getColorValue(R.color.colorOnBackground)
+			valueTextColor = requireContext().getColorValue(R.color.colorOnBackground)
+			valueTextSize = 12f
+			valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
+			yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+		}
+		
+		return PieData(dataSet)
+	}
+
+
+	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) {
+		binding.btnPieChartExpensesSettings.setDebounceOnClick {
+			showDialogPieChartExpensesSettings(
+				stats.map {
+					with(it.first) { "$brand $model ($year), $engineCapacity" }
+				}.toTypedArray()
+			)
+		}
+		
+		binding.pieChartExpenses.apply {
+			data = setupPieDataExpenses(stats)
+			animateY(1400, Easing.EaseInOutQuad)
+			
+			isRotationEnabled = false
+			
+			description.apply {
+				text = getString(R.string.fg_vehicle_card_expenses_title)
+				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
+			}
+			legend.apply {
+				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			}
+			
+			transparentCircleRadius = 0f
+			
+			setHoleColor(Color.TRANSPARENT)
+			holeRadius = 40f
+			
+			setEntryLabelColor(Color.BLACK)
+			setEntryLabelTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_medium))
+			highlightValues(null)
+			invalidate()
+		}
+		
+	}
 	
+	private fun setPieChartExpensesData(positions: List<Int>) {
+		mViewModel.vehicles.value?.let { vehiclesWithExpenses ->
+			binding.pieChartExpenses.apply {
+				data = setupPieDataExpenses(positions.map { vehiclesWithExpenses[it] })
+				animateY(1400, Easing.EaseOutCirc)
+				invalidate()
+			}
+		}
+		
+	}
+	
+	private fun showDialogPieChartExpensesSettings(items: Array<String>) {
+		val checkedItems = BooleanArray(items.size) {
+			checkedExpensesPositions.contains(it)
+		}
+		
+		MaterialAlertDialogBuilder(requireContext())
+			.setTitle(R.string.fg_home_dialog_chart_expenses_settings_title)
+			.setMultiChoiceItems(items, checkedItems) { dialog, which, isChecked ->
+				if (isChecked) checkedExpensesPositions.add(which)
+				else checkedExpensesPositions.remove(which)
+			}
+			.setPositiveButton(R.string.dialog_btn_apply) { dialog, which ->
+				setPieChartExpensesData(checkedExpensesPositions)
+			}
+			.setNegativeButton(R.string.dialog_btn_cancel, null)
+			.show()
+	}
 
 	override fun renderState(state: ViewState) {
 		when(state) {

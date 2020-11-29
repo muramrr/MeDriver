@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.10.2020 18:59
+ * Last modified 28.11.2020 16:42
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,6 +32,7 @@ enum class SuspensionParts: SparePart {
 	;
 	
 	override fun getSparePartName(): String = name
+	override fun getSparePartOrdinal(): Int = ordinal
 	
 	companion object {
 		val valuesArray: Array<SparePart> = values() as Array<SparePart>

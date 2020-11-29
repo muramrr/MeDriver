@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 19:56
+  ~ Last modified 29.11.2020 17:47
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,6 +45,19 @@
 	
 	<!-- button with icon at center -->
 	<style name="My.Widget.Button.IconOnly.Text" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	
+	</style>
+	
+	<!-- button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
 		
 		<item name="iconPadding">0dp</item>
 		<item name="android:insetTop">0dp</item>

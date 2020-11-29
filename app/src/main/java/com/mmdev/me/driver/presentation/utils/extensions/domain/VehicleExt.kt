@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 19:02
+ * Last modified 29.11.2020 02:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,4 +18,4 @@ import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
  * Extension to get vehicle brand icon based on its brand
  */
 
-fun Vehicle.brandIcon(): Int = VehicleConstants.vehicleBrandIconMap[brand] ?: R.drawable.ic_car_logo_aston_24
+fun Vehicle.brandIcon(): Int = VehicleConstants.vehicleBrandIconMap[brand] ?: R.drawable.car_logo_unknown

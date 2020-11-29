@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 01:05
+ * Last modified 28.11.2020 20:11
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,11 +32,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.AUTHENTICATED
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.UNAUTHENTICATED
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.getOfferingsWith
-import com.revenuecat.purchases.identifyWith
+import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -129,13 +125,13 @@ class MainActivity: AppCompatActivity() {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
 				startFetchingWorker(it)
-				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
-					//binding.root.showToast("offerings = $purchaserInfo")
-				}
+//				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
+//					//binding.root.showToast("offerings = $purchaserInfo")
+//				}
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
-				Purchases.sharedInstance.reset()
+				//Purchases.sharedInstance.reset()
 			}
 			
 			MedriverApp.currentUser = it
@@ -159,14 +155,14 @@ class MainActivity: AppCompatActivity() {
 		
 		setListeners()
 		
-		Purchases.sharedInstance.getOfferingsWith(
-			onError = { error ->
-				//binding.root.showToast("error = ${error.message}")
-			},
-			onSuccess = { offerings ->
-				//binding.root.showToast("offerings = ${offerings.all}")
-			}
-		)
+//		Purchases.sharedInstance.getOfferingsWith(
+//			onError = { error ->
+//				//binding.root.showToast("error = ${error.message}")
+//			},
+//			onSuccess = { offerings ->
+//				//binding.root.showToast("offerings = ${offerings.all}")
+//			}
+//		)
 	}
 	
 	private fun startFetchingWorker(user: UserDataInfo) {

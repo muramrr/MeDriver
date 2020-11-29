@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:59
+ * Last modified 28.11.2020 20:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,11 @@ interface IFuelHistoryLocalDataSource {
 	 * Another time we will try to fetch all table entries to server again
 	 */
 	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
+	
+	/**
+	 * Same as [cachePendingWriteToBackend] but uses list as a parameter
+	 */
+	suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit>
 	
 	/**
 	 * Retrieve all cached operations from database

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 14.11.2020 17:10
+ * Last modified 28.11.2020 15:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,16 @@ package com.mmdev.me.driver.presentation.utils.extensions
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.FontRes
 import androidx.annotation.Px
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
@@ -29,6 +34,10 @@ fun TextView.text(): String = if (!text.isNullOrBlank()) text.toString() else ""
  * Extension method to provide simpler access to {@link View#getResources()#getString(int)}.
  */
 fun View.getStringRes(@StringRes stringRes: Int): String = resources.getString(stringRes)
+
+fun Context.getTypeface(@FontRes fontRes: Int): Typeface? = ResourcesCompat.getFont(this, fontRes)
+
+fun Context.getColorValue(@ColorRes colorRes: Int): Int = ContextCompat.getColor(this, colorRes)
 
 fun Int.toIntArray(context: Context): IntArray {
 	val typedArray = context.resources.obtainTypedArray(this)

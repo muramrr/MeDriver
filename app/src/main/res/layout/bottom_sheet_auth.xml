@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 22.11.2020 15:43
+  ~ Last modified 29.11.2020 01:54
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -406,7 +406,7 @@
 			/>
 		
 		<include android:id="@+id/viewLoading"
-			layout="@layout/dialog_loading"
+			layout="@layout/loading"
 			android:layout_height="0dp"
 			android:layout_width="0dp"
 			

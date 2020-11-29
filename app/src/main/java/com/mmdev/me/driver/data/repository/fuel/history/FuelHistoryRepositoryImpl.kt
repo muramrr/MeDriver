@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:17
+ * Last modified 28.11.2020 20:09
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -95,6 +95,15 @@ class FuelHistoryRepositoryImpl (
 				
 			}, failure = { throwable -> emit(ResultState.failure(throwable)) })
 		
+	}
+	
+	override suspend fun importFuelHistory(
+		user: UserDataInfo?, history: List<FuelHistory>
+	): Flow<SimpleResult<Unit>> = flow {
+		localDataSource.importFuelHistory(mappers.listDomainToEntities(history)).fold(
+			success = { emit(ResultState.success(Unit)) },
+			failure = { emit(ResultState.failure(it)) }
+		)
 	}
 	
 	override suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?> =

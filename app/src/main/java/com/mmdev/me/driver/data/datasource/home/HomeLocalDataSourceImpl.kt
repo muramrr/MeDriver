@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:30
+ * Last modified 30.11.2020 00:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,9 @@ package com.mmdev.me.driver.data.datasource.home
 
 import com.mmdev.me.driver.data.core.base.BaseDataSource
 import com.mmdev.me.driver.data.datasource.home.dao.HomeDao
-import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
+import com.mmdev.me.driver.data.datasource.home.entity.VehicleWithExpenses
 import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
  * [IHomeLocalDataSource] implementation
@@ -21,8 +22,12 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 
 class HomeLocalDataSourceImpl(private val dao: HomeDao): BaseDataSource(), IHomeLocalDataSource {
 	
-	override suspend fun getMyGarage(): SimpleResult<List<VehicleEntity>> = safeCall(TAG) {
-		dao.getAllVehicles()
+	override suspend fun getMyGarage(): SimpleResult<List<VehicleWithExpenses>> = safeCall(TAG) {
+		dao.getAllVehiclesWithExpenses()
 	}
+	
+	override suspend fun getExpensesBetweenTimeRange(
+		start: Long, end: Long
+	): SimpleResult<Expenses> = safeCall(TAG) { dao.getExpensesBetweenTime(start, end) }
 	
 }

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 23:23
+  ~ Last modified 29.11.2020 19:10
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,6 +99,9 @@
 	<string name="not_found">Not found</string>
 	<string name="undefined">Undefined</string>
 	<string name="unknown">Unknown</string>
+	
+	<string name="dialog_btn_apply">Apply</string>
+	<string name="dialog_btn_cancel">Cancel</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -136,9 +139,10 @@
 
 
 <!-- ************************************** fragment_home ************************************** -->
+	<string name="fg_home_my_garage_header">My garage</string>
 	<string name="fg_home_empty_garage_title">Your garage is empty :(</string>
 	<string name="fg_home_empty_garage_subtitle">Go to \'My vehicle\' tab to add some new vehicles!</string>
-
+	<string name="fg_home_dialog_chart_expenses_settings_title">Choose up to 5 vehicles to show</string>
 
 <!-- ******************************************************************************************* -->
 
@@ -159,8 +163,6 @@
 	<string name="fg_maintenance_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
 	
 	<string name="maintenance_dialog_filter_node_no_filter_item">All</string>
-	<string name="maintenance_dialog_filter_btn_positive">Apply</string>
-	<string name="maintenance_dialog_filter_btn_neutral">Cancel</string>
 	<string name="maintenance_dialog_filter_title">Choose vehicle system node</string>
 	<string name="maintenance_dialog_filter_message">Filters parts by selected node</string>
 	

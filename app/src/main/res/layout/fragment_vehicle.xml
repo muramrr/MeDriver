@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 23:44
+  ~ Last modified 29.11.2020 02:13
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -187,12 +187,13 @@
 						/>
 					<com.google.android.material.textview.MaterialTextView android:id="@+id/tvExpensesValue"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
+						android:layout_height="0dp"
+						android:layout_weight="1"
 						android:layout_marginTop="4dp"
 						android:layout_marginHorizontal="16dp"
 						
 						android:gravity="center_vertical"
-						android:singleLine="true"
+						android:maxLines="1"
 						
 						android:text=""
 						android:textAppearance="?textAppearanceHeadline4"

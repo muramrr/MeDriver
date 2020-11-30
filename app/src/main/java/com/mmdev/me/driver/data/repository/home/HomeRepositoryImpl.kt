@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.11.2020 00:02
+ * Last modified 30.11.2020 20:23
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,14 +43,9 @@ class HomeRepositoryImpl(
 		)
 	
 	override suspend fun getExpensesByTimeRange(
-		start: Long, end: Long
-	): SimpleResult<List<Expenses>> = localDataSource.getExpensesBetweenTimeRange(start, end).fold(
-		success = {
-			ResultState.success(listOf(it))
-		},
-		failure = {
-			ResultState.failure(it)
-		}
-	)
+		monthsRange: List<Pair<Long, Long>>
+	): List<Expenses> = monthsRange.map { range ->
+		localDataSource.getExpensesBetweenTimeRange(range.first, range.second)
+	}
 	
 }

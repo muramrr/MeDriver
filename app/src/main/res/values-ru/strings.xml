@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 29.11.2020 19:10
+  ~ Last modified 30.11.2020 15:16
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -76,11 +76,11 @@
 	<string name="btm_sheet_subscription_choose_plan">Выбрать</string>
 	<string name="btm_sheet_subscription_already_chosen_plan">Текущая подписка</string>
 	
-	<string name="btm_sheet_subscription_feature1">Feature 1</string>
-	<string name="btm_sheet_subscription_feature2">Feature 2</string>
-	<string name="btm_sheet_subscription_feature3">Feature 3</string>
-	<string name="btm_sheet_subscription_feature4">Feature 4</string>
-	<string name="btm_sheet_subscription_feature5">Feature 5</string>
+	<string name="btm_sheet_subscription_feature1">Напоминания об ТО</string>
+	<string name="btm_sheet_subscription_feature2">Резервная копия данных</string>
+	<string name="btm_sheet_subscription_feature3">Поддержка нескольких устройств</string>
+	<string name="btm_sheet_subscription_feature4">Больше подробной статистики</string>
+	<string name="btm_sheet_subscription_feature5">Неограниченное количество авто</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Резервная копия</string>
 	<string name="btm_sheet_premium_feature_sync_subtitle">Сохранит историю всех расходов на сервере</string>
@@ -93,7 +93,7 @@
 	
 	<string name="btm_sheet_subscription_plan_per_month">/месяц</string>
 	
-	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on Settings screen.</string>
+	<string name="btm_sheet_subscription_policy">Покупая подписку, Вы соглашаетесь с нашими Условиями предоставления услуг. Приложение предоставляет платную подписку – это означает, что мы будем взимать с вас плату с момента оформления подписки и продолжать взимать плату в начале каждого периода на который была оформлена подписка, пока вы не отмените подписку. Вы можете отменить в любое время на экране Настойки.</string>
 	
 	
 <!-- ******************************************************************************************* -->

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 20:13
+ * Last modified 30.11.2020 20:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,13 +14,12 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.extensions.roundTo
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logError
-import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -40,8 +39,14 @@ import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.todayAt
 import kotlin.random.Random
 
 /**
@@ -58,11 +63,13 @@ class HomeViewModel(
 	val viewState: MutableLiveData<HomeViewState> = MutableLiveData()
 	
 	val vehicles: MutableLiveData<List<Pair<Vehicle, Expenses>>> = MutableLiveData()
-	
 	val isVehicleListEmpty: MutableLiveData<Boolean> = MutableLiveData()
+	
+	val expensesPerYear: MutableLiveData<List<Expenses>> = MutableLiveData()
 	
 	init {
 		getMyGarage()
+		getExpensesPerYear()
 	}
 	
 	fun getMyGarage() {
@@ -72,6 +79,7 @@ class HomeViewModel(
 					vehicles.postValue(it)
 					
 					isVehicleListEmpty.value = it.isEmpty()
+					
 				},
 				failure = {
 					viewState.postValue(HomeViewState.Error(it.localizedMessage))
@@ -80,15 +88,41 @@ class HomeViewModel(
 		}
 	}
 	
-	
-	fun generateRandomData(context: Context) {
-		logWtf(TAG, "generation started")
+	fun getExpensesPerYear() {
 		viewModelScope.launch {
+			expensesPerYear.postValue(repository.getExpensesByTimeRange(generateMonthsRange()))
+		}
+	}
+	
+	//todo: delete
+	fun generateRandomData(context: Context) {
+		viewModelScope.launch {
+			viewState.postValue(HomeViewState.GeneratingStarted)
 			VehicleConstants.vehicleBrands.forEach {
 				generateVehicles(context, it)
 			}
+			viewState.postValue(HomeViewState.GenerationCompleted)
+			MedriverApp.dataGenerated = true
 		}
-		logInfo(TAG, "generation completed")
+	}
+	
+	private fun generateMonthsRange(): List<Pair<Long, Long>> {
+		val year = Clock.System.todayAt(TimeZone.currentSystemDefault()).year
+		return (1..12).map {
+			Pair(
+				LocalDate(year, it, 1)
+					.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
+				
+				LocalDate(year, it, when (it) {
+					in arrayOf(1, 3, 5, 7, 8, 10, 12) -> 31
+					2 -> if (DateHelper.isYearLeap(year)) 29 else 28
+					else -> 30
+				}
+				).atStartOfDayIn(TimeZone.currentSystemDefault())
+					//add a day duration to match all day range eg: jan 01 00:00 - 31 23:59:59.999
+					.toEpochMilliseconds() + 86400000 - 1
+			)
+		}
 	}
 	
 	private suspend fun generateVehicles(context: Context, brand: String) {
@@ -124,11 +158,13 @@ class HomeViewModel(
 			maintenanceRepo.addMaintenanceItems(
 				MedriverApp.currentUser,
 				parent.getChildren().map { child ->
+					delay(2)
 					VehicleSparePart(
-						date = currentTimeAndDate(),
+						commentary = generateRandomString(5, 20),
+						date = convertToLocalDateTime(Random.nextLong(1577829600000, 1609451999000)),
 						dateAdded = currentEpochTime(),
-						articulus = "",
-						vendor = "",
+						articulus = generateRandomString(2, 6),
+						vendor = generateRandomString(4, 8),
 						systemNode = parent,
 						systemNodeComponent = child,
 						searchCriteria = if (child.getSparePartName() != SparePart.OTHER)
@@ -136,7 +172,6 @@ class HomeViewModel(
 								.childrenMap[parent]!![child.getSparePartOrdinal()]
 							).map { it.value }
 						else listOf(child.getSparePartName()),
-						commentary = "",
 						moneySpent = Random.nextInt(100, 9999).toDouble(),
 						odometerValueBound = DistanceBound(
 							kilometers = Random.nextInt(100, 200000),
@@ -163,9 +198,10 @@ class HomeViewModel(
 		fuelHistoryRepo.importFuelHistory(
 			null,
 			FuelStationConstants.fuelStationList.map {
+				delay(2)
 				FuelHistory(
-					commentary = generateRandomString(),
-					date = currentTimeAndDate(),
+					commentary = generateRandomString(5, 10),
+					date = convertToLocalDateTime(Random.nextLong(1577829600000, 1609451999000)),
 					dateAdded = currentEpochTime(),
 					distancePassedBound = DistanceBound(
 						kilometers = Random.nextInt(100, 500),
@@ -203,9 +239,9 @@ class HomeViewModel(
 		
 	}
 	
-	private fun generateRandomString(): String {
+	private fun generateRandomString(min: Int = 5, max: Int = 10): String {
 		val allowedChars = ('A'..'Z') + ('a'..'z')
-		return (5..Random.nextInt(6, 10))
+		return (min..max)
 			.map { allowedChars.random() }
 			.joinToString("")
 	}

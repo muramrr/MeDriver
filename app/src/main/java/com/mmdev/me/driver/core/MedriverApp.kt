@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 20:11
+ * Last modified 30.11.2020 20:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -77,6 +77,9 @@ class MedriverApp: Application() {
 		private const val PRICES_REGION_KEY = "prices_region"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
+		//todo delete
+		private const val GENERATED_DATA_KEY = "generated"
+		
 		private lateinit var appContext: Context
 		val prefs by lazy {
 			KsPrefs(appContext, PREFERENCES_NAME) {
@@ -130,6 +133,14 @@ class MedriverApp: Application() {
 				logDebug(TAG, "Vehicle vin changed to $value")
 			}
 		}
+		
+		//todo delete
+		var dataGenerated: Boolean = false
+			set(value) {
+				field = value
+				prefs.push(GENERATED_DATA_KEY, value)
+				logDebug(TAG, "DATA GENERATED? -$value")
+			}
 		
 		@Volatile
 		var currentUser: UserDataInfo? = null
@@ -220,6 +231,9 @@ class MedriverApp: Application() {
 		pricesRegion = loadInitialPropertyOrPushDefault(key = PRICES_REGION_KEY, default = KYIV)
 		
 		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")
+		
+		//todo delete
+		dataGenerated = loadInitialPropertyOrPushDefault(key = GENERATED_DATA_KEY, default = false)
 		
 		super.onCreate()
 		logInfo(TAG, "loaded theme mode - $themeMode")

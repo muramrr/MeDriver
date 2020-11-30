@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 15.11.2020 16:20
+  ~ Last modified 30.11.2020 16:07
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,7 +33,7 @@
 			
 			android:background="?selectableItemBackgroundBorderless"
 			android:orientation="vertical"
-			android:padding="4dp"
+			android:padding="8dp"
 			>
 			
 			<com.google.android.material.textview.MaterialTextView
@@ -53,9 +53,7 @@
 				android:id="@+id/tvNodeComponents"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
-				
-				android:paddingStart="16dp"
-				android:paddingEnd="16dp"
+				android:paddingVertical="8dp"
 				
 				android:drawableEnd="@{bindItem.icon}"
 				android:gravity="center_vertical"

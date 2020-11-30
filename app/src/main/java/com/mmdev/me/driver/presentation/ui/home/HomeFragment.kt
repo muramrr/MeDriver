@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.11.2020 19:13
+ * Last modified 30.11.2020 20:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,26 +12,34 @@ package com.mmdev.me.driver.presentation.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
 import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.setSingleOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,15 +71,38 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	
 	private val myGarageAdapter = MyGarageAdapter()
 	
-	private val checkedExpensesPositions = mutableListOf<Int>(0, 1, 2, 3, 4)
+	private val checkedExpensesPositions = mutableListOf(0, 1, 2, 3, 4)
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mViewModel.viewState.observe(this, { renderState(it) })
 	}
 	
+	override fun renderState(state: ViewState) {
+		when(state) {
+			is HomeViewState.Error -> binding.root.rootView.showSnack(state.errorMessage ?: "Error")
+			is HomeViewState.GeneratingStarted -> binding.viewLoading.visibility = View.VISIBLE
+			is HomeViewState.GenerationCompleted -> {
+				binding.viewLoading.visibility = View.INVISIBLE
+				binding.root.rootView.showSnack("Generating completed")
+			}
+		}
+	}
+	
 	override fun setupViews() {
-		binding.tvMyGarageHeader.setSingleOnClick { mViewModel.generateRandomData(requireContext()) }
+		if (!MedriverApp.dataGenerated) {
+			var count = 0
+			binding.tvMyGarageHeader.setOnClickListener {
+				if (count < 10) {
+					count++
+				}
+				else {
+					 mViewModel.generateRandomData(requireContext())
+				}
+				
+			}
+		}
+		
 		
 		binding.rvMyGarage.apply {
 			adapter = myGarageAdapter
@@ -84,35 +115,19 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			setHasFixedSize(true)
 		}
 		
+		setupBarChartExpenses()
+		
 		mViewModel.vehicles.observe(this, { vehiclesWithExpenses ->
 			myGarageAdapter.setNewData(vehiclesWithExpenses.map { it.first })
-			checkedExpensesPositions.removeAll { it > vehiclesWithExpenses.size }
+			// if vehicles < 5 -> leave only positions <= 5
+			checkedExpensesPositions.removeAll { it >= vehiclesWithExpenses.size }
 			setupPieChartExpenses(vehiclesWithExpenses)
 		})
 		
+		mViewModel.expensesPerYear.observe(this, { expenses ->
+			setupBarChartExpensesData(expenses)
+		})
 		
-	}
-	
-	private fun setupPieDataExpenses(input: List<Pair<Vehicle, Expenses>>): PieData {
-		
-		val entries = input.take(if (input.size > 5) 5 else input.size).map {
-			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
-		}
-		val dataSet = PieDataSet(entries, "")
-		
-		dataSet.apply {
-			colors = colorPalette.map { requireContext().getColorValue(it) }
-			valueLinePart1OffsetPercentage = 80f
-			valueLinePart1Length = 0.2f
-			valueLinePart2Length = 0.8f
-			valueLineColor = requireContext().getColorValue(R.color.colorOnBackground)
-			valueTextColor = requireContext().getColorValue(R.color.colorOnBackground)
-			valueTextSize = 12f
-			valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
-			yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-		}
-		
-		return PieData(dataSet)
 	}
 
 
@@ -126,14 +141,15 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		}
 		
 		binding.pieChartExpenses.apply {
-			data = setupPieDataExpenses(stats)
-			animateY(1400, Easing.EaseInOutQuad)
+			data = setupPieExpensesData(stats)
+			animateY(1500, Easing.EaseInOutQuad)
 			
 			isRotationEnabled = false
 			
 			description.apply {
 				text = getString(R.string.fg_vehicle_card_expenses_title)
 				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				textSize = 14f
 				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
 			}
 			legend.apply {
@@ -153,18 +169,42 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		}
 		
 	}
-	
-	private fun setPieChartExpensesData(positions: List<Int>) {
+	private fun setupPieExpensesData(input: List<Pair<Vehicle, Expenses>>): PieData {
+		
+		val entries = input.take(if (input.size > 5) 5 else input.size).map {
+			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
+		}
+		val dataSet = PieDataSet(entries, "")
+		
+		dataSet.apply {
+			colors = colorPalette.map { requireContext().getColorValue(it) }.shuffled()
+			valueFormatter = object : ValueFormatter() {
+				override fun getFormattedValue(value: Float): String {
+					return requireContext().getString(R.string.price_formatter_right, value.toString())
+				}
+			}
+			valueLinePart1OffsetPercentage = 80f
+			valueLinePart1Length = 0.2f
+			valueLinePart2Length = 0.8f
+			valueLineColor = requireContext().getColorValue(R.color.colorOnBackground)
+			valueTextColor = requireContext().getColorValue(R.color.colorOnBackground)
+			valueTextSize = 12f
+			valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
+			yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+		}
+		
+		return PieData(dataSet)
+	}
+	private fun setNewPieChartExpensesData(positions: List<Int>) {
 		mViewModel.vehicles.value?.let { vehiclesWithExpenses ->
 			binding.pieChartExpenses.apply {
-				data = setupPieDataExpenses(positions.map { vehiclesWithExpenses[it] })
+				data = setupPieExpensesData(positions.map { vehiclesWithExpenses[it] })
 				animateY(1400, Easing.EaseOutCirc)
 				invalidate()
 			}
 		}
 		
 	}
-	
 	private fun showDialogPieChartExpensesSettings(items: Array<String>) {
 		val checkedItems = BooleanArray(items.size) {
 			checkedExpensesPositions.contains(it)
@@ -177,17 +217,92 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 				else checkedExpensesPositions.remove(which)
 			}
 			.setPositiveButton(R.string.dialog_btn_apply) { dialog, which ->
-				setPieChartExpensesData(checkedExpensesPositions)
+				setNewPieChartExpensesData(checkedExpensesPositions)
 			}
 			.setNegativeButton(R.string.dialog_btn_cancel, null)
 			.show()
 	}
+	
 
-	override fun renderState(state: ViewState) {
-		when(state) {
-			is HomeViewState.Error -> binding.root.rootView.showSnack(state.errorMessage ?: "Error")
+	
+	private fun setupBarChartExpenses() {
+		
+		binding.barChartExpenses.apply {
+			setDrawBarShadow(false)
+			setDrawValueAboveBar(true)
+			
+			description.isEnabled = false
+			legend.isEnabled = false
+			// if more than 12 entries are displayed in the chart, no values will be drawn
+			setMaxVisibleValueCount(12)
+			setPinchZoom(false) // scaling can now only be done on x- and y-axis separately
+			
+			animateY(1500)
+			
+			xAxis.apply {
+				position = BOTTOM
+				this.setDrawGridLines(false)
+				granularity = 1f // only intervals of 1 day
+				labelCount = 12
+				
+				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+				
+				valueFormatter = object : ValueFormatter() {
+					override fun getAxisLabel(value: Float, axis: AxisBase?): String =
+						value.toInt().dateMonthText().take(3)
+				}
+			}
+			
+			axisLeft.apply {
+				axisMinimum = 0f // this replaces setStartAtZero(true)
+				this.setDrawGridLines(false)
+				setLabelCount(8, false)
+				spaceTop = 15f
+				
+				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			}
+			
+			axisRight.apply {
+				axisMinimum = 0f // this replaces setStartAtZero(true)
+				setLabelCount(8, false)
+				spaceTop = 15f
+				
+				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+			}
+		}
+		
+	}
+	private fun setupBarChartExpensesData(input: List<Expenses>) {
+		
+		val entries = input.mapIndexed { index, expenses ->
+			BarEntry(
+				(index + 1).toFloat(),
+				expenses.getTotal().roundTo(2).toFloat()
+			)
+		}
+		
+		if (binding.barChartExpenses.data != null && binding.barChartExpenses.data.dataSetCount > 0) {
+			(binding.barChartExpenses.data.getDataSetByIndex(0) as BarDataSet).values = entries
+			binding.barChartExpenses.data.notifyDataChanged()
+			binding.barChartExpenses.notifyDataSetChanged()
+		}
+		else {
+			val set1 = BarDataSet(entries, "2020").apply {
+				colors = colorPalette.map { requireContext().getColorValue(it) }
+			}
+			
+			val data = BarData(set1).apply {
+				setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
+				setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_regular))
+			}
+			
+			binding.barChartExpenses.data = data
 		}
 	}
-
-
+	
+	
+	
 }

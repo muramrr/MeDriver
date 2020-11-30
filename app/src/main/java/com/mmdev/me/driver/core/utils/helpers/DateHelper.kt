@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:14
+ * Last modified 30.11.2020 19:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,8 +21,12 @@ import java.util.*
 
 object DateHelper {
 	
-	const val YEAR_DURATION = 31557600000
-	const val MONTH_DURATION = YEAR_DURATION / 12
+	//various time range durations in milliseconds
+	const val YEAR_DURATION = 31557600000 // (365.24 days)
+	const val MONTH_DURATION = YEAR_DURATION / 12 //(30.44 days)
+	const val HOUR_DURATION = 3600000
+	const val DAY_DURATION = 86400000
+	const val WEEK_DURATION = 604800000
 	
 	private val ukrainianMonths: Array<String> = arrayOf(
 		"", // this corresponds to 0 position
@@ -86,5 +90,14 @@ object DateHelper {
 		}
 	else throw IllegalArgumentException("Wrong month number. Should be in range from 1 to 12")
 	
+	fun isYearLeap(year: Int): Boolean {
+		
+		return if (year % 4 == 0) {
+			if (year % 100 == 0) {
+				// year is divisible by 400, hence the year is a leap year
+				year % 400 == 0
+			} else true
+		} else false
+	}
 	
 }

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 19:02
+  ~ Last modified 01.12.2020 20:50
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@
 	<data>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
-		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelHistoryRecordExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelHistoryExtKt"/>
 		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelStationExtKt"/>
 		
 		<variable
@@ -26,187 +26,236 @@
 			/>
 	</data>
 	
-	<androidx.constraintlayout.widget.ConstraintLayout
-		android:layout_height="wrap_content"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_marginTop="4dp"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
 		>
 		
 		<com.google.android.material.textview.MaterialTextView
 			android:id="@+id/tvFuelHistoryMonthSeparator"
 			android:layout_height="wrap_content"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
+			android:layout_marginVertical="2dp"
 			
 			android:text="@{DateTimeExtKt.dateMonthText(bindItem.date.date.monthNumber)}"
 			android:textAlignment="center"
 			android:textAppearance="?textAppearanceCaption"
 			android:visibility="gone"
 			
-			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
-			app:layout_constraintBottom_toTopOf="@id/cvFuelHistoryEntryContainer"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
 			/>
 		
-		<View
+		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/cvFuelHistoryEntryContainer"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginStart="4dp"
-			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="4dp"
-			android:background="@drawable/view_bg_surface_6"
+			android:layout_weight="1"
+			android:layout_marginVertical="4dp"
+			android:layout_marginHorizontal="4dp"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvFuelHistoryMonthSeparator"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
+			>
 			
-			/>
-		
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				>
 				
-		<!-- fuel station logo -->
-		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
-			android:id="@+id/ivHistoryEntryStationLogo"
-			android:layout_height="64dp"
-			android:layout_width="64dp"
-			android:layout_margin="8dp"
+				
+				<!-- fuel station logo -->
+				<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+					android:id="@+id/ivFuelHistoryStationLogo"
+					android:layout_height="64dp"
+					android:layout_width="64dp"
+					android:layout_margin="8dp"
+					
+					app:imgCornerRadius="6dp"
+					
+					android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
+					
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="@id/barrierCommentary"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="@id/barrierLogo"
+					
+					/>
+				
+				<!-- station and type -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryStationAndType"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{bindItem.stationAndType(), default = `Station, A95`}"
+					android:textAppearance="?textAppearanceSubtitle1"
+					
+					app:layout_constraintVertical_chainStyle="spread_inside"
+					app:layout_constraintTop_toTopOf="@id/ivFuelHistoryStationLogo"
+					app:layout_constraintBottom_toTopOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintStart_toEndOf="@id/barrierLogo"
+					/>
+				
+				
+				<!-- money spent -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryMoneySpent"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					
+					android:text="@{FuelHistoryExtKt.getMoneySpentFormatted(bindItem, context), default = `@string/default_price`}"
+					android:textAppearance="?textAppearanceSubtitle2"
+					
+					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryStationAndType"
+					app:layout_constraintBottom_toBottomOf="@id/tvFuelHistoryStationAndType"
+					app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+					/>
+				
+				<!-- odometer value -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryOdometer"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:gravity="center_vertical"
+					
+					android:text="@{DistanceBoundExtKt.getOdometerFormatted(bindItem.odometerValueBound, context), default = `@string/default_OdometerValue`}"
+					android:textAppearance="?textAppearanceOverline"
+					android:textStyle="bold"
+					
+					app:layout_constraintTop_toBottomOf="@id/tvFuelHistoryStationAndType"
+					app:layout_constraintBottom_toTopOf="@id/tvFuelHistoryDistancePassed"
+					app:layout_constraintStart_toEndOf="@id/barrierLogo"
+					
+					/>
+				
+				<!-- refilled liters -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryFilledLiters"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{String.format(@string/item_fuel_history_entry_filled_liters, bindItem.filledLiters), default = `+20 L`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					
+					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintBottom_toBottomOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintStart_toEndOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintEnd_toStartOf="@id/tvFuelHistoryPricePerLiter"
+					/>
+				
+				<!-- price per liter -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryPricePerLiter"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:gravity="center_vertical"
+					android:text="@{String.format(@string/item_fuel_history_entry_price_per_liter, bindItem.fuelPrice.price), default = `₴--.--/L`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintBottom_toBottomOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+					/>
+				
+				<!-- distance passed -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryDistancePassed"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:maxLines="1"
+					
+					android:text="@{DistanceBoundExtKt.getDistancePassedFormatted(bindItem.distancePassedBound, context), default = `+000`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintTop_toBottomOf="@id/tvFuelHistoryOdometer"
+					app:layout_constraintBottom_toBottomOf="@id/ivFuelHistoryStationLogo"
+					app:layout_constraintStart_toStartOf="@id/barrierLogo"
+					/>
+				
+				<!-- fuel consumption -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryConsumption"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:maxLines="1"
+					
+					android:text="@{FuelHistoryExtKt.getConsumptionFormatted(bindItem, context), default = `0.0L/100`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryDistancePassed"
+					app:layout_constraintBottom_toBottomOf="@id/tvFuelHistoryDistancePassed"
+					app:layout_constraintStart_toEndOf="@id/tvFuelHistoryDistancePassed"
+					app:layout_constraintEnd_toStartOf="@id/tvFuelHistoryDate"
+					/>
+				
+				<!-- date -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryDate"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					
+					android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
+					android:textAppearance="?textAppearanceOverline"
+					
+					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryDistancePassed"
+					app:layout_constraintBottom_toBottomOf="@id/ivFuelHistoryStationLogo"
+					app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+					/>
+				
+				<!-- commentary -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tvFuelHistoryCommentary"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:maxLines="1"
+					
+					android:text="@{bindItem.commentary, default = `Commentary`}"
+					android:textAppearance="?textAppearanceCaption"
+					
+					app:visibilityGone="@{(bindItem.commentary.length() > 1)}"
+					
+					app:layout_constraintTop_toBottomOf="@id/ivFuelHistoryStationLogo"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					/>
+				
+				
+				<androidx.constraintlayout.widget.Guideline
+					android:id="@+id/guidelineEnd"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintGuide_end="8dp"
+					android:orientation="vertical"
+					/>
+				
+				<androidx.constraintlayout.widget.Barrier
+					android:id="@+id/barrierLogo"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					app:barrierDirection="end"
+					app:constraint_referenced_ids="ivFuelHistoryStationLogo"
+					/>
+				
+				<androidx.constraintlayout.widget.Barrier android:id="@+id/barrierCommentary"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					app:barrierDirection="top"
+					app:barrierMargin="8dp"
+					app:constraint_referenced_ids="tvFuelHistoryCommentary"
+					/>
+				
+			</androidx.constraintlayout.widget.ConstraintLayout>
 			
-			app:imgCornerRadius="6dp"
-			
-			android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
-			
-			app:layout_constraintStart_toStartOf="@id/cvFuelHistoryEntryContainer"
-			app:layout_constraintEnd_toEndOf="@id/barrierLogo"
-			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
-			app:layout_constraintBottom_toBottomOf="@id/cvFuelHistoryEntryContainer"
-			
-			/>
+		</com.google.android.material.card.MaterialCardView>
 		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryDistancePassed"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			
-			android:text="@{DistanceBoundExtKt.getDistancePassed(bindItem.distancePassedBound, context)}"
-			android:textAppearance="?textAppearanceSubtitle1"
-			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/barrierLogo"
-			
-			app:layout_constraintTop_toTopOf="@id/ivHistoryEntryStationLogo"
-			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryFuelConsumption"
-			
-			/>
-		
-		<!-- fuel consumption -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryFuelConsumption"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			
-			android:text="@{FuelHistoryRecordExtKt.getTextValue(bindItem.fuelConsumptionBound, context)}"
-			android:textAppearance="?textAppearanceCaption"
-			
-			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryDistancePassed"
-			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryOdometer"
-			app:layout_constraintStart_toEndOf="@id/barrierLogo"
-			
-			/>
-		
-		<!-- odometer value -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryOdometer"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			
-			android:text="@{DistanceBoundExtKt.getOdometerFormatted(bindItem.odometerValueBound, context)}"
-			android:textAppearance="?textAppearanceOverline"
-			
-			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryFuelConsumption"
-			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
-			app:layout_constraintStart_toEndOf="@id/barrierLogo"
-			
-			/>
-		
-		
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryPriceSpent"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			
-			android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price`}"
-			android:textAppearance="?textAppearanceSubtitle1"
-			android:textStyle="bold"
-			
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			app:layout_constraintTop_toTopOf="@id/cvFuelHistoryEntryContainer"
-			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryPricePerLiter"
-			/>
-		
-		<!-- price per liter -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryPricePerLiter"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			
-			android:text="@{String.format(@string/item_fuel_history_entry_price_per_liter, bindItem.fuelPrice.price), default = `₴--.--/L`}"
-			android:textAppearance="?textAppearanceCaption"
-			
-			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPriceSpent"
-			app:layout_constraintBottom_toTopOf="@id/tvHistoryEntryDate"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			/>
-		
-		<!-- date -->
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/tvHistoryEntryDate"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			
-			android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
-			android:textAppearance="?textAppearanceOverline"
-			
-			app:layout_constraintTop_toBottomOf="@id/tvHistoryEntryPricePerLiter"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-			app:layout_constraintBottom_toBottomOf="@id/ivHistoryEntryStationLogo"
-			/>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineEnd"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			app:layout_constraintGuide_end="16dp"
-			android:orientation="vertical"
-			/>
-		
-		<androidx.constraintlayout.widget.Barrier
-			android:id="@+id/barrierLogo"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			app:barrierDirection="end"
-			app:constraint_referenced_ids="ivHistoryEntryStationLogo"
-			/>
+	</LinearLayout>
 	
 	
-	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

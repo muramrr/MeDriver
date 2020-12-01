@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 16:01
+  ~ Last modified 01.12.2020 20:36
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -629,7 +629,7 @@
 				android:hint="@string/commentary_input_hint"
 				app:errorEnabled="false"
 				app:counterEnabled="true"
-				app:counterMaxLength="30"
+				app:counterMaxLength="40"
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
@@ -646,7 +646,7 @@
 					
 					android:imeOptions="actionDone"
 					android:inputType="text"
-					android:maxLength="30"
+					android:maxLength="40"
 					android:maxLines="1"
 					
 					android:text="@={viewModel.commentValue}"

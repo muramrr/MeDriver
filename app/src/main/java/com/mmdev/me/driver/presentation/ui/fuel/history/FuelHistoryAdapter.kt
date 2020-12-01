@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 20:51
+ * Last modified 01.12.2020 20:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.presentation.ui.fuel.history
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
@@ -36,6 +37,7 @@ class FuelHistoryAdapter(
 	
 	private var scrollToTopListener: (() -> Unit)? = null
 	private var scrollToBottomListener: (() -> Unit)? = null
+	private var mItemClickListner: ((View, Int, FuelHistory) -> Unit)? = null
 	
 	
 	
@@ -105,10 +107,22 @@ class FuelHistoryAdapter(
 		scrollToBottomListener = listener
 	}
 	
+	fun setOnItemClickListener(listener: (view: View, position: Int, item: FuelHistory) -> Unit) {
+		mItemClickListner = listener
+	}
+	
 	inner class FuelHistoryViewHolder(
 		private val binding: ItemFuelHistoryEntryBinding,
 		private val viewType: Int
 	): RecyclerView.ViewHolder(binding.root) {
+		
+		init {
+			mItemClickListner?.let { listener ->
+				binding.cvFuelHistoryEntryContainer.setOnClickListener {
+					listener.invoke(it, adapterPosition, data[adapterPosition])
+				}
+			}
+		}
 		
 		fun bind(item: FuelHistory) {
 			

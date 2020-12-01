@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 01:27
+ * Last modified 01.12.2020 19:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,7 +35,7 @@ fun DistanceBound?.getOdometerFormatted(context: Context): String = when (Medriv
 	)
 }
 
-fun DistanceBound.getDistancePassed(context: Context): String = when (MedriverApp.metricSystem) {
+fun DistanceBound.getDistancePassedFormatted(context: Context): String = when (MedriverApp.metricSystem) {
 	MetricSystem.KILOMETERS -> context.getString(R.string.item_fuel_history_entry_distance_passed_km).format(kilometers)
 	MetricSystem.MILES -> context.getString(R.string.item_fuel_history_entry_distance_passed_mi).format(miles)
 }

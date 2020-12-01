@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:31
+ * Last modified 01.12.2020 20:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.core.utils.log.logDebug
@@ -31,6 +32,7 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getConsumptionValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -70,8 +72,8 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	 * selected [FuelStationWithPrices] from dropDownList in [FuelHistoryAddDialog]
 	 * used primary to find prices associated with chosen [FuelStation]
 	 */
-	private var selectedFuelStationWithPrices: FuelStationWithPrices? = null
-	private var selectedFuelStation: FuelStation? = null
+	private var listFuelStationWithPrices: FuelStationWithPrices? = null
+	private var fuelStationFromList: FuelStation? = null
 	
 	/** if [FuelStation] was not chosen from drop list but typed by user */
 	private var typedFuelStationTitle: String = ""
@@ -123,7 +125,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 			    && calculatedConsumption > 0.0
 			    && lastAddedEntry != null) {
 				
-				if (calculatedConsumption > lastAddedEntry.fuelConsumptionBound.getValue())
+				if (calculatedConsumption > lastAddedEntry.getConsumptionValue())
 					R.drawable.ic_arrow_up_24
 				else R.drawable.ic_arrow_down_24
 				
@@ -151,7 +153,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	
 	fun selectFuelType(fuelType: FuelType) {
 		selectedFuelType.value = fuelType
-		findAndSetPriceByType(selectedFuelStationWithPrices, fuelType)
+		findAndSetPriceByType(listFuelStationWithPrices, fuelType)
 	}
 	
 	/**
@@ -172,17 +174,17 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	 * @param identifier unique keyword to identify FuelStation
 	 * @return Nullable [FuelStationWithPrices]
 	 * if list contains value -> assign [typedFuelStationSlug], [typedFuelStationTitle],
-	 * [selectedFuelStation]
+	 * [fuelStationFromList]
 	 *
 	 * or assign empty [String] if such station does not exists in [list]
 	 */
 	fun findFuelStationBySlug(identifier: String, list: List<FuelStationWithPrices>) {
 		list.find { it.fuelStation.slug == identifier }?.let {
-			selectedFuelStationWithPrices = it
+			listFuelStationWithPrices = it
 			//some title can contain whitespaces, so trim()
 			typedFuelStationTitle = it.fuelStation.brandTitle.trim()
 			typedFuelStationSlug = it.fuelStation.slug
-			selectedFuelStation = it.fuelStation
+			fuelStationFromList = it.fuelStation
 			fuelStationInputValue.postValue(it.fuelStation.brandTitle)
 			
 			findAndSetPriceByType(it)
@@ -195,7 +197,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 		if (typedFuelStationTitle != fuelStationInput.trim()) {
 			typedFuelStationTitle = fuelStationInput.trim()
 			typedFuelStationSlug = fuelStationInput.trim()
-			selectedFuelStation = null
+			fuelStationFromList = null
 		}
 	}
 	
@@ -234,6 +236,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 		FuelHistory(
 			commentary = commentValue.value ?: "",
 			date = pickedDate,
+			dateAdded = currentEpochTime(),
 			distancePassedBound = buildDistanceBound(distancePassed.value!!),
 			filledLiters = litersInputValue.value!!.toDouble(),
 			fuelConsumptionBound = buildFuelConsumptionBound(),
@@ -255,13 +258,13 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	)
 	
 	/**
-	 * Used to define [FuelStation] from [selectedFuelStation] if it was selected from drop list
+	 * Used to define [FuelStation] from [fuelStationFromList] if it was selected from drop list
 	 * or combine [typedFuelStationTitle] and [typedFuelStationSlug]
 	 * @see buildFuelHistoryRecord
 	 * @return [FuelStation] data class
 	 */
 	private fun buildFuelStation(): FuelStation =
-		selectedFuelStation ?: FuelStation(typedFuelStationTitle, typedFuelStationSlug).also {
+		fuelStationFromList ?: FuelStation(typedFuelStationTitle, typedFuelStationSlug).also {
 			logDebug(TAG, "FuelStation built = $it")
 		}
 	

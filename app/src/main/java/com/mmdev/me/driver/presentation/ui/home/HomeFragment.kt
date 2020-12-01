@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.11.2020 20:56
+ * Last modified 01.12.2020 18:53
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -73,6 +73,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	
 	private val checkedExpensesPositions = mutableListOf(0, 1, 2, 3, 4)
 	
+	private var priceFormatter = ""
+	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mViewModel.viewState.observe(this, { renderState(it) })
@@ -103,7 +105,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			}
 		}
 		
-		
+		initStringRes()
 		binding.rvMyGarage.apply {
 			adapter = myGarageAdapter
 			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -130,7 +132,10 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		
 	}
 
-
+	private fun initStringRes() {
+		priceFormatter = getString(R.string.price_formatter_right)
+	}
+	
 	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) {
 		binding.btnPieChartExpensesSettings.setDebounceOnClick {
 			showDialogPieChartExpensesSettings(
@@ -180,7 +185,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			colors = colorPalette.map { requireContext().getColorValue(it) }.shuffled()
 			valueFormatter = object : ValueFormatter() {
 				override fun getFormattedValue(value: Float): String {
-					return requireContext().getString(R.string.price_formatter_right, value.toString())
+					return String.format(priceFormatter, value)
 				}
 			}
 			valueLinePart1OffsetPercentage = 80f

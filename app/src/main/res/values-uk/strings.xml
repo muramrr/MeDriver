@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 30.11.2020 15:16
+  ~ Last modified 01.12.2020 19:27
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -408,6 +408,8 @@
 	
 	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
 	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
+	
+	<string name="item_fuel_history_entry_filled_liters">+%s Л</string>
 <!-- ******************************************************************************************* -->
 
 

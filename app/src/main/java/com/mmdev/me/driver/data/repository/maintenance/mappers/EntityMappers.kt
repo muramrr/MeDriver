@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:02
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,7 +49,7 @@ object EntityMappers {
 			searchCriteria = entity.searchCriteria.split(", "),
 			commentary = entity.commentary,
 			moneySpent = entity.moneySpent,
-			odometerValueBound = entity.odometerValueBound,
+			odometerValue = entity.odometerValueBound,
 			vehicleVinCode = entity.vehicleVinCode
 		)
 

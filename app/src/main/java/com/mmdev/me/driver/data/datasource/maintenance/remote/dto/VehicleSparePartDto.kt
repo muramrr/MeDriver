@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.10.2020 19:00
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.maintenance.remote.dto
 
+import com.google.firebase.firestore.PropertyName
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 /**
@@ -20,15 +21,15 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  */
 
 data class VehicleSparePartDto (
-	val date: String = "",
-	val dateAdded: Long = 0,
-	val articulus: String = "",
-	val vendor: String = "",
-	val systemNode: String = "",
-	val systemNodeComponent: String = "",
-	var searchCriteria: List<String> = emptyList(),
-	val commentary: String = "",
-	val moneySpent: Double = 0.0,
-	val odometerValueBound: DistanceBound = DistanceBound(),
-	val vehicleVinCode: String = ""
+	@PropertyName("commentary") val commentary: String = "",
+	@PropertyName("date") val date: String = "",
+	@PropertyName("dateAdded") val dateAdded: Long = 0,
+	@PropertyName("articulus") val articulus: String = "",
+	@PropertyName("vendor") val vendor: String = "",
+	@PropertyName("systemNode") val systemNode: String = "",
+	@PropertyName("systemNodeComponent") val systemNodeComponent: String = "",
+	@PropertyName("searchCriteria") var searchCriteria: List<String> = emptyList(),
+	@PropertyName("moneySpent") val moneySpent: Double = 0.0,
+	@PropertyName("odometerValueBound") val odometerValue: DistanceBound = DistanceBound(),
+	@PropertyName("vehicleVinCode") val vehicleVinCode: String = ""
 )

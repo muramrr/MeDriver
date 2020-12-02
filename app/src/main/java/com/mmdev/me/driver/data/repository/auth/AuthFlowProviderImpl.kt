@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.11.2020 17:11
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -56,7 +56,7 @@ class AuthFlowProviderImpl(
 	
 	
 	private companion object{
-		private const val IS_EMAIL_VERIFIED_FIELD = "emailVerified"
+		private const val IS_EMAIL_VERIFIED_FIELD = "isEmailVerified"
 		private const val INSTALLATION_TOKENS_FIELD = "installationTokens"
 	}
 	
@@ -188,7 +188,7 @@ class AuthFlowProviderImpl(
 		
 		logInfo(TAG, "Checking email verification status...")
 		
-		if (firestoreUserDto.emailVerified != firebaseUser.isEmailVerified) {
+		if (firestoreUserDto.isEmailVerified != firebaseUser.isEmailVerified) {
 			
 			logWarn(TAG, "Email verification status needs update.")
 			
@@ -238,7 +238,7 @@ class AuthFlowProviderImpl(
 					
 					logInfo(TAG, "Email status updated...")
 					val updatedUser = firestoreUserDto.copy(
-						emailVerified = firebaseUser.isEmailVerified
+						isEmailVerified = firebaseUser.isEmailVerified
 					)
 					
 					//save updates to local storage

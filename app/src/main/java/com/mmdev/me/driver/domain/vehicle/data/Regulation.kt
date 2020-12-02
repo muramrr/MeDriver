@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 16.11.2020 00:04
+ * Last modified 02.12.2020 17:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.domain.vehicle.data
 
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 /**
@@ -17,6 +18,6 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  */
 
 data class Regulation(
-	val distance: DistanceBound,
-	val time: Long
+	val distance: DistanceBound =  DistanceBound(),
+	val time: Long = DateHelper.YEAR_DURATION
 )

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:40
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,7 +36,7 @@ object DtoMappers {
 			searchCriteria = dto.searchCriteria,
 			commentary = dto.commentary,
 			moneySpent = dto.moneySpent,
-			odometerValueBound = dto.odometerValueBound,
+			odometerValueBound = dto.odometerValue,
 			vehicleVinCode = dto.vehicleVinCode
 		)
 	
@@ -52,7 +52,7 @@ object DtoMappers {
 			searchCriteria = dto.searchCriteria.joinToString(),
 			commentary = dto.commentary,
 			moneySpent = dto.moneySpent,
-			odometerValueBound = dto.odometerValueBound,
+			odometerValueBound = dto.odometerValue,
 			vehicleVinCode = dto.vehicleVinCode
 		)
 	

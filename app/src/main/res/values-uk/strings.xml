@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.12.2020 19:27
+  ~ Last modified 02.12.2020 20:58
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -91,7 +91,7 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронізація</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ до всієї історії з будь-якого пристрою</string>
 	
-	<string name="btm_sheet_subscription_plan_per_month">/місяць</string>
+	<string name="btm_sheet_subscription_plan_per_month">/3 місяця</string>
 	
 	<string name="btm_sheet_subscription_policy">Купуючи підписку, Ви погоджуєтеся з нашими Умовами надання послуг. Додаток надає платну підписку - це означає, що ми будемо стягувати з вас плату з моменту оформлення передплати та продовжувати стягувати плату на початку кожного періоду на який була оформлена підписка, поки ви не скасуєте підписку. Ви можете скасувати в будь-який час на екрані Опції.</string>
 	

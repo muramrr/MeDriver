@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 02.12.2020 16:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,7 +42,7 @@ class UserMappersFacade {
 	fun firebaseUserToUserDto(firebaseUser: FirebaseUser): FirestoreUserDto = FirestoreUserDto(
 		id = firebaseUser.uid,
 		email = firebaseUser.email!!,
-		emailVerified = firebaseUser.isEmailVerified
+		isEmailVerified = firebaseUser.isEmailVerified
 	)
 	
 	fun firebaseUserToEntity(firebaseUser: FirebaseUser): UserEntity = UserEntity(

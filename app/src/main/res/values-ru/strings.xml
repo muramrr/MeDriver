@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 01.12.2020 19:27
+  ~ Last modified 02.12.2020 20:58
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -91,7 +91,7 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронизация</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ ко всей истории с любого девайса</string>
 	
-	<string name="btm_sheet_subscription_plan_per_month">/месяц</string>
+	<string name="btm_sheet_subscription_plan_per_month">/3 месяца</string>
 	
 	<string name="btm_sheet_subscription_policy">Покупая подписку, Вы соглашаетесь с нашими Условиями предоставления услуг. Приложение предоставляет платную подписку – это означает, что мы будем взимать с вас плату с момента оформления подписки и продолжать взимать плату в начале каждого периода на который была оформлена подписка, пока вы не отмените подписку. Вы можете отменить в любое время на экране Настойки.</string>
 	

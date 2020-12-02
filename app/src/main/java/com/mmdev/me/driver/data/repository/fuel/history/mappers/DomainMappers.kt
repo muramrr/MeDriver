@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 19:45
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -56,13 +56,13 @@ object DomainMappers {
 			commentary = domain.commentary,
 			date = domain.date.toString(),
 			dateAdded = domain.dateAdded,
-			distancePassedBound = domain.distancePassedBound,
+			distancePassed = domain.distancePassedBound,
 			filledLiters = domain.filledLiters,
-			fuelConsumptionBound = domain.fuelConsumptionBound,
+			fuelConsumption = domain.fuelConsumptionBound,
 			fuelPrice = domain.fuelPrice,
 			fuelStation = domain.fuelStation,
 			moneySpent = domain.moneySpent,
-			odometerValueBound = domain.odometerValueBound,
+			odometerValue = domain.odometerValueBound,
 			vehicleVinCode = domain.vehicleVinCode
 		)
 }

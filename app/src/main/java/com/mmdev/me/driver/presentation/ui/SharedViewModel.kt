@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 16:36
+ * Last modified 02.12.2020 20:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,7 +33,8 @@ import kotlinx.coroutines.launch
  */
 
 class SharedViewModel(
-	private val authProvider: IAuthFlowProvider, private val fetcher: IFetchingRepository
+	private val authProvider: IAuthFlowProvider,
+	private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
 	val userDataInfo: MutableLiveData<UserDataInfo?> = MutableLiveData(null)
@@ -87,7 +88,5 @@ class SharedViewModel(
 			}
 		}
 	}
-	
-	
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 16:35
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.user.remote.dto
 
+import com.google.firebase.firestore.PropertyName
 import com.mmdev.me.driver.domain.user.SubscriptionData
 
 /**
@@ -17,9 +18,14 @@ import com.mmdev.me.driver.domain.user.SubscriptionData
  */
 
 data class FirestoreUserDto (
+	@PropertyName("id")
 	var id: String = "",
+	@PropertyName("email")
 	var email: String = "",
-	var emailVerified: Boolean = false,
+	@PropertyName("isEmailVerified")
+	var isEmailVerified: Boolean = false,
+	@PropertyName("subscription")
 	var subscription: SubscriptionData = SubscriptionData(),
-	var syncEnabled: Boolean = false
+	@PropertyName("isSyncEnabled")
+	var isSyncEnabled: Boolean = false
 )

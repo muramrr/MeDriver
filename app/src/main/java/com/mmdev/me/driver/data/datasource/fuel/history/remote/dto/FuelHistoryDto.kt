@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 21:28
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.history.remote.dto
 
+import com.google.firebase.firestore.PropertyName
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
@@ -23,15 +24,15 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
  */
 
 data class FuelHistoryDto (
-	val commentary: String = "",
-	val date: String = "",
-	val dateAdded: Long = 0,
-	val distancePassedBound: DistanceBound = DistanceBound(),
-	val filledLiters: Double = 0.0,
-	val fuelConsumptionBound: ConsumptionBound = ConsumptionBound(),
-	val fuelPrice: FuelPrice = FuelPrice(),
-	val fuelStation: FuelStation = FuelStation(),
-	val moneySpent: Double = 0.0,
-	val odometerValueBound: DistanceBound = DistanceBound(),
-	val vehicleVinCode: String = ""
+	@PropertyName("commentary") val commentary: String = "",
+	@PropertyName("date") val date: String = "",
+	@PropertyName("dateAdded") val dateAdded: Long = 0,
+	@PropertyName("distancePassedBound") val distancePassed: DistanceBound = DistanceBound(),
+	@PropertyName("filledLiters") val filledLiters: Double = 0.0,
+	@PropertyName("fuelConsumptionBound") val fuelConsumption: ConsumptionBound = ConsumptionBound(),
+	@PropertyName("fuelPrice") val fuelPrice: FuelPrice = FuelPrice(),
+	@PropertyName("fuelStation") val fuelStation: FuelStation = FuelStation(),
+	@PropertyName("moneySpent") val moneySpent: Double = 0.0,
+	@PropertyName("odometerValueBound") val odometerValue: DistanceBound = DistanceBound(),
+	@PropertyName("vehicleVinCode") val vehicleVinCode: String = ""
 )

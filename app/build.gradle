@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.11.2020 17:05
+ * Last modified 02.12.2020 20:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,11 +13,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+//apply plugin: 'com.google.firebase.crashlytics'
 
 def versionMajor = 1
 def versionMinor = 0
-def versionPatch = 0
+def versionPatch = 1
 
 static def timestampVersion() {
 	def date = new Date()
@@ -33,6 +33,11 @@ static def timestampVersion() {
 //}
 
 android {
+	signingConfigs {
+		release {
+
+		}
+	}
 	compileSdkVersion 30
 	buildToolsVersion "30.0.2"
 
@@ -48,17 +53,17 @@ android {
 
 	buildTypes {
 		release {
-			crunchPngs false
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			//signingConfig signingConfigs.release
 		}
 
 		debug {
-			crunchPngs false
+		//	minifyEnabled true
+		//	proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
 
 	}
-
 
 	buildFeatures {
 		dataBinding = true
@@ -83,6 +88,7 @@ android {
 }
 
 dependencies {
+	implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
 	coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 	implementation fileTree(dir: "libs", include: ["*.jar"])
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20"
@@ -121,24 +127,24 @@ dependencies {
 	implementation "com.google.firebase:firebase-core"
 	implementation 'com.google.firebase:firebase-firestore-ktx'
 	implementation 'com.google.firebase:firebase-messaging-ktx'
-	implementation 'com.google.firebase:firebase-crashlytics'
-	implementation 'com.google.firebase:firebase-analytics'
+	//implementation 'com.google.firebase:firebase-crashlytics'
+	//implementation 'com.google.firebase:firebase-analytics'
 
 	//prefs wrapper
 	implementation 'com.cioccarellia:ksprefs:2.0.0'
 
 	//purchases
-	implementation 'com.revenuecat.purchases:purchases:4.0.0'
+	implementation "com.android.billingclient:billing-ktx:3.0.2"
 
 	//WorkManager
 	implementation "androidx.work:work-runtime-ktx:2.5.0-beta01"
 
 	testImplementation "junit:junit:4.13.1"
-	testImplementation "io.mockk:mockk:1.10.2"
+	testImplementation 'io.mockk:mockk:1.10.3'
 	testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2'
 	testImplementation "androidx.arch.core:core-testing:2.1.0"
 	androidTestImplementation "androidx.work:work-testing:2.5.0-beta01"
-	androidTestImplementation "io.mockk:mockk-android:1.10.2"
+	androidTestImplementation 'io.mockk:mockk-android:1.10.3'
 	androidTestImplementation "androidx.test.ext:junit:1.1.3-alpha02"
 	androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0-alpha02"
 	androidTestImplementation "org.koin:koin-test:2.2.0"

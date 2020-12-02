@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:14
+ * Last modified 02.12.2020 15:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,5 +25,10 @@ interface DebugConfig {
 	object Default : DebugConfig {
 		override val isEnabled: Boolean = BuildConfig.DEBUG
 		override val logger: MyLogger = if (isEnabled) MyLogger.Debug else MyLogger.Default
+	}
+	
+	object Enabled : DebugConfig {
+		override val isEnabled: Boolean = true
+		override val logger: MyLogger = MyLogger.Debug
 	}
 }

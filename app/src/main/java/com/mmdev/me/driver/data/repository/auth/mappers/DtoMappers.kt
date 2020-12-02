@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 02.12.2020 16:12
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,17 +24,17 @@ object DtoMappers {
 	fun toDomain(dto: FirestoreUserDto): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = dto.emailVerified,
+		isEmailVerified = dto.isEmailVerified,
 		subscription = dto.subscription,
-		isSyncEnabled = dto.syncEnabled
+		isSyncEnabled = dto.isSyncEnabled
 	)
 	
 	fun toEntity(dto: FirestoreUserDto): UserEntity = UserEntity(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = dto.emailVerified,
+		isEmailVerified = dto.isEmailVerified,
 		isPremium = dto.subscription.type != FREE,
-		isSyncEnabled = dto.syncEnabled
+		isSyncEnabled = dto.isSyncEnabled
 	)
 	
 }

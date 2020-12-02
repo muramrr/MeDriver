@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 27.11.2020 17:05
+ * Last modified 02.12.2020 20:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ buildscript {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20"
 		classpath "org.jetbrains.kotlin:kotlin-serialization:1.4.20"
 		classpath 'com.google.gms:google-services:4.3.4'
-		classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+		//classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
 	}
 }
 

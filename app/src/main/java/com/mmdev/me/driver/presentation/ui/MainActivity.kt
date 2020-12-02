@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 20:11
+ * Last modified 02.12.2020 20:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,12 +23,14 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
+import com.android.billingclient.api.BillingFlowParams
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.UploadWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -52,9 +54,6 @@ class MainActivity: AppCompatActivity() {
 			"Trying to access the binding outside of the view lifecycle."
 		)
 	
-	
-	//private var loadingShowingTime: Long = 0
-	
 	//used to force chosen language as base context
 	override fun attachBaseContext(base: Context) {
 		super.attachBaseContext(LocaleHelper.newLocaleContext(base, MedriverApp.appLanguage))
@@ -77,15 +76,30 @@ class MainActivity: AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		_binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
-
-		val navController = findNavController(R.id.navHostMain)
 		
+		setupBottomNavigation()
+		
+		observeVehicle()
+		observeUserData()
+		
+		
+		setupNetworkListener()
+		
+		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
+			logInfo(TAG, "$it")
+		})
+		
+		
+	}
+	
+	private fun setupBottomNavigation() {
+		val navController = findNavController(R.id.navHostMain)
 		binding.bottomNavMain.setOnNavigationItemSelectedListener {
 			val previousItem = binding.bottomNavMain.selectedItemId
 			val nextItem = it.itemId
-
+			
 			if (previousItem != nextItem) {
-
+				
 				when (nextItem) {
 					R.id.bottomNavHome -> {
 						navController.popBackStack()
@@ -98,7 +112,7 @@ class MainActivity: AppCompatActivity() {
 					R.id.bottomNavVehicle -> {
 						navController.popBackStack()
 						navController.navigate(R.id.actionBottomNavVehicle)
-
+						
 					}
 					R.id.bottomNavFuel -> {
 						navController.popBackStack()
@@ -110,60 +124,12 @@ class MainActivity: AppCompatActivity() {
 					}
 				}
 			}
-
+			
 			return@setOnNavigationItemSelectedListener true
 		}
-		
-		
-//		Timer().schedule(
-//			// if loading showing less than 500 millis (half of second) -> delay, else no delay
-//			if (currentEpochTime() - loadingShowingTime < 500) 500 else 0
-//		) { hideLoadingDialog() }
-
-		
-		sharedViewModel.userDataInfo.observe(this, {
-			if (it != null) {
-				logDebug(TAG, "authStatus = $AUTHENTICATED")
-				startFetchingWorker(it)
-//				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
-//					//binding.root.showToast("offerings = $purchaserInfo")
-//				}
-			}
-			else {
-				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
-				//Purchases.sharedInstance.reset()
-			}
-			
-			MedriverApp.currentUser = it
-			
-		})
-		
-		/**
-		 * Load saved vehicle from db by vin code which was saved before in sharedPrefs:
-		 * - every time we change vehicle from fragment designed for such purposes
-		 * we update vin code inside shared prefs and current chosen vehicle;
-		 *
-		 * - while app starts up -> read saved code and retrieve corresponded vehicle from db.
-		 */
-		sharedViewModel.currentVehicle.observe(this, { vehicle ->
-			logDebug(TAG, "current vehicle = $vehicle")
-			
-			MedriverApp.currentVehicle = vehicle
-			MedriverApp.changeCurrentVehicleVinCode(vehicle?.vin ?: "")
-		
-		})
-		
-		setListeners()
-		
-//		Purchases.sharedInstance.getOfferingsWith(
-//			onError = { error ->
-//				//binding.root.showToast("error = ${error.message}")
-//			},
-//			onSuccess = { offerings ->
-//				//binding.root.showToast("offerings = ${offerings.all}")
-//			}
-//		)
 	}
+	
+	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
 	private fun startFetchingWorker(user: UserDataInfo) {
 		if (user.isSyncEnabled && user.isSubscriptionValid()) {
@@ -186,7 +152,7 @@ class MainActivity: AppCompatActivity() {
 		
 	}
 	
-	private fun setListeners() {
+	private fun setupNetworkListener() {
 		ConnectionManager(this, this) { isConnected ->
 			if (MedriverApp.isNetworkAvailable != isConnected) {
 				MedriverApp.isNetworkAvailable = isConnected
@@ -200,7 +166,48 @@ class MainActivity: AppCompatActivity() {
 		}
 	}
 	
-	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
+	private fun observeUserData() {
+		sharedViewModel.userDataInfo.observe(this, {
+			if (it != null) {
+				logDebug(TAG, "authStatus = $AUTHENTICATED")
+				startFetchingWorker(it)
+				//				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
+				//					//binding.root.showToast("offerings = $purchaserInfo")
+				//				}
+			}
+			else {
+				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
+				//Purchases.sharedInstance.reset()
+			}
+			
+			MedriverApp.currentUser = it
+			
+		})
+	}
+	
+	/**
+	 * Load saved vehicle from db by vin code which was saved before in sharedPrefs:
+	 * - every time we change vehicle from fragment designed for such purposes
+	 * we update vin code inside shared prefs and current chosen vehicle;
+	 *
+	 * - while app starts up -> read saved code and retrieve corresponded vehicle from db.
+	 */
+	private fun observeVehicle() {
+		sharedViewModel.currentVehicle.observe(this, { vehicle ->
+			logDebug(TAG, "current vehicle = $vehicle")
+			MedriverApp.currentVehicle = vehicle
+		})
+	}
+	
+	
+	fun launchPurchaseFlow() {
+		val flowParams = BillingFlowParams.newBuilder()
+			.setObfuscatedAccountId(MedriverApp.currentUser!!.id)
+			.setSkuDetails(MedriverApp.appBillingClient.skuListWithDetails.value!!["3_month_premium"]!!)
+			.build()
+		MedriverApp.appBillingClient.launchBillingFlow(this, flowParams)
+
+	}
 	
 	override fun onDestroy() {
 		binding.unbind()

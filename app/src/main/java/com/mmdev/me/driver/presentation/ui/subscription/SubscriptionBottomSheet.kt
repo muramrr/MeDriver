@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 13.11.2020 20:17
+ * Last modified 02.12.2020 20:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,9 +19,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BottomSheetSubscriptionBinding
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.custom.HorizontalCarouselLayoutManager
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.CentralFirstLastItemDecoration
-import com.mmdev.me.driver.presentation.utils.extensions.showToast
 
 /**
  *
@@ -57,7 +57,10 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetSubsc
 		binding.rvSubscriptionPlans.apply {
 			adapter = PlansAdapter().apply {
 				setOnItemClickListener { view, position, item ->
-					showToast("Clicked = $position")
+					if (position > 0) {
+						(requireActivity() as MainActivity).launchPurchaseFlow()
+					}
+					
 				}
 			}
 			

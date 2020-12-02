@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 17:52
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.remote.dto
 
+import com.google.firebase.firestore.PropertyName
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
 
@@ -18,12 +19,12 @@ import com.mmdev.me.driver.domain.vehicle.data.Regulation
  */
 
 data class VehicleDto (
-	val brand: String = "",
-	val model: String = "",
-	val year: Int = 0,
-	val vin: String = "",
-	val odometerValueBound: DistanceBound = DistanceBound(),
-	val engineCapacity: Double = 0.0,
-	val maintenanceRegulations: Map<String, Regulation> = mapOf(),
-	val lastRefillDate: String = ""
+	@PropertyName("brand") val brand: String = "",
+	@PropertyName("model") val model: String = "",
+	@PropertyName("year") val year: Int = 0,
+	@PropertyName("vin") val vin: String = "",
+	@PropertyName("odometerValue") val odometerValueBound: DistanceBound = DistanceBound(),
+	@PropertyName("engineCapacity") val engineCapacity: Double = 0.0,
+	@PropertyName("maintenanceRegulations") val maintenanceRegulations: Map<String, Regulation> = mapOf(),
+	@PropertyName("lastRefillDate") val lastRefillDate: String = ""
 )

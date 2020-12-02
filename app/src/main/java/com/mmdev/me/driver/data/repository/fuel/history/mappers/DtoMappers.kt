@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 19:47
+ * Last modified 02.12.2020 16:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,9 +31,9 @@ object DtoMappers {
 			commentary = dto.commentary,
 			date = LocalDateTime.parse(dto.date).toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
 			dateAdded = dto.dateAdded,
-			distancePassedBound = dto.distancePassedBound,
+			distancePassedBound = dto.distancePassed,
 			filledLiters = dto.filledLiters,
-			fuelConsumptionBound = dto.fuelConsumptionBound,
+			fuelConsumptionBound = dto.fuelConsumption,
 			fuelPrice = FuelPriceEntity(
 				fuelStationId = dto.fuelStation.slug,
 				price = dto.fuelPrice.price,
@@ -46,7 +46,7 @@ object DtoMappers {
 				regionId = dto.fuelStation.regionId
 			),
 			moneySpent = dto.moneySpent,
-			odometerValueBound = dto.odometerValueBound,
+			odometerValueBound = dto.odometerValue,
 			vehicleVinCode = dto.vehicleVinCode
 		)
 	
@@ -56,13 +56,13 @@ object DtoMappers {
 			commentary = dto.commentary,
 			date = LocalDateTime.parse(dto.date),
 			dateAdded = dto.dateAdded,
-			distancePassedBound = dto.distancePassedBound,
+			distancePassedBound = dto.distancePassed,
 			filledLiters = dto.filledLiters,
-			fuelConsumptionBound = dto.fuelConsumptionBound,
+			fuelConsumptionBound = dto.fuelConsumption,
 			fuelPrice = dto.fuelPrice,
 			fuelStation = dto.fuelStation,
 			moneySpent = dto.moneySpent,
-			odometerValueBound = dto.odometerValueBound,
+			odometerValueBound = dto.odometerValue,
 			vehicleVinCode = dto.vehicleVinCode
 		)
 }

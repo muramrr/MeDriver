@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.11.2020 20:56
+ * Last modified 02.12.2020 14:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
@@ -96,7 +97,7 @@ class HomeViewModel(
 	
 	//todo: delete
 	fun generateRandomData(context: Context) {
-		viewModelScope.launch {
+		viewModelScope.launch(MyDispatchers.io()) {
 			viewState.postValue(HomeViewState.GeneratingStarted)
 			VehicleConstants.vehicleBrands.forEach {
 				generateVehicles(context, it)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.11.2020 20:48
+ * Last modified 02.12.2020 20:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.cioccarellia.ksprefs.KsPrefs
+import com.mmdev.me.driver.core.billing.AppBillingClient
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
 import com.mmdev.me.driver.core.di.DatabaseModule
@@ -38,7 +39,6 @@ import com.mmdev.me.driver.core.utils.helpers.ThemeHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.DebugConfig
-import com.mmdev.me.driver.core.utils.log.MyLogger
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
@@ -124,15 +124,13 @@ class MedriverApp: Application() {
 			}
 		
 		var currentVehicleVinCode: String = ""
-			private set
-		
-		fun changeCurrentVehicleVinCode(value: String) {
-			if (currentVehicleVinCode != value) {
-				currentVehicleVinCode = value
-				prefs.push(VEHICLE_VIN_CODE_KEY, value)
-				logDebug(TAG, "Vehicle vin changed to $value")
+			private set (value) {
+				if (field != value) {
+					field = value
+					prefs.push(VEHICLE_VIN_CODE_KEY, value)
+					logDebug(TAG, "Current Vehicle VIN changed to $value")
+				}
 			}
-		}
 		
 		//todo delete
 		var dataGenerated: Boolean = false
@@ -145,10 +143,12 @@ class MedriverApp: Application() {
 		@Volatile
 		var currentUser: UserDataInfo? = null
 		
-		
 		@Volatile
 		var currentVehicle: Vehicle? = null
-		
+			set(value) {
+				field = value
+				currentVehicleVinCode = value?.vin ?: ""
+			}
 		
 		@Volatile
 		var isNetworkAvailable: Boolean = false
@@ -176,21 +176,10 @@ class MedriverApp: Application() {
 		else false
 		
 		
-		@Volatile
-		var debug: DebugConfig = DebugConfig.Default
-
-		/**
-		 * Enable or disable [Application] debug mode.
-		 * enabled by default
-		 *
-		 * @param enabled enable the debug mode.
-		 * @param logger logging implementation.
-		 */
-		fun debugMode(enabled: Boolean, logger: MyLogger) {
-			debug = object: DebugConfig {
-				override val isEnabled = enabled
-				override val logger = logger
-			}
+		val debug: DebugConfig = DebugConfig.Default
+		
+		val appBillingClient: AppBillingClient by lazy {
+			AppBillingClient(appContext)
 		}
 	}
 	
@@ -199,8 +188,8 @@ class MedriverApp: Application() {
 	override fun onCreate() {
 		
 		appContext = applicationContext
+		appBillingClient.querySkuDetails()
 		
-		//initKoin
 		startKoin {
 			androidContext(this@MedriverApp)
 			if (debug.isEnabled) androidLogger()
@@ -216,6 +205,18 @@ class MedriverApp: Application() {
 			)
 		}
 		
+		initSavedParams()
+		
+		super.onCreate()
+		logInfo(TAG, "loaded theme mode - $themeMode")
+		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
+		logInfo(TAG, "loaded language - ${appLanguage.name}")
+		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
+		
+		initNotificationWorker()
+	}
+	
+	private fun initSavedParams() {
 		/** if not exists - apply [LIGHT_MODE] as default theme */
 		themeMode = loadInitialPropertyOrPushDefault(THEME_MODE_KEY, LIGHT_MODE).also {
 			ThemeHelper.applyTheme(it)
@@ -234,18 +235,6 @@ class MedriverApp: Application() {
 		
 		//todo delete
 		dataGenerated = loadInitialPropertyOrPushDefault(key = GENERATED_DATA_KEY, default = false)
-		
-		super.onCreate()
-		logInfo(TAG, "loaded theme mode - $themeMode")
-		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
-		logInfo(TAG, "loaded language - ${appLanguage.name}")
-		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
-		
-		//Purchases.debugLogsEnabled = debug.isEnabled
-		//Purchases.configure(this, "FnTsmQguiAexlDxMfVKZHSPwuxkcjARd")
-		
-		initNotificationWorker()
-			
 	}
 	
 	//called only on app startup to pull saved value or assign default & also write default to prefs

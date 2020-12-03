@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 03.12.2020 19:10
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -56,14 +56,14 @@ class NotificationWorker(
 	params: WorkerParameters
 ) : CoroutineWorker(context, params), KoinComponent {
 	
-	
+	private val TAG = "mylogs_${javaClass.simpleName}"
 	private val TIME_LIMIT = 2
 	private val DISTANCE_LIMIT = DistanceBound(kilometers = 2000, miles = null)
 	
 	
 	
 	override suspend fun doWork(): Result = coroutineScope {
-		logDebug(javaClass, "Worker Started!")
+		logDebug(TAG, "Worker Started!")
 		
 		val repository: IVehicleRepository = get()
 		
@@ -71,12 +71,12 @@ class NotificationWorker(
 			repository.getAllSavedVehicles().fold(
 				success = { vehicles ->
 					if (!vehicles.isNullOrEmpty()) {
-						logDebug(javaClass, "Vehicles is not null, calculating thresholds...")
+						logDebug(TAG, "Vehicles is not null, calculating thresholds...")
 						vehicles.forEach { vehicle ->
 							repository.getPendingReplacements(vehicle).fold(
 								success = { calculateThresholds(it) },
 								failure = {
-									logError(javaClass, "${it.message}")
+									logError(TAG, "${it.message}")
 									return@withContext Result.failure()
 								}
 							)
@@ -84,12 +84,12 @@ class NotificationWorker(
 						Result.success()
 					}
 					else {
-						logError(javaClass, "Null vehicles list")
+						logError(TAG, "Null vehicles list")
 						Result.failure()
 					}
 				},
 				failure = {
-					logError(javaClass, "${it.message}")
+					logError(TAG, "No saved vehicles")
 					Result.failure()
 				}
 			)

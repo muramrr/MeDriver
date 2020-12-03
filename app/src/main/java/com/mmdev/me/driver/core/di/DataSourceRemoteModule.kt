@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.09.2020 19:56
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,20 +36,20 @@ val DataSourceRemoteModule = module {
 	
 	single { AuthCollector(auth = get()) }
 	
-	single<IUserRemoteDataSource> { UserRemoteDataSourceImpl(fs = get()) }
-	single<IFirebaseAuthDataSource> { FirebaseAuthDataSourceImpl(auth = get()) }
+	factory<IUserRemoteDataSource> { UserRemoteDataSourceImpl(fs = get()) }
+	factory<IFirebaseAuthDataSource> { FirebaseAuthDataSourceImpl(auth = get()) }
 	
 	
 	
 	
-	single<IMaintenanceRemoteDataSource> { MaintenanceRemoteDataSourceImpl(fs = get()) }
+	factory<IMaintenanceRemoteDataSource> { MaintenanceRemoteDataSourceImpl(fs = get()) }
 	
 	
-	single<IVehicleRemoteDataSource> { VehicleRemoteDataSourceImpl(fs = get()) }
-	single<IVinRemoteDataSource> { VinRemoteDataSourceImpl(vinCodeApi = get()) }
+	factory<IVehicleRemoteDataSource> { VehicleRemoteDataSourceImpl(fs = get()) }
+	factory<IVinRemoteDataSource> { VinRemoteDataSourceImpl(vinCodeApi = get()) }
 	
-	single<IFuelPricesRemoteDataSource> { FuelPricesRemoteDataSourceImpl(fuelApi = get()) }
-	single<IFuelHistoryRemoteDataSource> { FuelHistoryRemoteDataSourceImpl(fs = get()) }
+	factory<IFuelPricesRemoteDataSource> { FuelPricesRemoteDataSourceImpl(fuelApi = get()) }
+	factory<IFuelHistoryRemoteDataSource> { FuelHistoryRemoteDataSourceImpl(fs = get()) }
 	
 	
 	

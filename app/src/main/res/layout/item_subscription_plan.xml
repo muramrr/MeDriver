@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 20:20
+  ~ Last modified 03.12.2020 17:41
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,13 +25,26 @@
 		android:layout_height="match_parent"
 		android:layout_marginVertical="8dp"
 		app:cardCornerRadius="16dp"
+		app:cardElevation="0dp"
+		app:cardBackgroundColor="@android:color/transparent"
 		>
 	
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:backgroundColor="@{bindItem.backgroundColor}"
+			android:background="@drawable/view_bg_surface_16"
 			>
+			
+			<View android:id="@+id/bgPlan"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:backgroundColor="@{bindItem.backgroundColor}"
+				
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="@id/tvPlanDuration"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
 		
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanType"
 				android:layout_width="wrap_content"
@@ -39,7 +52,6 @@
 				android:layout_marginTop="8dp"
 				
 				android:text="@{bindItem.subscription.title}"
-				android:textColor="@{bindItem.textColor}"
 				
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toTopOf="@id/tvPlanPrice"
@@ -53,21 +65,20 @@
 				
 				android:text="@{bindItem.pricePerMonth}"
 				android:textAppearance="?textAppearanceHeadline5"
-				android:textColor="@{bindItem.textColor}"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanType"
-				app:layout_constraintBottom_toTopOf="@id/tvPlanPerMonthSubLabel"
+				app:layout_constraintBottom_toTopOf="@id/tvPlanDuration"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
-			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanPerMonthSubLabel"
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanDuration"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:paddingVertical="8dp"
 				
 				android:text="@string/btm_sheet_subscription_plan_per_month"
 				android:textAppearance="?textAppearanceOverline"
-				android:textColor="@{bindItem.textColor}"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanPrice"
 				app:layout_constraintStart_toStartOf="parent"
@@ -78,33 +89,31 @@
 			
 			
 			
-			
 			<!-- features -->
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature1"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:padding="8dp"
 				
 				android:text="@{bindItem.features[0].feature, default = `Feature 1`}"
-				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[0].availability}"
 				android:drawablePadding="8dp"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvPlanPerMonthSubLabel"
+				app:layout_constraintTop_toBottomOf="@id/tvPlanDuration"
 				app:layout_constraintBottom_toTopOf="@id/tvFeature2"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature2"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="8dp"
 				
 				android:text="@{bindItem.features[1].feature, default = `Feature 2`}"
-				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[1].availability}"
 				android:drawablePadding="8dp"
@@ -115,12 +124,12 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature3"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="8dp"
 				
 				android:text="@{bindItem.features[2].feature, default = `Feature 3`}"
-				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[2].availability}"
 				android:drawablePadding="8dp"
@@ -131,12 +140,12 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature4"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="8dp"
 				
 				android:text="@{bindItem.features[3].feature, default = `Feature 4`}"
-				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[3].availability}"
 				android:drawablePadding="8dp"
@@ -147,12 +156,12 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature5"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="8dp"
 				
 				android:text="@{bindItem.features[4].feature, default = `Feature 5`}"
-				android:textColor="@{bindItem.textColor}"
 				
 				android:drawableStart="@{bindItem.features[4].availability}"
 				android:drawablePadding="8dp"
@@ -171,12 +180,13 @@
 				android:clickable="false"
 				
 				android:text="@{!bindItem.isChosen ? @string/btm_sheet_subscription_choose_plan : @string/btm_sheet_subscription_already_chosen_plan}"
-				android:textColor="@{bindItem.textColor}"
 				
-				app:cornerRadius="16dp"
 				app:strokeColor="@android:color/black"
 				
-				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+				app:icon="@{bindItem.isChosen ? @drawable/ic_check_mark_24 : @drawable/ic_arrow_right_24}"
+				app:iconGravity="@{bindItem.isChosen ? 0x1 : 0x3}"
+				
+				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFeature5"
 				app:layout_constraintStart_toStartOf="parent"
@@ -184,32 +194,6 @@
 				app:layout_constraintBottom_toBottomOf="parent"
 				/>
 			
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.TouchLayout
-				android:id="@+id/tlSelectedPlan"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				
-				android:background="@color/selected_subscription_mask"
-				
-				app:visibilityInvisible="@{bindItem.isChosen}"
-				
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintBottom_toBottomOf="parent"
-				>
-				<ImageView
-					android:layout_width="50dp"
-					android:layout_height="50dp"
-					android:layout_marginTop="16dp"
-					android:layout_marginEnd="16dp"
-					android:src="@drawable/ic_check_mark_24"
-					android:layout_gravity="end"
-					app:tint="@color/colorSuccess"
-					android:contentDescription="@null"
-					/>
-				
-			</com.mmdev.me.driver.presentation.ui.common.custom.components.TouchLayout>
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		

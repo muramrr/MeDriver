@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 17:25
+ * Last modified 03.12.2020 20:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -56,14 +56,18 @@ fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleR
 }
 
 fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<List<T>>> = flow {
-	logDebug(TAG, "Trying to execute given ${this@executeAndDeserializeAsFlow} query...")
+	logDebug(TAG, "Trying to execute given query...")
 	this@executeAndDeserializeAsFlow.get().asFlow().collect { result ->
 		result.fold(
 			success = { querySnapshot ->
-				logInfo(TAG, "Query execute successfully")
 				if (!querySnapshot.isEmpty) {
-					logDebug(TAG, "Query result is not empty, deserialization in process...")
-					val resultList = querySnapshot.map { it.toObject(clazz) }
+					logInfo(TAG, "Query executed successfully, printing first 5 documents...")
+					querySnapshot.documents.take(5).forEach {
+						logInfo(TAG, it.reference.path)
+						it.reference.path
+					}
+					logDebug(TAG, "Query deserialization to ${clazz.simpleName} in process...")
+					val resultList = querySnapshot.toObjects(clazz)
 					logInfo(TAG, "Deserialization to ${clazz.simpleName} succeed...")
 					emit(ResultState.success(resultList))
 				}
@@ -74,7 +78,7 @@ fun <T> Query.executeAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<Li
 				
 			},
 			failure = {
-				logError(TAG, "Failed to retrieve document from backend...")
+				logError(TAG, "Failed to execute given query...")
 				emit(ResultState.failure(it))
 			}
 		)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:52
+ * Last modified 03.12.2020 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,7 +39,6 @@ class SharedViewModel(
 	
 	val userDataInfo: MutableLiveData<UserDataInfo?> = MutableLiveData(null)
 	
-	val currentVehicleVin: MutableLiveData<String> = MutableLiveData(MedriverApp.currentVehicleVinCode)
 	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
 	init {
 		getSavedVehicle(MedriverApp.currentVehicleVinCode)
@@ -78,7 +77,7 @@ class SharedViewModel(
 			
 			viewModelScope.launch {
 				
-				authProvider.updateUserModel(user).collect { result ->
+				authProvider.updateSyncStatus(user).collect { result ->
 					result.fold(
 						success = { userDataInfo.value = user },
 						failure = { logError(TAG, "$it") }

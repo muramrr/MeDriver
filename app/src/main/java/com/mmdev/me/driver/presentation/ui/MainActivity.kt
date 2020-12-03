@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:55
+ * Last modified 03.12.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -86,10 +86,16 @@ class MainActivity: AppCompatActivity() {
 		setupNetworkListener()
 		
 		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
-			logInfo(TAG, "$it")
+			logInfo(TAG, "sku = $it")
 		})
 		
+		MedriverApp.appBillingClient.purchaseUpdateEvent.observe(this, {
+			logInfo(TAG, "purchase event = $it")
+		})
 		
+		MedriverApp.appBillingClient.purchases.observe(this, {
+			logInfo(TAG, "purchases = $it")
+		})
 	}
 	
 	private fun setupBottomNavigation() {
@@ -132,9 +138,8 @@ class MainActivity: AppCompatActivity() {
 	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
 	private fun startFetchingWorker(user: UserDataInfo) {
-		if (user.isSyncEnabled && user.isSubscriptionValid()) {
+		if (user.isSubscriptionValid()) {
 			val constraints = Constraints.Builder()
-				.setRequiresBatteryNotLow(true)
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
 			
@@ -200,10 +205,10 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	
-	fun launchPurchaseFlow() {
+	fun launchPurchaseFlow(identifier: String) {
 		val flowParams = BillingFlowParams.newBuilder()
 			.setObfuscatedAccountId(MedriverApp.currentUser!!.id)
-			.setSkuDetails(MedriverApp.appBillingClient.skuListWithDetails.value!!["3_month_premium"]!!)
+			.setSkuDetails(MedriverApp.appBillingClient.skuListWithDetails.value!![identifier]!!)
 			.build()
 		MedriverApp.appBillingClient.launchBillingFlow(this, flowParams)
 

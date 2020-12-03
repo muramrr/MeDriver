@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 17:52
+ * Last modified 03.12.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ object EntityMappers {
 		model = entity.model,
 		year = entity.year,
 		vin = entity.vin,
-		odometerValueBound = entity.odometerValueBound,
+		odometerValue = entity.odometerValueBound,
 		engineCapacity = entity.engineCapacity,
 		maintenanceRegulations = maintenanceRegulationsMap(entity.maintenanceRegulations).mapKeys {
 			it.key.getSparePartName()

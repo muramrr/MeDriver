@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 16:36
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import org.koin.dsl.module
  */
 
 val MappersModule = module {
-	single { MaintenanceMappersFacade() }
-	single { VehicleMappersFacade() }
-	single { FuelHistoryMappersFacade() }
+	factory { MaintenanceMappersFacade() }
+	factory { VehicleMappersFacade() }
+	factory { FuelHistoryMappersFacade() }
 }

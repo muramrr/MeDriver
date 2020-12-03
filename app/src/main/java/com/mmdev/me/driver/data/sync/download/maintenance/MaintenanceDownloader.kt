@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 00:34
+ * Last modified 03.12.2020 19:36
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.data.sync.download.maintenance
 
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
@@ -33,6 +34,7 @@ class MaintenanceDownloader(
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
+		logDebug(TAG, "Downloading maintenance history...")
 		server.getAllMaintenanceHistory(email, vin).collect { result ->
 			result.fold(
 				success = { emit(local.insertReplacedSpareParts(mappers.listDtoToEntities(it))) },

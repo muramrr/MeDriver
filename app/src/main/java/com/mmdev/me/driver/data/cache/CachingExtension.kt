@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:04
+ * Last modified 03.12.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +10,7 @@
 
 package com.mmdev.me.driver.data.cache
 
-import com.mmdev.me.driver.data.cache.CachingReason.NO_INTERNET
-import com.mmdev.me.driver.data.cache.CachingReason.NO_SUBSCRIPTION
-import com.mmdev.me.driver.data.cache.CachingReason.NO_SYNC
-import com.mmdev.me.driver.data.cache.CachingReason.NO_USER
+import com.mmdev.me.driver.data.cache.CachingReason.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
@@ -30,17 +27,14 @@ inline fun addToBackend(
 	serverOperation: () -> Unit
 ) = if (user != null) {
 	if (user.isSubscriptionValid()) {
-		if (user.isSyncEnabled) {
-			if (isInternetAvailable) {
-				serverOperation.invoke()
-			}
-			else {
-				cacheOperation.invoke(NO_INTERNET)
-			}
+		
+		if (isInternetAvailable) {
+			serverOperation.invoke()
 		}
 		else {
-			cacheOperation.invoke(NO_SYNC)
+			cacheOperation.invoke(NO_INTERNET)
 		}
+		
 	}
 	else {
 		cacheOperation.invoke(NO_SUBSCRIPTION)

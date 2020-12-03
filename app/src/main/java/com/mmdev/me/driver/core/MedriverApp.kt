@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:48
+ * Last modified 03.12.2020 19:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.cioccarellia.ksprefs.KsPrefs
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.mmdev.me.driver.core.billing.AppBillingClient
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
@@ -190,6 +191,9 @@ class MedriverApp: Application() {
 		appContext = applicationContext
 		appBillingClient.querySkuDetails()
 		
+		FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!debug.isEnabled)
+		
+		
 		startKoin {
 			androidContext(this@MedriverApp)
 			if (debug.isEnabled) androidLogger()
@@ -267,7 +271,7 @@ class MedriverApp: Application() {
 //			.build()
 	
 	private fun initNotificationWorker() {
-		logDebug(javaClass, "Enqueueing worker...")
+		logDebug(TAG, "Enqueueing notification worker...")
 		val notificationWorkRequest =
 			PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS).build()
 		

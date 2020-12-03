@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 30.11.2020 15:02
+ * Last modified 03.12.2020 17:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,6 @@ class PlansAdapter(
 	data: List<PlanUi> = listOf(
 		PlanUi(
 			android.R.color.transparent,
-			R.color.colorOnSurface,
 			listOf(
 				FeatureUi(
 					R.string.btm_sheet_subscription_feature1,
@@ -59,8 +58,7 @@ class PlansAdapter(
 			SubscriptionTypeUi(FREE, R.string.btm_sheet_subscription_plan_type_free)
 		),
 		PlanUi(
-			R.color.colorPrimary,
-			R.color.colorOnPrimary,
+			R.color.subscription_premium,
 			listOf(
 				FeatureUi(
 					R.string.btm_sheet_subscription_feature1,
@@ -86,12 +84,11 @@ class PlansAdapter(
 			if (MedriverApp.currentUser != null)
 				MedriverApp.currentUser!!.subscription.type == PREMIUM
 			else false,
-			"₴19.99",
+			"₴29.99",
 			SubscriptionTypeUi(PREMIUM, R.string.btm_sheet_subscription_plan_type_premium)
 		),
 		PlanUi(
-			R.color.colorSecondary,
-			R.color.colorOnSecondary,
+			R.color.subscription_pro,
 			listOf(
 				FeatureUi(
 					R.string.btm_sheet_subscription_feature1,
@@ -117,7 +114,7 @@ class PlansAdapter(
 			if (MedriverApp.currentUser != null)
 				MedriverApp.currentUser!!.subscription.type == PRO
 			else false,
-			"₴29.99",
+			"₴49.99",
 			SubscriptionTypeUi(PRO, R.string.btm_sheet_subscription_plan_type_pro)
 		)
 	)

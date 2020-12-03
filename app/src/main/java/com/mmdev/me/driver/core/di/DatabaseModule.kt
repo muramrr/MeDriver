@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:30
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,12 +32,12 @@ val DatabaseModule = module {
 	
 	single { provideDatabase(androidApplication()) }
 	
-	single { provideCacheDao(db = get()) }
-	single { provideHomeDao(db = get()) }
-	single { provideMaintenanceDao(db = get()) }
-	single { provideVehicleDao(db = get()) }
-	single { provideFuelPricesDao(db = get()) }
-	single { provideFuelHistoryDao(db = get()) }
+	factory { provideCacheDao(db = get()) }
+	factory { provideHomeDao(db = get()) }
+	factory { provideMaintenanceDao(db = get()) }
+	factory { provideVehicleDao(db = get()) }
+	factory { provideFuelPricesDao(db = get()) }
+	factory { provideFuelHistoryDao(db = get()) }
 	
 }
 

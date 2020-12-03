@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.12.2020 20:58
+  ~ Last modified 03.12.2020 17:37
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -74,12 +74,12 @@
 	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Обрати</string>
-	<string name="btm_sheet_subscription_already_chosen_plan">Поточна підписка</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Поточна</string>
 	
 	<string name="btm_sheet_subscription_feature1">Нагадування про ТО</string>
 	<string name="btm_sheet_subscription_feature2">Резервна копія даних</string>
-	<string name="btm_sheet_subscription_feature3">Підтримка декількох пристроїв</string>
-	<string name="btm_sheet_subscription_feature4">Більше цікавої статистики</string>
+	<string name="btm_sheet_subscription_feature3">Більше статистики</string>
+	<string name="btm_sheet_subscription_feature4">Підтримка декількох пристроїв</string>
 	<string name="btm_sheet_subscription_feature5">Необмежена кількість авто</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Резервна копія</string>
@@ -93,7 +93,7 @@
 	
 	<string name="btm_sheet_subscription_plan_per_month">/3 місяця</string>
 	
-	<string name="btm_sheet_subscription_policy">Купуючи підписку, Ви погоджуєтеся з нашими Умовами надання послуг. Додаток надає платну підписку - це означає, що ми будемо стягувати з вас плату з моменту оформлення передплати та продовжувати стягувати плату на початку кожного періоду на який була оформлена підписка, поки ви не скасуєте підписку. Ви можете скасувати в будь-який час на екрані Опції.</string>
+	<string name="btm_sheet_subscription_policy">Купуючи підписку, Ви погоджуєтеся з нашими Умови обслуговування. Ми будемо стягувати з вас плату на початку кожного періоду на який була оформлена підписка, поки ви не скасуєте підписку. Ви можете скасувати її в будь-який час.</string>
 	
 	
 	<!-- ******************************************************************************************* -->

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:10
+ * Last modified 03.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,8 +49,7 @@ class UserMappersFacade {
 		id = firebaseUser.uid,
 		email = firebaseUser.email!!,
 		isEmailVerified = firebaseUser.isEmailVerified,
-		isPremium = false,
-		isSyncEnabled = false
+		isPremium = false
 	)
 	
 }

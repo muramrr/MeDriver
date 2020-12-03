@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:03
+ * Last modified 03.12.2020 18:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,15 +29,18 @@ private const val BASE_URL = "https://localhost"
 private val contentType = "application/json".toMediaType()
 
 val NetworkModule = module {
-
+	
 	single { DataDownloader(vehicles = get(), maintenance = get(), fuelHistory = get()) }
 
 	single { provideRetrofit() }
-
+	
 	single { provideVinCodeApi(retrofit = get()) }
 	single { provideFuelApi(retrofit = get()) }
 	
 }
+
+private fun provideVinCodeApi(retrofit: Retrofit): VinCodeApi = retrofit.create(VinCodeApi::class.java)
+private fun provideFuelApi(retrofit: Retrofit): FuelApi = retrofit.create(FuelApi::class.java)
 
 private fun provideRetrofit(): Retrofit = Retrofit.Builder()
 	.apply {
@@ -70,6 +73,3 @@ private val baseInterceptor: Interceptor = invoke { chain ->
 }
 
 
-fun provideVinCodeApi(retrofit: Retrofit): VinCodeApi = retrofit.create(VinCodeApi::class.java)
-
-fun provideFuelApi(retrofit: Retrofit): FuelApi = retrofit.create(FuelApi::class.java)

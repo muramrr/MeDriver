@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 19:47
+ * Last modified 03.12.2020 18:08
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,6 +46,11 @@ class SwitcherLayout(context: Context, attrs: AttributeSet?): LinearLayout(conte
 	
 	fun setSwitcherListener(listener: (view: Switcher, isChecked: Boolean) -> Unit) {
 		switcher.setOnCheckedChangeListener(listener)
+	}
+	
+	override fun setEnabled(enabled: Boolean) {
+		super.setEnabled(enabled)
+		switcher.isEnabled = enabled
 	}
 	
 	init {

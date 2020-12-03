@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.11.2020 15:53
+ * Last modified 03.12.2020 18:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,5 +27,5 @@ interface IAuthFlowProvider {
 	
 	fun getAuthUserFlow(): Flow<UserDataInfo?>
 	
-	fun updateUserModel(user: UserDataInfo): Flow<SimpleResult<Unit>>
+	fun updateSyncStatus(user: UserDataInfo): Flow<SimpleResult<Unit>>
 }

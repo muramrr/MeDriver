@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:30
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,16 +34,16 @@ import org.koin.dsl.module
 
 val DataSourceLocalModule = module {
 	
-	single<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataDownloader = get()) }
+	factory<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataDownloader = get()) }
 	
-	single<IHomeLocalDataSource> { HomeLocalDataSourceImpl(dao = get()) }
+	factory<IHomeLocalDataSource> { HomeLocalDataSourceImpl(dao = get()) }
 	
-	single<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get(), cache = get()) }
+	factory<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get(), cache = get()) }
 	
-	single<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get(), cache = get()) }
-	single<IVinLocalDataSource> { VinLocalDataSourceImpl() }
+	factory<IVehicleLocalDataSource> { VehicleLocalDataSourceImpl(dao = get(), cache = get()) }
+	factory<IVinLocalDataSource> { VinLocalDataSourceImpl() } //todo
 	
-	single<IFuelPricesLocalDataSource> { FuelPricesLocalDataSourceImpl(dao = get()) }
-	single<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get(), cache = get()) }
+	factory<IFuelPricesLocalDataSource> { FuelPricesLocalDataSourceImpl(dao = get()) }
+	factory<IFuelHistoryLocalDataSource> { FuelHistoryLocalDataSourceImpl(dao = get(), cache = get()) }
 	
 }

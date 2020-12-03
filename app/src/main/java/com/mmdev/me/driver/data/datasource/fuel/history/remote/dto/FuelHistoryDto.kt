@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:52
+ * Last modified 03.12.2020 19:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,12 +27,12 @@ data class FuelHistoryDto (
 	@PropertyName("commentary") val commentary: String = "",
 	@PropertyName("date") val date: String = "",
 	@PropertyName("dateAdded") val dateAdded: Long = 0,
-	@PropertyName("distancePassedBound") val distancePassed: DistanceBound = DistanceBound(),
+	@PropertyName("distancePassed") val distancePassed: DistanceBound = DistanceBound(),
 	@PropertyName("filledLiters") val filledLiters: Double = 0.0,
-	@PropertyName("fuelConsumptionBound") val fuelConsumption: ConsumptionBound = ConsumptionBound(),
+	@PropertyName("fuelConsumption") val fuelConsumption: ConsumptionBound = ConsumptionBound(),
 	@PropertyName("fuelPrice") val fuelPrice: FuelPrice = FuelPrice(),
 	@PropertyName("fuelStation") val fuelStation: FuelStation = FuelStation(),
 	@PropertyName("moneySpent") val moneySpent: Double = 0.0,
-	@PropertyName("odometerValueBound") val odometerValue: DistanceBound = DistanceBound(),
+	@PropertyName("odometerValue") val odometerValue: DistanceBound = DistanceBound(),
 	@PropertyName("vehicleVinCode") val vehicleVinCode: String = ""
 )

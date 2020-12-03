@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:12
+ * Last modified 03.12.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,8 +25,7 @@ object EntityMappers {
 			id = entity.id,
 			email = entity.email,
 			isEmailVerified = entity.isEmailVerified,
-			//subscription = entity.isPremium,
-			isSyncEnabled = entity.isSyncEnabled
+			//subscription = entity.isPremium
 		)
 	
 	fun toDomain(entity: UserEntity): UserDataInfo =
@@ -34,8 +33,7 @@ object EntityMappers {
 			id = entity.id,
 			email = entity.email,
 			isEmailVerified = entity.isEmailVerified,
-			//subscription = entity.isPremium,
-			isSyncEnabled = entity.isSyncEnabled
+			//subscription = entity.isPremium
 		)
 	
 }

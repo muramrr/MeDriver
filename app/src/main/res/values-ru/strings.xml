@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.12.2020 20:58
+  ~ Last modified 03.12.2020 17:37
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -74,12 +74,12 @@
 	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Выбрать</string>
-	<string name="btm_sheet_subscription_already_chosen_plan">Текущая подписка</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Текущая</string>
 	
 	<string name="btm_sheet_subscription_feature1">Напоминания об ТО</string>
 	<string name="btm_sheet_subscription_feature2">Резервная копия данных</string>
-	<string name="btm_sheet_subscription_feature3">Поддержка нескольких устройств</string>
-	<string name="btm_sheet_subscription_feature4">Больше подробной статистики</string>
+	<string name="btm_sheet_subscription_feature3">Больше статистики</string>
+	<string name="btm_sheet_subscription_feature4">Поддержка нескольких устройств</string>
 	<string name="btm_sheet_subscription_feature5">Неограниченное количество авто</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Резервная копия</string>
@@ -93,7 +93,7 @@
 	
 	<string name="btm_sheet_subscription_plan_per_month">/3 месяца</string>
 	
-	<string name="btm_sheet_subscription_policy">Покупая подписку, Вы соглашаетесь с нашими Условиями предоставления услуг. Приложение предоставляет платную подписку – это означает, что мы будем взимать с вас плату с момента оформления подписки и продолжать взимать плату в начале каждого периода на который была оформлена подписка, пока вы не отмените подписку. Вы можете отменить в любое время на экране Настойки.</string>
+	<string name="btm_sheet_subscription_policy">Покупая подписку, Вы соглашаетесь с нашими Условиями использования. Мы будем взимать с вас плату в начале каждого периода на который была оформлена подписка, пока вы не отмените подписку. Вы можете отменить ее в любое время.</string>
 	
 	
 <!-- ******************************************************************************************* -->

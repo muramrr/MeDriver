@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 11.11.2020 19:04
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,11 +30,11 @@ import org.koin.dsl.module
 
 val SyncModule = module {
 	
-	single<IFuelHistoryDownloader> { FuelHistoryDownloader(local = get(), server = get(), mappers = get()) }
-	single<IMaintenanceDownloader> { MaintenanceDownloader(local = get(), server = get(), mappers = get()) }
-	single<IVehicleDownloader> { VehicleDownloader(local = get(), server = get(), mappers = get()) }
+	factory<IFuelHistoryDownloader> { FuelHistoryDownloader(local = get(), server = get(), mappers = get()) }
+	factory<IMaintenanceDownloader> { MaintenanceDownloader(local = get(), server = get(), mappers = get()) }
+	factory<IVehicleDownloader> { VehicleDownloader(local = get(), server = get(), mappers = get()) }
 	
-	single<IFuelHistoryUploader> { FuelHistoryUploader(local = get(), server = get(), mappers = get()) }
-	single<IMaintenanceUploader> { MaintenanceUploader(local = get(), server = get(), mappers = get()) }
-	single<IVehicleUploader> { VehicleUploader(local = get(), server = get(), mappers = get()) }
+	factory<IFuelHistoryUploader> { FuelHistoryUploader(local = get(), server = get(), mappers = get()) }
+	factory<IMaintenanceUploader> { MaintenanceUploader(local = get(), server = get(), mappers = get()) }
+	factory<IVehicleUploader> { VehicleUploader(local = get(), server = get(), mappers = get()) }
 }

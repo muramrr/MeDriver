@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 21:30
+ * Last modified 03.12.2020 18:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,7 +39,7 @@ import org.koin.dsl.module
 
 val RepositoryModule = module {
 	
-	single<IFetchingRepository> {
+	factory<IFetchingRepository> {
 		FetchingRepositoryImpl(
 			vehicleLocalDS = get(),
 			vehicleRemoteDS = get(),
@@ -47,7 +47,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IAuthFlowProvider> {
+	factory<IAuthFlowProvider> {
 		AuthFlowProviderImpl(
 			authCollector = get(),
 			userLocalDataSource = get(),
@@ -56,14 +56,14 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IHomeRepository> {
+	factory<IHomeRepository> {
 		HomeRepositoryImpl(
 			localDataSource = get(),
 			mappers = get()
 		)
 	}
 	
-	single<IMaintenanceRepository> {
+	factory<IMaintenanceRepository> {
 		MaintenanceRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
@@ -71,7 +71,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IVehicleRepository> {
+	factory<IVehicleRepository> {
 		VehicleRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
@@ -81,14 +81,14 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IFuelPricesRepository> {
+	factory<IFuelPricesRepository> {
 		FuelPricesRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
 			mappers = FuelPriceMappersFacade()
 		)
 	}
-	single<IFuelHistoryRepository> {
+	factory<IFuelHistoryRepository> {
 		FuelHistoryRepositoryImpl(
 			localDataSource = get(),
 			remoteDataSource = get(),
@@ -96,7 +96,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
+	factory<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
 
 }
 

@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 23.11.2020 19:48
+  ~ Last modified 03.12.2020 18:43
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -150,7 +150,6 @@
 				app:layout_constraintTop_toBottomOf="@id/tvYourAccountVerificationHint"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
-				app:layout_constraintBottom_toTopOf="@id/switchSync"
 				/>
 			<!-- tap to verify label -->
 			<com.google.android.material.textview.MaterialTextView
@@ -204,32 +203,53 @@
 				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
 				/>
 			
-			<!-- sync switcher -->
-			<com.mmdev.me.driver.presentation.ui.common.custom.components.SwitcherLayout
-				android:id="@+id/switchSync"
-				android:layout_width="0dp"
+			<!-- sync -->
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSyncTitle"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
 				
-				app:title="@string/fg_settings_switcher_sync"
+				android:text="@string/fg_settings_switcher_sync"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSyncSubtitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:maxLines="1"
+				android:text="Last synced: 01.01.1970"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvSyncTitle"
+				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				/>
+			<ImageView
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				
+				android:src="@drawable/ic_premium_sync_24"
+				
+				app:layout_constraintTop_toTopOf="@id/tvSyncTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvSyncSubtitle"
+				app:layout_constraintStart_toStartOf="@id/barrierSignInOut"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				
+				android:contentDescription="@null"
 				/>
 			
 			<!-- subscription expires label -->
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvSubscriptionLabel"
-				android:layout_width="0dp"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
 				
 				android:text="@string/fg_settings_tv_subscription_expires"
 				
-				app:layout_constraintTop_toBottomOf="@id/switchSync"
+				app:layout_constraintTop_toBottomOf="@id/tvSyncSubtitle"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toStartOf="@id/tvSubscriptionValue"
 				/>
 			<!-- subscription expires value -->
 			<com.google.android.material.textview.MaterialTextView
@@ -244,7 +264,7 @@
 				
 				app:layout_constraintTop_toTopOf="@id/tvSubscriptionLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvSubscriptionLabel"
-				app:layout_constraintStart_toEndOf="@id/tvSubscriptionLabel"
+				app:layout_constraintStart_toStartOf="@id/barrierSignInOut"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>
 			

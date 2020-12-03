@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 01:07
+ * Last modified 03.12.2020 20:29
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,8 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.MetricSystem.*
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
@@ -63,7 +62,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	override fun setupViews() {
 		initStringRes()
 		
-		initSyncSwitcher()
+		initLastTimeSynced()
 		initThemeSwitcher()
 		initMetricSystemCheckable()
 		initLanguageChooser()
@@ -136,18 +135,11 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				
 				if (user != null) {
 					
-					// show premium label
-					tvYourAccountPremium.visibleIf(otherwise = View.INVISIBLE) { user.isSubscriptionValid() }
-					
-					// defines visibility of sign in/out buttons
-					btnSignOut.setEnabledAndVisible()
-					btnSignInPopUp.setDisabledAndInvisible()
-					
+					setUserIsNotNull()
 					tvYourAccountVerificationHint.apply {
 						visible()
 						text = if (!user.isEmailVerified) accNotVerified else accVerified
 					}
-					
 					// show email confirmed indicator
 					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) { user.isEmailVerified }
 					tvEmailAddressConfirmed.text = user.email
@@ -161,64 +153,67 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						text = user.email
 						if (user.isEmailVerified) setDisabledAndInvisible()
 					}
-					
+					if (user.isSubscriptionValid()) setUserIsPremium()
+					else setUserIsNotPremium()
 				}
-				else {
-					// hide premium label
-					tvYourAccountPremium.gone()
-					
-					// defines visibility of sign in/out buttons
-					btnSignOut.setDisabledAndInvisible()
-					btnSignInPopUp.setEnabledAndVisible()
-					
-					tvYourAccountVerificationHint.invisible()
-					
-					// hide email confirmed indicator
-					tvEmailAddressConfirmed.apply {
-						tvEmailAddressConfirmed.text = notSignedIn
-						invisible()
-					}
-					
-					// hide tap to verify hint
-					tvTapToVerifyHint.invisible()
-					
-					btnSendVerification.apply {
-						isClickable = false
-						text = notSignedIn
-						setEnabledAndVisible()
-					}
-				}
+				else setUserIsNull()
 				
-				btnGetPremium.isEnabled = user != null  && !user.isSubscriptionValid()
-				btnGetPremium.text = if (user != null && user.isSubscriptionValid()) premiumObtained else getPremium
-				
-				// defines can be accessed synchronization switcher
-				//todo: fix enabled and disabled
-				switchSync.isEnabled = (user != null && user.isSubscriptionValid()).also { initSyncSwitcher(it) }
+				//allow to get premium only when user verifies email
+				btnGetPremium.isEnabled = user != null && user.isEmailVerified
 				
 			}
 			
 		})
 	}
 	
-	/**
-	 * can be accessed only when user is in [AUTHORIZED] status
-	 * @see observeSignedInUser
-	 */
-	private fun initSyncSwitcher(isEnabled: Boolean = false) {
-		// remove before changing state, because changing state also invokes onCheckedListener
-		if (!isEnabled) binding.switchSync.setSwitcherListener {_, _ -> }
-		
-		// init default switcher position
-		binding.switchSync.setChecked(MedriverApp.currentUser?.isSyncEnabled ?: false)
-		
-		// add callback to switcher toggle
-		if (isEnabled) {
-			binding.switchSync.setSwitcherListener { _, isChecked ->
-				sharedViewModel.updateUser(MedriverApp.currentUser!!.copy(isSyncEnabled = isChecked))
+	private fun setUserIsNotNull() {
+		binding.btnSignOut.setEnabledAndVisible()
+		binding.btnSignInPopUp.setDisabledAndInvisible()
+	}
+	
+	
+	private fun setUserIsPremium() {
+		binding.tvYourAccountPremium.visible(0)
+		binding.btnGetPremium.text = premiumObtained
+	}
+	
+	private fun setUserIsNotPremium() {
+		binding.tvYourAccountPremium.gone(0)
+		binding.btnGetPremium.text = getPremium
+	}
+	
+	private fun setUserIsNull() {
+		binding.apply {
+			// hide premium label
+			setUserIsNotPremium()
+			
+			// defines visibility of sign in/out buttons
+			btnSignOut.setDisabledAndInvisible()
+			btnSignInPopUp.setEnabledAndVisible()
+			
+			tvYourAccountVerificationHint.invisible()
+			
+			// hide email confirmed indicator
+			tvEmailAddressConfirmed.apply {
+				tvEmailAddressConfirmed.text = notSignedIn
+				invisible()
 			}
+			
+			// hide tap to verify hint
+			tvTapToVerifyHint.invisible()
+			
+			btnSendVerification.apply {
+				isClickable = false
+				text = notSignedIn
+				setEnabledAndVisible()
+			}
+			
 		}
-		
+	}
+	
+	//todo
+	private fun initLastTimeSynced() {
+	
 	}
 	
 	private fun initThemeSwitcher() {

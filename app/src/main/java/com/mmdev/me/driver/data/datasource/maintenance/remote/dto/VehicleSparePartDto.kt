@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:52
+ * Last modified 03.12.2020 19:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,8 +28,8 @@ data class VehicleSparePartDto (
 	@PropertyName("vendor") val vendor: String = "",
 	@PropertyName("systemNode") val systemNode: String = "",
 	@PropertyName("systemNodeComponent") val systemNodeComponent: String = "",
-	@PropertyName("searchCriteria") var searchCriteria: List<String> = emptyList(),
+	@PropertyName("searchCriteria") val searchCriteria: List<String> = emptyList(),
 	@PropertyName("moneySpent") val moneySpent: Double = 0.0,
-	@PropertyName("odometerValueBound") val odometerValue: DistanceBound = DistanceBound(),
+	@PropertyName("odometerValue") val odometerValue: DistanceBound = DistanceBound(),
 	@PropertyName("vehicleVinCode") val vehicleVinCode: String = ""
 )

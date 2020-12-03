@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 20:04
+ * Last modified 03.12.2020 19:45
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,6 @@ import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
-import com.mmdev.me.driver.presentation.utils.extensions.showToast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -50,9 +49,9 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 		}
 		
 		
-		binding.temp2.setOnClickListener {
-			it.showToast("Clicked")
-		}
+//		binding.temp2.setOnClickListener {
+//			it.showToast("Clicked")
+//		}
 	}
 	
 	private fun setupRegionsDrop() {

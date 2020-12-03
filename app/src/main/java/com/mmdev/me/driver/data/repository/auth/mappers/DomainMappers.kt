@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:12
+ * Last modified 03.12.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,8 +26,7 @@ object DomainMappers {
 			id = domain.id,
 			email = domain.email,
 			isEmailVerified = domain.isEmailVerified,
-			isPremium = domain.subscription.type != FREE,
-			isSyncEnabled = domain.isSyncEnabled
+			isPremium = domain.subscription.type != FREE
 		)
 	
 	fun toDto(domain: UserDataInfo): FirestoreUserDto =
@@ -35,9 +34,7 @@ object DomainMappers {
 			id = domain.id,
 			email = domain.email,
 			isEmailVerified = domain.isEmailVerified,
-			subscription = domain.subscription,
-			isSyncEnabled = domain.isSyncEnabled
+			subscription = domain.subscription
 		)
-	
 	
 }

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 02.12.2020 20:58
+  ~ Last modified 03.12.2020 17:36
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -113,13 +113,13 @@
 	<string name="btm_sheet_subscription_plan_type_pro">Pro</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Choose</string>
-	<string name="btm_sheet_subscription_already_chosen_plan">Current plan</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Current</string>
 	
 	<string name="btm_sheet_subscription_feature1">Notifications about coming maintenance</string>
 	<string name="btm_sheet_subscription_feature2">Data backup</string>
-	<string name="btm_sheet_subscription_feature3">Multiple devices support</string>
-	<string name="btm_sheet_subscription_feature4">More useful statistics</string>
-	<string name="btm_sheet_subscription_feature5">Multiple vehicles</string>
+	<string name="btm_sheet_subscription_feature3">More useful stats</string>
+	<string name="btm_sheet_subscription_feature4">Multiple devices support</string>
+	<string name="btm_sheet_subscription_feature5">Unlimited vehicles</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Backup</string>
 	<string name="btm_sheet_premium_feature_sync_subtitle">Backup all of your history and expenses</string>
@@ -132,7 +132,7 @@
 	
 	<string name="btm_sheet_subscription_plan_per_month">/3 months</string>
 	
-	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. Application provide recurring subscriptions, which means that we will charge you today and continue charge you monthly until you cancel your subscription. You may cancel it anytime on this screen by selecting "FREE" plan.</string>
+	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. We will charge you at start of each subscription period until you cancel your subscription. You may cancel it anytime.</string>
 	
 <!-- ******************************************************************************************* -->
 

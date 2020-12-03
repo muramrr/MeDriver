@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 17:52
+ * Last modified 03.12.2020 19:01
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ object DtoMappers {
 		model = dto.model,
 		year = dto.year,
 		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound,
+		odometerValueBound = dto.odometerValue,
 		engineCapacity = dto.engineCapacity,
 		maintenanceRegulations = dto.maintenanceRegulations.mapKeys {
 			PlannedParts.valueOf(it.key)
@@ -45,7 +45,7 @@ object DtoMappers {
 		model = dto.model,
 		year = dto.year,
 		vin = dto.vin,
-		odometerValueBound = dto.odometerValueBound,
+		odometerValueBound = dto.odometerValue,
 		engineCapacity = dto.engineCapacity,
 		maintenanceRegulations = maintenanceRegulationsMap(dto.maintenanceRegulations),
 		lastRefillDate = dto.lastRefillDate

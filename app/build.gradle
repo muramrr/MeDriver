@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:02
+ * Last modified 03.12.2020 18:59
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.crashlytics'
 
 def versionMajor = 1
 def versionMinor = 0
@@ -59,6 +59,7 @@ android {
 		}
 
 		debug {
+			ext.enableCrashlytics = false
 		//	minifyEnabled true
 		//	proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
@@ -105,8 +106,8 @@ dependencies {
 	implementation "org.koin:koin-androidx-fragment:2.2.0"
 
 	//navigation
-	implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
-	implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
+	implementation "androidx.navigation:navigation-ui-ktx:2.3.2"
+	implementation "androidx.navigation:navigation-fragment-ktx:2.3.2"
 
 	//Kotlin Coroutines
 	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
@@ -124,11 +125,10 @@ dependencies {
 	//firebase
 	implementation platform('com.google.firebase:firebase-bom:26.1.0')
 	implementation 'com.google.firebase:firebase-auth-ktx'
-	implementation "com.google.firebase:firebase-core"
 	implementation 'com.google.firebase:firebase-firestore-ktx'
 	implementation 'com.google.firebase:firebase-messaging-ktx'
-	//implementation 'com.google.firebase:firebase-crashlytics'
-	//implementation 'com.google.firebase:firebase-analytics'
+	implementation 'com.google.firebase:firebase-crashlytics-ktx'
+	implementation 'com.google.firebase:firebase-analytics-ktx'
 
 	//prefs wrapper
 	implementation 'com.cioccarellia:ksprefs:2.0.0'

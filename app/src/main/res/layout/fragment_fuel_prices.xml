@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 25.11.2020 00:46
+  ~ Last modified 03.12.2020 20:02
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,12 +15,10 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
 	
-	<androidx.constraintlayout.motion.widget.MotionLayout
-		android:id="@+id/motionFuelPrices"
+	<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/motionFuelPrices"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="?colorPrimary"
-		app:layoutDescription="@xml/fuel_prices_scene"
+		android:background="?colorPrimarySurface"
 		>
 		
 		<View android:id="@+id/backdropBackground"
@@ -37,7 +35,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="0dp"
 			
-			app:iconTint="?colorOnPrimary"
+			app:iconTint="@color/colorOnBackgroundPrimary"
 			app:icon="@drawable/ic_menu_24"
 			
 			style="@style/My.Widget.Button.IconOnly.Text"
@@ -53,9 +51,9 @@
 			android:layout_height="wrap_content"
 			android:layout_width="0dp"
 			
-			app:startIconTint="?colorOnPrimary"
+			app:startIconTint="@color/colorOnBackgroundPrimary"
 			app:startIconDrawable="@drawable/ic_location_24"
-			app:endIconTint="?colorOnPrimary"
+			app:endIconTint="@color/colorOnBackgroundPrimary"
 			
 			app:boxStrokeWidth="0dp"
 			app:hintEnabled="false"
@@ -79,7 +77,7 @@
 				
 				android:text="Choose region"
 				android:textAppearance="?textAppearanceBody1"
-				android:textColor="?colorOnPrimary"
+				android:textColor="@color/colorOnBackgroundPrimary"
 				/>
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +114,7 @@
 			android:layout_height="0dp"
 			android:layout_width="0dp"
 			
-			app:cardElevation="0dp"
+			app:cardElevation="1dp"
 			app:contentPadding="8dp"
 			app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Card.TopCorners"
 			
@@ -135,7 +133,7 @@
 				android:layout_marginTop="4dp"
 				android:src="@drawable/ic_horizontal_line"
 				android:scaleType="centerCrop"
-				
+				android:visibility="gone"
 				/>
 			
 			<androidx.recyclerview.widget.RecyclerView
@@ -150,5 +148,5 @@
 		</com.google.android.material.card.MaterialCardView>
 		
 	
-	</androidx.constraintlayout.motion.widget.MotionLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

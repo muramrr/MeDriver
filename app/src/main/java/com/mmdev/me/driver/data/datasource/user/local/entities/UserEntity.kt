@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.09.2020 17:33
+ * Last modified 03.12.2020 18:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,6 @@ data class UserEntity(
 	val id: String,
 	val email: String,
 	val isEmailVerified: Boolean,
-	val isPremium: Boolean,
-	val isSyncEnabled: Boolean
+	val isPremium: Boolean
 //	val premiumValidUntil: Long
 )

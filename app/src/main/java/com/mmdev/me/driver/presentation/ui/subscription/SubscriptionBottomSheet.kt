@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:55
+ * Last modified 03.12.2020 15:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -57,8 +57,9 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetSubsc
 		binding.rvSubscriptionPlans.apply {
 			adapter = PlansAdapter().apply {
 				setOnItemClickListener { view, position, item ->
-					if (position > 0) {
-						(requireActivity() as MainActivity).launchPurchaseFlow()
+					when (position) {
+						1 -> (requireActivity() as MainActivity).launchPurchaseFlow("3_month_premium")
+						2 -> (requireActivity() as MainActivity).launchPurchaseFlow("pro_3_months")
 					}
 					
 				}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 20:55
+ * Last modified 03.12.2020 15:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,7 +81,7 @@ class AppBillingClient(context: Context) {
 		PurchasesUpdatedListener { billingResult, purchases ->
 			val responseCode = billingResult.responseCode
 			val debugMessage = billingResult.debugMessage
-			logDebug(TAG, "onPurchasesUpdated: $responseCode $debugMessage")
+			logDebug(TAG, "onPurchasesUpdated: ${BillingResponses.getResponseType(responseCode)} $debugMessage")
 			when (responseCode) {
 				BillingResponseCode.OK -> {
 					if (purchases == null) logDebug(TAG, "onPurchasesUpdated: null purchase list")
@@ -213,8 +213,6 @@ class AppBillingClient(context: Context) {
 	}
 	
 	/**
-	 * Launching the billing flow.
-	 *
 	 * Launching the UI to make a purchase requires a reference to the Activity.
 	 */
 	fun launchBillingFlow(activity: Activity, params: BillingFlowParams): Int {

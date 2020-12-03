@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 19:10
+ * Last modified 03.12.2020 22:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import com.mmdev.me.driver.data.sync.upload.fuel.IFuelHistoryUploader
 import com.mmdev.me.driver.data.sync.upload.maintenance.IMaintenanceUploader
 import com.mmdev.me.driver.data.sync.upload.vehicle.IVehicleUploader
 import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
@@ -32,6 +33,19 @@ import org.koin.core.component.inject
  * Worker responsible for manage local cached operations
  * If any cached operation exists -> execute upload to server
  * Controls from [MainActivity]
+ *
+ * Main requirements to being executed successfully:
+ * 1. Network is available
+ * @see [com.mmdev.me.driver.core.utils.ConnectionManager], [MedriverApp.isNetworkAvailable]
+ *
+ * 2. User is not null (authenticated)
+ * @see [MedriverApp.currentUser]
+ *
+ * 3. User has valid subscription
+ * @see [UserDataInfo]
+ *
+ * 4. Internet is available
+ * @see [MedriverApp.isInternetWorking]
  */
 
 
@@ -57,9 +71,13 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 					async { vehicleUploader.fetch(email).collect {  } }
 				)
 				syncOperations.awaitAll()
+				SharedViewModel.uploadWorkerExecuted = true
 				Result.success()
 			}
-			else Result.failure()
+			else {
+				SharedViewModel.uploadWorkerExecuted = false
+				Result.failure()
+			}
 			
 		}
 		else {
@@ -71,6 +89,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 //			} else {
 //
 //			}
+			SharedViewModel.uploadWorkerExecuted = false
 			Result.failure()
 		}
 		

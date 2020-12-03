@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 18:48
+ * Last modified 03.12.2020 22:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -137,8 +137,8 @@ class MainActivity: AppCompatActivity() {
 	
 	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
-	private fun startFetchingWorker(user: UserDataInfo) {
-		if (user.isSubscriptionValid()) {
+	private fun startUploadingWorker(user: UserDataInfo) {
+		if (user.isSubscriptionValid() && !SharedViewModel.uploadWorkerExecuted) {
 			val constraints = Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
@@ -161,13 +161,13 @@ class MainActivity: AppCompatActivity() {
 		ConnectionManager(this, this) { isConnected ->
 			if (MedriverApp.isNetworkAvailable != isConnected) {
 				MedriverApp.isNetworkAvailable = isConnected
+				//only on available network start uploading worker
 				if (MedriverApp.isNetworkAvailable) {
-					//todo: start sync worker while internet is available again
-					//MedriverApp.currentUser?.let { startFetchingWorker(it) }
+					MedriverApp.currentUser?.let { startUploadingWorker(it) }
 				}
+				
+				logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
 			}
-			
-			logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
 		}
 	}
 	
@@ -175,14 +175,10 @@ class MainActivity: AppCompatActivity() {
 		sharedViewModel.userDataInfo.observe(this, {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
-				startFetchingWorker(it)
-				//				Purchases.sharedInstance.identifyWith(it.id) { purchaserInfo ->
-				//					//binding.root.showToast("offerings = $purchaserInfo")
-				//				}
+				startUploadingWorker(it)
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
-				//Purchases.sharedInstance.reset()
 			}
 			
 			MedriverApp.currentUser = it

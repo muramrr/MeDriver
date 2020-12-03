@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:21
+ * Last modified 03.12.2020 22:46
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,7 +28,7 @@ import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 
 /**
- * class for monitor network connection
+ * Class for monitor network connection
  * @see https://gist.github.com/PasanBhanu/730a32a9eeb180ec2950c172d54bb06a
  *
  * The callback is called for every separate network instead of the default network.
@@ -39,6 +39,16 @@ import com.mmdev.me.driver.core.utils.log.logWarn
  * The device could still be connected via another network.
  * Because of this, a list of activeNetworks is maintained, and used to check if the device is
  * connected to any active networks.
+ *
+ * Also, keep in mind that if network is initially available, callback will be invoked twice:
+ * at first constructor *init* block and at [onAvailable] method in [networkCallback],
+ * but if network is initially unavailable, callback will be invoked only at constructor init
+ * 1. network is available -> invoke [callback] 2 times
+ * 2. network is not available -> invoke [callback] only 1 time
+ *
+ * This is made because [onLost] method doesn't invokes at startup if no network initially available
+ *
+ * Main lifecycleOwner is [com.mmdev.me.driver.presentation.ui.MainActivity]
  */
 
 class ConnectionManager(
@@ -57,13 +67,6 @@ class ConnectionManager(
 		.build()
 	
 	init {
-//		try {
-//			connectivityManager.unregisterNetworkCallback(callback)
-//		} catch (e: Exception) {
-//			logWarn(this@ConnectionManager.javaClass,
-//			        "NetworkCallback for Wi-fi was not registered or already unregistered")
-//		}
-//		connectivityManager.registerNetworkCallback(NetworkRequest.Builder().build(), callback)
 		lifecycleOwner.lifecycle.addObserver(this)
 		callback.invoke(getInitialConnectionStatus())
 	}

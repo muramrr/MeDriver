@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 04.12.2020 18:51
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -98,27 +98,25 @@ class MaintenanceAddViewModel(private val repository: IMaintenanceRepository) : 
 	) {
 		viewModelScope.launch(MyDispatchers.io()) {
 			
-			val odometerBound = buildDistanceBound(odometerInput)
+			val vehicleSparePart = buildInputtedVehicleSparePart(
+				dateInput,
+				vendorInput,
+				articulusInput,
+				componentSelected,
+				searchCriteria,
+				commentaryInput,
+				priceInput,
+				buildDistanceBound(odometerInput),
+				vin
+			)
 			
 			repository.addMaintenanceItems(
 				user,
-				listOf(
-					buildInputtedVehicleSparePart(
-						dateInput,
-						vendorInput,
-						articulusInput,
-						componentSelected,
-						searchCriteria,
-						commentaryInput,
-						priceInput,
-						odometerBound,
-						vin
-					)
-				)
+				listOf(vehicleSparePart)
 			).collect { result ->
 				result.fold(
 					success = {
-						viewStateMap[position]!!.postValue(MaintenanceAddViewState.Success(odometerBound))
+						viewStateMap[position]!!.postValue(MaintenanceAddViewState.Success(vehicleSparePart))
 						parentShouldBeUpdated.postValue(true)
 					},
 					failure = {

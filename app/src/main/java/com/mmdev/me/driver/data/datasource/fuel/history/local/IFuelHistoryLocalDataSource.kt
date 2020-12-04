@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 20:09
+ * Last modified 04.12.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.datasource.fuel.history.local
 
 import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -18,32 +19,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  *  Wrapper for [com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao]
  */
 
-interface IFuelHistoryLocalDataSource {
-	
-	/**
-	 * If writing to backend cannot be done at the moment - we will remember need id and write it
-	 * to cached operations table
-	 * Another time we will try to fetch all table entries to server again
-	 */
-	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
-	
-	/**
-	 * Same as [cachePendingWriteToBackend] but uses list as a parameter
-	 */
-	suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit>
-	
-	/**
-	 * Retrieve all cached operations from database
-	 */
-	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
-	
-	/**
-	 * Delete cached operation
-	 * There could be two reasons to delete operation:
-	 * 1. Database entity was successfully written to server and we want to delete this from cached
-	 * 2. Such entry doesn't exist in database
-	 */
-	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
+interface IFuelHistoryLocalDataSource: IBaseLocalDataSourceWithCaching {
 	
 	/**
 	 * Retrieve fuel history with given [limit] and [offset] to SQL query

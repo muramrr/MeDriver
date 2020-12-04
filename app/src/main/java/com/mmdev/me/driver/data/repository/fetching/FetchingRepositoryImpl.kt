@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 16:38
+ * Last modified 04.12.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@ import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
-import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.flow
 
 class FetchingRepositoryImpl(
 	private val vehicleLocalDS: IVehicleLocalDataSource,
-	private val vehicleRemoteDS: IVehicleRemoteDataSource,
+	private val vehicleServerDS: IVehicleServerDataSource,
 	private val mappers: VehicleMappersFacade
 ): IFetchingRepository, BaseRepository() {
 	
@@ -71,7 +71,7 @@ class FetchingRepositoryImpl(
 						)
 					},
 					serverOperation = {
-						vehicleRemoteDS.addVehicle(
+						vehicleServerDS.addVehicle(
 							user!!.email,
 							mappers.domainToDto(vehicle)
 						).collect { emit(it) }

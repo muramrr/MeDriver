@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 19:01
+ * Last modified 04.12.2020 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.repository.vehicle.mappers
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.MaintenanceRegulationsEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.RegulationEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
-import com.mmdev.me.driver.data.datasource.vehicle.remote.dto.VehicleDto
+import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.*
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
@@ -36,7 +36,8 @@ object DtoMappers {
 		maintenanceRegulations = dto.maintenanceRegulations.mapKeys {
 			PlannedParts.valueOf(it.key)
 		},
-		lastRefillDate = dto.lastRefillDate
+		lastRefillDate = dto.lastRefillDate,
+		lastUpdatedDate = dto.dateUpdated
 	)
 	
 	/** Out: [VehicleEntity] */
@@ -48,7 +49,8 @@ object DtoMappers {
 		odometerValueBound = dto.odometerValue,
 		engineCapacity = dto.engineCapacity,
 		maintenanceRegulations = maintenanceRegulationsMap(dto.maintenanceRegulations),
-		lastRefillDate = dto.lastRefillDate
+		lastRefillDate = dto.lastRefillDate,
+		lastUpdatedDate = dto.dateUpdated
 	)
 	
 	private fun maintenanceRegulationsMap(input: Map<String, Regulation>): MaintenanceRegulationsEntity =

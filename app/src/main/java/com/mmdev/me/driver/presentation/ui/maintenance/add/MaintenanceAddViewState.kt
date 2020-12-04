@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 31.10.2020 14:38
+ * Last modified 04.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,9 @@
 
 package com.mmdev.me.driver.presentation.ui.maintenance.add
 
-import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.presentation.core.ViewState
-import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Error
-import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Idle
-import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Success
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.*
 
 /**
  * [ViewState] for [MaintenanceAddBottomSheet]
@@ -25,6 +23,6 @@ import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewSta
 
 sealed class MaintenanceAddViewState: ViewState {
 	object Idle: MaintenanceAddViewState()
-	data class Success(val odometerBound: DistanceBound): MaintenanceAddViewState()
+	data class Success(val data: VehicleSparePart): MaintenanceAddViewState()
 	data class Error(val errorMessage: String?): MaintenanceAddViewState()
 }

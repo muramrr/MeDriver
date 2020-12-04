@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 14:45
+ * Last modified 04.12.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
@@ -37,6 +36,7 @@ import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
@@ -97,9 +97,10 @@ class HomeViewModel(
 	
 	//todo: delete
 	fun generateRandomData(context: Context) {
-		viewModelScope.launch(MyDispatchers.io()) {
+		viewModelScope.launch {
 			viewState.postValue(HomeViewState.GeneratingStarted)
 			VehicleConstants.vehicleBrands.forEach {
+				delay(10)
 				generateVehicles(context, it)
 			}
 			viewState.postValue(HomeViewState.GenerationCompleted)
@@ -121,7 +122,7 @@ class HomeViewModel(
 				}
 				).atStartOfDayIn(TimeZone.currentSystemDefault())
 					//add a day duration to match all day range eg: jan 01 00:00 - 31 23:59:59.999
-					.toEpochMilliseconds() + 86400000 - 1
+					.toEpochMilliseconds() + DateHelper.DAY_DURATION - 1
 			)
 		}
 	}
@@ -135,10 +136,11 @@ class HomeViewModel(
 				generateRandomVinCode(),
 				DistanceBound(kilometers = Random.nextInt(1000, 200000), miles = null),
 				Random.nextDouble(1.0, 8.0).roundTo(1),
-				generateRandomDate()
+				generateRandomDate(),
+				currentEpochTime()
 			)
 		) {
-			vehicleRepo.addVehicle(MedriverApp.currentUser, this).collect { result ->
+			vehicleRepo.addVehicle(MainActivity.currentUser, this).collect { result ->
 				result.fold(
 					success = {
 						//logWtf(TAG, "generated vehicle with vin = ${this.vin}")
@@ -157,7 +159,7 @@ class HomeViewModel(
 	private suspend fun generateMaintenanceData(context: Context, vin: String) {
 		VehicleSystemNodeType.valuesArray.forEach { parent ->
 			maintenanceRepo.addMaintenanceItems(
-				MedriverApp.currentUser,
+				MainActivity.currentUser,
 				parent.getChildren().map { child ->
 					delay(2)
 					VehicleSparePart(
@@ -193,6 +195,8 @@ class HomeViewModel(
 			}
 			
 		}
+		
+		
 	}
 	
 	private suspend fun generateFuelHistoryData(vin: String) {

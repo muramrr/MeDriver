@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 16:33
+ * Last modified 04.12.2020 21:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,22 +10,24 @@
 
 package com.mmdev.me.driver.data.repository.vehicle.mappers
 
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.toCurrentTimeAndDate
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
-import com.mmdev.me.driver.data.datasource.vehicle.remote.dto.VehicleDto
-import com.mmdev.me.driver.data.datasource.vin.remote.dto.VehicleByVin
+import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
+import com.mmdev.me.driver.data.datasource.vin.api.dto.VehicleByVin
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
 
 /**
  * Mapping between Vehicle DTOs/entities/domain data classes
@@ -40,7 +42,8 @@ class VehicleMappersFacade {
 			year = dto.vehicleProducedYear.toIntOrNull() ?: 0,
 			vin = dto.vehicleVinCode,
 			odometerValueBound = DistanceBound(),
-			engineCapacity = dto.vehicleEngineCapacity.toDoubleOrNull() ?: 0.0
+			engineCapacity = dto.vehicleEngineCapacity.toDoubleOrNull() ?: 0.0,
+			lastUpdatedDate = currentEpochTime()
 		)
 	
 	// in: dto, out: * entity, domain
@@ -87,7 +90,7 @@ class VehicleMappersFacade {
 						vehicle.maintenanceRegulations[entry.key]!!.distance.miles -
 						(vehicle.odometerValueBound.miles - it.odometerValueBound.miles)
 					),
-					finalDate = (Instant.fromEpochMilliseconds(it.date).plus(
+					finalDate = (LocalDateTime.parse(it.date).toInstant(TimeZone.currentSystemDefault()).plus(
 						DateTimePeriod(
 							years = DateHelper.getYearsCount(
 								vehicle.maintenanceRegulations[entry.key]!!.time

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 19:36
+ * Last modified 04.12.2020 20:43
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.sync.download.maintenance
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
-import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.server.IMaintenanceServerDataSource
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flow
 
 class MaintenanceDownloader(
 	private val local: IMaintenanceLocalDataSource,
-	private val server: IMaintenanceRemoteDataSource,
+	private val server: IMaintenanceServerDataSource,
 	private val mappers: MaintenanceMappersFacade
 ): IMaintenanceDownloader {
 	
@@ -37,7 +37,7 @@ class MaintenanceDownloader(
 		logDebug(TAG, "Downloading maintenance history...")
 		server.getAllMaintenanceHistory(email, vin).collect { result ->
 			result.fold(
-				success = { emit(local.insertReplacedSpareParts(mappers.listDtoToEntities(it))) },
+				success = { emit(local.importReplacedSpareParts(mappers.listDtoToEntities(it))) },
 				failure = {
 					logError(TAG, "${it.message}")
 					emit(ResultState.failure(it))
@@ -51,7 +51,7 @@ class MaintenanceDownloader(
 	): Flow<SimpleResult<Unit>> = flow {
 		server.getMaintenanceHistoryById(email, vin, id).collect { resultServer ->
 			resultServer.fold(
-				success = { local.insertReplacedSpareParts(listOf(mappers.dtoToEntity(it))) },
+				success = { local.importReplacedSpareParts(listOf(mappers.dtoToEntity(it))) },
 				failure = {
 					logError(TAG, "${it.message}")
 					emit(ResultState.failure(it))

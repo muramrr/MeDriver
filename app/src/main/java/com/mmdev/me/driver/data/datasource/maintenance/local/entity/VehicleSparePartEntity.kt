@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 01:56
+ * Last modified 04.12.2020 21:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,7 +31,7 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 @Entity(tableName = MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE)
 data class VehicleSparePartEntity (
-	val date: Long,
+	val date: String,
 	@PrimaryKey
 	val dateAdded: Long,
 	val articulus: String = "",

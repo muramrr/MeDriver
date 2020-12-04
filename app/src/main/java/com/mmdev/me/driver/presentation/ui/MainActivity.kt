@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 22:46
+ * Last modified 04.12.2020 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,17 +30,26 @@ import com.mmdev.me.driver.core.sync.UploadWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
 	
 	companion object {
 		const val USER_KEY = "USER_KEY"
+		@Volatile
+		var currentUser: UserDataInfo? = null
+		
+		@Volatile
+		var currentVehicle: Vehicle? = null
+			set(value) {
+				field = value
+				MedriverApp.currentVehicleVinCode = value?.vin ?: ""
+			}
 	}
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
@@ -85,17 +94,18 @@ class MainActivity: AppCompatActivity() {
 		
 		setupNetworkListener()
 		
-		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
-			logInfo(TAG, "sku = $it")
-		})
-		
-		MedriverApp.appBillingClient.purchaseUpdateEvent.observe(this, {
-			logInfo(TAG, "purchase event = $it")
-		})
-		
-		MedriverApp.appBillingClient.purchases.observe(this, {
-			logInfo(TAG, "purchases = $it")
-		})
+//		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
+//			logInfo(TAG, "sku = $it")
+//		})
+//
+//		MedriverApp.appBillingClient.purchaseUpdateEvent.observe(this, {
+//			logInfo(TAG, "purchase event = $it")
+//		})
+//
+//		MedriverApp.appBillingClient.purchases.observe(this, {
+//			logInfo(TAG, "purchases = $it")
+//		})
+	
 	}
 	
 	private fun setupBottomNavigation() {
@@ -163,7 +173,7 @@ class MainActivity: AppCompatActivity() {
 				MedriverApp.isNetworkAvailable = isConnected
 				//only on available network start uploading worker
 				if (MedriverApp.isNetworkAvailable) {
-					MedriverApp.currentUser?.let { startUploadingWorker(it) }
+					currentUser?.let { startUploadingWorker(it) }
 				}
 				
 				logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
@@ -181,7 +191,7 @@ class MainActivity: AppCompatActivity() {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
 			}
 			
-			MedriverApp.currentUser = it
+			currentUser = it
 			
 		})
 	}
@@ -196,14 +206,14 @@ class MainActivity: AppCompatActivity() {
 	private fun observeVehicle() {
 		sharedViewModel.currentVehicle.observe(this, { vehicle ->
 			logDebug(TAG, "current vehicle = $vehicle")
-			MedriverApp.currentVehicle = vehicle
+			currentVehicle = vehicle
 		})
 	}
 	
 	
 	fun launchPurchaseFlow(identifier: String) {
 		val flowParams = BillingFlowParams.newBuilder()
-			.setObfuscatedAccountId(MedriverApp.currentUser!!.id)
+			.setObfuscatedAccountId(currentUser!!.id)
 			.setSkuDetails(MedriverApp.appBillingClient.skuListWithDetails.value!![identifier]!!)
 			.build()
 		MedriverApp.appBillingClient.launchBillingFlow(this, flowParams)

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 18:05
+ * Last modified 04.12.2020 21:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,10 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
-import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
+import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.cache.CacheDao
-import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.core.base.BaseDataSource
+import com.mmdev.me.driver.data.core.base.datasource.caching.BaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
@@ -28,22 +27,11 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 class VehicleLocalDataSourceImpl(
 	private val dao: VehicleDao,
-	private val cache: CacheDao
-): IVehicleLocalDataSource, BaseDataSource() {
+	cache: CacheDao
+): BaseLocalDataSourceWithCaching(cache), IVehicleLocalDataSource {
 	
-	override suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.insertOperation(cachedOperation) }.also {
-			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operation:$cachedOperation")
-		}
-	
-	override suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>> = safeCall(TAG) {
-		cache.getPendingOperations(MeDriverRoomDatabase.VEHICLES_TABLE)
-	}
-	
-	override suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.deleteOperation(cachedOperation) }.also {
-			logInfo(TAG, "Deleting operation: $cachedOperation")
-		}
+	override val table: String
+		get() = MeDriverRoomDatabase.VEHICLES_TABLE
 	
 	override suspend fun getExpenses(vin: String): SimpleResult<Expenses> =
 		safeCall(TAG) { dao.getExpenses(vin) }
@@ -60,6 +48,17 @@ class VehicleLocalDataSourceImpl(
 	
 	override suspend fun insertVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.insertVehicle(vehicleEntity) }
+	
+	override suspend fun importVehicles(import: List<VehicleEntity>): SimpleResult<Unit> =
+		safeCall(TAG) { dao.importVehicles(import) }.also {
+			MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.lastUpdatedDate }!!.lastUpdatedDate
+			import.forEach {
+				logDebug(TAG,
+				         "Importing Vehicle: vin = ${it.vin}, " +
+				         "dateUpdated = ${it.lastUpdatedDate}"
+				)
+			}
+		}
 	
 	override suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.deleteVehicle(vehicleEntity) }

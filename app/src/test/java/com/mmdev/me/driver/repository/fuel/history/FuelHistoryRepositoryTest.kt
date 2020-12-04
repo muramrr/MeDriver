@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 16:52
+ * Last modified 04.12.2020 21:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,12 +10,12 @@
 
 package com.mmdev.me.driver.repository.fuel.history
 
-import com.mmdev.me.driver.core.utils.currentEpochTime
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
+import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
-import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
+import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelPriceEmbedded
+import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
@@ -23,6 +23,7 @@ import com.mmdev.me.driver.domain.fuel.FuelType.A95
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -40,12 +41,12 @@ import org.junit.runners.JUnit4
 class FuelHistoryRepositoryTest {
 	
 	private val localDataSource: IFuelHistoryLocalDataSource = mockk()
-	private val remoteDataSource: IFuelHistoryRemoteDataSource = mockk()
+	private val serverDataSource: IFuelHistoryServerDataSource = mockk()
 	private val mappers = FuelHistoryMappersFacade()
 	
 	private val repository: IFuelHistoryRepository = FuelHistoryRepositoryImpl(
 		localDataSource,
-		remoteDataSource,
+		serverDataSource,
 		mappers
 	)
 	
@@ -58,13 +59,14 @@ class FuelHistoryRepositoryTest {
 	private val validReturn = listOf (
 		FuelHistoryEntity(
 			commentary = "",
-			date = time,
+			date = currentTimeAndDate().toString(),
 			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,
 			fuelConsumptionBound = ConsumptionBound(consumptionKM = 0.0, consumptionMI = null),
-			fuelPrice = FuelPriceEntity("okko", 15.0, A95.code),
-			fuelStation = FuelStationEntity("OKKO", "okko", "01-01-2020"),
+			fuelPrice = FuelPriceEmbedded(15.0, A95.name),
+			fuelStation = FuelStation("OKKO", "okko", "01-01-2020"),
+			moneySpent = 1651.0,
 			odometerValueBound = DistanceBound(kilometers = 2000, miles = null),
 			vehicleVinCode = "someVin",
 		)
@@ -84,7 +86,7 @@ class FuelHistoryRepositoryTest {
 	@Test
 	fun testSuccessfulReturnFromLocalDataSource() = runBlocking {
 		
-		val result = repository.loadFuelHistory("someVin", null)
+		val result = repository.getInitFuelHistory("someVin")
 	
 		result.fold(
 			success = { Assert.assertTrue(it.isNotEmpty()) },
@@ -97,7 +99,7 @@ class FuelHistoryRepositoryTest {
 	
 	@Test
 	fun testErrorReturnFromLocalDataSource() = runBlocking {
-		Assert.assertTrue(repository.loadFuelHistory("someVin", invalidLimit) is ResultState.Failure)
+		Assert.assertTrue(repository.getInitFuelHistory("someVin") is ResultState.Failure)
 	}
 	
 }

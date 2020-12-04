@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.11.2020 01:24
+ * Last modified 04.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ package com.mmdev.me.driver.presentation.ui.vehicle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
@@ -22,6 +21,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	val shouldBeUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
 	
 	//init current vehicle from static inside Application class
-	val chosenVehicle: MutableLiveData<Vehicle?> = MutableLiveData(MedriverApp.currentVehicle)
+	val chosenVehicle: MutableLiveData<Vehicle?> = MutableLiveData(MainActivity.currentVehicle)
 	
 	//init vehicle list
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
@@ -54,7 +54,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		viewModelScope.launch {
 			repository.getAllSavedVehicles().fold(
 				success = {
-					if (!it.contains(MedriverApp.currentVehicle)) chosenVehicle.value = null
+					if (!it.contains(MainActivity.currentVehicle)) chosenVehicle.value = null
 					vehicleList.postValue(it)
 					vehicleUiList.postValue(mapVehicle(it))
 				},

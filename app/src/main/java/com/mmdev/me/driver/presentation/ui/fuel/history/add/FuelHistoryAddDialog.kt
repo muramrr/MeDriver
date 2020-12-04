@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 19:02
+ * Last modified 04.12.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,6 +34,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseDialogFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
@@ -117,12 +118,12 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			btnCancel.setOnClickListener { dismiss() }
 			
 			btnDone.setDebounceOnClick {
-				if (checkAreInputCorrect()) mViewModel.addHistoryRecord(MedriverApp.currentUser)
+				if (checkAreInputCorrect()) mViewModel.addHistoryRecord(MainActivity.currentUser)
 			}
 			
 			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
 				mViewModel.lastAddedEntry.value?.odometerValueBound?.getValue()
-				?: MedriverApp.currentVehicle!!.odometerValueBound.getValue()
+				?: MainActivity.currentVehicle!!.odometerValueBound.getValue()
 			)
 		
 		}
@@ -133,12 +134,13 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			is FuelHistoryAddViewState.Success -> {
 				
 				//update vehicle with new odometer value
-				if (state.fuelHistory.odometerValueBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
+				if (state.fuelHistory.odometerValueBound.getValue() > MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
 					sharedViewModel.updateVehicle(
-						MedriverApp.currentUser,
-						MedriverApp.currentVehicle!!.copy(
+						MainActivity.currentUser,
+						MainActivity.currentVehicle!!.copy(
 							odometerValueBound = state.fuelHistory.odometerValueBound,
-							lastRefillDate = state.fuelHistory.date.date.humanDate()
+							lastRefillDate = state.fuelHistory.date.date.humanDate(),
+							lastUpdatedDate = state.fuelHistory.dateAdded
 						)
 					)
 				}

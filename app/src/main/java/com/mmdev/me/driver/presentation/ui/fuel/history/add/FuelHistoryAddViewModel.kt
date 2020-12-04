@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.12.2020 20:45
+ * Last modified 04.12.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,6 +30,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getConsumptionValue
@@ -92,7 +93,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 						if (this < 0) -1 else this
 					}
 				}
-				else with(typedOdometer.toInt() - MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
+				else with(typedOdometer.toInt() - MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
 					//-1 because needed to check for correct input
 					if (this < 0) -1 else this
 				}
@@ -243,7 +244,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 			fuelPrice = buildFuelPrice(),
 			fuelStation = buildFuelStation(),
 			odometerValueBound = buildDistanceBound(odometerInputValue.value!!.toInt()),
-			vehicleVinCode = MedriverApp.currentVehicle!!.vin
+			vehicleVinCode = MainActivity.currentVehicle!!.vin
 		)
 	
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 01.12.2020 18:21
+ * Last modified 04.12.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,13 +13,13 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddDialog
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,7 +48,7 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	override fun setupViews() {
 		mViewModel.viewState.observe(this, { renderState(it) })
 		
-		binding.fabAddHistoryEntry.isEnabled = MedriverApp.currentVehicle != null
+		binding.fabAddHistoryEntry.isEnabled = MainActivity.currentVehicle != null
 		
 		binding.rvFuelHistory.apply {
 			setHasFixedSize(true)

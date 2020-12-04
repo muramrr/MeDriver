@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 19:07
+ * Last modified 04.12.2020 21:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,8 +44,6 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
-import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
@@ -76,6 +74,7 @@ class MedriverApp: Application() {
 		private const val METRIC_SYSTEM_KEY = "metric_system"
 		private const val LANGUAGE_KEY = "language"
 		private const val PRICES_REGION_KEY = "prices_region"
+		private const val LAST_OPERATION_KEY = "last_operation"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
 		//todo delete
@@ -125,11 +124,21 @@ class MedriverApp: Application() {
 			}
 		
 		var currentVehicleVinCode: String = ""
-			private set (value) {
+			set (value) {
 				if (field != value) {
 					field = value
 					prefs.push(VEHICLE_VIN_CODE_KEY, value)
 					logDebug(TAG, "Current Vehicle VIN changed to $value")
+				}
+			}
+		
+		@Volatile
+		var lastOperationSyncedId: Long = 0
+			@Synchronized set (value) {
+				if (value > field) {
+					field = value
+					prefs.push(LAST_OPERATION_KEY, value)
+					logDebug(TAG, "Last operation synced: $value")
 				}
 			}
 		
@@ -139,16 +148,6 @@ class MedriverApp: Application() {
 				field = value
 				prefs.push(GENERATED_DATA_KEY, value)
 				logDebug(TAG, "DATA GENERATED? -$value")
-			}
-		
-		@Volatile
-		var currentUser: UserDataInfo? = null
-		
-		@Volatile
-		var currentVehicle: Vehicle? = null
-			set(value) {
-				field = value
-				currentVehicleVinCode = value?.vin ?: ""
 			}
 		
 		@Volatile
@@ -216,6 +215,7 @@ class MedriverApp: Application() {
 		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
 		logInfo(TAG, "loaded language - ${appLanguage.name}")
 		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
+		logInfo(TAG, "last operation id - $lastOperationSyncedId")
 		
 		initNotificationWorker()
 	}
@@ -235,6 +235,10 @@ class MedriverApp: Application() {
 		/** if not exists - apply [KYIV] region as default */
 		pricesRegion = loadInitialPropertyOrPushDefault(key = PRICES_REGION_KEY, default = KYIV)
 		
+		/** if not exists - apply empty string as default */
+		lastOperationSyncedId = loadInitialPropertyOrPushDefault(key = LAST_OPERATION_KEY, default = 0)
+		
+		/** if not exists - apply empty string as default */
 		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")
 		
 		//todo delete

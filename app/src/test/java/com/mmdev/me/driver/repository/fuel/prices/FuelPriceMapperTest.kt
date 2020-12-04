@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.10.2020 20:31
+ * Last modified 04.12.2020 21:07
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,13 +10,13 @@
 
 package com.mmdev.me.driver.repository.fuel.prices
 
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPricesDtoResponse
+import com.mmdev.me.driver.data.datasource.fuel.prices.api.dto.FuelPricesDtoResponse
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.FuelType.*
+import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
 import com.mmdev.me.driver.repository.fuel.FuelConstants.dtoResponse
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -32,7 +32,7 @@ class FuelPriceMapperTest {
 	private val mappers = FuelPriceMappersFacade()
 	
 	private val mappedPair =
-		mappers.listApiDtosToDbEntities(dtoResponse, "2020-12-12")
+		mappers.listApiDtosToDbEntities(dtoResponse, "2020-12-12", KYIV)
 	
 	@Test
 	fun testNetworkResultForA100FuelType() {

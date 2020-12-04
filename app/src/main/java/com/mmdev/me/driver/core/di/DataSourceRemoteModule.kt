@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 18:04
+ * Last modified 04.12.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,21 +10,21 @@
 
 package com.mmdev.me.driver.core.di
 
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.FuelHistoryRemoteDataSourceImpl
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.FuelPricesRemoteDataSourceImpl
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.IFuelPricesRemoteDataSource
-import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
-import com.mmdev.me.driver.data.datasource.maintenance.remote.MaintenanceRemoteDataSourceImpl
+import com.mmdev.me.driver.data.datasource.fuel.history.server.FuelHistoryServerDataSourceImpl
+import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
+import com.mmdev.me.driver.data.datasource.fuel.prices.api.FuelPricesApiDataSourceImpl
+import com.mmdev.me.driver.data.datasource.fuel.prices.api.IFuelPricesApiDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.server.IMaintenanceServerDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.server.MaintenanceServerDataSourceImpl
 import com.mmdev.me.driver.data.datasource.user.auth.AuthCollector
 import com.mmdev.me.driver.data.datasource.user.auth.FirebaseAuthDataSourceImpl
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.UserRemoteDataSourceImpl
-import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
-import com.mmdev.me.driver.data.datasource.vehicle.remote.VehicleRemoteDataSourceImpl
-import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
-import com.mmdev.me.driver.data.datasource.vin.remote.VinRemoteDataSourceImpl
+import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
+import com.mmdev.me.driver.data.datasource.vehicle.server.VehicleServerDataSourceImpl
+import com.mmdev.me.driver.data.datasource.vin.api.IVinApiDataSource
+import com.mmdev.me.driver.data.datasource.vin.api.VinApiDataSourceImpl
 import org.koin.dsl.module
 
 
@@ -42,14 +42,14 @@ val DataSourceRemoteModule = module {
 	
 	
 	
-	factory<IMaintenanceRemoteDataSource> { MaintenanceRemoteDataSourceImpl(fs = get()) }
+	factory<IMaintenanceServerDataSource> { MaintenanceServerDataSourceImpl(fs = get()) }
 	
 	
-	factory<IVehicleRemoteDataSource> { VehicleRemoteDataSourceImpl(fs = get()) }
-	factory<IVinRemoteDataSource> { VinRemoteDataSourceImpl(vinCodeApi = get()) }
+	factory<IVehicleServerDataSource> { VehicleServerDataSourceImpl(fs = get()) }
+	factory<IVinApiDataSource> { VinApiDataSourceImpl(vinCodeApi = get()) }
 	
-	factory<IFuelPricesRemoteDataSource> { FuelPricesRemoteDataSourceImpl(fuelApi = get()) }
-	factory<IFuelHistoryRemoteDataSource> { FuelHistoryRemoteDataSourceImpl(fs = get()) }
+	factory<IFuelPricesApiDataSource> { FuelPricesApiDataSourceImpl(fuelApi = get()) }
+	factory<IFuelHistoryServerDataSource> { FuelHistoryServerDataSourceImpl(fs = get()) }
 	
 	
 	

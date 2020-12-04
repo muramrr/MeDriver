@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 18:02
+ * Last modified 04.12.2020 20:33
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.serialization.asConverterFactory
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.api.FuelApi
-import com.mmdev.me.driver.data.datasource.vin.remote.api.VinCodeApi
+import com.mmdev.me.driver.data.datasource.fuel.prices.api.retrofit.FuelApi
+import com.mmdev.me.driver.data.datasource.vin.api.retrofit.VinCodeApi
 import com.mmdev.me.driver.data.sync.download.DataDownloader
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -30,7 +30,7 @@ private val contentType = "application/json".toMediaType()
 
 val NetworkModule = module {
 	
-	single { DataDownloader(vehicles = get(), maintenance = get(), fuelHistory = get()) }
+	single { DataDownloader(vehicles = get(), maintenance = get(), fuelHistory = get(), journal = get()) }
 
 	single { provideRetrofit() }
 	

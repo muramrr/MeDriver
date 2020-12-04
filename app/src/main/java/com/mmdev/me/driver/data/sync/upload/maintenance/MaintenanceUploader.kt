@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 17:59
+ * Last modified 04.12.2020 18:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
-import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.server.IMaintenanceServerDataSource
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import kotlinx.coroutines.flow.asFlow
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.flow
 
 class MaintenanceUploader(
 	private val local: IMaintenanceLocalDataSource,
-	private val server: IMaintenanceRemoteDataSource,
+	private val server: IMaintenanceServerDataSource,
 	private val mappers: MaintenanceMappersFacade
 ): IMaintenanceUploader {
 	

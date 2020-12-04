@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:52
+ * Last modified 04.12.2020 21:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,8 @@
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
-import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePartDto
+import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 
 /**
  * In [VehicleSparePart] -> Out: [VehicleSparePartEntity], [VehicleSparePartDto]
@@ -24,7 +22,7 @@ object DomainMappers {
 	
 	fun toEntity(domain: VehicleSparePart): VehicleSparePartEntity =
 		VehicleSparePartEntity(
-			date = domain.date.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
+			date = domain.date.toString(),
 			dateAdded = domain.dateAdded,
 			articulus = domain.articulus,
 			vendor = domain.vendor,

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 29.11.2020 01:45
+ * Last modified 04.12.2020 20:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -102,7 +102,7 @@ interface MaintenanceDao {
 	
 	
 	
-	@Insert(onConflict = OnConflictStrategy.ABORT)
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertVehicleReplacedSparePart(replacedSpareParts: List<VehicleSparePartEntity>)
 	
 	@Delete

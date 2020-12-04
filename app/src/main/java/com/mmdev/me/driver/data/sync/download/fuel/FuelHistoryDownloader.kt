@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 19:36
+ * Last modified 04.12.2020 20:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.sync.download.fuel
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
+import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flow
 
 class FuelHistoryDownloader(
 	private val local: IFuelHistoryLocalDataSource,
-	private val server: IFuelHistoryRemoteDataSource,
+	private val server: IFuelHistoryServerDataSource,
 	private val mappers: FuelHistoryMappersFacade
 ): IFuelHistoryDownloader {
 	
@@ -51,7 +51,7 @@ class FuelHistoryDownloader(
 	): Flow<SimpleResult<Unit>> = flow {
 		server.getFuelHistoryById(email, vin, id).collect { resultServer ->
 			resultServer.fold(
-				success = { local.insertFuelHistoryEntry(mappers.dtoToEntity(it)) },
+				success = { local.importFuelHistory(listOf(mappers.dtoToEntity(it))) },
 				failure = {
 					logError(TAG, "${it.message}")
 					emit(ResultState.failure(it))

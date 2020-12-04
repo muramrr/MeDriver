@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 18:13
+ * Last modified 04.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
@@ -298,14 +297,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			
 			childView.findViewById<TextView>(R.id.tvDropCarItemText).apply {
 				text = if (vehicle.titleRes != null) getStringRes(vehicle.titleRes) else vehicle.title
-				isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isSubscriptionValid())
+				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
 			}
 			childView.findViewById<ImageView>(R.id.ivDropCarItemIcon).apply {
 				setImageResource(vehicle.icon)
-				isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isSubscriptionValid())
+				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
 			}
 			//if no premium, only first position will be available
-			childView.isEnabled = (position == 0) || ((position != 0) && MedriverApp.currentUser != null && MedriverApp.currentUser!!.isSubscriptionValid())
+			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
 			childView.findViewById<TextView>(R.id.tvDropCarItemProLabel).visibleIf(View.INVISIBLE, 0) {
 				position == count - 1 && !childView.isEnabled
 			}

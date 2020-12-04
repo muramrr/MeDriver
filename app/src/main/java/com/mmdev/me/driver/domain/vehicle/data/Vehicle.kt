@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 17:09
+ * Last modified 04.12.2020 18:39
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,6 +38,7 @@ data class Vehicle(
 	val odometerValueBound: DistanceBound,
 	val engineCapacity: Double,
 	val lastRefillDate: String = "",
+	val lastUpdatedDate: Long,
 	val maintenanceRegulations: Map<SparePart, Regulation> = mapOf(
 		INSURANCE to Regulation(DistanceBound(), DateHelper.YEAR_DURATION),
 		FILTER_AIR to Regulation(

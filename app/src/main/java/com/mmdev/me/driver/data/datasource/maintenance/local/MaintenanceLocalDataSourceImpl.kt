@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 18:05
+ * Last modified 04.12.2020 21:04
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,13 +10,10 @@
 
 package com.mmdev.me.driver.data.datasource.maintenance.local
 
-import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.cache.CacheDao
-import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.core.base.BaseDataSource
+import com.mmdev.me.driver.data.core.base.datasource.caching.BaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
@@ -28,27 +25,11 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 
 class MaintenanceLocalDataSourceImpl(
 	private val dao: MaintenanceDao,
-	private val cache: CacheDao
-): IMaintenanceLocalDataSource, BaseDataSource() {
+	cache: CacheDao
+): BaseLocalDataSourceWithCaching(cache), IMaintenanceLocalDataSource  {
 	
-	override suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit> =
-		safeCall(TAG) { cache.insertOperation(cachedOperations) }.also {
-			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operations:$cachedOperations")
-		}
-	
-	override suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.insertOperation(cachedOperation) }.also {
-			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operation:$cachedOperation")
-		}
-	
-	override suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>> = safeCall(TAG) {
-		cache.getPendingOperations(MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE)
-	}
-	
-	override suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.deleteOperation(cachedOperation) }.also {
-			logInfo(TAG, "Deleting operation: $cachedOperation")
-		}
+	override val table: String
+		get() = MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE
 	
 	override suspend fun findLastReplaced(
 		vin: String, systemNode: String, customNodeComponent: String
@@ -82,10 +63,24 @@ class MaintenanceLocalDataSourceImpl(
 	): SimpleResult<Unit> = safeCall(TAG) { dao.insertVehicleReplacedSparePart(replacedSpareParts) }.also {
 		replacedSpareParts.forEach {
 			logDebug(TAG,
-				"Adding Replaced spare part: " + "id = ${it.date}, " +
-				"date = ${convertToLocalDateTime(it.date).date}, " +
+				"Adding Replaced spare part: " + "id = ${it.dateAdded}, " +
+				"date = ${it.date}, " +
 				"part vendor and articulus = ${it.vendor}, ${it.articulus}, " +
 				"parent = ${it.systemNode} child = ${it.systemNodeComponent} criteria = ${it.searchCriteria}"
+			)
+		}
+	}
+	
+	override suspend fun importReplacedSpareParts(
+		import: List<VehicleSparePartEntity>
+	): SimpleResult<Unit> = safeCall(TAG) { dao.insertVehicleReplacedSparePart(import) }.also {
+		MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.dateAdded }!!.dateAdded
+		import.forEach {
+			logDebug(TAG,
+			         "Importing Replaced spare part: id = ${it.dateAdded}, " +
+			         "date = ${it.date}, " +
+			         "part vendor and articulus = ${it.vendor}, ${it.articulus}, " +
+			         "parent = ${it.systemNode} child = ${it.systemNodeComponent} criteria = ${it.searchCriteria}"
 			)
 		}
 	}

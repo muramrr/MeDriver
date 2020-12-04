@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 18:04
+ * Last modified 04.12.2020 18:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,7 +42,7 @@ val RepositoryModule = module {
 	factory<IFetchingRepository> {
 		FetchingRepositoryImpl(
 			vehicleLocalDS = get(),
-			vehicleRemoteDS = get(),
+			vehicleServerDS = get(),
 			mappers = get()
 		)
 	}
@@ -66,7 +66,7 @@ val RepositoryModule = module {
 	factory<IMaintenanceRepository> {
 		MaintenanceRepositoryImpl(
 			localDataSource = get(),
-			remoteDataSource = get(),
+			serverDataSource = get(),
 			mappers = get()
 		)
 	}
@@ -74,7 +74,7 @@ val RepositoryModule = module {
 	factory<IVehicleRepository> {
 		VehicleRepositoryImpl(
 			localDataSource = get(),
-			remoteDataSource = get(),
+			serverDataSource = get(),
 			localVinDecoder = get(),
 			remoteVinDecoder = get(),
 			mappers = get()
@@ -84,14 +84,14 @@ val RepositoryModule = module {
 	factory<IFuelPricesRepository> {
 		FuelPricesRepositoryImpl(
 			localDataSource = get(),
-			remoteDataSource = get(),
+			apiDataSource = get(),
 			mappers = FuelPriceMappersFacade()
 		)
 	}
 	factory<IFuelHistoryRepository> {
 		FuelHistoryRepositoryImpl(
 			localDataSource = get(),
-			remoteDataSource = get(),
+			serverDataSource = get(),
 			mappers = get()
 		)
 	}

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:27
+ * Last modified 04.12.2020 17:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.data.repository.maintenance.mappers
 
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
-import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePartDto
+import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 
 /**

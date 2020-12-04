@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 23.11.2020 17:50
+ * Last modified 04.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,7 @@ import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
@@ -92,7 +93,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 					
 					mViewModel.addMaintenanceEntry(
 						position = argPosition,
-						user = MedriverApp.currentUser,
+						user = MainActivity.currentUser,
 						dateInput = pickedDate,
 						vendorInput = etInputVendor.text(),
 						articulusInput = etInputArticulus.text(),
@@ -154,11 +155,14 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 					)
 					binding.fabChildAdd.isEnabled = false
 				}
-				if (state.odometerBound.getValue() > MedriverApp.currentVehicle!!.odometerValueBound.getValue()) {
+				if (state.data.odometerValueBound.getValue() > MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
 					//update vehicle with new odometer value
 					sharedViewModel.updateVehicle(
-						MedriverApp.currentUser,
-						MedriverApp.currentVehicle!!.copy(odometerValueBound = state.odometerBound)
+						MainActivity.currentUser,
+						MainActivity.currentVehicle!!.copy(
+							odometerValueBound = state.data.odometerValueBound,
+							lastUpdatedDate = state.data.dateAdded
+						)
 					)
 				}
 			}

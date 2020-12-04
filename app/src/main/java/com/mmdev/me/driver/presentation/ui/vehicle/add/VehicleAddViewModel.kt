@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 18.11.2020 15:52
+ * Last modified 04.12.2020 18:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ package com.mmdev.me.driver.presentation.ui.vehicle.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -80,7 +81,8 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 			year = yearInput.value!!.toInt(),
 			vin = vinCodeInput.value!!,
 			odometerValueBound = buildDistanceBound(odometerInput.value!!.toInt()),
-			engineCapacity = engineCapacityInput.value!!.toDouble()
+			engineCapacity = engineCapacityInput.value!!.toDouble(),
+			lastUpdatedDate = currentEpochTime()
 		)
 	
 	

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 22:46
+ * Last modified 04.12.2020 18:47
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -76,7 +76,7 @@ class SharedViewModel(
 	}
 	
 	fun updateUser(user: UserDataInfo) {
-		if (user != MedriverApp.currentUser!!) {
+		if (user != MainActivity.currentUser!!) {
 			
 			logWarn(TAG, "Updating user..")
 			

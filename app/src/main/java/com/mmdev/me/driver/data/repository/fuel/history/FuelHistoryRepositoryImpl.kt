@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 28.11.2020 20:09
+ * Last modified 04.12.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
-import com.mmdev.me.driver.data.datasource.fuel.history.remote.IFuelHistoryRemoteDataSource
+import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.flow
 
 class FuelHistoryRepositoryImpl (
 	private val localDataSource: IFuelHistoryLocalDataSource,
-	private val remoteDataSource: IFuelHistoryRemoteDataSource,
+	private val serverDataSource: IFuelHistoryServerDataSource,
 	private val mappers: FuelHistoryMappersFacade
 ) : BaseRepository(), IFuelHistoryRepository {
 	
@@ -87,7 +87,7 @@ class FuelHistoryRepositoryImpl (
 						)
 					},
 					serverOperation = {
-						remoteDataSource.addFuelHistory(
+						serverDataSource.addFuelHistory(
 							user!!.email, history.vehicleVinCode, mappers.domainToDto(history)
 						).collect { emit(it) }
 					}

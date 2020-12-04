@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:01
+ * Last modified 04.12.2020 18:49
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,11 +18,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.databinding.BottomSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
@@ -95,7 +95,7 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, Bottom
 			}
 			
 			btnAdd.setDebounceOnClick {
-				if (checkAreInputCorrect()) mViewModel.checkAndAdd(MedriverApp.currentUser)
+				if (checkAreInputCorrect()) mViewModel.checkAndAdd(MainActivity.currentUser)
 			}
 			
 			btnCancel.setOnClickListener { dismiss() }

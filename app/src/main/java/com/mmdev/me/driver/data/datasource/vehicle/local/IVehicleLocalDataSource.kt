@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 16:20
+ * Last modified 04.12.2020 20:32
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@
 
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
-import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -20,27 +20,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
  * Wrapper for [com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao]
  */
 
-interface IVehicleLocalDataSource {
-	
-	/**
-	 * If writing to backend cannot be done at the moment - we will remember need id and write it
-	 * to cached operations table
-	 * Another time we will try to fetch all table entries to server again
-	 */
-	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
-	
-	/**
-	 * Retrieve all cached operations from database
-	 */
-	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
-	
-	/**
-	 * Delete cached operation
-	 * There could be two reasons to delete operation:
-	 * 1. Database entity was successfully written to server and we want to delete this from cached
-	 * 2. Such entry doesn't exist in database
-	 */
-	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
+interface IVehicleLocalDataSource: IBaseLocalDataSourceWithCaching {
 	
 	/**
 	 * Get expenses which related to vehicle specified by [vin]
@@ -69,6 +49,12 @@ interface IVehicleLocalDataSource {
 	 * it has been added from device
 	 */
 	suspend fun insertVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit>
+	
+	/**
+	 * Same as [insertVehicle], but implementation differs
+	 * Used only to download data and import it to database
+	 */
+	suspend fun importVehicles(import: List<VehicleEntity>): SimpleResult<Unit>
 	
 	/**
 	 * Delete only one vehicle

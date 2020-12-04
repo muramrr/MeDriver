@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 19:47
+ * Last modified 04.12.2020 21:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,8 @@ package com.mmdev.me.driver.data.repository.fuel.prices
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.core.base.BaseRepository
+import com.mmdev.me.driver.data.datasource.fuel.prices.api.IFuelPricesApiDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.IFuelPricesLocalDataSource
-import com.mmdev.me.driver.data.datasource.fuel.prices.remote.IFuelPricesRemoteDataSource
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -29,7 +29,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.Region
 
 class FuelPricesRepositoryImpl (
 	private val localDataSource: IFuelPricesLocalDataSource,
-	private val remoteDataSource: IFuelPricesRemoteDataSource,
+	private val apiDataSource: IFuelPricesApiDataSource,
 	private val mappers: FuelPriceMappersFacade
 ) : BaseRepository(), IFuelPricesRepository {
 	
@@ -59,7 +59,7 @@ class FuelPricesRepositoryImpl (
 	private suspend fun getFuelDataFromRemote(
 		date: String, region: Region
 	): SimpleResult<List<FuelStationWithPrices>> =
-		remoteDataSource.requestFuelPrices(date, region).fold(
+		apiDataSource.requestFuelPrices(date, region).fold(
 			success = { dto ->
 				//save to db
 				with(mappers.listApiDtosToDbEntities(dto, date, region)){

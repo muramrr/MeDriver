@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 24.11.2020 19:33
+ * Last modified 04.12.2020 18:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 package com.mmdev.me.driver.data.datasource.fuel.prices.local
 
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.data.core.base.BaseDataSource
+import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationAndPrices
@@ -34,7 +34,8 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 		
 	
 	override suspend fun addFuelStationsAndPrices(
-		fuelStationEntities: List<FuelStationEntity>, fuelPriceEntities: List<FuelPriceEntity>
+		fuelStationEntities: List<FuelStationEntity>,
+		fuelPriceEntities: List<FuelPriceEntity>
 	) = dao.insertFuelStationsAndPrices(fuelStationEntities, fuelPriceEntities).also {
 		fuelStationEntities.forEach { logDebug(TAG, "Adding Station: ${it.slug}") }
 		fuelPriceEntities.forEach {
@@ -46,8 +47,10 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 	
 	override suspend fun deleteAllFuelStations() = dao.deleteAllFuelStations()
 	
-	override suspend fun getFuelSummary(fuelType: FuelType, date: String):
-		SimpleResult<List<FuelSummaryEntity>> = safeCall(TAG) { dao.getFuelSummary(fuelType.code, date) }
+	override suspend fun getFuelSummary(
+		fuelType: FuelType,
+		date: String
+	): SimpleResult<List<FuelSummaryEntity>> = safeCall(TAG) { dao.getFuelSummary(fuelType.code, date) }
 		
 	
 	override suspend fun addFuelSummary(fuelSummaryEntity: FuelSummaryEntity) =

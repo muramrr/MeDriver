@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 14:54
+ * Last modified 04.12.2020 18:55
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,9 +16,9 @@ import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
-import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
+import com.mmdev.me.driver.data.datasource.vin.api.IVinApiDataSource
 import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
-import com.mmdev.me.driver.data.datasource.vin.remote.IVinRemoteDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -38,9 +38,9 @@ import kotlinx.coroutines.flow.flow
 
 class VehicleRepositoryImpl(
 	private val localDataSource: IVehicleLocalDataSource,
-	private val remoteDataSource: IVehicleRemoteDataSource,
+	private val serverDataSource: IVehicleServerDataSource,
 	private val localVinDecoder: IVinLocalDataSource, //todo
-	private val remoteVinDecoder: IVinRemoteDataSource,
+	private val remoteVinDecoder: IVinApiDataSource,
 	private val mappers: VehicleMappersFacade
 ): IVehicleRepository, BaseRepository() {
 	
@@ -50,7 +50,7 @@ class VehicleRepositoryImpl(
 	 * Invoked when user adds a new vehicle inside [VehicleFragment] by typing base information
 	 *
 	 * @return [ResultState.Failure] when failure occurred
-	 * basically when [ResultState] emits from [remoteDataSource] no matter what it would be
+	 * basically when [ResultState] emits from [serverDataSource] no matter what it would be
 	 * local data will be written without being obstructed
 	 */
 	override suspend fun addVehicle(
@@ -75,7 +75,7 @@ class VehicleRepositoryImpl(
 						)
 					},
 					serverOperation = {
-						remoteDataSource.addVehicle(
+						serverDataSource.addVehicle(
 							user!!.email, mappers.domainToDto(vehicle)
 						).collect { emit(it) }
 					}

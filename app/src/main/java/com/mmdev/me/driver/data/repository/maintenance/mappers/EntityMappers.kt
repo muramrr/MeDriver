@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 02.12.2020 16:52
+ * Last modified 04.12.2020 21:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,12 +10,12 @@
 
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
-import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
-import com.mmdev.me.driver.data.datasource.maintenance.remote.dto.VehicleSparePartDto
+import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildBy
+import kotlinx.datetime.LocalDateTime
 
 /**
  * In [VehicleSparePartEntity] -> Out: [VehicleSparePart], [VehicleSparePartDto]
@@ -25,7 +25,7 @@ object EntityMappers {
 	
 	fun toDomain(entity: VehicleSparePartEntity): VehicleSparePart =
 		VehicleSparePart(
-			date = convertToLocalDateTime(entity.date),
+			date = LocalDateTime.parse(entity.date),
 			dateAdded = entity.dateAdded,
 			articulus = entity.articulus,
 			vendor = entity.vendor,
@@ -40,7 +40,7 @@ object EntityMappers {
 	
 	fun toDto(entity: VehicleSparePartEntity): VehicleSparePartDto =
 		VehicleSparePartDto(
-			date = convertToLocalDateTime(entity.date).toString(),
+			date = entity.date,
 			dateAdded = entity.dateAdded,
 			articulus = entity.articulus,
 			vendor = entity.vendor,

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 20:09
+ * Last modified 04.12.2020 21:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,13 +10,10 @@
 
 package com.mmdev.me.driver.data.datasource.fuel.history.local
 
-import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.cache.CacheDao
-import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.core.base.BaseDataSource
+import com.mmdev.me.driver.data.core.base.datasource.caching.BaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
@@ -27,28 +24,11 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  */
 
 class FuelHistoryLocalDataSourceImpl(
-	private val dao: FuelHistoryDao,
-	private val cache: CacheDao
-): BaseDataSource(), IFuelHistoryLocalDataSource {
+	private val dao: FuelHistoryDao, cache: CacheDao
+): BaseLocalDataSourceWithCaching(cache), IFuelHistoryLocalDataSource {
 	
-	override suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.insertOperation(cachedOperation) }.also {
-			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operation:$cachedOperation")
-		}
-	
-	override suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit> =
-		safeCall(TAG) { cache.insertOperation(cachedOperations) }.also {
-			logWarn(TAG, "Some of the conditions are not allowing to write to backend, caching operations:$cachedOperations")
-		}
-	
-	override suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>> = safeCall(TAG) {
-		cache.getPendingOperations(MeDriverRoomDatabase.FUEL_HISTORY_TABLE)
-	}
-	
-	override suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit> =
-		safeCall(TAG) { cache.deleteOperation(cachedOperation) }.also {
-			logInfo(TAG, "Deleting operation: $cachedOperation")
-		}
+	override val table: String
+		get() = MeDriverRoomDatabase.FUEL_HISTORY_TABLE
 	
 	override suspend fun getFuelHistory(
 		vin: String, limit: Int, offset: Int
@@ -64,15 +44,16 @@ class FuelHistoryLocalDataSourceImpl(
 	
 	override suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {
-			logDebug(TAG, "Adding History entry: id = ${fuelHistoryEntity.date}, " +
-			              "date = ${convertToLocalDateTime(fuelHistoryEntity.date).date}")
+			logDebug(TAG, "Adding History entry: id = ${fuelHistoryEntity.dateAdded}, " +
+			              "date = ${fuelHistoryEntity.date}")
 		}
 	
 	override suspend fun importFuelHistory(import: List<FuelHistoryEntity>): SimpleResult<Unit> =
 		safeCall(TAG) { dao.importFuelHistory(import) }.also {
+			MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.dateAdded }!!.dateAdded
 			import.forEach {
-				logDebug(TAG, "Adding History entry: id = ${it.date}, " +
-					     "date = ${convertToLocalDateTime(it.date).date}")
+				logDebug(TAG, "Importing History entry: id = ${it.dateAdded}, " +
+					     "date = ${it.date}")
 			}
 		}
 	

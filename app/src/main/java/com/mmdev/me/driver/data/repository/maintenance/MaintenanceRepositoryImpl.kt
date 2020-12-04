@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 10.11.2020 18:12
+ * Last modified 04.12.2020 17:27
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,7 @@ import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
-import com.mmdev.me.driver.data.datasource.maintenance.remote.IMaintenanceRemoteDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.server.IMaintenanceServerDataSource
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.flow
 
 class MaintenanceRepositoryImpl(
 	private val localDataSource: IMaintenanceLocalDataSource,
-	private val remoteDataSource: IMaintenanceRemoteDataSource,
+	private val serverDataSource: IMaintenanceServerDataSource,
 	private val mappers: MaintenanceMappersFacade
 ): IMaintenanceRepository, BaseRepository() {
 	
@@ -84,7 +84,7 @@ class MaintenanceRepositoryImpl(
 						)
 					},
 					serverOperation = {
-						remoteDataSource.addMaintenanceHistoryItems(
+						serverDataSource.addMaintenanceHistoryItems(
 							user!!.email, items.first().vehicleVinCode, mappers.listDomainsToDto(items)
 						).collect { emit(it) }
 					}

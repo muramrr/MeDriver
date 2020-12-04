@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 02:19
+ * Last modified 04.12.2020 20:14
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.data.datasource.maintenance.local
 
 import com.mmdev.me.driver.data.cache.CachedOperation
+import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -18,33 +19,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
  * Wrapper for [com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao]
  */
 
-interface IMaintenanceLocalDataSource {
-	
-	/**
-	 * If writing to backend cannot be done at the moment - we will remember need id and write it
-	 * to cached operations table
-	 * Another time we will try to fetch all table entries to server again
-	 */
-	suspend fun cachePendingWriteToBackend(cachedOperation: CachedOperation): SimpleResult<Unit>
-	
-	/**
-	 * Same as [cachePendingWriteToBackend] but uses list as a parameter
-	 */
-	suspend fun cachePendingWriteToBackend(cachedOperations: List<CachedOperation>): SimpleResult<Unit>
-	
-	/**
-	 * Retrieve all cached operations from database
-	 */
-	suspend fun getCachedOperations(): SimpleResult<List<CachedOperation>>
-	
-	/**
-	 * Delete cached operation
-	 * There could be two reasons to delete operation:
-	 * 1. Database entity was successfully written to server and we want to delete this from cached
-	 * 2. Such entry doesn't exist in database
-	 */
-	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
-	
+interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	
 	/**
 	 * Used when user is adding a new component replacement and if such component has already been
@@ -99,6 +74,14 @@ interface IMaintenanceLocalDataSource {
 	 */
 	suspend fun insertReplacedSpareParts(
 		replacedSpareParts: List<VehicleSparePartEntity>
+	): SimpleResult<Unit>
+	
+	/**
+	 * Same as [insertReplacedSpareParts]
+	 * Used only while downloading new data, implementation differs from [insertReplacedSpareParts]
+	 */
+	suspend fun importReplacedSpareParts(
+		import: List<VehicleSparePartEntity>
 	): SimpleResult<Unit>
 	
 	/**

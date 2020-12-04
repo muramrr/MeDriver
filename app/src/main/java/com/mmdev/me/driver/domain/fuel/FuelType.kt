@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 25.11.2020 01:02
+ * Last modified 04.12.2020 17:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ package com.mmdev.me.driver.domain.fuel
 
 
 /**
- * Used to define map: which [com.mmdev.me.driver.data.datasource.fuel.prices.remote.dto.FuelPricesDto]
+ * Used to define map: which [com.mmdev.me.driver.data.datasource.fuel.prices.api.dto.FuelPricesDto]
  * corresponds to a given [FuelType]
  */
 

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 12.11.2020 19:17
+ * Last modified 04.12.2020 18:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ package com.mmdev.me.driver.data.sync.upload.vehicle
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
-import com.mmdev.me.driver.data.datasource.vehicle.remote.IVehicleRemoteDataSource
+import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import kotlinx.coroutines.flow.asFlow
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flow
 
 class VehicleUploader(
 	private val local: IVehicleLocalDataSource,
-	private val server: IVehicleRemoteDataSource,
+	private val server: IVehicleServerDataSource,
 	private val mappers: VehicleMappersFacade
 ): IVehicleUploader {
 	

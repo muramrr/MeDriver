@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 20:33
+ * Last modified 05.12.2020 13:44
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@
 
 package com.mmdev.me.driver.core.di
 
+import com.mmdev.me.driver.data.sync.download.DataDownloader
+import com.mmdev.me.driver.data.sync.download.IDataDownloader
 import com.mmdev.me.driver.data.sync.download.fuel.FuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -36,6 +38,7 @@ val SyncModule = module {
 	factory<IFuelHistoryDownloader> { FuelHistoryDownloader(local = get(), server = get(), mappers = get()) }
 	factory<IMaintenanceDownloader> { MaintenanceDownloader(local = get(), server = get(), mappers = get()) }
 	factory<IVehicleDownloader> { VehicleDownloader(local = get(), server = get(), mappers = get()) }
+	factory<IDataDownloader> { DataDownloader(get(), get(), get(), get()) }
 	
 	factory<IFuelHistoryUploader> { FuelHistoryUploader(local = get(), server = get(), mappers = get()) }
 	factory<IMaintenanceUploader> { MaintenanceUploader(local = get(), server = get(), mappers = get()) }

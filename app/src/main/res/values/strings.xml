@@ -1,7 +1,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.12.2020 17:36
+  ~ Last modified 05.12.2020 14:48
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -344,9 +344,9 @@
 	<string name="fg_vehicle_card_expenses_type_maintenance">Maintenance:</string>
 	<string name="fg_vehicle_card_expenses_type_fuel">Fuel:</string>
 	<string name="fg_vehicle_card_expenses_subtitle">Change expenses type</string>
-	<string name="fg_vehicle_card_expenses_radio_total">General expenses</string>
-	<string name="fg_vehicle_card_expenses_radio_maintenance">Maintenance expenses</string>
-	<string name="fg_vehicle_card_expenses_radio_fuel">Fuel expenses</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Total</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Maintenance</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Fuel</string>
 	
 	<string name="fg_vehicle_copy_vin">VIN copied: %s</string>
 	
@@ -510,7 +510,11 @@
 	<string name="fg_settings_btn_get_subscription_not_active">Unlock new features!</string>
 	<string name="fg_settings_btn_get_subscription_active">Premium Activated!</string>
 	
-	<string name="fg_settings_switcher_sync">Sync enabled</string>
+	<string name="fg_settings_sync_title">Synchronization</string>
+	<string name="fg_settings_sync_subtitle_never">Never</string>
+	<string name="fg_settings_sync_subtitle_just_now">Just now</string>
+	<string name="fg_settings_sync_subtitle_formatter">Last sync: %s</string>
+	
 	<string name="fg_settings_switcher_dark_theme_title">Dark theme</string>
 	<string name="fg_settings_switcher_dark_theme_subtitle">Enable dark theme</string>
 	<string name="fg_settings_switcher_metric_system">Metric system</string>

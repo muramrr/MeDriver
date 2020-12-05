@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 21.11.2020 18:09
+ * Last modified 05.12.2020 14:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,13 +33,13 @@ fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
  * Show a SnackBar with [messageRes] resource
  */
 fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, messageRes, length).show()
+	Snackbar.make(this, messageRes, length).setAnchorView(this).show()
 
 /**
  * Show a SnackBar with [message] string
  */
 fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, message, length).show()
+	Snackbar.make(this, message, length).setAnchorView(this).show()
 
 
 /**

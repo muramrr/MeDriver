@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.12.2020 18:43
+  ~ Last modified 05.12.2020 14:34
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -209,7 +209,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
 				
-				android:text="@string/fg_settings_switcher_sync"
+				android:text="@string/fg_settings_sync_title"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"

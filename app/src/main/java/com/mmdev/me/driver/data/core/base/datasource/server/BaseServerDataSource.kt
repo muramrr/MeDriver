@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:09
+ * Last modified 05.12.2020 14:13
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ abstract class BaseServerDataSource(
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_USER_ACTIONS_JOURNAL)
-			.document(serverOperation.dateAdded.toString())
+			.document("${serverOperation.type}_${serverOperation.dateAdded}")
 			.setAsFlow(serverOperation)
 	
 }

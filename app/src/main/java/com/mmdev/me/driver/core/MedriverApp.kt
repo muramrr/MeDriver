@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 21:05
+ * Last modified 05.12.2020 14:48
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -75,6 +75,7 @@ class MedriverApp: Application() {
 		private const val LANGUAGE_KEY = "language"
 		private const val PRICES_REGION_KEY = "prices_region"
 		private const val LAST_OPERATION_KEY = "last_operation"
+		private const val LAST_SYNCED_KEY = "last_synced"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
 		//todo delete
@@ -132,13 +133,21 @@ class MedriverApp: Application() {
 				}
 			}
 		
-		@Volatile
 		var lastOperationSyncedId: Long = 0
-			@Synchronized set (value) {
+			set (value) {
 				if (value > field) {
 					field = value
 					prefs.push(LAST_OPERATION_KEY, value)
 					logDebug(TAG, "Last operation synced: $value")
+				}
+			}
+		
+		var lastSyncedDate: Long = 0
+			set (value) {
+				if (value > field) {
+					field = value
+					prefs.push(LAST_SYNCED_KEY, value)
+					logDebug(TAG, "Last date synced: $value")
 				}
 			}
 		
@@ -212,10 +221,11 @@ class MedriverApp: Application() {
 		
 		super.onCreate()
 		logInfo(TAG, "loaded theme mode - $themeMode")
-		logInfo(TAG, "loaded metric system - ${metricSystem.name}")
-		logInfo(TAG, "loaded language - ${appLanguage.name}")
+		logInfo(TAG, "loaded metric system - $metricSystem")
+		logInfo(TAG, "loaded language - $appLanguage")
 		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
 		logInfo(TAG, "last operation id - $lastOperationSyncedId")
+		logInfo(TAG, "last synced date - $lastSyncedDate")
 		
 		initNotificationWorker()
 	}
@@ -235,8 +245,11 @@ class MedriverApp: Application() {
 		/** if not exists - apply [KYIV] region as default */
 		pricesRegion = loadInitialPropertyOrPushDefault(key = PRICES_REGION_KEY, default = KYIV)
 		
-		/** if not exists - apply empty string as default */
+		/** if not exists - apply 0 id as default */
 		lastOperationSyncedId = loadInitialPropertyOrPushDefault(key = LAST_OPERATION_KEY, default = 0)
+		
+		/** if not exists - apply 0 as default */
+		lastSyncedDate = loadInitialPropertyOrPushDefault(key = LAST_SYNCED_KEY, default = 0)
 		
 		/** if not exists - apply empty string as default */
 		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")

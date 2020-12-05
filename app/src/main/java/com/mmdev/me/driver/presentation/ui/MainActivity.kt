@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:44
+ * Last modified 05.12.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ import androidx.navigation.findNavController
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo.State.SUCCEEDED
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
@@ -27,7 +28,9 @@ import com.android.billingclient.api.BillingFlowParams
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.UploadWorker
+import com.mmdev.me.driver.core.sync.download.DownloadWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
@@ -44,7 +47,6 @@ class MainActivity: AppCompatActivity() {
 		@Volatile
 		var currentUser: UserDataInfo? = null
 		
-		@Volatile
 		var currentVehicle: Vehicle? = null
 			set(value) {
 				field = value
@@ -147,7 +149,7 @@ class MainActivity: AppCompatActivity() {
 	
 	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
-	private fun startUploadingWorker(user: UserDataInfo) {
+	private fun startUploadWorker(user: UserDataInfo) {
 		if (user.isSubscriptionValid() && !SharedViewModel.uploadWorkerExecuted) {
 			val constraints = Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
@@ -167,13 +169,44 @@ class MainActivity: AppCompatActivity() {
 		
 	}
 	
+	private fun startDownloadWorker(user: UserDataInfo) {
+		if (user.isSubscriptionValid()) {
+			val constraints = Constraints.Builder()
+				.setRequiredNetworkType(NetworkType.CONNECTED)
+				.build()
+			
+			val downloadWorkRequest: WorkRequest =
+				OneTimeWorkRequestBuilder<DownloadWorker>()
+					.setConstraints(constraints)
+					.setInputData(workDataOf(USER_KEY to user.email))
+					.build()
+			
+			
+			WorkManager
+				.getInstance(applicationContext)
+				.enqueue(downloadWorkRequest)
+			
+			WorkManager
+				.getInstance(applicationContext)
+				.getWorkInfoByIdLiveData(downloadWorkRequest.id)
+				.observe(this, {
+					if (it.state == SUCCEEDED) MedriverApp.lastSyncedDate = currentEpochTime()
+				})
+		}
+		
+	}
+	
+	
 	private fun setupNetworkListener() {
 		ConnectionManager(this, this) { isConnected ->
 			if (MedriverApp.isNetworkAvailable != isConnected) {
 				MedriverApp.isNetworkAvailable = isConnected
 				//only on available network start uploading worker
 				if (MedriverApp.isNetworkAvailable) {
-					currentUser?.let { startUploadingWorker(it) }
+					currentUser?.let {
+						startDownloadWorker(it)
+						startUploadWorker(it)
+					}
 				}
 				
 				logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
@@ -185,7 +218,8 @@ class MainActivity: AppCompatActivity() {
 		sharedViewModel.userDataInfo.observe(this, {
 			if (it != null) {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
-				startUploadingWorker(it)
+				startDownloadWorker(it)
+				startUploadWorker(it)
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 00:04
+ * Last modified 05.12.2020 14:05
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,5 +15,5 @@ package com.mmdev.me.driver.data.core.firebase
  */
 
 enum class ServerOperationType {
-	VEHICLE, FUEL_HISTORY, MAINTENANCE
+	VEHICLE, FUEL_HISTORY, MAINTENANCE, UNKNOWN
 }

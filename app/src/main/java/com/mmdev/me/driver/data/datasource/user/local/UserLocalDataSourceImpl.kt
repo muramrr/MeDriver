@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 20:36
+ * Last modified 05.12.2020 13:56
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ package com.mmdev.me.driver.data.datasource.user.local
 
 import com.cioccarellia.ksprefs.KsPrefs
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
 import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.sync.download.DataDownloader
@@ -55,15 +55,20 @@ class UserLocalDataSourceImpl(
 			getUser().collect { savedUser ->
 				if (savedUser != null) {
 					
-					if (savedUser.email != userEntity.email){
+					if (savedUser.email != userEntity.email) {
 						logWarn(TAG, "Email differs")
 						//todo: find a better place to download data when user signs in
 						dataDownloader.deleteAll()
+						dataDownloader.importData(userEntity.email).collect {
+							logInfo(TAG, "Downloading data result = $it")
+						}
+					}
+				} else {
+					dataDownloader.importData(userEntity.email).collect {
+						logInfo(TAG, "Downloading data result = $it")
 					}
 				}
-				dataDownloader.downloadData(userEntity.email).collect {
-					logWtf(TAG, "Downloading data result = $it")
-				}
+				
 				
 				val stringifyEntity = Json.encodeToString(UserEntity.serializer(), userEntity)
 				

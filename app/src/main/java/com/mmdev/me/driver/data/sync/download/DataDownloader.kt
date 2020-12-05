@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 20:32
+ * Last modified 05.12.2020 14:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ package com.mmdev.me.driver.data.sync.download
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.core.firebase.ServerOperationType.*
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * Boundary class for downloading vehicle, maintenance and fuel history entries from server
@@ -36,7 +38,7 @@ class DataDownloader(
 	private val maintenance: IMaintenanceDownloader,
 	private val fuelHistory: IFuelHistoryDownloader,
 	private val journal: IJournalDownloader
-) {
+): IDataDownloader {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
@@ -47,13 +49,13 @@ class DataDownloader(
 		MainActivity.currentVehicle = null
 	}
 	
-	suspend fun downloadData(email: String) = flow {
+	override suspend fun importData(email: String) = flow {
 		vehicles.download(email).collect { result ->
 			result.fold(
 				success = { vinList ->
 					vinList.asFlow().flatMapMerge { vin ->
 						logDebug(TAG, "Downloading all info affiliated with vehicle $vin")
-						downloadCombination(email, vin)
+						importCombination(email, vin)
 					}.collect { emit(it) }
 				},
 				failure = {
@@ -64,39 +66,52 @@ class DataDownloader(
 		}
 	}
 	
-	private suspend fun downloadCombination(email: String, vin: String) =
+	private suspend fun importCombination(email: String, vin: String) =
 		fuelHistory.download(email, vin)
 			.combine(maintenance.download(email, vin)) { fuelResult, maintenanceResult ->
 			logDebug(TAG, "Running combination of downloading both fuel and maintenance history...")
 			combineResultStates(fuelResult, maintenanceResult)
 		}
 	
-	suspend fun retrievePendingDownloads(email: String) = flow {
+	override suspend fun fetchNewFromServer(email: String) = flow {
 		journal.getOperations(email, MedriverApp.lastOperationSyncedId).collect { result ->
+			logDebug(TAG, "Getting server journal...")
 			result.fold(
 				success = { serverJournal ->
 					if (serverJournal.isNotEmpty()) {
-						serverJournal.forEach { operation ->
+						logInfo(TAG, "Retrieved server operations journal is not empty, pending downloads exists, executing...")
+						serverJournal.asFlow().flatMapMerge(serverJournal.size) { operation ->
 							when (operation.type) {
 								MAINTENANCE -> {
 									maintenance.downloadSingle(
 										email,
 										operation.vin,
 										operation.documentId
-									).collect { emit(it) }
+									)
 								}
 								FUEL_HISTORY -> fuelHistory.downloadSingle(
 									email,
 									operation.vin,
 									operation.documentId
-								).collect { emit(it) }
+								)
 								//todo: download only last operation related to vehicle
 								VEHICLE -> vehicles.downloadSingle(
 									email, operation.vin
-								).collect { emit(it) }
+								)
+								else -> {
+									flowOf(
+										ResultState.failure(
+											Exception("Unsupported server operation type")
+										)
+									)
+								}
 							}
 							
-						}
+						}.collect { emit(it) }
+					}
+					else {
+						logDebug(TAG, "Server journal is empty...")
+						emit(ResultState.success(Unit))
 					}
 				},
 				failure = {

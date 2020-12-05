@@ -2,7 +2,7 @@
 <!--
   ~ Created by Andrii Kovalchuk
   ~ Copyright (c) 2020. All rights reserved.
-  ~ Last modified 03.12.2020 17:37
+  ~ Last modified 05.12.2020 14:48
   ~
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -309,7 +309,7 @@
 	<string name="fg_vehicle_card_expenses_type_maintenance">ТО:</string>
 	<string name="fg_vehicle_card_expenses_type_fuel">Пальне:</string>
 	<string name="fg_vehicle_card_expenses_subtitle">Змінити тип витрат</string>
-	<string name="fg_vehicle_card_expenses_radio_total">Загальні витрати</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Загальні</string>
 	<string name="fg_vehicle_card_expenses_radio_maintenance">Витрати на ТО</string>
 	<string name="fg_vehicle_card_expenses_radio_fuel">Витрати на пальне</string>
 	
@@ -475,7 +475,11 @@
 	<string name="fg_settings_btn_get_subscription_not_active">Отримати більше функцій!</string>
 	<string name="fg_settings_btn_get_subscription_active">Преміум активовано!</string>
 	
-	<string name="fg_settings_switcher_sync">Синхронізація</string>
+	<string name="fg_settings_sync_title">Синхронізація</string>
+	<string name="fg_settings_sync_subtitle_never">Ніколи</string>
+	<string name="fg_settings_sync_subtitle_just_now">Щойно</string>
+	<string name="fg_settings_sync_subtitle_formatter">Останній раз: %s</string>
+	
 	<string name="fg_settings_switcher_dark_theme_title">Темна тема</string>
 	<string name="fg_settings_switcher_dark_theme_subtitle">Увімкнути темну тему</string>
 	<string name="fg_settings_switcher_metric_system">Метрична система</string>

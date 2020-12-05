@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 03.12.2020 20:29
+ * Last modified 05.12.2020 14:52
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@
 package com.mmdev.me.driver.presentation.ui.settings
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,9 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
 import com.mmdev.me.driver.core.utils.MetricSystem.*
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
@@ -30,6 +34,7 @@ import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
 import com.mmdev.me.driver.presentation.ui.subscription.SubscriptionBottomSheet
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
@@ -56,9 +61,36 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private var languagesArray = emptyArray<String>()
 	private var getPremium = ""
 	private var premiumObtained = ""
+	private var syncedNever = ""
+	private var syncedJustNow = ""
+	private var syncedFormatter = ""
 	
 	private lateinit var languagesMap: Map<Language, String>
-
+	
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		mViewModel.viewState.observe(this, {
+			renderState(it)
+		})
+	}
+	
+	override fun renderState(state: ViewState) {
+		when (state) {
+			
+			is SettingsViewState.Success.SendVerification -> {
+				binding.settingsContainer.showSnack(emailSent)
+			}
+			
+			is SettingsViewState.Error.SendVerification -> {
+				binding.settingsContainer.showSnack(
+					state.errorMsg ?: emailNotSent,
+					Snackbar.LENGTH_LONG
+				)
+			}
+			
+		}
+	}
+	
 	override fun setupViews() {
 		initStringRes()
 		
@@ -68,7 +100,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		initLanguageChooser()
 		
 		observeSignedInUser()
-		observeSendVerificationStatus()
 		
 		
 		
@@ -101,29 +132,12 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
 		getPremium = getString(R.string.fg_settings_btn_get_subscription_not_active)
 		premiumObtained = getString(R.string.fg_settings_btn_get_subscription_active)
+		syncedNever = getString(R.string.fg_settings_sync_subtitle_never)
+		syncedJustNow = getString(R.string.fg_settings_sync_subtitle_just_now)
+		syncedFormatter = getString(R.string.fg_settings_sync_subtitle_formatter)
 		languagesArray = resources.getStringArray(R.array.languages)
 		languagesMap = Language.values().zip(languagesArray).toMap()
 		
-	}
-	
-	override fun renderState(state: ViewState) {
-		when (state) {
-			
-			is SettingsViewState.Success.SendVerification -> {
-				binding.root.showSnack(emailSent)
-			}
-			
-			is SettingsViewState.Error.SendVerification -> {
-				binding.root.showSnack(state.errorMsg ?: emailNotSent, Snackbar.LENGTH_LONG)
-			}
-			
-		}
-	}
-	
-	private fun observeSendVerificationStatus() {
-		mViewModel.viewState.observe(this, {
-			renderState(it)
-		})
 	}
 	
 	private fun observeSignedInUser() {
@@ -211,9 +225,15 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		}
 	}
 	
-	//todo
-	private fun initLastTimeSynced() {
 	
+	private fun initLastTimeSynced() {
+		binding.tvSyncSubtitle.text = with(MedriverApp.lastSyncedDate) {
+			when {
+				this <= 0L -> syncedNever
+				(currentEpochTime() - this) < DateHelper.HOUR_DURATION -> syncedJustNow
+				else -> syncedFormatter.format(convertToLocalDateTime(this).date.humanDate())
+			}
+		}
 	}
 	
 	private fun initThemeSwitcher() {

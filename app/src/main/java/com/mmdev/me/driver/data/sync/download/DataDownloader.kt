@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.12.2020 14:06
+ * Last modified 06.12.2020 19:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,8 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.data.core.firebase.ServerOperation
 import com.mmdev.me.driver.data.core.firebase.ServerOperationType.*
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -80,34 +82,7 @@ class DataDownloader(
 				success = { serverJournal ->
 					if (serverJournal.isNotEmpty()) {
 						logInfo(TAG, "Retrieved server operations journal is not empty, pending downloads exists, executing...")
-						serverJournal.asFlow().flatMapMerge(serverJournal.size) { operation ->
-							when (operation.type) {
-								MAINTENANCE -> {
-									maintenance.downloadSingle(
-										email,
-										operation.vin,
-										operation.documentId
-									)
-								}
-								FUEL_HISTORY -> fuelHistory.downloadSingle(
-									email,
-									operation.vin,
-									operation.documentId
-								)
-								//todo: download only last operation related to vehicle
-								VEHICLE -> vehicles.downloadSingle(
-									email, operation.vin
-								)
-								else -> {
-									flowOf(
-										ResultState.failure(
-											Exception("Unsupported server operation type")
-										)
-									)
-								}
-							}
-							
-						}.collect { emit(it) }
+						downloadNewFromServer(serverJournal, email).collect { emit(it) }
 					}
 					else {
 						logDebug(TAG, "Server journal is empty...")
@@ -120,6 +95,65 @@ class DataDownloader(
 			)
 			
 		}
+	}
+	
+	override suspend fun downloadNewFromServer(operations: List<ServerOperation>, email: String) = flow {
+		// map<ServerOperationType, List<ServerOperation>
+		val groupedOperations = operations.groupBy { it.type }
+		
+		logWtf(TAG, "Grouped: $groupedOperations")
+		
+		/**
+		 *  list of last vehicle updates, linked to each vehicle separately
+		 *  eg: server journal contains a list of vehicle update operations, but we want to get only
+		 *  last one update to being retrieved and inserted, here comes a problem that a journal may
+		 *  contains a list of operations for different vehicles, and for each vehicle need to
+		 *  retrieve only the last update operation
+		 *
+		 *  result will contain map "VIN" to {list of one operation, only last one}
+		 *  we need only values from that result
+		 */
+		val vehiclesOperations = groupedOperations[VEHICLE]
+			?.groupBy { vehicleOperation -> vehicleOperation.vin } //group by vin
+			?.mapValues { entry -> entry.value.maxByOrNull { it.dateAdded }!! } //filter each group
+			?.values ?: emptyList() //if no vehicle operations at all - return emptyList
+		
+		logWtf(TAG, "Vehicles Grouped and filtered: $vehiclesOperations")
+		
+		val filteredOperations = listOf(
+			vehiclesOperations,
+			groupedOperations.getOrDefault(MAINTENANCE, emptyList()),
+			groupedOperations.getOrDefault(FUEL_HISTORY, emptyList())
+		).flatten()
+			
+		// not null find the lastest updating date value of vehicle
+		
+		filteredOperations.asFlow().flatMapMerge(filteredOperations.size) { operation ->
+			when (operation.type) {
+				MAINTENANCE ->  maintenance.downloadSingle(
+					email,
+					operation.vin,
+					operation.documentId
+				)
+				FUEL_HISTORY -> fuelHistory.downloadSingle(
+					email,
+					operation.vin,
+					operation.documentId
+				)
+				VEHICLE -> vehicles.downloadSingle(
+					email,
+					operation.vin
+				)
+				else -> {
+					flowOf(
+						ResultState.failure(
+							Exception("Unsupported server operation type")
+						)
+					)
+				}
+			}
+			
+		}.collect { emit(it) }
 	}
 	
 }

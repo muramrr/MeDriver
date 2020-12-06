@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:49
+ * Last modified 06.12.2020 19:06
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -96,6 +96,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		}
 	}
 	
+	//todo: random bug
 	fun buildConsumables(replacements: Map<SparePart, PendingReplacement?>?): List<ConsumablePartUi> =
 		replacements?.map {
 			ConsumablePartUi(

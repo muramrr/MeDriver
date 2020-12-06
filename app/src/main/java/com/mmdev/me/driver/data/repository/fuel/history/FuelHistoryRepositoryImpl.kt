@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 17:27
+ * Last modified 05.12.2020 18:40
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ package com.mmdev.me.driver.data.repository.fuel.history
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource

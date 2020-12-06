@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:55
+ * Last modified 06.12.2020 16:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@
 package com.mmdev.me.driver.data.repository.vehicle
 
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
@@ -42,7 +42,7 @@ class VehicleRepositoryImpl(
 	private val localVinDecoder: IVinLocalDataSource, //todo
 	private val remoteVinDecoder: IVinApiDataSource,
 	private val mappers: VehicleMappersFacade
-): IVehicleRepository, BaseRepository() {
+): BaseRepository(), IVehicleRepository {
 	
 	
 	/**
@@ -107,6 +107,15 @@ class VehicleRepositoryImpl(
 				else ResultState.failure(Exception("Empty cache"))
 			},
 			failure = { ResultState.failure(it) }
+		)
+	
+	override suspend fun getSavedVehicle(vin: String): Vehicle? =
+		localDataSource.getVehicle(vin).fold(
+			success = { entity -> mappers.entityToDomain(entity) },
+			failure = { throwable ->
+				logError(TAG, "${throwable.message}")
+				null
+			}
 		)
 	
 	

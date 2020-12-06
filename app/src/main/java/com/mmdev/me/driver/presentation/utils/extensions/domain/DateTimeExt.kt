@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 08.10.2020 19:31
+ * Last modified 06.12.2020 15:03
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,4 +23,6 @@ fun Int.dateMonthText(): String = DateHelper.getMonthText(this, Locale.getDefaul
 
 // date in format "01.01.1970"
 fun LocalDate.humanDate(): String =
-	"$dayOfMonth." + (if (monthNumber < 10) "0$monthNumber" else "$monthNumber") + ".$year"
+	(if (dayOfMonth < 10) "0$dayOfMonth." else "$dayOfMonth.") +
+	(if (monthNumber < 10) "0$monthNumber." else "$monthNumber.") +
+	"$year"

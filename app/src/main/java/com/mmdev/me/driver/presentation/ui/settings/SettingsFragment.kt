@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 05.12.2020 14:52
+ * Last modified 06.12.2020 15:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -230,7 +230,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		binding.tvSyncSubtitle.text = with(MedriverApp.lastSyncedDate) {
 			when {
 				this <= 0L -> syncedNever
-				(currentEpochTime() - this) < DateHelper.HOUR_DURATION -> syncedJustNow
+				(currentEpochTime() - this) > DateHelper.HOUR_DURATION -> syncedJustNow
 				else -> syncedFormatter.format(convertToLocalDateTime(this).date.humanDate())
 			}
 		}

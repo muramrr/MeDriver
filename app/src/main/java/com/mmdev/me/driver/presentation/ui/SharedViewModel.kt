@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:47
+ * Last modified 06.12.2020 19:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,14 +41,16 @@ class SharedViewModel(
 		var uploadWorkerExecuted = false
 	}
 	
+	val userDataInfo = MutableLiveData<UserDataInfo?>(null)
 	
-	val userDataInfo: MutableLiveData<UserDataInfo?> = MutableLiveData(null)
-	
-	val currentVehicle: MutableLiveData<Vehicle?> = MutableLiveData()
+	val currentVehicle = MutableLiveData<Vehicle?>()
 	init {
 		getSavedVehicle(MedriverApp.currentVehicleVinCode)
 		viewModelScope.launch {
-			authProvider.getAuthUserFlow().collect { userDataInfo.value = it }
+			authProvider.getAuthUserFlow().collect {
+				userDataInfo.value = it
+				if (it != null && it.isPro()) fetcher.listenForUpdates(it.email)
+			}
 		}
 	}
 	

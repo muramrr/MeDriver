@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 17:27
+ * Last modified 06.12.2020 19:00
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,78 +10,39 @@
 
 package com.mmdev.me.driver.data.repository.fetching
 
-import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logError
-import com.mmdev.me.driver.data.cache.CachedOperation
-import com.mmdev.me.driver.data.cache.addToBackend
 import com.mmdev.me.driver.data.core.base.BaseRepository
-import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
-import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
-import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
-import com.mmdev.me.driver.domain.core.ResultState
+import com.mmdev.me.driver.data.datasource.fetching.FetchingDataSource
+import com.mmdev.me.driver.data.sync.download.IDataDownloader
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.UserDataInfo
+import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 
 /**
  * [IFetchingRepository] implementation
  */
 
 class FetchingRepositoryImpl(
-	private val vehicleLocalDS: IVehicleLocalDataSource,
-	private val vehicleServerDS: IVehicleServerDataSource,
-	private val mappers: VehicleMappersFacade
-): IFetchingRepository, BaseRepository() {
+	private val fetchingDataSource: FetchingDataSource,
+	private val vehicleRepository: IVehicleRepository,
+	private val downloader: IDataDownloader
+): BaseRepository(), IFetchingRepository {
 	
 	//called only on app startup
-	override suspend fun getSavedVehicle(vin: String): Vehicle? = 
-		vehicleLocalDS.getVehicle(vin).fold(
-			success = { entity -> mappers.entityToDomain(entity) },
-			failure = { throwable ->
-				logError(TAG, "${throwable.message}")
-				null
-			}
-		)
+	override suspend fun getSavedVehicle(vin: String): Vehicle? = vehicleRepository.getSavedVehicle(vin)
 	
 	
 	override suspend fun updateVehicle(
 		user: UserDataInfo?, vehicle: Vehicle
-	): Flow<SimpleResult<Unit>> = flow {
-		val entity = mappers.domainToEntity(vehicle)
-		vehicleLocalDS.insertVehicle(entity).fold(
-			success = {
-				//check if user is premium && is sync enabled && network is accessible
-				addToBackend(
-					user,
-					MedriverApp.isInternetWorking(),
-					cacheOperation = { reason ->
-						emit(
-							vehicleLocalDS.cachePendingWriteToBackend(
-								CachedOperation(
-									MeDriverRoomDatabase.VEHICLES_TABLE,
-									entity.vin,
-									reason.name
-								)
-							)
-						)
-					},
-					serverOperation = {
-						vehicleServerDS.addVehicle(
-							user!!.email,
-							mappers.domainToDto(vehicle)
-						).collect { emit(it) }
-					}
-				)
-			},
-			failure = { throwable -> emit(ResultState.failure(throwable)) }
-		)
-	}
+	): Flow<SimpleResult<Unit>> = vehicleRepository.addVehicle(user, vehicle)
 	
+	override suspend fun listenForUpdates(email: String) =
+		fetchingDataSource.flow(email).collect {
+			downloader.downloadNewFromServer(it, email)
+		}
 	
 	
 }

@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 18:25
+ * Last modified 06.12.2020 19:02
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,9 +41,9 @@ val RepositoryModule = module {
 	
 	factory<IFetchingRepository> {
 		FetchingRepositoryImpl(
-			vehicleLocalDS = get(),
-			vehicleServerDS = get(),
-			mappers = get()
+			fetchingDataSource = get(),
+			vehicleRepository = get(),
+			downloader = get()
 		)
 	}
 	

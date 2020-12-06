@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 17:27
+ * Last modified 06.12.2020 15:25
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@
 
 package com.mmdev.me.driver.core.di
 
+import com.mmdev.me.driver.data.datasource.fetching.FetchingDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.server.FuelHistoryServerDataSourceImpl
 import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.api.FuelPricesApiDataSourceImpl
@@ -39,7 +40,7 @@ val DataSourceRemoteModule = module {
 	factory<IUserRemoteDataSource> { UserRemoteDataSourceImpl(fs = get()) }
 	factory<IFirebaseAuthDataSource> { FirebaseAuthDataSourceImpl(auth = get()) }
 	
-	
+	factory { FetchingDataSource(fs = get()) }
 	
 	
 	factory<IMaintenanceServerDataSource> { MaintenanceServerDataSourceImpl(fs = get()) }

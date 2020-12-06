@@ -1,7 +1,7 @@
 /*
  * Created by Andrii Kovalchuk
  * Copyright (c) 2020. All rights reserved.
- * Last modified 22.11.2020 14:52
+ * Last modified 06.12.2020 16:30
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,6 +31,8 @@ interface IVehicleRepository {
 	suspend fun getPendingReplacements(vehicle: Vehicle): SimpleResult<Map<SparePart, PendingReplacement?>>
 	
 	suspend fun getAllSavedVehicles(): SimpleResult<List<Vehicle>>
+	suspend fun getSavedVehicle(vin: String) : Vehicle?
 	
 	suspend fun getVehicleInfoByVin(vin: String) : SimpleResult<Vehicle>
+	
 }

@@ -1,11 +1,19 @@
 /*
  * Created by Andrii Kovalchuk
- * Copyright (c) 2020. All rights reserved.
- * Last modified 29.11.2020 02:23
+ * Copyright (C) 2020. medriver
  *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
 package com.mmdev.me.driver.presentation.ui.maintenance
@@ -18,12 +26,7 @@ import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Error
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Filter
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Init
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.LoadNext
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.LoadPrevious
-import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.Loading
+import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

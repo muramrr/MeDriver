@@ -59,7 +59,10 @@ class VehicleLocalDataSourceImpl(
 	
 	override suspend fun importVehicles(import: List<VehicleEntity>): SimpleResult<Unit> =
 		safeCall(TAG) { dao.importVehicles(import) }.also {
-			MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.lastUpdatedDate }!!.lastUpdatedDate
+			// if list is not empty -> update lastOperationSynced
+			import.maxByOrNull { it.lastUpdatedDate }?.lastUpdatedDate?.let {
+				MedriverApp.lastOperationSyncedId = it
+			}
 			import.forEach {
 				logDebug(TAG,
 				         "Importing Vehicle: vin = ${it.vin}, " +

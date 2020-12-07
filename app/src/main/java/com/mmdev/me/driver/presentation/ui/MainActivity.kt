@@ -96,13 +96,13 @@ class MainActivity: AppCompatActivity() {
 		_binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		
+		setupNetworkListener()
+		
 		setupBottomNavigation()
 		
 		observeVehicle()
 		observeUserData()
 		
-		
-		setupNetworkListener()
 		
 //		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
 //			logInfo(TAG, "sku = $it")
@@ -211,6 +211,7 @@ class MainActivity: AppCompatActivity() {
 				MedriverApp.isNetworkAvailable = isConnected
 				//only on available network start uploading worker
 				if (MedriverApp.isNetworkAvailable) {
+					//if network available again
 					currentUser?.let {
 						startDownloadWorker(it)
 						startUploadWorker(it)

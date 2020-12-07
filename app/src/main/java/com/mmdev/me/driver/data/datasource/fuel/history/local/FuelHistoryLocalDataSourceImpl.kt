@@ -58,7 +58,10 @@ class FuelHistoryLocalDataSourceImpl(
 	
 	override suspend fun importFuelHistory(import: List<FuelHistoryEntity>): SimpleResult<Unit> =
 		safeCall(TAG) { dao.importFuelHistory(import) }.also {
-			MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.dateAdded }!!.dateAdded
+			// if list is not empty -> update lastOperationSynced
+			import.maxByOrNull { it.dateAdded }?.dateAdded?.let {
+				MedriverApp.lastOperationSyncedId = it
+			}
 			import.forEach {
 				logDebug(TAG, "Importing History entry: id = ${it.dateAdded}, " +
 					     "date = ${it.date}")

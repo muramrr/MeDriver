@@ -48,7 +48,7 @@ class FuelPricesLocalDataSourceImpl(private val dao: FuelPricesDao) :
 		fuelStationEntities.forEach { logDebug(TAG, "Adding Station: ${it.slug}") }
 		fuelPriceEntities.forEach {
 			logDebug(TAG, "Adding Price: station = ${it.fuelStationId}, " +
-			              "price = ${it.price}, type = ${it.typeCode}"
+			              "price = ${it.price}, type = ${FuelType.getType(it.typeCode)}"
 			)
 		}
 	}

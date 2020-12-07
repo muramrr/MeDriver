@@ -19,18 +19,15 @@
 package com.mmdev.me.driver.data.datasource.user.local
 
 import com.cioccarellia.ksprefs.KsPrefs
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
-import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.sync.download.DataDownloader
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.json.Json
 
 /**
  * [IUserLocalDataSource] implementation
@@ -42,53 +39,35 @@ class UserLocalDataSourceImpl(
 ): IUserLocalDataSource, BaseDataSource() {
 	
 	private companion object {
-		private const val USER_RETRIEVE_KEY = "saved_user"
+		private const val USER_RETRIEVE_KEY = "saved_user_email"
 	}
 	
-	private fun getUser(): Flow<UserEntity?> = flow {
-		try {
-			val stringFromPrefs = prefs.pull(USER_RETRIEVE_KEY, "")
-			if (stringFromPrefs.isNotEmpty())
-				emit(Json.decodeFromString(UserEntity.serializer(), stringFromPrefs))
-			else emit(null)
-		}
-		catch (e: Exception) {
-			logError(TAG, "${e.message}")
-			emit(null)
-		}
-	}
-	
-	override fun saveUser(userEntity: UserEntity): Flow<SimpleResult<Unit>> = flow {
-		try {
-			getUser().collect { savedUser ->
-				if (savedUser != null) {
-					
-					if (savedUser.email != userEntity.email) {
-						logWarn(TAG, "Email differs")
-						//todo: find a better place to download data when user signs in
-						dataDownloader.deleteAll()
-						dataDownloader.importData(userEntity.email).collect {
-							logInfo(TAG, "Downloading data result = $it")
-						}
-					}
-				} else {
-					dataDownloader.importData(userEntity.email).collect {
+	override fun saveUserEmail(singedInUserEmail: String): Flow<SimpleResult<Unit>> = flow {
+		
+		val savedEmail = prefs.pull(USER_RETRIEVE_KEY, "")
+		// some email was saved
+			if (savedEmail.isNotBlank()) {
+				
+				if (savedEmail != singedInUserEmail) {
+					// different user was signed in -> delete all old data and download new
+					logWarn(TAG, "Email differs")
+					//todo: find a better place to download data when user signs in
+					dataDownloader.deleteAll()
+					dataDownloader.importData(singedInUserEmail).collect {
 						logInfo(TAG, "Downloading data result = $it")
 					}
 				}
-				
-				
-				val stringifyEntity = Json.encodeToString(UserEntity.serializer(), userEntity)
-				
-				prefs.push(USER_RETRIEVE_KEY, stringifyEntity)
-				emit(ResultState.success(Unit))
-				
 			}
-		}
-		catch (e: Exception) {
-			logError(TAG, "${e.message}")
-			emit(ResultState.failure(e))
-		}
+			// no saved email, probably it is first sign in on device
+			else {
+				dataDownloader.importData(singedInUserEmail).collect {
+					logInfo(TAG, "Downloading data result = $it")
+				}
+			}
+			
+			prefs.push(USER_RETRIEVE_KEY, singedInUserEmail)
+			emit(ResultState.success(Unit))
+		
 	}
 	
 }

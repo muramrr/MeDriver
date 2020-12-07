@@ -18,7 +18,6 @@
 
 package com.mmdev.me.driver.data.datasource.user.local
 
-import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
@@ -29,6 +28,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserLocalDataSource {
 	
-	fun saveUser(userEntity: UserEntity) : Flow<SimpleResult<Unit>>
+	fun saveUserEmail(singedInUserEmail: String) : Flow<SimpleResult<Unit>>
 	
 }

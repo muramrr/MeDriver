@@ -20,9 +20,6 @@ package com.mmdev.me.driver.data.core.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
-import com.mmdev.me.driver.core.utils.log.MyLogger.Debug.logWarn
-import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -41,19 +38,14 @@ private const val TAG = "mylogs_FirebaseTaskFlow"
 fun <TResult> Task<TResult>.asFlow() = callbackFlow<SimpleResult<TResult>> {
 	addOnSuccessListener {
 		safeOffer(ResultState.success(it))
-		logDebug(TAG, "Task result is success. Response: $it")
 		close()
 	}
 	addOnFailureListener { e ->
 		safeOffer(ResultState.failure(e))
-		logError(TAG, "Task result is failure, message: ${e.message}")
-		
 		cancel(e.message ?: "Extension failure", e)
 		close(e)
 	}
 	addOnCanceledListener {
-		logWarn(TAG, "Task was canceled inside asFlow() extension")
-		
 		cancel("Task canceled")
 	}
 	awaitClose()
@@ -66,7 +58,7 @@ fun <TResult> Task<TResult>.asFlow() = callbackFlow<SimpleResult<TResult>> {
  * Convert [FirebaseUser] to a domain [UserDataInfo]
  * Used in different classes, so it was made as an extension
  */
-fun FirebaseUser.mapToUserModel(): UserDataInfo = UserDataInfo(
+fun FirebaseUser.mapToDomainUserData(): UserDataInfo = UserDataInfo(
 	id = this.uid,
 	email = this.email!!,
 	isEmailVerified = this.isEmailVerified

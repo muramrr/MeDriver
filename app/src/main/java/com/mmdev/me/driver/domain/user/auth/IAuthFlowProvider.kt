@@ -35,5 +35,5 @@ interface IAuthFlowProvider {
 	
 	fun getAuthUserFlow(): Flow<UserDataInfo?>
 	
-	fun updateSyncStatus(user: UserDataInfo): Flow<SimpleResult<Unit>>
+	fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>>
 }

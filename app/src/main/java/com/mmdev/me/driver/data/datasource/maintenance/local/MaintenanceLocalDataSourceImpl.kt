@@ -82,7 +82,10 @@ class MaintenanceLocalDataSourceImpl(
 	override suspend fun importReplacedSpareParts(
 		import: List<VehicleSparePartEntity>
 	): SimpleResult<Unit> = safeCall(TAG) { dao.insertVehicleReplacedSparePart(import) }.also {
-		MedriverApp.lastOperationSyncedId = import.maxByOrNull { it.dateAdded }!!.dateAdded
+		// if list is not empty -> update lastOperationSynced
+		import.maxByOrNull { it.dateAdded }?.dateAdded?.let {
+			MedriverApp.lastOperationSyncedId = it
+		}
 		import.forEach {
 			logDebug(TAG,
 			         "Importing Replaced spare part: id = ${it.dateAdded}, " +

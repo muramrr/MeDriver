@@ -19,7 +19,7 @@
 package com.mmdev.me.driver.data.datasource.user.auth
 
 import com.google.firebase.auth.FirebaseAuth
-import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.firebase.safeOffer
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
@@ -40,10 +40,10 @@ class AuthCollector(private val auth: FirebaseAuth) {
 		val listener = FirebaseAuth.AuthStateListener { safeOffer(it) }
 		
 		auth.addAuthStateListener(listener)
-		logInfo(TAG, "AuthListener attached.")
+		logDebug(TAG, "AuthListener attached.")
 		
 		awaitClose {
-			logInfo(TAG, "AuthListener removed.")
+			logDebug(TAG, "AuthListener removed.")
 			auth.removeAuthStateListener(listener)
 			cancel()
 		}

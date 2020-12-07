@@ -49,7 +49,7 @@ class SharedViewModel(
 		var uploadWorkerExecuted = false
 	}
 	
-	val userDataInfo = MutableLiveData<UserDataInfo?>(null)
+	val userDataInfo = MutableLiveData<UserDataInfo?>()
 	
 	val currentVehicle = MutableLiveData<Vehicle?>()
 	init {
@@ -92,7 +92,7 @@ class SharedViewModel(
 			
 			viewModelScope.launch {
 				
-				authProvider.updateSyncStatus(user).collect { result ->
+				authProvider.updateUser(user).collect { result ->
 					result.fold(
 						success = { userDataInfo.value = user },
 						failure = { logError(TAG, "$it") }

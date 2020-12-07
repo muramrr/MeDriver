@@ -19,7 +19,6 @@
 package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.google.firebase.auth.FirebaseUser
-import com.mmdev.me.driver.data.datasource.user.local.entities.UserEntity
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
@@ -30,34 +29,26 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 class UserMappersFacade {
 	
 	// domains
-	fun domainToEntity(domain: UserDataInfo): UserEntity = DomainMappers.toEntity(domain)
-	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = DomainMappers.toDto(domain)
-	
-	// entities
-	fun userEntityToDto(entity: UserEntity): FirestoreUserDto = EntityMappers.toDto(entity)
-	
-	fun userEntityToDomain(entity: UserEntity): UserDataInfo = EntityMappers.toDomain(entity)
-	
-	
+	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = FirestoreUserDto(
+		id = domain.id,
+		email = domain.email,
+		isEmailVerified = domain.isEmailVerified,
+		subscription = domain.subscription
+	)
 	
 	// dtos
-	fun userDtoToDomain(dto: FirestoreUserDto): UserDataInfo = DtoMappers.toDomain(dto)
+	fun dtoToDomain(dto: FirestoreUserDto): UserDataInfo = UserDataInfo(
+		id = dto.id,
+		email = dto.email,
+		isEmailVerified = dto.isEmailVerified,
+		subscription = dto.subscription
+	)
 	
-	fun userDtoToEntity(dto: FirestoreUserDto): UserEntity = DtoMappers.toEntity(dto)
-
-
 	// framework based
-	fun firebaseUserToUserDto(firebaseUser: FirebaseUser): FirestoreUserDto = FirestoreUserDto(
+	fun firebaseUserToDto(firebaseUser: FirebaseUser): FirestoreUserDto = FirestoreUserDto(
 		id = firebaseUser.uid,
 		email = firebaseUser.email!!,
 		isEmailVerified = firebaseUser.isEmailVerified
-	)
-	
-	fun firebaseUserToEntity(firebaseUser: FirebaseUser): UserEntity = UserEntity(
-		id = firebaseUser.uid,
-		email = firebaseUser.email!!,
-		isEmailVerified = firebaseUser.isEmailVerified,
-		isPremium = false
 	)
 	
 }

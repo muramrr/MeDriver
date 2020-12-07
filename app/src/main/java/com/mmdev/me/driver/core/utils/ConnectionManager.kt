@@ -32,7 +32,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 
 /**
@@ -79,14 +78,14 @@ class ConnectionManager(
 		callback.invoke(getInitialConnectionStatus())
 	}
 	
-	@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-	private fun onResume() {
+	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+	private fun onCreate() {
 		connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 	}
 	
 	
-	@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-	private fun onPause() {
+	@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+	private fun onDestroy() {
 		connectivityManager.unregisterNetworkCallback(networkCallback)
 	}
 	
@@ -119,37 +118,13 @@ class ConnectionManager(
 		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 		override fun onAvailable(network: Network) {
 			super.onAvailable(network)
-			logInfo(this@ConnectionManager.javaClass, "onAvailable")
+			logDebug(this@ConnectionManager.javaClass, "onAvailable")
 			
 			// Add to list of active networks if not already in list
 			if (activeNetworks.none { activeNetwork -> activeNetwork == network }) {
 				activeNetworks.add(network)
 			}
 			callback.invoke(activeNetworks.isNotEmpty())
-		}
-		
-		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-		override fun onCapabilitiesChanged(
-			network: Network,
-			networkCapabilities: NetworkCapabilities
-		) {
-			super.onCapabilitiesChanged(network, networkCapabilities)
-			logDebug(this@ConnectionManager.javaClass, "onCapabilitiesChanged")
-			//lastInternetConnectionCheck()
-		}
-		
-		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-		override fun onLosing(network: Network, maxMsToLive: Int) {
-			super.onLosing(network, maxMsToLive)
-			logWarn(this@ConnectionManager.javaClass, "onLosing")
-			//lastInternetConnectionCheck()
-		}
-		
-		@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-		override fun onUnavailable() {
-			super.onUnavailable()
-			logWarn(this@ConnectionManager.javaClass, "onUnavailable")
-			//lastInternetConnectionCheck()
 		}
 		
 	}

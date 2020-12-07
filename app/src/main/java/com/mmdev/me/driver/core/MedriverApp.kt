@@ -49,7 +49,6 @@ import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
 import com.mmdev.me.driver.core.utils.log.DebugConfig
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
 import kotlinx.coroutines.runBlocking
@@ -103,24 +102,30 @@ class MedriverApp: Application() {
 		
 		var themeMode: ThemeMode = LIGHT_MODE
 			set(value) {
-				field = value
-				prefs.push(THEME_MODE_KEY, value)
-				logDebug(TAG, "AppTheme changed to $value")
-				ThemeHelper.applyTheme(value)
+				if (field != value) {
+					field = value
+					prefs.push(THEME_MODE_KEY, value)
+					logDebug(TAG, "AppTheme changed to $value")
+					ThemeHelper.applyTheme(value)
+				}
 			}
 		
 		var metricSystem: MetricSystem = KILOMETERS
 			set(value) {
-				field = value
-				prefs.push(METRIC_SYSTEM_KEY, value)
-				logDebug(TAG, "Metric system changed to $value")
+				if (field != value) {
+					field = value
+					prefs.push(METRIC_SYSTEM_KEY, value)
+					logDebug(TAG, "Metric system changed to $value")
+				}
 			}
 		
 		var appLanguage: Language = ENGLISH
 			set(value) {
-				field = value
-				prefs.push(LANGUAGE_KEY, value)
-				logDebug(TAG, "Language changed to $value")
+				if (field != value) {
+					field = value
+					prefs.push(LANGUAGE_KEY, value)
+					logDebug(TAG, "Language changed to $value")
+				}
 			}
 		
 		var pricesRegion: Region = KYIV
@@ -162,13 +167,15 @@ class MedriverApp: Application() {
 		//todo delete
 		var dataGenerated: Boolean = false
 			set(value) {
-				field = value
-				prefs.push(GENERATED_DATA_KEY, value)
-				logDebug(TAG, "DATA GENERATED? -$value")
+				if (field != value) {
+					field = value
+					prefs.push(GENERATED_DATA_KEY, value)
+					logDebug(TAG, "DATA GENERATED? -$value")
+				}
 			}
 		
 		@Volatile
-		var isNetworkAvailable: Boolean = false
+		var isNetworkAvailable: Boolean = true
 		
 		
 		fun isInternetWorking(): Boolean = if (isNetworkAvailable) {
@@ -203,12 +210,12 @@ class MedriverApp: Application() {
 	
 	
 	override fun onCreate() {
+		super.onCreate()
 		
 		appContext = applicationContext
 		appBillingClient.querySkuDetails()
 		
 		FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!debug.isEnabled)
-		
 		
 		startKoin {
 			androidContext(this@MedriverApp)
@@ -226,15 +233,6 @@ class MedriverApp: Application() {
 		}
 		
 		initSavedParams()
-		
-		super.onCreate()
-		logInfo(TAG, "loaded theme mode - $themeMode")
-		logInfo(TAG, "loaded metric system - $metricSystem")
-		logInfo(TAG, "loaded language - $appLanguage")
-		logInfo(TAG, "loaded vehicle vin - $currentVehicleVinCode")
-		logInfo(TAG, "last operation id - $lastOperationSyncedId")
-		logInfo(TAG, "last synced date - $lastSyncedDate")
-		
 		initNotificationWorker()
 	}
 	
@@ -300,7 +298,7 @@ class MedriverApp: Application() {
 		val notificationWorkRequest =
 			PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS).build()
 		
-		WorkManager.getInstance(applicationContext)
+		WorkManager.getInstance(appContext)
 			.enqueueUniquePeriodicWork(
 				JOB_TAG,
 				ExistingPeriodicWorkPolicy.KEEP,

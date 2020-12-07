@@ -27,21 +27,18 @@ import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.core.firebase.asFlow
-import com.mmdev.me.driver.data.core.firebase.mapToUserModel
+import com.mmdev.me.driver.data.core.firebase.mapToDomainUserData
 import com.mmdev.me.driver.data.datasource.user.auth.AuthCollector
 import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
-import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -68,16 +65,14 @@ class AuthFlowProviderImpl(
 		private const val INSTALLATION_TOKENS_FIELD = "installationTokens"
 	}
 	
-	private val firebaseUserFlow: Flow<FirebaseUser?> = flow {
-		authCollector.firebaseAuthFlow.collect { auth ->
-			auth.currentUser?.reload()
-			emit(auth.currentUser)
-		}
+	private val firebaseUserFlow: Flow<FirebaseUser?> = authCollector.firebaseAuthFlow.map { auth ->
+		auth.currentUser
 	}
 	
 	/** Collect AuthListener invocations and emit [AuthStatus] based on callback */
-	override fun getAuthStatusFlow(): Flow<AuthStatus> = firebaseUserFlow.map {
-		if (it != null) {
+	override fun getAuthStatusFlow(): Flow<AuthStatus> = authCollector.firebaseAuthFlow.map { auth ->
+		auth.currentUser?.reload()
+		if (auth.currentUser != null) {
 			//it.reload()
 			AuthStatus.AUTHENTICATED
 		}
@@ -86,15 +81,15 @@ class AuthFlowProviderImpl(
 	
 	
 	/**
-	 * Very important and difficult method
+	 * Very important and method
 	 *
 	 * First of all we are collecting flow result from [AuthCollector] emitted by AuthListener
 	 * if result is not null then we are trying to get [FirestoreUserDto] from backend and check
-	 * email verification (if not equals -> update field), also overwrite local user info whenever
+	 * email verification (if not equals -> update field), also overwrite local user email whenever
 	 * result from backend is and emit mapped retrieved user info
 	 *
-	 * if user info doesn't exists on backend -> write both to backend and local storage
-	 * converted [FirebaseUser] and also emit it as a result
+	 * if user info doesn't exists on backend -> write converted [FirebaseUser] and also emit it
+	 * as a result
 	 *
 	 * keep in case that all of these scenarios triggered only when auth returns [firebaseUser != null]
 	 */
@@ -110,6 +105,14 @@ class AuthFlowProviderImpl(
 				getUserFromRemoteStorage(firebaseUser).collect {
 					emit(it)
 				}
+				
+				userLocalDataSource.saveUserEmail(firebaseUser.email!!).collect { result ->
+					result.fold(
+						success = { logDebug(TAG, "Email was written to storage") },
+						failure = { logError(TAG, "$it")  }
+					)
+				}
+				
 			}
 			//not signed in
 			else {
@@ -134,13 +137,29 @@ class AuthFlowProviderImpl(
 				success = { firestoreUser ->
 					logInfo(TAG, "User retrieved from backend, proceeding...")
 					
-					// check is email verified fetched
-					checkEmailVerification(firestoreUser, firebaseUser).collect {
-						emit(it)
-						logDebug(TAG, "Trying to update device token...")
-						updateDeviceToken(it.email)
-					}
+					updateDeviceToken(firebaseUser.email!!)
 					
+					/**
+					 * Checks is user email verified
+					 * This value generally comes from [FirebaseUser] object
+					 * If emailVerification differs from de-serialized from backend [FirestoreUserDto]
+					 * then invokes [updateEmailVerification] method
+					 */
+					if (firestoreUser.isEmailVerified != firebaseUser.isEmailVerified) {
+						
+						logWarn(TAG, "Email verification status needs update.")
+						
+						updateEmailVerification(firestoreUser, firebaseUser).collect {
+							emit(it)
+						}
+						
+					}
+					// if emailVerified values are same -> convert retrieved firestoreUser
+					else {
+						logInfo(TAG, "Email verification status is up to date...")
+						
+						emit(mappers.dtoToDomain(firestoreUser))
+					}
 				},
 				
 				//user info doesn't exist on backend or other error was thrown
@@ -148,85 +167,29 @@ class AuthFlowProviderImpl(
 					logError(TAG, "Failed to retrieve user info from backend... ${error.message}")
 					
 					/** probably, we have SIGN_UP case, so convert [FirebaseUser] */
-					firebaseUser.sendEmailVerification()
-					writeToFirestoreAndLocalStorage(firebaseUser).collect { emit(it) }
+					firebaseUser.sendEmailVerification() // send email verification
+					logDebug(TAG, "Trying to write to backend...")
+					userRemoteDataSource.writeFirestoreUser(mappers.firebaseUserToDto(firebaseUser)).collect { result ->
+						result.fold(
+							success = {
+								logInfo(TAG, "User was saved to backend successfully")
+								updateDeviceToken(firebaseUser.email!!)
+								emit(firebaseUser.mapToDomainUserData() )
+							},
+							failure = {
+								logError(TAG, "Can't save user to backend: ${it.message}")
+								emit(null)
+							}
+						)
+					}
 					
 				}
 			)
 		}
-	}
-	
-	//combine both writing to backend and to local storage operations result
-	private fun writeToFirestoreAndLocalStorage(firebaseUser: FirebaseUser): Flow<UserDataInfo?> =
-		userRemoteDataSource.writeFirestoreUser(mappers.firebaseUserToUserDto(firebaseUser)).combine(
-			userLocalDataSource.saveUser(mappers.firebaseUserToEntity(firebaseUser))
-		) { writeRemote, writeLocal ->
-			
-			logDebug(TAG, "Trying to write both to backend and local storage...")
-			
-			if (writeRemote is ResultState.Success &&
-			    writeLocal is ResultState.Success){
-				
-				logInfo(TAG, "User was saved to backend and local storage.")
-				
-				//return firebaseUser mapped to domain model
-				firebaseUser.mapToUserModel()
-				
-			}
-			else {
-				logError(TAG, "Can't save firebase user. Magic...")
-				
-				//return null? what happened?
-				null
-		}
-	}
-	
-	
+	}.flowOn(MyDispatchers.io())
 	
 	/**
-	 * Checks is user email verified
-	 * This value generally comes from [FirebaseUser] object
-	 * If emailVerification differs from de-serialized from backend [FirestoreUserDto]
-	 * then invokes [updateEmailVerification] method
-	 */
-	private fun checkEmailVerification(
-		firestoreUserDto: FirestoreUserDto,
-		firebaseUser: FirebaseUser
-	): Flow<UserDataInfo> = flow {
-		
-		logInfo(TAG, "Checking email verification status...")
-		
-		if (firestoreUserDto.isEmailVerified != firebaseUser.isEmailVerified) {
-			
-			logWarn(TAG, "Email verification status needs update.")
-			
-			updateEmailVerification(firestoreUserDto, firebaseUser).collect {
-				emit(it)
-			}
-			
-		}
-		// if emailVerified values are same -> convert retrieved firestoreUser
-		else {
-			logInfo(TAG, "Email verification status is up to date...")
-			
-			logInfo(TAG, "Saving user info...")
-			
-			userLocalDataSource.saveUser(
-				mappers.userDtoToEntity(firestoreUserDto)
-			).collect { result ->
-				result.fold(
-					success = { logInfo(TAG, "Fetched.") },
-					failure = { logError(TAG, "$it")  }
-				)
-				
-			}
-			
-			emit(mappers.userDtoToDomain(firestoreUserDto))
-		}
-	}
-	
-	/**
-	 * Rewrite field value and save it local, also emit mapped domain model with updated field
+	 * Rewrite field value and save it local, also emit user with updated field
 	 */
 	private fun updateEmailVerification(
 		firestoreUserDto: FirestoreUserDto,
@@ -249,14 +212,7 @@ class AuthFlowProviderImpl(
 						isEmailVerified = firebaseUser.isEmailVerified
 					)
 					
-					//save updates to local storage
-					userLocalDataSource.saveUser(
-						mappers.userDtoToEntity(updatedUser)
-					)
-					
-					//emit updated firestoreUser object
-					//without additional "get" request
-					emit(mappers.userDtoToDomain(updatedUser))
+					emit(mappers.dtoToDomain(updatedUser))
 				},
 				failure = {
 					
@@ -264,11 +220,11 @@ class AuthFlowProviderImpl(
 					
 					//emit old firestoreUser object
 					//without additional "get" request
-					emit(mappers.userDtoToDomain(firestoreUserDto))
+					emit(mappers.dtoToDomain(firestoreUserDto))
 				}
 			)
 		}
-	}
+	}.flowOn(MyDispatchers.io())
 	
 	private suspend fun updateDeviceToken(email: String) =
 		FirebaseInstallations.getInstance().id.asFlow().collect { result ->
@@ -278,39 +234,25 @@ class AuthFlowProviderImpl(
 						email = email,
 						field = INSTALLATION_TOKENS_FIELD,
 						value = mapOf(MedriverApp.androidId to token)
-					).map { it.toUnit() }.collect { updateResult ->
-						updateResult.fold(
+					).collect { tokenUpdateResult ->
+						tokenUpdateResult.fold(
 							success = { logInfo(TAG, "device token has been updated") },
 							failure = { logError(TAG, "device token has NOT been updated")}
 						)
 					}
 				},
-				failure = { logError(TAG, "${it.message}")}
+				failure = {
+					logError(TAG, "Token was not updated, ${it.message}")
+				}
 			)
+			
 		}
+		
+		
+		
 	
-	override fun updateSyncStatus(user: UserDataInfo): Flow<SimpleResult<Unit>> =
-		userRemoteDataSource.writeFirestoreUser(
-			mappers.domainToDto(user)
-		).combine(
-			userLocalDataSource.saveUser(mappers.domainToEntity(user))
-		) { writeRemote, writeLocal ->
-			
-			logDebug(TAG, "Trying to update user...")
-			
-			if (writeRemote is ResultState.Success &&
-			    writeLocal is ResultState.Success) {
-				
-				logInfo(TAG, "User was saved to backend and local storage.")
-				
-				ResultState.success(Unit)
-				
-			}
-			else {
-				logError(TAG, "Can't save user object. Magic...")
-				
-				// failure? what happened?
-				ResultState.failure(Exception("Unexpected error"))
-			}
-		}
+	override fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>> =
+		userRemoteDataSource.writeFirestoreUser(mappers.domainToDto(user))
+	
+	
 }

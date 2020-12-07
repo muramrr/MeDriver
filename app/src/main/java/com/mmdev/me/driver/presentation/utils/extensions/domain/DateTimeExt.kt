@@ -30,7 +30,8 @@ import java.util.*
 fun Int.dateMonthText(): String = DateHelper.getMonthText(this, Locale.getDefault())
 
 // date in format "01.01.1970"
-fun LocalDate.humanDate(): String =
+fun LocalDate?.humanDate(default: String = ""): String = this?.let {
 	(if (dayOfMonth < 10) "0$dayOfMonth." else "$dayOfMonth.") +
 	(if (monthNumber < 10) "0$monthNumber." else "$monthNumber.") +
 	"$year"
+} ?: default

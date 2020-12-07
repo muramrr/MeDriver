@@ -16,19 +16,22 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.settings
+package com.mmdev.me.driver.presentation.ui.maintenance.add.child
 
+import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.presentation.core.ViewState
+import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddBottomSheet
+import com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditViewState.*
 
 /**
- * Settings send verification email view state
+ * [ViewState] for [MaintenanceAddBottomSheet]
+ * state [Idle] indicates that nothing is really happening and adding process is in queue
+ * state [Success] indicates that adding operation was successful
+ * state [Error] responsible for indicating errors
  */
 
-sealed class SettingsViewState: ViewState {
-	
-	sealed class SendVerification: SettingsViewState() {
-		object Success: SendVerification()
-		data class Error(val errorMsg: String?): SendVerification()
-	}
-	
+sealed class ChildEditViewState: ViewState {
+	object Idle: ChildEditViewState()
+	data class Success(val data: VehicleSparePart): ChildEditViewState()
+	data class Error(val errorMessage: String?): ChildEditViewState()
 }

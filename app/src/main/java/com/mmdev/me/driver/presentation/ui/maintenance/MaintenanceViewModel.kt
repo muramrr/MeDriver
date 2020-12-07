@@ -22,7 +22,7 @@ package com.mmdev.me.driver.presentation.ui.maintenance
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
@@ -40,9 +40,9 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 	val viewState: MutableLiveData<MaintenanceHistoryViewState> = MutableLiveData()
 	
 	//indicates is history empty or not
-	val isHistoryEmpty: MutableLiveData<Boolean> = MutableLiveData()
-	val isAddDialogShowing: MutableLiveData<Boolean> = MutableLiveData(false)
-	val shouldUpdateData: MutableLiveData<Boolean> = MutableLiveData(false)
+	val isHistoryEmpty = MutableLiveData<Boolean>()
+	val isAddDialogShowing = MutableLiveData(false)
+	val shouldUpdateData = MutableLiveData(false)
 	val updateTrigger = isAddDialogShowing.combineWith(shouldUpdateData) { dialog, update ->
 		if (dialog != null && update != null) {
 			if (!dialog && update) loadInitMaintenanceHistory()
@@ -63,30 +63,30 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 					//handle empty state visibility
 					isHistoryEmpty.value = it.isEmpty()
 				},
-				failure = { viewState.postValue(Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
 		}
 	}
 	
 	fun loadNextMaintenanceHistory() {
 		viewModelScope.launch {
-			//viewState.postValue(Loading)
 			
 			repository.getMoreMaintenanceHistory(MedriverApp.currentVehicleVinCode).fold(
 				success = { viewState.postValue(LoadNext(data = it)) },
-				failure = { viewState.postValue(Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
+			
 		}
 	}
 	
 	fun loadPreviousMaintenanceHistory() {
 		viewModelScope.launch {
-			//viewState.postValue(Loading)
 			
 			repository.getPreviousMaintenanceHistory(MedriverApp.currentVehicleVinCode).fold(
 				success = { viewState.postValue(LoadPrevious(data = it)) },
-				failure = { viewState.postValue(Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
+			
 		}
 	}
 	
@@ -100,21 +100,19 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 		viewModelScope.launch {
 			viewState.postValue(Loading)
 			
-			repository.getSystemNodeHistory(MedriverApp.currentVehicleVinCode, node.name).fold(
+			repository.getSystemNodeHistory(MedriverApp.currentVehicleVinCode, node).fold(
 				success = { data ->
 					viewState.postValue(Filter(data = data))
 					isHistoryEmpty.value = data.isEmpty()
 				},
-				failure = {
-					viewState.postValue(Error(it.localizedMessage!!))
-				}
+				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
 		}
 	}
 	
 	
 	fun searchMaintenanceHistory(query: String) {
-		logWtf(TAG, "Performing search")
+		logDebug(TAG, "Performing search")
 		viewModelScope.launch {
 			
 			delay(1000)

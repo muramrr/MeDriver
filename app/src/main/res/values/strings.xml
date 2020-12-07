@@ -334,7 +334,7 @@
 	<string name="item_maintenance_child_edit_articulus_helper">Eg: GDB1010</string>
 	
 	<string name="item_maintenance_add_operation_successful">Successfully added</string>
-	<string name="item_maintenance_add_operation_fails">Failure</string>
+	<string name="item_maintenance_add_operation_error">Error, while adding</string>
 
 <!-- ******************************************************************************************* -->
 

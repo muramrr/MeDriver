@@ -22,6 +22,15 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
 	
+	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<variable
+			name="viewModel"
+			type="com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditViewModel"
+			/>
+	</data>
+	
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
@@ -47,8 +56,8 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedLabel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
 				android:padding="8dp"
+				android:maxLines="1"
 				
 				android:text="@string/item_maintenance_child_edit_last_replaced_label"
 				android:textAppearance="?textAppearanceSubtitle2"
@@ -61,12 +70,12 @@
 			
 			<!-- date -->
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedDate"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:padding="8dp"
 				android:maxLines="1"
 				
-				android:text="@string/never"
+				android:text="@{DateTimeExtKt.humanDate(viewModel.lastReplacedChild.date.date, @string/never), default = `@string/never`}"
 				android:textAppearance="?textAppearanceCaption"
 				android:textAlignment="center"
 				
@@ -85,7 +94,7 @@
 				android:padding="8dp"
 				android:maxLines="1"
 				
-				android:text="@string/default_OdometerValue"
+				android:text="@{DistanceBoundExtKt.getOdometerFormatted(viewModel.lastReplacedChild.odometerValueBound, context), default = `@string/default_OdometerValue`}"
 				android:textAppearance="?textAppearanceOverline"
 				android:textAlignment="center"
 				

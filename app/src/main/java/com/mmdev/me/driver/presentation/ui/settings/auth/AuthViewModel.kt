@@ -51,27 +51,19 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 	 * else catch null input error
 	 */
 	fun resetPassword() {
-		if (!inputEmail.value.isNullOrBlank())
+		if (!inputEmail.value.isNullOrBlank()) {
+			
+			viewState.postValue(AuthViewState.Loading)
+			
 			viewModelScope.launch {
-				
-				viewState.postValue(AuthViewState.Loading)
-				try {
-					repository.resetPassword(inputEmail.value!!).collect { result ->
-						result.fold(
-							success = { viewState.postValue(AuthViewState.Success.ResetPassword) },
-							failure = {
-								viewState.postValue(
-									AuthViewState.Error.ResetPassword(it.localizedMessage)
-								)
-							}
-						)
-					}
+				repository.resetPassword(inputEmail.value!!).collect { result ->
+					result.fold(
+						success = { viewState.postValue(AuthViewState.Success.ResetPassword) },
+						failure = { viewState.postValue(AuthViewState.Error.ResetPassword(it.localizedMessage)) }
+					)
 				}
-				catch (e: NullPointerException) {
-					viewState.postValue(AuthViewState.Error.ResetPassword(e.message))
-				}
-				
 			}
+		}
 	}
 	
 	/**
@@ -81,26 +73,16 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 	fun signIn() {
 		//check both input fields are not null or blank
 		if (!inputEmail.value.isNullOrBlank() && !inputPassword.value.isNullOrBlank()) {
+			
+			viewState.postValue(AuthViewState.Loading)
+			
 			viewModelScope.launch {
-				
-				viewState.postValue(AuthViewState.Loading)
-				try {
-					repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
-						result.fold(
-							success = {
-								viewState.postValue(AuthViewState.Success.SignIn)
-								clearInput()
-							},
-							failure = {
-								viewState.postValue(AuthViewState.Error.SignIn(it.localizedMessage))
-							}
-						)
-					}
+				repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
+					result.fold(
+						success = { viewState.postValue(AuthViewState.Success.SignIn) },
+						failure = { viewState.postValue(AuthViewState.Error.SignIn(it.localizedMessage)) }
+					)
 				}
-				catch (e: NullPointerException) {
-					viewState.postValue(AuthViewState.Error.SignIn(e.message))
-				}
-				
 			}
 		}
 	}
@@ -112,42 +94,23 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 	fun signUp() {
 		//check email input and password equality are not null or blank
 		if (!inputEmail.value.isNullOrBlank() && inputPasswordAreSameAsConfirm.value != null) {
-			viewState.postValue(AuthViewState.Loading)
 			//if passwords are same
-			try {
-				if (inputPasswordAreSameAsConfirm.value!!) {
+			if (inputPasswordAreSameAsConfirm.value!!) {
+				
+				viewState.postValue(AuthViewState.Loading)
+				
+				viewModelScope.launch {
 					
-					viewModelScope.launch {
-						
-						repository.signUp(inputEmail.value!!, inputPassword.value!!).collect { result ->
-							result.fold(
-								success = {
-									viewState.postValue(AuthViewState.Success.SignUp)
-									clearInput()
-								},
-								failure = {
-									viewState.postValue(
-										AuthViewState.Error.SignUp(it.localizedMessage)
-									)
-								}
-							)
-						}
+					repository.signUp(inputEmail.value!!, inputPassword.value!!).collect { result ->
+						result.fold(
+							success = { viewState.postValue(AuthViewState.Success.SignUp) },
+							failure = { viewState.postValue(AuthViewState.Error.SignUp(it.localizedMessage)) }
+						)
 					}
 				}
 			}
-			catch (e: NullPointerException) {
-				viewState.postValue(AuthViewState.Error.SignUp(e.message))
-			}
 		}
 		else viewState.postValue(AuthViewState.Error.SignUp("Check input fields"))
-	}
-	
-	/**
-	 * Clear [inputEmail], [inputPassword], [inputPasswordConfirm]
-	 */
-	private fun clearInput() {
-		inputEmail.postValue(null)
-		clearPasswordsInput()
 	}
 	
 	/**

@@ -20,6 +20,8 @@ package com.mmdev.me.driver.domain.maintenance
 
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 
@@ -36,8 +38,8 @@ interface IMaintenanceRepository {
 	
 	suspend fun findLastReplaced(
 		vin: String,
-		systemNode: String,
-		customComponent: String
+		systemNode: VehicleSystemNodeType,
+		component: SparePart
 	): SimpleResult<VehicleSparePart>
 	
 	suspend fun getInitMaintenanceHistory(
@@ -54,7 +56,7 @@ interface IMaintenanceRepository {
 	
 	suspend fun getSystemNodeHistory(
 		vin: String,
-		systemNode: String
+		systemNode: VehicleSystemNodeType
 	): SimpleResult<List<VehicleSparePart>>
 	
 	suspend fun getHistoryByTypedQuery(

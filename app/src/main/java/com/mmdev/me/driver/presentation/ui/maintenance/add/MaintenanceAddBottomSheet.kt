@@ -24,14 +24,12 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
@@ -41,7 +39,6 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystem
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
-import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState.Idle
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.Child
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditAdapter
 import com.mmdev.me.driver.presentation.ui.maintenance.add.children.ChildrenAdapter
@@ -312,14 +309,7 @@ class MaintenanceAddBottomSheet: BaseBottomSheetFragment
 			
 			it?.let {
 				mChildEditAdapter.setNewData(it)
-				
-				for (i in it.indices) mViewModel.viewStateMap[i] = MutableLiveData(Idle)
-				
 				binding.tvSelectedChildrenCount.text = "${1}/${mChildEditAdapter.itemCount}"
-				
-				mViewModel.loadLastTimeSparePartReplaced(MedriverApp.currentVehicleVinCode, it)
-				
-				
 				binding.motionMaintenance.transitionToState(R.id.formSet)
 			}
 			

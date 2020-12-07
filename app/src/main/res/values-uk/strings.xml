@@ -300,7 +300,7 @@
 	<string name="item_maintenance_child_edit_articulus_helper">Наприклад: LP676</string>
 	
 	<string name="item_maintenance_add_operation_successful">Успішно додано</string>
-	<string name="item_maintenance_add_operation_fails">Помилка</string>
+	<string name="item_maintenance_add_operation_error">Помилка</string>
 <!-- ******************************************************************************************* -->
 
 

@@ -54,11 +54,11 @@ class SettingsViewModel(private val repository: ISettingsRepository): BaseViewMo
 				repository.sendEmailVerification(email).collect { result ->
 					result.fold(
 						success = {
-							viewState.postValue(SettingsViewState.Success.SendVerification)
+							viewState.postValue(SettingsViewState.SendVerification.Success)
 						},
 						failure = {
 							viewState.postValue(
-								SettingsViewState.Error.SendVerification(it.localizedMessage)
+								SettingsViewState.SendVerification.Error(it.localizedMessage)
 							)
 						}
 					)
@@ -66,7 +66,7 @@ class SettingsViewModel(private val repository: ISettingsRepository): BaseViewMo
 				
 			}
 		}
-		else viewState.postValue(SettingsViewState.Error.SendVerification("Email is null"))
+		else viewState.postValue(SettingsViewState.SendVerification.Error("Email is null"))
 	}
 	
 	fun signOut() = repository.signOut()

@@ -298,7 +298,7 @@
 	<string name="item_maintenance_child_edit_articulus_helper">Например: GDB1010</string>
 	
 	<string name="item_maintenance_add_operation_successful">Успешно добавлено</string>
-	<string name="item_maintenance_add_operation_fails">Ошибка</string>
+	<string name="item_maintenance_add_operation_error">Ошибка</string>
 <!-- ******************************************************************************************* -->
 
 

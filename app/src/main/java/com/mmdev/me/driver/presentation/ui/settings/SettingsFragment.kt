@@ -77,19 +77,17 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		mViewModel.viewState.observe(this, {
-			renderState(it)
-		})
+		mViewModel.viewState.observe(this, { renderState(it) })
 	}
 	
 	override fun renderState(state: ViewState) {
 		when (state) {
 			
-			is SettingsViewState.Success.SendVerification -> {
+			is SettingsViewState.SendVerification.Success -> {
 				binding.settingsContainer.showSnack(emailSent)
 			}
 			
-			is SettingsViewState.Error.SendVerification -> {
+			is SettingsViewState.SendVerification.Error -> {
 				binding.settingsContainer.showSnack(
 					state.errorMsg ?: emailNotSent,
 					Snackbar.LENGTH_LONG
@@ -319,7 +317,9 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	//custom adapter to avoid shitty bugs while recreating activity and catching AutoFocus
 	private class LanguageDropAdapter(
-		context: Context, @LayoutRes private val layoutId: Int, data: List<String>
+		context: Context,
+		@LayoutRes private val layoutId: Int,
+		data: List<String>
 	): BaseDropAdapter<String>(context, layoutId, data) {
 		
 		override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

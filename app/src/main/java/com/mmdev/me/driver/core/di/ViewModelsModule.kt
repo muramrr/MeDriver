@@ -25,6 +25,7 @@ import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
 import com.mmdev.me.driver.presentation.ui.home.HomeViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
+import com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditViewModel
 import com.mmdev.me.driver.presentation.ui.settings.SettingsViewModel
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewModel
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
@@ -41,7 +42,8 @@ val ViewModelsModule = module {
 	viewModel { HomeViewModel(repository = get(), get(), get(), get()) }
 	
 	viewModel { MaintenanceViewModel(repository = get()) }
-	viewModel { MaintenanceAddViewModel(repository = get()) }
+	viewModel { MaintenanceAddViewModel() }
+	viewModel { ChildEditViewModel(repository = get()) }
 	
 	viewModel { VehicleViewModel(repository = get()) }
 	viewModel { VehicleAddViewModel(repository = get()) }

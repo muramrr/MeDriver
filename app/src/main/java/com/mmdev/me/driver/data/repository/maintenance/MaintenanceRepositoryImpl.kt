@@ -29,6 +29,8 @@ import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
+import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -102,9 +104,9 @@ class MaintenanceRepositoryImpl(
 	}
 	
 	override suspend fun findLastReplaced(
-		vin: String, systemNode: String, customComponent: String
+		vin: String, systemNode: VehicleSystemNodeType, component: SparePart
 	): SimpleResult<VehicleSparePart> =
-		localDataSource.findLastReplaced(vin, systemNode, customComponent).fold(
+		localDataSource.findLastReplaced(vin, systemNode.toString(), component.getSparePartName()).fold(
 			success = { ResultState.success(mappers.entityToDomain(it)) },
 			failure = { ResultState.failure(it) }
 		)
@@ -147,9 +149,9 @@ class MaintenanceRepositoryImpl(
 		)
 	
 	override suspend fun getSystemNodeHistory(
-		vin: String, systemNode: String
+		vin: String, systemNode: VehicleSystemNodeType
 	): SimpleResult<List<VehicleSparePart>> =
-		localDataSource.getSystemNodeHistory(vin, systemNode).fold(
+		localDataSource.getSystemNodeHistory(vin, systemNode.toString()).fold(
 			success = { ResultState.success(mappers.listEntitiesToDomains(it)) },
 			failure = { throwable -> ResultState.failure(throwable) }
 		)

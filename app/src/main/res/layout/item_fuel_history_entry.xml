@@ -208,7 +208,7 @@
 					android:layout_height="wrap_content"
 					android:maxLines="1"
 					
-					android:text="@{DateTimeExtKt.humanDate(bindItem.date.date) + ``, default = `01.01.1970`}"
+					android:text="@{DateTimeExtKt.humanDate(bindItem.date.date, @string/default_date), default = `@string/default_date`}"
 					android:textAppearance="?textAppearanceOverline"
 					
 					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryDistancePassed"

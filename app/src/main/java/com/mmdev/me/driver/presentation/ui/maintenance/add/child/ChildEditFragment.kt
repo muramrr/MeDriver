@@ -27,13 +27,11 @@ import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildEditBinding
-import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
-import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewState
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
@@ -43,50 +41,74 @@ import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import com.mmdev.me.driver.presentation.utils.extensions.text
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /**
  *
  */
 
-class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceChildEditBinding>(
+class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEditBinding>(
 	R.layout.item_maintenance_child_edit
 ) {
+	private val parentViewModel: MaintenanceAddViewModel by lazy { requireParentFragment().getViewModel() }
+	override val mViewModel: ChildEditViewModel by viewModel()
 	
-	override val mViewModel: MaintenanceAddViewModel by lazy { requireParentFragment().getViewModel() }
-	
-	private var argPosition = 0
 	private lateinit var child: Child
 	
 	private var pickedDate: LocalDateTime = currentTimeAndDate()
 	
 	companion object {
-		private const val POSITION_KEY = "POSITION"
+		private const val POSITION_KEY = "position"
 		
-		fun newInstance(position: Int): ChildEditFragment =
-			ChildEditFragment().apply {
-				arguments = Bundle().also { it.putInt(POSITION_KEY, position) }
-			}
+		fun newInstance(position: Int): ChildEditFragment = ChildEditFragment().apply {
+			arguments = Bundle().also { it.putInt(POSITION_KEY, position) }
+		}
 	}
-	
-	private var lastReplacedEntry: VehicleSparePart? = null
-	
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		argPosition = arguments?.getInt(POSITION_KEY) ?: 0
-		findSelectedChildByPosition()
+		mViewModel.viewState.observe(this, { renderState(it) })
+		findSelectedChildByPosition(arguments?.getInt(POSITION_KEY) ?: 0)
+	}
+	
+	override fun renderState(state: ViewState) {
+		when(state) {
+			is ChildEditViewState.Success -> {
+				parentViewModel.parentShouldBeUpdated.postValue(true)
+				// if only one entry planned to add -> dismiss automatically dialog
+				// else show successful snack message
+				if (parentViewModel.selectedChildren.value!!.size == 1) {
+					(requireParentFragment() as BottomSheetDialogFragment).dialog!!.dismiss()
+				}
+				else {
+					binding.root.rootView.showSnack(
+						R.string.item_maintenance_add_operation_successful
+					)
+					binding.fabChildAdd.isEnabled = false
+				}
+				if (state.data.odometerValueBound.getValue() > MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
+					//update vehicle with new odometer value
+					sharedViewModel.updateVehicle(
+						MainActivity.currentUser,
+						MainActivity.currentVehicle!!.copy(
+							odometerValueBound = state.data.odometerValueBound,
+							lastUpdatedDate = state.data.dateAdded
+						)
+					)
+				}
+			}
+			is ChildEditViewState.Error -> {
+				binding.root.rootView.showSnack(
+					state.errorMessage ?:
+					getString(R.string.item_maintenance_add_operation_error)
+				)
+			}
+		}
 	}
 	
 	override fun setupViews() {
-		with(mViewModel.viewStateMap) {
-			if (argPosition < size) {
-				this[argPosition]!!.observe(this@ChildEditFragment, {
-					renderState(it)
-				})
-			}
-		}
-		
+		observeLastReplaced()
 		setupInputFields()
 		
 		binding.apply {
@@ -100,7 +122,7 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 				if (checkAreInputCorrect())
 					
 					mViewModel.addMaintenanceEntry(
-						position = argPosition,
+						parent = parentViewModel.selectedVehicleSystemNode.value!!,
 						user = MainActivity.currentUser,
 						dateInput = pickedDate,
 						vendorInput = etInputVendor.text(),
@@ -151,78 +173,38 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 		       !binding.etInputOdometer.text.isNullOrBlank()
 	}
 	
-	override fun renderState(state: ViewState) {
-		when(state) {
-			is MaintenanceAddViewState.Success -> {
-				// if only one entry planned to add -> dismiss automatically dialog
-				// else show successful snack message
-				if (mViewModel.selectedChildren.value!!.size == 1) (requireParentFragment() as BottomSheetDialogFragment).dialog!!.dismiss()
-				else {
-					binding.root.rootView.showSnack(
-						R.string.item_maintenance_add_operation_successful
-					)
-					binding.fabChildAdd.isEnabled = false
-				}
-				if (state.data.odometerValueBound.getValue() > MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
-					//update vehicle with new odometer value
-					sharedViewModel.updateVehicle(
-						MainActivity.currentUser,
-						MainActivity.currentVehicle!!.copy(
-							odometerValueBound = state.data.odometerValueBound,
-							lastUpdatedDate = state.data.dateAdded
-						)
-					)
-				}
-			}
-			is MaintenanceAddViewState.Error -> {
-				binding.root.rootView.showSnack(
-					state.errorMessage ?:
-					getString(R.string.item_maintenance_add_operation_successful)
-				)
-			}
-		}
-	}
 	
-	private fun findSelectedChildByPosition(){
-		mViewModel.selectedChildren.observe(this, {
+	
+	private fun findSelectedChildByPosition(position: Int){
+		parentViewModel.selectedChildren.observe(this, {
 			it?.let {
 				//if first selection was 3 and than u return and choose 2
 				//operator fun get will throw indexOutOfRange exception
-				if (argPosition < it.size) {
-					child = it[argPosition]
-					setupLastReplaced(child)
+				if (position < it.size) {
+					child = it[position]
 					setupFillForm(child)
+					mViewModel.loadLastTimeSparePartReplaced(
+						parentViewModel.selectedVehicleSystemNode.value!!,
+						child
+					)
 				}
 			}
 		})
 	}
 	
-	//todo: temporary fix backpressure
-	private fun setupLastReplaced(child: Child) {
-		lastReplacedEntry = mViewModel.lastReplacedChildren[child.sparePart]
-		
-		if (lastReplacedEntry != null) {
+	private fun observeLastReplaced() {
+		mViewModel.lastReplacedChild.observe(this, {
 			
-			binding.apply {
-				binding.tvLastReplacedDate.text = lastReplacedEntry!!.date.date.toString()
-				
-				binding.tvLastReplacedOdometer.text = lastReplacedEntry!!.odometerValueBound.getOdometerFormatted(requireContext())
-				
-				if (lastReplacedEntry!!.vendor.isNotEmpty() || lastReplacedEntry!!.articulus.isNotEmpty())
-					binding.tvLastReplacedDetail.text = getString(
-						R.string.two_strings_whitespace_formatter,
-						lastReplacedEntry!!.vendor,
-						lastReplacedEntry!!.articulus
-					)
-				else binding.tvLastReplacedDetail.text = getString(R.string.undefined)
-			}
-		}
-		else {
-			binding.tvLastReplacedOdometer.text = getString(R.string.default_OdometerValue)
-			binding.tvLastReplacedDetail.text = getString(R.string.undefined)
-			binding.tvLastReplacedDate.text = getString(R.string.never)
-		}
-		
+			binding.tvLastReplacedOdometer.text = it?.odometerValueBound?.getOdometerFormatted(requireContext())
+			if (!it?.vendor.isNullOrBlank() || !it?.articulus.isNullOrBlank())
+				binding.tvLastReplacedDetail.text = getString(
+					R.string.two_strings_whitespace_formatter,
+					it?.vendor,
+					it?.articulus
+				)
+			else binding.tvLastReplacedDetail.text = getString(R.string.undefined)
+			
+		})
 	}
  
 	private fun setupFillForm(child: Child) {
@@ -235,7 +217,5 @@ class ChildEditFragment: BaseFragment<MaintenanceAddViewModel, ItemMaintenanceCh
 			pickedDate = convertToLocalDateTime(this.timeInMillis)
 		}
 	}
-	
-	
 	
 }

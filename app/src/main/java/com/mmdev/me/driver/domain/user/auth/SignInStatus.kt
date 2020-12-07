@@ -16,32 +16,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
+package com.mmdev.me.driver.domain.user.auth
 
-	repositories {
-		google()
-		jcenter()
-	}
-	dependencies {
-		classpath 'com.android.tools.build:gradle:4.1.1'
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
-		classpath "org.jetbrains.kotlin:kotlin-serialization:1.4.21"
-		classpath 'com.google.gms:google-services:4.3.4'
-		classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
-	}
-}
+/**
+ *
+ */
 
-allprojects {
-	repositories {
-		google()
-		jcenter()
-		mavenCentral()
-		maven { url 'https://jitpack.io' }
-		maven { url "https://kotlin.bintray.com/kotlinx/" } // kotlin datetime
-	}
-}
-
-task clean(type: Delete) {
-	delete rootProject.buildDir
+enum class SignInStatus {
+	Loading, Fetching, Downloading, Signed_in, Aborted, Failure
 }

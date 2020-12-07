@@ -18,12 +18,21 @@
 
 package com.mmdev.me.driver.data.repository.settings
 
+import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
+import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
+import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
+import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
+import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
+import com.mmdev.me.driver.domain.user.auth.SignInStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 /**
@@ -31,7 +40,10 @@ import kotlinx.coroutines.flow.map
  */
 
 class SettingsRepositoryImpl(
-	private val authDataSource: IFirebaseAuthDataSource
+	private val authDataSource: IFirebaseAuthDataSource,
+	private val userLocalDataSource: IUserLocalDataSource,
+	private val userRemoteDataSource: IUserRemoteDataSource,
+	private val mappers: UserMappersFacade
 ): BaseRepository(), ISettingsRepository {
 	
 	override fun resetPassword(email: String) : Flow<SimpleResult<Unit>> =
@@ -42,8 +54,35 @@ class SettingsRepositoryImpl(
 		authDataSource.sendEmailVerification(email).map { it.toUnit() }
 	
 	
-	override fun signIn(email: String, password: String): Flow<SimpleResult<Unit>> =
-		authDataSource.signIn(email, password).map { it.toUnit() }
+	override fun signIn(email: String, password: String) = flow {
+		authDataSource.signIn(email, password).collect { result ->
+			emit(ResultState.success(SignInStatus.Loading))
+			result.fold(
+				success = { authResult ->
+					if (authResult.user != null) {
+						emit(ResultState.success(SignInStatus.Fetching))
+						userRemoteDataSource.getFirestoreUser(authResult.user!!.email!!).collect { result ->
+							result.fold(
+								//user info exists on backend
+								success = { firestoreUser ->
+									logInfo(TAG, "User retrieved from backend, proceeding...")
+									emit(ResultState.success(SignInStatus.Downloading))
+									//todo:download data here
+								},
+								
+								//user info doesn't exist on backend or other error was thrown
+								failure = {
+									logError(TAG, "Failed to retrieve user info from backend... ${it.message}")
+									emit(ResultState.failure(it))
+								}
+							)
+						}
+					}
+				},
+				failure = { emit(ResultState.failure(it)) }
+			)
+		}
+	}
 	
 	
 	override fun signOut() = authDataSource.signOut()

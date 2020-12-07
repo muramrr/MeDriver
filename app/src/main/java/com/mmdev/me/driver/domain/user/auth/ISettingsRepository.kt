@@ -28,14 +28,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISettingsRepository {
 	
-	fun resetPassword(email: String) : Flow<SimpleResult<Unit>>
+	fun resetPassword(email: String): Flow<SimpleResult<Unit>>
 	
-	fun sendEmailVerification(email: String) : Flow<SimpleResult<Unit>>
+	fun sendEmailVerification(email: String): Flow<SimpleResult<Unit>>
 	
-	fun signIn(email: String, password: String) : Flow<SimpleResult<Unit>>
+	fun signIn(email: String, password: String): Flow<SimpleResult<SignInStatus>>
 	
 	fun signOut()
 	
-	fun signUp(email: String, password: String) : Flow<SimpleResult<Unit>>
+	fun signUp(email: String, password: String): Flow<SimpleResult<Unit>>
 	
 }

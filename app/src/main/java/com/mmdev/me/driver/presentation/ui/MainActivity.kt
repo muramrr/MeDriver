@@ -198,7 +198,11 @@ class MainActivity: AppCompatActivity() {
 				.getInstance(applicationContext)
 				.getWorkInfoByIdLiveData(downloadWorkRequest.id)
 				.observe(this, {
-					if (it.state == SUCCEEDED) MedriverApp.lastSyncedDate = currentEpochTime()
+					if (it.state == SUCCEEDED) {
+						MedriverApp.lastSyncedDate = currentEpochTime()
+						//update vehicle stored in static
+						sharedViewModel.getSavedVehicle(MedriverApp.currentVehicleVinCode)
+					}
 				})
 		}
 		

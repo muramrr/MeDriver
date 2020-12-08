@@ -31,8 +31,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IAuthFlowProvider {
 	
-	fun getAuthStatusFlow(): Flow<AuthStatus>
-	
 	fun getAuthUserFlow(): Flow<UserDataInfo?>
 	
 	fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>>

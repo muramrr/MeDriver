@@ -27,6 +27,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.core.firebase.ServerOperation
+import com.mmdev.me.driver.data.core.firebase.safeOffer
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -54,6 +55,7 @@ class FetchingDataSource(
 	
 	private var isSnapshotInitiated = false
 	
+	//todo: fix listener
 	fun flow(email: String): Flow<List<ServerOperation>> = callbackFlow {
 		
 		val journalCollection = fs.collection(FS_USERS_COLLECTION)
@@ -65,7 +67,6 @@ class FetchingDataSource(
 		
 		// Register listener
 		val listener = journalCollection.addSnapshotListener { snapshot, e ->
-			
 			e?.let {
 				logError(TAG, "Listen failed, error: $e")
 				// If exception occurs, cancel this scope with exception message.
@@ -84,14 +85,11 @@ class FetchingDataSource(
 					if (snapshot.documents.first().getField<String>("deviceId") != MedriverApp.androidId) {
 						logInfo(TAG, "$source data is not from this device")
 						
-						if (isSnapshotInitiated)
-							offer(snapshot.toObjects(ServerOperation::class.java))
+						if (isSnapshotInitiated) safeOffer(snapshot.toObjects(ServerOperation::class.java))
 					}
 				}
-				
-				//logDebug(TAG, "$source data: ${snapshot.documents}")
-				
-			} else {
+			}
+			else {
 				logDebug(TAG, "$source data: null")
 			}
 			

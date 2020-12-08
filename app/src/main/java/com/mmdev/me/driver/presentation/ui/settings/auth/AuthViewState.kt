@@ -27,15 +27,20 @@ import com.mmdev.me.driver.presentation.core.ViewState
 sealed class AuthViewState: ViewState {
 	object Loading: AuthViewState()
 	
-	sealed class Error(errorMsg: String?): AuthViewState() {
-		data class ResetPassword(val errorMsg: String?): Error(errorMsg)
-		data class SignIn(val errorMsg: String?): Error(errorMsg)
-		data class SignUp(val errorMsg: String?): Error(errorMsg)
+	sealed class SignIn: AuthViewState() {
+		data class Error(val errorMsg: String?): SignIn()
+		object Success: SignIn()
+		object Processing: SignIn()
+		object Downloading: SignIn()
 	}
 	
-	sealed class Success: AuthViewState() {
-		object ResetPassword: Success()
-		object SignIn: Success()
-		object SignUp: Success()
+	sealed class ResetPassword: AuthViewState() {
+		object Success: ResetPassword()
+		data class Error(val errorMsg: String?): ResetPassword()
+	}
+	
+	sealed class SignUp: AuthViewState() {
+		object Success: SignUp()
+		data class Error(val errorMsg: String?): SignUp()
 	}
 }

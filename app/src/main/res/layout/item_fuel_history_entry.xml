@@ -110,7 +110,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					
-					android:text="@{FuelHistoryExtKt.getMoneySpentFormatted(bindItem, context), default = `@string/default_price`}"
+					android:text="@{FuelHistoryExtKt.getMoneySpentFormatted(bindItem, context), default = `@string/default_price_unavailable`}"
 					android:textAppearance="?textAppearanceSubtitle2"
 					
 					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryStationAndType"

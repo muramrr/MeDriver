@@ -123,34 +123,36 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BottomSheetAuthBin
 	}
 	
 	override fun renderState(state: ViewState) {
-		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) { state == AuthViewState.Loading }
+		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
+			state in arrayOf(Loading, SignIn.Downloading, SignIn.Processing)
+		}
 		
 		when (state) {
 			
 			// resetPassword states
-			is Success.ResetPassword -> {
+			is ResetPassword.Success -> {
 				binding.btnCancel.performClick()
 				binding.root.rootView.showSnack(emailResetSent, Snackbar.LENGTH_LONG)
 			}
-			is Error.ResetPassword -> binding.root.rootView.showSnack(
+			is ResetPassword.Error -> binding.root.rootView.showSnack(
 				state.errorMsg ?: emailResetNotSent,
 				Snackbar.LENGTH_LONG
 			)
 			
-			is Success.SignIn -> dismiss()
+			is SignIn.Success -> dismiss()
 			
 			// sign in error
-			is Error.SignIn -> binding.root.rootView.showSnack(
+			is SignIn.Error -> binding.root.rootView.showSnack(
 				state.errorMsg ?: signInError,
 				Snackbar.LENGTH_LONG
 			)
 			// sign up error
-			is Error.SignUp -> binding.root.rootView.showSnack(
+			is SignUp.Error -> binding.root.rootView.showSnack(
 				state.errorMsg ?: signUpError,
 				Snackbar.LENGTH_LONG
 			)
 			
-			is Success.SignUp -> dismiss()
+			is SignUp.Success -> dismiss()
 		}
 	}
 	

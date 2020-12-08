@@ -21,8 +21,11 @@ package com.mmdev.me.driver.presentation.ui.settings.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
+import com.mmdev.me.driver.domain.user.auth.SignInStatus
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -58,8 +61,8 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 			viewModelScope.launch {
 				repository.resetPassword(inputEmail.value!!).collect { result ->
 					result.fold(
-						success = { viewState.postValue(AuthViewState.Success.ResetPassword) },
-						failure = { viewState.postValue(AuthViewState.Error.ResetPassword(it.localizedMessage)) }
+						success = { viewState.postValue(AuthViewState.ResetPassword.Success) },
+						failure = { viewState.postValue(AuthViewState.ResetPassword.Error(it.localizedMessage)) }
 					)
 				}
 			}
@@ -79,8 +82,17 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 			viewModelScope.launch {
 				repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
 					result.fold(
-						success = { viewState.postValue(AuthViewState.Success.SignIn) },
-						failure = { viewState.postValue(AuthViewState.Error.SignIn(it.localizedMessage)) }
+						success = { status ->
+							when(status) {
+								SignInStatus.Loading -> {} // do nothing we already have loading state
+								SignInStatus.Fetching -> viewState.value = AuthViewState.SignIn.Processing
+								SignInStatus.Deleting -> MainActivity.currentVehicle = null
+								SignInStatus.Downloading -> viewState.value = AuthViewState.SignIn.Downloading
+								SignInStatus.Finished -> viewState.value = AuthViewState.SignIn.Success
+								else -> { logDebug(TAG, "sign in status = $status")}
+							}
+						},
+						failure = { viewState.postValue(AuthViewState.SignIn.Error(it.localizedMessage)) }
 					)
 				}
 			}
@@ -103,14 +115,14 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 					
 					repository.signUp(inputEmail.value!!, inputPassword.value!!).collect { result ->
 						result.fold(
-							success = { viewState.postValue(AuthViewState.Success.SignUp) },
-							failure = { viewState.postValue(AuthViewState.Error.SignUp(it.localizedMessage)) }
+							success = { viewState.postValue(AuthViewState.SignUp.Success) },
+							failure = { viewState.postValue(AuthViewState.SignUp.Error(it.localizedMessage)) }
 						)
 					}
 				}
 			}
 		}
-		else viewState.postValue(AuthViewState.Error.SignUp("Check input fields"))
+		else viewState.postValue(AuthViewState.SignUp.Error("Check input fields"))
 	}
 	
 	/**

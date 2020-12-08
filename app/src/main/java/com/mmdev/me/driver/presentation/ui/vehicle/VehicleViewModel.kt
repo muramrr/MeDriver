@@ -27,6 +27,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
+import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
@@ -48,8 +49,8 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	//init vehicle list
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
 	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
-	val replacements: MutableLiveData<Map<SparePart, PendingReplacement?>?> = MutableLiveData()
-	val expenses: MutableLiveData<Expenses> = MutableLiveData()
+	val replacements = MutableLiveData<Map<SparePart, PendingReplacement?>?>()
+	val expenses = MutableLiveData(Expenses())
 	
 	init {
 		getSavedVehicles()
@@ -62,7 +63,6 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		viewModelScope.launch {
 			repository.getAllSavedVehicles().fold(
 				success = {
-					if (!it.contains(MainActivity.currentVehicle)) chosenVehicle.value = null
 					vehicleList.postValue(it)
 					vehicleUiList.postValue(mapVehicle(it))
 				},
@@ -104,13 +104,12 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 		}
 	}
 	
-	//todo: random bug
 	fun buildConsumables(replacements: Map<SparePart, PendingReplacement?>?): List<ConsumablePartUi> =
 		replacements?.map {
 			ConsumablePartUi(
 				VehicleSystemNodeConstants.plannedComponents[replacements.keys.indexOf(it.key)],
 				it.value,
-				chosenVehicle.value!!.maintenanceRegulations[it.key]
+				chosenVehicle.value?.maintenanceRegulations?.get(it.key) ?: Regulation()
 			)
 		} ?: List(PlannedParts.valuesArray.size) {
 			ConsumablePartUi(VehicleSystemNodeConstants.plannedComponents[it])

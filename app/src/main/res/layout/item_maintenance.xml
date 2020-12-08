@@ -125,7 +125,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="8dp"
 			
-			android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price`}"
+			android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price_unavailable`}"
 			android:textAppearance="?textAppearanceSubtitle1"
 			android:textStyle="bold"
 			

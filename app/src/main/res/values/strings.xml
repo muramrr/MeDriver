@@ -55,7 +55,7 @@
 	<string name="default_FuelStation" translatable="false">StationDef</string>
 	<string name="default_OdometerValue" translatable="false">000000</string>
 	<string name="default_date" translatable="false">01.01.1970</string>
-	<string name="default_price" translatable="false">₴--.--</string>
+	<string name="default_price_unavailable" translatable="false">₴--.--</string>
 	<string name="default_error" translatable="false">Unknown error</string>
 	<string name="default_vin" translatable="false">00000000000000000</string>
 	<string name="hryvnia_symbol" translatable="false">₴</string>

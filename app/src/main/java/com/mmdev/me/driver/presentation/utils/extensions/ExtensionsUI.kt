@@ -41,13 +41,13 @@ fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
  * Show a SnackBar with [messageRes] resource
  */
 fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, messageRes, length).setAnchorView(this).show()
+	Snackbar.make(this, messageRes, length).show()
 
 /**
  * Show a SnackBar with [message] string
  */
 fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, message, length).setAnchorView(this).show()
+	Snackbar.make(this, message, length).show()
 
 
 /**

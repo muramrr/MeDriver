@@ -74,7 +74,7 @@
 			android:layout_height="wrap_content"
 			android:padding="8dp"
 			
-			android:text="@string/default_price"
+			android:text="@string/default_price_unavailable"
 			android:textAppearance="?textAppearanceSubtitle2"
 			android:textAlignment="textEnd"
 			

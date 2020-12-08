@@ -23,5 +23,5 @@ package com.mmdev.me.driver.domain.user.auth
  */
 
 enum class SignInStatus {
-	Loading, Fetching, Downloading, Signed_in, Aborted, Failure
+	Loading, Fetching, Deleting, Downloading, SignedIn, Aborted, Finished
 }

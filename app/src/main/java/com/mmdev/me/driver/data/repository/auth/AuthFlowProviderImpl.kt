@@ -21,7 +21,6 @@ package com.mmdev.me.driver.data.repository.auth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.installations.FirebaseInstallations
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
@@ -29,19 +28,17 @@ import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.mapToDomainUserData
 import com.mmdev.me.driver.data.datasource.user.auth.AuthCollector
-import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
+import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
 import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 
 /**
  * Wrapper for [AuthCollector] provider
@@ -51,10 +48,9 @@ import kotlinx.coroutines.flow.map
  */
 
 class AuthFlowProviderImpl(
-	private val authCollector: AuthCollector,
-	private val userLocalDataSource: IUserLocalDataSource,
+	authCollector: AuthCollector,
 	private val userRemoteDataSource: IUserRemoteDataSource,
-	private val mappers: UserMappersFacade
+	private val mappers: UserMappers
 ): IAuthFlowProvider {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
@@ -65,18 +61,9 @@ class AuthFlowProviderImpl(
 		private const val INSTALLATION_TOKENS_FIELD = "installationTokens"
 	}
 	
-	private val firebaseUserFlow: Flow<FirebaseUser?> = authCollector.firebaseAuthFlow.map { auth ->
-		auth.currentUser
-	}
-	
-	/** Collect AuthListener invocations and emit [AuthStatus] based on callback */
-	override fun getAuthStatusFlow(): Flow<AuthStatus> = authCollector.firebaseAuthFlow.map { auth ->
-		auth.currentUser?.reload()
-		if (auth.currentUser != null) {
-			//it.reload()
-			AuthStatus.AUTHENTICATED
-		}
-		else AuthStatus.UNAUTHENTICATED
+	private val firebaseUserFlow: Flow<FirebaseUser?> = authCollector.firebaseAuthFlow.map {
+		it.currentUser?.reload()
+		it.currentUser
 	}
 	
 	
@@ -93,51 +80,40 @@ class AuthFlowProviderImpl(
 	 *
 	 * keep in case that all of these scenarios triggered only when auth returns [firebaseUser != null]
 	 */
-	override fun getAuthUserFlow(): Flow<UserDataInfo?> = flow {
-		firebaseUserFlow.collect { firebaseUser ->
+	override fun getAuthUserFlow() = firebaseUserFlow.transform { firebaseUser ->
 			
-			logInfo(TAG, "Collecting auth information...")
+		logInfo(TAG, "Collecting auth information...")
+		
+		if (firebaseUser != null) {
 			
-			if (firebaseUser != null) {
-				
-				logInfo(TAG, "Auth info exists...")
-				
-				getUserFromRemoteStorage(firebaseUser).collect {
-					emit(it)
-				}
-				
-				userLocalDataSource.saveUserEmail(firebaseUser.email!!).collect { result ->
-					result.fold(
-						success = { logDebug(TAG, "Email was written to storage") },
-						failure = { logError(TAG, "$it")  }
-					)
-				}
-				
-			}
-			//not signed in
-			else {
-				logError(TAG, "Auth info does not exists...")
-				
-				emit(null)
-			}
+			logInfo(TAG, "Auth info exists...")
+			
+			getUserFromRemoteStorage(firebaseUser).collect { emit(it) }
+			
 		}
-	}.flowOn(MyDispatchers.io())
+		//not signed in
+		else {
+			logError(TAG, "Auth info does not exists...")
+			
+			emit(null)
+		}
+	}
 	
 	
 	/**
 	 * Trying to get user from firestore and update email if needed
 	 * If failure -> convert given [FirebaseUser] and save it
 	 */
-	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserDataInfo?> = flow {
-		logDebug(TAG, "Retrieving user info from backend...")
-		
-		userRemoteDataSource.getFirestoreUser(firebaseUser.email!!).collect { remoteUserState ->
+	private fun getUserFromRemoteStorage(firebaseUser: FirebaseUser): Flow<UserDataInfo?> =
+		userRemoteDataSource.getFirestoreUser(firebaseUser.email!!).transform { remoteUserState ->
+			logDebug(TAG, "Retrieving user info from backend...")
+			
 			remoteUserState.fold(
 				//user info exists on backend
 				success = { firestoreUser ->
 					logInfo(TAG, "User retrieved from backend, proceeding...")
 					
-					updateDeviceToken(firebaseUser.email!!)
+					updateDeviceToken(firestoreUser)
 					
 					/**
 					 * Checks is user email verified
@@ -173,7 +149,7 @@ class AuthFlowProviderImpl(
 						result.fold(
 							success = {
 								logInfo(TAG, "User was saved to backend successfully")
-								updateDeviceToken(firebaseUser.email!!)
+								updateDeviceToken(mappers.firebaseUserToDto(firebaseUser))
 								emit(firebaseUser.mapToDomainUserData() )
 							},
 							failure = {
@@ -186,7 +162,6 @@ class AuthFlowProviderImpl(
 				}
 			)
 		}
-	}.flowOn(MyDispatchers.io())
 	
 	/**
 	 * Rewrite field value and save it local, also emit user with updated field
@@ -194,52 +169,61 @@ class AuthFlowProviderImpl(
 	private fun updateEmailVerification(
 		firestoreUserDto: FirestoreUserDto,
 		firebaseUser: FirebaseUser
-	): Flow<UserDataInfo> = flow {
-		
-		userRemoteDataSource.updateFirestoreUserField(
-			email = firestoreUserDto.email,
-			field = IS_EMAIL_VERIFIED_FIELD,
-			value = firebaseUser.isEmailVerified
-		).collect { updateResult ->
+	): Flow<UserDataInfo> = userRemoteDataSource.updateFirestoreUserField(
+		email = firestoreUserDto.email,
+		field = IS_EMAIL_VERIFIED_FIELD,
+		value = firebaseUser.isEmailVerified
+	).map { updateResult ->
 			
-			logDebug(TAG, "Trying to update email verification...")
+		logDebug(TAG, "Trying to update email verification...")
 			
-			updateResult.fold(
-				success = {
-					
-					logInfo(TAG, "Email status updated...")
-					val updatedUser = firestoreUserDto.copy(
-						isEmailVerified = firebaseUser.isEmailVerified
-					)
-					
-					emit(mappers.dtoToDomain(updatedUser))
-				},
-				failure = {
-					
-					logError(TAG, "Failed to update email status... ${it.message}")
-					
-					//emit old firestoreUser object
-					//without additional "get" request
-					emit(mappers.dtoToDomain(firestoreUserDto))
-				}
-			)
-		}
-	}.flowOn(MyDispatchers.io())
+		updateResult.fold(
+			success = {
+				
+				logInfo(TAG, "Email status updated...")
+				val updatedUser = firestoreUserDto.copy(
+					isEmailVerified = firebaseUser.isEmailVerified
+				)
+				
+				mappers.dtoToDomain(updatedUser)
+			},
+			failure = {
+				
+				logError(TAG, "Failed to update email status... ${it.message}")
+				
+				//emit old firestoreUser object
+				//without additional "get" request
+				mappers.dtoToDomain(firestoreUserDto)
+			}
+		)
+	}
 	
-	private suspend fun updateDeviceToken(email: String) =
+	
+	private suspend fun updateDeviceToken(user: FirestoreUserDto) =
 		FirebaseInstallations.getInstance().id.asFlow().collect { result ->
 			result.fold(
 				success = { token ->
+					// if no token with such deviceId
+					val updatedTokens = if (!user.installationTokens.containsKey(MedriverApp.androidId)) {
+						user.installationTokens.plus(MedriverApp.androidId to token)
+					}
+					// update existing token
+					else {
+						user.installationTokens.minus(MedriverApp.androidId) // delete existing token
+							.plus(MedriverApp.androidId to token) // add new token
+						
+					}
 					userRemoteDataSource.updateFirestoreUserField(
-						email = email,
+						email = user.email,
 						field = INSTALLATION_TOKENS_FIELD,
-						value = mapOf(MedriverApp.androidId to token)
+						value = updatedTokens
 					).collect { tokenUpdateResult ->
 						tokenUpdateResult.fold(
 							success = { logInfo(TAG, "device token has been updated") },
 							failure = { logError(TAG, "device token has NOT been updated")}
 						)
 					}
+					
 				},
 				failure = {
 					logError(TAG, "Token was not updated, ${it.message}")

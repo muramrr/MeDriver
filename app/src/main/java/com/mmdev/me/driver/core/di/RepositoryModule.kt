@@ -19,7 +19,7 @@
 package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.data.repository.auth.AuthFlowProviderImpl
-import com.mmdev.me.driver.data.repository.auth.mappers.UserMappersFacade
+import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
 import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
@@ -58,9 +58,8 @@ val RepositoryModule = module {
 	factory<IAuthFlowProvider> {
 		AuthFlowProviderImpl(
 			authCollector = get(),
-			userLocalDataSource = get(),
 			userRemoteDataSource = get(),
-			mappers = UserMappersFacade()
+			mappers = UserMappers()
 		)
 	}
 	
@@ -104,7 +103,14 @@ val RepositoryModule = module {
 		)
 	}
 	
-	factory<ISettingsRepository> { SettingsRepositoryImpl(authDataSource = get()) }
+	factory<ISettingsRepository> {
+		SettingsRepositoryImpl(
+			authDataSource = get(),
+			dataDownloader = get(),
+			userRemoteDataSource = get(),
+			mappers = UserMappers()
+		)
+	}
 
 }
 

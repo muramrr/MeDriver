@@ -26,7 +26,7 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
  * Mapping between user DTOs/entities/domain data classes
  */
 
-class UserMappersFacade {
+class UserMappers {
 	
 	// domains
 	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = FirestoreUserDto(

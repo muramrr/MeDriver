@@ -27,9 +27,9 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface IDataDownloader {
-	suspend fun importData(email: String): Flow<SimpleResult<Unit>>
-	suspend fun fetchNewFromServer(email: String): Flow<SimpleResult<Unit>>
-	suspend fun downloadNewFromServer(
+	fun importData(email: String): Flow<SimpleResult<Unit>>
+	fun fetchNewFromServer(email: String): Flow<SimpleResult<Unit>>
+	fun downloadNewFromServer(
 		operations: List<ServerOperation>,
 		email: String
 	): Flow<SimpleResult<Unit>>

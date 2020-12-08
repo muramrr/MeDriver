@@ -18,7 +18,6 @@
 
 package com.mmdev.me.driver.core.di
 
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.datasource.fuel.history.local.FuelHistoryLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.FuelPricesLocalDataSourceImpl
@@ -27,8 +26,6 @@ import com.mmdev.me.driver.data.datasource.home.HomeLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.home.IHomeLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.local.MaintenanceLocalDataSourceImpl
-import com.mmdev.me.driver.data.datasource.user.local.IUserLocalDataSource
-import com.mmdev.me.driver.data.datasource.user.local.UserLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.local.VehicleLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
@@ -41,8 +38,6 @@ import org.koin.dsl.module
  */
 
 val DataSourceLocalModule = module {
-	
-	factory<IUserLocalDataSource> { UserLocalDataSourceImpl(prefs = MedriverApp.prefs, dataDownloader = get()) }
 	
 	factory<IHomeLocalDataSource> { HomeLocalDataSourceImpl(dao = get()) }
 	

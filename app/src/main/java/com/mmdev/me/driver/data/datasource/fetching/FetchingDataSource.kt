@@ -51,12 +51,15 @@ class FetchingDataSource(
 		private const val FS_USERS_COLLECTION = "users"
 		private const val FS_USER_ACTIONS_JOURNAL = "journal"
 		private const val FS_USER_ACTIONS_JOURNAL_TIMESTAMP_FIELD = "timestamp"
+		private const val DEVICE_ID_FIELD = "deviceId"
+		
+		private const val SOURCE_SERVER = "Server"
+		private const val SOURCE_LOCAL = "Local"
 	}
 	
 	private var isSnapshotInitiated = false
 	
-	//todo: fix listener
-	fun flow(email: String): Flow<List<ServerOperation>> = callbackFlow {
+	fun journalFlow(email: String): Flow<List<ServerOperation>> = callbackFlow {
 		
 		val journalCollection = fs.collection(FS_USERS_COLLECTION)
 			.document(email)
@@ -73,24 +76,28 @@ class FetchingDataSource(
 				// offer(error(it))
 			}
 			
-			val source = if (snapshot != null && snapshot.metadata.hasPendingWrites()) "Local"
-			else "Server"
+			val source = if (snapshot != null && snapshot.metadata.hasPendingWrites()) SOURCE_LOCAL
+			else SOURCE_SERVER
 			
-			if (!snapshot?.documents.isNullOrEmpty() && source == "Server") {
+			if (!snapshot?.documents.isNullOrEmpty() && source == SOURCE_SERVER) {
 				
-				//check if adding operation was performed not from this device
-				if (snapshot!!.documentChanges.first().type == DocumentChange.Type.ADDED) {
-					logDebug(TAG, "New document: ${snapshot.documentChanges.first().document.data}")
-					
-					if (snapshot.documents.first().getField<String>("deviceId") != MedriverApp.androidId) {
-						logInfo(TAG, "$source data is not from this device")
-						
-						if (isSnapshotInitiated) safeOffer(snapshot.toObjects(ServerOperation::class.java))
+				snapshot!!.documentChanges.forEach { documentChange ->
+					when (documentChange.type) {
+						DocumentChange.Type.ADDED -> {
+							val document = snapshot.documents.first()
+							if (document.getField<String>(DEVICE_ID_FIELD) != MedriverApp.androidId) {
+								logInfo(TAG, "$source data is not from this device")
+								
+								if (isSnapshotInitiated)
+									safeOffer(snapshot.toObjects(ServerOperation::class.java))
+							}
+						}
+						else -> {}
 					}
 				}
 			}
 			else {
-				logDebug(TAG, "$source data: null")
+				logDebug(TAG, "Data comes from $source source")
 			}
 			
 			isSnapshotInitiated = true
@@ -103,6 +110,7 @@ class FetchingDataSource(
 			// Dispose listener
 			cancel()
 			listener.remove()
+			logDebug(TAG, "Journal listener removed.")
 		}
 	}
 	

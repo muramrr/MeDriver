@@ -50,7 +50,7 @@ class FetchingRepositoryImpl(
 	): Flow<SimpleResult<Unit>> = vehicleRepository.addVehicle(user, vehicle)
 	
 	override suspend fun listenForUpdates(email: String) =
-		fetchingDataSource.flow(email).collect {
+		fetchingDataSource.journalFlow(email).collect {
 			logInfo(TAG, "Listening for updates")
 			downloader.downloadNewFromServer(it, email).collect { result ->
 				logWtf(TAG, "Download new from server result = $result")

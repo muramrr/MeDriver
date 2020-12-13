@@ -39,6 +39,11 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetSubsc
 	layoutId = R.layout.bottom_sheet_subscription
 ) {
 	
+	private companion object {
+		private const val PREMIUM_SKU = "premium_3_month"
+		private const val PRO_SKU = "pro_3_months"
+	}
+	
 	override val mViewModel: Nothing? = null
 	
 	//attach callback, force dismiss with animation, set state
@@ -66,8 +71,8 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BottomSheetSubsc
 			adapter = PlansAdapter().apply {
 				setOnItemClickListener { view, position, item ->
 					when (position) {
-						1 -> (requireActivity() as MainActivity).launchPurchaseFlow("3_month_premium")
-						2 -> (requireActivity() as MainActivity).launchPurchaseFlow("pro_3_months")
+						1 -> (requireActivity() as MainActivity).launchPurchaseFlow(PREMIUM_SKU)
+						2 -> (requireActivity() as MainActivity).launchPurchaseFlow(PRO_SKU)
 					}
 					
 				}

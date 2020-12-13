@@ -138,7 +138,7 @@ class MedriverApp: Application() {
 				if (field != value) {
 					field = value
 					prefs.push(VEHICLE_VIN_CODE_KEY, value)
-					logDebug(TAG, "Current Vehicle VIN changed to $value")
+					logDebug(TAG, "Current Vehicle VIN: $value")
 				}
 			}
 		

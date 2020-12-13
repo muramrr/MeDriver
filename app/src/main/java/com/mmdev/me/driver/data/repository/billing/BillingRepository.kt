@@ -26,12 +26,12 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.*
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingFlowParams.ProrationMode
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
-import com.google.firebase.firestore.FieldValue
 import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
@@ -78,8 +78,10 @@ class BillingRepository(
 		private const val PREMIUM_SKU = "premium_3_month"
 		private const val PRO_SKU = "pro_3_months"
 		
-		private const val PURCHASES_FIELD = "purchaseId"
+		private const val PURCHASES_FIELD = "lastPurchase"
 	}
+	
+	private val skuListIdentifiers = listOf(PREMIUM_SKU, PRO_SKU)
 	
 	private val billingClientStatus = MutableSharedFlow<Int>(
 		replay = 1,
@@ -90,9 +92,8 @@ class BillingRepository(
 	val purchases = MutableLiveData<List<Purchase>>()
 	
 	/** SkuDetails for all known SKUs.*/
-	val skuListWithDetails = MutableLiveData<Map<String, SkuDetails>>()
+	private val skuListWithDetails = MutableLiveData<Map<String, SkuDetails>>()
 	
-	var lastPurchase: Purchase? = null
 	
 	/** Instantiate a new BillingClient instance.*/
 	private val billingClient: BillingClient = BillingClient.newBuilder(context)
@@ -123,30 +124,30 @@ class BillingRepository(
 		logDebug(TAG, "onPurchasesUpdated: ${BillingResponse.getResponseType(responseCode)} $debugMessage")
 		when (responseCode) {
 			BillingResponseCode.OK -> {
-				if (purchases == null) logDebug(TAG, "onPurchasesUpdated: null purchase list")
-				
-				purchases?.let {
-					processPurchases(it)
+				if (purchases.isNullOrEmpty()) logDebug(TAG, "onPurchasesUpdated: null purchase list")
+				else {
+					processPurchases(purchases)
 					
 					launch {
-						lastPurchase = it.last()
-						acknowledgePurchase(lastPurchase!!.purchaseToken).collect { billingResult ->
+						val lastPurchase = purchases.last()
+						acknowledgePurchase(lastPurchase.purchaseToken).collect { billingResult ->
 							logInfo(TAG, "Acknowledge purchase result = ${BillingResponse.getResponseType(billingResult.responseCode)}")
 							
 							if (billingResult.responseCode == BillingResponseCode.OK) {
 								
-								val purchaseDto = mappers.toPurchaseDto(lastPurchase!!).copy(isAcknowledged = true)
+								val purchaseDto = mappers.toPurchaseDto(
+									lastPurchase
+								).copy(isAcknowledged = true)
 								userRemoteDataSource.updateFirestoreUserField(
 									MainActivity.currentUser!!.email,
 									PURCHASES_FIELD,
-									FieldValue.arrayUnion(purchaseDto)
+									purchaseDto
 								).collect { result ->
 									logInfo(TAG, "User update result = $result")
 								}
 							}
 						}
 					}
-					
 				}
 				
 			}
@@ -199,7 +200,7 @@ class BillingRepository(
 	private fun querySkuDetails() {
 		val params = SkuDetailsParams.newBuilder()
 			.setType(SkuType.SUBS)
-			.setSkusList(listOf(PREMIUM_SKU, PRO_SKU))
+			.setSkusList(skuListIdentifiers)
 			.build()
 		logInfo(TAG, "querying SKU details async...")
 		
@@ -232,9 +233,15 @@ class BillingRepository(
 		val sku = skuListWithDetails.value!![identifier]!!.sku
 		var oldSku = "null"
 		// setOldSku(previousSku, purchaseTokenOfOriginalSubscription)
-		lastPurchase?.let {
-			purchaseFlowParams.setOldSku(it.sku, it.purchaseToken)
-			oldSku = it.sku
+		if (!purchases.value.isNullOrEmpty()) {
+			val lastPurchase = purchases.value!!.last()
+			purchaseFlowParams.setOldSku(lastPurchase.sku, lastPurchase.purchaseToken)
+			oldSku = lastPurchase.sku
+			
+			/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
+			purchaseFlowParams.setReplaceSkusProrationMode(
+				if (oldSku == PRO_SKU) ProrationMode.DEFERRED else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE
+			)
 		}
 		
 		logInfo(TAG, "Launching billing flow for: sku: $sku, oldSku: $oldSku")

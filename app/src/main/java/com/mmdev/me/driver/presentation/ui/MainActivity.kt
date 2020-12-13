@@ -104,9 +104,9 @@ class MainActivity: AppCompatActivity() {
 		observeVehicle()
 		observeUserData()
 		
-		sharedViewModel.skuListWithDetails.observe(this, {
-			logWtf(TAG, "sku = $it")
-		})
+//		sharedViewModel.skuListWithDetails.observe(this, {
+//			logWtf(TAG, "sku = $it")
+//		})
 
 		sharedViewModel.purchases.observe(this, {
 			logWtf(TAG, "purchases = $it")

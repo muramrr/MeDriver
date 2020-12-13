@@ -58,7 +58,7 @@ class SharedViewModel(
 	val purchases = billing.purchases
 	
 	/** SkuDetails for all known SKUs.*/
-	val skuListWithDetails = billing.skuListWithDetails
+	//val skuListWithDetails = billing.skuListWithDetails
 	
 	val userDataInfo = MutableLiveData<UserDataInfo?>()
 	

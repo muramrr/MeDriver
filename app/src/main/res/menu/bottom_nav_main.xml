@@ -20,31 +20,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<item android:id="@+id/bottomNavHome"
-		android:icon="@drawable/ic_home_24"
+		android:icon="@drawable/ic_menu_home_24"
 		android:orderInCategory="0"
 		android:title="@string/bottom_nav_home"
 		/>
 
 	<item android:id="@+id/bottomNavMaintenance"
-		android:icon="@drawable/ic_maintenance_24"
+		android:icon="@drawable/ic_menu_maintenance_24"
 		android:orderInCategory="1"
 		android:title="@string/bottom_nav_maintenance"
 		/>
 
 	<item android:id="@+id/bottomNavVehicle"
-		android:icon="@drawable/ic_vehicle_24"
+		android:icon="@drawable/ic_menu_vehicle_24"
 		android:orderInCategory="2"
 		android:title="@string/bottom_nav_vehicle"
 		/>
 
 	<item android:id="@+id/bottomNavFuel"
-		android:icon="@drawable/ic_fuel_station_24"
+		android:icon="@drawable/ic_menu_fuel_24"
 		android:orderInCategory="3"
 		android:title="@string/bottom_nav_fuel"
 		/>
 
 	<item android:id="@+id/bottomNavSettings"
-		android:icon="@drawable/ic_settings_24"
+		android:icon="@drawable/ic_menu_settings_24"
 		android:orderInCategory="4"
 		android:title="@string/bottom_nav_settings"
 		/>

@@ -477,11 +477,10 @@
 	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>
 	<string name="fg_settings_tv_subscription_expires_value">Пробна</string>
 	
-	<string name="fg_settings_btn_subscription_type">Премуім</string>
+	<string name="fg_settings_btn_subscription_premium">Премуім</string>
 	<string name="fg_settings_btn_sign_in">Увійти</string>
 	<string name="fg_settings_btn_sign_out">Вийти</string>
 	<string name="fg_settings_btn_get_subscription_not_active">Отримати більше функцій!</string>
-	<string name="fg_settings_btn_get_subscription_active">Преміум активовано!</string>
 	
 	<string name="fg_settings_sync_title">Синхронізація</string>
 	<string name="fg_settings_sync_subtitle_never">Ніколи</string>
@@ -493,6 +492,9 @@
 	<string name="fg_settings_switcher_metric_system">Метрична система</string>
 	
 	<string name="fg_settings_switcher_language">Мова</string>
+	
+	<string name="fg_settings_faq_label">ЧаПи</string>
+	<string name="fg_settings_about_label">Про додаток</string>
 	
 	<string name="fg_settings_email_confirm_sent_success">Лист для підтвердження відправлено</string>
 	<string name="fg_settings_email_confirm_sent_error_message">Помилка. Лист не відправлено</string>

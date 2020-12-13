@@ -1,0 +1,25 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="24dp" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#ffc107" android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256zM256,0"/>
+    <path android:fillColor="#FF000000" android:pathData="m277.332,384c0,11.781 -9.551,21.332 -21.332,21.332s-21.332,-9.551 -21.332,-21.332 9.551,-21.332 21.332,-21.332 21.332,9.551 21.332,21.332zM277.332,384"/>
+    <path android:fillColor="#FF000000" android:pathData="m256,512c-141.164,0 -256,-114.836 -256,-256s114.836,-256 256,-256 256,114.836 256,256 -114.836,256 -256,256zM256,32c-123.52,0 -224,100.48 -224,224s100.48,224 224,224 224,-100.48 224,-224 -100.48,-224 -224,-224zM256,32"/>
+    <path android:fillColor="#FF000000" android:pathData="m256,314.668c-8.832,0 -16,-7.168 -16,-16v-21.547c0,-20.309 12.887,-38.527 32.043,-45.27 25.492,-8.98 42.625,-36.117 42.625,-55.852 0,-32.363 -26.305,-58.668 -58.668,-58.668s-58.668,26.305 -58.668,58.668c0,8.832 -7.168,16 -16,16s-16,-7.168 -16,-16c0,-50.004 40.664,-90.668 90.668,-90.668s90.668,40.664 90.668,90.668c0,35.605 -28.098,73.387 -63.98,86.016 -6.398,2.262 -10.688,8.34 -10.688,15.105v21.547c0,8.832 -7.168,16 -16,16zM256,314.668"/>
+</vector>

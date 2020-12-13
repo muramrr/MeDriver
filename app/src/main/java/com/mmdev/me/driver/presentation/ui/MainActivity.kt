@@ -19,11 +19,13 @@
 package com.mmdev.me.driver.presentation.ui
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type
+import androidx.core.view.updatePadding
 import androidx.navigation.findNavController
 import androidx.work.Constraints
 import androidx.work.NetworkType
@@ -45,6 +47,7 @@ import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
+import com.mmdev.me.driver.presentation.utils.extensions.updateMargins
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -71,28 +74,28 @@ class MainActivity: AppCompatActivity() {
 			"Trying to access the binding outside of the view lifecycle."
 		)
 	
+	//empty instance for null safety
+	private var currentWindowInsets: WindowInsetsCompat = WindowInsetsCompat.Builder().build()
+	
+	
 	//used to force chosen language as base context
 	override fun attachBaseContext(base: Context) {
 		super.attachBaseContext(LocaleHelper.newLocaleContext(base, MedriverApp.appLanguage))
 	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
-
-		window.apply {
-			addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-				setDecorFitsSystemWindows(false)
-			}
-			else {
-				decorView.systemUiVisibility =
-					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-				//status bar and navigation bar colors assigned in style file
-			}
-		}
+		
+		WindowCompat.setDecorFitsSystemWindows(window, false)
 
 		super.onCreate(savedInstanceState)
 		_binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
+		
+		ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, windowInsets ->
+			currentWindowInsets = windowInsets
+			setupInsets()
+		}
+		
 		
 		setupNetworkListener()
 		
@@ -109,6 +112,17 @@ class MainActivity: AppCompatActivity() {
 			logWtf(TAG, "purchases = $it")
 		})
 	
+	}
+	
+	private fun setupInsets(): WindowInsetsCompat {
+		val insets = currentWindowInsets.getInsets(Type.systemBars())
+		
+		binding.root.updateMargins(top = insets.top)
+		binding.bottomNavMain.updatePadding(bottom = insets.bottom)
+		
+		return WindowInsetsCompat.Builder()
+			.setInsets(Type.systemBars(), insets)
+			.build()
 	}
 	
 	private fun setupBottomNavigation() {

@@ -20,6 +20,11 @@
 <!-- ShapeAppearance -->
 
 <resources>
+	
+	<style name="My.ShapeAppearanceOverlay.Button.Subscription" parent="">
+		<item name="cornerFamily">cut</item>
+		<item name="cornerSize">8dp</item>
+	</style>
 
 	<style name="My.ShapeAppearanceOverlay.Button.Rounded" parent="">
 		<item name="cornerFamily">rounded</item>

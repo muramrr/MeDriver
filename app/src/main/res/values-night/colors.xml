@@ -57,7 +57,7 @@
 	<color name="disabled_foreground">#646464</color>
 	<color name="disabled_background">#323232</color>
 	
-	<color name="subscription_premium">#0758E5</color>
-	<color name="subscription_pro">#A96800</color>
+	<color name="subscription_premium">#A96800</color>
+	<color name="subscription_pro">#0758E5</color>
 	
 </resources>

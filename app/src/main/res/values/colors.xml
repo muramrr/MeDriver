@@ -87,7 +87,7 @@
 	<color name="data11">#ccebc5</color>
 	<color name="data12">#ffed6f</color>
 	
-	<color name="subscription_premium">#74A6FB</color>
-	<color name="subscription_pro">#FBC974</color>
+	<color name="subscription_premium">#FBC974</color>
+	<color name="subscription_pro">#74A6FB</color>
 	
 </resources>

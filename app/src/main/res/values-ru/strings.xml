@@ -475,11 +475,10 @@
 	<string name="fg_settings_tv_subscription_expires">Подписка до</string>
 	<string name="fg_settings_tv_subscription_expires_value">Пробная</string>
 	
-	<string name="fg_settings_btn_subscription_type">Премуим</string>
+	<string name="fg_settings_btn_subscription_premium">Премуим</string>
 	<string name="fg_settings_btn_sign_in">Войти</string>
 	<string name="fg_settings_btn_sign_out">Выйти</string>
 	<string name="fg_settings_btn_get_subscription_not_active">Получить больше функций!</string>
-	<string name="fg_settings_btn_get_subscription_active">Премиум активировано!</string>
 	
 	<string name="fg_settings_sync_title">Синхронизация</string>
 	<string name="fg_settings_sync_subtitle_never">Никогда</string>
@@ -491,6 +490,9 @@
 	<string name="fg_settings_switcher_metric_system">Метрическая система</string>
 	
 	<string name="fg_settings_switcher_language">Язык</string>
+	
+	<string name="fg_settings_faq_label">ЧаВо</string>
+	<string name="fg_settings_about_label">О приложении</string>
 	
 	<string name="fg_settings_email_confirm_sent_success">Письмо со ссылкой для подтверждения отправлено</string>
 	<string name="fg_settings_email_confirm_sent_error_message">Ошибка. Письмо не отправлено</string>

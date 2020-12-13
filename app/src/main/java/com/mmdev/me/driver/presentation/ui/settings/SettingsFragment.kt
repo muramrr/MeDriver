@@ -30,8 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.MetricSystem.*
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
@@ -68,8 +67,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private var emailSent = ""
 	private var emailNotSent = ""
 	private var languagesArray = emptyArray<String>()
-	private var getPremium = ""
-	private var premiumObtained = ""
 	private var syncedNever = ""
 	private var syncedJustNow = ""
 	private var syncedFormatter = ""
@@ -122,7 +119,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				mViewModel.sendEmailVerification(this.text.toString())
 			}
 		
-			btnGetPremium.setDebounceOnClick {
+			btnMoreFeatures.setDebounceOnClick {
 				SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java .canonicalName)
 			}
 			
@@ -137,8 +134,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		accNotVerified = getString(R.string.fg_settings_tv_not_verified)
 		emailSent = getString(R.string.fg_settings_email_confirm_sent_success)
 		emailNotSent = getString(R.string.fg_settings_email_confirm_sent_error_message)
-		getPremium = getString(R.string.fg_settings_btn_get_subscription_not_active)
-		premiumObtained = getString(R.string.fg_settings_btn_get_subscription_active)
 		syncedNever = getString(R.string.fg_settings_sync_subtitle_never)
 		syncedJustNow = getString(R.string.fg_settings_sync_subtitle_just_now)
 		syncedFormatter = getString(R.string.fg_settings_sync_subtitle_formatter)
@@ -174,14 +169,16 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						text = user.email
 						if (user.isEmailVerified) setDisabledAndInvisible()
 					}
-					//todo: add support for pro subscription
-					if (user.isPremium()) setUserIsPremium()
-					else setUserIsNotPremium()
+					when {
+						user.isPremium() -> setUserIsPremium()
+						user.isPro() -> setUserIsPro()
+						else -> setUserIsNotSubscribed()
+					}
 				}
 				else setUserIsNull()
 				
 				//allow to get premium only when user verifies email
-				btnGetPremium.isEnabled = user != null && user.isEmailVerified
+				btnMoreFeatures.isEnabled = user != null && user.isEmailVerified
 				
 			}
 			
@@ -195,19 +192,24 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	
 	private fun setUserIsPremium() {
-		binding.tvYourAccountPremium.visible(0)
-		binding.btnGetPremium.text = premiumObtained
+		binding.tvSubscriptionObtainedPremium.visible(0)
+		binding.tvSubscriptionObtainedPro.gone(0)
 	}
 	
-	private fun setUserIsNotPremium() {
-		binding.tvYourAccountPremium.gone(0)
-		binding.btnGetPremium.text = getPremium
+	private fun setUserIsPro() {
+		binding.tvSubscriptionObtainedPremium.gone(0)
+		binding.tvSubscriptionObtainedPro.visible(0)
+	}
+	
+	private fun setUserIsNotSubscribed() {
+		binding.tvSubscriptionObtainedPremium.gone(0)
+		binding.tvSubscriptionObtainedPro.gone(0)
 	}
 	
 	private fun setUserIsNull() {
 		binding.apply {
 			// hide premium label
-			setUserIsNotPremium()
+			setUserIsNotSubscribed()
 			
 			// defines visibility of sign in/out buttons
 			btnSignOut.setDisabledAndInvisible()

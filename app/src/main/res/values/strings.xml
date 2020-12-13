@@ -118,7 +118,7 @@
 	<string name="btm_sheet_subscription_choose_plan_label">Choose your plan</string>
 	<string name="btm_sheet_subscription_plan_type_free">Free</string>
 	<string name="btm_sheet_subscription_plan_type_premium">Premium</string>
-	<string name="btm_sheet_subscription_plan_type_pro">Pro</string>
+	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
 	
 	<string name="btm_sheet_subscription_choose_plan">Choose</string>
 	<string name="btm_sheet_subscription_already_chosen_plan">Current</string>
@@ -512,11 +512,11 @@
 	<string name="fg_settings_tv_subscription_expires">Subscription expires</string>
 	<string name="fg_settings_tv_subscription_expires_value">Trial</string>
 	
-	<string name="fg_settings_btn_subscription_type">Premium</string>
+	<string name="fg_settings_btn_subscription_premium">Premium</string>
+	<string name="fg_settings_btn_subscription_pro" translatable="false">PRO</string>
 	<string name="fg_settings_btn_sign_in">Sign In</string>
 	<string name="fg_settings_btn_sign_out">Sign Out</string>
 	<string name="fg_settings_btn_get_subscription_not_active">Unlock new features!</string>
-	<string name="fg_settings_btn_get_subscription_active">Premium Activated!</string>
 	
 	<string name="fg_settings_sync_title">Synchronization</string>
 	<string name="fg_settings_sync_subtitle_never">Never</string>
@@ -528,6 +528,9 @@
 	<string name="fg_settings_switcher_metric_system">Metric system</string>
 	
 	<string name="fg_settings_switcher_language">Language</string>
+	
+	<string name="fg_settings_faq_label">F.A.Q.</string>
+	<string name="fg_settings_about_label">About</string>
 	
 	<string name="fg_settings_email_confirm_sent_success">Email with confirm link sent</string>
 	<string name="fg_settings_email_confirm_sent_error_message">Failure. Email not sent</string>

@@ -22,7 +22,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemSubscriptionPlanBinding
-import com.mmdev.me.driver.domain.user.SubscriptionType.*
+import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
+import com.mmdev.me.driver.domain.user.SubscriptionType.PREMIUM
+import com.mmdev.me.driver.domain.user.SubscriptionType.PRO
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
 
@@ -59,9 +61,7 @@ class PlansAdapter(
 					R.drawable.ic_cross_mark_filled_24
 				)
 			),
-			if (MainActivity.currentUser != null)
-				MainActivity.currentUser!!.subscription.type == FREE
-			else false,
+			!(MainActivity.currentUser?.isSubscribed() ?: false),
 			"₴0",
 			SubscriptionTypeUi(FREE, R.string.btm_sheet_subscription_plan_type_free)
 		),
@@ -89,9 +89,7 @@ class PlansAdapter(
 					R.drawable.ic_cross_mark_filled_24
 				)
 			),
-			if (MainActivity.currentUser != null)
-				MainActivity.currentUser!!.subscription.type == PREMIUM
-			else false,
+			MainActivity.currentUser?.isPremium() ?: false,
 			"₴29.99",
 			SubscriptionTypeUi(PREMIUM, R.string.btm_sheet_subscription_plan_type_premium)
 		),
@@ -119,9 +117,7 @@ class PlansAdapter(
 					R.drawable.ic_check_mark_filled_24
 				)
 			),
-			if (MainActivity.currentUser != null)
-				MainActivity.currentUser!!.subscription.type == PRO
-			else false,
+			MainActivity.currentUser?.isPro() ?: false,
 			"₴49.99",
 			SubscriptionTypeUi(PRO, R.string.btm_sheet_subscription_plan_type_pro)
 		)

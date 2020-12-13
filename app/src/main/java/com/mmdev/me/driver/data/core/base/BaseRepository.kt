@@ -19,7 +19,9 @@
 package com.mmdev.me.driver.data.core.base
 
 import com.mmdev.me.driver.data.cache.CachingReasons
-import com.mmdev.me.driver.data.cache.CachingReasons.*
+import com.mmdev.me.driver.data.cache.CachingReasons.NO_INTERNET
+import com.mmdev.me.driver.data.cache.CachingReasons.NO_SUBSCRIPTION
+import com.mmdev.me.driver.data.cache.CachingReasons.NO_USER
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
@@ -43,7 +45,7 @@ abstract class BaseRepository {
 		cacheOperation: (CachingReasons) -> Unit,
 		serverOperation: () -> Unit
 	) = if (user != null) {
-		if (user.isSubscriptionValid()) {
+		if (user.isPro()) {
 			
 			if (isInternetAvailable) {
 				serverOperation.invoke()

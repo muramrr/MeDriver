@@ -30,11 +30,11 @@ import java.util.*
 object DateHelper {
 	
 	//various time range durations in milliseconds
-	const val YEAR_DURATION = 31557600000 // (365.24 days)
-	const val MONTH_DURATION = YEAR_DURATION / 12 //(30.44 days)
-	const val HOUR_DURATION = 3600000
-	const val DAY_DURATION = 86400000
-	const val WEEK_DURATION = 604800000
+	const val YEAR_DURATION = 31557600000L // (365.25 days)
+	const val MONTH_DURATION = YEAR_DURATION / 12 //(30.437 days)
+	const val HOUR_DURATION = 3600000L
+	const val DAY_DURATION = 86400000L
+	const val WEEK_DURATION = 604800000L
 	
 	private val ukrainianMonths: Array<String> = arrayOf(
 		"", // this corresponds to 0 position

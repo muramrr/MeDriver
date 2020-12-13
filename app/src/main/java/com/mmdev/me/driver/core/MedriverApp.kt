@@ -26,7 +26,6 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.cioccarellia.ksprefs.KsPrefs
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.mmdev.me.driver.core.billing.AppBillingClient
 import com.mmdev.me.driver.core.di.DataSourceLocalModule
 import com.mmdev.me.driver.core.di.DataSourceRemoteModule
 import com.mmdev.me.driver.core.di.DatabaseModule
@@ -90,11 +89,7 @@ class MedriverApp: Application() {
 		private const val GENERATED_DATA_KEY = "generated"
 		
 		private lateinit var appContext: Context
-		val prefs by lazy {
-			KsPrefs(appContext, PREFERENCES_NAME) {
-				//	encryptionType = EncryptionType.KeyStore("key")
-			}
-		}
+		val prefs by lazy { KsPrefs(appContext, PREFERENCES_NAME) }
 		
 		val androidId: String by lazy { getAndroidId(appContext) }
 		
@@ -211,10 +206,6 @@ class MedriverApp: Application() {
 		
 		
 		val debug: DebugConfig = DebugConfig.Default
-		
-		val appBillingClient: AppBillingClient by lazy {
-			AppBillingClient(appContext)
-		}
 	}
 	
 	
@@ -223,7 +214,6 @@ class MedriverApp: Application() {
 		super.onCreate()
 		
 		appContext = applicationContext
-		appBillingClient.querySkuDetails()
 		
 		FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!debug.isEnabled)
 		

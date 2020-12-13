@@ -85,10 +85,10 @@
 	<string name="btm_sheet_subscription_already_chosen_plan">Поточна</string>
 	
 	<string name="btm_sheet_subscription_feature1">Нагадування про ТО</string>
-	<string name="btm_sheet_subscription_feature2">Резервна копія даних</string>
+	<string name="btm_sheet_subscription_feature2">Більше авто</string>
 	<string name="btm_sheet_subscription_feature3">Більше статистики</string>
 	<string name="btm_sheet_subscription_feature4">Підтримка декількох пристроїв</string>
-	<string name="btm_sheet_subscription_feature5">Необмежена кількість авто</string>
+	<string name="btm_sheet_subscription_feature5">Резервна копія даних</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Резервна копія</string>
 	<string name="btm_sheet_premium_feature_sync_subtitle">Збереже історію всіх витрат на сервері</string>

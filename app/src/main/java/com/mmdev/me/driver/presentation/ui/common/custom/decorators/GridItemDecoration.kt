@@ -33,8 +33,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.toPx
 class GridItemDecoration(private val onlyBetweenPadding: Boolean = false): ItemDecoration() {
 
 	override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-
-		val position = parent.getChildAdapterPosition(view)
+		
 		val spanIndex = (view.layoutParams as GridLayoutManager.LayoutParams).spanIndex
 
 		if (!onlyBetweenPadding) {

@@ -75,7 +75,7 @@ class SettingsRepositoryImpl(
 											emit(ResultState.success(SignInStatus.Deleting))
 											dataDownloader.deleteAll()
 											
-											if (user.isPremium() || user.isPro()) {
+											if (user.isPro()) {
 												logDebug(TAG, "Downloading data...")
 												emit(ResultState.success(SignInStatus.Downloading))
 												
@@ -92,7 +92,7 @@ class SettingsRepositoryImpl(
 										else emit(ResultState.success(SignInStatus.Finished))
 									}
 									else {
-										if (user.isPremium() || user.isPro()) {
+										if (user.isPro()) {
 											logDebug(TAG, "Downloading data...")
 											emit(ResultState.success(SignInStatus.Downloading))
 											

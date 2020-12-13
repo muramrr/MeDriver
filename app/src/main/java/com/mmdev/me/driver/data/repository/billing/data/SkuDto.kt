@@ -16,19 +16,20 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user
+package com.mmdev.me.driver.data.repository.billing.data
 
+import com.google.firebase.firestore.PropertyName
+import com.mmdev.me.driver.domain.billing.PeriodType
+import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
+import com.mmdev.me.driver.domain.user.SubscriptionType
 import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
-import com.mmdev.me.driver.domain.user.SubscriptionType.PREMIUM
-import com.mmdev.me.driver.domain.user.SubscriptionType.PRO
 
-data class UserDataInfo(
-	val id: String,
-	val email: String,
-	val isEmailVerified: Boolean,
-	val subscriptionType: SubscriptionType = FREE
-) {
-	fun isSubscribed(): Boolean = subscriptionType != FREE
-	fun isPremium(): Boolean = subscriptionType == PREMIUM
-	fun isPro(): Boolean = subscriptionType == PRO
-}
+/**
+ *
+ */
+
+data class SkuDto(
+	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
+	@PropertyName("periodDuration") val periodDuration: Int = 0,
+	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
+)

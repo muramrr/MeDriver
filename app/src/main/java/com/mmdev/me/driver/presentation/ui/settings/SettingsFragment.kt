@@ -30,7 +30,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.*
+import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
+import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
@@ -173,7 +174,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						text = user.email
 						if (user.isEmailVerified) setDisabledAndInvisible()
 					}
-					if (user.isSubscriptionValid()) setUserIsPremium()
+					//todo: add support for pro subscription
+					if (user.isPremium()) setUserIsPremium()
 					else setUserIsNotPremium()
 				}
 				else setUserIsNull()

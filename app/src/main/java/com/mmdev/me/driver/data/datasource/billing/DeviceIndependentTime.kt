@@ -16,12 +16,19 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user
+package com.mmdev.me.driver.data.datasource.billing
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
- *
+ * Used to retrieve current epoch time from internet
+ * Primary used to calculate proper payment time to inform user and not to use google play
+ * developer api in application
  */
 
-enum class SubscriptionDuration {
-	TRIAL, MONTH, SEMI_ANNUAL, ANNUAL
-}
+@Serializable
+data class DeviceIndependentTime(
+	@SerialName("unixtime")
+	val timeMillis: Long
+)

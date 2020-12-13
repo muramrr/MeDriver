@@ -20,6 +20,7 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.serialization.asConverterFactory
+import com.mmdev.me.driver.data.datasource.billing.TimeApi
 import com.mmdev.me.driver.data.datasource.fuel.prices.api.retrofit.FuelApi
 import com.mmdev.me.driver.data.datasource.vin.api.retrofit.VinCodeApi
 import com.mmdev.me.driver.data.sync.download.DataDownloader
@@ -44,11 +45,13 @@ val NetworkModule = module {
 	
 	single { provideVinCodeApi(retrofit = get()) }
 	single { provideFuelApi(retrofit = get()) }
+	single { provideTimeApi(retrofit = get()) }
 	
 }
 
 private fun provideVinCodeApi(retrofit: Retrofit): VinCodeApi = retrofit.create(VinCodeApi::class.java)
 private fun provideFuelApi(retrofit: Retrofit): FuelApi = retrofit.create(FuelApi::class.java)
+private fun provideTimeApi(retrofit: Retrofit): TimeApi = retrofit.create(TimeApi::class.java)
 
 private fun provideRetrofit(): Retrofit = Retrofit.Builder()
 	.apply {

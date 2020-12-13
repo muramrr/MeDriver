@@ -24,8 +24,8 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 def versionMajor = 1
-def versionMinor = 0
-def versionPatch = 1
+def versionMinor = 1
+def versionPatch = 2
 
 static def timestampVersion() {
 	def date = new Date()
@@ -62,6 +62,7 @@ android {
 	buildTypes {
 		release {
 			minifyEnabled true
+			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 			//signingConfig signingConfigs.release
 		}

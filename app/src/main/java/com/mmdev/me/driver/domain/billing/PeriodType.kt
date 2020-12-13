@@ -16,19 +16,29 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user
+package com.mmdev.me.driver.domain.billing
 
-import com.mmdev.me.driver.domain.user.SubscriptionDuration.TRIAL
-import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 
 /**
- * @param startFrom is an epoch millis when subscription starts work
- * @param validUntil contains epoch millis seconds until subscription is valid
+ *
  */
 
-data class SubscriptionData(
-	val type: SubscriptionType = FREE,
-	val duration: SubscriptionDuration = TRIAL,
-	val startFrom: Long = 0,
-	val validUntil: Long = 0
-)
+enum class PeriodType {
+	UNKNOWN,
+	DAY,
+	WEEK,
+	MONTH,
+	YEAR;
+	
+	companion object {
+		fun getDurationInMillisByType(type: PeriodType): Long = when(type) {
+			UNKNOWN -> 0
+			DAY -> DateHelper.DAY_DURATION
+			WEEK -> DateHelper.WEEK_DURATION
+			MONTH -> DateHelper.MONTH_DURATION
+			YEAR -> DateHelper.YEAR_DURATION
+		}
+	}
+	
+}

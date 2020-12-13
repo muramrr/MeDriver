@@ -16,19 +16,21 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user
+package com.mmdev.me.driver.data.datasource.billing
 
-import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
-import com.mmdev.me.driver.domain.user.SubscriptionType.PREMIUM
-import com.mmdev.me.driver.domain.user.SubscriptionType.PRO
+import retrofit2.http.GET
 
-data class UserDataInfo(
-	val id: String,
-	val email: String,
-	val isEmailVerified: Boolean,
-	val subscriptionType: SubscriptionType = FREE
-) {
-	fun isSubscribed(): Boolean = subscriptionType != FREE
-	fun isPremium(): Boolean = subscriptionType == PREMIUM
-	fun isPro(): Boolean = subscriptionType == PRO
+/**
+ * Used to retrieve independent utc time
+ */
+
+interface TimeApi {
+	
+	private companion object {
+		private const val TIME_URL = "http://worldtimeapi.org/api/timezone/Europe/London"
+	}
+	
+	@GET(TIME_URL)
+	suspend fun getTime(): DeviceIndependentTime
+	
 }

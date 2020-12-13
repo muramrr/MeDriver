@@ -23,25 +23,23 @@ import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
- * Mapping between user DTOs/entities/domain data classes
+ * Mapping between user DTO/domain data classes
  */
 
 class UserMappers {
 	
-	// domains
+	// domain
 	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = FirestoreUserDto(
 		id = domain.id,
 		email = domain.email,
-		isEmailVerified = domain.isEmailVerified,
-		subscription = domain.subscription
+		isEmailVerified = domain.isEmailVerified
 	)
 	
-	// dtos
+	// dto
 	fun dtoToDomain(dto: FirestoreUserDto): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = dto.isEmailVerified,
-		subscription = dto.subscription
+		isEmailVerified = dto.isEmailVerified
 	)
 	
 	// framework based

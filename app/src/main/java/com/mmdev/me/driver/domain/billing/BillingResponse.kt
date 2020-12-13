@@ -16,15 +16,13 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.core.billing
-
-import com.android.billingclient.api.BillingClient.BillingResponseCode
+package com.mmdev.me.driver.domain.billing
 
 /**
  * Human representation of [BillingResponseCode] codes
  */
 
-enum class BillingResponses (val code: Int) {
+enum class BillingResponse (val code: Int) {
 	SERVICE_TIMEOUT(-3),
 	FEATURE_NOT_SUPPORTED(-2),
 	SERVICE_DISCONNECTED(-1),

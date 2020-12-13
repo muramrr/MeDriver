@@ -32,7 +32,6 @@ import androidx.work.WorkInfo.State.SUCCEEDED
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
-import com.android.billingclient.api.BillingFlowParams
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.UploadWorker
@@ -50,6 +49,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
 	
+	private val TAG = "mylogs_${javaClass.simpleName}"
+	
 	companion object {
 		const val USER_KEY = "USER_KEY"
 		@Volatile
@@ -61,9 +62,6 @@ class MainActivity: AppCompatActivity() {
 				MedriverApp.currentVehicleVinCode = value?.vin ?: ""
 			}
 	}
-	
-	private val TAG = "mylogs_${javaClass.simpleName}"
-	
 	
 	private val sharedViewModel: SharedViewModel by viewModel()
 	private var _binding: ActivityMainBinding? = null
@@ -103,18 +101,13 @@ class MainActivity: AppCompatActivity() {
 		observeVehicle()
 		observeUserData()
 		
-		
-//		MedriverApp.appBillingClient.skuListWithDetails.observe(this, {
-//			logInfo(TAG, "sku = $it")
-//		})
-//
-//		MedriverApp.appBillingClient.purchaseUpdateEvent.observe(this, {
-//			logInfo(TAG, "purchase event = $it")
-//		})
-//
-//		MedriverApp.appBillingClient.purchases.observe(this, {
-//			logInfo(TAG, "purchases = $it")
-//		})
+		sharedViewModel.skuListWithDetails.observe(this, {
+			logWtf(TAG, "sku = $it")
+		})
+
+		sharedViewModel.purchases.observe(this, {
+			logWtf(TAG, "purchases = $it")
+		})
 	
 	}
 	
@@ -158,7 +151,7 @@ class MainActivity: AppCompatActivity() {
 	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
 	private fun startUploadWorker(user: UserDataInfo) {
-		if (user.isSubscriptionValid() && !SharedViewModel.uploadWorkerExecuted) {
+		if (user.isPro() && !SharedViewModel.uploadWorkerExecuted) {
 			val constraints = Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
@@ -178,7 +171,7 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	private fun startDownloadWorker(user: UserDataInfo) {
-		if (user.isSubscriptionValid()) {
+		if (user.isPro()) {
 			val constraints = Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
@@ -258,14 +251,10 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	
-	fun launchPurchaseFlow(identifier: String) {
-		val flowParams = BillingFlowParams.newBuilder()
-			.setObfuscatedAccountId(currentUser!!.id)
-			.setSkuDetails(MedriverApp.appBillingClient.skuListWithDetails.value!![identifier]!!)
-			.build()
-		MedriverApp.appBillingClient.launchBillingFlow(this, flowParams)
-
-	}
+	fun launchPurchaseFlow(identifier: String) = sharedViewModel.launchBillingFlow(
+		this,
+		identifier
+	)
 	
 	override fun onDestroy() {
 		binding.unbind()

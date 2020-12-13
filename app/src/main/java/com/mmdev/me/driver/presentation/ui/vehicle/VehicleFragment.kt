@@ -305,14 +305,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			
 			childView.findViewById<TextView>(R.id.tvDropCarItemText).apply {
 				text = if (vehicle.titleRes != null) getStringRes(vehicle.titleRes) else vehicle.title
-				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
+				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isPremium() ?: false)
 			}
 			childView.findViewById<ImageView>(R.id.ivDropCarItemIcon).apply {
 				setImageResource(vehicle.icon)
-				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
+				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isPremium() ?: false)
 			}
 			//if no premium, only first position will be available
-			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser != null && MainActivity.currentUser!!.isSubscriptionValid())
+			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isPremium() ?: false)
 			childView.findViewById<TextView>(R.id.tvDropCarItemProLabel).visibleIf(View.INVISIBLE, 0) {
 				position == count - 1 && !childView.isEnabled
 			}

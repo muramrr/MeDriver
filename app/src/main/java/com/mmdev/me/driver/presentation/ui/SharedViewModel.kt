@@ -18,12 +18,13 @@
 
 package com.mmdev.me.driver.presentation.ui
 
+import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
+import com.mmdev.me.driver.data.repository.billing.BillingRepository
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.user.auth.AuthStatus
@@ -42,12 +43,22 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel(
 	private val authProvider: IAuthFlowProvider,
-	private val fetcher: IFetchingRepository
+	private val fetcher: IFetchingRepository,
+	private val billing: BillingRepository
 ) : BaseViewModel() {
 	
 	companion object {
 		var uploadWorkerExecuted = false
 	}
+	
+	/**
+	 * Purchases are observable. This list will be updated when the Billing Library
+	 * detects new or existing purchases. All observers will be notified.
+	 */
+	val purchases = billing.purchases
+	
+	/** SkuDetails for all known SKUs.*/
+	val skuListWithDetails = billing.skuListWithDetails
 	
 	val userDataInfo = MutableLiveData<UserDataInfo?>()
 	
@@ -57,7 +68,7 @@ class SharedViewModel(
 		viewModelScope.launch {
 			authProvider.getAuthUserFlow().collect {
 				userDataInfo.value = it
-				if (it != null && it.isPro()) fetcher.listenForUpdates(it.email)
+				if (it?.isPro() == true) fetcher.listenForUpdates(it.email)
 			}
 		}
 	}
@@ -85,22 +96,8 @@ class SharedViewModel(
 		}
 	}
 	
-	fun updateUser(user: UserDataInfo) {
-		if (user != MainActivity.currentUser!!) {
-			
-			logWarn(TAG, "Updating user..")
-			
-			viewModelScope.launch {
-				
-				authProvider.updateUser(user).collect { result ->
-					result.fold(
-						success = { userDataInfo.value = user },
-						failure = { logError(TAG, "$it") }
-					)
-				}
-				
-			}
-		}
+	fun launchBillingFlow(activity: Activity, identifier: String) {
+		billing.launchBillingFlow(activity, identifier, userDataInfo.value!!.id)
 	}
 	
 }

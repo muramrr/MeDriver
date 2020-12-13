@@ -20,6 +20,8 @@ package com.mmdev.me.driver.core.utils.extensions
 
 import android.content.Context
 import android.provider.Settings.Secure
+import androidx.lifecycle.LifecycleOwner
+import com.mmdev.me.driver.core.utils.FlowObserver
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
@@ -30,6 +32,19 @@ suspend fun <K, V> Flow<Pair<K, V>>.toMap(): Map<K, V> {
 	val result = mutableMapOf<K, V>()
 	collect { (k, v) -> result[k] = v }
 	return result
+}
+
+inline fun <reified T> Flow<T>.observe(
+	lifecycleOwner: LifecycleOwner,
+	noinline collector: suspend (T) -> Unit
+) {
+	FlowObserver(lifecycleOwner, this, collector)
+}
+
+inline fun <reified T> Flow<T>.observeIn(
+	lifecycleOwner: LifecycleOwner
+) {
+	FlowObserver(lifecycleOwner, this, {})
 }
 
 

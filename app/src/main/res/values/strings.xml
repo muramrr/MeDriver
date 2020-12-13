@@ -124,10 +124,10 @@
 	<string name="btm_sheet_subscription_already_chosen_plan">Current</string>
 	
 	<string name="btm_sheet_subscription_feature1">Notifications about coming maintenance</string>
-	<string name="btm_sheet_subscription_feature2">Data backup</string>
+	<string name="btm_sheet_subscription_feature2">Unlimited vehicles</string>
 	<string name="btm_sheet_subscription_feature3">More useful stats</string>
 	<string name="btm_sheet_subscription_feature4">Multiple devices support</string>
-	<string name="btm_sheet_subscription_feature5">Unlimited vehicles</string>
+	<string name="btm_sheet_subscription_feature5">Data backup</string>
 	
 	<string name="btm_sheet_premium_feature_sync_title">Backup</string>
 	<string name="btm_sheet_premium_feature_sync_subtitle">Backup all of your history and expenses</string>

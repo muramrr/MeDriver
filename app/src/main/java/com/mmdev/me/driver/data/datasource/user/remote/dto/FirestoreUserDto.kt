@@ -19,7 +19,6 @@
 package com.mmdev.me.driver.data.datasource.user.remote.dto
 
 import com.google.firebase.firestore.PropertyName
-import com.mmdev.me.driver.domain.user.SubscriptionData
 
 /**
  * User remote data which is used to be stored on backend
@@ -30,6 +29,5 @@ data class FirestoreUserDto (
 	@PropertyName("email") val email: String = "",
 	@JvmField // use this annotation if your Boolean field is prefixed with 'is'
 	@PropertyName("isEmailVerified") val isEmailVerified: Boolean = false,
-	@PropertyName("subscription") val subscription: SubscriptionData = SubscriptionData(),
 	@PropertyName("installationTokens") val installationTokens: Map<String, String> = emptyMap()
 )

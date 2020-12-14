@@ -27,7 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
-import com.mmdev.me.driver.databinding.BottomSheetVehicleAddBinding
+import com.mmdev.me.driver.databinding.BtmSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
@@ -44,8 +44,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * [BottomSheetDialogFragment] used to add new vehicles
  */
 
-class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BottomSheetVehicleAddBinding>(
-	layoutId = R.layout.bottom_sheet_vehicle_add
+class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmSheetVehicleAddBinding>(
+	layoutId = R.layout.btm_sheet_vehicle_add
 ) {
 	
 	override val mViewModel: VehicleAddViewModel by viewModel()

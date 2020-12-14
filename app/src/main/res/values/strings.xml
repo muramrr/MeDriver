@@ -566,6 +566,21 @@
 	<string name="fg_settings_auth_email_sent_success">Email sent</string>
 <!-- ******************************************************************************************* -->
 
+
+
+<!-- *********************************** bottom_sheet_about ************************************ -->
+	<string name="about_version" translatable="false">1.0.0</string>
+	<string name="about_year" translatable="false">2020</string>
+	<string name="about_email_address" translatable="false">andrii.muramrr@gmail.com</string>
+	
+	<string name="about_created_by">Created by\nAndrii Kovalchuk</string>
+	<string name="about_email_me">Any questions or proposals? Email me.</string>
+	
+	<string name="about_privacy_policy">Privacy policy</string>
+	<string name="about_terms_of_service">Terms of service</string>
+	
+<!-- ******************************************************************************************* -->
+
 	
 
 	

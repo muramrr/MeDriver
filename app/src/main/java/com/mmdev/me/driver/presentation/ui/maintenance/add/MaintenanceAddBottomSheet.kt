@@ -30,7 +30,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.BottomSheetMaintenanceAddBinding
+import com.mmdev.me.driver.databinding.BtmSheetMaintenanceAddBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
 import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts.OTHER
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart.Companion.OTHER
@@ -54,9 +54,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Container for adding new maintenance records
  */
 
-class MaintenanceAddBottomSheet: BaseBottomSheetFragment
-                                 <MaintenanceAddViewModel, BottomSheetMaintenanceAddBinding>(
-	layoutId = R.layout.bottom_sheet_maintenance_add
+class MaintenanceAddBottomSheet: BaseBottomSheetFragment<MaintenanceAddViewModel, BtmSheetMaintenanceAddBinding>(
+	layoutId = R.layout.btm_sheet_maintenance_add
 ) {
 	
 	override val mViewModel: MaintenanceAddViewModel by viewModel()

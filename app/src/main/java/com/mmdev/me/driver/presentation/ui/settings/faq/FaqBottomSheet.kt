@@ -16,35 +16,30 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.subscription
+package com.mmdev.me.driver.presentation.ui.settings.faq
 
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.SnapHelper
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.BtmSheetSubscriptionBinding
+import com.mmdev.me.driver.databinding.BtmSheetFaqBinding
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
-import com.mmdev.me.driver.presentation.ui.MainActivity
-import com.mmdev.me.driver.presentation.ui.common.custom.HorizontalCarouselLayoutManager
-import com.mmdev.me.driver.presentation.ui.common.custom.decorators.CentralFirstLastItemDecoration
 
 /**
- *
+ * Display frequently asked questions and answers
  */
 
-class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscriptionBinding>(
-	layoutId = R.layout.btm_sheet_subscription
+class FaqBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetFaqBinding>(
+	layoutId = R.layout.btm_sheet_faq
 ) {
 	
-	private companion object {
-		private const val PREMIUM_SKU = "premium_3_month"
-		private const val PRO_SKU = "pro_3_months"
-	}
-	
 	override val mViewModel: Nothing? = null
+	
+	private val faqAdapter = FaqAdapter()
 	
 	//attach callback, force dismiss with animation, set state
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,29 +59,14 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscrip
 		sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 	}
 	
-	
 	override fun setupViews() {
-		
-		binding.rvSubscriptionPlans.apply {
-			adapter = PlansAdapter().apply {
-				setOnItemClickListener { view, position, item ->
-					when (position) {
-						1 -> (requireActivity() as MainActivity).launchPurchaseFlow(PREMIUM_SKU)
-						2 -> (requireActivity() as MainActivity).launchPurchaseFlow(PRO_SKU)
-					}
-					
-				}
-			}
-			
-			layoutManager = HorizontalCarouselLayoutManager(this.context,false)
-			//adjust auto swipe to item center
-			val snapHelper: SnapHelper = LinearSnapHelper()
-			snapHelper.attachToRecyclerView(this)
-			
-			addItemDecoration(
-				CentralFirstLastItemDecoration(PlansAdapter.CHILD_MARGIN)
-			)
+		binding.rvFaqList.apply {
+			adapter = faqAdapter
+			layoutManager = LinearLayoutManager(this.context)
+			addItemDecoration(DividerItemDecoration(this.context, RecyclerView.VERTICAL))
+			setHasFixedSize(true)
 		}
 	}
+	
 	
 }

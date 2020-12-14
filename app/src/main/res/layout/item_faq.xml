@@ -17,6 +17,23 @@
   ~ along with this program.  If not, see https://www.gnu.org/licenses
   -->
 
-<resources>
-    <color name="ic_launcher_background">#000000</color>
-</resources>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="String"
+			/>
+	</data>
+	
+	<com.google.android.material.textview.MaterialTextView android:id="@+id/tvItemFaq"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		android:drawableEnd="@drawable/ic_arrow_right_24"
+		android:drawablePadding="8dp"
+		
+		android:text="@{bindItem}"
+		/>
+	
+</layout>

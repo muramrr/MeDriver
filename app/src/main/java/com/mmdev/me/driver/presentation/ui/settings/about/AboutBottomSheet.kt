@@ -16,33 +16,28 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.subscription
+package com.mmdev.me.driver.presentation.ui.settings.about
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.SnapHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.BtmSheetSubscriptionBinding
+import com.mmdev.me.driver.databinding.BtmSheetAboutBinding
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
-import com.mmdev.me.driver.presentation.ui.MainActivity
-import com.mmdev.me.driver.presentation.ui.common.custom.HorizontalCarouselLayoutManager
-import com.mmdev.me.driver.presentation.ui.common.custom.decorators.CentralFirstLastItemDecoration
+import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
+import com.mmdev.me.driver.presentation.utils.extensions.showToast
 
 /**
- *
+ * About application screen
  */
 
-class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscriptionBinding>(
-	layoutId = R.layout.btm_sheet_subscription
+class AboutBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetAboutBinding>(
+	layoutId = R.layout.btm_sheet_about
 ) {
-	
-	private companion object {
-		private const val PREMIUM_SKU = "premium_3_month"
-		private const val PRO_SKU = "pro_3_months"
-	}
 	
 	override val mViewModel: Nothing? = null
 	
@@ -64,29 +59,46 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscrip
 		sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 	}
 	
-	
 	override fun setupViews() {
 		
-		binding.rvSubscriptionPlans.apply {
-			adapter = PlansAdapter().apply {
-				setOnItemClickListener { view, position, item ->
-					when (position) {
-						1 -> (requireActivity() as MainActivity).launchPurchaseFlow(PREMIUM_SKU)
-						2 -> (requireActivity() as MainActivity).launchPurchaseFlow(PRO_SKU)
+		val url = "https://github.com/muramrr/MeDriver"
+		val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+		
+		val emailIntent = Intent(Intent.ACTION_SENDTO)
+		emailIntent.data = Uri.parse("mailto:" + getString(R.string.about_email_address))
+		val chooserIntent = Intent.createChooser(emailIntent, "")
+		
+		binding.apply {
+			var clickCounter = 0
+			ivAppLogo.setOnClickListener {
+				if (clickCounter == 100) {
+					clickCounter = 0
+					try {
+						startActivity(browserIntent)
+					} catch (e: ActivityNotFoundException) {
+						it.showToast(getString(R.string.not_found))
 					}
-					
+				}
+				else clickCounter++
+			}
+			
+			chipSendEmail.setDebounceOnClick {
+				try {
+					startActivity(chooserIntent)
+				} catch (e: ActivityNotFoundException) {
+					showToast(getString(R.string.not_found))
 				}
 			}
 			
-			layoutManager = HorizontalCarouselLayoutManager(this.context,false)
-			//adjust auto swipe to item center
-			val snapHelper: SnapHelper = LinearSnapHelper()
-			snapHelper.attachToRecyclerView(this)
+			tvPrivacyPolicy.setDebounceOnClick {
+				//todo
+			}
 			
-			addItemDecoration(
-				CentralFirstLastItemDecoration(PlansAdapter.CHILD_MARGIN)
-			)
+			tvTermsOfService.setDebounceOnClick {
+				//todo
+			}
 		}
 	}
+	
 	
 }

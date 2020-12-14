@@ -30,7 +30,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.*
+import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
+import com.mmdev.me.driver.core.utils.MetricSystem.MILES
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
@@ -40,7 +41,9 @@ import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
+import com.mmdev.me.driver.presentation.ui.settings.about.AboutBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
+import com.mmdev.me.driver.presentation.ui.settings.faq.FaqBottomSheet
 import com.mmdev.me.driver.presentation.ui.subscription.SubscriptionBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.gone
@@ -120,9 +123,16 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			}
 		
 			btnMoreFeatures.setDebounceOnClick {
-				SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java .canonicalName)
+				SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java.canonicalName)
 			}
 			
+			cvFAQ.setDebounceOnClick {
+				FaqBottomSheet().show(childFragmentManager, FaqBottomSheet::class.java.canonicalName)
+			}
+			
+			cvAbout.setDebounceOnClick {
+				AboutBottomSheet().show(childFragmentManager, AboutBottomSheet::class.java.canonicalName)
+			}
 		}
 		
 

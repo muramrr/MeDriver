@@ -18,6 +18,10 @@
   -->
 
 <resources>
+	
+	<color name="ic_launcher_background">#000000</color>
+	<color name="ic_app_banner_background">#000000</color>
+	
 	<color name="colorPrimary">#084177</color>
 	<color name="colorPrimaryVariant">@color/colorPrimaryDark</color>
 	<color name="colorOnPrimary">#ffffff</color>

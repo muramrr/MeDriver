@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:background="@color/colorBackground"
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		>
+		
+		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+			android:id="@+id/ivAppLogo"
+			android:layout_width="320dp"
+			android:layout_height="180dp"
+			
+			app:imgCornerRadius="8dp"
+			android:scaleType="centerCrop"
+			android:src="@mipmap/ic_app_banner"
+			
+			app:layout_constraintVertical_bias="0.1"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:contentDescription="@null"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvAppVersion"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			android:padding="8dp"
+			
+			android:text="@string/about_version"
+			
+			app:layout_constraintTop_toBottomOf="@id/ivAppLogo"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvAppName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:text="@string/app_name"
+			android:textAppearance="?textAppearanceHeadline6"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvAppVersion"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvAppYear"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			
+			android:text="@string/about_year"
+			android:textAppearance="?textAppearanceCaption"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvAppName"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvCreatedBy"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			android:padding="8dp"
+			
+			android:text="@string/about_created_by"
+			android:textAlignment="center"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvAppYear"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvEmailMe"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:textAppearance="?textAppearanceOverline"
+			android:text="@string/about_email_me"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintTop_toBottomOf="@id/tvCreatedBy"
+			app:layout_constraintBottom_toTopOf="@id/chipSendEmail"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		<com.google.android.material.chip.Chip android:id="@+id/chipSendEmail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:text="@string/about_email_address"
+			style="@style/Widget.MaterialComponents.Chip.Action"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintTop_toBottomOf="@id/tvEmailMe"
+			app:layout_constraintBottom_toTopOf="@id/tvPrivacyPolicy"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvPrivacyPolicy"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background="?colorSurface"
+			android:padding="8dp"
+			
+			android:text="@string/about_privacy_policy"
+			
+			app:layout_constraintBottom_toTopOf="@id/tvTermsOfService"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvTermsOfService"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background="?colorSurface"
+			android:padding="8dp"
+			
+			android:text="@string/about_terms_of_service"
+			
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -134,8 +134,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 			    && calculatedConsumption > 0.0
 			    && lastAddedEntry != null) {
 				
-				if (calculatedConsumption > lastAddedEntry.getConsumptionValue())
-					R.drawable.ic_arrow_up_24
+				if (calculatedConsumption > lastAddedEntry.getConsumptionValue()) R.drawable.ic_arrow_up_24
 				else R.drawable.ic_arrow_down_24
 				
 			}

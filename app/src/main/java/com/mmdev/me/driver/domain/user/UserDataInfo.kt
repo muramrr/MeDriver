@@ -18,9 +18,8 @@
 
 package com.mmdev.me.driver.domain.user
 
-import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
-import com.mmdev.me.driver.domain.user.SubscriptionType.PREMIUM
-import com.mmdev.me.driver.domain.user.SubscriptionType.PRO
+import com.mmdev.me.driver.domain.billing.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionType.*
 
 data class UserDataInfo(
 	val id: String,

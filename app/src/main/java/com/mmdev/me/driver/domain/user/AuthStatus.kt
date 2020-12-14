@@ -16,22 +16,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user.auth
-
-import com.google.firebase.auth.FirebaseUser
-import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.UserDataInfo
-import kotlinx.coroutines.flow.Flow
+package com.mmdev.me.driver.domain.user
 
 /**
- * Main features:
- * convert [FirebaseAuth] callbacks to simplified [AuthStatus]
- * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserDataInfo]
+ * [UNAUTHENTICATED] - Initial state, the user needs to authenticate
+ * [AUTHENTICATED] - The user has authenticated successfully
  */
 
-interface IAuthFlowProvider {
-	
-	fun getAuthUserFlow(): Flow<UserDataInfo?>
-	
-	fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>>
+enum class AuthStatus {
+	UNAUTHENTICATED,
+	AUTHENTICATED,
 }

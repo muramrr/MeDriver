@@ -18,8 +18,13 @@
 
 package com.mmdev.me.driver.data.repository.auth.mappers
 
+import com.android.billingclient.api.Purchase
 import com.google.firebase.auth.FirebaseUser
+import com.mmdev.me.driver.data.datasource.billing.data.PurchaseDto
+import com.mmdev.me.driver.data.datasource.billing.data.SkuDto
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
+import com.mmdev.me.driver.domain.billing.PeriodType
+import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
@@ -29,17 +34,21 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 class UserMappers {
 	
 	// domain
-	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = FirestoreUserDto(
-		id = domain.id,
-		email = domain.email,
-		isEmailVerified = domain.isEmailVerified
-	)
+//	fun domainToDto(domain: UserDataInfo): FirestoreUserDto = FirestoreUserDto(
+//		id = domain.id,
+//		email = domain.email,
+//		isEmailVerified = domain.isEmailVerified
+//	)
 	
 	// dto
-	fun dtoToDomain(dto: FirestoreUserDto): UserDataInfo = UserDataInfo(
+	fun dtoToDomain(
+		dto: FirestoreUserDto,
+		subscriptionType: SubscriptionType = SubscriptionType.FREE
+	): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = dto.isEmailVerified
+		isEmailVerified = dto.isEmailVerified,
+		subscriptionType = subscriptionType
 	)
 	
 	// framework based
@@ -48,5 +57,49 @@ class UserMappers {
 		email = firebaseUser.email!!,
 		isEmailVerified = firebaseUser.isEmailVerified
 	)
+	
+	
+	private fun toSkuDto(sku: String): SkuDto {
+		val identifiers = sku.split("_")
+		val type = when (identifiers.first()) {
+			"premium" -> SubscriptionType.PREMIUM
+			"pro" -> SubscriptionType.PRO
+			else -> SubscriptionType.FREE
+		}
+		val periodDuration = identifiers[1].toInt()
+		val periodType = when (identifiers.last()) {
+			"day" -> PeriodType.DAY
+			"week" -> PeriodType.WEEK
+			"month" -> PeriodType.MONTH
+			"months" -> PeriodType.MONTH
+			"year" -> PeriodType.YEAR
+			else -> PeriodType.UNKNOWN
+		}
+		
+		return SkuDto(type, periodDuration, periodType)
+	}
+	
+	fun toPurchaseDto(purchase: Purchase) = PurchaseDto(
+		accountId = purchase.accountIdentifiers!!.obfuscatedAccountId!!,
+		isAcknowledged = purchase.isAcknowledged,
+		isAutoRenewing = purchase.isAutoRenewing,
+		orderId = purchase.orderId,
+		originalJson = purchase.originalJson,
+		purchaseTime = purchase.purchaseTime,
+		purchaseToken = purchase.purchaseToken,
+		signature = purchase.signature,
+		sku = toSkuDto(purchase.sku),
+		skuOriginal = purchase.sku
+	
+	)
+	
+	fun parseSku(sku: String): SubscriptionType {
+		val identifiers = sku.split("_")
+		return when (identifiers.first()) {
+			"premium" -> SubscriptionType.PREMIUM
+			"pro" -> SubscriptionType.PRO
+			else -> SubscriptionType.FREE
+		}
+	}
 	
 }

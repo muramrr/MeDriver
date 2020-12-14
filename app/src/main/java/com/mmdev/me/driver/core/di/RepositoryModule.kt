@@ -20,8 +20,6 @@ package com.mmdev.me.driver.core.di
 
 import com.mmdev.me.driver.data.repository.auth.AuthFlowProviderImpl
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
-import com.mmdev.me.driver.data.repository.billing.BillingMappers
-import com.mmdev.me.driver.data.repository.billing.BillingRepository
 import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
@@ -35,10 +33,9 @@ import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
 import com.mmdev.me.driver.domain.home.IHomeRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
-import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
-import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
+import com.mmdev.me.driver.domain.user.IAuthFlowProvider
+import com.mmdev.me.driver.domain.user.ISettingsRepository
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
-import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 /**
@@ -49,15 +46,6 @@ import org.koin.dsl.module
 
 
 val RepositoryModule = module {
-	
-	single {
-		BillingRepository(
-			context = androidApplication(),
-			userRemoteDataSource = get(),
-			timeApi = get(),
-			mappers = BillingMappers()
-		)
-	}
 	
 	factory<IFetchingRepository> {
 		FetchingRepositoryImpl(
@@ -71,6 +59,7 @@ val RepositoryModule = module {
 		AuthFlowProviderImpl(
 			authCollector = get(),
 			userRemoteDataSource = get(),
+			billingDataSource = get(),
 			mappers = UserMappers()
 		)
 	}

@@ -16,21 +16,17 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.billing
+package com.mmdev.me.driver.data.datasource.time
 
-import retrofit2.http.GET
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
- * Used to retrieve independent utc time
+ * May never be used
  */
 
-interface TimeApi {
-	
-	private companion object {
-		private const val TIME_URL = "http://worldtimeapi.org/api/timezone/Europe/London"
-	}
-	
-	@GET(TIME_URL)
-	suspend fun getTime(): DeviceIndependentTime
-	
-}
+@Serializable
+data class DeviceIndependentTime(
+	@SerialName("unixtime")
+	val timeMillis: Long
+)

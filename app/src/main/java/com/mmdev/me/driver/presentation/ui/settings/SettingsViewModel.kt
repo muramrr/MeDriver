@@ -23,7 +23,7 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.*
-import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
+import com.mmdev.me.driver.domain.user.ISettingsRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

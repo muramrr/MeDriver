@@ -16,11 +16,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.repository.billing
+package com.mmdev.me.driver.data.datasource.billing
 
 import android.app.Activity
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.*
@@ -36,12 +35,8 @@ import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.core.firebase.safeOffer
-import com.mmdev.me.driver.data.datasource.billing.TimeApi
-import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.domain.billing.BillingResponse
-import com.mmdev.me.driver.presentation.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -59,12 +54,8 @@ import kotlin.coroutines.CoroutineContext
  * but added coroutines and flow
  */
 
-class BillingRepository(
-	context: Context,
-	private val userRemoteDataSource: IUserRemoteDataSource,
-	private val timeApi: TimeApi,
-	private val mappers: BillingMappers
-): CoroutineScope, BillingClientStateListener, PurchasesUpdatedListener {
+class BillingDataSource(context: Context):
+		CoroutineScope, BillingClientStateListener, PurchasesUpdatedListener {
 	
 	override val coroutineContext: CoroutineContext
 		get() = MyDispatchers.io()
@@ -78,7 +69,6 @@ class BillingRepository(
 		private const val PREMIUM_SKU = "premium_3_month"
 		private const val PRO_SKU = "pro_3_months"
 		
-		private const val PURCHASES_FIELD = "lastPurchase"
 	}
 	
 	private val skuListIdentifiers = listOf(PREMIUM_SKU, PRO_SKU)
@@ -89,10 +79,25 @@ class BillingRepository(
 	)
 	
 	/** This list will be updated when the Billing Library detects new or existing purchases */
-	val purchases = MutableLiveData<List<Purchase>>()
+	val purchases = MutableSharedFlow<List<Purchase>?>(
+		replay = 1,
+		onBufferOverflow = BufferOverflow.DROP_OLDEST
+	)
+	
+	val acknowledgedPurchase = MutableSharedFlow<Purchase>(
+		replay = 1,
+		onBufferOverflow = BufferOverflow.DROP_OLDEST
+	)
+	
+	private var _purchases: List<Purchase> = emptyList()
+		set(value) {
+			field = value
+			purchases.tryEmit(value)
+			logInfo(TAG, "Purchases: $field")
+		}
 	
 	/** SkuDetails for all known SKUs.*/
-	private val skuListWithDetails = MutableLiveData<Map<String, SkuDetails>>()
+	private var skuListWithDetails: Map<String, SkuDetails> = emptyMap()
 	
 	
 	/** Instantiate a new BillingClient instance.*/
@@ -107,8 +112,9 @@ class BillingRepository(
 		
 		val responseCode = result.responseCode
 		val debugMessage = result.debugMessage
-		logDebug(TAG, "onBillingSetupFinished: response ${BillingResponse.getResponseType(responseCode)}, " +
-		              "debug message = $debugMessage")
+		logDebug(
+			TAG, "onBillingSetupFinished: response ${BillingResponse.getResponseType(responseCode)}, " +
+			     "debug message = $debugMessage")
 		
 		
 	}
@@ -126,25 +132,15 @@ class BillingRepository(
 			BillingResponseCode.OK -> {
 				if (purchases.isNullOrEmpty()) logDebug(TAG, "onPurchasesUpdated: null purchase list")
 				else {
-					processPurchases(purchases)
-					
 					launch {
+						processPurchases(purchases)
+						
 						val lastPurchase = purchases.last()
 						acknowledgePurchase(lastPurchase.purchaseToken).collect { billingResult ->
 							logInfo(TAG, "Acknowledge purchase result = ${BillingResponse.getResponseType(billingResult.responseCode)}")
 							
 							if (billingResult.responseCode == BillingResponseCode.OK) {
-								
-								val purchaseDto = mappers.toPurchaseDto(
-									lastPurchase
-								).copy(isAcknowledged = true)
-								userRemoteDataSource.updateFirestoreUserField(
-									MainActivity.currentUser!!.email,
-									PURCHASES_FIELD,
-									purchaseDto
-								).collect { result ->
-									logInfo(TAG, "User update result = $result")
-								}
+								acknowledgedPurchase.tryEmit(lastPurchase)
 							}
 						}
 					}
@@ -155,11 +151,12 @@ class BillingRepository(
 				logInfo(TAG, "onPurchasesUpdated: User canceled the purchase")
 			}
 			BillingResponseCode.DEVELOPER_ERROR -> {
-				logError(TAG, "onPurchasesUpdated: Developer error means that Google Play " +
-				              "does not recognize the configuration. If you are just getting started, " +
-				              "make sure you have configured the application correctly in the " +
-				              "Google Play Console. The SKU product ID must match and the APK you " +
-				              "are using must be signed with release keys."
+				logError(
+					TAG, "onPurchasesUpdated: Developer error means that Google Play " +
+					     "does not recognize the configuration. If you are just getting started, " +
+					     "make sure you have configured the application correctly in the " +
+					     "Google Play Console. The SKU product ID must match and the APK you " +
+					     "are using must be signed with release keys."
 				)
 			}
 		}
@@ -167,7 +164,8 @@ class BillingRepository(
 	
 	init {
 		logDebug(TAG, "Initialized")
-		billingClient.startConnection(this@BillingRepository)
+		billingClient.startConnection(this@BillingDataSource)
+		
 		launch {
 			billingClientStatus.collect {
 				when (it) {
@@ -176,7 +174,7 @@ class BillingRepository(
 						getPurchases()
 					}
 					else -> {
-						billingClient.startConnection(this@BillingRepository)
+						billingClient.startConnection(this@BillingDataSource)
 						delay(RETRY_MILLIS)
 					}
 				}
@@ -185,15 +183,14 @@ class BillingRepository(
 		
 	}
 	
-	private suspend fun getPurchases() =
-		withContext(MyDispatchers.io()) {
-			val result = billingClient.queryPurchases(SkuType.SUBS).purchasesList
-			processPurchases(result ?: emptyList())
-		}
+	private suspend fun getPurchases() = withContext(MyDispatchers.io()) {
+		val result = billingClient.queryPurchases(SkuType.SUBS).purchasesList
+		processPurchases(result ?: emptyList())
+	}
 	
 	private fun processPurchases(purchasesList: List<Purchase>) {
 		logDebug(TAG, "Processing purchases: ${purchasesList.size} purchase(s)")
-		purchases.postValue(purchasesList)
+		_purchases = purchasesList
 	}
 	
 	/** In order to make purchases, you need the [SkuDetails] for the item or subscription.*/
@@ -209,51 +206,11 @@ class BillingRepository(
 			val debugMessage = billingResult.debugMessage
 			logInfo(TAG, "SKU Details Response: ${BillingResponse.getResponseType(responseCode)}, $debugMessage")
 			if (responseCode == BillingResponseCode.OK) {
-				if (skuList.isNullOrEmpty()) skuListWithDetails.postValue(emptyMap()).also {
-					logWarn(TAG, "SkuDetails list is null")
-				}
-				else skuListWithDetails.postValue(skuList.map { it.sku to it }.toMap().also {
-					logInfo(TAG, "SKU Details retrieved count: ${it.size}")
-				})
+				skuListWithDetails = skuList?.map { it.sku to it }?.toMap() ?: emptyMap()
+				logInfo(TAG, "SKU Details retrieved count: ${skuListWithDetails.size}")
 			}
 		}
 	}
-	
-	/** Launching the UI to make a purchase requires a reference to the Activity. */
-	fun launchBillingFlow(
-		activity: Activity,
-		identifier: String,
-		accountId: String
-	) {
-		
-		val purchaseFlowParams = BillingFlowParams.newBuilder()
-			.setSkuDetails(skuListWithDetails.value!![identifier]!!)
-			.setObfuscatedAccountId(accountId)
-		
-		val sku = skuListWithDetails.value!![identifier]!!.sku
-		var oldSku = "null"
-		// setOldSku(previousSku, purchaseTokenOfOriginalSubscription)
-		if (!purchases.value.isNullOrEmpty()) {
-			val lastPurchase = purchases.value!!.last()
-			purchaseFlowParams.setOldSku(lastPurchase.sku, lastPurchase.purchaseToken)
-			oldSku = lastPurchase.sku
-			
-			/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
-			purchaseFlowParams.setReplaceSkusProrationMode(
-				if (oldSku == PRO_SKU) ProrationMode.DEFERRED else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE
-			)
-		}
-		
-		logInfo(TAG, "Launching billing flow for: sku: $sku, oldSku: $oldSku")
-		
-		val billingResult = billingClient.launchBillingFlow(activity, purchaseFlowParams.build())
-		val responseCode = billingResult.responseCode
-		val debugMessage = billingResult.debugMessage
-		
-		logDebug(TAG, "Launching billing flow: BillingResponse ${BillingResponse.getResponseType(responseCode)},  $debugMessage")
-		
-	}
-	
 	
 	/**
 	 * Acknowledge a purchase.
@@ -272,23 +229,57 @@ class BillingRepository(
 	 * that they paid for something that the app is not giving to them.
 	 */
 	private fun acknowledgePurchase(purchaseToken: String) = callbackFlow {
-		logDebug(TAG, "acknowledgePurchase")
 		val params = AcknowledgePurchaseParams.newBuilder()
 			.setPurchaseToken(purchaseToken)
 			.build()
 		
 		billingClient.acknowledgePurchase(params) { billingResult ->
-			val responseCode = billingResult.responseCode
-			val debugMessage = billingResult.debugMessage
-			logDebug(TAG, "acknowledgePurchase: response ${BillingResponse.getResponseType(responseCode)}, $debugMessage")
-			
 			safeOffer(billingResult)
-			
 		}
 		awaitClose {
 			cancel()
 		}
 	}
 	
+	/** Launching the UI to make a purchase requires a reference to the Activity. */
+	fun launchBillingFlow(
+		activity: Activity,
+		identifier: String,
+		accountId: String
+	) {
+		
+		var oldSku = "null"
+		val skuDetails = skuListWithDetails[identifier]
+		
+		skuDetails?.let {
+			val purchaseFlowParams = BillingFlowParams.newBuilder()
+				.setObfuscatedAccountId(accountId)
+				.setSkuDetails(it)
+			
+			
+			if (_purchases.isNotEmpty()) {
+				val lastPurchase = _purchases.last()
+				// setOldSku(previousSku, purchaseTokenOfOriginalSubscription)
+				purchaseFlowParams.setOldSku(lastPurchase.sku, lastPurchase.purchaseToken)
+				oldSku = lastPurchase.sku
+				
+				/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
+				purchaseFlowParams.setReplaceSkusProrationMode(
+					if (oldSku == PRO_SKU) ProrationMode.DEFERRED
+					else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE
+				)
+			}
+				
+			
+			logInfo(TAG, "Launching billing flow for: sku: ${it.sku}, oldSku: $oldSku")
+			
+			val billingResult = billingClient.launchBillingFlow(activity, purchaseFlowParams.build())
+			val responseCode = billingResult.responseCode
+			val debugMessage = billingResult.debugMessage
+			
+			logDebug(TAG, "Launching billing flow: BillingResponse ${BillingResponse.getResponseType(responseCode)},  $debugMessage")
+		}
+		
+	}
 	
 }

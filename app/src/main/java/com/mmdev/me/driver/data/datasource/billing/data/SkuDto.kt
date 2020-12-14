@@ -16,26 +16,20 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user.auth
+package com.mmdev.me.driver.data.datasource.billing.data
 
-import com.mmdev.me.driver.domain.core.SimpleResult
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.firestore.PropertyName
+import com.mmdev.me.driver.domain.billing.PeriodType
+import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
+import com.mmdev.me.driver.domain.billing.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
 
 /**
- * Settings repository responsible for authentication and registration new users,
- * also to fetch user data stored on backend
+ *
  */
 
-interface ISettingsRepository {
-	
-	fun resetPassword(email: String): Flow<SimpleResult<Unit>>
-	
-	fun sendEmailVerification(email: String): Flow<SimpleResult<Unit>>
-	
-	fun signIn(email: String, password: String): Flow<SimpleResult<SignInStatus>>
-	
-	fun signOut()
-	
-	fun signUp(email: String, password: String): Flow<SimpleResult<Unit>>
-	
-}
+data class SkuDto(
+	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
+	@PropertyName("periodDuration") val periodDuration: Int = 0,
+	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
+)

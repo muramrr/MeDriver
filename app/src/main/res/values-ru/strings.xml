@@ -532,7 +532,7 @@
 
 <!-- *********************************** bottom_sheet_about ************************************ -->
 	<string name="about_created_by">Разработка\nАндрей Ковальчук</string>
-	<string name="about_email_me">Предложения или вопросы? Напишите мне.</string>
+	<string name="about_email_me">Предложения или вопросы?</string>
 	
 	<string name="about_privacy_policy">Политика конфиденциальности</string>
 	<string name="about_terms_of_service">Условия использования</string>

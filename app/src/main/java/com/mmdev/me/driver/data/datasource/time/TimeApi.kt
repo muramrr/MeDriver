@@ -16,20 +16,23 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.repository.billing.data
+package com.mmdev.me.driver.data.datasource.time
 
-import com.google.firebase.firestore.PropertyName
-import com.mmdev.me.driver.domain.billing.PeriodType
-import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
-import com.mmdev.me.driver.domain.user.SubscriptionType
-import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
+import retrofit2.http.GET
 
 /**
+ * Used to retrieve independent utc time
  *
+ * May never be used
  */
 
-data class SkuDto(
-	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
-	@PropertyName("periodDuration") val periodDuration: Int = 0,
-	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
-)
+interface TimeApi {
+	
+	private companion object {
+		private const val TIME_URL = "http://worldtimeapi.org/api/timezone/Europe/London"
+	}
+	
+	@GET(TIME_URL)
+	suspend fun getTime(): DeviceIndependentTime
+	
+}

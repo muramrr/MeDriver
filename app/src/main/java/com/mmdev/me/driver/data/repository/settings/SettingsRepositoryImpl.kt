@@ -29,8 +29,8 @@ import com.mmdev.me.driver.data.sync.download.DataDownloader
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
-import com.mmdev.me.driver.domain.user.auth.SignInStatus
+import com.mmdev.me.driver.domain.user.ISettingsRepository
+import com.mmdev.me.driver.domain.user.SignInStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -81,7 +81,8 @@ class SettingsRepositoryImpl(
 												
 												dataDownloader.importData(user.email).collect { result ->
 													result.fold(
-														success = { emit(ResultState.success(SignInStatus.Finished)) },
+														success = { emit(ResultState.success(
+															SignInStatus.Finished)) },
 														failure = { emit(ResultState.failure(it)) }
 													)
 													
@@ -99,7 +100,8 @@ class SettingsRepositoryImpl(
 											dataDownloader.importData(user.email).collect { result ->
 												
 												result.fold(
-													success = { emit(ResultState.success(SignInStatus.Finished)) },
+													success = { emit(ResultState.success(
+														SignInStatus.Finished)) },
 													failure = { emit(ResultState.failure(it)) }
 												)
 											}

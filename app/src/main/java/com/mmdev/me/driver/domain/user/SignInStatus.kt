@@ -16,14 +16,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user.auth
+package com.mmdev.me.driver.domain.user
 
 /**
- * [UNAUTHENTICATED] - Initial state, the user needs to authenticate
- * [AUTHENTICATED] - The user has authenticated successfully
+ *
  */
 
-enum class AuthStatus {
-	UNAUTHENTICATED,
-	AUTHENTICATED,
+enum class SignInStatus {
+	Loading, Fetching, Deleting, Downloading, SignedIn, Aborted, Finished
 }

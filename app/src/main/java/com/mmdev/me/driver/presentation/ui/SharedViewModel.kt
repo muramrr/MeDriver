@@ -24,11 +24,10 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.repository.billing.BillingRepository
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
+import com.mmdev.me.driver.domain.user.AuthStatus
+import com.mmdev.me.driver.domain.user.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus
-import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.flow.collect
@@ -43,22 +42,12 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel(
 	private val authProvider: IAuthFlowProvider,
-	private val fetcher: IFetchingRepository,
-	private val billing: BillingRepository
+	private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
 	companion object {
 		var uploadWorkerExecuted = false
 	}
-	
-	/**
-	 * Purchases are observable. This list will be updated when the Billing Library
-	 * detects new or existing purchases. All observers will be notified.
-	 */
-	val purchases = billing.purchases
-	
-	/** SkuDetails for all known SKUs.*/
-	//val skuListWithDetails = billing.skuListWithDetails
 	
 	val userDataInfo = MutableLiveData<UserDataInfo?>()
 	
@@ -96,8 +85,12 @@ class SharedViewModel(
 		}
 	}
 	
+//	fun handleNewPurchases() = authProvider.observeNewPurchases(user.email).collect { result ->
+//		userDataInfo.value = user.copy(subscriptionType = result)
+//	}
+	
 	fun launchBillingFlow(activity: Activity, identifier: String) {
-		billing.launchBillingFlow(activity, identifier, userDataInfo.value!!.id)
+		authProvider.purchaseFlow(activity, identifier, userDataInfo.value!!.id)
 	}
 	
 }

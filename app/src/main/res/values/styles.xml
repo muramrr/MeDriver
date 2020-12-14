@@ -86,7 +86,7 @@
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>
 		
-		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
 	
 	</style>
 	
@@ -99,7 +99,7 @@
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>
 		
-		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
 	
 	</style>
 	
@@ -111,7 +111,7 @@
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>
 		
-		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
 	
 	</style>
 	
@@ -126,7 +126,7 @@
 		<item name="android:minWidth">48dp</item>
 		<item name="android:minHeight">48dp</item>
 		
-		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Subscription</item>
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Cut.8dp</item>
 	
 	</style>
 	
@@ -138,7 +138,7 @@
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>
 		
-		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Button.Rounded</item>
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
 	
 	</style>
 	

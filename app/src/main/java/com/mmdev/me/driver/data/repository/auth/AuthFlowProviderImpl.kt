@@ -18,7 +18,9 @@
 
 package com.mmdev.me.driver.data.repository.auth
 
+import android.app.Activity
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.installations.FirebaseInstallations
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
@@ -27,14 +29,15 @@ import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.mapToDomainUserData
+import com.mmdev.me.driver.data.datasource.billing.BillingDataSource
 import com.mmdev.me.driver.data.datasource.user.auth.AuthCollector
 import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
-import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
+import com.mmdev.me.driver.domain.user.AuthStatus
+import com.mmdev.me.driver.domain.user.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus
-import com.mmdev.me.driver.domain.user.auth.IAuthFlowProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -50,6 +53,7 @@ import kotlinx.coroutines.flow.transform
 class AuthFlowProviderImpl(
 	authCollector: AuthCollector,
 	private val userRemoteDataSource: IUserRemoteDataSource,
+	private val billingDataSource: BillingDataSource,
 	private val mappers: UserMappers
 ): IAuthFlowProvider {
 	
@@ -59,6 +63,8 @@ class AuthFlowProviderImpl(
 	private companion object{
 		private const val IS_EMAIL_VERIFIED_FIELD = "isEmailVerified"
 		private const val INSTALLATION_TOKENS_FIELD = "installationTokens"
+		
+		private const val PURCHASES_FIELD = "purchases"
 	}
 	
 	private val firebaseUserFlow: Flow<FirebaseUser?> = authCollector.firebaseAuthFlow.map {
@@ -134,15 +140,26 @@ class AuthFlowProviderImpl(
 					else {
 						logInfo(TAG, "Email verification status is up to date...")
 						
-						emit(mappers.dtoToDomain(firestoreUser))
+						//purchases can exists only when user verifies email
+						billingDataSource.purchases.collect { purchases ->
+							logDebug(TAG, "Collected purchases: $purchases")
+							emit(mappers.dtoToDomain(
+								firestoreUser,
+								if (!purchases.isNullOrEmpty()) mappers.parseSku(purchases.first().sku)
+								else FREE
+							))
+						}
+						
 					}
 				},
 				
-				//user info doesn't exist on backend or other error was thrown
+				/**
+				 * user info doesn't exist on backend or other error was thrown
+				 * probably, we have SIGN_UP case, so convert [FirebaseUser]
+				 */
 				failure = { error ->
 					logError(TAG, "Failed to retrieve user info from backend... ${error.message}")
 					
-					/** probably, we have SIGN_UP case, so convert [FirebaseUser] */
 					firebaseUser.sendEmailVerification() // send email verification
 					logDebug(TAG, "Trying to write to backend...")
 					userRemoteDataSource.writeFirestoreUser(mappers.firebaseUserToDto(firebaseUser)).collect { result ->
@@ -231,12 +248,24 @@ class AuthFlowProviderImpl(
 			)
 			
 		}
-		
-		
-		
 	
-	override fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>> =
-		userRemoteDataSource.writeFirestoreUser(mappers.domainToDto(user))
+	override fun purchaseFlow(activity: Activity, skuIdentifier: String, accountId: String) =
+		billingDataSource.launchBillingFlow(activity, skuIdentifier, accountId)
+		
+	override fun observeNewPurchases(email: String) = billingDataSource.acknowledgedPurchase.transform { purchase ->
+		val purchaseDto = mappers.toPurchaseDto(purchase).copy(isAcknowledged = true)
+		userRemoteDataSource.updateFirestoreUserField(
+			email,
+			PURCHASES_FIELD,
+			FieldValue.arrayUnion(purchaseDto)
+		).collect { result ->
+			emit(purchaseDto.sku.subscriptionType)
+			logInfo(TAG, "User update result = $result")
+		}
+	}
+	
+//	private fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>> =
+//		userRemoteDataSource.writeFirestoreUser(mappers.domainToDto(user))
 	
 	
 }

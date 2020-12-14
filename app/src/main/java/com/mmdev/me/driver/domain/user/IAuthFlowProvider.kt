@@ -16,19 +16,24 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.billing
+package com.mmdev.me.driver.domain.user
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import android.app.Activity
+import com.google.firebase.auth.FirebaseUser
+import com.mmdev.me.driver.domain.billing.SubscriptionType
+import kotlinx.coroutines.flow.Flow
 
 /**
- * Used to retrieve current epoch time from internet
- * Primary used to calculate proper payment time to inform user and not to use google play
- * developer api in application
+ * Main features:
+ * convert [FirebaseAuth] callbacks to simplified [AuthStatus]
+ * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserDataInfo]
  */
 
-@Serializable
-data class DeviceIndependentTime(
-	@SerialName("unixtime")
-	val timeMillis: Long
-)
+interface IAuthFlowProvider {
+	
+	fun getAuthUserFlow(): Flow<UserDataInfo?>
+	
+	fun observeNewPurchases(email: String): Flow<SubscriptionType>
+	
+	fun purchaseFlow(activity: Activity, skuIdentifier: String, accountId: String)
+}

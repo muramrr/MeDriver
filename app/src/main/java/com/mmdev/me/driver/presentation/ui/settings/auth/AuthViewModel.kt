@@ -22,8 +22,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.domain.user.auth.ISettingsRepository
-import com.mmdev.me.driver.domain.user.auth.SignInStatus
+import com.mmdev.me.driver.domain.user.ISettingsRepository
+import com.mmdev.me.driver.domain.user.SignInStatus
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith

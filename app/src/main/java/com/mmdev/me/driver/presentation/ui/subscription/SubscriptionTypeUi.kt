@@ -19,7 +19,7 @@
 package com.mmdev.me.driver.presentation.ui.subscription
 
 import androidx.annotation.StringRes
-import com.mmdev.me.driver.domain.user.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionType
 
 /**
  * Bound to represent [SubscriptionType] in UI

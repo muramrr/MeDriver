@@ -62,7 +62,7 @@
 				android:visibility="gone"
 				
 				style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-				app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Button.Subscription"
+				app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Cut.8dp"
 				
 				app:icon="@drawable/ic_subscription_premium_24"
 				app:iconTintMode="multiply"

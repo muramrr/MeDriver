@@ -44,8 +44,8 @@ import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.ActivityMainBinding
+import com.mmdev.me.driver.domain.user.AuthStatus.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
-import com.mmdev.me.driver.domain.user.auth.AuthStatus.*
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.utils.extensions.updateMargins
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -108,9 +108,6 @@ class MainActivity: AppCompatActivity() {
 //			logWtf(TAG, "sku = $it")
 //		})
 
-		sharedViewModel.purchases.observe(this, {
-			logWtf(TAG, "purchases = $it")
-		})
 	
 	}
 	

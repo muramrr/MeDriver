@@ -16,31 +16,26 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.utils.binding
+package com.mmdev.me.driver.domain.user
 
-import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingAdapter
-import androidx.databinding.InverseBindingListener
-import com.google.android.material.slider.Slider
+import com.mmdev.me.driver.domain.core.SimpleResult
+import kotlinx.coroutines.flow.Flow
 
 /**
- * Contains [Slider] value binding methods
+ * Settings repository responsible for authentication and registration new users,
+ * also to fetch user data stored on backend
  */
 
-object BindingSlider {
+interface ISettingsRepository {
 	
-	//getter for slider value
-	@JvmStatic
-	@InverseBindingAdapter(attribute = "android:value")
-	fun getSliderValue(slider: Slider): Float = slider.value
+	fun resetPassword(email: String): Flow<SimpleResult<Unit>>
 	
-	//change listener for slider value
-	@JvmStatic
-	@BindingAdapter("android:valueAttrChanged")
-	fun setSliderListeners(slider: Slider, attrChange: InverseBindingListener) {
-		slider.addOnChangeListener { _, _, _ ->
-			attrChange.onChange()
-		}
-	}
+	fun sendEmailVerification(email: String): Flow<SimpleResult<Unit>>
+	
+	fun signIn(email: String, password: String): Flow<SimpleResult<SignInStatus>>
+	
+	fun signOut()
+	
+	fun signUp(email: String, password: String): Flow<SimpleResult<Unit>>
 	
 }

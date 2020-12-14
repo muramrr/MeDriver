@@ -22,9 +22,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemSubscriptionPlanBinding
-import com.mmdev.me.driver.domain.user.SubscriptionType.FREE
-import com.mmdev.me.driver.domain.user.SubscriptionType.PREMIUM
-import com.mmdev.me.driver.domain.user.SubscriptionType.PRO
+import com.mmdev.me.driver.domain.billing.SubscriptionType.*
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseRecyclerAdapter
 

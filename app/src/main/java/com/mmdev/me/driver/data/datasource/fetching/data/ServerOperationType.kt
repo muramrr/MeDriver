@@ -16,22 +16,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.core.firebase
-
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.ServerTimestamp
-import com.mmdev.me.driver.core.MedriverApp
+package com.mmdev.me.driver.data.datasource.fetching.data
 
 /**
- * Describes data that will be written to server operation journal
+ *
  */
 
-data class ServerOperation(
-	val type: ServerOperationType = ServerOperationType.UNKNOWN,
-	val vin: String = "",
-	val dateAdded: Long = 0,
-	val documentId: String = "",
-	@Exclude val deviceId: String = MedriverApp.androidId,
-	@Exclude @ServerTimestamp val timestamp: Timestamp? = null
-)
+enum class ServerOperationType {
+	ADDED, DELETED, UPDATED, UNKNOWN
+}

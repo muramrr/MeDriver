@@ -20,19 +20,24 @@ package com.mmdev.me.driver.data.datasource.fuel.history.server
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.data.core.base.datasource.server.BaseServerDataSource
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
-import com.mmdev.me.driver.data.core.firebase.ServerOperationType.FUEL_HISTORY
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.getAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.FUEL_HISTORY
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
 import com.mmdev.me.driver.data.datasource.fuel.history.server.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.core.ResultState
+import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.core.combineResultStates
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
 /**
  * [IFuelHistoryServerDataSource] implementation
@@ -49,27 +54,28 @@ class FuelHistoryServerDataSourceImpl(
 		private const val FS_DATE_FIELD = "date"
 	}
 	
-	private fun toServerOperation(dto: FuelHistoryDto): ServerOperation =
+	private fun toServerOperation(dto: FuelHistoryDto, type: ServerOperationType): ServerOperation =
 		ServerOperation(
-			type = FUEL_HISTORY,
+			operationType = type,
 			vin = dto.vehicleVinCode,
-			dateAdded = dto.dateAdded,
-			documentId = dto.date
+			dateAdded = if (type == DELETED) currentEpochTime() else dto.dateAdded,
+			documentId = dto.dateAdded.toString(),
+			documentType = FUEL_HISTORY,
 		)
 	
-	private fun add(email: String, vin: String, dto: FuelHistoryDto) =
+	private fun add(email: String, dto: FuelHistoryDto) =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
-			.document(vin)
+			.document(dto.vehicleVinCode)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(dto.date)
+			.document(dto.dateAdded.toString())
 			.setAsFlow(dto)
 	
 	override fun addFuelHistory(
-		email: String, vin: String, dto: FuelHistoryDto
+		email: String, dto: FuelHistoryDto
 	): Flow<SimpleResult<Unit>> =
-		add(email, vin, dto).combine(addToJournal(email, toServerOperation(dto))) { add, journal ->
+		add(email, dto).combine(addToJournal(email, toServerOperation(dto, ADDED))) { add, journal ->
 			combineResultStates(add, journal).fold(
 				success = {
 					MedriverApp.lastOperationSyncedId = dto.dateAdded
@@ -104,15 +110,30 @@ class FuelHistoryServerDataSourceImpl(
 			.getAndDeserializeAsFlow(FuelHistoryDto::class.java)
 	
 	override fun deleteFuelHistoryEntry(
-		email: String, vin: String, id: String
-	): Flow<SimpleResult<Void>>  =
+		email: String, dto: FuelHistoryDto
+	): Flow<SimpleResult<Unit>> =
+		delete(email, dto)
+			.combine(addToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
+		combineResultStates(delete, journal).fold(
+			success = {
+				MedriverApp.lastOperationSyncedId = dto.dateAdded
+				ResultState.success(Unit)
+			},
+			failure = { ResultState.failure(it) }
+		)
+	}
+	
+	private fun delete(
+		email: String, dto: FuelHistoryDto
+	): Flow<SimpleResult<Unit>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
-			.document(vin)
+			.document(dto.vehicleVinCode)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(id)
+			.document(dto.date)
 			.delete()
 			.asFlow()
+			.map { it.toUnit() }
 	
 }

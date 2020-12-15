@@ -19,7 +19,6 @@
 package com.mmdev.me.driver.data.datasource.fuel.history.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -65,8 +64,8 @@ interface FuelHistoryDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun importFuelHistory(fuelHistoryToImport: List<FuelHistoryEntity>)
 	
-	@Delete
-	suspend fun deleteFuelHistoryEntity(fuelHistoryEntity: FuelHistoryEntity)
+	@Query("DELETE FROM ${MeDriverRoomDatabase.FUEL_HISTORY_TABLE} WHERE dateAdded = :id")
+	suspend fun deleteFuelHistoryEntity(id: Long)
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.FUEL_HISTORY_TABLE}")
 	suspend fun clearHistory()

@@ -40,9 +40,8 @@ class FuelHistoryLocalDataSourceImpl(
 	
 	override suspend fun getFuelHistory(
 		vin: String, limit: Int, offset: Int
-	): SimpleResult<List<FuelHistoryEntity>> = safeCall(TAG) {
-		dao.getVehicleFuelHistory(vin, limit, offset)
-	}
+	): SimpleResult<List<FuelHistoryEntity>> =
+		safeCall(TAG) { dao.getVehicleFuelHistory(vin, limit, offset) }
 	
 	override suspend fun getFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistoryEntity?> =
 		safeCall(TAG) { dao.getVehicleFuelHistoryFirst(vin) }
@@ -68,9 +67,10 @@ class FuelHistoryLocalDataSourceImpl(
 			}
 		}
 	
-	override suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
-		safeCall(TAG) { dao.deleteFuelHistoryEntity(fuelHistoryEntity) }.also {
-			logDebug(TAG, "Deleting History entry: id = ${fuelHistoryEntity.date}")
+	override suspend fun deleteFuelHistoryEntry(id: Long): SimpleResult<Unit> =
+		safeCall(TAG) { dao.deleteFuelHistoryEntity(id) }.also {
+			deleteCachedOperationById(id.toString())
+			logDebug(TAG, "Deleting History entry: id = $id")
 		}
 	
 	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearHistory() }

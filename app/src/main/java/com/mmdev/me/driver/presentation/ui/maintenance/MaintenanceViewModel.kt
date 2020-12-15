@@ -24,11 +24,14 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
+import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -87,6 +90,21 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
 			
+		}
+	}
+	
+	fun delete(entry: VehicleSparePart, position: Int) {
+		viewModelScope.launch {
+			repository.removeMaintenanceEntry(MainActivity.currentUser, entry).collect { result ->
+				result.fold(
+					success = {
+						viewState.postValue(Delete(position))
+					},
+					failure = {
+						viewState.postValue(Error(it.localizedMessage))
+					}
+				)
+			}
 		}
 	}
 	

@@ -34,5 +34,6 @@ sealed class FuelHistoryViewState: ViewState {
 	data class Init(val data: List<FuelHistory>): FuelHistoryViewState()
 	data class LoadPrevious(val data: List<FuelHistory>): FuelHistoryViewState()
 	data class LoadNext(val data: List<FuelHistory>): FuelHistoryViewState()
-	data class Error(val errorMessage: String): FuelHistoryViewState()
+	data class Delete(val position: Int): FuelHistoryViewState()
+	data class Error(val errorMessage: String?): FuelHistoryViewState()
 }

@@ -36,7 +36,6 @@ interface IFuelHistoryServerDataSource {
 	 */
 	fun addFuelHistory(
 		email: String,
-		vin: String,
 		dto: FuelHistoryDto
 	): Flow<SimpleResult<Unit>>
 	
@@ -62,6 +61,6 @@ interface IFuelHistoryServerDataSource {
 	 *
 	 * @param id indicates entry id in collection to be deleted
 	 */
-	fun deleteFuelHistoryEntry(email: String, vin: String, id: String, ): Flow<SimpleResult<Void>>
+	fun deleteFuelHistoryEntry(email: String, dto: FuelHistoryDto): Flow<SimpleResult<Unit>>
 	
 }

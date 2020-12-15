@@ -40,6 +40,6 @@ interface IFuelHistoryRepository {
 	suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?>
 	
 	
-	suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit>
+	suspend fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
 	
 }

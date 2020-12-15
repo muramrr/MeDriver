@@ -74,8 +74,7 @@ class SettingsRepositoryImpl(
 										if (MedriverApp.savedUserEmail != firestoreUser.email) {
 											emit(ResultState.success(SignInStatus.Deleting))
 											dataDownloader.deleteAll()
-											
-											if (user.isPro()) {
+											if (user.isPro()) { //todo: problem here
 												logDebug(TAG, "Downloading data...")
 												emit(ResultState.success(SignInStatus.Downloading))
 												

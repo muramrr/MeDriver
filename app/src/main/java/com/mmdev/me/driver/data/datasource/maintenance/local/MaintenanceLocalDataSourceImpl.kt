@@ -96,10 +96,11 @@ class MaintenanceLocalDataSourceImpl(
 		}
 	}
 	
-	override suspend fun deleteFuelHistoryEntry(
-		replacedSparePart: VehicleSparePartEntity
-	): SimpleResult<Unit> = safeCall(TAG) { dao.deleteVehicleReplacedSparePart(replacedSparePart) }.also {
-		logDebug(TAG, "Deleting Replaced spare part entry: id = ${replacedSparePart.date}")
+	override suspend fun deleteMaintenanceHistoryEntry(id: Long): SimpleResult<Unit> = safeCall(TAG) {
+		dao.deleteVehicleReplacedSparePart(id)
+	}.also {
+		deleteCachedOperationById(id.toString())
+		logDebug(TAG, "Deleting Replaced spare part entry: id = $id")
 	}
 	
 	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearHistory() }

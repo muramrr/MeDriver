@@ -85,10 +85,6 @@ class SharedViewModel(
 		}
 	}
 	
-//	fun handleNewPurchases() = authProvider.observeNewPurchases(user.email).collect { result ->
-//		userDataInfo.value = user.copy(subscriptionType = result)
-//	}
-	
 	fun launchBillingFlow(activity: Activity, identifier: String) {
 		authProvider.purchaseFlow(activity, identifier, userDataInfo.value!!.id)
 	}

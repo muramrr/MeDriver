@@ -77,8 +77,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:clickable="false"
-				android:paddingLeft="12dp"
-				android:paddingRight="12dp"
+				android:paddingLeft="36dp"
+				android:paddingRight="36dp"
+				
+				android:visibility="gone"
 				
 				style="@style/My.Widget.Button.IconOnly.Unelevated"
 				

@@ -104,11 +104,6 @@ class MainActivity: AppCompatActivity() {
 		observeVehicle()
 		observeUserData()
 		
-//		sharedViewModel.skuListWithDetails.observe(this, {
-//			logWtf(TAG, "sku = $it")
-//		})
-
-	
 	}
 	
 	private fun setupInsets(): WindowInsetsCompat {

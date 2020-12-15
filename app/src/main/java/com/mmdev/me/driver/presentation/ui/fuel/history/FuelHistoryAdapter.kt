@@ -26,7 +26,9 @@ import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.databinding.ItemFuelHistoryEntryBinding
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.utils.extensions.gone
+import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.visible
+import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 
 
 class FuelHistoryAdapter(
@@ -45,7 +47,7 @@ class FuelHistoryAdapter(
 	
 	private var scrollToTopListener: (() -> Unit)? = null
 	private var scrollToBottomListener: (() -> Unit)? = null
-	private var mItemClickListner: ((View, Int, FuelHistory) -> Unit)? = null
+	private var deleteListener: ((View, Int, FuelHistory) -> Unit)? = null
 	
 	
 	
@@ -67,10 +69,15 @@ class FuelHistoryAdapter(
 	override fun getItemViewType(position: Int): Int {
 		return when {
 			position == 0 -> SHOW_MONTH_SEPARATOR
-			data[position].date.monthNumber !=
-					data[position - 1].date.monthNumber -> { SHOW_MONTH_SEPARATOR }
+			data[position].date.monthNumber != data[position - 1].date.monthNumber -> SHOW_MONTH_SEPARATOR
 			else -> HIDE_MONTH_SEPARATOR
 		}
+	}
+	
+	fun delete(position: Int) {
+		data.removeAt(position)
+		itemsLoaded--
+		notifyItemRemoved(position)
 	}
 	
 	fun setInitData(data: List<FuelHistory>) {
@@ -115,8 +122,8 @@ class FuelHistoryAdapter(
 		scrollToBottomListener = listener
 	}
 	
-	fun setOnItemClickListener(listener: (view: View, position: Int, item: FuelHistory) -> Unit) {
-		mItemClickListner = listener
+	fun setOnDeleteClickListener(listener: (view: View, position: Int, item: FuelHistory) -> Unit) {
+		deleteListener = listener
 	}
 	
 	inner class FuelHistoryViewHolder(
@@ -124,24 +131,31 @@ class FuelHistoryAdapter(
 		private val viewType: Int
 	): RecyclerView.ViewHolder(binding.root) {
 		
-		init {
-			mItemClickListner?.let { listener ->
-				binding.cvFuelHistoryEntryContainer.setOnClickListener {
-					listener.invoke(it, adapterPosition, data[adapterPosition])
-				}
-			}
-		}
-		
 		fun bind(item: FuelHistory) {
-			
-			if (viewType == HIDE_MONTH_SEPARATOR) binding.tvFuelHistoryMonthSeparator.gone()
-			else binding.tvFuelHistoryMonthSeparator.visible()
 			
 			if (adapterPosition == (data.size - 5))
 				scrollToBottomListener?.invoke()
 			
 			if (itemsLoaded > data.size && adapterPosition == 10)
 				scrollToTopListener?.invoke()
+			
+			binding.apply {
+				if (viewType == HIDE_MONTH_SEPARATOR) tvFuelHistoryMonthSeparator.gone()
+				else tvFuelHistoryMonthSeparator.visible()
+				
+				cvFuelHistoryEntryContainer.setOnClickListener {
+					layoutControls.run {
+						visibleIf(otherwise = View.INVISIBLE) { visibility == View.INVISIBLE }
+					}
+				}
+				
+				btnReturn.setOnClickListener { layoutControls.invisible() }
+				btnDelete.setOnClickListener {
+					deleteListener?.invoke(it, adapterPosition, data[adapterPosition])
+					layoutControls.invisible()
+				}
+			}
+			
 			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()

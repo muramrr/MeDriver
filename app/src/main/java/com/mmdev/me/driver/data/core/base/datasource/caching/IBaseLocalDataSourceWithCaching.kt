@@ -52,4 +52,6 @@ interface IBaseLocalDataSourceWithCaching {
 	 */
 	suspend fun deleteCachedOperation(cachedOperation: CachedOperation): SimpleResult<Unit>
 	
+	suspend fun deleteCachedOperationById(id: String): SimpleResult<Unit>
+	
 }

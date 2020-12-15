@@ -19,11 +19,14 @@
 package com.mmdev.me.driver.presentation.ui.maintenance
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.databinding.ItemMaintenanceBinding
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
+import com.mmdev.me.driver.presentation.utils.extensions.invisible
+import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 
 /**
  *
@@ -42,6 +45,7 @@ class MaintenanceHistoryAdapter(
 	
 	private var scrollToTopListener: (() -> Unit)? = null
 	private var scrollToBottomListener: (() -> Unit)? = null
+	private var deleteListener: ((View, Int, VehicleSparePart) -> Unit)? = null
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
 		MaintenanceHistoryViewHolder(
@@ -56,6 +60,12 @@ class MaintenanceHistoryAdapter(
 		holder.bind(data[position])
 	
 	override fun getItemCount(): Int = data.size
+	
+	fun delete(position: Int) {
+		data.removeAt(position)
+		itemsLoaded--
+		notifyItemRemoved(position)
+	}
 	
 	fun setInitData(data: List<VehicleSparePart>) {
 		this.data.clear()
@@ -99,6 +109,10 @@ class MaintenanceHistoryAdapter(
 		scrollToBottomListener = listener
 	}
 	
+	fun setOnDeleteClickListener(listener: (view: View, position: Int, item: VehicleSparePart) -> Unit) {
+		deleteListener = listener
+	}
+	
 	inner class MaintenanceHistoryViewHolder(
 		private val binding: ItemMaintenanceBinding
 	): RecyclerView.ViewHolder(binding.root) {
@@ -110,6 +124,21 @@ class MaintenanceHistoryAdapter(
 			
 			if (itemsLoaded > data.size && adapterPosition == 10)
 				scrollToTopListener?.invoke()
+			
+			binding.apply {
+				cvMaintenanceItem.setOnClickListener {
+					
+					layoutControls.run {
+						visibleIf(otherwise = View.INVISIBLE) { visibility == View.INVISIBLE }
+					}
+				}
+				
+				btnReturn.setOnClickListener { layoutControls.invisible() }
+				btnDelete.setOnClickListener {
+					deleteListener?.invoke(it, adapterPosition, data[adapterPosition])
+					layoutControls.invisible()
+				}
+			}
 			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()

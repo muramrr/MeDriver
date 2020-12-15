@@ -35,6 +35,7 @@ sealed class MaintenanceHistoryViewState: ViewState {
 	data class Init(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
 	data class LoadPrevious(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
 	data class LoadNext(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
+	data class Delete(val position: Int): MaintenanceHistoryViewState()
 	data class Filter(val data: List<VehicleSparePart>): MaintenanceHistoryViewState()
 	data class Error(val errorMessage: String?): MaintenanceHistoryViewState()
 }

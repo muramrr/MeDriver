@@ -20,8 +20,8 @@ package com.mmdev.me.driver.data.core.base.datasource.server
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 
 /**
  *
@@ -40,7 +40,7 @@ abstract class BaseServerDataSource(
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_USER_ACTIONS_JOURNAL)
-			.document("${serverOperation.type}_${serverOperation.dateAdded}")
+			.document("${serverOperation.documentType}_${serverOperation.dateAdded}")
 			.setAsFlow(serverOperation)
 	
 }

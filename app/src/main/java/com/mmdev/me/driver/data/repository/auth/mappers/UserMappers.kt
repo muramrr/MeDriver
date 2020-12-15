@@ -20,6 +20,7 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.android.billingclient.api.Purchase
 import com.google.firebase.auth.FirebaseUser
+import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.data.datasource.billing.data.PurchaseDto
 import com.mmdev.me.driver.data.datasource.billing.data.SkuDto
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
@@ -58,7 +59,6 @@ class UserMappers {
 		isEmailVerified = firebaseUser.isEmailVerified
 	)
 	
-	
 	private fun toSkuDto(sku: String): SkuDto {
 		val identifiers = sku.split("_")
 		val type = when (identifiers.first()) {
@@ -79,27 +79,19 @@ class UserMappers {
 		return SkuDto(type, periodDuration, periodType)
 	}
 	
-	fun toPurchaseDto(purchase: Purchase) = PurchaseDto(
-		accountId = purchase.accountIdentifiers!!.obfuscatedAccountId!!,
-		isAcknowledged = purchase.isAcknowledged,
-		isAutoRenewing = purchase.isAutoRenewing,
-		orderId = purchase.orderId,
-		originalJson = purchase.originalJson,
-		purchaseTime = purchase.purchaseTime,
-		purchaseToken = purchase.purchaseToken,
-		signature = purchase.signature,
-		sku = toSkuDto(purchase.sku),
-		skuOriginal = purchase.sku
-	
-	)
-	
-	fun parseSku(sku: String): SubscriptionType {
-		val identifiers = sku.split("_")
-		return when (identifiers.first()) {
-			"premium" -> SubscriptionType.PREMIUM
-			"pro" -> SubscriptionType.PRO
-			else -> SubscriptionType.FREE
-		}
+	fun toPurchaseDto(purchases: List<Purchase>) = mapList(purchases) {
+		PurchaseDto(
+			accountId = it.accountIdentifiers!!.obfuscatedAccountId!!,
+			isAcknowledged = it.isAcknowledged,
+			isAutoRenewing = it.isAutoRenewing,
+			orderId = it.orderId,
+			originalJson = it.originalJson,
+			purchaseTime = it.purchaseTime,
+			purchaseToken = it.purchaseToken,
+			signature = it.signature,
+			sku = toSkuDto(it.sku),
+			skuOriginal = it.sku
+		
+		)
 	}
-	
 }

@@ -95,7 +95,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Delete only one history entry
 	 */
-	suspend fun deleteFuelHistoryEntry(replacedSparePart: VehicleSparePartEntity): SimpleResult<Unit>
+	suspend fun deleteMaintenanceHistoryEntry(id: Long): SimpleResult<Unit>
 	
 	/**
 	 * Clear whole table that contains [VehicleSparePartEntity]

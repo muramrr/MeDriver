@@ -65,6 +65,6 @@ interface IMaintenanceServerDataSource {
 	 *
 	 * @param id indicates entry id in collection to be deleted
 	 */
-	fun deleteMaintenanceEntry(email: String, vin: String, id: String): Flow<SimpleResult<Void>>
+	fun deleteMaintenanceEntry(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>>
 	
 }

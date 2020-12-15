@@ -95,12 +95,13 @@ class FuelHistoryRepositoryImpl (
 					},
 					serverOperation = {
 						serverDataSource.addFuelHistory(
-							user!!.email, history.vehicleVinCode, mappers.domainToDto(history)
+							user!!.email, mappers.domainToDto(history)
 						).collect { emit(it) }
 					}
 				)
 				
-			}, failure = { throwable -> emit(ResultState.failure(throwable)) })
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) })
 		
 	}
 	
@@ -159,6 +160,17 @@ class FuelHistoryRepositoryImpl (
 			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
-	override suspend fun removeFuelHistoryRecord(history: FuelHistory): SimpleResult<Unit> =
-		localDataSource.deleteFuelHistoryEntry(mappers.domainToEntity(history))
+	override suspend fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>> = flow {
+		localDataSource.deleteFuelHistoryEntry(history.dateAdded).fold(
+			success = {
+				if (user?.isPro() == true && MedriverApp.isInternetWorking()) {
+					serverDataSource.deleteFuelHistoryEntry(
+						user.email, mappers.domainToDto(history)
+					).collect { emit(it) }
+				}
+				else emit(ResultState.success(Unit))
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
+	}
 }

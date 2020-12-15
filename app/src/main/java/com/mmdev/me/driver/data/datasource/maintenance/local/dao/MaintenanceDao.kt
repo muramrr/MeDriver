@@ -19,7 +19,6 @@
 package com.mmdev.me.driver.data.datasource.maintenance.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -113,8 +112,8 @@ interface MaintenanceDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertVehicleReplacedSparePart(replacedSpareParts: List<VehicleSparePartEntity>)
 	
-	@Delete
-	suspend fun deleteVehicleReplacedSparePart(replacedSparePart: VehicleSparePartEntity)
+	@Query("DELETE FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE} WHERE dateAdded = :id")
+	suspend fun deleteVehicleReplacedSparePart(id: Long)
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}")
 	suspend fun clearHistory()

@@ -64,4 +64,8 @@ interface IMaintenanceRepository {
 		typedQuery: String
 	): SimpleResult<List<VehicleSparePart>>
 	
+	suspend fun removeMaintenanceEntry(
+		user: UserDataInfo?,
+		maintenance: VehicleSparePart
+	): Flow<SimpleResult<Unit>>
 }

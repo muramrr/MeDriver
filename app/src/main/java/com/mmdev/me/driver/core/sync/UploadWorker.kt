@@ -23,6 +23,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MyDispatchers
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.sync.upload.fuel.IFuelHistoryUploader
 import com.mmdev.me.driver.data.sync.upload.maintenance.IMaintenanceUploader
@@ -70,7 +71,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 	
 	override suspend fun doWork(): Result = withContext(MyDispatchers.io()) {
 		if (MedriverApp.isInternetWorking()) {
-			logWtf(TAG, "Doing work...")
+			logDebug(TAG, "Doing work...")
 			val email = inputData.getString(MainActivity.USER_KEY)
 			if (!email.isNullOrBlank()) {
 				val syncOperations = listOf(

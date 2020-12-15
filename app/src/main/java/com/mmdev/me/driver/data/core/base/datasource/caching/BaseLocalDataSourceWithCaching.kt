@@ -54,4 +54,8 @@ abstract class BaseLocalDataSourceWithCaching(
 			logInfo(TAG, "Deleting operation: $cachedOperation")
 		}
 	
+	override suspend fun deleteCachedOperationById(id: String): SimpleResult<Unit> =
+		safeCall(TAG) { cache.deleteByOperationId(id) }.also {
+			logInfo(TAG, "Deleting operation, id = $id")
+		}
 }

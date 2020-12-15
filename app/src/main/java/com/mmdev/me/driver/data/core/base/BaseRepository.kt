@@ -19,26 +19,23 @@
 package com.mmdev.me.driver.data.core.base
 
 import com.mmdev.me.driver.data.cache.CachingReasons
-import com.mmdev.me.driver.data.cache.CachingReasons.NO_INTERNET
-import com.mmdev.me.driver.data.cache.CachingReasons.NO_SUBSCRIPTION
-import com.mmdev.me.driver.data.cache.CachingReasons.NO_USER
+import com.mmdev.me.driver.data.cache.CachingReasons.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
- * Base class for all repositories classes
- * Idk why I need it, but just in case
+ * Very funny code block, but very useful
+ * Check all criteria before sending data to backend on each step define reason why writing to
+ * backend cannot be done and write aborted operation to cache
+ * All pending operations will be written later as soon as satisfies conditions
+ *
+ * Same logic with deleting
  */
 
 abstract class BaseRepository {
 	
 	protected val TAG = "mylogs_${javaClass.simpleName}"
 	
-	/**
-	 * Very funny code block, but very useful
-	 * Check all criteria before sending data to backend on each step define reason why writing to
-	 * backend cannot be done and write aborted operation to cache
-	 * All pending operations will be written later as soon as satisfies conditions
-	 */
+	
 	protected inline fun addToBackend(
 		user: UserDataInfo?,
 		isInternetAvailable: Boolean,

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
@@ -66,8 +65,8 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 			layoutManager = LinearLayoutManager(requireContext())
 		}
 		
-		mAdapter.setOnItemClickListener { view, position, item ->
-			logWtf(TAG, "item clicked: $item")
+		mAdapter.setOnDeleteClickListener { view, position, item ->
+			mViewModel.delete(item, position)
 		}
 		
 		
@@ -78,9 +77,6 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	}
 	
 	override fun renderState(state: ViewState) {
-//		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
-//			state == FuelHistoryViewState.Loading
-//		}
 		
 		when (state) {
 			is FuelHistoryViewState.Init -> {
@@ -88,16 +84,20 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 				mAdapter.setInitData(state.data)
 				
 			}
-			is FuelHistoryViewState.LoadNext -> {
-				logInfo(TAG, "loaded next = ${state.data.size}")
-				mAdapter.insertNextData(state.data)
-			}
 			is FuelHistoryViewState.LoadPrevious -> {
 				logInfo(TAG, "loaded previous = ${state.data.size}")
 				mAdapter.insertPreviousData(state.data)
 			}
+			is FuelHistoryViewState.LoadNext -> {
+				logInfo(TAG, "loaded next = ${state.data.size}")
+				mAdapter.insertNextData(state.data)
+			}
+			is FuelHistoryViewState.Delete -> {
+				logInfo(TAG, "deleted at position ${state.position}")
+				mAdapter.delete(state.position)
+			}
 			is FuelHistoryViewState.Error -> {
-				logError(TAG, state.errorMessage)
+				logError(TAG, "${state.errorMessage}")
 			}
 		}
 	}

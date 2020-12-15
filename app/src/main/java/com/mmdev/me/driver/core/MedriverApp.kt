@@ -101,7 +101,7 @@ class MedriverApp: Application() {
 				if (field != value) {
 					field = value
 					prefs.push(THEME_MODE_KEY, value)
-					logDebug(TAG, "AppTheme changed to $value")
+					logDebug(TAG, "AppTheme: $value")
 					ThemeHelper.applyTheme(value)
 				}
 			}
@@ -111,7 +111,7 @@ class MedriverApp: Application() {
 				if (field != value) {
 					field = value
 					prefs.push(METRIC_SYSTEM_KEY, value)
-					logDebug(TAG, "Metric system changed to $value")
+					logDebug(TAG, "Metric system: $value")
 				}
 			}
 		
@@ -120,7 +120,7 @@ class MedriverApp: Application() {
 				if (field != value) {
 					field = value
 					prefs.push(LANGUAGE_KEY, value)
-					logDebug(TAG, "Language changed to $value")
+					logDebug(TAG, "Language: $value")
 				}
 			}
 		
@@ -129,7 +129,7 @@ class MedriverApp: Application() {
 				if (field != value) {
 					field = value
 					prefs.push(PRICES_REGION_KEY, value)
-					logDebug(TAG, "Region changed to $value")
+					logDebug(TAG, "Region: $value")
 				}
 			}
 		

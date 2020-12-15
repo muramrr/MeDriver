@@ -18,7 +18,7 @@
 
 package com.mmdev.me.driver.data.sync.download
 
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 

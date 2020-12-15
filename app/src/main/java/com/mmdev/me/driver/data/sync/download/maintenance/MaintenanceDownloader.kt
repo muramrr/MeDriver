@@ -41,6 +41,8 @@ class MaintenanceDownloader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
+	override suspend fun deleteSingle(email: String, id: String) = local.deleteMaintenanceHistoryEntry(id.toLong())
+	
 	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
 		logDebug(TAG, "Downloading maintenance history...")
 		server.getAllMaintenanceHistory(email, vin).collect { result ->

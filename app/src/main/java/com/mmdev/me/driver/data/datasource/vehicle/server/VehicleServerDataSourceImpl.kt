@@ -21,12 +21,12 @@ package com.mmdev.me.driver.data.datasource.vehicle.server
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.base.datasource.server.BaseServerDataSource
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
-import com.mmdev.me.driver.data.core.firebase.ServerOperationType.VEHICLE
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.getAndDeserializeAsFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.VEHICLE
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -49,7 +49,7 @@ class VehicleServerDataSourceImpl(
 	
 	private fun toServerOperation(dto: VehicleDto): ServerOperation =
 		ServerOperation(
-			type = VEHICLE,
+			documentType = VEHICLE,
 			vin = dto.vin,
 			dateAdded = dto.dateUpdated,
 			documentId = dto.vin

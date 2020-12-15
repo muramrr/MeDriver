@@ -102,6 +102,10 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			
 		}
 		
+		mAdapter.setOnDeleteClickListener { view, position, item ->
+			mViewModel.delete(item, position)
+		}
+		
 	}
 	
 	private fun setupSearch() {
@@ -138,6 +142,10 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			is MaintenanceHistoryViewState.LoadPrevious -> {
 				logInfo(TAG, "load previous = ${state.data.size}")
 				mAdapter.insertPreviousData(state.data)
+			}
+			is MaintenanceHistoryViewState.Delete -> {
+				logInfo(TAG, "deleted at position ${state.position}")
+				mAdapter.delete(state.position)
 			}
 			is MaintenanceHistoryViewState.Filter -> {
 				logInfo(TAG, "showing filtered parts")

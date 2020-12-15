@@ -41,6 +41,8 @@ class FuelHistoryDownloader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
+	override suspend fun deleteSingle(email: String, id: String) = local.deleteFuelHistoryEntry(id.toLong())
+	
 	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
 		logDebug(TAG, "Downloading fuel history...")
 		server.getAllFuelHistory(email, vin).collect { result ->

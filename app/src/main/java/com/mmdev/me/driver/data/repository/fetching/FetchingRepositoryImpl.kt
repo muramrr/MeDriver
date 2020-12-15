@@ -18,7 +18,7 @@
 
 package com.mmdev.me.driver.data.repository.fetching
 
-import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.fetching.FetchingDataSource
 import com.mmdev.me.driver.data.sync.download.IDataDownloader
@@ -51,7 +51,7 @@ class FetchingRepositoryImpl(
 	override suspend fun listenForUpdates(email: String) =
 		fetchingDataSource.journalFlow(email).collect {
 			downloader.downloadNewFromServer(it, email).collect { result ->
-				logWtf(TAG, "Download new from server result = $result")
+				logDebug(TAG, "Download new from server result = $result")
 			}
 		}
 	

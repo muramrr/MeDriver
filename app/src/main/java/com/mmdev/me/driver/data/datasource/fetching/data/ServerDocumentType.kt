@@ -16,12 +16,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.core.firebase
+package com.mmdev.me.driver.data.datasource.fetching.data
 
 /**
  * Describes types of server operation to be written in journal
  */
 
-enum class ServerOperationType {
+enum class ServerDocumentType {
 	VEHICLE, FUEL_HISTORY, MAINTENANCE, UNKNOWN
 }

@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface IFuelHistoryDownloader {
+	suspend fun deleteSingle(email: String, id: String): SimpleResult<Unit>
 	suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
 	suspend fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
 	suspend fun clear(): SimpleResult<Unit>

@@ -164,5 +164,18 @@ class MaintenanceRepositoryImpl(
 			failure = { ResultState.failure(it) }
 		)
 	
-	
+	override suspend fun removeMaintenanceEntry(user: UserDataInfo?, maintenance: VehicleSparePart):
+			Flow<SimpleResult<Unit>> = flow {
+		localDataSource.deleteMaintenanceHistoryEntry(maintenance.dateAdded).fold(
+			success = {
+				if (user?.isPro() == true && MedriverApp.isInternetWorking()) {
+					serverDataSource.deleteMaintenanceEntry(
+						user.email, mappers.domainToDto(maintenance)
+					).collect { emit(it) }
+				}
+				else emit(ResultState.success(Unit))
+			},
+			failure = { throwable -> emit(ResultState.failure(throwable)) }
+		)
+	}
 }

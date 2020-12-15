@@ -38,6 +38,9 @@ interface CacheDao {
 	@Delete
 	suspend fun deleteOperation(cachedOperation: CachedOperation)
 	
+	@Query("DELETE FROM ${MeDriverRoomDatabase.CACHE_OPERATIONS_TABLE} WHERE recordId = :id")
+	suspend fun deleteByOperationId(id: String)
+	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertOperation(cachedOperation: CachedOperation)
 	

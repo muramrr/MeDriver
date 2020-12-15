@@ -66,7 +66,7 @@ interface IFuelHistoryLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Delete only one history entry
 	 */
-	suspend fun deleteFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit>
+	suspend fun deleteFuelHistoryEntry(id: Long): SimpleResult<Unit>
 	
 	/**
 	 * Clear whole table that contains [FuelHistoryEntity]

@@ -26,8 +26,8 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
 import com.mmdev.me.driver.data.core.firebase.safeOffer
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -41,9 +41,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * [isSnapshotInitiated] flag is made for exclude emitting items at init process
  */
 
-class FetchingDataSource(
-	private val fs: FirebaseFirestore
-) {
+class FetchingDataSource(private val fs: FirebaseFirestore) {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	

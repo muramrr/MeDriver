@@ -20,7 +20,6 @@ package com.mmdev.me.driver.domain.user
 
 import android.app.Activity
 import com.google.firebase.auth.FirebaseUser
-import com.mmdev.me.driver.domain.billing.SubscriptionType
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -32,8 +31,6 @@ import kotlinx.coroutines.flow.Flow
 interface IAuthFlowProvider {
 	
 	fun getAuthUserFlow(): Flow<UserDataInfo?>
-	
-	fun observeNewPurchases(email: String): Flow<SubscriptionType>
 	
 	fun purchaseFlow(activity: Activity, skuIdentifier: String, accountId: String)
 }

@@ -22,8 +22,10 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.core.firebase.ServerOperation
-import com.mmdev.me.driver.data.core.firebase.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.UNKNOWN
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
 import com.mmdev.me.driver.data.sync.download.maintenance.IMaintenanceDownloader
@@ -107,7 +109,7 @@ class DataDownloader(
 	
 	override fun downloadNewFromServer(operations: List<ServerOperation>, email: String) = flow {
 		if (operations.isNotEmpty()) {
-			val groupedOperations = operations.groupBy { it.type }
+			val groupedOperations = operations.groupBy { it.documentType }
 			
 			//logWtf(TAG, "Grouped: $groupedOperations")
 			
@@ -136,23 +138,25 @@ class DataDownloader(
 			// not null find the lastest updating date value of vehicle
 			
 			filteredOperations.asFlow().flatMapMerge { operation ->
-				when (operation.type) {
-					MAINTENANCE -> maintenance.downloadSingle(
-						email, operation.vin, operation.documentId
-					)
-					FUEL_HISTORY -> fuelHistory.downloadSingle(
-						email, operation.vin, operation.documentId
-					)
-					VEHICLE -> vehicles.downloadSingle(
-						email, operation.vin
-					)
-					else -> {
-						flowOf(
-							ResultState.failure(
-								Exception("Unsupported server operation type")
-							)
-						)
+				when (operation.documentType) {
+					MAINTENANCE -> {
+						when (operation.operationType) {
+							ADDED -> maintenance.downloadSingle(email, operation.vin, operation.documentId)
+							DELETED -> flowOf(maintenance.deleteSingle(email, operation.documentId))
+							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
+							else -> maintenance.downloadSingle(email, operation.vin, operation.documentId)
+						}
 					}
+					FUEL_HISTORY -> {
+						when (operation.operationType) {
+							ADDED -> fuelHistory.downloadSingle(email, operation.vin, operation.documentId)
+							DELETED -> flowOf(fuelHistory.deleteSingle(email, operation.documentId))
+							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
+							else -> fuelHistory.downloadSingle(email, operation.vin, operation.documentId)
+						}
+					}
+					VEHICLE -> vehicles.downloadSingle(email, operation.vin)
+					else -> flowOf(ResultState.failure(Exception("Unsupported server document type")))
 				}
 				
 			}.collect { emit(it) }

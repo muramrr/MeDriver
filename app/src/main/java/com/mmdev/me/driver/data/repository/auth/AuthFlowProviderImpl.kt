@@ -20,7 +20,6 @@ package com.mmdev.me.driver.data.repository.auth
 
 import android.app.Activity
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.installations.FirebaseInstallations
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
@@ -34,7 +33,7 @@ import com.mmdev.me.driver.data.datasource.user.auth.AuthCollector
 import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
 import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
-import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
+import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.user.AuthStatus
 import com.mmdev.me.driver.domain.user.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -63,7 +62,6 @@ class AuthFlowProviderImpl(
 	private companion object{
 		private const val IS_EMAIL_VERIFIED_FIELD = "isEmailVerified"
 		private const val INSTALLATION_TOKENS_FIELD = "installationTokens"
-		
 		private const val PURCHASES_FIELD = "purchases"
 	}
 	
@@ -95,7 +93,6 @@ class AuthFlowProviderImpl(
 			logInfo(TAG, "Auth info exists...")
 			
 			getUserFromRemoteStorage(firebaseUser).collect { emit(it) }
-			
 		}
 		//not signed in
 		else {
@@ -136,18 +133,29 @@ class AuthFlowProviderImpl(
 						}
 						
 					}
-					// if emailVerified values are same -> convert retrieved firestoreUser
 					else {
 						logInfo(TAG, "Email verification status is up to date...")
 						
 						//purchases can exists only when user verifies email
 						billingDataSource.purchases.collect { purchases ->
-							logDebug(TAG, "Collected purchases: $purchases")
-							emit(mappers.dtoToDomain(
-								firestoreUser,
-								if (!purchases.isNullOrEmpty()) mappers.parseSku(purchases.first().sku)
-								else FREE
-							))
+							
+							purchases?.let {
+								userRemoteDataSource.updateFirestoreUserField(
+									firestoreUser.email,
+									PURCHASES_FIELD,
+									mappers.toPurchaseDto(purchases)
+								).collect { result ->
+									logInfo(TAG, "User update result = $result")
+								}
+							}
+							
+							emit(
+								mappers.dtoToDomain(
+									firestoreUser,
+									if (!purchases.isNullOrEmpty()) parseSku(purchases.last().sku)
+									else SubscriptionType.FREE
+								)
+							)
 						}
 						
 					}
@@ -181,7 +189,7 @@ class AuthFlowProviderImpl(
 		}
 	
 	/**
-	 * Rewrite field value and save it local, also emit user with updated field
+	 * update email field on backend
 	 */
 	private fun updateEmailVerification(
 		firestoreUserDto: FirestoreUserDto,
@@ -251,21 +259,16 @@ class AuthFlowProviderImpl(
 	
 	override fun purchaseFlow(activity: Activity, skuIdentifier: String, accountId: String) =
 		billingDataSource.launchBillingFlow(activity, skuIdentifier, accountId)
-		
-	override fun observeNewPurchases(email: String) = billingDataSource.acknowledgedPurchase.transform { purchase ->
-		val purchaseDto = mappers.toPurchaseDto(purchase).copy(isAcknowledged = true)
-		userRemoteDataSource.updateFirestoreUserField(
-			email,
-			PURCHASES_FIELD,
-			FieldValue.arrayUnion(purchaseDto)
-		).collect { result ->
-			emit(purchaseDto.sku.subscriptionType)
-			logInfo(TAG, "User update result = $result")
-		}
-	}
 	
 //	private fun updateUser(user: UserDataInfo): Flow<SimpleResult<Unit>> =
 //		userRemoteDataSource.writeFirestoreUser(mappers.domainToDto(user))
 	
-	
+	private fun parseSku(sku: String): SubscriptionType {
+		val identifiers = sku.split("_")
+		return when (identifiers.first()) {
+			"premium" -> SubscriptionType.PREMIUM
+			"pro" -> SubscriptionType.PRO
+			else -> SubscriptionType.FREE
+		}
+	}
 }

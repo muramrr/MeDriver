@@ -84,11 +84,6 @@ class BillingDataSource(context: Context):
 		onBufferOverflow = BufferOverflow.DROP_OLDEST
 	)
 	
-	val acknowledgedPurchase = MutableSharedFlow<Purchase>(
-		replay = 1,
-		onBufferOverflow = BufferOverflow.DROP_OLDEST
-	)
-	
 	private var _purchases: List<Purchase> = emptyList()
 		set(value) {
 			field = value
@@ -114,9 +109,8 @@ class BillingDataSource(context: Context):
 		val debugMessage = result.debugMessage
 		logDebug(
 			TAG, "onBillingSetupFinished: response ${BillingResponse.getResponseType(responseCode)}, " +
-			     "debug message = $debugMessage")
-		
-		
+			     "debug message = $debugMessage"
+		)
 	}
 	
 	override fun onBillingServiceDisconnected() {
@@ -131,21 +125,7 @@ class BillingDataSource(context: Context):
 		when (responseCode) {
 			BillingResponseCode.OK -> {
 				if (purchases.isNullOrEmpty()) logDebug(TAG, "onPurchasesUpdated: null purchase list")
-				else {
-					launch {
-						processPurchases(purchases)
-						
-						val lastPurchase = purchases.last()
-						acknowledgePurchase(lastPurchase.purchaseToken).collect { billingResult ->
-							logInfo(TAG, "Acknowledge purchase result = ${BillingResponse.getResponseType(billingResult.responseCode)}")
-							
-							if (billingResult.responseCode == BillingResponseCode.OK) {
-								acknowledgedPurchase.tryEmit(lastPurchase)
-							}
-						}
-					}
-				}
-				
+				else processPurchases(purchases)
 			}
 			BillingResponseCode.USER_CANCELED -> {
 				logInfo(TAG, "onPurchasesUpdated: User canceled the purchase")
@@ -191,6 +171,21 @@ class BillingDataSource(context: Context):
 	private fun processPurchases(purchasesList: List<Purchase>) {
 		logDebug(TAG, "Processing purchases: ${purchasesList.size} purchase(s)")
 		_purchases = purchasesList
+		
+		//acknowledge all unacknowledged purchases
+		launch {
+			purchasesList.forEach { purchase ->
+				if (!purchase.isAcknowledged) {
+					acknowledgePurchase(purchase.purchaseToken).collect { billingResult ->
+						logInfo(TAG, "Acknowledge purchase result = ${BillingResponse.getResponseType(billingResult.responseCode)}")
+//
+//						if (billingResult.responseCode == BillingResponseCode.OK) {
+//
+//						}
+					}
+				}
+			}
+		}
 	}
 	
 	/** In order to make purchases, you need the [SkuDetails] for the item or subscription.*/
@@ -241,6 +236,7 @@ class BillingDataSource(context: Context):
 		}
 	}
 	
+	
 	/** Launching the UI to make a purchase requires a reference to the Activity. */
 	fun launchBillingFlow(
 		activity: Activity,
@@ -248,37 +244,34 @@ class BillingDataSource(context: Context):
 		accountId: String
 	) {
 		
-		var oldSku = "null"
 		val skuDetails = skuListWithDetails[identifier]
-		
-		skuDetails?.let {
-			val purchaseFlowParams = BillingFlowParams.newBuilder()
-				.setObfuscatedAccountId(accountId)
-				.setSkuDetails(it)
-			
+		if (skuDetails != null) {
+			val purchaseFlowParams =
+				BillingFlowParams.newBuilder().setObfuscatedAccountId(accountId)
+					.setSkuDetails(skuDetails)
 			
 			if (_purchases.isNotEmpty()) {
 				val lastPurchase = _purchases.last()
+				val oldSku = lastPurchase.sku
 				// setOldSku(previousSku, purchaseTokenOfOriginalSubscription)
-				purchaseFlowParams.setOldSku(lastPurchase.sku, lastPurchase.purchaseToken)
-				oldSku = lastPurchase.sku
+				purchaseFlowParams.setOldSku(oldSku, lastPurchase.purchaseToken)
+				
 				
 				/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
 				purchaseFlowParams.setReplaceSkusProrationMode(
-					if (oldSku == PRO_SKU) ProrationMode.DEFERRED
-					else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE
+					if (oldSku == PRO_SKU) ProrationMode.DEFERRED //downgrading
+					else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE //upgrading
 				)
-			}
 				
+				logInfo(TAG, "Launching billing flow for: sku: ${skuDetails.sku}, oldSku: $oldSku")
+			}
 			
-			logInfo(TAG, "Launching billing flow for: sku: ${it.sku}, oldSku: $oldSku")
+			val billingResult =
+				billingClient.launchBillingFlow(activity, purchaseFlowParams.build())
 			
-			val billingResult = billingClient.launchBillingFlow(activity, purchaseFlowParams.build())
-			val responseCode = billingResult.responseCode
-			val debugMessage = billingResult.debugMessage
-			
-			logDebug(TAG, "Launching billing flow: BillingResponse ${BillingResponse.getResponseType(responseCode)},  $debugMessage")
+			logInfo(TAG, "Billing result = ${BillingResponse.getResponseType(billingResult.responseCode)}")
 		}
+		else return
 		
 	}
 	

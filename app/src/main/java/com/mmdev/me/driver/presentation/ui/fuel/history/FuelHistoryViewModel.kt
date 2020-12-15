@@ -22,7 +22,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
+import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.MainActivity
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -53,7 +56,7 @@ class FuelHistoryViewModel(private val repository: IFuelHistoryRepository): Base
 					//handle empty state visibility
 					isHistoryEmpty.value = it.isEmpty()
 				},
-				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage)) }
 			)
 		}
 	}
@@ -64,7 +67,7 @@ class FuelHistoryViewModel(private val repository: IFuelHistoryRepository): Base
 			
 			repository.getMoreFuelHistory(MedriverApp.currentVehicleVinCode).fold(
 				success = { viewState.postValue(FuelHistoryViewState.LoadNext(data = it)) },
-				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage)) }
 			)
 		}
 	}
@@ -75,8 +78,23 @@ class FuelHistoryViewModel(private val repository: IFuelHistoryRepository): Base
 			
 			repository.getPreviousFuelHistory(MedriverApp.currentVehicleVinCode).fold(
 				success = { viewState.postValue(FuelHistoryViewState.LoadPrevious(data = it)) },
-				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage!!)) }
+				failure = { viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage)) }
 			)
+		}
+	}
+	
+	fun delete(entry: FuelHistory, position: Int) {
+		viewModelScope.launch {
+			repository.removeFuelHistoryRecord(MainActivity.currentUser, entry).collect { result ->
+				result.fold(
+					success = {
+						viewState.postValue(FuelHistoryViewState.Delete(position))
+					},
+					failure = {
+						viewState.postValue(FuelHistoryViewState.Error(it.localizedMessage))
+					}
+				)
+			}
 		}
 	}
 	

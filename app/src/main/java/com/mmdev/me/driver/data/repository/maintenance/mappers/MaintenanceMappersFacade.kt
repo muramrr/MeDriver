@@ -41,6 +41,8 @@ class MaintenanceMappersFacade {
 	
 	
 	// in: domain, out: * dto, entity
+	fun domainToDto(domain: VehicleSparePart) = DomainMappers.toDto(domain)
+	
 	fun listDomainsToEntities(input: List<VehicleSparePart>): List<VehicleSparePartEntity> =
 		mapList(input) { DomainMappers.toEntity(it) }
 	

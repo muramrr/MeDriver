@@ -55,7 +55,6 @@ class FuelHistoryUploader(
 								if (record != null) {
 									server.addFuelHistory(
 										email,
-										record.vehicleVinCode,
 										mappers.entityToDto(record)
 									).collect { result ->
 										result.fold(

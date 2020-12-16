@@ -19,18 +19,14 @@
 package com.mmdev.me.driver.data.repository.settings
 
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
-import com.mmdev.me.driver.data.datasource.user.remote.IUserRemoteDataSource
-import com.mmdev.me.driver.data.repository.auth.mappers.UserMappers
 import com.mmdev.me.driver.data.sync.download.DataDownloader
-import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.domain.user.FetchingStatus
 import com.mmdev.me.driver.domain.user.ISettingsRepository
-import com.mmdev.me.driver.domain.user.SignInStatus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -42,12 +38,27 @@ import kotlinx.coroutines.flow.map
 
 class SettingsRepositoryImpl(
 	private val authDataSource: IFirebaseAuthDataSource,
-	private val dataDownloader: DataDownloader,
-	private val userRemoteDataSource: IUserRemoteDataSource,
-	private val mappers: UserMappers
+	private val dataDownloader: DataDownloader
 ): BaseRepository(), ISettingsRepository {
 	
-	override fun resetPassword(email: String) : Flow<SimpleResult<Unit>> =
+	
+	override fun downloadData(email: String): Flow<FetchingStatus> = flow {
+		if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email) {
+			emit(FetchingStatus.Deleting)
+			dataDownloader.deleteAll()
+		}
+		delay(200)
+		emit(FetchingStatus.Downloading)
+		dataDownloader.importData(email).collect { result ->
+			result.fold(
+				success = { emit(FetchingStatus.Finished) },
+				failure = { emit(FetchingStatus.Error) }
+			)
+		}
+	}
+	
+	
+	override fun resetPassword(email: String): Flow<SimpleResult<Unit>> =
 		authDataSource.resetPassword(email).map { it.toUnit() }
 	
 	
@@ -55,75 +66,9 @@ class SettingsRepositoryImpl(
 		authDataSource.sendEmailVerification(email).map { it.toUnit() }
 	
 	
-	override fun signIn(email: String, password: String) = flow {
-		authDataSource.signIn(email, password).collect { result ->
-			emit(ResultState.success(SignInStatus.Loading))
-			result.fold(
-				success = { authResult ->
-					if (authResult.user != null) {
-						emit(ResultState.success(SignInStatus.SignedIn))
-						
-						userRemoteDataSource.getFirestoreUser(authResult.user!!.email!!).collect { result ->
-							emit(ResultState.success(SignInStatus.Fetching))
-							
-							result.fold(
-								//user info exists on backend
-								success = { firestoreUser ->
-									val user = mappers.dtoToDomain(firestoreUser)
-									if (MedriverApp.savedUserEmail.isNotBlank()) {
-										if (MedriverApp.savedUserEmail != firestoreUser.email) {
-											emit(ResultState.success(SignInStatus.Deleting))
-											dataDownloader.deleteAll()
-											if (user.isPro()) { //todo: problem here
-												logDebug(TAG, "Downloading data...")
-												emit(ResultState.success(SignInStatus.Downloading))
-												
-												dataDownloader.importData(user.email).collect { result ->
-													result.fold(
-														success = { emit(ResultState.success(
-															SignInStatus.Finished)) },
-														failure = { emit(ResultState.failure(it)) }
-													)
-													
-												}
-											}
-											else emit(ResultState.success(SignInStatus.Finished))
-										}
-										else emit(ResultState.success(SignInStatus.Finished))
-									}
-									else {
-										if (user.isPro()) {
-											logDebug(TAG, "Downloading data...")
-											emit(ResultState.success(SignInStatus.Downloading))
-											
-											dataDownloader.importData(user.email).collect { result ->
-												
-												result.fold(
-													success = { emit(ResultState.success(
-														SignInStatus.Finished)) },
-													failure = { emit(ResultState.failure(it)) }
-												)
-											}
-										}
-										else emit(ResultState.success(SignInStatus.Finished))
-									}
-									
-								},
-								
-								//user info doesn't exist on backend or other error was thrown
-								failure = {
-									logError(TAG, "Failed to retrieve user info from backend... ${it.message}")
-									emit(ResultState.failure(it))
-								}
-							)
-						}
-					}
-					else emit(ResultState.failure(Exception("User is null")))
-				},
-				failure = { emit(ResultState.failure(it)) }
-			)
-		}
-	}
+	override fun signIn(email: String, password: String): Flow<SimpleResult<Unit>> =
+		authDataSource.signIn(email, password).map { it.toUnit() }
+	
 	
 	
 	override fun signOut() = authDataSource.signOut()

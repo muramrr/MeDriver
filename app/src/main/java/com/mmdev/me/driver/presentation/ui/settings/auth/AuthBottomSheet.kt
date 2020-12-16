@@ -28,10 +28,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BtmSheetAuthBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.Loading
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.ResetPassword
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.SignIn
-import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.SignUp
+import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack
@@ -126,9 +123,7 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BtmSheetAuthBindin
 	}
 	
 	override fun renderState(state: ViewState) {
-		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) {
-			state in arrayOf(Loading, SignIn.Downloading, SignIn.Processing)
-		}
+		binding.viewLoading.visibleIf(otherwise = View.INVISIBLE) { state == Loading }
 		
 		when (state) {
 			

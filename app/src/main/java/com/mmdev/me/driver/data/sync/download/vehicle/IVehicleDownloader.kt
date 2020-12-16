@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface IVehicleDownloader {
-	suspend fun download(email: String): Flow<SimpleResult<List<String>>>
-	suspend fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>>
+	fun download(email: String): Flow<SimpleResult<List<String>>>
+	fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>>
 	suspend fun clear(): SimpleResult<Unit>
 }

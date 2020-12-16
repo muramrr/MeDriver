@@ -107,9 +107,7 @@ val RepositoryModule = module {
 	factory<ISettingsRepository> {
 		SettingsRepositoryImpl(
 			authDataSource = get(),
-			dataDownloader = get(),
-			userRemoteDataSource = get(),
-			mappers = UserMappers()
+			dataDownloader = get()
 		)
 	}
 

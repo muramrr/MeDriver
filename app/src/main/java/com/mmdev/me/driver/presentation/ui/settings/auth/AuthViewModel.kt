@@ -21,11 +21,8 @@ package com.mmdev.me.driver.presentation.ui.settings.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.user.ISettingsRepository
-import com.mmdev.me.driver.domain.user.SignInStatus
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -49,10 +46,7 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 		}
 	
 	
-	/**
-	 * Try to Reset password
-	 * else catch null input error
-	 */
+	
 	fun resetPassword() {
 		if (!inputEmail.value.isNullOrBlank()) {
 			
@@ -69,10 +63,7 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 		}
 	}
 	
-	/**
-	 * Try to Sign In
-	 * else catch null input error
-	 */
+	
 	fun signIn() {
 		//check both input fields are not null or blank
 		if (!inputEmail.value.isNullOrBlank() && !inputPassword.value.isNullOrBlank()) {
@@ -82,16 +73,7 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 			viewModelScope.launch {
 				repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
 					result.fold(
-						success = { status ->
-							when(status) {
-								SignInStatus.Loading -> {} // do nothing we already have loading state
-								SignInStatus.Fetching -> viewState.value = AuthViewState.SignIn.Processing
-								SignInStatus.Deleting -> MainActivity.currentVehicle = null
-								SignInStatus.Downloading -> viewState.value = AuthViewState.SignIn.Downloading
-								SignInStatus.Finished -> viewState.value = AuthViewState.SignIn.Success
-								else -> { logDebug(TAG, "sign in status = $status")}
-							}
-						},
+						success = { viewState.postValue(AuthViewState.SignIn.Success) },
 						failure = { viewState.postValue(AuthViewState.SignIn.Error(it.localizedMessage)) }
 					)
 				}
@@ -99,10 +81,7 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 		}
 	}
 	
-	/**
-	 * Try to Sign Up
-	 * else catch null input error
-	 */
+	
 	fun signUp() {
 		//check email input and password equality are not null or blank
 		if (!inputEmail.value.isNullOrBlank() && inputPasswordAreSameAsConfirm.value != null) {

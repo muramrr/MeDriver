@@ -579,7 +579,36 @@
 			
 			</com.google.android.material.card.MaterialCardView>
 			
+			<include android:id="@+id/viewLoading"
+				layout="@layout/loading"
+				android:layout_height="0dp"
+				android:layout_width="0dp"
+				android:visibility="invisible"
+				
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
 			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvDownloadStatus"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:elevation="3dp"
+				
+				android:textAlignment="center"
+				android:textAppearance="?textAppearanceHeadline6"
+				android:textColor="@android:color/white"
+				
+				android:visibility="invisible"
+				
+				app:layout_constraintVertical_bias="0.6"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
 			
 			
 			<!-- guideline start root -->

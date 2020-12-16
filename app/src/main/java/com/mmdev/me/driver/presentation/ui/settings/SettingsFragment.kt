@@ -30,8 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
-import com.mmdev.me.driver.core.utils.MetricSystem.KILOMETERS
-import com.mmdev.me.driver.core.utils.MetricSystem.MILES
+import com.mmdev.me.driver.core.utils.MetricSystem.*
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
@@ -74,6 +73,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private var syncedJustNow = ""
 	private var syncedFormatter = ""
 	
+	private var shouldDownload = false
+	
 	private lateinit var languagesMap: Map<Language, String>
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +83,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	override fun renderState(state: ViewState) {
+		
 		when (state) {
 			
 			is SettingsViewState.SendVerification.Success -> {
@@ -95,8 +97,28 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				)
 			}
 			
+			is SettingsViewState.DownloadData.Checking -> {
+				binding.viewLoading.visible(0)
+				binding.tvDownloadStatus.visible(0)
+				binding.tvDownloadStatus.text = "Checking"
+			}
+			is SettingsViewState.DownloadData.Deleting -> binding.tvDownloadStatus.text = "Deleting"
+			is SettingsViewState.DownloadData.Downloading -> binding.tvDownloadStatus.text = "Downloading..."
+			is SettingsViewState.DownloadData.Error -> {
+				binding.tvDownloadStatus.text = "Something went wrong"
+				binding.viewLoading.invisible(200)
+				binding.tvDownloadStatus.invisible(200)
+			}
+			is SettingsViewState.DownloadData.Finished -> {
+				binding.viewLoading.invisible(0)
+				binding.tvDownloadStatus.invisible(0)
+				shouldDownload = false
+			}
+			
 		}
 	}
+	
+	
 	
 	override fun setupViews() {
 		initStringRes()
@@ -160,6 +182,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			binding.apply {
 				
 				if (user != null) {
+					if (user.isPro() && shouldDownload) mViewModel.downloadData(user.email)
 					
 					setUserIsNotNull()
 					tvYourAccountVerificationHint.apply {
@@ -217,6 +240,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	private fun setUserIsNull() {
+		shouldDownload = true
 		binding.apply {
 			// hide premium label
 			setUserIsNotSubscribed()
@@ -250,7 +274,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		binding.tvSyncSubtitle.text = with(MedriverApp.lastSyncedDate) {
 			when {
 				this <= 0L -> syncedNever
-				(currentEpochTime() - this) > DateHelper.HOUR_DURATION -> syncedJustNow
+				(currentEpochTime() - this) < DateHelper.HOUR_DURATION -> syncedJustNow
 				else -> syncedFormatter.format(convertToLocalDateTime(this).date.humanDate())
 			}
 		}

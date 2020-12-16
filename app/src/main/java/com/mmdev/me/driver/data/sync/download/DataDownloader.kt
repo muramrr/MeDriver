@@ -31,13 +31,16 @@ import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
 import com.mmdev.me.driver.data.sync.download.maintenance.IMaintenanceDownloader
 import com.mmdev.me.driver.data.sync.download.vehicle.IVehicleDownloader
 import com.mmdev.me.driver.domain.core.ResultState
+import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.core.combineResultStates
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.transform
 
 /**
  * Boundary class for downloading vehicle, maintenance and fuel history entries from server
@@ -58,8 +61,8 @@ class DataDownloader(
 		fuelHistory.clear()
 	}
 	
-	override fun importData(email: String) = flow {
-		vehicles.download(email).collect { result ->
+	override fun importData(email: String): Flow<SimpleResult<Unit>> =
+		vehicles.download(email).transform { result ->
 			result.fold(
 				success = { vinList ->
 					if (vinList.isNullOrEmpty()) emit(ResultState.Success(Unit))
@@ -76,17 +79,17 @@ class DataDownloader(
 				}
 			)
 		}
-	}
 	
-	private suspend fun importCombination(email: String, vin: String) =
+	
+	private suspend fun importCombination(email: String, vin: String): Flow<SimpleResult<Unit>> =
 		fuelHistory.download(email, vin)
 			.combine(maintenance.download(email, vin)) { fuelResult, maintenanceResult ->
 			logDebug(TAG, "Running combination of downloading both fuel and maintenance history...")
 			combineResultStates(fuelResult, maintenanceResult)
 		}
 	
-	override fun fetchNewFromServer(email: String) = flow {
-		journal.getOperations(email, MedriverApp.lastOperationSyncedId).collect { result ->
+	override fun fetchNewFromServer(email: String): Flow<SimpleResult<Unit>> =
+		journal.getOperations(email, MedriverApp.lastOperationSyncedId).transform { result ->
 			logDebug(TAG, "Getting server journal...")
 			result.fold(
 				success = { serverJournal ->
@@ -105,9 +108,12 @@ class DataDownloader(
 			)
 			
 		}
-	}
 	
-	override fun downloadNewFromServer(operations: List<ServerOperation>, email: String) = flow {
+	
+	override fun downloadNewFromServer(
+		operations: List<ServerOperation>,
+		email: String
+	): Flow<SimpleResult<Unit>> = flow {
 		if (operations.isNotEmpty()) {
 			val groupedOperations = operations.groupBy { it.documentType }
 			

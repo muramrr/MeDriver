@@ -56,6 +56,6 @@ val ViewModelsModule = module {
 	viewModel { SettingsViewModel(repository = get()) }
 	viewModel { AuthViewModel(repository = get()) }
 
-	viewModel { SharedViewModel(authProvider = get(), fetcher = get()) }
+	viewModel { SharedViewModel(authProvider = get(), billing = get(), fetcher = get()) }
 
 }

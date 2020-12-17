@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * Class used only to provide [FirebaseAuth] callbacks as [Flow]
  */
 
-class AuthCollector(private val auth: FirebaseAuth) {
+class AuthCollector(auth: FirebaseAuth) {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
@@ -44,8 +44,8 @@ class AuthCollector(private val auth: FirebaseAuth) {
 		
 		awaitClose {
 			logDebug(TAG, "AuthListener removed.")
-			auth.removeAuthStateListener(listener)
 			cancel()
+			auth.removeAuthStateListener(listener)
 		}
 	}
 	

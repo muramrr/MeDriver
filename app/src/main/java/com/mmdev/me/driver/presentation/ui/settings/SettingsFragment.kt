@@ -43,7 +43,7 @@ import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.settings.about.AboutBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.faq.FaqBottomSheet
-import com.mmdev.me.driver.presentation.ui.subscription.SubscriptionBottomSheet
+import com.mmdev.me.driver.presentation.ui.settings.subscription.SubscriptionBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
@@ -190,11 +190,11 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						text = if (!user.isEmailVerified) accNotVerified else accVerified
 					}
 					// show email confirmed indicator
-					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE) { user.isEmailVerified }
+					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE, 0) { user.isEmailVerified }
 					tvEmailAddressConfirmed.text = user.email
 					
 					// show tap to verify hint
-					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE) { !user.isEmailVerified }
+					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE, 0) { !user.isEmailVerified }
 					
 					// if user need to verify his email show related indicator
 					btnSendVerification.apply {
@@ -342,12 +342,12 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	
 	private fun Button.setDisabledAndInvisible() = apply {
 		isEnabled = false
-		invisible()
+		invisible(0)
 	}
 	
 	private fun Button.setEnabledAndVisible() = apply {
 		isEnabled = true
-		visible()
+		visible(0)
 	}
 	
 	

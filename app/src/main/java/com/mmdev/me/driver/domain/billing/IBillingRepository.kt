@@ -16,16 +16,20 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.subscription
+package com.mmdev.me.driver.domain.billing
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import android.app.Activity
+import com.android.billingclient.api.Purchase
+import kotlinx.coroutines.flow.StateFlow
 
 /**
- * Represents feature with mark (checked or crossed) that indicates availability
+ *
  */
 
-data class FeatureUi(
-	@StringRes val feature: Int,
-	@DrawableRes val availability: Int
-)
+interface IBillingRepository {
+	
+	fun getPurchasesFlow(): StateFlow<List<Purchase>?>
+	
+	fun launchPurchase(activity: Activity, skuPos: Int, accountId: String)
+	
+}

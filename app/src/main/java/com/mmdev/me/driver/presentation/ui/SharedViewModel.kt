@@ -20,16 +20,20 @@ package com.mmdev.me.driver.presentation.ui
 
 import android.app.Activity
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
+import com.mmdev.me.driver.domain.billing.IBillingRepository
+import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.AuthStatus
 import com.mmdev.me.driver.domain.user.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -41,7 +45,8 @@ import kotlinx.coroutines.launch
  */
 
 class SharedViewModel(
-	private val authProvider: IAuthFlowProvider,
+	authProvider: IAuthFlowProvider,
+	private val billing: IBillingRepository,
 	private val fetcher: IFetchingRepository
 ) : BaseViewModel() {
 	
@@ -49,17 +54,20 @@ class SharedViewModel(
 		var uploadWorkerExecuted = false
 	}
 	
-	val userDataInfo = MutableLiveData<UserDataInfo?>()
 	
+	
+	val purchases = billing.getPurchasesFlow().asLiveData()
+	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
 	val currentVehicle = MutableLiveData<Vehicle?>()
 	init {
 		getSavedVehicle(MedriverApp.currentVehicleVinCode)
-		viewModelScope.launch {
-			authProvider.getAuthUserFlow().collect {
-				userDataInfo.value = it
-				if (it?.isPro() == true) fetcher.listenForUpdates(it.email)
-			}
-		}
+	}
+	
+	val userDataInfo = _userDataInfo.combineWith(purchases) { user, purchases ->
+		user?.copy(
+			subscriptionType = if (purchases.isNullOrEmpty()) SubscriptionType.FREE
+			else parseSku(purchases.last().sku)
+		)
 	}
 	
 	fun getSavedVehicle(vin: String) {
@@ -85,8 +93,17 @@ class SharedViewModel(
 		}
 	}
 	
-	fun launchBillingFlow(activity: Activity, identifier: String) {
-		authProvider.purchaseFlow(activity, identifier, userDataInfo.value!!.id)
+	fun launchBillingFlow(activity: Activity, identifier: Int) =
+		billing.launchPurchase(activity, identifier, userDataInfo.value!!.id)
+	
+	
+	private fun parseSku(sku: String): SubscriptionType {
+		val identifiers = sku.split("_")
+		return when (identifiers.first()) {
+			"premium" -> SubscriptionType.PREMIUM
+			"pro" -> SubscriptionType.PRO
+			else -> SubscriptionType.FREE
+		}
 	}
 	
 }

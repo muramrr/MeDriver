@@ -24,7 +24,7 @@
 	<data>
 		<variable
 			name="bindItem"
-			type="com.mmdev.me.driver.presentation.ui.subscription.PlanUi"
+			type="com.mmdev.me.driver.presentation.ui.settings.subscription.PlanUi"
 			/>
 	</data>
 	

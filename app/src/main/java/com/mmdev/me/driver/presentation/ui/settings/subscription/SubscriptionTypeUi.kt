@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.subscription
+package com.mmdev.me.driver.presentation.ui.settings.subscription
 
 import androidx.annotation.StringRes
 import com.mmdev.me.driver.domain.billing.SubscriptionType

@@ -221,7 +221,7 @@ class MainActivity: AppCompatActivity() {
 					}
 				}
 				
-				logWtf(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
+				logDebug(TAG, "Is network available? -${MedriverApp.isNetworkAvailable}")
 			}
 		}
 	}
@@ -240,6 +240,10 @@ class MainActivity: AppCompatActivity() {
 			currentUser = it
 			
 		})
+		
+		sharedViewModel.purchases.observe(this, {
+			logWtf(TAG, "activity received = $it")
+		})
 	}
 	
 	/**
@@ -257,7 +261,7 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	
-	fun launchPurchaseFlow(identifier: String) = sharedViewModel.launchBillingFlow(
+	fun launchPurchaseFlow(identifier: Int) = sharedViewModel.launchBillingFlow(
 		this,
 		identifier
 	)

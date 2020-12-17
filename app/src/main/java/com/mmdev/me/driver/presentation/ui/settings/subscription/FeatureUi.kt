@@ -16,20 +16,16 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.billing.data
+package com.mmdev.me.driver.presentation.ui.settings.subscription
 
-import com.google.firebase.firestore.PropertyName
-import com.mmdev.me.driver.domain.billing.PeriodType
-import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
-import com.mmdev.me.driver.domain.billing.SubscriptionType
-import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 /**
- *
+ * Represents feature with mark (checked or crossed) that indicates availability
  */
 
-data class SkuDto(
-	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
-	@PropertyName("periodDuration") val periodDuration: Int = 0,
-	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
+data class FeatureUi(
+	@StringRes val feature: Int,
+	@DrawableRes val availability: Int
 )

@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.billing.data
+package com.mmdev.me.driver.data.repository.billing.data
 
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName

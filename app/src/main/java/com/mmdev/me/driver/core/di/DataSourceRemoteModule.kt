@@ -18,7 +18,6 @@
 
 package com.mmdev.me.driver.core.di
 
-import com.mmdev.me.driver.data.datasource.billing.BillingDataSource
 import com.mmdev.me.driver.data.datasource.fetching.FetchingDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.server.FuelHistoryServerDataSourceImpl
 import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
@@ -35,7 +34,6 @@ import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSour
 import com.mmdev.me.driver.data.datasource.vehicle.server.VehicleServerDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vin.api.IVinApiDataSource
 import com.mmdev.me.driver.data.datasource.vin.api.VinApiDataSourceImpl
-import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 
@@ -46,8 +44,6 @@ import org.koin.dsl.module
 val DataSourceRemoteModule = module {
 	
 	single { AuthCollector(auth = get()) }
-	
-	single { BillingDataSource(context = androidApplication()) }
 	
 	factory<IUserRemoteDataSource> { UserRemoteDataSourceImpl(fs = get()) }
 	factory<IFirebaseAuthDataSource> { FirebaseAuthDataSourceImpl(auth = get()) }

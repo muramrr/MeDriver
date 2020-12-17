@@ -18,13 +18,8 @@
 
 package com.mmdev.me.driver.data.repository.auth.mappers
 
-import com.android.billingclient.api.Purchase
 import com.google.firebase.auth.FirebaseUser
-import com.mmdev.me.driver.data.core.mappers.mapList
-import com.mmdev.me.driver.data.datasource.billing.data.PurchaseDto
-import com.mmdev.me.driver.data.datasource.billing.data.SkuDto
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.billing.PeriodType
 import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
@@ -58,40 +53,4 @@ class UserMappers {
 		email = firebaseUser.email!!,
 		isEmailVerified = firebaseUser.isEmailVerified
 	)
-	
-	private fun toSkuDto(sku: String): SkuDto {
-		val identifiers = sku.split("_")
-		val type = when (identifiers.first()) {
-			"premium" -> SubscriptionType.PREMIUM
-			"pro" -> SubscriptionType.PRO
-			else -> SubscriptionType.FREE
-		}
-		val periodDuration = identifiers[1].toInt()
-		val periodType = when (identifiers.last()) {
-			"day" -> PeriodType.DAY
-			"week" -> PeriodType.WEEK
-			"month" -> PeriodType.MONTH
-			"months" -> PeriodType.MONTH
-			"year" -> PeriodType.YEAR
-			else -> PeriodType.UNKNOWN
-		}
-		
-		return SkuDto(type, periodDuration, periodType)
-	}
-	
-	fun toPurchaseDto(purchases: List<Purchase>) = mapList(purchases) {
-		PurchaseDto(
-			accountId = it.accountIdentifiers!!.obfuscatedAccountId!!,
-			isAcknowledged = it.isAcknowledged,
-			isAutoRenewing = it.isAutoRenewing,
-			orderId = it.orderId,
-			originalJson = it.originalJson,
-			purchaseTime = it.purchaseTime,
-			purchaseToken = it.purchaseToken,
-			signature = it.signature,
-			sku = toSkuDto(it.sku),
-			skuOriginal = it.sku
-		
-		)
-	}
 }

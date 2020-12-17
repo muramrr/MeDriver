@@ -16,17 +16,20 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.user
+package com.mmdev.me.driver.data.repository.billing.data
 
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.firestore.PropertyName
+import com.mmdev.me.driver.domain.billing.PeriodType
+import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
+import com.mmdev.me.driver.domain.billing.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
 
 /**
- * Main features:
- * convert [FirebaseAuth] callbacks to simplified [AuthStatus]
- * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserDataInfo]
+ *
  */
 
-interface IAuthFlowProvider {
-	fun getUserFlow(): Flow<UserDataInfo?>
-}
+data class SkuDto(
+	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
+	@PropertyName("periodDuration") val periodDuration: Int = 0,
+	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
+)

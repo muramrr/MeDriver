@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.subscription
+package com.mmdev.me.driver.presentation.ui.settings.subscription
 
 import android.os.Bundle
 import android.view.ViewGroup
@@ -38,11 +38,6 @@ import com.mmdev.me.driver.presentation.ui.common.custom.decorators.CentralFirst
 class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscriptionBinding>(
 	layoutId = R.layout.btm_sheet_subscription
 ) {
-	
-	private companion object {
-		private const val PREMIUM_SKU = "premium_3_month"
-		private const val PRO_SKU = "pro_3_months"
-	}
 	
 	override val mViewModel: Nothing? = null
 	
@@ -70,10 +65,7 @@ class SubscriptionBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetSubscrip
 		binding.rvSubscriptionPlans.apply {
 			adapter = PlansAdapter().apply {
 				setOnItemClickListener { view, position, item ->
-					when (position) {
-						1 -> (requireActivity() as MainActivity).launchPurchaseFlow(PREMIUM_SKU)
-						2 -> (requireActivity() as MainActivity).launchPurchaseFlow(PRO_SKU)
-					}
+					if (position > 0) (requireActivity() as MainActivity).launchPurchaseFlow(position - 1)
 					
 				}
 			}

@@ -18,7 +18,8 @@
 
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.core.utils.extensions.toEpochTime
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
@@ -26,7 +27,7 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystem
 import kotlinx.datetime.LocalDateTime
 
 /**
- * In [VehicleSparePartDto] -> Out: [VehicleSparePart], [VehicleSparePartEntity]
+ * In [VehicleSparePartDto] -> Out: [VehicleSparePart], [MaintenanceEntity]
  */
 
 object DtoMappers {
@@ -47,9 +48,9 @@ object DtoMappers {
 		)
 	
 	
-	fun toEntity(dto: VehicleSparePartDto): VehicleSparePartEntity =
-		VehicleSparePartEntity(
-			date = dto.date,
+	fun toEntity(dto: VehicleSparePartDto): MaintenanceEntity =
+		MaintenanceEntity(
+			date = LocalDateTime.parse(dto.date).toEpochTime(),
 			dateAdded = dto.dateAdded,
 			articulus = dto.articulus,
 			vendor = dto.vendor,

@@ -19,7 +19,7 @@
 package com.mmdev.me.driver.data.datasource.vehicle.local
 
 import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourceWithCaching
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
@@ -38,7 +38,7 @@ interface IVehicleLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Get all replacement parts for given vehicle [vin] which was done before
 	 */
-	suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>>
+	suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, MaintenanceEntity>>
 	
 	/**
 	 * Get all vehicles which was added to database
@@ -49,7 +49,7 @@ interface IVehicleLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Get vehicle which corresponds to given [vin]
 	 */
-	suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity>
+	suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity?>
 	
 	/**
 	 * Simple usage - insert new vehicle entry
@@ -67,7 +67,7 @@ interface IVehicleLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Delete only one vehicle
 	 */
-	suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit>
+	suspend fun deleteVehicle(vin: String): SimpleResult<Unit>
 	
 	/**
 	 * Clear whole table that contains [VehicleEntity]

@@ -24,7 +24,8 @@ import androidx.work.WorkerParameters
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.sync.upload.fuel.IFuelHistoryUploader
 import com.mmdev.me.driver.data.sync.upload.maintenance.IMaintenanceUploader
 import com.mmdev.me.driver.data.sync.upload.vehicle.IVehicleUploader
@@ -32,7 +33,6 @@ import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
@@ -75,22 +75,25 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 			val email = inputData.getString(MainActivity.USER_KEY)
 			if (!email.isNullOrBlank()) {
 				val syncOperations = listOf(
-					async { fuelHistoryUploader.fetch(email).collect {  } },
-					async { maintenanceUploader.fetch(email).collect {  } },
-					async { vehicleUploader.fetch(email).collect {  } }
+					async { fuelHistoryUploader.upload(email) },
+					async { maintenanceUploader.upload(email) },
+					async { vehicleUploader.upload(email) }
 				)
+				logDebug(TAG, "Uploading in progress")
 				syncOperations.awaitAll()
+				logInfo(TAG, "Uploading worker job result is SUCCESS")
 				SharedViewModel.uploadWorkerExecuted = true
 				Result.success()
 			}
 			else {
+				logError(TAG, "Uploading worker job result is FAILURE, email is not valid")
 				SharedViewModel.uploadWorkerExecuted = false
 				Result.failure()
 			}
 			
 		}
 		else {
-			logWtf(TAG, "Internet is not working...")
+			logError(TAG, "Internet is not working, uploading cannot be done...")
 //			if (runAttemptCount < 5) {
 //				logWtf(TAG, "retrying...")
 //				Result.retry()

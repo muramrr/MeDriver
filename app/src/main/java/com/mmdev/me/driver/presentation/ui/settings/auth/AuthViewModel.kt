@@ -24,6 +24,7 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.domain.user.ISettingsRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -73,7 +74,10 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 			viewModelScope.launch {
 				repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
 					result.fold(
-						success = { viewState.postValue(AuthViewState.SignIn.Success) },
+						success = {
+							delay(500)
+							viewState.postValue(AuthViewState.SignIn.Success)
+						},
 						failure = { viewState.postValue(AuthViewState.SignIn.Error(it.localizedMessage)) }
 					)
 				}

@@ -18,22 +18,22 @@
 
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType.Companion.getChildBy
-import kotlinx.datetime.LocalDateTime
 
 /**
- * In [VehicleSparePartEntity] -> Out: [VehicleSparePart], [VehicleSparePartDto]
+ * In [MaintenanceEntity] -> Out: [VehicleSparePart], [VehicleSparePartDto]
  */
 
 object EntityMappers {
 	
-	fun toDomain(entity: VehicleSparePartEntity): VehicleSparePart =
+	fun toDomain(entity: MaintenanceEntity): VehicleSparePart =
 		VehicleSparePart(
-			date = LocalDateTime.parse(entity.date),
+			date = convertToLocalDateTime(entity.date),
 			dateAdded = entity.dateAdded,
 			articulus = entity.articulus,
 			vendor = entity.vendor,
@@ -46,9 +46,9 @@ object EntityMappers {
 			vehicleVinCode = entity.vehicleVinCode
 		)
 	
-	fun toDto(entity: VehicleSparePartEntity): VehicleSparePartDto =
+	fun toDto(entity: MaintenanceEntity): VehicleSparePartDto =
 		VehicleSparePartDto(
-			date = entity.date,
+			date = convertToLocalDateTime(entity.date).toString(),
 			dateAdded = entity.dateAdded,
 			articulus = entity.articulus,
 			vendor = entity.vendor,

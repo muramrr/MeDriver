@@ -119,14 +119,14 @@ class MaintenanceServerDataSourceImpl (private val fs: FirebaseFirestore) :
 	): Flow<SimpleResult<Unit>> =
 		delete(email, dto)
 			.combine(addToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
-		combineResultStates(delete, journal).fold(
-			success = {
-				MedriverApp.lastOperationSyncedId = dto.dateAdded
-				ResultState.success(Unit)
-			},
-			failure = { ResultState.failure(it) }
-		)
-	}
+				combineResultStates(delete, journal).fold(
+					success = {
+						MedriverApp.lastOperationSyncedId = dto.dateAdded
+						ResultState.success(Unit)
+					},
+					failure = { ResultState.failure(it) }
+				)
+			}
 	
 	private fun delete(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>>  =
 		fs.collection(FS_USERS_COLLECTION)

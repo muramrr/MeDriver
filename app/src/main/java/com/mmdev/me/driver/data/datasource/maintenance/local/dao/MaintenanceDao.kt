@@ -23,7 +23,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 
 /**
  * Dao interface responsible to retrieve cached replaced vehicle spare parts from database
@@ -48,7 +48,7 @@ interface MaintenanceDao {
 		vin: String,
 		systemNode: String,
 		component: String
-	): VehicleSparePartEntity
+	): MaintenanceEntity
 	
 	
 	
@@ -65,7 +65,7 @@ interface MaintenanceDao {
 		vin: String,
 		limit: Int,
 		offset: Int
-	): List<VehicleSparePartEntity>
+	): List<MaintenanceEntity>
 	
 	
 	
@@ -81,7 +81,7 @@ interface MaintenanceDao {
 	suspend fun getSystemNodeHistory(
 		vin: String,
 		systemNode: String
-	): List<VehicleSparePartEntity>
+	): List<MaintenanceEntity>
 	
 	
 	/**
@@ -102,15 +102,15 @@ interface MaintenanceDao {
 	suspend fun getByTypedQuery(
 		vin: String,
 		typedQuery: String
-	): List<VehicleSparePartEntity>
+	): List<MaintenanceEntity>
 	
 	@Query("SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE} WHERE dateAdded = :key")
-	suspend fun getById(key: Long): VehicleSparePartEntity?
+	suspend fun getById(key: Long): MaintenanceEntity?
 	
 	
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertVehicleReplacedSparePart(replacedSpareParts: List<VehicleSparePartEntity>)
+	suspend fun insertVehicleReplacedSparePart(replacedSpareParts: List<MaintenanceEntity>)
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE} WHERE dateAdded = :id")
 	suspend fun deleteVehicleReplacedSparePart(id: Long)

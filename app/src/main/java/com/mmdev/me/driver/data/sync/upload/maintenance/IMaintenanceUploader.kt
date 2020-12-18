@@ -18,9 +18,6 @@
 
 package com.mmdev.me.driver.data.sync.upload.maintenance
 
-import com.mmdev.me.driver.domain.core.SimpleResult
-import kotlinx.coroutines.flow.Flow
-
 /**
  * Uploader for maintenance history entries
  */
@@ -32,6 +29,6 @@ interface IMaintenanceUploader {
 	 * Concurrently retrieve entity from database and write to server
 	 * If entry with such id doesn't exists it will be delete from cached operations
 	 */
-	suspend fun fetch(email: String): Flow<SimpleResult<Unit>>
+	suspend fun upload(email: String)
 	
 }

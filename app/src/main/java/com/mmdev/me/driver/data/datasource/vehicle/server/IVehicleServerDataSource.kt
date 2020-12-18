@@ -47,6 +47,6 @@ interface IVehicleServerDataSource {
 	/**
 	 * Deletes existing vehicle on server
 	 */
-	fun deleteVehicle(email: String, vin: String): Flow<SimpleResult<Void>>
+	fun deleteVehicle(email: String, dto: VehicleDto): Flow<SimpleResult<Unit>>
 	
 }

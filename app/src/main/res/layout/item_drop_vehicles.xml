@@ -55,14 +55,14 @@
 		/>
 	
 	<com.google.android.material.textview.MaterialTextView
-		android:id="@+id/tvDropCarItemProLabel"
+		android:id="@+id/tvDropCarItemPremiumLabel"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:background="@drawable/pro_label_background"
 		android:padding="16dp"
 		android:maxLines="1"
 		
-		android:text="PRO"
+		android:text="@string/fg_settings_btn_subscription_premium"
 		android:textColor="?colorOnPrimary"
 		android:textAppearance="?textAppearanceOverline"
 		

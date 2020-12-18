@@ -81,7 +81,7 @@ class DataDownloader(
 		}
 	
 	
-	private suspend fun importCombination(email: String, vin: String): Flow<SimpleResult<Unit>> =
+	private fun importCombination(email: String, vin: String): Flow<SimpleResult<Unit>> =
 		fuelHistory.download(email, vin)
 			.combine(maintenance.download(email, vin)) { fuelResult, maintenanceResult ->
 			logDebug(TAG, "Running combination of downloading both fuel and maintenance history...")
@@ -141,8 +141,7 @@ class DataDownloader(
 				groupedOperations.getOrDefault(FUEL_HISTORY, emptyList())
 			).flatten()
 			
-			// not null find the lastest updating date value of vehicle
-			
+		
 			filteredOperations.asFlow().flatMapMerge { operation ->
 				when (operation.documentType) {
 					MAINTENANCE -> {
@@ -161,7 +160,15 @@ class DataDownloader(
 							else -> fuelHistory.downloadSingle(email, operation.vin, operation.documentId)
 						}
 					}
-					VEHICLE -> vehicles.downloadSingle(email, operation.vin)
+					VEHICLE -> {
+						when (operation.operationType) {
+							ADDED -> vehicles.downloadSingle(email, operation.vin)
+							DELETED -> flowOf(vehicles.deleteSingle(email, operation.vin))
+							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
+							else -> vehicles.downloadSingle(email, operation.vin)
+						}
+						
+					}
 					else -> flowOf(ResultState.failure(Exception("Unsupported server document type")))
 				}
 				

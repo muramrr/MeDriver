@@ -19,7 +19,6 @@
 package com.mmdev.me.driver.data.core.base.datasource
 
 import com.mmdev.me.driver.core.utils.log.logError
-import com.mmdev.me.driver.core.utils.log.logWarn
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 
@@ -32,14 +31,12 @@ abstract class BaseDataSource {
 	
 	protected val TAG = "mylogs_${javaClass.simpleName}"
 
-	protected inline fun <T> safeCall(TAG: String, call: () -> T?): SimpleResult<T> =
+	protected suspend inline fun <T> safeCall(TAG: String, crossinline call: suspend () -> T?): SimpleResult<T> =
 		try {
 			val result = call.invoke()
 			if (result != null) ResultState.success(result)
-			else {
-				logWarn(TAG, "Safe call returns null")
-				ResultState.failure(NullPointerException("Data is null"))
-			}
+			else ResultState.failure(NullPointerException("Data is null"))
+			
 		}
 		catch (t: Throwable) {
 			logError(TAG, "${t.message}")

@@ -19,13 +19,12 @@
 package com.mmdev.me.driver.data.datasource.vehicle.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
@@ -64,7 +63,7 @@ interface VehicleDao {
 	suspend fun getExpensesMaintenance(vin: String): Double?
 	
 	@Transaction
-	suspend fun getPlannedReplacements(vin: String): Map<String, VehicleSparePartEntity> {
+	suspend fun getPlannedReplacements(vin: String): Map<String, MaintenanceEntity> {
 		return PlannedParts.valuesArray.map { it.getSparePartName() }.zip(
 			PlannedParts.valuesArray.map {
 				getPlannedLastReplacement(vin, it.getSparePartName())
@@ -80,13 +79,13 @@ interface VehicleDao {
 		LIMIT 1
 		"""
 	)
-	fun getPlannedLastReplacement(vin: String, plannedSparePart: String): VehicleSparePartEntity
+	suspend fun getPlannedLastReplacement(vin: String, plannedSparePart: String): MaintenanceEntity
 	
 	@Query("SELECT * FROM ${MeDriverRoomDatabase.VEHICLES_TABLE}")
 	suspend fun getAllVehicles(): List<VehicleEntity>
 	
 	@Query("SELECT * FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
-	suspend fun getVehicleByVin(vin: String): VehicleEntity
+	suspend fun getVehicleByVin(vin: String): VehicleEntity?
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertVehicle(vehicle: VehicleEntity)
@@ -94,8 +93,21 @@ interface VehicleDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun importVehicles(vehiclesToImport: List<VehicleEntity>)
 	
-	@Delete
-	suspend fun deleteVehicle(vehicle: VehicleEntity)
+	@Transaction
+	suspend fun deleteVehicle(vin: String) {
+		//cascade deleting
+		deleteVehicleByVin(vin)
+		deleteVehicleFuelHistory(vin)
+		deleteVehicleMaintenanceHistory(vin)
+	}
+	
+	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
+	suspend fun deleteVehicleByVin(vin: String)
+	@Query("DELETE FROM ${MeDriverRoomDatabase.FUEL_HISTORY_TABLE} WHERE vehicleVinCode = :vin")
+	suspend fun deleteVehicleFuelHistory(vin: String)
+	@Query("DELETE FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE} WHERE vehicleVinCode = :vin")
+	suspend fun deleteVehicleMaintenanceHistory(vin: String)
+	
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE}")
 	suspend fun clearAll()

@@ -50,8 +50,9 @@ class FetchingRepositoryImpl(
 	
 	override suspend fun listenForUpdates(email: String) =
 		fetchingDataSource.journalFlow(email).collect {
+			logDebug(TAG, "Listening for server journal")
 			downloader.downloadNewFromServer(it, email).collect { result ->
-				logDebug(TAG, "Download new from server result = $result")
+				logDebug(TAG, "Downloaded new from server while listening result = $result")
 			}
 		}
 	

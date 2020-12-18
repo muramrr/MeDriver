@@ -20,7 +20,7 @@ package com.mmdev.me.driver.data.datasource.maintenance.local
 
 import com.mmdev.me.driver.data.cache.CachedOperation
 import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourceWithCaching
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
 
 /**
@@ -37,7 +37,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 		vin: String,
 		systemNode: String,
 		customNodeComponent: String
-	): SimpleResult<VehicleSparePartEntity>
+	): SimpleResult<MaintenanceEntity>
 	
 	/**
 	 * Retrieve maintenance history with given [limit] and [offset] to SQL query
@@ -47,7 +47,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 		vin: String,
 		limit: Int,
 		offset: Int
-	): SimpleResult<List<VehicleSparePartEntity>>
+	): SimpleResult<List<MaintenanceEntity>>
 	
 	
 	/**
@@ -55,7 +55,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	 * [CachedOperation] class contains entry id and this method is designed for retrieving only
 	 * 1 entry by its id
 	 */
-	suspend fun getRecordById(key: Long): SimpleResult<VehicleSparePartEntity?>
+	suspend fun getRecordById(key: Long): SimpleResult<MaintenanceEntity?>
 	
 	/**
 	 * Retrieve all maintenance entries which fits given query
@@ -64,7 +64,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	suspend fun getByTypedQuery(
 		vin: String,
 		typedQuery: String
-	): SimpleResult<List<VehicleSparePartEntity>>
+	): SimpleResult<List<MaintenanceEntity>>
 	
 	/**
 	 * Retrieve all maintenance entries which relates to given [systemNode]
@@ -73,7 +73,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	suspend fun getSystemNodeHistory(
 		vin: String,
 		systemNode: String
-	): SimpleResult<List<VehicleSparePartEntity>>
+	): SimpleResult<List<MaintenanceEntity>>
 	
 	/**
 	 * Simple usage - insert new maintenance entry
@@ -81,7 +81,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	 * it has been added from device
 	 */
 	suspend fun insertReplacedSpareParts(
-		replacedSpareParts: List<VehicleSparePartEntity>
+		replacedSpareParts: List<MaintenanceEntity>
 	): SimpleResult<Unit>
 	
 	/**
@@ -89,7 +89,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	 * Used only while downloading new data, implementation differs from [insertReplacedSpareParts]
 	 */
 	suspend fun importReplacedSpareParts(
-		import: List<VehicleSparePartEntity>
+		import: List<MaintenanceEntity>
 	): SimpleResult<Unit>
 	
 	/**
@@ -98,7 +98,7 @@ interface IMaintenanceLocalDataSource: IBaseLocalDataSourceWithCaching {
 	suspend fun deleteMaintenanceHistoryEntry(id: Long): SimpleResult<Unit>
 	
 	/**
-	 * Clear whole table that contains [VehicleSparePartEntity]
+	 * Clear whole table that contains [MaintenanceEntity]
 	 */
 	suspend fun clearAll(): SimpleResult<Unit>
 	

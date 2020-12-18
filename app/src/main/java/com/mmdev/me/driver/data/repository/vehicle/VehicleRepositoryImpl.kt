@@ -119,7 +119,12 @@ class VehicleRepositoryImpl(
 	
 	override suspend fun getSavedVehicle(vin: String): Vehicle? =
 		localDataSource.getVehicle(vin).fold(
-			success = { entity -> mappers.entityToDomain(entity) },
+			success = { entity ->
+				if (entity != null) {
+					mappers.entityToDomain(entity)
+				}
+				else null
+			},
 			failure = { throwable ->
 				logError(TAG, "${throwable.message}")
 				null

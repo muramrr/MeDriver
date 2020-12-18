@@ -42,11 +42,12 @@ class MaintenanceUploader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
-	override suspend fun fetch(email: String) = flow {
+	override suspend fun upload(email: String) {
 		logDebug(TAG, "getting maintenance cached operations...")
 		local.getCachedOperations().fold(
 			success = { operations ->
 				logInfo(TAG, "maintenance cached operations count = ${operations.size}")
+				if (operations.isEmpty()) return
 				operations.asFlow().flatMapMerge { operation ->
 					logDebug(TAG, "executing $operation")
 					flow {
@@ -70,15 +71,17 @@ class MaintenanceUploader(
 								}
 								
 							},
-							failure = {
-								emit(ResultState.failure(it))
-							}
+							failure = { emit(ResultState.failure(it)) }
 						)
 					}
-				}.collect { emit(it) }
+				}.collect {
+					//emit(it)
+					logDebug(TAG, "Fetching maintenance history result = $it")
+				}
 			},
 			failure = {
-				emit(ResultState.failure(it))
+				logError(TAG, "${it.message}")
+				//emit(ResultState.failure(it))
 			}
 		)
 	}

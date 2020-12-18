@@ -23,7 +23,7 @@ import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.cache.CacheDao
 import com.mmdev.me.driver.data.core.base.datasource.caching.BaseLocalDataSourceWithCaching
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -45,13 +45,13 @@ class VehicleLocalDataSourceImpl(
 		safeCall(TAG) { dao.getExpenses(vin) }
 	
 	
-	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, VehicleSparePartEntity>> =
+	override suspend fun gePlannedReplacements(vin: String): SimpleResult<Map<String, MaintenanceEntity>> =
 		safeCall(TAG) { dao.getPlannedReplacements(vin) }
 	
 	override suspend fun getAllVehicles(): SimpleResult<List<VehicleEntity>> =
 		safeCall(TAG) { dao.getAllVehicles() }
 	
-	override suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity> =
+	override suspend fun getVehicle(vin: String): SimpleResult<VehicleEntity?> =
 		safeCall(TAG) { dao.getVehicleByVin(vin) }
 	
 	override suspend fun insertVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
@@ -71,8 +71,8 @@ class VehicleLocalDataSourceImpl(
 			}
 		}
 	
-	override suspend fun deleteVehicle(vehicleEntity: VehicleEntity): SimpleResult<Unit> =
-		safeCall(TAG) { dao.deleteVehicle(vehicleEntity) }
+	override suspend fun deleteVehicle(vin: String): SimpleResult<Unit> =
+		safeCall(TAG) { dao.deleteVehicle(vin) }
 	
 	override suspend fun clearAll(): SimpleResult<Unit> = safeCall(TAG) { dao.clearAll() }
 	

@@ -18,13 +18,13 @@
 
 package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.server.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
-import kotlinx.datetime.LocalDateTime
 
 /**
  * In [FuelHistoryEntity] -> Out [FuelHistory], [FuelHistoryDto]
@@ -36,7 +36,7 @@ object EntityMappers {
 	fun toDomain(entity: FuelHistoryEntity): FuelHistory =
 		FuelHistory(
 			commentary = entity.commentary,
-			date = LocalDateTime.parse(entity.date),
+			date = convertToLocalDateTime(entity.date),
 			dateAdded = entity.dateAdded,
 			distancePassedBound = entity.distancePassedBound,
 			filledLiters = entity.filledLiters,
@@ -59,7 +59,7 @@ object EntityMappers {
 	fun toDto(entity: FuelHistoryEntity): FuelHistoryDto =
 		FuelHistoryDto(
 			commentary = entity.commentary,
-			date = entity.date,
+			date = convertToLocalDateTime(entity.date).toString(),
 			dateAdded = entity.dateAdded,
 			distancePassed = entity.distancePassedBound,
 			filledLiters = entity.filledLiters,

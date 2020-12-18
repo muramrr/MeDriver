@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface IVehicleDownloader {
+	suspend fun deleteSingle(email: String, vin: String): SimpleResult<Unit>
 	fun download(email: String): Flow<SimpleResult<List<String>>>
 	fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>>
 	suspend fun clear(): SimpleResult<Unit>

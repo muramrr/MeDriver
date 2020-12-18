@@ -18,19 +18,20 @@
 
 package com.mmdev.me.driver.data.repository.maintenance.mappers
 
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.core.utils.extensions.toEpochTime
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 
 /**
- * In [VehicleSparePart] -> Out: [VehicleSparePartEntity], [VehicleSparePartDto]
+ * In [VehicleSparePart] -> Out: [MaintenanceEntity], [VehicleSparePartDto]
  */
 
 object DomainMappers {
 	
-	fun toEntity(domain: VehicleSparePart): VehicleSparePartEntity =
-		VehicleSparePartEntity(
-			date = domain.date.toString(),
+	fun toEntity(domain: VehicleSparePart): MaintenanceEntity =
+		MaintenanceEntity(
+			date = domain.date.toEpochTime(),
 			dateAdded = domain.dateAdded,
 			articulus = domain.articulus,
 			vendor = domain.vendor,

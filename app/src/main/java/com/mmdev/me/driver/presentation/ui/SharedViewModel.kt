@@ -27,6 +27,7 @@ import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.billing.IBillingRepository
 import com.mmdev.me.driver.domain.billing.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionType.PRO
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.AuthStatus
 import com.mmdev.me.driver.domain.user.IAuthFlowProvider
@@ -34,6 +35,7 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -54,7 +56,7 @@ class SharedViewModel(
 		var uploadWorkerExecuted = false
 	}
 	
-	
+	private var fetcherJob: Job? = null
 	
 	val purchases = billing.getPurchasesFlow().asLiveData()
 	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
@@ -64,10 +66,14 @@ class SharedViewModel(
 	}
 	
 	val userDataInfo = _userDataInfo.combineWith(purchases) { user, purchases ->
-		user?.copy(
-			subscriptionType = if (purchases.isNullOrEmpty()) SubscriptionType.FREE
-			else parseSku(purchases.last().sku)
-		)
+		val subscriptionType = if (purchases.isNullOrEmpty()) SubscriptionType.FREE
+		else parseSku(purchases.last().sku)
+		if (subscriptionType == PRO && user != null) {
+			fetcherJob = viewModelScope.launch { fetcher.listenForUpdates(user.email) }
+		}
+		else fetcherJob?.cancel()
+		
+		user?.copy(subscriptionType = subscriptionType)
 	}
 	
 	fun getSavedVehicle(vin: String) {

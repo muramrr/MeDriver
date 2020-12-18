@@ -22,12 +22,14 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 /**
  * time simplified expressions
  */
 
+fun LocalDateTime.toEpochTime(): Long = toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 fun Instant.toCurrentTimeAndDate(): LocalDateTime = toLocalDateTime(TimeZone.currentSystemDefault())
 fun convertToLocalDateTime(timeInMillis: Long): LocalDateTime = Instant.fromEpochMilliseconds(timeInMillis).toCurrentTimeAndDate()
 fun currentEpochTime(): Long = Clock.System.now().toEpochMilliseconds()

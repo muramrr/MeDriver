@@ -63,7 +63,7 @@ class DownloadWorker(appContext: Context, workerParams: WorkerParameters):
 				Result.success()
 			}
 			else {
-				logInfo(TAG, "Downloading worker job result is FAILURE")
+				logError(TAG, "Downloading worker job result is FAILURE, email is not valid")
 				Result.failure()
 			}
 			

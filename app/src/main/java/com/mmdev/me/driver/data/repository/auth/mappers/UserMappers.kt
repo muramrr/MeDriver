@@ -39,11 +39,12 @@ class UserMappers {
 	// dto
 	fun dtoToDomain(
 		dto: FirestoreUserDto,
+		isEmailVerified: Boolean,
 		subscriptionType: SubscriptionType = SubscriptionType.FREE
 	): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = dto.isEmailVerified,
+		isEmailVerified = isEmailVerified,
 		subscriptionType = subscriptionType
 	)
 	

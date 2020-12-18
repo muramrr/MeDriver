@@ -30,7 +30,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStatio
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
 import com.mmdev.me.driver.data.datasource.home.dao.HomeDao
 import com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 
@@ -48,7 +48,7 @@ import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 	FuelSummaryEntity::class,
 	FuelHistoryEntity::class,
 	VehicleEntity::class,
-	VehicleSparePartEntity::class
+	MaintenanceEntity::class
 ],
           version = 1,
           exportSchema = false)

@@ -22,7 +22,7 @@ import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.toCurrentTimeAndDate
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.data.core.mappers.mapList
-import com.mmdev.me.driver.data.datasource.maintenance.local.entity.VehicleSparePartEntity
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
 import com.mmdev.me.driver.data.datasource.vin.api.dto.VehicleByVin
@@ -32,10 +32,9 @@ import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
 
 /**
  * Mapping between Vehicle DTOs/entities/domain data classes
@@ -86,7 +85,7 @@ class VehicleMappersFacade {
 		mapList(input) { EntityMappers.toDto(it) }
 	
 	
-	fun sparePartToReplacementCalculated(input: Map<String, VehicleSparePartEntity?>, vehicle: Vehicle):
+	fun sparePartToReplacementCalculated(input: Map<String, MaintenanceEntity?>, vehicle: Vehicle):
 			Map<SparePart, PendingReplacement?> = input.mapKeys { PlannedParts.valueOf(it.key) }
 		.mapValues { entry ->
 			entry.value?.let {
@@ -98,7 +97,7 @@ class VehicleMappersFacade {
 						vehicle.maintenanceRegulations[entry.key]!!.distance.miles -
 						(vehicle.odometerValueBound.miles - it.odometerValueBound.miles)
 					),
-					finalDate = (LocalDateTime.parse(it.date).toInstant(TimeZone.currentSystemDefault()).plus(
+					finalDate = (Instant.fromEpochMilliseconds(it.date).plus(
 						DateTimePeriod(
 							years = DateHelper.getYearsCount(
 								vehicle.maintenanceRegulations[entry.key]!!.time

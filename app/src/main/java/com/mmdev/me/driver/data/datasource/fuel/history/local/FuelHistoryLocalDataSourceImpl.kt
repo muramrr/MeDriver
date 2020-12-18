@@ -51,8 +51,7 @@ class FuelHistoryLocalDataSourceImpl(
 	
 	override suspend fun insertFuelHistoryEntry(fuelHistoryEntity: FuelHistoryEntity): SimpleResult<Unit> =
 		safeCall(TAG) { dao.insertFuelHistoryEntity(fuelHistoryEntity) }.also {
-			logDebug(TAG, "Adding History entry: id = ${fuelHistoryEntity.dateAdded}, " +
-			              "date = ${fuelHistoryEntity.date}")
+			logDebug(TAG, "Adding History entry: id = ${fuelHistoryEntity.dateAdded}")
 		}
 	
 	override suspend fun importFuelHistory(import: List<FuelHistoryEntity>): SimpleResult<Unit> =
@@ -62,8 +61,7 @@ class FuelHistoryLocalDataSourceImpl(
 				MedriverApp.lastOperationSyncedId = it
 			}
 			import.forEach {
-				logDebug(TAG, "Importing History entry: id = ${it.dateAdded}, " +
-					     "date = ${it.date}")
+				logDebug(TAG, "Importing History entry: id = ${it.dateAdded}")
 			}
 		}
 	

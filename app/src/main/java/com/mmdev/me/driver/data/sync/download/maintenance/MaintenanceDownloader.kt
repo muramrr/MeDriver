@@ -26,8 +26,7 @@ import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMapper
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.transform
 
 /**
  * [IMaintenanceDownloader] implementation
@@ -43,9 +42,9 @@ class MaintenanceDownloader(
 	
 	override suspend fun deleteSingle(email: String, id: String) = local.deleteMaintenanceHistoryEntry(id.toLong())
 	
-	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
-		logDebug(TAG, "Downloading maintenance history...")
-		server.getAllMaintenanceHistory(email, vin).collect { result ->
+	override fun download(email: String, vin: String): Flow<SimpleResult<Unit>> =
+		server.getAllMaintenanceHistory(email, vin).transform { result ->
+			logDebug(TAG, "Downloading maintenance history...")
 			result.fold(
 				success = { emit(local.importReplacedSpareParts(mappers.listDtoToEntities(it))) },
 				failure = {
@@ -54,21 +53,19 @@ class MaintenanceDownloader(
 				}
 			)
 		}
-	}
 	
-	override suspend fun downloadSingle(
-		email: String, vin: String, id: String
-	): Flow<SimpleResult<Unit>> = flow {
-		server.getMaintenanceHistoryById(email, vin, id).collect { resultServer ->
+	
+	override fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>> =
+		server.getMaintenanceHistoryById(email, vin, id).transform { resultServer ->
 			resultServer.fold(
-				success = { local.importReplacedSpareParts(listOf(mappers.dtoToEntity(it))) },
+				success = { emit(local.importReplacedSpareParts(listOf(mappers.dtoToEntity(it)))) },
 				failure = {
 					logError(TAG, "${it.message}")
 					emit(ResultState.failure(it))
 				}
 			)
 		}
-	}
+	
 	
 	override suspend fun clear(): SimpleResult<Unit> = local.clearAll()
 	

@@ -26,8 +26,7 @@ import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappe
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.transform
 
 /**
  * [IFuelHistoryDownloader] implementation
@@ -43,9 +42,9 @@ class FuelHistoryDownloader(
 	
 	override suspend fun deleteSingle(email: String, id: String) = local.deleteFuelHistoryEntry(id.toLong())
 	
-	override suspend fun download(email: String, vin: String): Flow<SimpleResult<Unit>> = flow {
-		logDebug(TAG, "Downloading fuel history...")
-		server.getAllFuelHistory(email, vin).collect { result ->
+	override fun download(email: String, vin: String): Flow<SimpleResult<Unit>> =
+		server.getAllFuelHistory(email, vin).transform { result ->
+			logDebug(TAG, "Downloading fuel history...")
 			result.fold(
 				success = { emit(local.importFuelHistory(mappers.listDtoToEntities(it))) },
 				failure = {
@@ -54,21 +53,20 @@ class FuelHistoryDownloader(
 				}
 			)
 		}
+	
+	
+	override fun downloadSingle(
+		email: String, vin: String, id: String
+	): Flow<SimpleResult<Unit>> = server.getFuelHistoryById(email, vin, id).transform { resultServer ->
+		resultServer.fold(
+			success = { emit(local.importFuelHistory(listOf(mappers.dtoToEntity(it)))) },
+			failure = {
+				logError(TAG, "${it.message}")
+				emit(ResultState.failure(it))
+			}
+		)
 	}
 	
-	override suspend fun downloadSingle(
-		email: String, vin: String, id: String
-	): Flow<SimpleResult<Unit>> = flow {
-		server.getFuelHistoryById(email, vin, id).collect { resultServer ->
-			resultServer.fold(
-				success = { local.importFuelHistory(listOf(mappers.dtoToEntity(it))) },
-				failure = {
-					logError(TAG, "${it.message}")
-					emit(ResultState.failure(it))
-				}
-			)
-		}
-	}
 	
 	override suspend fun clear(): SimpleResult<Unit> = local.clearAll()
 	

@@ -110,29 +110,11 @@ class AuthFlowProviderImpl(
 				success = { firestoreUser ->
 					logInfo(TAG, "User retrieved from backend, proceeding...")
 					
-					updateDeviceToken(firestoreUser)
+					emit(mappers.dtoToDomain(firestoreUser, firebaseUser.isEmailVerified))
 					
-					/**
-					 * Checks is user email verified
-					 * This value generally comes from [FirebaseUser] object
-					 * If emailVerification differs from de-serialized from backend [FirestoreUserDto]
-					 * then invokes [updateEmailVerification] method
-					 */
-					if (firestoreUser.isEmailVerified != firebaseUser.isEmailVerified) {
-						
-						logWarn(TAG, "Email verification status needs update.")
-						
-						updateEmailVerification(firestoreUser, firebaseUser).collect {
-							emit(it)
-						}
-						
-					}
-					else {
-						logInfo(TAG, "Email verification status is up to date...")
-						
-						emit(mappers.dtoToDomain(firestoreUser))
-						
-					}
+					updateDeviceToken(firestoreUser)
+					updateEmailVerification(firestoreUser, firebaseUser)
+					
 				},
 				
 				/**
@@ -142,7 +124,7 @@ class AuthFlowProviderImpl(
 				failure = { error ->
 					logError(TAG, "Failed to retrieve user info from backend... ${error.message}")
 					
-					firebaseUser.sendEmailVerification() // send email verification
+					firebaseUser.sendEmailVerification()
 					logDebug(TAG, "Trying to write to backend...")
 					userRemoteDataSource.writeFirestoreUser(mappers.firebaseUserToDto(firebaseUser)).collect { result ->
 						result.fold(
@@ -163,39 +145,35 @@ class AuthFlowProviderImpl(
 		}
 	
 	/**
-	 * update email field on backend
+	 * Checks is user email verified
+	 * This value generally comes from [FirebaseUser] object
+	 * If emailVerification differs from de-serialized from backend [FirestoreUserDto]
+	 * then invokes [updateEmailVerification] method
 	 */
-	private fun updateEmailVerification(
-		firestoreUserDto: FirestoreUserDto,
+	private suspend fun updateEmailVerification(
+		firestoreUser: FirestoreUserDto,
 		firebaseUser: FirebaseUser
-	): Flow<UserDataInfo> = userRemoteDataSource.updateFirestoreUserField(
-		email = firestoreUserDto.email,
-		field = IS_EMAIL_VERIFIED_FIELD,
-		value = firebaseUser.isEmailVerified
-	).map { updateResult ->
+	) = if (firestoreUser.isEmailVerified != firebaseUser.isEmailVerified) {
 		
-		logDebug(TAG, "Trying to update email verification...")
+		logWarn(TAG, "Email verification status needs update.")
 		
-		updateResult.fold(
-			success = {
-				
-				logInfo(TAG, "Email status updated...")
-				val updatedUser = firestoreUserDto.copy(
-					isEmailVerified = firebaseUser.isEmailVerified
-				)
-				
-				mappers.dtoToDomain(updatedUser)
-			},
-			failure = {
-				
-				logError(TAG, "Failed to update email status... ${it.message}")
-				
-				//emit old firestoreUser object
-				//without additional "get" request
-				mappers.dtoToDomain(firestoreUserDto)
-			}
-		)
+		userRemoteDataSource.updateFirestoreUserField(
+			email = firestoreUser.email,
+			field = IS_EMAIL_VERIFIED_FIELD,
+			value = firebaseUser.isEmailVerified
+		).collect { updateResult ->
+			
+			logDebug(TAG, "Trying to update email verification...")
+			
+			updateResult.fold(
+				success = { logInfo(TAG, "Email status updated...") },
+				failure = { logError(TAG, "Failed to update email status... ${it.message}") }
+			)
+		}
+		
 	}
+	else logInfo(TAG, "Email verification status is up to date...")
+	
 	
 	private suspend fun updateDeviceToken(user: FirestoreUserDto) =
 		FirebaseInstallations.getInstance().id.asFlow().collect { result ->

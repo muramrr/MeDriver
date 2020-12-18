@@ -30,8 +30,6 @@ interface IHomeRepository {
 	
 	suspend fun getGarage(): SimpleResult<List<Pair<Vehicle, Expenses>>>
 	
-	suspend fun getExpensesByTimeRange(
-		monthsRange: List<Pair<Long, Long>>
-	): List<Expenses>
+	suspend fun getExpensesByTimeRange(monthsRange: List<Pair<Long, Long>>): List<Expenses>
 	
 }

@@ -131,7 +131,7 @@ class FuelHistoryServerDataSourceImpl(
 			.collection(FS_VEHICLES_COLLECTION)
 			.document(dto.vehicleVinCode)
 			.collection(FS_FUEL_HISTORY_COLLECTION)
-			.document(dto.date)
+			.document(dto.dateAdded.toString())
 			.delete()
 			.asFlow()
 			.map { it.toUnit() }

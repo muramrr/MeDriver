@@ -42,11 +42,12 @@ class FuelHistoryUploader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
-	override suspend fun fetch(email: String) = flow {
+	override suspend fun upload(email: String) {
 		logDebug(TAG, "getting fuel history cached operations...")
 		local.getCachedOperations().fold(
 			success = { operations ->
 				logInfo(TAG, "fuel history cached operations count = ${operations.size}")
+				if (operations.isEmpty()) return
 				operations.asFlow().flatMapMerge { operation ->
 					logDebug(TAG, "executing $operation")
 					flow {
@@ -69,16 +70,16 @@ class FuelHistoryUploader(
 								}
 								
 							},
-							failure = {
-								emit(ResultState.failure(it))
-							}
+							failure = { emit(ResultState.failure(it)) }
 						)
 					}
-				}.collect { emit(it) }
+				}.collect {
+					logDebug(TAG, "Fetching fuel history result = $it")
+				}
 			},
 			failure = {
 				logError(TAG, "${it.message}")
-				emit(ResultState.failure(it))
+				//emit(ResultState.failure(it))
 			}
 		)
 	}

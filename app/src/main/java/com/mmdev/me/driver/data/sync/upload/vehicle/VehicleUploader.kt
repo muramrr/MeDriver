@@ -19,6 +19,7 @@
 package com.mmdev.me.driver.data.sync.upload.vehicle
 
 import com.mmdev.me.driver.core.utils.log.logDebug
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
@@ -41,38 +42,44 @@ class VehicleUploader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
-	override suspend fun fetch(email: String) = flow {
+	override suspend fun upload(email: String) {
 		logDebug(TAG, "getting vehicles cached operations...")
 		local.getCachedOperations().fold(
 			success = { operations ->
 				logInfo(TAG, "vehicles cached operations count = ${operations.size}")
+				if (operations.isEmpty()) return
 				operations.asFlow().flatMapMerge { operation ->
 					logDebug(TAG, "executing $operation")
 					flow {
 						local.getVehicle(operation.recordId).fold(
 							success = { vehicle ->
-								server.addVehicle(
-									email,
-									mappers.entityToDto(vehicle)
-								).collect { result ->
-									result.fold(
-										success = { emit(local.deleteCachedOperation(operation)) },
-										failure = { emit(ResultState.failure(it)) }
-									)
+								if (vehicle != null) {
+									server.addVehicle(
+										email,
+										mappers.entityToDto(vehicle)
+									).collect { result ->
+										result.fold(
+											success = { emit(local.deleteCachedOperation(operation)) },
+											failure = { emit(ResultState.failure(it)) }
+										)
+									}
+								}
+								else {
+									logError(TAG, "No such record stored in database")
+									emit(local.deleteCachedOperation(operation))
 								}
 							},
-							failure = {
-								emit(
-									if (it is NullPointerException) local.deleteCachedOperation(operation)
-									else ResultState.failure(it)
-								)
-							}
+							failure = { emit(ResultState.failure(it)) }
 						)
 					}
-				}.collect { emit(it) }
+				}.collect {
+					logDebug(TAG, "Fetching vehicle history result = $it")
+					//emit(it)
+				}
 			},
 			failure = {
-				emit(ResultState.failure(it))
+				logError(TAG, "${it.message}")
+				//emit(ResultState.failure(it))
 			}
 		)
 	}

@@ -18,6 +18,7 @@
 
 package com.mmdev.me.driver.data.repository.fuel.history.mappers
 
+import com.mmdev.me.driver.core.utils.extensions.toEpochTime
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelPriceEmbedded
 import com.mmdev.me.driver.data.datasource.fuel.history.server.dto.FuelHistoryDto
@@ -34,7 +35,7 @@ object DtoMappers {
 	fun toEntity(dto: FuelHistoryDto): FuelHistoryEntity =
 		FuelHistoryEntity(
 			commentary = dto.commentary,
-			date = dto.date,
+			date = LocalDateTime.parse(dto.date).toEpochTime(),
 			dateAdded = dto.dateAdded,
 			distancePassedBound = dto.distancePassed,
 			filledLiters = dto.filledLiters,

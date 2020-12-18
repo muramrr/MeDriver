@@ -36,7 +36,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
 @Entity(tableName = MeDriverRoomDatabase.FUEL_HISTORY_TABLE)
 data class FuelHistoryEntity(
 	val commentary: String,
-	val date: String,
+	val date: Long,
 	@PrimaryKey
 	val dateAdded: Long,
 	@Embedded(prefix = "fuel_history_distance_passed_")

@@ -38,8 +38,8 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  */
 
 @Entity(tableName = MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE)
-data class VehicleSparePartEntity (
-	val date: String,
+data class MaintenanceEntity (
+	val date: Long,
 	@PrimaryKey
 	val dateAdded: Long,
 	val articulus: String = "",

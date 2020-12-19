@@ -46,7 +46,6 @@ import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeAdap
 import com.mmdev.me.driver.presentation.ui.maintenance.add.parent.ParentNodeUi
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -210,7 +209,7 @@ class MaintenanceAddBottomSheet: BaseBottomSheetFragment<MaintenanceAddViewModel
 		binding.btnNextFromMultiSelect.setDebounceOnClick {
 			
 			if (mChildrenAdapter.selectedChildren.isEmpty()) {
-				rootView.showSnack(R.string.btm_sheet_maintenance_btn_multi_select_error)
+				showInnerSnack(R.string.btm_sheet_maintenance_btn_multi_select_error)
 			}
 			else {
 				mViewModel.selectedChildren.postValue(

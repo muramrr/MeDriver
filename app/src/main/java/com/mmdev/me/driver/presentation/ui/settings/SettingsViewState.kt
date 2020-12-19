@@ -26,14 +26,6 @@ import com.mmdev.me.driver.presentation.core.ViewState
 
 sealed class SettingsViewState: ViewState {
 	
-	sealed class DownloadData: SettingsViewState() {
-		object Checking: DownloadData()
-		object Deleting: DownloadData()
-		object Downloading: DownloadData()
-		object Error: DownloadData()
-		object Finished: DownloadData()
-	}
-	
 	sealed class SendVerification: SettingsViewState() {
 		object Success: SendVerification()
 		data class Error(val errorMsg: String?): SendVerification()

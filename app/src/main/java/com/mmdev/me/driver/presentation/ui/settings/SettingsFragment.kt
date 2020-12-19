@@ -26,7 +26,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.Language
@@ -35,7 +34,6 @@ import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.LIGHT_MODE
-import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentSettingsBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
@@ -48,7 +46,6 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import com.mmdev.me.driver.presentation.utils.extensions.visible
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,8 +70,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	private var syncedJustNow = ""
 	private var syncedFormatter = ""
 	
-	private var shouldDownload = false
-	
 	private lateinit var languagesMap: Map<Language, String>
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,38 +78,9 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	override fun renderState(state: ViewState) {
-		
 		when (state) {
-			
-			is SettingsViewState.SendVerification.Success -> {
-				binding.settingsContainer.showSnack(emailSent)
-			}
-			
-			is SettingsViewState.SendVerification.Error -> {
-				binding.settingsContainer.showSnack(
-					state.errorMsg ?: emailNotSent,
-					Snackbar.LENGTH_LONG
-				)
-			}
-			
-			is SettingsViewState.DownloadData.Checking -> {
-				binding.viewLoading.visible(0)
-				binding.tvDownloadStatus.visible(0)
-				binding.tvDownloadStatus.text = "Checking"
-			}
-			is SettingsViewState.DownloadData.Deleting -> binding.tvDownloadStatus.text = "Deleting"
-			is SettingsViewState.DownloadData.Downloading -> binding.tvDownloadStatus.text = "Downloading..."
-			is SettingsViewState.DownloadData.Error -> {
-				binding.tvDownloadStatus.text = "Something went wrong"
-				binding.viewLoading.invisible(200)
-				binding.tvDownloadStatus.invisible(200)
-			}
-			is SettingsViewState.DownloadData.Finished -> {
-				binding.viewLoading.invisible(0)
-				binding.tvDownloadStatus.invisible(0)
-				shouldDownload = false
-			}
-			
+			is SettingsViewState.SendVerification.Success -> showActivitySnack(emailSent)
+			is SettingsViewState.SendVerification.Error -> showActivitySnack(state.errorMsg ?: emailNotSent)
 		}
 	}
 	
@@ -173,102 +139,6 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 		languagesMap = Language.values().zip(languagesArray).toMap()
 		
 	}
-	
-	private fun observeSignedInUser() {
-		sharedViewModel.userDataInfo.observe(this, { user ->
-			
-			logInfo(TAG, "UserData = $user")
-			
-			binding.apply {
-				
-				if (user != null) {
-					if (user.isPro() && shouldDownload) mViewModel.downloadData(user.email)
-					
-					setUserIsNotNull()
-					tvYourAccountVerificationHint.apply {
-						visible()
-						text = if (!user.isEmailVerified) accNotVerified else accVerified
-					}
-					// show email confirmed indicator
-					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE, 0) { user.isEmailVerified }
-					tvEmailAddressConfirmed.text = user.email
-					
-					// show tap to verify hint
-					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE, 0) { !user.isEmailVerified }
-					
-					// if user need to verify his email show related indicator
-					btnSendVerification.apply {
-						isClickable = true
-						text = user.email
-						if (user.isEmailVerified) setDisabledAndInvisible()
-					}
-					when {
-						user.isPremium() -> setUserIsPremium()
-						user.isPro() -> setUserIsPro()
-						else -> setUserIsNotSubscribed()
-					}
-				}
-				else setUserIsNull()
-				
-				//allow to get premium only when user verifies email
-				btnMoreFeatures.isEnabled = user != null && user.isEmailVerified
-				
-			}
-			
-		})
-	}
-	
-	private fun setUserIsNotNull() {
-		binding.btnSignOut.setEnabledAndVisible()
-		binding.btnSignInPopUp.setDisabledAndInvisible()
-	}
-	
-	
-	private fun setUserIsPremium() {
-		binding.tvSubscriptionObtainedPremium.visible(0)
-		binding.tvSubscriptionObtainedPro.gone(0)
-	}
-	
-	private fun setUserIsPro() {
-		binding.tvSubscriptionObtainedPremium.gone(0)
-		binding.tvSubscriptionObtainedPro.visible(0)
-	}
-	
-	private fun setUserIsNotSubscribed() {
-		binding.tvSubscriptionObtainedPremium.gone(0)
-		binding.tvSubscriptionObtainedPro.gone(0)
-	}
-	
-	private fun setUserIsNull() {
-		shouldDownload = true
-		binding.apply {
-			// hide premium label
-			setUserIsNotSubscribed()
-			
-			// defines visibility of sign in/out buttons
-			btnSignOut.setDisabledAndInvisible()
-			btnSignInPopUp.setEnabledAndVisible()
-			
-			tvYourAccountVerificationHint.invisible()
-			
-			// hide email confirmed indicator
-			tvEmailAddressConfirmed.apply {
-				tvEmailAddressConfirmed.text = notSignedIn
-				invisible()
-			}
-			
-			// hide tap to verify hint
-			tvTapToVerifyHint.invisible()
-			
-			btnSendVerification.apply {
-				isClickable = false
-				text = notSignedIn
-				setEnabledAndVisible()
-			}
-			
-		}
-	}
-	
 	
 	private fun initLastTimeSynced() {
 		binding.tvSyncSubtitle.text = with(MedriverApp.lastSyncedDate) {
@@ -338,6 +208,96 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 			
 		}
 		
+	}
+	
+	private fun observeSignedInUser() {
+		sharedViewModel.userDataInfo.observe(this, { user ->
+			
+			binding.apply {
+				
+				if (user != null) {
+					
+					setUserIsNotNull()
+					tvYourAccountVerificationHint.apply {
+						visible()
+						text = if (!user.isEmailVerified) accNotVerified else accVerified
+					}
+					// show email confirmed indicator
+					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE, 0) { user.isEmailVerified }
+					tvEmailAddressConfirmed.text = user.email
+					
+					// show tap to verify hint
+					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE, 0) { !user.isEmailVerified }
+					
+					// if user need to verify his email show related indicator
+					btnSendVerification.apply {
+						isClickable = true
+						text = user.email
+						if (user.isEmailVerified) setDisabledAndInvisible()
+					}
+					when {
+						user.isPremium() -> setUserIsPremium()
+						user.isPro() -> setUserIsPro()
+						else -> setUserIsNotSubscribed()
+					}
+				}
+				else setUserIsNull()
+				
+				//allow to get premium only when user verifies email
+				btnMoreFeatures.isEnabled = user != null && user.isEmailVerified
+				
+			}
+			
+		})
+	}
+	
+	private fun setUserIsNotNull() {
+		binding.btnSignOut.setEnabledAndVisible()
+		binding.btnSignInPopUp.setDisabledAndInvisible()
+	}
+	
+	private fun setUserIsPremium() {
+		binding.tvSubscriptionObtainedPremium.visible(0)
+		binding.tvSubscriptionObtainedPro.gone(0)
+	}
+	
+	private fun setUserIsPro() {
+		binding.tvSubscriptionObtainedPremium.gone(0)
+		binding.tvSubscriptionObtainedPro.visible(0)
+	}
+	
+	private fun setUserIsNotSubscribed() {
+		binding.tvSubscriptionObtainedPremium.gone(0)
+		binding.tvSubscriptionObtainedPro.gone(0)
+	}
+	
+	private fun setUserIsNull() {
+		binding.apply {
+			// hide premium label
+			setUserIsNotSubscribed()
+			
+			// defines visibility of sign in/out buttons
+			btnSignOut.setDisabledAndInvisible()
+			btnSignInPopUp.setEnabledAndVisible()
+			
+			tvYourAccountVerificationHint.invisible()
+			
+			// hide email confirmed indicator
+			tvEmailAddressConfirmed.apply {
+				tvEmailAddressConfirmed.text = notSignedIn
+				invisible()
+			}
+			
+			// hide tap to verify hint
+			tvTapToVerifyHint.invisible()
+			
+			btnSendVerification.apply {
+				isClickable = false
+				text = notSignedIn
+				setEnabledAndVisible()
+			}
+			
+		}
 	}
 	
 	private fun Button.setDisabledAndInvisible() = apply {

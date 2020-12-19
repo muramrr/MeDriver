@@ -29,7 +29,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.widget.doOnTextChanged
-import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -54,7 +53,6 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.setupDatePicker
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toInstant
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -163,11 +161,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				
 				logError(TAG, "${state.errorMessage}")
 				
-				binding.root.rootView.showSnack(
-					state.errorMessage ?:
-					getString(R.string.fg_fuel_history_add_adding_error),
-					Snackbar.LENGTH_LONG
-				)
+				showInnerSnack(state.errorMessage ?: getString(R.string.fg_fuel_history_add_adding_error))
 				parentViewModel.shouldBeUpdated.postValue(false)
 			}
 		}

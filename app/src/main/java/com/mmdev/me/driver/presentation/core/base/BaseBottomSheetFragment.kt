@@ -23,12 +23,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.presentation.core.ViewState
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 
 /**
  * Base class for [BottomSheetDialogFragment] used in application
@@ -86,6 +89,11 @@ abstract class BaseBottomSheetFragment<VM: BaseViewModel, Binding: ViewDataBindi
 	}
 	
 	open fun renderState(state: ViewState) {}
+	
+	protected fun showInnerSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
+		binding.root.rootView.showSnack(messageRes, length)
+	protected fun showInnerSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
+		binding.root.rootView.showSnack(message, length)
 	
 	override fun onDestroyView() {
 		binding.unbind()

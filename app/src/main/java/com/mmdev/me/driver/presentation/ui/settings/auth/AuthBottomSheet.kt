@@ -23,7 +23,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BtmSheetAuthBinding
 import com.mmdev.me.driver.presentation.core.ViewState
@@ -31,7 +30,6 @@ import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -109,7 +107,7 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BtmSheetAuthBindin
 			
 			btnResetPassword.setDebounceOnClick(2000) {
 				mViewModel.resetPassword()
-				binding.root.showSnack(getString(R.string.fg_settings_auth_email_sent_success))
+				showInnerSnack(getString(R.string.fg_settings_auth_email_sent_success))
 			}
 			
 			btnCreateAccount.setDebounceOnClick(2000) { mViewModel.signUp() }
@@ -130,25 +128,16 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BtmSheetAuthBindin
 			// resetPassword states
 			is ResetPassword.Success -> {
 				binding.btnCancel.performClick()
-				binding.root.rootView.showSnack(emailResetSent, Snackbar.LENGTH_LONG)
+				showInnerSnack(emailResetSent)
 			}
-			is ResetPassword.Error -> binding.root.rootView.showSnack(
-				state.errorMsg ?: emailResetNotSent,
-				Snackbar.LENGTH_LONG
-			)
+			is ResetPassword.Error -> showInnerSnack(state.errorMsg ?: emailResetNotSent)
 			
 			is SignIn.Success -> dismiss()
 			
 			// sign in error
-			is SignIn.Error -> binding.root.rootView.showSnack(
-				state.errorMsg ?: signInError,
-				Snackbar.LENGTH_LONG
-			)
+			is SignIn.Error -> showInnerSnack(state.errorMsg ?: signInError)
 			// sign up error
-			is SignUp.Error -> binding.root.rootView.showSnack(
-				state.errorMsg ?: signUpError,
-				Snackbar.LENGTH_LONG
-			)
+			is SignUp.Error -> showInnerSnack(state.errorMsg ?: signUpError)
 			
 			is SignUp.Success -> dismiss()
 		}

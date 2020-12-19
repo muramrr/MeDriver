@@ -22,12 +22,12 @@ import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.android.billingclient.api.Purchase.PurchaseState
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.billing.IBillingRepository
 import com.mmdev.me.driver.domain.billing.SubscriptionType
-import com.mmdev.me.driver.domain.billing.SubscriptionType.PRO
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.AuthStatus
 import com.mmdev.me.driver.domain.user.IAuthFlowProvider
@@ -60,20 +60,30 @@ class SharedViewModel(
 	
 	val purchases = billing.getPurchasesFlow().asLiveData()
 	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
+	
 	val currentVehicle = MutableLiveData<Vehicle?>()
 	init {
 		getSavedVehicle(MedriverApp.currentVehicleVinCode)
 	}
 	
 	val userDataInfo = _userDataInfo.combineWith(purchases) { user, purchases ->
-		val subscriptionType = if (purchases.isNullOrEmpty()) SubscriptionType.FREE
-		else parseSku(purchases.last().sku)
-		if (subscriptionType == PRO && user != null) {
-			fetcherJob = viewModelScope.launch { fetcher.listenForUpdates(user.email) }
+		val subscription =
+			if (purchases.isNullOrEmpty()) SubscriptionType.FREE
+			else parseSku(purchases.last().sku)
+		
+		val userWithPurchase =
+			if (!purchases.isNullOrEmpty()
+			    && purchases.last().purchaseState == PurchaseState.PURCHASED
+			    && purchases.last().accountIdentifiers!!.obfuscatedAccountId == user?.id)
+			user?.copy(subscriptionType = subscription)
+		else user
+		
+		if (userWithPurchase?.isPro() == true) {
+			fetcherJob = viewModelScope.launch { fetcher.listenForUpdates(userWithPurchase.email) }
 		}
 		else fetcherJob?.cancel()
 		
-		user?.copy(subscriptionType = subscriptionType)
+		userWithPurchase
 	}
 	
 	fun getSavedVehicle(vin: String) {

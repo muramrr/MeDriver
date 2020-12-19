@@ -23,11 +23,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.presentation.core.ViewState
+import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -75,6 +77,13 @@ abstract class BaseFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	}
 
 	open fun renderState(state: ViewState) {}
+	
+	/**
+	 * Show a SnackBar in activity
+	 */
+	protected fun showActivitySnack(message: String) = (requireActivity() as MainActivity).showSnack(message)
+	protected fun showActivitySnack(@StringRes messageRes: Int) = (requireActivity() as MainActivity).showSnack(getString(messageRes))
+	
 	
 	override fun onDestroyView() {
 		binding.unbind()

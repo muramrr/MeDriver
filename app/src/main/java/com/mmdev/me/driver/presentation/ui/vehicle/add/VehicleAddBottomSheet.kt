@@ -24,7 +24,6 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.databinding.BtmSheetVehicleAddBinding
@@ -35,7 +34,6 @@ import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -81,12 +79,8 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 				parentViewModel.shouldBeUpdated.postValue(true)
 				dismiss()
 			}
-			is VehicleAddViewState.Error -> {
-				binding.root.rootView.showSnack(
-					state.errorMessage ?: "Unexpected error",
-					Snackbar.LENGTH_LONG
-				)
-			}
+			is VehicleAddViewState.Error -> showInnerSnack(state.errorMessage ?: "Unexpected error")
+			
 		}
 		
 	}

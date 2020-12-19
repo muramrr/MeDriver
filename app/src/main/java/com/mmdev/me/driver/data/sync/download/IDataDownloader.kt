@@ -23,12 +23,34 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- *
+ * Boundary class for downloading vehicle, maintenance and fuel history data from server
+ * Base actions related to downloading data from server
  */
 
 interface IDataDownloader {
+	
+	/**
+	 * Completely delete all data stored in local Room database
+	 */
+	suspend fun deleteAll()
+	
+	/**
+	 * Import data directly into room, without 'journaling' local operations etc.
+	 */
 	fun importData(email: String): Flow<SimpleResult<Unit>>
+	
+	/**
+	 * Get all operations that are not synced from server journal and execute [downloadNewFromServer]
+	 * Used in [com.mmdev.me.driver.core.sync.download.DownloadWorker]
+	 */
 	fun fetchNewFromServer(email: String): Flow<SimpleResult<Unit>>
+	
+	/**
+	 * Transform given journal data -> download needed data from server -> import to device
+	 *
+	 * @param operations contains all server journal docs, which we need to download
+	 * @param email current user email
+	 */
 	fun downloadNewFromServer(
 		operations: List<ServerOperation>,
 		email: String

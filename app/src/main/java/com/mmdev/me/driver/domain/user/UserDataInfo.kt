@@ -27,7 +27,7 @@ data class UserDataInfo(
 	val isEmailVerified: Boolean,
 	val subscriptionType: SubscriptionType = FREE
 ) {
-	fun isSubscribed(): Boolean = subscriptionType != FREE
-	fun isPremium(): Boolean = subscriptionType == PREMIUM
-	fun isPro(): Boolean = subscriptionType == PRO
+	fun isSubscribed(): Boolean = subscriptionType != FREE && isEmailVerified
+	fun isPremium(): Boolean = subscriptionType == PREMIUM && isEmailVerified
+	fun isPro(): Boolean = subscriptionType == PRO && isEmailVerified
 }

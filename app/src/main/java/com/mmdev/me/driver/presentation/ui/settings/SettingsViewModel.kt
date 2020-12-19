@@ -23,7 +23,6 @@ import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.helpers.ThemeHelper.ThemeMode.*
-import com.mmdev.me.driver.domain.user.FetchingStatus.*
 import com.mmdev.me.driver.domain.user.ISettingsRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import kotlinx.coroutines.flow.collect
@@ -71,22 +70,5 @@ class SettingsViewModel(private val repository: ISettingsRepository): BaseViewMo
 	}
 	
 	fun signOut() = repository.signOut()
-	
-	fun downloadData(email: String) {
-		viewModelScope.launch {
-			viewState.postValue(SettingsViewState.DownloadData.Checking)
-			
-			repository.downloadData(email).collect { status ->
-				viewState.postValue(
-					when (status) {
-						Deleting -> SettingsViewState.DownloadData.Deleting
-						Downloading -> SettingsViewState.DownloadData.Downloading
-						Error -> SettingsViewState.DownloadData.Error
-						Finished -> SettingsViewState.DownloadData.Finished
-					}
-				)
-			}
-		}
-	}
 	
 }

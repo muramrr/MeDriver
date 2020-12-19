@@ -23,11 +23,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.presentation.core.ViewState
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 
 /**
  * Base class for [DialogFragment] used in application
@@ -70,6 +73,11 @@ abstract class BaseDialogFragment<VM: BaseViewModel, Binding: ViewDataBinding>(
 	}
 	
 	open fun renderState(state: ViewState) {}
+	
+	protected fun showInnerSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
+		binding.root.rootView.showSnack(messageRes, length)
+	protected fun showInnerSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
+		binding.root.rootView.showSnack(message, length)
 	
 	override fun onDestroyView() {
 		binding.unbind()

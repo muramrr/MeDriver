@@ -77,7 +77,7 @@ class BillingRepository(
 	
 	
 	/** This list will be updated when the Billing Library detects new or existing purchases */
-	private val purchases: MutableStateFlow<List<Purchase>?> = MutableStateFlow(null)
+	private val purchases: MutableStateFlow<List<Purchase>> = MutableStateFlow(emptyList())
 	
 	override fun getPurchasesFlow() = purchases.asStateFlow()
 	
@@ -105,7 +105,7 @@ class BillingRepository(
 		
 		if (responseCode == BillingResponseCode.OK) {
 			querySkuDetails()
-			processPurchases(getPurchases() ?: emptyList())
+			processPurchases(getPurchases().purchasesList ?: emptyList())
 		}
 		
 		logDebug(
@@ -154,7 +154,7 @@ class BillingRepository(
 					.setSkuDetails(selectedSku)
 			
 			if (!purchases.value.isNullOrEmpty()) {
-				val lastPurchase = purchases.value!!.last()
+				val lastPurchase = purchases.value.last()
 				val oldSku = lastPurchase.sku
 				// setOldSku(previousSku, purchaseTokenOfOriginalSubscription)
 				purchaseFlowParams.setOldSku(oldSku, lastPurchase.purchaseToken)
@@ -177,22 +177,12 @@ class BillingRepository(
 		
 	}
 	
-	private fun getPurchases(): List<Purchase>? = billingClient.queryPurchases(SkuType.SUBS).purchasesList
+	private fun getPurchases() = billingClient.queryPurchases(SkuType.SUBS)
 	
 	private fun processPurchases(purchasesList: List<Purchase>) {
-		logDebug(TAG, "Processing purchases: ${purchasesList.size} purchase(s)")
-		
-		purchases.tryEmit(purchasesList)
-		
-		//acknowledge all unacknowledged purchases
-		purchasesList.forEach { purchase ->
-			if (!purchase.isAcknowledged) {
-				acknowledgePurchase(purchase)
-			}
-		}
-		
-		launch {
-			MainActivity.currentUser?.email?.let {
+		/** basically this update called when [onPurchasesUpdated] invoked */
+		MainActivity.currentUser?.email?.let {
+			launch {
 				userRemoteDataSource.updateFirestoreUserField(
 					it,
 					PURCHASES_FIELD,
@@ -203,6 +193,16 @@ class BillingRepository(
 			}
 		}
 		
+		logDebug(TAG, "Processing purchases: ${purchasesList.size} purchase(s)")
+		
+		purchases.tryEmit(purchasesList)
+		
+		//acknowledge all unacknowledged purchases
+		purchasesList.forEach { purchase ->
+			if (!purchase.isAcknowledged) {
+				acknowledgePurchase(purchase)
+			}
+		}
 	}
 	
 	/** In order to make purchases, you need the [SkuDetails] for the item or subscription.*/
@@ -285,7 +285,6 @@ class BillingRepository(
 			signature = it.signature,
 			sku = toSkuDto(it.sku),
 			skuOriginal = it.sku
-		
 		)
 	}
 }

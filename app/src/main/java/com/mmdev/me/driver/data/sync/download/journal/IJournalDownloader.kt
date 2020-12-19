@@ -23,11 +23,17 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- *
+ * Downloader related only to journal operations
  */
 
 interface IJournalDownloader {
 	
+	/**
+	 * One time server request to get journal operations
+	 *
+	 * @param lastKnownOperationId defines last synced operation id,
+	 * stored in prefs, initialized on app startup
+	 */
 	fun getOperations(
 		email: String,
 		lastKnownOperationId: Long

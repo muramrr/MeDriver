@@ -20,7 +20,6 @@ package com.mmdev.me.driver.data.repository.billing.data
 
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
-import com.mmdev.me.driver.domain.billing.PeriodType
 
 /**
  * It will be stored in the server database and assigned to the user who made the purchase.
@@ -36,7 +35,5 @@ data class PurchaseDto(
 	@PropertyName("purchaseToken") val purchaseToken: String = "",
 	@Exclude @PropertyName("signature") val signature: String = "",
 	@PropertyName("sku") val sku: SkuDto = SkuDto(),
-	@Exclude @PropertyName("skuOriginal") val skuOriginal: String = "",
-	@PropertyName("nextPayment") val nextPayment: Long =
-		purchaseTime + (PeriodType.getDurationInMillisByType(sku.periodType) * sku.periodDuration),
+	@Exclude @PropertyName("skuOriginal") val skuOriginal: String = ""
 )

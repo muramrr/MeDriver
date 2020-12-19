@@ -22,7 +22,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- *
+ * Downloader used only to fetch vehicles details data
  */
 
 interface IVehicleDownloader {

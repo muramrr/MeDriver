@@ -38,41 +38,13 @@ fun View.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 	Toast.makeText(this.context, text, length).show()
 
 /**
- * Show a SnackBar with [messageRes] resource
+ * Show a SnackBar from any view
  */
-fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, messageRes, length).show()
+fun View.showSnack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_LONG) =
+	Snackbar.make(this, messageRes, length).setAction("OK"){}.show()
+fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_LONG) =
+	Snackbar.make(this, message, length).setAction("OK"){}.show()
 
-/**
- * Show a SnackBar with [message] string
- */
-fun View.showSnack(message: String, length: Int = Snackbar.LENGTH_SHORT) =
-	Snackbar.make(this, message, length).show()
-
-
-/**
- * Show a SnackBar with [messageRes] resource, execute [f] and show it
- * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
- */
-inline fun View.showSnackWithAction(
-	@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHORT, f: Snackbar.() -> Unit
-) {
-	val snack = Snackbar.make(this, messageRes, length)
-	snack.f()
-	snack.show()
-}
-
-/**
- * Show a SnackBar with [message] string, execute [f] and show it
- * buttonSubmit.snack(R.string.name_submitted, SnackBar.LENGTH_LONG, { action() })
- */
-inline fun View.showSnackWithAction(
-	message: String, length: Int = Snackbar.LENGTH_SHORT, f: Snackbar.() -> Unit
-) {
-	val snack = Snackbar.make(this, message, length)
-	snack.f()
-	snack.show()
-}
 
 /**
  * Show the view (visibility = View.VISIBLE)
@@ -227,13 +199,12 @@ fun dateToText(day: Int, month: Int, year: Int): String =
 	(if (day < 10) "0$day." else "$day.") + (if (month < 10) "0$month" else "$month") + ".$year"
 
 
-/** @param formatter used to display snack in formatted way */
-fun TextView.attachClickToCopyText(context: Context, @StringRes formatter: Int) {
+inline fun TextView.attachClickToCopyText(crossinline callback: (String) -> Unit ) {
 	setOnClickListener {
-		val textToCopy = text.toString()
+		val textBeingCopied = text.toString()
 		val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-		val clip = ClipData.newPlainText(textToCopy, text)
+		val clip = ClipData.newPlainText(textBeingCopied, text)
 		clipboard.setPrimaryClip(clip)
-		showSnack(getStringRes(formatter).format(textToCopy))
+		callback.invoke(textBeingCopied)
 	}
 }

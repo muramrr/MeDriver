@@ -35,6 +35,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.todayAt
+import kotlin.random.Random
 
 /**
  *
@@ -77,19 +78,26 @@ class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
 	}
 	
 	private fun generateMonthsRange(): List<Pair<Long, Long>> {
+		//get current year
 		val year = Clock.System.todayAt(TimeZone.currentSystemDefault()).year
-		return (1..12).map {
-			Pair(
-				LocalDate(year, it, 1)
-					.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
+		//for each month calculate period in epoch millis
+		return (1..12).map { month ->
+			Pair( //first day in month time epoch
+				LocalDate(year = year, monthNumber = month, dayOfMonth = 1)
+					.atStartOfDayIn(TimeZone.currentSystemDefault())
+					.toEpochMilliseconds(),
 				
-				LocalDate(year, it, when (it) {
-					in arrayOf(1, 3, 5, 7, 8, 10, 12) -> 31
-					2 -> if (DateHelper.isYearLeap(year)) 29 else 28
-					else -> 30
-				}
+				//last day in month time epoch
+				LocalDate(
+					year = year,
+					monthNumber = month,
+					dayOfMonth = when (month) { /** define number of days in month */
+						in arrayOf(1, 3, 5, 7, 8, 10, 12) -> 31 /** months with 31 days */
+						 2 -> if (DateHelper.isYearLeap(year)) 29 else 28 /** february */
+						else -> 30 /** months with 30 days */
+					}
 				).atStartOfDayIn(TimeZone.currentSystemDefault())
-					//add a day duration to match all day range eg: jan 01 00:00 - 31 23:59:59.999
+					/** add a day duration to match all day range eg: jan 01 00:00 - 31 23:59:59.999*/
 					.toEpochMilliseconds() + DateHelper.DAY_DURATION - 1
 			)
 		}
@@ -97,17 +105,16 @@ class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
 	
 	//todo: delete
 	fun generateRandomData(context: Context) {
-	
-		viewState.postValue(HomeViewState.GeneratingStarted)
-		VehicleConstants.vehicleBrands.shuffled().take(10).forEach {
-			viewModelScope.launch {
-				delay(100)
-				DataGenerator.generateVehicle(context, it)
-			}
+		viewModelScope.launch {
+			viewState.postValue(HomeViewState.GeneratingStarted)
+			VehicleConstants.vehicleBrands.shuffled().take(Random.nextInt(1, 10)).forEach {
+				
+					delay(100)
+					DataGenerator.generateVehicle(context, it)
+				}
+			viewState.postValue(HomeViewState.GenerationCompleted)
+			MedriverApp.dataGenerated = true
 		}
-		viewState.postValue(HomeViewState.GenerationCompleted)
-		MedriverApp.dataGenerated = true
-		
 	}
 	
 }

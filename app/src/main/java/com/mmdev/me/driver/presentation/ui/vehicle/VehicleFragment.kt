@@ -234,7 +234,9 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				)
 				if (vehicle.lastRefillDate.isNotBlank()) binding.tvMileageLastDate.text = vehicle.lastRefillDate
 				
-				binding.btnCopyVin.attachClickToCopyText(requireContext(), R.string.fg_vehicle_copy_vin)
+				binding.btnCopyVin.attachClickToCopyText {
+					showActivitySnack(getString(R.string.fg_vehicle_copy_vin).format(it))
+				}
 				binding.btnCopyVin.text = vehicle.vin
 			}
 			else {

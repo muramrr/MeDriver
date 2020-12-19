@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface IBillingRepository {
 	
-	fun getPurchasesFlow(): StateFlow<List<Purchase>?>
+	fun getPurchasesFlow(): StateFlow<List<Purchase>>
 	
 	fun launchPurchase(activity: Activity, skuPos: Int, accountId: String)
 	

@@ -169,6 +169,17 @@ class MedriverApp: Application() {
 				}
 			}
 		
+		/**
+		 * clear all synced info because new user logged in and all previous data was deleted
+		 * need to download new one
+		 * CAUTION: that can be abused to read a lot of documents in short period of time
+		 * not sure that firestore can handle such behavior safely
+ 		 */
+//		fun newUserSigned() {
+//			lastSyncedDate = 0
+//			lastOperationSyncedId = 0
+//		}
+		
 		//todo delete
 		var dataGenerated: Boolean = false
 			set(value) {

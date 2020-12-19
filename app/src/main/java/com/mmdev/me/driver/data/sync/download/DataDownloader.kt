@@ -43,7 +43,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.transform
 
 /**
- * Boundary class for downloading vehicle, maintenance and fuel history entries from server
+ * [IDataDownloader] implementation
  */
 
 class DataDownloader(
@@ -55,10 +55,12 @@ class DataDownloader(
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
-	suspend fun deleteAll() {
+	override suspend fun deleteAll() {
+		logDebug(TAG, "Clearing data")
 		vehicles.clear()
 		maintenance.clear()
 		fuelHistory.clear()
+		//MedriverApp.newUserSigned()
 	}
 	
 	override fun importData(email: String): Flow<SimpleResult<Unit>> =

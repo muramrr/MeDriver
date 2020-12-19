@@ -48,7 +48,6 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
 import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -90,11 +89,11 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	
 	override fun renderState(state: ViewState) {
 		when(state) {
-			is HomeViewState.Error -> binding.root.rootView.showSnack(state.errorMessage ?: "Error")
+			is HomeViewState.Error -> showActivitySnack(state.errorMessage ?: "Error")
 			is HomeViewState.GeneratingStarted -> binding.viewLoading.visibility = View.VISIBLE
 			is HomeViewState.GenerationCompleted -> {
 				binding.viewLoading.visibility = View.INVISIBLE
-				binding.root.rootView.showSnack("Generating completed")
+				showActivitySnack("Generating completed")
 			}
 		}
 	}

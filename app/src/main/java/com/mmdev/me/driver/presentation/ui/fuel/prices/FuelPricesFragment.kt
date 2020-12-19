@@ -21,14 +21,13 @@ package com.mmdev.me.driver.presentation.ui.fuel.prices
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
-import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -90,16 +89,12 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 		
 		when (state) {
 			is FuelPricesViewState.Success -> {
-				if (state.data.isNullOrEmpty())
-					binding.root.showSnack(R.string.fg_fuel_prices_empty_list, Snackbar.LENGTH_LONG)
+				if (state.data.isNullOrEmpty()) showActivitySnack(string.fg_fuel_prices_empty_list)
 				else mPricesAdapter.setNewData(state.data)
 			}
-			is FuelPricesViewState.Error -> {
-				binding.root.showSnack(
-					state.errorMessage ?: getString(R.string.fg_fuel_prices_empty_list),
-					Snackbar.LENGTH_LONG
-				)
-			}
+			is FuelPricesViewState.Error -> showActivitySnack(state.errorMessage ?: getString(
+				string.fg_fuel_prices_empty_list))
+			
 		}
 		
 	}

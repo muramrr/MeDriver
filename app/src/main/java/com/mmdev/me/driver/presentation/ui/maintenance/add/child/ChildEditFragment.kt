@@ -22,6 +22,7 @@ import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
@@ -42,7 +43,6 @@ import com.mmdev.me.driver.presentation.utils.extensions.text
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 /**
  *
@@ -82,9 +82,7 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 					(requireParentFragment() as BottomSheetDialogFragment).dialog!!.dismiss()
 				}
 				else {
-					binding.root.rootView.showSnack(
-						R.string.item_maintenance_add_operation_successful
-					)
+					binding.root.rootView.showSnack(string.item_maintenance_add_operation_successful)
 					binding.fabChildAdd.isEnabled = false
 				}
 				if (state.data.odometerValueBound.getValue() > MainActivity.currentVehicle!!.odometerValueBound.getValue()) {
@@ -99,10 +97,7 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 				}
 			}
 			is ChildEditViewState.Error -> {
-				binding.root.rootView.showSnack(
-					state.errorMessage ?:
-					getString(R.string.item_maintenance_add_operation_error)
-				)
+				binding.root.rootView.showSnack(state.errorMessage ?: getString(string.item_maintenance_add_operation_error))
 			}
 		}
 	}

@@ -34,6 +34,7 @@ import androidx.work.WorkInfo.State.SUCCEEDED
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
+import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.sync.UploadWorker
@@ -58,6 +59,7 @@ class MainActivity: AppCompatActivity() {
 		const val USER_KEY = "USER_KEY"
 		@Volatile
 		var currentUser: UserDataInfo? = null
+			private set
 		
 		var currentVehicle: Vehicle? = null
 			set(value) {
@@ -232,6 +234,7 @@ class MainActivity: AppCompatActivity() {
 				logDebug(TAG, "authStatus = $AUTHENTICATED")
 				startDownloadWorker(it)
 				startUploadWorker(it)
+				MedriverApp.savedUserEmail = it.email
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
@@ -242,7 +245,7 @@ class MainActivity: AppCompatActivity() {
 		})
 		
 		sharedViewModel.purchases.observe(this, {
-			logWtf(TAG, "activity received = $it")
+			logWtf(TAG, "$it")
 		})
 	}
 	
@@ -260,6 +263,12 @@ class MainActivity: AppCompatActivity() {
 		})
 	}
 	
+	fun showSnack(message: String) =
+		Snackbar
+			.make(binding.root, message, Snackbar.LENGTH_LONG)
+			.setAction("OK") {}
+			.setAnchorView(binding.bottomNavMain)
+			.show()
 	
 	fun launchPurchaseFlow(identifier: Int) = sharedViewModel.launchBillingFlow(
 		this,
@@ -271,4 +280,5 @@ class MainActivity: AppCompatActivity() {
 		_binding = null
 		super.onDestroy()
 	}
+	
 }

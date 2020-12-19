@@ -27,6 +27,8 @@ import com.mmdev.me.driver.databinding.ItemHomeGarageBinding
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.ui.home.MyGarageAdapter.MyGarageViewHolder
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
+import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.showSnack
 
 /**
  *
@@ -60,10 +62,11 @@ class MyGarageAdapter(
 		
 		fun bind(item: Vehicle) {
 			
-			binding.btnCopyVehicleVin.attachClickToCopyText(
-				binding.root.context,
-				R.string.fg_vehicle_copy_vin
-			)
+			binding.apply {
+				btnCopyVehicleVin.attachClickToCopyText {
+					root.rootView.showSnack(root.getStringRes(R.string.fg_vehicle_copy_vin).format(it))
+				}
+			}
 			
 			binding.setVariable(BR.bindItem, item)
 			binding.executePendingBindings()

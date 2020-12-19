@@ -21,15 +21,11 @@ package com.mmdev.me.driver.data.repository.settings
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
-import com.mmdev.me.driver.data.sync.download.DataDownloader
+import com.mmdev.me.driver.data.sync.download.IDataDownloader
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.user.FetchingStatus
 import com.mmdev.me.driver.domain.user.ISettingsRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 /**
@@ -38,24 +34,8 @@ import kotlinx.coroutines.flow.map
 
 class SettingsRepositoryImpl(
 	private val authDataSource: IFirebaseAuthDataSource,
-	private val dataDownloader: DataDownloader
+	private val dataDownloader: IDataDownloader
 ): BaseRepository(), ISettingsRepository {
-	
-	
-	override fun downloadData(email: String): Flow<FetchingStatus> = flow {
-		if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email) {
-			emit(FetchingStatus.Deleting)
-			dataDownloader.deleteAll()
-		}
-		delay(200)
-		emit(FetchingStatus.Downloading)
-		dataDownloader.importData(email).collect { result ->
-			result.fold(
-				success = { emit(FetchingStatus.Finished) },
-				failure = { emit(FetchingStatus.Error) }
-			)
-		}
-	}
 	
 	
 	override fun resetPassword(email: String): Flow<SimpleResult<Unit>> =
@@ -67,13 +47,19 @@ class SettingsRepositoryImpl(
 	
 	
 	override fun signIn(email: String, password: String): Flow<SimpleResult<Unit>> =
-		authDataSource.signIn(email, password).map { it.toUnit() }
-	
-	
+		authDataSource.signIn(email, password).map {
+			if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email)
+				dataDownloader.deleteAll()
+			it.toUnit()
+		}
 	
 	override fun signOut() = authDataSource.signOut()
 	
 	override fun signUp(email: String, password: String): Flow<SimpleResult<Unit>> =
-		authDataSource.signUp(email, password).map { it.toUnit() }
+		authDataSource.signUp(email, password).map {
+			if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email)
+				dataDownloader.deleteAll()
+			it.toUnit()
+		}
 
 }

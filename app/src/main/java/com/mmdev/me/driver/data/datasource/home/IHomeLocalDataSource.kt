@@ -23,7 +23,7 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
- *
+ * Wrapper for for [com.mmdev.me.driver.data.datasource.home.dao.HomeDao]
  */
 
 interface IHomeLocalDataSource {

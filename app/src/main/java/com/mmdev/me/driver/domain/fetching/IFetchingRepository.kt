@@ -24,18 +24,26 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Used to modify current global state of application
  * Used inside only [com.mmdev.me.driver.presentation.ui.SharedViewModel]
  */
 
 interface IFetchingRepository {
 	
-	//retrieve vehicle info on app start up
+	/**
+	 * Retrieve vehicle info from room database
+	 * Called on app startup
+	 */
 	suspend fun getSavedVehicle(vin: String): Vehicle?
 	
-	//after minor changes -> save all to database and remote (if premium and possible)
-	suspend fun updateVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	/**
+	 * After minor changes -> save actual info to database and server (if pro and possible)
+	 */
+	fun updateVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Listen for realtime server updates
+	 * No receiver is needed, all data will be downloaded and fetched automatically
+	 */
 	suspend fun listenForUpdates(email: String)
 	
 }

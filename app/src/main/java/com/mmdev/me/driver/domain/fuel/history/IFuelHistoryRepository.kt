@@ -29,17 +29,39 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFuelHistoryRepository {
 	
-	suspend fun addFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
+	/**
+	 * Add [FuelHistory] record to database and (if possible) send data to server
+	 * Otherwise remember this operation by adding it to operations cache
+	 */
+	fun addFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
 	
-	suspend fun importFuelHistory(user: UserDataInfo?, history: List<FuelHistory>): Flow<SimpleResult<Unit>>
-	
+	/**
+	 * Used for pagination
+	 * Load first items
+	 */
 	suspend fun getInitFuelHistory(vin: String): SimpleResult<List<FuelHistory>>
+	
+	/**
+	 * Used for pagination
+	 * Seems that we already initiated first items -> Load more
+	 */
 	suspend fun getMoreFuelHistory(vin: String): SimpleResult<List<FuelHistory>>
+	
+	/**
+	 * Used for pagination
+	 * Seems that we already initiated and loaded more
+	 * User scrolled back? Load previous
+	 */
 	suspend fun getPreviousFuelHistory(vin: String): SimpleResult<List<FuelHistory>>
 	
+	/**
+	 * Retrieve last added [FuelHistory] entry from database
+	 */
 	suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?>
 	
-	
-	suspend fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
+	/**
+	 * Delete [FuelHistory] entry from database and (if possible) from server
+	 */
+	fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>>
 	
 }

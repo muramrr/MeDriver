@@ -63,7 +63,7 @@ interface IMaintenanceServerDataSource {
 	/**
 	 * Delete existing entry on server
 	 *
-	 * @param id indicates entry id in collection to be deleted
+	 * @param dto indicates entry in collection to be deleted
 	 */
 	fun deleteMaintenanceEntry(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>>
 	

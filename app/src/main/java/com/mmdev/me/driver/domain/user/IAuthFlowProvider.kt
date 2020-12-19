@@ -18,13 +18,10 @@
 
 package com.mmdev.me.driver.domain.user
 
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Main features:
- * convert [FirebaseAuth] callbacks to simplified [AuthStatus]
- * convert [FirebaseUser] which depend on [FirebaseAuth] callback and emit [UserDataInfo]
+ * Provide authenticated user data
  */
 
 interface IAuthFlowProvider {

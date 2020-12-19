@@ -64,15 +64,7 @@ class FuelHistoryRepositoryImpl (
 			else value
 		}
 	
-	
-	
-	
-	/**
-	 * Add [history] to local cache
-	 * Also check if given user is not null and premium
-	 * If that is true -> write also to backend
-	 */
-	override suspend fun addFuelHistoryRecord(
+	override fun addFuelHistoryRecord(
 		user: UserDataInfo?, history: FuelHistory
 	): Flow<SimpleResult<Unit>> = flow {
 		val entity = mappers.domainToEntity(history)
@@ -104,25 +96,6 @@ class FuelHistoryRepositoryImpl (
 			failure = { throwable -> emit(ResultState.failure(throwable)) })
 		
 	}
-	
-	override suspend fun importFuelHistory(
-		user: UserDataInfo?, history: List<FuelHistory>
-	): Flow<SimpleResult<Unit>> = flow {
-		localDataSource.importFuelHistory(mappers.listDomainToEntities(history)).fold(
-			success = { emit(ResultState.success(Unit)) },
-			failure = { emit(ResultState.failure(it)) }
-		)
-	}
-	
-	override suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?> =
-		localDataSource.getFirstFuelHistoryEntry(vin).fold(
-			success = {
-				if (it != null) ResultState.success(mappers.entityToDomain(it))
-				else ResultState.success(null)
-			},
-			failure = { ResultState.failure(it) }
-		)
-	
 	
 	override suspend fun getInitFuelHistory(vin: String): SimpleResult<List<FuelHistory>> =
 		localDataSource.getFuelHistory(vin, ITEMS_COUNT_PER_LOAD, NO_OFFSET).fold(
@@ -160,7 +133,16 @@ class FuelHistoryRepositoryImpl (
 			failure = { throwable -> ResultState.failure(throwable) }
 		)
 	
-	override suspend fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>> = flow {
+	override suspend fun loadFirstFuelHistoryEntry(vin: String): SimpleResult<FuelHistory?> =
+		localDataSource.getFirstFuelHistoryEntry(vin).fold(
+			success = {
+				if (it != null) ResultState.success(mappers.entityToDomain(it))
+				else ResultState.success(null)
+			},
+			failure = { ResultState.failure(it) }
+		)
+	
+	override fun removeFuelHistoryRecord(user: UserDataInfo?, history: FuelHistory): Flow<SimpleResult<Unit>> = flow {
 		localDataSource.deleteFuelHistoryEntry(history.dateAdded).fold(
 			success = {
 				if (user?.isPro() == true && MedriverApp.isInternetWorking()) {

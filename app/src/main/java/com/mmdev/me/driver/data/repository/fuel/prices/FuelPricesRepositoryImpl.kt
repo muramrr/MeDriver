@@ -42,10 +42,9 @@ class FuelPricesRepositoryImpl (
 ) : BaseRepository(), IFuelPricesRepository {
 	
 	/**
-	 * Combine [getFuelDataFromRemote] and [getFuelDataFromLocal]
-	 * If cache retrieving is successful -> emit success
+	 * If cache retrieving is successful -> return success
 	 * else catch failure and make a network request
-	 * If network request fails -> emit failure from [getFuelDataFromRemote]
+	 * If network request fails -> return failure from [getFuelDataFromRemote]
 	 */
 	override suspend fun getFuelStationsWithPrices(
 		date: String, region: Region
@@ -58,7 +57,7 @@ class FuelPricesRepositoryImpl (
 			success = { dm -> ResultState.Success(dm) },
 			//if failure (throwable or emptyList) -> request from network
 			failure = {
-				logError(TAG, it.message ?: "Boundary local cache error")
+				logError(TAG, it.message ?: "Boundarycache error")
 				getFuelDataFromRemote(date, region)
 			})
 	}

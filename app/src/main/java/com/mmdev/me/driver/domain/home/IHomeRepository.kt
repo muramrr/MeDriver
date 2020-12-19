@@ -23,13 +23,19 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 
 /**
- *
+ * Repository to provide data for [com.mmdev.me.driver.presentation.ui.home]
  */
 
 interface IHomeRepository {
 	
+	/**
+	 * Get list of your vehicles paired with expenses
+	 */
 	suspend fun getGarage(): SimpleResult<List<Pair<Vehicle, Expenses>>>
 	
+	/**
+	 * Get overall expenses for current year sliced by months
+	 */
 	suspend fun getExpensesByTimeRange(monthsRange: List<Pair<Long, Long>>): List<Expenses>
 	
 }

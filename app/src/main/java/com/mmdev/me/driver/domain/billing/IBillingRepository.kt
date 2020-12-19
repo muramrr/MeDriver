@@ -23,13 +23,22 @@ import com.android.billingclient.api.Purchase
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- *
+ * Repository used to retrieve all billing info needed for app functionality
  */
 
 interface IBillingRepository {
 	
+	/**
+	 * Get list of [Purchase] as [StateFlow], that will be converted to LiveData in ViewModel
+	 */
 	fun getPurchasesFlow(): StateFlow<List<Purchase>>
 	
+	/**
+	 * Launch purchasing 'flow' for given
+	 * @param skuPos defines sku position from item list which user wants to order
+	 * this is very relates on positioning inside repository implementation
+	 * @param accountId indicates current user unique id
+	 */
 	fun launchPurchase(activity: Activity, skuPos: Int, accountId: String)
 	
 }

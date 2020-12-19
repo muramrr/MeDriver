@@ -59,7 +59,7 @@ interface IFuelHistoryServerDataSource {
 	/**
 	 * Delete existing entry on server
 	 *
-	 * @param id indicates entry id in collection to be deleted
+	 * @param dto indicates entry in collection to be deleted
 	 */
 	fun deleteFuelHistoryEntry(email: String, dto: FuelHistoryDto): Flow<SimpleResult<Unit>>
 	

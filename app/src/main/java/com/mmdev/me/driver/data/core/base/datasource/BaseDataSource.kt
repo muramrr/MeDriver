@@ -31,7 +31,7 @@ abstract class BaseDataSource {
 	
 	protected val TAG = "mylogs_${javaClass.simpleName}"
 
-	protected suspend inline fun <T> safeCall(TAG: String, crossinline call: suspend () -> T?): SimpleResult<T> =
+	protected suspend inline fun <T> safeCall(TAG: String, call: suspend () -> T?): SimpleResult<T> =
 		try {
 			val result = call.invoke()
 			if (result != null) ResultState.success(result)

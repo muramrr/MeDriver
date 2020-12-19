@@ -28,7 +28,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 
 /**
- * [IHomeRepository]
+ * [IHomeRepository] implementation
  */
 
 class HomeRepositoryImpl(

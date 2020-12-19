@@ -22,20 +22,34 @@ import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Settings repository responsible for authentication and registration new users,
- * also to fetch user data stored on backend
+ * Settings repository responsible for account related operations
  */
 
 interface ISettingsRepository {
 	
+	/**
+	 * Send email for reset password if such user exists
+	 */
 	fun resetPassword(email: String): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Send email for verification if such user exists
+	 */
 	fun sendEmailVerification(email: String): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Basically just authenticate user
+	 */
 	fun signIn(email: String, password: String): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Basically log out current user
+	 */
 	fun signOut()
 	
+	/**
+	 * Try to sign up with given email and password
+	 */
 	fun signUp(email: String, password: String): Flow<SimpleResult<Unit>>
 	
 }

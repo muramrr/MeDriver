@@ -29,7 +29,8 @@ import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.FUEL_HISTORY
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.ADDED
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.DELETED
 import com.mmdev.me.driver.data.datasource.fuel.history.server.dto.FuelHistoryDto
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
@@ -123,9 +124,7 @@ class FuelHistoryServerDataSourceImpl(
 		)
 	}
 	
-	private fun delete(
-		email: String, dto: FuelHistoryDto
-	): Flow<SimpleResult<Unit>> =
+	private fun delete(email: String, dto: FuelHistoryDto): Flow<SimpleResult<Unit>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)

@@ -48,7 +48,7 @@ interface MaintenanceDao {
 		vin: String,
 		systemNode: String,
 		component: String
-	): MaintenanceEntity
+	): MaintenanceEntity?
 	
 	
 	

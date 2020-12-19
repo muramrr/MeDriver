@@ -32,15 +32,34 @@ import kotlinx.coroutines.flow.Flow
 
 interface IVehicleRepository {
 	
-	suspend fun addVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
+	/**
+	 * Add new [Vehicle] to database and (if possible) to server
+	 */
+	fun addVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Get expenses for only 1 vehicle indicated by [vin]
+	 */
 	suspend fun getExpensesInfo(vin: String): SimpleResult<Expenses>
 	
+	/**
+	 * Get pending replacement related to one [vehicle]
+	 */
 	suspend fun getPendingReplacements(vehicle: Vehicle): SimpleResult<Map<SparePart, PendingReplacement?>>
 	
+	/**
+	 * Get list of all saved vehicles in database
+	 */
 	suspend fun getAllSavedVehicles(): SimpleResult<List<Vehicle>>
-	suspend fun getSavedVehicle(vin: String) : Vehicle?
 	
-	suspend fun getVehicleInfoByVin(vin: String) : SimpleResult<Vehicle>
+	/**
+	 * Get only one saved vehicle from database
+	 */
+	suspend fun getSavedVehicle(vin: String): Vehicle?
+	
+	/**
+	 * Get vehicle info from internet by [vin]
+	 */
+	suspend fun getVehicleInfoByVin(vin: String): SimpleResult<Vehicle>
 	
 }

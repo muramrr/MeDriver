@@ -27,7 +27,12 @@ import com.mmdev.me.driver.domain.fuel.prices.data.Region
  */
 
 interface IFuelPricesRepository {
-
+	
+	/**
+	 * Get prices for given params:
+	 * @param date current date
+	 * @param region for which region we should retrieve fuel prices
+	 */
 	suspend fun getFuelStationsWithPrices(
 		date: String,
 		region: Region

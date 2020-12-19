@@ -53,15 +53,7 @@ class VehicleRepositoryImpl(
 ): BaseRepository(), IVehicleRepository {
 	
 	
-	/**
-	 * Add new [Vehicle] to database and remote
-	 * Invoked when user adds a new vehicle inside [VehicleFragment] by typing base information
-	 *
-	 * @return [ResultState.Failure] when failure occurred
-	 * basically when [ResultState] emits from [serverDataSource] no matter what it would be
-	 * local data will be written without being obstructed
-	 */
-	override suspend fun addVehicle(
+	override fun addVehicle(
 		user: UserDataInfo?,
 		vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = flow {
@@ -103,11 +95,6 @@ class VehicleRepositoryImpl(
 		)
 	
 	
-	/**
-	 * Get list of [Vehicle] from cache.
-	 * @return [ResultState.Success] when list contains data and convert it
-	 * @return [ResultState.Failure] when list is empty or failure occurred
-	 */
 	override suspend fun getAllSavedVehicles(): SimpleResult<List<Vehicle>> =
 		localDataSource.getAllVehicles().fold(
 			success = { data ->
@@ -131,14 +118,6 @@ class VehicleRepositoryImpl(
 			}
 		)
 	
-	
-	/**
-	 * Used to retrieve vehicle base info by typed in VIN code
-	 * Invoked from [com.mmdev.me.driver.presentation.ui.vehicle.VehicleAddBottomSheet]
-	 *
-	 * @return [ResultState.Success] when response contains data some
-	 * @return [ResultState.Failure] when response is empty or failure occurred
-	 */
 	override suspend fun getVehicleInfoByVin(vin: String): SimpleResult<Vehicle> =
 		remoteVinDecoder.getVehicleByVin(vin).fold(
 			success = { dto ->

@@ -26,8 +26,34 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface IVehicleDownloader {
+	
+	/**
+	 * If vehicle was deleted on server from one device, we should delete it
+	 * from current device also
+	 *
+	 * @param vin defines vehicle which comes from server and should be deleted
+	 */
 	suspend fun deleteSingle(email: String, vin: String): SimpleResult<Unit>
+	
+	/**
+	 * Download all vehicles from server
+	 * @return VIN codes because other downloader
+	 * relates on VINs to know which documents to download
+	 */
 	fun download(email: String): Flow<SimpleResult<List<String>>>
+	
+	/**
+	 * Download only one entry from vehicles collection from server and import it
+	 * directly to local database
+	 *
+	 * @param vin defines vehicle which we should download
+	 */
 	fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>>
+	
+	/**
+	 * Clear all vehicles from device
+	 * This method will delete only vehicle info, no cascade deleting in this case
+	 */
 	suspend fun clear(): SimpleResult<Unit>
+	
 }

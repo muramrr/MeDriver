@@ -26,46 +26,64 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 import kotlinx.coroutines.flow.Flow
 
 /**
- *
+ * Repository provides data for [com.mmdev.me.driver.presentation.ui.maintenance]
  */
 
 interface IMaintenanceRepository {
 	
-	suspend fun addMaintenanceItems(
+	/**
+	 * Add [VehicleSparePart] record to database and (if possible) send data to server
+	 * Otherwise remember this operation by adding it to operations cache
+	 */
+	fun addMaintenanceItems(
 		user: UserDataInfo?,
 		items: List<VehicleSparePart>
 	): Flow<SimpleResult<Unit>>
 	
+	/**
+	 * Find the [VehicleSparePart] with same identifiers to know when if it was replaced before
+	 */
 	suspend fun findLastReplaced(
 		vin: String,
 		systemNode: VehicleSystemNodeType,
 		component: SparePart
 	): SimpleResult<VehicleSparePart>
 	
-	suspend fun getInitMaintenanceHistory(
-		vin: String
-	): SimpleResult<List<VehicleSparePart>>
+	/**
+	 * Used for pagination
+	 * Load first items
+	 */
+	suspend fun getInitMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>>
 	
-	suspend fun getMoreMaintenanceHistory(
-		vin: String
-	): SimpleResult<List<VehicleSparePart>>
+	/**
+	 * Used for pagination
+	 * Seems that we already initiated first items -> Load more
+	 */
+	suspend fun getMoreMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>>
 	
-	suspend fun getPreviousMaintenanceHistory(
-		vin: String
-	): SimpleResult<List<VehicleSparePart>>
+	/**
+	 * Used for pagination
+	 * Seems that we already initiated and loaded more
+	 * User scrolled back? Load previous
+	 */
+	suspend fun getPreviousMaintenanceHistory(vin: String): SimpleResult<List<VehicleSparePart>>
 	
+	/**
+	 * Filter [VehicleSparePart] for param
+	 * @param systemNode defines [VehicleSystemNodeType] for which we should retrieve all [VehicleSparePart]
+	 */
 	suspend fun getSystemNodeHistory(
 		vin: String,
 		systemNode: VehicleSystemNodeType
 	): SimpleResult<List<VehicleSparePart>>
 	
-	suspend fun getHistoryByTypedQuery(
-		vin: String,
-		typedQuery: String
-	): SimpleResult<List<VehicleSparePart>>
+	/**
+	 * User typed in search view some text? Find it and return list which matches given query
+	 */
+	suspend fun getHistoryByTypedQuery(vin: String, typedQuery: String): SimpleResult<List<VehicleSparePart>>
 	
-	suspend fun removeMaintenanceEntry(
-		user: UserDataInfo?,
-		maintenance: VehicleSparePart
-	): Flow<SimpleResult<Unit>>
+	/**
+	 * Delete [VehicleSparePart] entry from database and (if possible) from server
+	 */
+	fun removeMaintenanceEntry(user: UserDataInfo?, maintenance: VehicleSparePart): Flow<SimpleResult<Unit>>
 }

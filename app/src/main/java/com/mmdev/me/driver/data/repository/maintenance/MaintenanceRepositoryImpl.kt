@@ -69,7 +69,7 @@ class MaintenanceRepositoryImpl(
 	
 	
 	
-	override suspend fun addMaintenanceItems(
+	override fun addMaintenanceItems(
 		user: UserDataInfo?,
 		items: List<VehicleSparePart>
 	): Flow<SimpleResult<Unit>> = flow {
@@ -164,7 +164,7 @@ class MaintenanceRepositoryImpl(
 			failure = { ResultState.failure(it) }
 		)
 	
-	override suspend fun removeMaintenanceEntry(user: UserDataInfo?, maintenance: VehicleSparePart):
+	override fun removeMaintenanceEntry(user: UserDataInfo?, maintenance: VehicleSparePart):
 			Flow<SimpleResult<Unit>> = flow {
 		localDataSource.deleteMaintenanceHistoryEntry(maintenance.dateAdded).fold(
 			success = {

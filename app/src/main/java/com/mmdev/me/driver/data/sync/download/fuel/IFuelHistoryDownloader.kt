@@ -54,4 +54,5 @@ interface IFuelHistoryDownloader {
 	 * Clear whole fuel history data from local database
 	 */
 	suspend fun clear(): SimpleResult<Unit>
+	
 }

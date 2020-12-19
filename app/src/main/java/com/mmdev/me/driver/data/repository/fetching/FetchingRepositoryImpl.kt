@@ -44,7 +44,7 @@ class FetchingRepositoryImpl(
 	override suspend fun getSavedVehicle(vin: String): Vehicle? = vehicleRepository.getSavedVehicle(vin)
 	
 	
-	override suspend fun updateVehicle(
+	override fun updateVehicle(
 		user: UserDataInfo?, vehicle: Vehicle
 	): Flow<SimpleResult<Unit>> = vehicleRepository.addVehicle(user, vehicle)
 	

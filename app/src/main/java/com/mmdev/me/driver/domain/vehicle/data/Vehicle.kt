@@ -74,4 +74,6 @@ data class Vehicle(
 			DistanceBound(kilometers = 60000, miles = null), DateHelper.YEAR_DURATION *7
 		)
 	)
-)
+) {
+	fun getVehicleUiName() = "$brand $model ($year), $engineCapacity"
+}

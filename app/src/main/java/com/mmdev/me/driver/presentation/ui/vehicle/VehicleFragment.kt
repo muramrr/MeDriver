@@ -25,25 +25,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
-import com.mmdev.me.driver.presentation.ui.common.custom.decorators.ConsumableVerticalItemDecorator
+import com.mmdev.me.driver.presentation.ui.common.ChartsConstants
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
+import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
+import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.text
@@ -63,13 +72,16 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private lateinit var mVehicleDropAdapter: VehicleDropAdapter
 	
 	private var mFrequentlyConsumablesAdapter = ConsumablesAdapter(emptyList())
-	private var mLessFrequentlyConsumablesAdapter1 = ConsumablesAdapter(emptyList())
-	private var mLessFrequentlyConsumablesAdapter2 = ConsumablesAdapter(emptyList())
+	private var mLessFrequentlyConsumablesAdapter = ConsumablesAdapter(emptyList())
 	
 	private var currentTextOnDropDownList = ""
-	
+	private var chosenVehicleUi: VehicleUi? = null
 	
 	private var expensesFormatter = ""
+	
+	@ColorInt
+	private var colorOnBackground = 0xFFFFFF
+	private var colorPaletteValues = listOf<Int>()
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -79,42 +91,36 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	
 	override fun setupViews() {
+		colorOnBackground = requireContext().getColorValue(R.color.colorOnBackground)
+		colorPaletteValues = ChartsConstants.colorPalette.map { requireContext().getColorValue(it) }
 		initStringRes()
 		
 		initDropList()
 		
 		observeExpenses()
-		setupMoreFrequentlyReplacements()
+		//setupTiresWear()
+		
+		setupLineChartConsumption()
+		setupReplacements()
 		
 		observeVehicleList()
 		observeChosenCar()
 		observeReplacements()
+		observeFuelConsumption()
 		
-		binding.btnMileageHistory.setDebounceOnClick {
-			(requireActivity() as MainActivity).navigateTo(R.id.bottomNavFuel)
-		}
-		
-		binding.btnExpensesChangeType.setDebounceOnClick {
-			binding.radioExpensesType.run {
-				visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
+		binding.apply {
+			btnMileageHistory.setDebounceOnClick {
+				(requireActivity() as MainActivity).navigateTo(R.id.bottomNavFuel)
 			}
-		}
-		
-		//add callback to check what button is being checked
-		binding.radioTiresType.addOnButtonCheckedListener { _, checkedId, isChecked ->
-			// redundant if (value != field) check because toggling checks this by itself
-			when {
-				checkedId == binding.btnTiresSummer.id && isChecked -> {
-					binding.pgTiresWear.updateProgress(20)
-				}
-				
-				checkedId == binding.btnTiresWinter.id && isChecked -> {
-					binding.pgTiresWear.updateProgress(70)
+			
+			btnExpensesChangeType.setDebounceOnClick {
+				radioExpensesType.run {
+					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
 				}
 			}
+			
+			btnDeleteVehicle.setDebounceOnClick { showDeleteVehicleConfirmationDialog() }
 		}
-		binding.radioTiresType.check(binding.btnTiresSummer.id)
-		
 		
 	}
 	
@@ -143,6 +149,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 					}
 					else {
 						mViewModel.setVehicle(position)
+						chosenVehicleUi = mViewModel.vehicleUiList.value?.get(position)
 					}
 				}
 				else setText(currentTextOnDropDownList, false)
@@ -152,21 +159,34 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 	}
 	
-	private fun setupMoreFrequentlyReplacements() {
+//	private fun setupTiresWear() {
+//		binding.apply {
+//			radioTiresType.addOnButtonCheckedListener { _, checkedId, isChecked ->
+//				// redundant if (value != field) check because toggling checks this by itself
+//				when {
+//					checkedId == btnTiresSummer.id && isChecked -> {
+//						pgTiresWear.updateProgress(20)
+//					}
+//
+//					checkedId == btnTiresWinter.id && isChecked -> {
+//						pgTiresWear.updateProgress(70)
+//					}
+//				}
+//			}
+//
+//			radioTiresType.check(btnTiresSummer.id)
+//		}
+//	}
+	
+	private fun setupReplacements() {
 		binding.rvFrequentlyConsumables.apply {
 			adapter = mFrequentlyConsumablesAdapter
 			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
 		}
 		
-		binding.rvLessFrequentlyConsumables1.apply {
-			adapter = mLessFrequentlyConsumablesAdapter1
-			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-			addItemDecoration(ConsumableVerticalItemDecorator())
-		}
-		
-		binding.rvLessFrequentlyConsumables2.apply {
-			adapter = mLessFrequentlyConsumablesAdapter2
+		binding.rvLessFrequentlyConsumables.apply {
+			adapter = mLessFrequentlyConsumablesAdapter
 			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
 		}
@@ -189,65 +209,38 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 	}
 	
-	private fun setupExpensesCard(expenses: Expenses) {
-		binding.apply {
-			tvExpensesValue.text = expensesFormatter.format(
-				expenses.getTotal().roundTo(2)
-			)
-			
-			radioExpensesType.setOnCheckedChangeListener { group, checkedId ->
-				when (checkedId) {
-					R.id.btnExpensesTotal -> {
-						tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_total)
-						tvExpensesValue.text = expensesFormatter.format(
-							expenses.getTotal().roundTo(2)
-						)
-					}
-					
-					R.id.btnExpensesMaintenance -> {
-						tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_maintenance)
-						
-						tvExpensesValue.text = expensesFormatter.format(
-							expenses.maintenance.roundTo(2)
-						)
-					}
-					
-					R.id.btnExpensesFuel -> {
-						tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_fuel)
-						
-						tvExpensesValue.text = expensesFormatter.format(
-							expenses.fuel.roundTo(2)
-						)
-					}
-				}
-				group.invisible()
-			}
-		}
-	}
+	
 	
 	private fun observeChosenCar() {
 		mViewModel.chosenVehicle.observe(this, { vehicle ->
-			if (vehicle != null) {
-				binding.dropMyCarChooseCar.setText(
-					getString(R.string.two_strings_whitespace_formatter, vehicle.brand, vehicle.model),
-					false
-				)
-				if (vehicle.lastRefillDate.isNotBlank()) binding.tvMileageLastDate.text = vehicle.lastRefillDate
-				
-				binding.btnCopyVin.attachClickToCopyText {
-					showActivitySnack(getString(R.string.fg_vehicle_copy_vin).format(it))
-				}
-				binding.btnCopyVin.text = vehicle.vin
-			}
-			else {
-				binding.btnCopyVin.setOnClickListener(null)
-				binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
-			}
-			
+			if (vehicle != null) { setVehicle(vehicle) }
+			else { setVehicleNull() }
 			
 			sharedViewModel.currentVehicle.postValue(vehicle)
 			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 		})
+	}
+	private fun setVehicle(vehicle: Vehicle) {
+		binding.dropMyCarChooseCar.setText(
+			getString(R.string.two_strings_whitespace_formatter, vehicle.brand, vehicle.model),
+			false
+		)
+		if (vehicle.lastRefillDate.isNotBlank())
+			binding.tvMileageLastDate.text = vehicle.lastRefillDate
+		
+		binding.btnCopyVin.attachClickToCopyText {
+			showActivitySnack(getString(R.string.fg_vehicle_copy_vin).format(it))
+		}
+		binding.btnCopyVin.text = vehicle.vin
+		binding.btnDeleteVehicle.isEnabled = true
+		
+		chosenVehicleUi = mViewModel.convertToUiVehicle(vehicle)
+	}
+	private fun setVehicleNull() {
+		chosenVehicleUi = null
+		binding.btnCopyVin.setOnClickListener(null)
+		binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
+		binding.btnDeleteVehicle.isEnabled = false
 	}
 	
 	private fun observeVehicleList() {
@@ -268,31 +261,148 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		})
 	}
 	
-	private fun observeExpenses() = mViewModel.expenses.observe(this, {
-		setupExpensesCard(it)
+	private fun observeExpenses() = mViewModel.expensesData.observe(this, {
+		setExpensesCard(it)
 	})
+	private fun setExpensesCard(expenses: Expenses) = binding.run {
+		tvExpensesValue.text = expensesFormatter.format(
+			expenses.getTotal().roundTo(2)
+		)
+		
+		radioExpensesType.setOnCheckedChangeListener { group, checkedId ->
+			when (checkedId) {
+				R.id.btnExpensesTotal -> {
+					tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_total)
+					tvExpensesValue.text = expensesFormatter.format(
+						expenses.getTotal().roundTo(2)
+					)
+				}
+				
+				R.id.btnExpensesMaintenance -> {
+					tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_maintenance)
+					
+					tvExpensesValue.text = expensesFormatter.format(
+						expenses.maintenance.roundTo(2)
+					)
+				}
+				
+				R.id.btnExpensesFuel -> {
+					tvExpensesType.text = getString(R.string.fg_vehicle_card_expenses_type_fuel)
+					
+					tvExpensesValue.text = expensesFormatter.format(
+						expenses.fuel.roundTo(2)
+					)
+				}
+			}
+			group.invisible()
+		}
+	}
+	
 	
 	
 	private fun observeReplacements() {
 		mViewModel.replacements.observe(this, {
 			with(mViewModel.buildConsumables(it)) {
+				//first is insurance, we have separate card for it, so drop it
 				mFrequentlyConsumablesAdapter.setNewData(drop(1).take(4))
-				mLessFrequentlyConsumablesAdapter1.setNewData(drop(5).take(2))
-				mLessFrequentlyConsumablesAdapter2.setNewData(drop(7))
+				mLessFrequentlyConsumablesAdapter.setNewData(drop(5))
 			}
 			
 			setupInsuranceCard(it?.get(PlannedParts.INSURANCE))
 		})
 	}
 	
-	
-	
+	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext())
+		.setTitle(R.string.fg_vehicle_dialog_delete_title)
+		.setMessage(
+			getString(R.string.fg_vehicle_dialog_delete_message_formatter).format(
+				MainActivity.currentVehicle?.getVehicleUiName(),
+				MainActivity.currentVehicle?.vin
+			)
+		)
+		.setIcon(chosenVehicleUi?.icon ?: 0)
+		.setNeutralButton(R.string.fg_vehicle_dialog_delete_btn_neutral, null)
+		.setPositiveButton(R.string.fg_vehicle_dialog_delete_btn_positive) { _, _ ->
+			mViewModel.deleteVehicle()
+		}
+		.create()
+		.show()
 	
 	private fun showAddVehicleBottomSheet() = VehicleAddBottomSheet().show(
 		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
 	)
 	
 	
+	private fun observeFuelConsumption() {
+		mViewModel.fuelConsumptionData.observe(this, {
+			if (it.isNotEmpty()) setupLineChartConsumptionData(it)
+		})
+	}
+	
+	private fun setupLineChartConsumption() = binding.lineChartFuelConsumption.run {
+		setBackgroundColor(colorPaletteValues.random())
+		// enable scaling and dragging
+		isDragEnabled = true
+		setDrawGridBackground(false)
+		// no description text
+		description.isEnabled = false
+		legend.isEnabled = false
+		
+		
+		setMaxVisibleValueCount(15)
+		setPinchZoom(false)
+		setScaleEnabled(false)
+		setTouchEnabled(true)
+		
+		xAxis.run {
+			isEnabled = false
+		}
+		axisLeft.run {
+			setDrawAxisLine(true)
+			setDrawGridLines(true)
+			textColor = colorOnBackground
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
+		}
+		axisRight.isEnabled = false
+		animateX(1000)
+	}
+	private fun setupLineChartConsumptionData(input: List<ConsumptionBound>) {
+		
+		val entries = input.mapIndexed { index, consumptionBound ->
+			Entry(index.toFloat(), consumptionBound.getValue().toFloat())
+		}
+		
+		with(binding.lineChartFuelConsumption) {
+			if (data != null && data.dataSetCount > 0) {
+				(data.getDataSetByIndex(0) as LineDataSet).values = entries
+				data.notifyDataChanged()
+				notifyDataSetChanged()
+			} else {
+				// create a LineDataSet and customize it
+				val dataSet: LineDataSet = LineDataSet(entries, "Fuel Consumption").apply {
+					setDrawFilled(false)
+					setDrawCircles(true)
+					setCircleColor(colorOnBackground)
+					circleRadius = 4f
+					
+					color = colorOnBackground
+					lineWidth = 2f
+					setDrawValues(true)
+					valueTextSize = 12f
+				}
+				
+				// create a data object with the data sets
+				val lineData = LineData(dataSet).apply {
+					setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
+					setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_light))
+				}
+				// set data
+				data = lineData
+			}
+			invalidate()
+		}
+		
+	}
 	
 	
 	private class VehicleDropAdapter(
@@ -314,13 +424,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			}
 			//if no premium, only first position will be available
-			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
+//			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			childView.findViewById<TextView>(R.id.tvDropCarItemPremiumLabel).visibleIf(View.INVISIBLE, 0) {
-				position == count - 1 && !childView.isEnabled
+				!childView.isEnabled
 			}
 			return childView
 		}
-		
-		
 	}
+	
 }

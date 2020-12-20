@@ -81,6 +81,7 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 			
 			setOnItemClickListener { parent, view, position, id ->
 				mViewModel.getFuelPrices(regions[position])
+				binding.rvFuelStations.smoothScrollToPosition(0)
 			}
 		}
 	}

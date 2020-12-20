@@ -113,7 +113,7 @@
 	<string name="fg_home_empty_garage_title">Ваш гараж порожній :(</string>
 	<string name="fg_home_empty_garage_subtitle">Перейдіть до екрану \'Моє авто\', щоб додати новий транспорт!</string>
 	<string name="fg_home_dialog_chart_expenses_settings_title">Оберіть до 5 авто</string>
-
+	<string name="fg_home_bar_char_expenses_title">Витрати за %d</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -214,8 +214,8 @@
 	<string name="maintenance_transmission_clutch_kit">Комплект зчеплення (диск, корзинка)</string>
 	<string name="maintenance_transmission_clutch_bearing">Підшипник зчеплення</string>
 	<string name="maintenance_transmission_clutch_flywheel">Маховик</string>
-	<string name="maintenance_transmission_homokinetic_joint">РШ шарнір ("граната")</string>
-	<string name="maintenance_transmission_homokinetic_joint_duster">Пильовик РШ шарніру ("гранати")</string>
+	<string name="maintenance_transmission_homokinetic_joint">РШ шарнір</string>
+	<string name="maintenance_transmission_homokinetic_joint_duster">Пильовик РШ шарніру</string>
 	<string name="maintenance_transmission_cross_steering">Хрестовина (рульове)</string>
 	<string name="maintenance_transmission_cross_gear">Хрестовина (привід)</string>
 	<string name="maintenance_transmission_semiaxis">Напіввісь</string>
@@ -355,6 +355,12 @@
 	
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об’єм двигуна</string>
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Некоректне значення</string>
+	
+	<string name="fg_vehicle_delete_btn">Видалити авто</string>
+	<string name="fg_vehicle_dialog_delete_btn_positive">Видалити</string>
+	<string name="fg_vehicle_dialog_delete_btn_neutral">Скасувати</string>
+	<string name="fg_vehicle_dialog_delete_title">Ви впевнені що хочете видалити дане авто?</string>
+	<string name="fg_vehicle_dialog_delete_message_formatter">Це повністю видале всі дані про авто\n%1$s\nVIN: %2$s</string>
 	
 <!-- ******************************************************************************************* -->
 

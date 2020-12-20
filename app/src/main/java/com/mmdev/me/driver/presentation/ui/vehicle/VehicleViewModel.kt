@@ -22,6 +22,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.data.core.mappers.mapList
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
@@ -50,12 +52,14 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	private val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
 	val vehicleUiList: MutableLiveData<List<VehicleUi>> = MutableLiveData(emptyList())
 	val replacements = MutableLiveData<Map<SparePart, PendingReplacement?>?>()
-	val expenses = MutableLiveData(Expenses())
+	val expensesData = MutableLiveData(Expenses())
+	val fuelConsumptionData = MutableLiveData(emptyList<ConsumptionBound>())
 	
 	init {
 		getSavedVehicles()
 		getReplacementsList(chosenVehicle.value)
 		getExpenses(chosenVehicle.value)
+		getConsumption(chosenVehicle.value)
 	}
 	
 	
@@ -64,22 +68,12 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 			repository.getAllSavedVehicles().fold(
 				success = {
 					vehicleList.postValue(it)
-					vehicleUiList.postValue(mapVehicle(it))
+					vehicleUiList.postValue(mapVehicles(it))
 				},
 				failure = { logError(TAG, "${it.message}") }
 			)
 			
 		}
-	}
-	
-	private fun mapVehicle(input: List<Vehicle>): List<VehicleUi> {
-		return input.map { vehicle ->
-			VehicleUi(
-				icon = VehicleConstants.vehicleBrandIconMap.getOrDefault(vehicle.brand, 0),
-				title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
-				vin = vehicle.vin
-			)
-		}.plus(VehicleUi(R.drawable.ic_plus_in_frame_24, "", R.string.fg_vehicle_add_new_vehicle, ""))
 	}
 	
 	fun setVehicle(position: Int) {
@@ -88,16 +82,36 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 			chosenVehicle.postValue(this)
 			getReplacementsList(this)
 			getExpenses(this)
+			getConsumption(this)
 		}
 	}
 	
+	fun deleteVehicle() = chosenVehicle.value?.let {
+		viewModelScope.launch {
+			repository.deleteVehicle(it.vin).fold(
+				success = { chosenVehicle.postValue(null) },
+				failure = { logError(TAG, "${it.message}") }
+			)
+		}
+	}
+	
+	
+	fun convertToUiVehicle(vehicle: Vehicle): VehicleUi = VehicleUi(
+		icon = VehicleConstants.vehicleBrandIconMap.getOrDefault(vehicle.brand, 0),
+		title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
+		vin = vehicle.vin
+	)
+	
+	private fun mapVehicles(input: List<Vehicle>): List<VehicleUi> = mapList(input) { vehicle ->
+		convertToUiVehicle(vehicle)
+	}.plus(VehicleUi(R.drawable.ic_plus_in_frame_24, "", R.string.fg_vehicle_add_new_vehicle, ""))
 	
 	private fun getReplacementsList(vehicle: Vehicle?) {
 		if (vehicle == null) replacements.value = null
 		else {
 			viewModelScope.launch {
 				repository.getPendingReplacements(vehicle).fold(
-					success = { replacements.value = it },
+					success = { replacements.postValue(it) },
 					failure = { logError(TAG, "${it.message}") }
 				)
 			}
@@ -118,13 +132,22 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	
 	private fun getExpenses(vehicle: Vehicle?) {
 		if (vehicle == null) replacements.value = null
-		else {
-			viewModelScope.launch {
-				repository.getExpensesInfo(vehicle.vin).fold(
-					success = { expenses.value = it },
-					failure = { logError(TAG, "${it.message}") }
-				)
-			}
+		else viewModelScope.launch {
+			repository.getExpensesInfo(vehicle.vin).fold(
+				success = { expensesData.postValue(it) },
+				failure = { logError(TAG, "${it.message}") }
+			)
+		}
+	
+	}
+	
+	private fun getConsumption(vehicle: Vehicle?) {
+		if (vehicle == null) fuelConsumptionData.value = emptyList()
+		else viewModelScope.launch {
+			repository.getFuelConsumption(vehicle.vin).fold(
+				success = { fuelConsumptionData.postValue(it) },
+				failure = { logError(TAG, "${it.message}") }
+			)
 		}
 	}
 }

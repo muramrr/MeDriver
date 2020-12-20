@@ -38,12 +38,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
+import com.mmdev.me.driver.presentation.ui.common.ChartsConstants
 import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
 import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
@@ -61,26 +63,13 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 
 	override val mViewModel: HomeViewModel by viewModel()
 	
-	private val colorPalette: ArrayList<Int> = arrayListOf(
-		R.color.data1,
-		R.color.data2,
-		R.color.data3,
-		R.color.data4,
-		R.color.data5,
-		R.color.data6,
-		R.color.data7,
-		R.color.data8,
-		R.color.data9,
-		R.color.data10,
-		R.color.data11,
-		R.color.data12,
-	)
-	
 	private val myGarageAdapter = MyGarageAdapter()
 	
 	private val checkedExpensesPositions = mutableListOf(0, 1, 2, 3, 4)
 	
 	private var priceFormatter = ""
+	
+	private var colorPaletteValues = listOf<Int>()
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -99,6 +88,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	}
 	
 	override fun setupViews() {
+		colorPaletteValues = ChartsConstants.colorPalette.map { requireContext().getColorValue(it) }
+		initStringRes()
 		if (!MedriverApp.dataGenerated) {
 			var count = 0
 			binding.tvMyGarageHeader.setOnClickListener {
@@ -112,18 +103,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			}
 		}
 		
-		initStringRes()
-		binding.rvMyGarage.apply {
-			adapter = myGarageAdapter
-			layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-			
-			//adjust auto swipe to item center
-			val snapHelper: SnapHelper = LinearSnapHelper()
-			snapHelper.attachToRecyclerView(this)
-			
-			setHasFixedSize(true)
-		}
-		
+		setupMyGarage()
 		setupBarChartExpenses()
 		
 		mViewModel.vehicles.observe(this, { vehiclesWithExpenses ->
@@ -143,8 +123,19 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		priceFormatter = getString(R.string.price_formatter_right)
 	}
 	
-	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) {
-		binding.btnPieChartExpensesSettings.setDebounceOnClick {
+	private fun setupMyGarage() = binding.rvMyGarage.run {
+		adapter = myGarageAdapter
+		layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+		
+		//adjust auto swipe to item center
+		val snapHelper: SnapHelper = LinearSnapHelper()
+		snapHelper.attachToRecyclerView(this)
+		
+		setHasFixedSize(true)
+	}
+	
+	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) = binding.run {
+		btnPieChartExpensesSettings.setDebounceOnClick {
 			showDialogPieChartExpensesSettings(
 				stats.map {
 					with(it.first) { "$brand $model ($year), $engineCapacity" }
@@ -152,8 +143,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			)
 		}
 		
-		binding.pieChartExpenses.apply {
-			data = setupPieExpensesData(stats)
+		pieChartExpenses.run {
+			data = setupPieChartExpensesData(stats)
 			animateY(1500, Easing.EaseInOutQuad)
 			
 			isRotationEnabled = false
@@ -179,17 +170,14 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			highlightValues(null)
 			invalidate()
 		}
-		
 	}
-	private fun setupPieExpensesData(input: List<Pair<Vehicle, Expenses>>): PieData {
+	private fun setupPieChartExpensesData(input: List<Pair<Vehicle, Expenses>>): PieData {
 		
 		val entries = input.take(if (input.size > 5) 5 else input.size).map {
 			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
 		}
-		val dataSet = PieDataSet(entries, "")
-		
-		dataSet.apply {
-			colors = colorPalette.map { requireContext().getColorValue(it) }.shuffled()
+		val dataSet = PieDataSet(entries, "Overall expenses").apply {
+			colors = colorPaletteValues.shuffled()
 			valueFormatter = object : ValueFormatter() {
 				override fun getFormattedValue(value: Float): String {
 					return String.format(priceFormatter, value)
@@ -210,12 +198,11 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	private fun setNewPieChartExpensesData(positions: List<Int>) {
 		mViewModel.vehicles.value?.let { vehiclesWithExpenses ->
 			binding.pieChartExpenses.apply {
-				data = setupPieExpensesData(positions.map { vehiclesWithExpenses[it] })
+				data = setupPieChartExpensesData(positions.map { vehiclesWithExpenses[it] })
 				animateY(1400, Easing.EaseOutCirc)
 				invalidate()
 			}
 		}
-		
 	}
 	private fun showDialogPieChartExpensesSettings(items: Array<String>) {
 		val checkedItems = BooleanArray(items.size) {
@@ -237,58 +224,58 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	
 
 	
-	private fun setupBarChartExpenses() {
+	private fun setupBarChartExpenses() = binding.barChartExpenses.run {
+		setDrawBarShadow(false)
+		setDrawValueAboveBar(true)
 		
-		binding.barChartExpenses.apply {
-			setDrawBarShadow(false)
-			setDrawValueAboveBar(true)
+		description.isEnabled = false
+		legend.isEnabled = false
+		// if more than 12 entries are displayed in the chart, no values will be drawn
+		setMaxVisibleValueCount(12)
+		setPinchZoom(false) // scaling can now only be done on x- and y-axis separately
+		
+		animateY(1500)
+		
+		xAxis.run {
+			position = BOTTOM
+			this.setDrawGridLines(false)
+			granularity = 1f // only intervals of 1 day
+			labelCount = 12
 			
-			description.isEnabled = false
-			legend.isEnabled = false
-			// if more than 12 entries are displayed in the chart, no values will be drawn
-			setMaxVisibleValueCount(12)
-			setPinchZoom(false) // scaling can now only be done on x- and y-axis separately
+			textColor = requireContext().getColorValue(R.color.colorOnBackground)
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			
-			animateY(1500)
-			
-			xAxis.apply {
-				position = BOTTOM
-				this.setDrawGridLines(false)
-				granularity = 1f // only intervals of 1 day
-				labelCount = 12
-				
-				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
-				
-				valueFormatter = object : ValueFormatter() {
-					override fun getAxisLabel(value: Float, axis: AxisBase?): String =
-						value.toInt().dateMonthText().take(3)
-				}
+			valueFormatter = object : ValueFormatter() {
+				override fun getAxisLabel(value: Float, axis: AxisBase?): String =
+					value.toInt().dateMonthText().take(3)
 			}
+		}
+		
+		axisLeft.run {
+			axisMinimum = 0f // this replaces setStartAtZero(true)
+			this.setDrawGridLines(false)
+			setLabelCount(8, false)
+			spaceTop = 15f
 			
-			axisLeft.apply {
-				axisMinimum = 0f // this replaces setStartAtZero(true)
-				this.setDrawGridLines(false)
-				setLabelCount(8, false)
-				spaceTop = 15f
-				
-				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
-			}
+			textColor = requireContext().getColorValue(R.color.colorOnBackground)
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+		}
+		
+		axisRight.run {
+			axisMinimum = 0f // this replaces setStartAtZero(true)
+			setLabelCount(8, false)
+			spaceTop = 15f
 			
-			axisRight.apply {
-				axisMinimum = 0f // this replaces setStartAtZero(true)
-				setLabelCount(8, false)
-				spaceTop = 15f
-				
-				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
-				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-			}
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			textColor = requireContext().getColorValue(R.color.colorOnBackground)
 		}
 		
 	}
 	private fun setupBarChartExpensesData(input: List<Expenses>) {
-		
+		val currentYear = currentTimeAndDate().year
+		binding.tvBarChartDescription.text = getString(
+			R.string.fg_home_bar_char_expenses_title, currentYear
+		)
 		val entries = input.mapIndexed { index, expenses ->
 			BarEntry(
 				(index + 1).toFloat(),
@@ -302,8 +289,10 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			binding.barChartExpenses.notifyDataSetChanged()
 		}
 		else {
-			val set1 = BarDataSet(entries, "2020").apply {
-				colors = colorPalette.map { requireContext().getColorValue(it) }
+			val set1 = BarDataSet(
+				entries, "$currentYear"
+			).apply {
+				colors = colorPaletteValues
 			}
 			
 			val data = BarData(set1).apply {

@@ -26,6 +26,7 @@ import androidx.room.Transaction
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
+import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
@@ -35,6 +36,12 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 @Dao
 interface VehicleDao {
+	
+	@Query("""
+		SELECT consumptionPer100MI, consumptionPer100KM FROM
+		${MeDriverRoomDatabase.FUEL_HISTORY_TABLE} WHERE vehicleVinCode = :vin
+	""")
+	suspend fun getConsumption(vin: String): List<ConsumptionBound>
 	
 	@Transaction
 	suspend fun getExpenses(vin: String): Expenses {
@@ -93,13 +100,9 @@ interface VehicleDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun importVehicles(vehiclesToImport: List<VehicleEntity>)
 	
-	@Transaction
-	suspend fun deleteVehicle(vin: String) {
-		//cascade deleting
-		deleteVehicleByVin(vin)
-		deleteVehicleFuelHistory(vin)
-		deleteVehicleMaintenanceHistory(vin)
-	}
+	//cascade deleting
+	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
+	suspend fun deleteVehicle(vin: String)
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
 	suspend fun deleteVehicleByVin(vin: String)

@@ -151,7 +151,7 @@
 	<string name="fg_home_empty_garage_title">Your garage is empty :(</string>
 	<string name="fg_home_empty_garage_subtitle">Go to \'My vehicle\' tab to add some new vehicles!</string>
 	<string name="fg_home_dialog_chart_expenses_settings_title">Choose up to 5 vehicles to show</string>
-
+	<string name="fg_home_bar_char_expenses_title">Expenses for %d</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -372,6 +372,12 @@
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s or %2$s year</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s or %2$s years</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s or %2$s years</string>
+	
+	<string name="fg_vehicle_delete_btn">Delete vehicle</string>
+	<string name="fg_vehicle_dialog_delete_btn_positive">Delete</string>
+	<string name="fg_vehicle_dialog_delete_btn_neutral">Cancel</string>
+	<string name="fg_vehicle_dialog_delete_title">Are you sure you want to delete this vehicle?</string>
+	<string name="fg_vehicle_dialog_delete_message_formatter">This will completely delete all data about vehicle\n%1$s\nVIN: %2$s</string>
 	
 <!-- ******************************************************************************************* -->
 

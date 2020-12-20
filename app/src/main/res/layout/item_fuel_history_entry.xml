@@ -192,7 +192,7 @@
 					android:gravity="center_vertical"
 					android:maxLines="1"
 					
-					android:text="@{FuelHistoryExtKt.getConsumptionFormatted(bindItem, context), default = `0.0L/100`}"
+					android:text="@{FuelHistoryExtKt.getValueFormatted(bindItem.fuelConsumptionBound, context), default = `0.0L/100`}"
 					android:textAppearance="?textAppearanceCaption"
 					
 					app:layout_constraintTop_toTopOf="@id/tvFuelHistoryDistancePassed"

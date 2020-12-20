@@ -41,7 +41,6 @@ import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
-import com.mmdev.me.driver.presentation.utils.extensions.domain.getConsumptionValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -134,7 +133,8 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 			    && calculatedConsumption > 0.0
 			    && lastAddedEntry != null) {
 				
-				if (calculatedConsumption > lastAddedEntry.getConsumptionValue()) R.drawable.ic_arrow_up_24
+				if (calculatedConsumption > lastAddedEntry.fuelConsumptionBound.getValue())
+					R.drawable.ic_arrow_up_24
 				else R.drawable.ic_arrow_down_24
 				
 			}

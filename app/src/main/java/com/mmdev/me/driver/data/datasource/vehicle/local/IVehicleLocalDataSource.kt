@@ -22,7 +22,7 @@ import com.mmdev.me.driver.data.core.base.datasource.caching.IBaseLocalDataSourc
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
@@ -34,7 +34,7 @@ interface IVehicleLocalDataSource: IBaseLocalDataSourceWithCaching {
 	/**
 	 * Get fuel consumption for vehicle with given [vin]
 	 */
-	suspend fun getConsumption(vin: String): SimpleResult<List<ConsumptionBound>>
+	suspend fun getConsumption(vin: String): SimpleResult<List<ConsumptionHistory>>
 	
 	/**
 	 * Get expenses which related to vehicle specified by [vin]

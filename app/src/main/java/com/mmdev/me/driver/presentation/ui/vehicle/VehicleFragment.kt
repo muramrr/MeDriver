@@ -19,25 +19,34 @@
 package com.mmdev.me.driver.presentation.ui.vehicle
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.components.MarkerView
+import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.LineDataSet.Mode.HORIZONTAL_BEZIER
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.MetricSystem.*
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
@@ -48,6 +57,7 @@ import com.mmdev.me.driver.presentation.ui.common.ChartsConstants
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
+import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
@@ -79,8 +89,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	private var expensesFormatter = ""
 	
-	@ColorInt
-	private var colorOnBackground = 0xFFFFFF
 	private var colorPaletteValues = listOf<Int>()
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +99,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	
 	override fun setupViews() {
-		colorOnBackground = requireContext().getColorValue(R.color.colorOnBackground)
 		colorPaletteValues = ChartsConstants.colorPalette.map { requireContext().getColorValue(it) }
 		initStringRes()
 		
@@ -340,36 +347,70 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	
 	private fun setupLineChartConsumption() = binding.lineChartFuelConsumption.run {
-		setBackgroundColor(colorPaletteValues.random())
-		// enable scaling and dragging
-		isDragEnabled = true
+		extraBottomOffset = 10f
 		setDrawGridBackground(false)
 		// no description text
-		description.isEnabled = false
+		description.apply {
+			text = when (MedriverApp.metricSystem) {
+				KILOMETERS -> getString(R.string.item_fuel_history_entry_consumption_km, "")
+				MILES -> getString(R.string.item_fuel_history_entry_consumption_mi, "")
+			}
+			textSize = 14f
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_light)
+		}
 		legend.isEnabled = false
 		
-		
-		setMaxVisibleValueCount(15)
-		setPinchZoom(false)
-		setScaleEnabled(false)
-		setTouchEnabled(true)
+		//isLogEnabled = MedriverApp.debug.isEnabled
+		// enable scaling and dragging
+		isDoubleTapToZoomEnabled = false
+		isDragYEnabled = false
+		isScaleYEnabled = false
 		
 		xAxis.run {
-			isEnabled = false
+			position = BOTTOM
+			setDrawGridLines(false)
+			textColor = context.getColorValue(R.color.colorOnBackground)
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			
+			//todo: fix crash when setting new datasource with smaller amount of entries
+			valueFormatter = object : ValueFormatter() {
+				override fun getFormattedValue(value: Float): String{
+					val date = data.getDataSetByIndex(0).getEntryForIndex(value.toInt()).data as Long
+					return convertToLocalDateTime(date).run {
+						"$dayOfMonth " +
+						monthNumber.dateMonthText().take(3) +
+						"'" + "$year".drop(2)
+					}
+				}
+			}
 		}
-		axisLeft.run {
-			setDrawAxisLine(true)
-			setDrawGridLines(true)
-			textColor = colorOnBackground
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
-		}
-		axisRight.isEnabled = false
-		animateX(1000)
-	}
-	private fun setupLineChartConsumptionData(input: List<ConsumptionBound>) {
 		
-		val entries = input.mapIndexed { index, consumptionBound ->
-			Entry(index.toFloat(), consumptionBound.getValue().toFloat())
+		axisRight.run {
+			setDrawGridLines(false)
+			textColor = context.getColorValue(R.color.colorOnBackground)
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+		}
+		axisLeft.isEnabled = false
+		
+		val highlightMarker = object : MarkerView(context, R.layout.chart_marker) {
+			override fun refreshContent(e: Entry, highlight: Highlight) {
+				findViewById<TextView>(R.id.tvChartMarker).text = xAxis.valueFormatter.getFormattedValue(e.x)
+				super.refreshContent(e, highlight)
+			}
+		}
+		highlightMarker.chartView = this
+		marker = highlightMarker
+		
+		animateX(1000)
+		invalidate()
+	}
+	private fun setupLineChartConsumptionData(input: List<ConsumptionHistory>) {
+		val entries = input.mapIndexed { index, consumptionHistory ->
+			Entry(
+				index.toFloat(),
+				consumptionHistory.consumptionBound.getValue().toFloat(),
+				consumptionHistory.date
+			)
 		}
 		
 		with(binding.lineChartFuelConsumption) {
@@ -380,26 +421,30 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			} else {
 				// create a LineDataSet and customize it
 				val dataSet: LineDataSet = LineDataSet(entries, "Fuel Consumption").apply {
-					setDrawFilled(false)
+					setDrawFilled(true)
+					fillDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.fade_primary)
+					mode = HORIZONTAL_BEZIER
 					setDrawCircles(true)
-					setCircleColor(colorOnBackground)
+					setCircleColor(Color.BLACK)
 					circleRadius = 4f
 					
-					color = colorOnBackground
+					color = context.getColorValue(R.color.colorPrimary)
 					lineWidth = 2f
-					setDrawValues(true)
+					valueTextColor = context.getColorValue(R.color.colorOnBackground)
 					valueTextSize = 12f
 				}
 				
 				// create a data object with the data sets
 				val lineData = LineData(dataSet).apply {
-					setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
-					setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_light))
+					setValueTextColor(context.getColorValue(R.color.colorOnBackground))
+					setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_regular))
 				}
 				// set data
 				data = lineData
 			}
-			invalidate()
+			
+			setVisibleXRangeMaximum(10f)
+			moveViewToX(xChartMax)
 		}
 		
 	}

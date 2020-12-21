@@ -25,7 +25,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logWtf
@@ -67,7 +67,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	}
 	
 	//mutable values bindable to UI input/label
-	var pickedDate: LocalDateTime = currentTimeAndDate()
+	var pickedDate: LocalDateTime = currentLocalDateTime()
 	val fuelStationInputValue: MutableLiveData<String?> = MutableLiveData()
 	val priceInputValue: MutableLiveData<String?> = MutableLiveData()
 	val selectedFuelType: MutableLiveData<FuelType?> = MutableLiveData()

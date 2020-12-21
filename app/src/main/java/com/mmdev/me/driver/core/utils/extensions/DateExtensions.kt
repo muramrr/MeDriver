@@ -33,4 +33,4 @@ fun LocalDateTime.toEpochTime(): Long = toInstant(TimeZone.currentSystemDefault(
 fun Instant.toCurrentTimeAndDate(): LocalDateTime = toLocalDateTime(TimeZone.currentSystemDefault())
 fun convertToLocalDateTime(timeInMillis: Long): LocalDateTime = Instant.fromEpochMilliseconds(timeInMillis).toCurrentTimeAndDate()
 fun currentEpochTime(): Long = Clock.System.now().toEpochMilliseconds()
-fun currentTimeAndDate(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+fun currentLocalDateTime(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())

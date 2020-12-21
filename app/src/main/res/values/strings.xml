@@ -150,7 +150,10 @@
 	<string name="fg_home_my_garage_header">My garage</string>
 	<string name="fg_home_empty_garage_title">Your garage is empty :(</string>
 	<string name="fg_home_empty_garage_subtitle">Go to \'My vehicle\' tab to add some new vehicles!</string>
-	<string name="fg_home_dialog_chart_expenses_settings_title">Choose up to 5 vehicles to show</string>
+	
+	<string name="fg_home_pie_chart_expenses_description">Overall expenses</string>
+	<string name="fg_home_dialog_pie_chart_expenses_settings_title">Choose up to 5 vehicles to show</string>
+	
 	<string name="fg_home_bar_char_expenses_title">Expenses for %d</string>
 <!-- ******************************************************************************************* -->
 
@@ -365,13 +368,13 @@
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">End date</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Distance remain</string>
-	
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Not replaced yet</string>
-	
 	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">No vehicle chosen</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s or %2$s year</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s or %2$s years</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s or %2$s years</string>
+	
+	<string name="fg_vehicle_fuel_consumption_history_header">Fuel consumption</string>
 	
 	<string name="fg_vehicle_delete_btn">Delete vehicle</string>
 	<string name="fg_vehicle_dialog_delete_btn_positive">Delete</string>

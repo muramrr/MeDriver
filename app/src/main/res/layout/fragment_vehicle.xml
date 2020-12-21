@@ -295,7 +295,6 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				
-				
 				android:text="@string/fg_vehicle_consumable_reminders_header"
 				android:textAppearance="?textAppearanceHeadline6"
 				
@@ -324,7 +323,6 @@
 			<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvFrequentlyConsumables"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
 				android:overScrollMode="never"
 				
 				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -420,25 +418,30 @@
 			
 			</com.google.android.material.card.MaterialCardView>
 			
-			<com.google.android.material.card.MaterialCardView android:id="@+id/cvConsumptionChart"
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFuelConsumptionHeader"
 				android:layout_width="0dp"
-				android:layout_height="300dp"
-				android:layout_marginTop="8dp"
+				android:layout_height="wrap_content"
+				android:labelFor="@id/lineChartFuelConsumption"
+				android:padding="16dp"
 				
-				app:cardBackgroundColor="@color/surface1dpImitation"
-				app:cardCornerRadius="6dp"
-				app:cardElevation="0dp"
+				android:text="@string/fg_vehicle_fuel_consumption_history_header"
+				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintTop_toBottomOf="@id/cvInsurance"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				>
-				<com.github.mikephil.charting.charts.LineChart android:id="@+id/lineChartFuelConsumption"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					/>
+				/>
+		
+			<com.github.mikephil.charting.charts.LineChart android:id="@+id/lineChartFuelConsumption"
+				android:layout_width="0dp"
+				android:layout_height="300dp"
 				
-			</com.google.android.material.card.MaterialCardView>
+				app:layout_constraintTop_toBottomOf="@id/tvFuelConsumptionHeader"
+				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				/>
+				
 			
 			<!-- cv tires -->
 			<!--<com.google.android.material.card.MaterialCardView android:id="@+id/cvTires"
@@ -543,7 +546,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="4dp"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="16dp"
 				android:overScrollMode="never"
 				
 				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -551,7 +554,7 @@
 				tools:itemCount="4"
 				tools:listitem="@layout/item_consumable_reminder"
 				
-				app:layout_constraintTop_toBottomOf="@id/cvConsumptionChart"
+				app:layout_constraintTop_toBottomOf="@id/lineChartFuelConsumption"
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				/>

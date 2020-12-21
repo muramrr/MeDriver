@@ -309,7 +309,7 @@ class MedriverApp: Application() {
 	private fun initNotificationWorker() {
 		logDebug(TAG, "Enqueueing notification worker...")
 		val notificationWorkRequest =
-			PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS).build()
+			PeriodicWorkRequestBuilder<NotificationWorker>(3, TimeUnit.DAYS).build()
 		
 		WorkManager.getInstance(appContext)
 			.enqueueUniquePeriodicWork(

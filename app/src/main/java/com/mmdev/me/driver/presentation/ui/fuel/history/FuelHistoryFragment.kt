@@ -49,15 +49,15 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		mViewModel.viewState.observe(this, { renderState(it) })
 		mViewModel.shouldBeUpdated.observe(this, { if (it) mViewModel.loadInitHistory() })
 	}
 	
-	override fun setupViews() {
-		mViewModel.viewState.observe(this, { renderState(it) })
+	override fun setupViews() = binding.run {
 		
 		binding.fabAddHistoryEntry.isEnabled = MainActivity.currentVehicle != null
 		
-		binding.rvFuelHistory.apply {
+		binding.rvFuelHistory.run {
 			setHasFixedSize(true)
 			//register data observer to automatically scroll to top when new history record added
 			adapter = mAdapter
@@ -73,6 +73,11 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		binding.fabAddHistoryEntry.setDebounceOnClick {
 			
 			FuelHistoryAddDialog().show(childFragmentManager, FuelHistoryAddDialog::class.java.canonicalName)
+		}
+		
+		binding.fabAddHistoryEntry.setOnLongClickListener {
+			mViewModel.generateFuelHistoryData()
+			true
 		}
 	}
 	

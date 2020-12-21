@@ -26,8 +26,8 @@ import androidx.room.Transaction
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
@@ -38,10 +38,11 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
 interface VehicleDao {
 	
 	@Query("""
-		SELECT consumptionPer100MI, consumptionPer100KM FROM
+		SELECT date, consumptionPer100KM, consumptionPer100MI FROM
 		${MeDriverRoomDatabase.FUEL_HISTORY_TABLE} WHERE vehicleVinCode = :vin
+		ORDER BY date ASC
 	""")
-	suspend fun getConsumption(vin: String): List<ConsumptionBound>
+	suspend fun getConsumptionHistory(vin: String): List<ConsumptionHistory>
 	
 	@Transaction
 	suspend fun getExpenses(vin: String): Expenses {
@@ -81,7 +82,7 @@ interface VehicleDao {
 	@Query(
 		"""
 		SELECT * FROM ${MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE}
-		WHERE vehicleVinCode =:vin AND systemNodeComponent = :plannedSparePart
+		WHERE vehicleVinCode = :vin AND systemNodeComponent = :plannedSparePart
 		ORDER BY date DESC
 		LIMIT 1
 		"""

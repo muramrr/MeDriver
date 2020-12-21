@@ -34,7 +34,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.MyDispatchers
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
@@ -108,7 +108,7 @@ class NotificationWorker(
 		replacements.forEach { (key, value) ->
 			value?.let {
 				if ((it.distanceRemain.kilometers <= DISTANCE_LIMIT.kilometers) ||
-				    (it.finalDate.minus(currentTimeAndDate().date)).months <= TIME_LIMIT) {
+				    (it.finalDate.minus(currentLocalDateTime().date)).months <= TIME_LIMIT) {
 					showNotification(
 						VehicleSystemNodeConstants.plannedComponents[PlannedParts.valueOf(key.getSparePartName()).ordinal]
 					)

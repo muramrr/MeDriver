@@ -25,7 +25,7 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.databinding.BtmSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
@@ -156,7 +156,7 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		binding.etInputYear.doOnTextChanged { text, start, before, count ->
 			if (!text.isNullOrBlank() &&
 			    text.toString().toInt() > 1885 &&
-			    text.toString().toInt() < currentTimeAndDate().date.year)
+			    text.toString().toInt() < currentLocalDateTime().date.year)
 				binding.layoutInputYear.error = null
 			else binding.layoutInputYear.error = yearInputError
 		}

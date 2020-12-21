@@ -27,7 +27,7 @@ import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceE
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
@@ -42,8 +42,8 @@ class VehicleLocalDataSourceImpl(
 	override val table: String
 		get() = MeDriverRoomDatabase.VEHICLES_TABLE
 	
-	override suspend fun getConsumption(vin: String): SimpleResult<List<ConsumptionBound>> =
-		safeCall(TAG) { dao.getConsumption(vin) }
+	override suspend fun getConsumption(vin: String): SimpleResult<List<ConsumptionHistory>> =
+		safeCall(TAG) { dao.getConsumptionHistory(vin) }
 	
 	override suspend fun getExpenses(vin: String): SimpleResult<Expenses> =
 		safeCall(TAG) { dao.getExpenses(vin) }

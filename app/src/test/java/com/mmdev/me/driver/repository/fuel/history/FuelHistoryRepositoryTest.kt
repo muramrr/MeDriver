@@ -1,17 +1,24 @@
 /*
  * Created by Andrii Kovalchuk
- * Copyright (c) 2020. All rights reserved.
- * Last modified 04.12.2020 21:07
+ * Copyright (C) 2020. medriver
  *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
 package com.mmdev.me.driver.repository.fuel.history
 
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelPriceEmbedded
@@ -59,7 +66,7 @@ class FuelHistoryRepositoryTest {
 	private val validReturn = listOf (
 		FuelHistoryEntity(
 			commentary = "",
-			date = currentTimeAndDate().toString(),
+			date = currentEpochTime(),
 			dateAdded = time,
 			distancePassedBound = DistanceBound(kilometers = 400, miles = null),
 			filledLiters = 0.0,

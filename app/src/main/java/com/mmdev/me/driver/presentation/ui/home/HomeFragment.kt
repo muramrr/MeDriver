@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.Legend.LegendForm.CIRCLE
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -34,11 +35,12 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentHomeBinding
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
@@ -145,19 +147,21 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		
 		pieChartExpenses.run {
 			data = setupPieChartExpensesData(stats)
-			animateY(1500, Easing.EaseInOutQuad)
 			
 			isRotationEnabled = false
 			
 			description.apply {
-				text = getString(R.string.fg_vehicle_card_expenses_title)
+				text = getString(R.string.fg_home_pie_chart_expenses_description)
 				textColor = requireContext().getColorValue(R.color.colorOnBackground)
 				textSize = 14f
 				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
 			}
 			legend.apply {
+				form = CIRCLE
 				textColor = requireContext().getColorValue(R.color.colorOnBackground)
+				textSize = 12f
 				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+				xEntrySpace = 24f
 			}
 			
 			transparentCircleRadius = 0f
@@ -167,7 +171,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			
 			setEntryLabelColor(Color.BLACK)
 			setEntryLabelTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_medium))
-			highlightValues(null)
+			
+			animateY(1500, Easing.EaseInOutQuad)
 			invalidate()
 		}
 	}
@@ -176,7 +181,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		val entries = input.take(if (input.size > 5) 5 else input.size).map {
 			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
 		}
-		val dataSet = PieDataSet(entries, "Overall expenses").apply {
+		val dataSet = PieDataSet(entries, "").apply {
 			colors = colorPaletteValues.shuffled()
 			valueFormatter = object : ValueFormatter() {
 				override fun getFormattedValue(value: Float): String {
@@ -200,7 +205,6 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			binding.pieChartExpenses.apply {
 				data = setupPieChartExpensesData(positions.map { vehiclesWithExpenses[it] })
 				animateY(1400, Easing.EaseOutCirc)
-				invalidate()
 			}
 		}
 	}
@@ -210,14 +214,12 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		}
 		
 		MaterialAlertDialogBuilder(requireContext())
-			.setTitle(R.string.fg_home_dialog_chart_expenses_settings_title)
-			.setMultiChoiceItems(items, checkedItems) { dialog, which, isChecked ->
+			.setTitle(R.string.fg_home_dialog_pie_chart_expenses_settings_title)
+			.setMultiChoiceItems(items, checkedItems) { _, which, isChecked ->
 				if (isChecked) checkedExpensesPositions.add(which)
 				else checkedExpensesPositions.remove(which)
 			}
-			.setPositiveButton(R.string.dialog_btn_apply) { dialog, which ->
-				setNewPieChartExpensesData(checkedExpensesPositions)
-			}
+			.setPositiveButton(R.string.dialog_btn_apply) { _, _ -> setNewPieChartExpensesData(checkedExpensesPositions) }
 			.setNegativeButton(R.string.dialog_btn_cancel, null)
 			.show()
 	}
@@ -225,26 +227,24 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 
 	
 	private fun setupBarChartExpenses() = binding.barChartExpenses.run {
-		setDrawBarShadow(false)
-		setDrawValueAboveBar(true)
+		extraBottomOffset = 10f
 		
-		description.isEnabled = false
+		description.apply {
+			text = getString(R.string.hryvnia_symbol)
+			textSize = 14f
+			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_light)
+		}
 		legend.isEnabled = false
-		// if more than 12 entries are displayed in the chart, no values will be drawn
-		setMaxVisibleValueCount(12)
-		setPinchZoom(false) // scaling can now only be done on x- and y-axis separately
-		
-		animateY(1500)
 		
 		xAxis.run {
 			position = BOTTOM
-			this.setDrawGridLines(false)
-			granularity = 1f // only intervals of 1 day
+			setDrawGridLines(false)
 			labelCount = 12
 			
 			textColor = requireContext().getColorValue(R.color.colorOnBackground)
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			
+			//get first 3 letters from full month name
 			valueFormatter = object : ValueFormatter() {
 				override fun getAxisLabel(value: Float, axis: AxisBase?): String =
 					value.toInt().dateMonthText().take(3)
@@ -253,12 +253,14 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		
 		axisLeft.run {
 			axisMinimum = 0f // this replaces setStartAtZero(true)
-			this.setDrawGridLines(false)
+			setDrawGridLines(false)
 			setLabelCount(8, false)
 			spaceTop = 15f
 			
 			textColor = requireContext().getColorValue(R.color.colorOnBackground)
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			
+			valueFormatter = LargeValueFormatter()
 		}
 		
 		axisRight.run {
@@ -268,17 +270,21 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			textColor = requireContext().getColorValue(R.color.colorOnBackground)
+			
+			valueFormatter = LargeValueFormatter()
 		}
 		
+		animateY(1500)
+		invalidate()
 	}
 	private fun setupBarChartExpensesData(input: List<Expenses>) {
-		val currentYear = currentTimeAndDate().year
+		val currentYear = currentLocalDateTime().year
 		binding.tvBarChartDescription.text = getString(
 			R.string.fg_home_bar_char_expenses_title, currentYear
 		)
 		val entries = input.mapIndexed { index, expenses ->
 			BarEntry(
-				(index + 1).toFloat(),
+				(index + 1).toFloat(), // use index as month number, but months starts from 1
 				expenses.getTotal().roundTo(2).toFloat()
 			)
 		}
@@ -289,13 +295,14 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			binding.barChartExpenses.notifyDataSetChanged()
 		}
 		else {
-			val set1 = BarDataSet(
-				entries, "$currentYear"
-			).apply {
+			val dataSet = BarDataSet(entries, "$currentYear").apply {
 				colors = colorPaletteValues
 			}
 			
-			val data = BarData(set1).apply {
+			val data = BarData(dataSet).apply {
+				barWidth = 0.9f
+				setValueTextSize(10f)
+				setValueFormatter(LargeValueFormatter())
 				setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
 				setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_regular))
 			}

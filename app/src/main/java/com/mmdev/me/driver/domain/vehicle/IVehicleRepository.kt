@@ -19,9 +19,9 @@
 package com.mmdev.me.driver.domain.vehicle
 
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.user.UserDataInfo
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
@@ -51,7 +51,7 @@ interface IVehicleRepository {
 	/**
 	 * Get fuel consumption history for only 1 vehicle indicated by [vin]
 	 */
-	suspend fun getFuelConsumption(vin: String): SimpleResult<List<ConsumptionBound>>
+	suspend fun getFuelConsumption(vin: String): SimpleResult<List<ConsumptionHistory>>
 	
 	/**
 	 * Get pending replacement related to one [vehicle]

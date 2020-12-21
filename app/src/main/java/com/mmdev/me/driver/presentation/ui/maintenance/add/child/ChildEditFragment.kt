@@ -25,7 +25,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
-import com.mmdev.me.driver.core.utils.extensions.currentTimeAndDate
+import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildEditBinding
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
@@ -56,7 +56,7 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 	
 	private lateinit var child: Child
 	
-	private var pickedDate: LocalDateTime = currentTimeAndDate()
+	private var pickedDate: LocalDateTime = currentLocalDateTime()
 	
 	companion object {
 		private const val POSITION_KEY = "position"

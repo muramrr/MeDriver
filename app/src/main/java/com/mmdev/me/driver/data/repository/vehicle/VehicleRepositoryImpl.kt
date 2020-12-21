@@ -30,10 +30,10 @@ import com.mmdev.me.driver.data.datasource.vin.local.IVinLocalDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
+import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
@@ -91,7 +91,7 @@ class VehicleRepositoryImpl(
 	override suspend fun getExpensesInfo(vin: String): SimpleResult<Expenses> =
 		localDataSource.getExpenses(vin)
 	
-	override suspend fun getFuelConsumption(vin: String): SimpleResult<List<ConsumptionBound>> =
+	override suspend fun getFuelConsumption(vin: String): SimpleResult<List<ConsumptionHistory>> =
 		localDataSource.getConsumption(vin)
 	
 	override suspend fun getPendingReplacements(vehicle: Vehicle): SimpleResult<Map<SparePart, PendingReplacement?>> =

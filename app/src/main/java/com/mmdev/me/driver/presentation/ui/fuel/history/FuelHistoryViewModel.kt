@@ -25,6 +25,7 @@ import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.FuelHistory
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.mmdev.me.driver.presentation.ui.home.DataGenerator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -97,5 +98,10 @@ class FuelHistoryViewModel(private val repository: IFuelHistoryRepository): Base
 			}
 		}
 	}
-	
+
+	fun generateFuelHistoryData() {
+		viewModelScope.launch {
+			DataGenerator.fastGenerateFuelHistory(MainActivity.currentVehicle!!.vin)
+		}
+	}
 }

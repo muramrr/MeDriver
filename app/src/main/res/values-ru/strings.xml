@@ -112,7 +112,10 @@
 	<string name="fg_home_my_garage_header">Мой гараж</string>
 	<string name="fg_home_empty_garage_title">Ваш гараж пуст :(</string>
 	<string name="fg_home_empty_garage_subtitle">Перейдите на вкладку \'Мое авто\', чтобы добавить новый транспорт!</string>
-	<string name="fg_home_dialog_chart_expenses_settings_title">Выберите до 5 авто</string>
+	
+	<string name="fg_home_pie_chart_expenses_description">Общие расходы</string>
+	<string name="fg_home_dialog_pie_chart_expenses_settings_title">Выберите до 5 авто</string>
+	
 	<string name="fg_home_bar_char_expenses_title">Расходы за %d</string>
 <!-- ******************************************************************************************* -->
 
@@ -328,13 +331,19 @@
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">Конечная дата</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Осталось проехать</string>
-	
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Еще не заменено</string>
-	
 	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не выбрано</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s или %2$s год</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s или %2$s года</string>
 	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s или %2$s лет</string>
+	
+	<string name="fg_vehicle_fuel_consumption_history_header">Расход топлива</string>
+	
+	<string name="fg_vehicle_delete_btn">Удалить авто</string>
+	<string name="fg_vehicle_dialog_delete_btn_positive">Удалить</string>
+	<string name="fg_vehicle_dialog_delete_btn_neutral">Отмена</string>
+	<string name="fg_vehicle_dialog_delete_title">Вы уверены что хотите удалить данное авто?</string>
+	<string name="fg_vehicle_dialog_delete_message_formatter">Это полностью удалит все данные про авто\n%1$s\nVIN: %2$s</string>
 	
 <!-- ******************************************************************************************* -->
 
@@ -353,12 +362,6 @@
 	
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
-	
-	<string name="fg_vehicle_delete_btn">Удалить авто</string>
-	<string name="fg_vehicle_dialog_delete_btn_positive">Удалить</string>
-	<string name="fg_vehicle_dialog_delete_btn_neutral">Отмена</string>
-	<string name="fg_vehicle_dialog_delete_title">Вы уверены что хотите удалить данное авто?</string>
-	<string name="fg_vehicle_dialog_delete_message_formatter">Это полностью удалит все данные про авто\n%1$s\nVIN: %2$s</string>
 	
 <!-- ******************************************************************************************* -->
 

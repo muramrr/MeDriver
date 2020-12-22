@@ -21,6 +21,8 @@ package com.mmdev.me.driver.data.datasource.vehicle.server
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
+import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.data.core.base.datasource.server.BaseServerDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.executeAndDeserializeAsFlow
@@ -36,6 +38,7 @@ import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.core.combineResultStates
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
@@ -50,6 +53,10 @@ class VehicleServerDataSourceImpl(
 	private companion object {
 		private const val FS_USERS_COLLECTION = "users"
 		private const val FS_VEHICLES_COLLECTION = "vehicles"
+		
+		private const val FS_FUEL_HISTORY_COLLECTION = "fuel_history"
+		private const val FS_VEHICLE_REPLACED_PARTS = "replaced_parts"
+		private const val BATCH_SIZE = 10L
 	}
 	
 	private fun toServerOperation(dto: VehicleDto, type: ServerOperationType): ServerOperation =
@@ -114,5 +121,74 @@ class VehicleServerDataSourceImpl(
 			.document(vin)
 			.delete()
 			.asFlow()
-			.map { it.toUnit() }
+			.map {
+				// it is unsafe calling from android client
+				deleteFuelHistory(email, vin)
+				deleteMaintenance(email, vin)
+				it.toUnit()
+			}
+	
+	/* https://firebase.google.com/docs/firestore/manage-data/delete-data#java_5 */
+	private suspend fun deleteFuelHistory(email: String, vin: String) {
+		var deleted = 0
+		fs.collection(FS_USERS_COLLECTION)
+			.document(email)
+			.collection(FS_VEHICLES_COLLECTION)
+			.document(vin)
+			.collection(FS_FUEL_HISTORY_COLLECTION)
+			.limit(BATCH_SIZE)
+			.get()
+			.asFlow()
+			.collect { result ->
+				result.fold(
+					success = { querySnapshot ->
+						logWtf(TAG, "deleting fuel history snapshot = $querySnapshot")
+						querySnapshot.documents.forEach {
+							it.reference.delete()
+							++deleted
+						}
+						if (deleted >= BATCH_SIZE) {
+							// retrieve and delete another batch
+							deleteFuelHistory(email, vin)
+						}
+					},
+					failure = {
+						logError(TAG, "$it")
+					}
+				)
+			}
+	}
+	
+	/* https://firebase.google.com/docs/firestore/manage-data/delete-data#java_5 */
+	private suspend fun deleteMaintenance(email: String, vin: String) {
+		var deleted = 0
+		fs.collection(FS_USERS_COLLECTION)
+			.document(email)
+			.collection(FS_VEHICLES_COLLECTION)
+			.document(vin)
+			.collection(FS_VEHICLE_REPLACED_PARTS)
+			.limit(BATCH_SIZE)
+			.get()
+			.asFlow()
+			.collect { result ->
+				result.fold(
+					success = { querySnapshot ->
+						logWtf(TAG, "deleting maintenance snapshot = $querySnapshot")
+						querySnapshot.documents.forEach {
+							it.reference.delete()
+							++deleted
+						}
+						if (deleted >= BATCH_SIZE) {
+							// retrieve and delete another batch
+							deleteMaintenance(email, vin)
+						}
+					},
+					failure = {
+						logError(TAG, "$it")
+					}
+				)
+			}
+	}
+	
+	
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.core.sync.download
+package com.mmdev.me.driver.core.sync
 
 import android.content.Context
 import androidx.work.CoroutineWorker

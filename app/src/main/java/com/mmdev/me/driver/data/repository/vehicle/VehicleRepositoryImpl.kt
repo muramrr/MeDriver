@@ -86,7 +86,20 @@ class VehicleRepositoryImpl(
 		)
 	}
 	
-	override suspend fun deleteVehicle(vin: String): SimpleResult<Unit> = localDataSource.deleteVehicle(vin)
+	override suspend fun deleteVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>> =
+		flow {
+			localDataSource.deleteVehicle(vehicle.vin).fold(
+				success = {
+					if (user?.isPro() == true && MedriverApp.isInternetWorking()) {
+						serverDataSource.deleteVehicle(
+							user.email, mappers.domainToDto(vehicle)
+						).collect { emit(it) }
+					}
+					else emit(ResultState.success(Unit))
+				},
+				failure = { throwable -> emit(ResultState.failure(throwable)) }
+			)
+		}
 	
 	override suspend fun getExpensesInfo(vin: String): SimpleResult<Expenses> =
 		localDataSource.getExpenses(vin)

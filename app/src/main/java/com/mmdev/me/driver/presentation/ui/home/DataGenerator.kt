@@ -30,6 +30,7 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalD
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHistoryEntity
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelPriceEmbedded
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
+import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -92,7 +93,7 @@ object DataGenerator: KoinComponent {
 				)
 			}
 			generateMaintenanceData(context, this.vin)
-			generateFuelHistoryData(this.vin, 5)
+			generateFuelHistoryData(this.vin, 15)
 		}
 		
 	}
@@ -102,13 +103,12 @@ object DataGenerator: KoinComponent {
 			delay(100)
 			maintenanceRepo.addMaintenanceItems(
 				MainActivity.currentUser,
-				parent.getChildren().toList().shuffled().take(2).map { child ->
-					delay(500)
+				parent.getChildren().toList().shuffled().take(5).map { child ->
 					VehicleSparePart(
 						commentary = generateRandomString(5, 20),
 						date = convertToLocalDateTime(
 							Random.nextLong(1577829600000, 1609451999000)),
-						dateAdded = currentEpochTime(),
+						dateAdded = currentEpochTime() + Random.nextLong(0, 1609451999000),
 						articulus = generateRandomString(2, 6),
 						vendor = generateRandomString(4, 8),
 						systemNode = parent,
@@ -144,7 +144,7 @@ object DataGenerator: KoinComponent {
 		.shuffled()
 		.take(howMany ?: FuelStationConstants.fuelStationList.size)
 		.forEach {
-			delay(500)
+			delay(200)
 			fuelHistoryRepo.addFuelHistoryRecord(
 				MainActivity.currentUser,
 					FuelHistory(
@@ -249,6 +249,46 @@ object DataGenerator: KoinComponent {
 				
 				}
 			)
+		}
+	
+	suspend fun fastGenerateMaintenance(context: Context, vin: String) =
+		VehicleSystemNodeType.valuesArray.forEach{ parent ->
+			delay(100)
+			maintenanceLocal.importReplacedSpareParts(
+				parent.getChildren().toList().shuffled().map { child ->
+					MaintenanceEntity(
+						commentary = generateRandomString(5, 20),
+						date = convertToLocalDateTime(
+							Random.nextLong(1577829600000, 1609451999000)
+						).toEpochTime(),
+						dateAdded = currentEpochTime() + Random.nextLong(0, 1609451999000),
+						articulus = generateRandomString(2, 6),
+						vendor = generateRandomString(4, 8),
+						systemNode = parent.toString(),
+						systemNodeComponent = child.getSparePartName(),
+						searchCriteria = if (child.getSparePartName() != SparePart.OTHER)
+							LocaleHelper.getStringFromAllLocales(context, VehicleSystemNodeConstants
+								.childrenMap[parent]!![child.getSparePartOrdinal()]
+							).map { it.value }.joinToString()
+						else listOf(child.getSparePartName()).joinToString(),
+						moneySpent = Random.nextInt(100, 9999).toDouble(),
+						odometerValueBound = DistanceBound(
+							kilometers = Random.nextInt(100, 200000),
+							miles = null
+						),
+						vehicleVinCode = vin
+					)
+				}
+			).fold(
+				success = {
+					logWtf(TAG, "Maintenance generated and imported")
+				},
+				failure = {
+					logError(TAG, "${it.message}")
+				}
+			)
+			
+			
 		}
 	
 }

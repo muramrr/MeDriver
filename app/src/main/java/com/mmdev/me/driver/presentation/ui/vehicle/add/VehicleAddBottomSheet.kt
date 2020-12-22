@@ -30,8 +30,8 @@ import com.mmdev.me.driver.databinding.BtmSheetVehicleAddBinding
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
 import com.mmdev.me.driver.presentation.ui.MainActivity
-import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.VehicleViewModel
+import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
 import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf

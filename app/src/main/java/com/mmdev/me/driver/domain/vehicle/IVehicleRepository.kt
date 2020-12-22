@@ -41,7 +41,7 @@ interface IVehicleRepository {
 	/**
 	 * Delete vehicle and all associated data
 	 */
-	suspend fun deleteVehicle(vin: String): SimpleResult<Unit>
+	suspend fun deleteVehicle(user: UserDataInfo?, vehicle: Vehicle): Flow<SimpleResult<Unit>>
 	
 	/**
 	 * Get expenses for only 1 vehicle indicated by [vin]

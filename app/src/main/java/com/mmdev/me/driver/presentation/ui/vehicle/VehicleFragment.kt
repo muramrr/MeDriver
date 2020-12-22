@@ -56,6 +56,7 @@ import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.common.ChartsConstants
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
+import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleUi
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
@@ -245,6 +246,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	private fun setVehicleNull() {
 		chosenVehicleUi = null
+		binding.dropMyCarChooseCar.setText(getString(R.string.fg_vehicle_choose_vehicle), false)
 		binding.btnCopyVin.setOnClickListener(null)
 		binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
 		binding.btnDeleteVehicle.isEnabled = false
@@ -372,10 +374,17 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			textColor = context.getColorValue(R.color.colorOnBackground)
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			
-			//todo: fix crash when setting new datasource with smaller amount of entries
 			valueFormatter = object : ValueFormatter() {
-				override fun getFormattedValue(value: Float): String{
-					val date = data.getDataSetByIndex(0).getEntryForIndex(value.toInt()).data as Long
+				override fun getFormattedValue(value: Float): String {
+					/**
+					 * 'If' statement here fixes back pressure appearing while notifying DataSetChanged
+					 * some indexes exists for some amount of time after changing data,
+					 * this because our current focus relies on last values i.e. end of data array
+					 */
+					val date = data.getDataSetByIndex(0).run {
+						if (this.entryCount < value.toInt()) 0
+						else getEntryForIndex(value.toInt()).data as Long
+					}
 					return convertToLocalDateTime(date).run {
 						"$dayOfMonth " +
 						monthNumber.dateMonthText().take(3) +
@@ -402,7 +411,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		marker = highlightMarker
 		
 		animateX(1000)
-		invalidate()
+		
 	}
 	private fun setupLineChartConsumptionData(input: List<ConsumptionHistory>) {
 		val entries = input.mapIndexed { index, consumptionHistory ->
@@ -415,7 +424,9 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		
 		with(binding.lineChartFuelConsumption) {
 			if (data != null && data.dataSetCount > 0) {
-				(data.getDataSetByIndex(0) as LineDataSet).values = entries
+				val existingDataSet = (data.getDataSetByIndex(0) as LineDataSet)
+				existingDataSet.values = entries
+				existingDataSet.notifyDataSetChanged()
 				data.notifyDataChanged()
 				notifyDataSetChanged()
 			} else {
@@ -443,7 +454,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				data = lineData
 			}
 			
-			setVisibleXRangeMaximum(10f)
+			setVisibleXRange(10f, if (entries.size < 10) (entries.size - 1).toFloat() else 0f)
 			moveViewToX(xChartMax)
 		}
 		

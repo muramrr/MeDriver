@@ -25,6 +25,7 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.databinding.ItemConsumableReminderBinding
+import com.mmdev.me.driver.presentation.ui.vehicle.data.ConsumablePartUi
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.visible
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf

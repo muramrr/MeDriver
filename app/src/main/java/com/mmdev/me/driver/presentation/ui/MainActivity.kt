@@ -37,8 +37,8 @@ import androidx.work.workDataOf
 import com.google.android.material.snackbar.Snackbar
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.sync.DownloadWorker
 import com.mmdev.me.driver.core.sync.UploadWorker
-import com.mmdev.me.driver.core.sync.download.DownloadWorker
 import com.mmdev.me.driver.core.utils.ConnectionManager
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
@@ -48,7 +48,6 @@ import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.AuthStatus.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
-import com.mmdev.me.driver.presentation.utils.extensions.updateMargins
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -109,13 +108,14 @@ class MainActivity: AppCompatActivity() {
 	}
 	
 	private fun setupInsets(): WindowInsetsCompat {
-		val insets = currentWindowInsets.getInsets(Type.systemBars())
+		val insetsType = Type.systemBars()
+		val insets = currentWindowInsets.getInsets(insetsType)
 		
-		binding.root.updateMargins(top = insets.top)
-		binding.bottomNavMain.updatePadding(bottom = insets.bottom)
+		binding.mainContainer.updatePadding(insets.left, insets.top, insets.right, 0)
+		binding.bottomNavMain.updatePadding(insets.left, 0, insets.right, insets.bottom)
 		
 		return WindowInsetsCompat.Builder()
-			.setInsets(Type.systemBars(), insets)
+			.setInsets(insetsType, insets)
 			.build()
 	}
 	

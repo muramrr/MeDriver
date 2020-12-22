@@ -27,7 +27,7 @@ import com.mmdev.me.driver.domain.home.IHomeRepository
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
-import com.mmdev.me.driver.presentation.ui.vehicle.VehicleConstants
+import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -107,7 +107,7 @@ class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
 	fun generateRandomData(context: Context) {
 		viewModelScope.launch {
 			viewState.postValue(HomeViewState.GeneratingStarted)
-			VehicleConstants.vehicleBrands.shuffled().take(Random.nextInt(1, 10)).forEach {
+			VehicleConstants.vehicleBrands.shuffled().take(Random.nextInt(2, 5)).forEach {
 				
 					delay(100)
 					DataGenerator.generateVehicle(context, it)

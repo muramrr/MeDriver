@@ -27,25 +27,14 @@ def versionMajor = 1
 def versionMinor = 1
 def versionPatch = 2
 
-static def timestampVersion() {
-	def date = new Date()
-	def formattedDate = date.format('yyMMddHHmm')
-	return formattedDate.toInteger()
-
-
-}
-
-//static def gitVersion() {
-//	def process = "git rev-list master --first-parent --count".execute()
-//	return process.text.toInteger()
+//static def timestampVersion() {
+//	def date = new Date()
+//	def formattedDate = date.format('yyMMddHHmm')
+//	return formattedDate.toInteger()
 //}
 
 android {
-	signingConfigs {
-		release {
 
-		}
-	}
 	compileSdkVersion 30
 	buildToolsVersion "30.0.2"
 
@@ -53,10 +42,26 @@ android {
 		applicationId "com.mmdev.me.driver"
 		minSdkVersion 21
 		targetSdkVersion 30
-		versionCode timestampVersion()
+		versionCode "$versionMajor$versionMinor$versionPatch".toInteger()
+		//versionCode timestampVersion()
 		versionName "${versionMajor}.${versionMinor}.TEST0${versionPatch}"
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+		javaCompileOptions {
+			annotationProcessorOptions {
+				arguments += [
+						"room.schemaLocation":"$projectDir/schemas".toString(),
+						"room.incremental":"true",
+						"room.expandProjection":"true"]
+			}
+		}
+	}
+
+	signingConfigs {
+		release {
+
+		}
 	}
 
 	buildTypes {
@@ -68,7 +73,7 @@ android {
 		}
 
 		debug {
-			ext.enableCrashlytics = false
+
 		//	minifyEnabled true
 		//	proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
@@ -123,7 +128,6 @@ dependencies {
 	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
 	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
 	implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-rc01"
-	implementation 'androidx.lifecycle:lifecycle-process:2.3.0-rc01'
 	
 	//network
 	implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -147,6 +151,7 @@ dependencies {
 
 	//purchases
 	implementation "com.android.billingclient:billing-ktx:3.0.2"
+	//implementation 'com.qonversion.android.sdk:sdk:2.2.0'
 
 	//WorkManager
 	implementation "androidx.work:work-runtime-ktx:2.5.0-beta02"

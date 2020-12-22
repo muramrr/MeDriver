@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.vehicle
+package com.mmdev.me.driver.presentation.ui.vehicle.data
 
 /**
  * Used to be displayed in drop down list

@@ -30,14 +30,15 @@
 
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="match_parent"
+		android:fillViewport="true"
+		>
 		
 	
 		<androidx.constraintlayout.widget.ConstraintLayout
-	
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-	
+			
 			>
 			
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvMyGarageHeader"
@@ -111,12 +112,10 @@
 			
 			<com.github.mikephil.charting.charts.BarChart android:id="@+id/barChartExpenses"
 				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:minHeight="300dp"
-				android:layout_marginBottom="16dp"
+				android:layout_height="300dp"
+				app:visibilityGone="@{!viewModel.isVehicleListEmpty}"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvBarChartDescription"
-				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				
@@ -155,11 +154,10 @@
 				android:visibility="invisible"
 				app:visibilityInvisible="@{viewModel.isVehicleListEmpty}"
 				
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/tvEmptyGarageTitle"
 				app:layout_constraintBottom_toBottomOf="parent"
-				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<include android:id="@+id/viewLoading"
@@ -194,4 +192,5 @@
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	
 	</androidx.core.widget.NestedScrollView>
+	
 </layout>

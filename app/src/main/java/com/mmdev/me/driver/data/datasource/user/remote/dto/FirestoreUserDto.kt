@@ -29,6 +29,5 @@ data class FirestoreUserDto (
 	@PropertyName("email") val email: String = "",
 	@JvmField // use this annotation if your Boolean field is prefixed with 'is'
 	@PropertyName("isEmailVerified") val isEmailVerified: Boolean = false,
-	@PropertyName("installationTokens") val installationTokens: Map<String, String> = emptyMap(),
-	//@PropertyName("purchases") val purchases: List<PurchaseDto> = emptyList()
+	@PropertyName("installationTokens") val installationTokens: Map<String, String> = emptyMap()
 )

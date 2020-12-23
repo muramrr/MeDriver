@@ -20,7 +20,6 @@ package com.mmdev.me.driver.data.repository.auth.mappers
 
 import com.google.firebase.auth.FirebaseUser
 import com.mmdev.me.driver.data.datasource.user.remote.dto.FirestoreUserDto
-import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.user.UserDataInfo
 
 /**
@@ -39,13 +38,11 @@ class UserMappers {
 	// dto
 	fun dtoToDomain(
 		dto: FirestoreUserDto,
-		isEmailVerified: Boolean,
-		subscriptionType: SubscriptionType = SubscriptionType.FREE
+		isEmailVerified: Boolean
 	): UserDataInfo = UserDataInfo(
 		id = dto.id,
 		email = dto.email,
-		isEmailVerified = isEmailVerified,
-		subscriptionType = subscriptionType
+		isEmailVerified = isEmailVerified
 	)
 	
 	// framework based

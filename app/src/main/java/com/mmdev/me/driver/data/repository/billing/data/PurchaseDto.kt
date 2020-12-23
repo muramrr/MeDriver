@@ -25,6 +25,7 @@ import com.google.firebase.firestore.PropertyName
  * It will be stored in the server database and assigned to the user who made the purchase.
  */
 
+@Deprecated("no more usages")
 data class PurchaseDto(
 	@PropertyName("accountId") val accountId: String = "",
 	@JvmField @PropertyName("isAcknowledged") val isAcknowledged: Boolean = false,

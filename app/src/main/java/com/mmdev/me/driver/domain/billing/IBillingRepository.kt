@@ -19,7 +19,8 @@
 package com.mmdev.me.driver.domain.billing
 
 import android.app.Activity
-import com.android.billingclient.api.Purchase
+import com.qonversion.android.sdk.dto.QPermission
+import com.qonversion.android.sdk.entity.Purchase
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -31,7 +32,7 @@ interface IBillingRepository {
 	/**
 	 * Get list of [Purchase] as [StateFlow], that will be converted to LiveData in ViewModel
 	 */
-	fun getPurchasesFlow(): StateFlow<List<Purchase>>
+	fun getPermissionsFlow(): StateFlow<List<QPermission>>
 	
 	/**
 	 * Launch purchasing 'flow' for given

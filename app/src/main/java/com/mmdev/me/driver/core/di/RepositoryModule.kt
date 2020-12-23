@@ -66,7 +66,7 @@ val RepositoryModule = module {
 		)
 	}
 	
-	single<IBillingRepository> { BillingRepository(context = androidApplication(), userRemoteDataSource = get()) }
+	single<IBillingRepository> { BillingRepository(app = androidApplication()) }
 	
 	factory<IHomeRepository> {
 		HomeRepositoryImpl(

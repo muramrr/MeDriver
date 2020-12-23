@@ -48,6 +48,7 @@ import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.AuthStatus.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
+import com.qonversion.android.sdk.Qonversion
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -235,13 +236,14 @@ class MainActivity: AppCompatActivity() {
 				startDownloadWorker(it)
 				startUploadWorker(it)
 				MedriverApp.savedUserEmail = it.email
+				
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
 			}
 			
 			currentUser = it
-			
+			Qonversion.setUserID(it?.id ?: "")
 		})
 		
 		sharedViewModel.purchases.observe(this, {

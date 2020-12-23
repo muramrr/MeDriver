@@ -484,7 +484,7 @@
 	<string name="fg_settings_tv_tap_to_verify">Натисніть, щоб надіслати лист з підтвердженням</string>
 	
 	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>
-	<string name="fg_settings_tv_subscription_expires_value">Пробна</string>
+	<string name="fg_settings_tv_subscription_expires_value">Безкоштовна</string>
 	
 	<string name="fg_settings_btn_subscription_premium">Премуім</string>
 	<string name="fg_settings_btn_sign_in">Увійти</string>

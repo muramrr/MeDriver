@@ -18,16 +18,21 @@
 
 package com.mmdev.me.driver.domain.user
 
-import com.mmdev.me.driver.domain.billing.SubscriptionType
+import com.mmdev.me.driver.domain.billing.SubscriptionData
 import com.mmdev.me.driver.domain.billing.SubscriptionType.*
 
 data class UserDataInfo(
 	val id: String,
 	val email: String,
 	val isEmailVerified: Boolean,
-	val subscriptionType: SubscriptionType = FREE
+	val subscription: SubscriptionData = SubscriptionData(null, FREE)
 ) {
-	fun isSubscribed(): Boolean = subscriptionType != FREE && isEmailVerified
-	fun isPremium(): Boolean = subscriptionType == PREMIUM && isEmailVerified
-	fun isPro(): Boolean = subscriptionType == PRO && isEmailVerified
+	fun isSubscribed(): Boolean =
+		subscription.type != FREE && subscription.expires != null && isEmailVerified
+	
+	fun isPremium(): Boolean =
+		subscription.type == PREMIUM && subscription.expires != null && isEmailVerified
+	
+	fun isPro(): Boolean =
+		subscription.type == PRO && subscription.expires != null && isEmailVerified
 }

@@ -31,7 +31,9 @@ fun Int.dateMonthText(): String = DateHelper.getMonthText(this, Locale.getDefaul
 
 // date in format "01.01.1970"
 fun LocalDate?.humanDate(default: String = ""): String = this?.let {
-	(if (dayOfMonth < 10) "0$dayOfMonth." else "$dayOfMonth.") +
-	(if (monthNumber < 10) "0$monthNumber." else "$monthNumber.") +
-	"$year"
+	humanDay(dayOfMonth) + "." + humanMonth(monthNumber) + "." + "$year"
 } ?: default
+
+
+fun humanDay(dayNumber: Int) = if (dayNumber < 10) "0$dayNumber" else "$dayNumber"
+fun humanMonth(monthNumber: Int) = (if (monthNumber < 10) "0$monthNumber" else "$monthNumber")

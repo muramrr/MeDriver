@@ -269,7 +269,7 @@
 			
 			<!-- subscription expires label -->
 			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvSubscriptionLabel"
+				android:id="@+id/tvSubscriptionExpiresLabel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
@@ -281,18 +281,19 @@
 				/>
 			<!-- subscription expires value -->
 			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvSubscriptionValue"
+				android:id="@+id/tvSubscriptionExpiresValue"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				android:text="@string/fg_settings_tv_subscription_expires_value"
-				android:textAppearance="?textAppearanceCaption"
-				android:textSize="16sp"
-				android:textStyle="bold"
+				android:maxLines="1"
 				
-				app:layout_constraintTop_toTopOf="@id/tvSubscriptionLabel"
-				app:layout_constraintBottom_toBottomOf="@id/tvSubscriptionLabel"
-				app:layout_constraintStart_toStartOf="@id/barrierSignInOut"
+				android:text="@string/fg_settings_tv_subscription_expires_value"
+				android:textAlignment="center"
+				android:textAppearance="?textAppearanceOverline"
+				android:textSize="12sp"
+				
+				app:layout_constraintTop_toTopOf="@id/tvSubscriptionExpiresLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvSubscriptionExpiresLabel"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>
 			
@@ -308,7 +309,7 @@
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
-				app:layout_constraintTop_toBottomOf="@id/tvSubscriptionLabel"
+				app:layout_constraintTop_toBottomOf="@id/tvSubscriptionExpiresLabel"
 				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				/>

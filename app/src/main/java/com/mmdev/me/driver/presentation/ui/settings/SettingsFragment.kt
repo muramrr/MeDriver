@@ -42,7 +42,9 @@ import com.mmdev.me.driver.presentation.ui.settings.about.AboutBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.faq.FaqBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.subscription.SubscriptionBottomSheet
+import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDay
 import com.mmdev.me.driver.presentation.utils.extensions.gone
 import com.mmdev.me.driver.presentation.utils.extensions.invisible
 import com.mmdev.me.driver.presentation.utils.extensions.setDebounceOnClick
@@ -223,11 +225,15 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						text = if (!user.isEmailVerified) accNotVerified else accVerified
 					}
 					// show email confirmed indicator
-					tvEmailAddressConfirmed.visibleIf(otherwise = View.INVISIBLE, 0) { user.isEmailVerified }
+					tvEmailAddressConfirmed.visibleIf(
+						otherwise = View.INVISIBLE, 0
+					) { user.isEmailVerified }
 					tvEmailAddressConfirmed.text = user.email
 					
 					// show tap to verify hint
-					tvTapToVerifyHint.visibleIf(otherwise = View.INVISIBLE, 0) { !user.isEmailVerified }
+					tvTapToVerifyHint.visibleIf(
+						otherwise = View.INVISIBLE, 0
+					) { !user.isEmailVerified }
 					
 					// if user need to verify his email show related indicator
 					btnSendVerification.apply {
@@ -236,8 +242,20 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 						if (user.isEmailVerified) setDisabledAndInvisible()
 					}
 					when {
-						user.isPremium() -> setUserIsPremium()
-						user.isPro() -> setUserIsPro()
+						user.isPremium() -> {
+							val date = user.subscription.expires!!
+							val day = humanDay(date.dayOfMonth)
+							val month = date.monthNumber.dateMonthText().take(3)
+							tvSubscriptionExpiresValue.text = "$day $month ${date.year}"
+							setUserIsPremium()
+						}
+						user.isPro() -> {
+							val date = user.subscription.expires!!
+							val day = humanDay(date.dayOfMonth)
+							val month = date.monthNumber.dateMonthText().take(3)
+							tvSubscriptionExpiresValue.text = "$day $month ${date.year}"
+							setUserIsPro()
+						}
 						else -> setUserIsNotSubscribed()
 					}
 				}
@@ -267,6 +285,7 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 	}
 	
 	private fun setUserIsNotSubscribed() {
+		binding.tvSubscriptionExpiresValue.text = getString(R.string.fg_settings_tv_subscription_expires_value)
 		binding.tvSubscriptionObtainedPremium.gone(0)
 		binding.tvSubscriptionObtainedPro.gone(0)
 	}

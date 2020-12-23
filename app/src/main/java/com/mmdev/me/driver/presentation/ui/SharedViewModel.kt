@@ -22,11 +22,12 @@ import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.Purchase.PurchaseState
 import com.mmdev.me.driver.core.MedriverApp
+import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.billing.IBillingRepository
+import com.mmdev.me.driver.domain.billing.SubscriptionData
 import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.AuthStatus
@@ -35,6 +36,7 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
+import com.qonversion.android.sdk.dto.QPermission
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -54,11 +56,13 @@ class SharedViewModel(
 	
 	companion object {
 		var uploadWorkerExecuted = false
+		private const val PREMIUM_PERMISSION = "Premium"
+		private const val PRO_PERMISSION = "PRO"
 	}
 	
 	private var fetcherJob: Job? = null
 	
-	val purchases = billing.getPurchasesFlow().asLiveData()
+	val purchases = billing.getPermissionsFlow().asLiveData()
 	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
 	
 	val currentVehicle = MutableLiveData<Vehicle?>()
@@ -66,20 +70,15 @@ class SharedViewModel(
 		getSavedVehicle(MedriverApp.currentVehicleVinCode)
 	}
 	
-	val userDataInfo = _userDataInfo.combineWith(purchases) { user, purchases ->
+	val userDataInfo = _userDataInfo.combineWith(purchases) { user, permissions ->
 		val subscription =
-			if (purchases.isNullOrEmpty()) SubscriptionType.FREE
-			else parseSku(purchases.last().sku)
+			if (permissions.isNullOrEmpty()) SubscriptionData(null, SubscriptionType.FREE)
+			else parsePermissions(permissions)
 		
-		val userWithPurchase =
-			if (!purchases.isNullOrEmpty()
-			    && purchases.last().purchaseState == PurchaseState.PURCHASED
-			    && purchases.last().accountIdentifiers!!.obfuscatedAccountId == user?.id)
-			user?.copy(subscriptionType = subscription)
-		else user
+		val userWithPurchase = user?.copy(subscription = subscription)
 		
-		if (userWithPurchase?.isPro() == true) {
-			fetcherJob = viewModelScope.launch { fetcher.listenForUpdates(userWithPurchase.email) }
+		if (userWithPurchase?.isPro() == true) fetcherJob = viewModelScope.launch {
+			fetcher.listenForUpdates(userWithPurchase.email)
 		}
 		else fetcherJob?.cancel()
 		
@@ -113,13 +112,23 @@ class SharedViewModel(
 		billing.launchPurchase(activity, identifier, userDataInfo.value!!.id)
 	
 	
-	private fun parseSku(sku: String): SubscriptionType {
-		val identifiers = sku.split("_")
-		return when (identifiers.first()) {
-			"premium" -> SubscriptionType.PREMIUM
-			"pro" -> SubscriptionType.PRO
-			else -> SubscriptionType.FREE
+	private fun parsePermissions(permissions: List<QPermission>): SubscriptionData {
+		val activePermission = permissions.find { it.isActive() }
+		return if (activePermission != null) {
+			val type = when (activePermission.permissionID) {
+				PREMIUM_PERMISSION -> SubscriptionType.PREMIUM
+				PRO_PERMISSION -> SubscriptionType.PRO
+				else -> SubscriptionType.FREE
+			}
+			if (activePermission.expirationDate != null) {
+				val dateTime = convertToLocalDateTime(activePermission.expirationDate!!.time)
+				SubscriptionData(dateTime, type)
+			}
+			else SubscriptionData(null, SubscriptionType.FREE)
+			
 		}
+		else SubscriptionData(null, SubscriptionType.FREE)
+		
 	}
 	
 }

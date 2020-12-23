@@ -61,6 +61,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
+import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDay
 import com.mmdev.me.driver.presentation.utils.extensions.getColorValue
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 import com.mmdev.me.driver.presentation.utils.extensions.getTypeface
@@ -386,7 +387,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 						else getEntryForIndex(value.toInt()).data as Long
 					}
 					return convertToLocalDateTime(date).run {
-						"$dayOfMonth " +
+						"${humanDay(dayOfMonth)} " +
 						monthNumber.dateMonthText().take(3) +
 						"'" + "$year".drop(2)
 					}

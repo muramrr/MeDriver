@@ -18,27 +18,13 @@
 
 package com.mmdev.me.driver.domain.billing
 
-import com.mmdev.me.driver.core.utils.helpers.DateHelper
+import kotlinx.datetime.LocalDateTime
 
 /**
  *
  */
 
-enum class PeriodType {
-	UNKNOWN,
-	DAY,
-	WEEK,
-	MONTH,
-	YEAR;
-	
-	companion object {
-		fun getDurationInMillisByType(type: PeriodType): Long = when(type) {
-			UNKNOWN -> 0
-			DAY -> DateHelper.DAY_DURATION
-			WEEK -> DateHelper.WEEK_DURATION
-			MONTH -> DateHelper.MONTH_DURATION
-			YEAR -> DateHelper.YEAR_DURATION
-		}
-	}
-	
-}
+data class SubscriptionData(
+	val expires: LocalDateTime?,
+	val type: SubscriptionType
+)

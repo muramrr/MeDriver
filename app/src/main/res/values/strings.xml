@@ -519,7 +519,7 @@
 	<string name="fg_settings_tv_tap_to_verify">Tap to send confirmation email</string>
 	
 	<string name="fg_settings_tv_subscription_expires">Subscription expires</string>
-	<string name="fg_settings_tv_subscription_expires_value">Trial</string>
+	<string name="fg_settings_tv_subscription_expires_value">Free</string>
 	
 	<string name="fg_settings_btn_subscription_premium">Premium</string>
 	<string name="fg_settings_btn_subscription_pro" translatable="false">PRO</string>

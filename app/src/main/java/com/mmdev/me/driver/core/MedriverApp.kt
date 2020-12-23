@@ -50,6 +50,7 @@ import com.mmdev.me.driver.core.utils.log.DebugConfig
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.domain.fuel.prices.data.Region.KYIV
+import com.qonversion.android.sdk.Qonversion
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
@@ -225,7 +226,7 @@ class MedriverApp: Application() {
 		super.onCreate()
 		
 		appContext = applicationContext
-		
+		if (debug.isEnabled) Qonversion.setDebugMode()
 		FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!debug.isEnabled)
 		
 		startKoin {

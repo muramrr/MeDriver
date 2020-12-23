@@ -482,7 +482,7 @@
 	<string name="fg_settings_tv_tap_to_verify">Нажмите для отправки письма с подтверждением</string>
 	
 	<string name="fg_settings_tv_subscription_expires">Подписка до</string>
-	<string name="fg_settings_tv_subscription_expires_value">Пробная</string>
+	<string name="fg_settings_tv_subscription_expires_value">Бесплатная</string>
 	
 	<string name="fg_settings_btn_subscription_premium">Премуим</string>
 	<string name="fg_settings_btn_sign_in">Войти</string>

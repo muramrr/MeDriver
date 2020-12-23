@@ -19,8 +19,6 @@
 package com.mmdev.me.driver.data.repository.billing.data
 
 import com.google.firebase.firestore.PropertyName
-import com.mmdev.me.driver.domain.billing.PeriodType
-import com.mmdev.me.driver.domain.billing.PeriodType.UNKNOWN
 import com.mmdev.me.driver.domain.billing.SubscriptionType
 import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
 
@@ -28,8 +26,8 @@ import com.mmdev.me.driver.domain.billing.SubscriptionType.FREE
  *
  */
 
+@Deprecated("no more usages")
 data class SkuDto(
 	@PropertyName("subscriptionType") val subscriptionType: SubscriptionType = FREE,
-	@PropertyName("periodDuration") val periodDuration: Int = 0,
-	@PropertyName("periodType") val periodType: PeriodType = UNKNOWN,
+	@PropertyName("periodDuration") val periodDuration: Int = 0
 )

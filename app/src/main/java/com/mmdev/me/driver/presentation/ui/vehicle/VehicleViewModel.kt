@@ -20,7 +20,8 @@ package com.mmdev.me.driver.presentation.ui.vehicle
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.R.*
+import com.mmdev.me.driver.R.drawable
+import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
@@ -117,13 +118,11 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 	}.plus(VehicleUi(drawable.ic_plus_in_frame_24, "", string.fg_vehicle_add_new_vehicle, ""))
 	
 	private fun getReplacementsList(vehicle: Vehicle?) {
-		if (vehicle == null) replacements.value = emptyList()
+		if (vehicle == null) replacements.value = buildConsumables(emptyMap())
 		else {
 			viewModelScope.launch {
 				repository.getPendingReplacements(vehicle).fold(
-					success = {
-						replacements.postValue(buildConsumables(it))
-							  },
+					success = { replacements.postValue(buildConsumables(it)) },
 					failure = { logError(TAG, "${it.message}") }
 				)
 			}

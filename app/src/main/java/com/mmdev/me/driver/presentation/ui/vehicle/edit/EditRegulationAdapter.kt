@@ -24,7 +24,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.databinding.ItemVehicleRegulationEditBinding
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.maintenance.data.components.OtherParts
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.INSURANCE
+import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.edit.EditRegulationAdapter.EditRegulationViewHolder
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
@@ -35,7 +39,9 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.getYearsFormatte
  */
 
 class EditRegulationAdapter(
-	private var data: List<RegulationUi>
+	private var data: List<RegulationUi> = List(PlannedParts.values().size) {
+		RegulationUi(OtherParts.OTHER, DistanceBound(0, 0), 0)
+	}
 ): RecyclerView.Adapter<EditRegulationViewHolder>() {
 	
 	fun getOutput() = data
@@ -52,8 +58,6 @@ class EditRegulationAdapter(
 	override fun onBindViewHolder(holder: EditRegulationViewHolder, position: Int) =
 		holder.bind(data[position])
 	
-	override fun getItemViewType(position: Int): Int = position
-	
 	override fun getItemCount(): Int = data.size
 	
 	fun setNewData(newData: List<RegulationUi>) {
@@ -69,7 +73,9 @@ class EditRegulationAdapter(
 			binding.run {
 				layoutInputRegulationDistanceValue.isEnabled = item.part != INSURANCE
 				
-				tvRegulationTitle.text = item.part.getSparePartName()
+				tvRegulationTitle.text = root.context.getString(
+					VehicleSystemNodeConstants.plannedComponents[item.part.getSparePartOrdinal()]
+				)
 				etRegulationDistanceValue.setText(item.distance.getValue().toString())
 				tvRegulationTimeValue.text = getYearsFormatted(item.yearsCount, root.context)
 				

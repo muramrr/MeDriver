@@ -125,7 +125,8 @@ class MaintenanceHistoryAdapter(
 			if (itemsLoaded > data.size && adapterPosition == 10)
 				scrollToTopListener?.invoke()
 			
-			binding.apply {
+			binding.run {
+				layoutControls.invisible(0)
 				cvMaintenanceItem.setOnClickListener {
 					
 					layoutControls.run {

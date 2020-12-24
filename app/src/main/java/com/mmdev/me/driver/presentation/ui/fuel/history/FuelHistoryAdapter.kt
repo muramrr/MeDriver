@@ -139,9 +139,10 @@ class FuelHistoryAdapter(
 			if (itemsLoaded > data.size && adapterPosition == 10)
 				scrollToTopListener?.invoke()
 			
-			binding.apply {
-				if (viewType == HIDE_MONTH_SEPARATOR) tvFuelHistoryMonthSeparator.gone()
-				else tvFuelHistoryMonthSeparator.visible()
+			binding.run {
+				layoutControls.invisible(0)
+				if (viewType == HIDE_MONTH_SEPARATOR) tvFuelHistoryMonthSeparator.gone(0)
+				else tvFuelHistoryMonthSeparator.visible(0)
 				
 				cvFuelHistoryEntryContainer.setOnClickListener {
 					layoutControls.run {

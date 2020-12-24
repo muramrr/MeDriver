@@ -302,9 +302,10 @@
 				app:layout_constraintStart_toStartOf="@id/guidelineStart"
 				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				/>
-			<com.google.android.material.button.MaterialButton android:id="@+id/btnEditConsumableSpecs"
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnEditRegulations"
 				android:layout_width="48dp"
 				android:layout_height="56dp"
+				android:enabled="@{viewModel.chosenVehicle != null}"
 				
 				app:icon="@drawable/ic_pencil_24"
 				app:iconGravity="textEnd"
@@ -564,7 +565,7 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				android:layout_marginBottom="8dp"
-				android:enabled="false"
+				android:enabled="@{viewModel.chosenVehicle != null}"
 				
 				android:text="@string/fg_vehicle_delete_btn"
 				android:textColor="@color/maximum_red"

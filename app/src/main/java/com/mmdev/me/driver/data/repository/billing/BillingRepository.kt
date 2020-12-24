@@ -69,8 +69,8 @@ class BillingRepository(app: Application): IBillingRepository {
 	
 	private val permissionsCallback = object: QonversionPermissionsCallback {
 		override fun onSuccess(permissions: Map<String, QPermission>) {
-			permissionsMutable.tryEmit(permissions.values.toList())
 			logWtf(TAG, "permissions = $permissions")
+			permissionsMutable.tryEmit(permissions.values.toList())
 		}
 		
 		override fun onError(error: QonversionError) {
@@ -78,9 +78,8 @@ class BillingRepository(app: Application): IBillingRepository {
 		}
 	}
 	
-	private fun getPermissions() {
-		Qonversion.checkPermissions(permissionsCallback)
-	}
+	private fun getPermissions() = Qonversion.checkPermissions(permissionsCallback)
+	
 	
 	override fun launchPurchase(activity: Activity, skuPos: Int, accountId: String) {
 		val oldProduct = permissionsMutable.value.find { it.isActive() }?.productID

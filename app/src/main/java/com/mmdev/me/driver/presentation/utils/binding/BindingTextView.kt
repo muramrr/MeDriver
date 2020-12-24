@@ -35,6 +35,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfDoubleValues
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntValues
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.domain.getYearsFormatted
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 import kotlinx.datetime.LocalDate
@@ -90,23 +91,11 @@ object BindingTextView {
 	fun setRegulation(textView: TextView, regulation: Regulation?) {
 		textView.apply {
 			text = if (regulation != null) {
-				
-				//due to subtleties of language here is a method to check last char for year count
-				when (DateHelper.getYearsCount(regulation.time).toString().last()) {
-					'1' -> getStringRes(
-						R.string.fg_vehicle_card_replacements_subtitle_formatter_1_year
-					)
-					in arrayOf('2', '3', '4') -> getStringRes(
-						R.string.fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year
-					)
-					else -> getStringRes(
-						R.string.fg_vehicle_card_replacements_subtitle_formatter_other
-					)
-				}.format(
+				getStringRes(R.string.fg_vehicle_card_replacements_subtitle_formatter).format(
 					regulation.distance.getOdometerFormatted(context),
-					DateHelper.getYearsCount(regulation.time)
+					//due to subtleties of language, here is a method to check last char for year count
+					getYearsFormatted(DateHelper.getYearsCount(regulation.time), context)
 				)
-				
 			}
 			else getStringRes(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
 		}

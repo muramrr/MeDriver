@@ -20,11 +20,8 @@ package com.mmdev.me.driver.data.datasource.fuel.history.local.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
@@ -36,17 +33,7 @@ import com.mmdev.me.driver.domain.fuel.prices.data.FuelStation
  * @see com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
  */
 
-@Entity(
-	tableName = MeDriverRoomDatabase.FUEL_HISTORY_TABLE,
-	foreignKeys = [
-		ForeignKey(
-			entity = VehicleEntity::class,
-			parentColumns = ["vin"],
-			childColumns = ["vehicleVinCode"],
-			onDelete = CASCADE
-		)
-	]
-)
+@Entity(tableName = MeDriverRoomDatabase.FUEL_HISTORY_TABLE)
 data class FuelHistoryEntity(
 	val commentary: String,
 	val date: Long,

@@ -26,6 +26,8 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  */
 
 data class Regulation(
-	val distance: DistanceBound =  DistanceBound(),
+	val distance: DistanceBound = DistanceBound(),
 	val time: Long = DateHelper.YEAR_DURATION
-)
+) {
+	constructor(distance: DistanceBound, years: Int): this(distance, DateHelper.YEAR_DURATION * years)
+}

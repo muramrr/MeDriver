@@ -113,9 +113,9 @@
 		<item name="android:windowExitAnimation">@anim/scale_out</item>
 	</style>
 	
-	<style name="AppTheme.AnimSlideFromBottomToBottom">
-		<item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
-		<item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+	<style name="AnimSlideFromTopToTop">
+		<item name="android:windowEnterAnimation">@anim/slide_in_top</item>
+		<item name="android:windowExitAnimation">@anim/slide_out_top</item>
 	</style>
 
 </resources>

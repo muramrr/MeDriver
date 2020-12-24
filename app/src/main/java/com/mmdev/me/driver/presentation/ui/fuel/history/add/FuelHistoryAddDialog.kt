@@ -67,7 +67,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFuelHistoryAddBinding>(
 	layoutId = R.layout.dialog_fuel_history_add
-)   {
+) {
 	override val mViewModel: FuelHistoryAddViewModel by viewModel()
 	//get same scope as FuelFragmentHistory
 	private val parentViewModel: FuelHistoryViewModel by lazy { requireParentFragment().getViewModel() }

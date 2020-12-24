@@ -71,6 +71,10 @@
 	
 	<string name="dialog_btn_apply">Применить</string>
 	<string name="dialog_btn_cancel">Отмена</string>
+	
+	<string name="formatter_1_year">%s год</string>
+	<string name="formatter_2_to_4_year">%s года</string>
+	<string name="formatter_other_years">%s лет</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -289,7 +293,7 @@
 
 
 
-<!-- ***************************** item_maintenance_child_edit ***************************** -->
+<!-- ******************************* item_maintenance_child_edit ******************************* -->
 	<string name="item_maintenance_child_edit_last_replaced_label">Последняя замена</string>
 	
 	<string name="item_maintenance_child_edit_component_hint">Деталь</string>
@@ -331,11 +335,9 @@
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">Конечная дата</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Осталось проехать</string>
-	<string name="fg_vehicle_card_replacements_value_not_replaced">Еще не заменено</string>
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Не менялось</string>
 	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не выбрано</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s или %2$s год</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s или %2$s года</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s или %2$s лет</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter">%1$s или %2$s</string>
 	
 	<string name="fg_vehicle_fuel_consumption_history_header">Расход топлива</string>
 	
@@ -429,7 +431,7 @@
 
 
 
-<!-- ******************************** dialog_fuel_history_add ******************************** -->
+<!-- ******************************** dialog_fuel_history_add ********************************** -->
 	<string name="fg_fuel_history_add_distance_passed_title">Пройдено</string>
 	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s км</string>
 	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 км</string>

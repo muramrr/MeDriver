@@ -28,6 +28,7 @@ import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.databinding.ItemMaintenanceChildEditBinding
+import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.INSURANCE
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
@@ -69,7 +70,21 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mViewModel.viewState.observe(this, { renderState(it) })
-		findSelectedChildByPosition(arguments?.getInt(POSITION_KEY) ?: 0)
+		val position = arguments?.getInt(POSITION_KEY) ?: 0
+		parentViewModel.selectedChildren.observe(this, {
+			it?.let {
+				//if first selection was 3 and than u return and choose 2
+				//operator fun get will throw indexOutOfRange exception
+				if (position < it.size) {
+					child = it[position]
+					setupFillForm(child)
+					mViewModel.loadLastTimeSparePartReplaced(
+						parentViewModel.selectedVehicleSystemNode.value!!,
+						child
+					)
+				}
+			}
+		})
 	}
 	
 	override fun renderState(state: ViewState) {
@@ -168,25 +183,6 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 		       !binding.etInputOdometer.text.isNullOrBlank()
 	}
 	
-	
-	
-	private fun findSelectedChildByPosition(position: Int){
-		parentViewModel.selectedChildren.observe(this, {
-			it?.let {
-				//if first selection was 3 and than u return and choose 2
-				//operator fun get will throw indexOutOfRange exception
-				if (position < it.size) {
-					child = it[position]
-					setupFillForm(child)
-					mViewModel.loadLastTimeSparePartReplaced(
-						parentViewModel.selectedVehicleSystemNode.value!!,
-						child
-					)
-				}
-			}
-		})
-	}
-	
 	private fun observeLastReplaced() {
 		mViewModel.lastReplacedChild.observe(this, {
 			
@@ -207,6 +203,7 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 		binding.etInputCustomComponent.setText(child.title)
 		
 		binding.layoutInputCustomComponent.isEnabled = child.sparePart.getSparePartName() == SparePart.OTHER
+		binding.layoutInputArticulus.isEnabled = child.sparePart != INSURANCE
 		
 		binding.btnChildDatePicker.btnDatePicker.setupDatePicker {
 			pickedDate = convertToLocalDateTime(this.timeInMillis)

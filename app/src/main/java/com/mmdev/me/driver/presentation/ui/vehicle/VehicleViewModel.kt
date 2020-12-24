@@ -44,10 +44,10 @@ import kotlinx.coroutines.launch
  *
  */
 
-class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewModel() {
+class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewModel() {
 	
 	//called when new entry was added
-	val shouldBeUpdated = MutableLiveData(false)
+	val newWasAdded = MutableLiveData(false)
 	
 	//init current vehicle from static inside Application class
 	val chosenVehicle = MutableLiveData(MainActivity.currentVehicle)
@@ -55,7 +55,7 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	//init vehicle list
 	private val vehicleList = MutableLiveData<List<Vehicle>>(emptyList())
 	val vehicleUiList = MutableLiveData<List<VehicleUi>>(emptyList())
-	val replacements = MutableLiveData<Map<SparePart, PendingReplacement?>>()
+	val replacements = MutableLiveData<List<ConsumablePartUi>>()
 	val expensesData = MutableLiveData(Expenses())
 	val fuelConsumptionData = MutableLiveData(emptyList<ConsumptionHistory>())
 	
@@ -76,7 +76,6 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 				},
 				failure = { logError(TAG, "${it.message}") }
 			)
-			
 		}
 	}
 	
@@ -118,18 +117,20 @@ class VehicleViewModel (private val repository: IVehicleRepository) : BaseViewMo
 	}.plus(VehicleUi(drawable.ic_plus_in_frame_24, "", string.fg_vehicle_add_new_vehicle, ""))
 	
 	private fun getReplacementsList(vehicle: Vehicle?) {
-		if (vehicle == null) replacements.value = emptyMap()
+		if (vehicle == null) replacements.value = emptyList()
 		else {
 			viewModelScope.launch {
 				repository.getPendingReplacements(vehicle).fold(
-					success = { replacements.postValue(it) },
+					success = {
+						replacements.postValue(buildConsumables(it))
+							  },
 					failure = { logError(TAG, "${it.message}") }
 				)
 			}
 		}
 	}
 	
-	fun buildConsumables(replacements: Map<SparePart, PendingReplacement?>): List<ConsumablePartUi> =
+	private fun buildConsumables(replacements: Map<SparePart, PendingReplacement?>): List<ConsumablePartUi> =
 		if (replacements.isNotEmpty()) replacements.map {
 			ConsumablePartUi(
 				VehicleSystemNodeConstants.plannedComponents[replacements.keys.indexOf(it.key)],

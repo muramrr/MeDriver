@@ -76,7 +76,7 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		
 		when (state) {
 			is VehicleAddViewState.Success -> {
-				parentViewModel.shouldBeUpdated.postValue(true)
+				parentViewModel.newWasAdded.postValue(true)
 				dismiss()
 			}
 			is VehicleAddViewState.Error -> showInnerSnack(state.errorMessage ?: "Unexpected error")

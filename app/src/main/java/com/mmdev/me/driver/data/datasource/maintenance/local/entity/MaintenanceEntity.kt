@@ -20,10 +20,8 @@ package com.mmdev.me.driver.data.datasource.maintenance.local.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 
 /**
@@ -39,17 +37,7 @@ import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
  * @param searchCriteria is a list converted to a single string (contains component translations)
  */
 
-@Entity(
-	tableName = MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE,
-	foreignKeys = [
-		ForeignKey(
-			entity = VehicleEntity::class,
-			parentColumns = ["vin"],
-			childColumns = ["vehicleVinCode"],
-			onDelete = ForeignKey.CASCADE
-		)
-	]
-)
+@Entity(tableName = MeDriverRoomDatabase.MAINTENANCE_HISTORY_TABLE)
 data class MaintenanceEntity (
 	val date: Long,
 	@PrimaryKey

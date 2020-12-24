@@ -110,6 +110,10 @@
 	
 	<string name="dialog_btn_apply">Apply</string>
 	<string name="dialog_btn_cancel">Cancel</string>
+	
+	<string name="formatter_1_year">%s year</string>
+	<string name="formatter_2_to_4_year">%s years</string>
+	<string name="formatter_other_years">%s years</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -370,9 +374,7 @@
 	<string name="fg_vehicle_card_replacements_value_change_distance">Distance remain</string>
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Not replaced yet</string>
 	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">No vehicle chosen</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s or %2$s year</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s or %2$s years</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s or %2$s years</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter">%1$s or %2$s</string>
 	
 	<string name="fg_vehicle_fuel_consumption_history_header">Fuel consumption</string>
 	

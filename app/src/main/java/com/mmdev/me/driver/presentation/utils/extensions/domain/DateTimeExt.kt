@@ -18,6 +18,8 @@
 
 package com.mmdev.me.driver.presentation.utils.extensions.domain
 
+import android.content.Context
+import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import kotlinx.datetime.LocalDate
 import java.util.*
@@ -37,3 +39,13 @@ fun LocalDate?.humanDate(default: String = ""): String = this?.let {
 
 fun humanDay(dayNumber: Int) = if (dayNumber < 10) "0$dayNumber" else "$dayNumber"
 fun humanMonth(monthNumber: Int) = (if (monthNumber < 10) "0$monthNumber" else "$monthNumber")
+
+fun getYearsFormatted(yearsCount: Int, context: Context) = with(yearsCount.toString()) {
+	when {
+		//all numbers with ***10..19 at the end
+		yearsCount > 10 && this.takeLast(2).first() == '1' -> context.getString(R.string.formatter_other_years)
+		this.last() == '1' -> context.getString(R.string.formatter_1_year)
+		this.last() in arrayOf('2', '3', '4') -> context.getString(R.string.formatter_2_to_4_year)
+		else -> context.getString(R.string.formatter_other_years)
+	}.format(yearsCount)
+}

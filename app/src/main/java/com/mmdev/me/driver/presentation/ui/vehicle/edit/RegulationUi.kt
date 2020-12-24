@@ -16,34 +16,17 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.domain.vehicle.data
+package com.mmdev.me.driver.presentation.ui.vehicle.edit
 
-import com.mmdev.me.driver.core.utils.helpers.DateHelper.YEAR_DURATION
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
+import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 
 /**
  *
  */
 
-data class MaintenanceRegulations(
-	val cabinFilter: Regulation = Regulation(
-		DistanceBound(kilometers = 15000, miles = null),
-		YEAR_DURATION * 2
-	),
-	val breaksFluid: Regulation = Regulation(
-		DistanceBound(kilometers = 40000, miles = null),
-		YEAR_DURATION * 2
-	),
-	val fuelFilter: Regulation = Regulation(
-		DistanceBound(kilometers = 40000, miles = null),
-		YEAR_DURATION * 2
-	),
-	val grmKit: Regulation = Regulation(
-		DistanceBound(kilometers = 60000, miles = null),
-		YEAR_DURATION * 5
-	),
-	val tires: Regulation = Regulation(
-		DistanceBound(kilometers = 80000, miles = null),
-		YEAR_DURATION * 10
-	)
+data class RegulationUi(
+	val part: SparePart,
+	var distance: DistanceBound,
+	var yearsCount: Int
 )

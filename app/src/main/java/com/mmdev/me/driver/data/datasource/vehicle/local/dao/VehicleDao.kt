@@ -102,8 +102,11 @@ interface VehicleDao {
 	suspend fun importVehicles(vehiclesToImport: List<VehicleEntity>)
 	
 	//cascade deleting
-	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
-	suspend fun deleteVehicle(vin: String)
+	suspend fun deleteVehicle(vin: String) {
+		deleteVehicleByVin(vin)
+		deleteVehicleFuelHistory(vin)
+		deleteVehicleMaintenanceHistory(vin)
+	}
 	
 	@Query("DELETE FROM ${MeDriverRoomDatabase.VEHICLES_TABLE} WHERE vin = :vin")
 	suspend fun deleteVehicleByVin(vin: String)

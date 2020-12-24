@@ -71,6 +71,11 @@
 	
 	<string name="dialog_btn_apply">Застосувати</string>
 	<string name="dialog_btn_cancel">Відмінити</string>
+	
+	<string name="formatter_1_year">%s рік</string>
+	<string name="formatter_2_to_4_year">%s роки</string>
+	<string name="formatter_other_years">%s років</string>
+	
 <!-- ******************************************************************************************* -->
 
 
@@ -335,9 +340,7 @@
 	<string name="fg_vehicle_card_replacements_value_change_distance">Залишилось проїхати</string>
 	<string name="fg_vehicle_card_replacements_value_not_replaced">Ще не замінено</string>
 	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не вибрано</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_1_year">%1$s або %2$s рік</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_2_to_4_year">%1$s або %2$s роки</string>
-	<string name="fg_vehicle_card_replacements_subtitle_formatter_other">%1$s або %2$s років</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter">%1$s або %2$s</string>
 	
 	<string name="fg_vehicle_fuel_consumption_history_header">Витрати палива</string>
 	

@@ -45,7 +45,6 @@ import com.mmdev.me.driver.core.utils.MetricSystem.*
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.databinding.FragmentVehicleBinding
-import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
 import com.mmdev.me.driver.domain.vehicle.data.ConsumptionHistory
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.PendingReplacement
@@ -57,6 +56,7 @@ import com.mmdev.me.driver.presentation.ui.common.ChartsConstants
 import com.mmdev.me.driver.presentation.ui.common.custom.decorators.GridItemDecoration
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddBottomSheet
 import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleUi
+import com.mmdev.me.driver.presentation.ui.vehicle.edit.EditVehicleRegulationsDialog
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
@@ -95,7 +95,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		mViewModel.shouldBeUpdated.observe(this, {
+		mViewModel.newWasAdded.observe(this, {
 			if (it) mViewModel.getSavedVehicles()
 		})
 	}
@@ -126,6 +126,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				radioExpensesType.run {
 					visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
 				}
+			}
+			
+			btnEditRegulations.setDebounceOnClick {
+				EditVehicleRegulationsDialog().show(
+					childFragmentManager, EditVehicleRegulationsDialog::class.java.canonicalName
+				)
 			}
 			
 			btnDeleteVehicle.setDebounceOnClick { showDeleteVehicleConfirmationDialog() }
@@ -190,45 +196,29 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	private fun setupReplacements() {
 		binding.rvFrequentlyConsumables.apply {
 			adapter = mFrequentlyConsumablesAdapter
-			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+			layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
 		}
 		
 		binding.rvLessFrequentlyConsumables.apply {
 			adapter = mLessFrequentlyConsumablesAdapter
-			layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+			layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
 		}
 	}
 	
-	private fun setupInsuranceCard(pendingReplacement: PendingReplacement?) {
-		binding.apply {
-			if (pendingReplacement != null) {
-				tvInsuranceSubtitle.text = getString(
-					R.string.fg_vehicle_insurance_subtitle,
-					pendingReplacement.finalDate.humanDate()
-				)
-				tvInsuranceValue.text = pendingReplacement.componentSpecs
-			}
-			else {
-				tvInsuranceSubtitle.text = getString(R.string.fg_vehicle_card_replacements_value_not_replaced)
-				tvInsuranceValue.text = getString(R.string.undefined)
-			}
-			
-		}
-	}
 	
 	
 	
-	private fun observeChosenCar() {
-		mViewModel.chosenVehicle.observe(this, { vehicle ->
-			if (vehicle != null) { setVehicle(vehicle) }
-			else { setVehicleNull() }
-			
-			sharedViewModel.currentVehicle.postValue(vehicle)
-			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
-		})
-	}
+	
+	private fun observeChosenCar() = mViewModel.chosenVehicle.observe(this, { vehicle ->
+		if (vehicle != null) { setVehicle(vehicle) }
+		else { setVehicleNull() }
+		
+		sharedViewModel.currentVehicle.postValue(vehicle)
+		currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
+	})
+	
 	private fun setVehicle(vehicle: Vehicle) {
 		binding.dropMyCarChooseCar.setText(
 			getString(R.string.two_strings_whitespace_formatter, vehicle.brand, vehicle.model),
@@ -241,7 +231,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			showActivitySnack(getString(R.string.fg_vehicle_copy_vin).format(it))
 		}
 		binding.btnCopyVin.text = vehicle.vin
-		binding.btnDeleteVehicle.isEnabled = true
 		
 		chosenVehicleUi = mViewModel.convertToUiVehicle(vehicle)
 	}
@@ -250,26 +239,24 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		binding.dropMyCarChooseCar.setText(getString(R.string.fg_vehicle_choose_vehicle), false)
 		binding.btnCopyVin.setOnClickListener(null)
 		binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
-		binding.btnDeleteVehicle.isEnabled = false
 	}
 	
-	private fun observeVehicleList() {
-		mViewModel.vehicleUiList.observe(this, {
-			mVehicleDropAdapter.setNewData(it)
-			when {
-				!it.isNullOrEmpty() -> {
-					binding.dropMyCarChooseCar.setOnClickListener(null)
-					if (mViewModel.chosenVehicle.value == null)
-						binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_choose_vehicle)
-				}
-				it.isNullOrEmpty() -> {
-					binding.dropMyCarChooseCar.setOnClickListener { showAddVehicleBottomSheet() }
-					binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
-				}
+	private fun observeVehicleList() = mViewModel.vehicleUiList.observe(this, {
+		mVehicleDropAdapter.setNewData(it)
+		when {
+			!it.isNullOrEmpty() -> {
+				binding.dropMyCarChooseCar.setOnClickListener(null)
+				if (mViewModel.chosenVehicle.value == null)
+					binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_choose_vehicle)
 			}
-			currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
-		})
-	}
+			it.isNullOrEmpty() -> {
+				binding.dropMyCarChooseCar.setOnClickListener { showAddVehicleBottomSheet() }
+				binding.dropMyCarChooseCar.setText(R.string.fg_vehicle_add_new_vehicle)
+			}
+		}
+		currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
+	})
+	
 	
 	private fun observeExpenses() = mViewModel.expensesData.observe(this, {
 		setExpensesCard(it)
@@ -310,17 +297,29 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	
 	
-	private fun observeReplacements() {
-		mViewModel.replacements.observe(this, {
-			with(mViewModel.buildConsumables(it)) {
-				//first is insurance, we have separate card for it, so drop it
-				mFrequentlyConsumablesAdapter.setNewData(drop(1).take(4))
-				mLessFrequentlyConsumablesAdapter.setNewData(drop(5))
-			}
-			
-			setupInsuranceCard(it?.get(PlannedParts.INSURANCE))
-		})
+	private fun observeReplacements() = mViewModel.replacements.observe(this, {
+		setInsuranceCard(it.first().replacement)
+		//first is insurance, we have separate card for it, so drop it
+		mFrequentlyConsumablesAdapter.setNewData(it.drop(1).take(4))
+		mLessFrequentlyConsumablesAdapter.setNewData(it.drop(5))
+	
+	})
+	private fun setInsuranceCard(pendingReplacement: PendingReplacement?) = binding.run {
+		if (pendingReplacement != null) {
+			tvInsuranceSubtitle.text = getString(
+				R.string.fg_vehicle_insurance_subtitle,
+				pendingReplacement.finalDate.humanDate()
+			)
+			tvInsuranceValue.text = pendingReplacement.componentSpecs
+		}
+		else {
+			tvInsuranceSubtitle.text = getString(R.string.fg_vehicle_card_replacements_value_not_replaced)
+			tvInsuranceValue.text = getString(R.string.undefined)
+		}
+		
 	}
+	
+	
 	
 	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext())
 		.setTitle(R.string.fg_vehicle_dialog_delete_title)
@@ -343,11 +342,11 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	)
 	
 	
-	private fun observeFuelConsumption() {
-		mViewModel.fuelConsumptionData.observe(this, {
-			if (it.isNotEmpty()) setupLineChartConsumptionData(it)
-		})
-	}
+	
+	
+	private fun observeFuelConsumption() = mViewModel.fuelConsumptionData.observe(this, {
+		if (it.isNotEmpty()) setupLineChartConsumptionData(it)
+	})
 	
 	private fun setupLineChartConsumption() = binding.lineChartFuelConsumption.run {
 		extraBottomOffset = 10f
@@ -480,7 +479,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				setImageResource(vehicle.icon)
 				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			}
-			//if no premium, only first position will be available
+			//if no premium, only first position will be available//todo: uncomment for release
 //			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			childView.findViewById<TextView>(R.id.tvDropCarItemPremiumLabel).visibleIf(View.INVISIBLE, 0) {
 				!childView.isEnabled

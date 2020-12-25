@@ -19,6 +19,7 @@
 package com.mmdev.me.driver.presentation.ui.fuel.prices
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
@@ -28,6 +29,7 @@ import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -87,7 +89,9 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 	}
 	
 	override fun renderState(state: ViewState) {
-		
+		binding.viewLoading.visibleIf(otherwise = View.GONE) {
+			state == FuelPricesViewState.Loading
+		}
 		when (state) {
 			is FuelPricesViewState.Success -> {
 				if (state.data.isNullOrEmpty()) showActivitySnack(string.fg_fuel_prices_empty_list)

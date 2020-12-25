@@ -68,12 +68,35 @@ object DataGenerator: KoinComponent {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
+	private val randomVendors = arrayListOf<String>(
+		"Excel-G",
+		"Bosch",
+		"Bosch",
+		"Denso",
+		"Magna",
+		"Continental",
+		"ZF",
+		"BPW",
+		"FRAP",
+		"DIESEL TECHNIC",
+		"AUGER",
+		"SIDEM",
+		"LEMFORDER",
+		"Aisin",
+		"Seiki",
+		"Hyundai",
+		"Mobis",
+		"Lear",
+		"Faurecia",
+		"Valeo",
+		"SACHS",
+	)
 	
 	suspend fun generateVehicle(context: Context, brand: String) {
 		with(
 			Vehicle(
 				brand,
-				generateRandomString(),
+				"model",
 				Random.nextInt(2000, 2020),
 				generateRandomVinCode(),
 				DistanceBound(kilometers = Random.nextInt(1000, 200000), miles = null),
@@ -105,12 +128,12 @@ object DataGenerator: KoinComponent {
 				MainActivity.currentUser,
 				parent.getChildren().toList().shuffled().take(5).map { child ->
 					VehicleSparePart(
-						commentary = generateRandomString(5, 20),
+						commentary = "Random commentary looks like this",
 						date = convertToLocalDateTime(
 							Random.nextLong(1577829600000, 1609451999000)),
 						dateAdded = currentEpochTime() + Random.nextLong(0, 1609451999000),
-						articulus = generateRandomString(2, 6),
-						vendor = generateRandomString(4, 8),
+						articulus = generateRandomArticulus(2, 6),
+						vendor = randomVendors.random(),
 						systemNode = parent,
 						systemNodeComponent = child,
 						searchCriteria = if (child.getSparePartName() != SparePart.OTHER)
@@ -148,7 +171,7 @@ object DataGenerator: KoinComponent {
 			fuelHistoryRepo.addFuelHistoryRecord(
 				MainActivity.currentUser,
 					FuelHistory(
-						commentary = generateRandomString(5, 10),
+						commentary = "Random commentary looks like this",
 						date = convertToLocalDateTime(Random.nextLong(1577829600000, 1609451999000)),
 						dateAdded = currentEpochTime(),
 						distancePassedBound = DistanceBound(
@@ -186,11 +209,9 @@ object DataGenerator: KoinComponent {
 		
 	
 	
-	private fun generateRandomString(min: Int = 5, max: Int = 10): String {
-		val allowedChars = ('A'..'Z') + ('a'..'z')
-		return (min..max)
-			.map { allowedChars.random() }
-			.joinToString("")
+	private fun generateRandomArticulus(min: Int = 5, max: Int = 10): String {
+		val allowedChars = ('A'..'Z') + ('0'..'9') + '-'
+		return allowedChars.shuffled().take(Random.nextInt(min, max)).joinToString("")
 	}
 	
 	private fun generateRandomVinCode(): String {
@@ -214,7 +235,7 @@ object DataGenerator: KoinComponent {
 			fuelHistoryLocal.importFuelHistory(
 				FuelType.values().map {
 					FuelHistoryEntity(
-						commentary = generateRandomString(5, 10),
+						commentary = "Random commentary looks like this",
 						date = convertToLocalDateTime(
 							Random.nextLong(1577829600000, 1609451999000)
 						).toEpochTime(),
@@ -257,13 +278,13 @@ object DataGenerator: KoinComponent {
 			maintenanceLocal.importReplacedSpareParts(
 				parent.getChildren().toList().shuffled().map { child ->
 					MaintenanceEntity(
-						commentary = generateRandomString(5, 20),
+						commentary = "Random commentary looks like this",
 						date = convertToLocalDateTime(
 							Random.nextLong(1577829600000, 1609451999000)
 						).toEpochTime(),
 						dateAdded = currentEpochTime() + Random.nextLong(0, 1609451999000),
-						articulus = generateRandomString(2, 6),
-						vendor = generateRandomString(4, 8),
+						articulus = generateRandomArticulus(2, 6),
+						vendor = randomVendors.random(),
 						systemNode = parent.toString(),
 						systemNodeComponent = child.getSparePartName(),
 						searchCriteria = if (child.getSparePartName() != SparePart.OTHER)

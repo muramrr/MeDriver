@@ -19,6 +19,7 @@
 package com.mmdev.me.driver.presentation.ui.maintenance
 
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
@@ -28,6 +29,7 @@ import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.mmdev.me.driver.presentation.ui.home.DataGenerator
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.delay
@@ -146,6 +148,12 @@ class MaintenanceViewModel (private val repository: IMaintenanceRepository) : Ba
 				},
 				failure = { viewState.postValue(Error(it.localizedMessage)) }
 			)
+		}
+	}
+	
+	fun generateMaintenanceData(context: Context) {
+		viewModelScope.launch {
+			DataGenerator.fastGenerateMaintenance(context, MainActivity.currentVehicle!!.vin)
 		}
 	}
 	

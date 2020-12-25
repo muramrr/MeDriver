@@ -34,7 +34,7 @@
 	<androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/motionMaintenance"
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:background="?colorSurface"
+		android:background="@color/colorBackground"
 		
 		app:layoutDescription="@xml/maintenance_scene"
 		>

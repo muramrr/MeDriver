@@ -236,7 +236,10 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	}
 	private fun setVehicleNull() {
 		chosenVehicleUi = null
-		binding.dropMyCarChooseCar.setText(getString(R.string.fg_vehicle_choose_vehicle), false)
+		binding.dropMyCarChooseCar.setText(
+			if (!mVehicleDropAdapter.isEmpty) R.string.fg_vehicle_choose_vehicle
+			else R.string.fg_vehicle_add_new_vehicle
+		)
 		binding.btnCopyVin.setOnClickListener(null)
 		binding.btnCopyVin.text = getString(R.string.fg_vehicle_card_replacements_subtitle_no_vehicle)
 	}
@@ -345,7 +348,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	
 	private fun observeFuelConsumption() = mViewModel.fuelConsumptionData.observe(this, {
-		if (it.isNotEmpty()) setupLineChartConsumptionData(it)
+		if (it.isNotEmpty()) setupLineChartConsumptionData(it.drop(1))
 	})
 	
 	private fun setupLineChartConsumption() = binding.lineChartFuelConsumption.run {
@@ -369,6 +372,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		isScaleYEnabled = false
 		
 		xAxis.run {
+			granularity = 2f
 			position = BOTTOM
 			setDrawGridLines(false)
 			textColor = context.getColorValue(R.color.colorOnBackground)

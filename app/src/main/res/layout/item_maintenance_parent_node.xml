@@ -28,18 +28,18 @@
 			/>
 	</data>
 	
-	<FrameLayout
+	<com.google.android.material.card.MaterialCardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/view_bg_surface_6"
-		
+		app:cardBackgroundColor="@color/surface1dpImitation"
+		app:cardCornerRadius="6dp"
+		app:cardElevation="1dp"
 		>
 	
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			
-			android:background="?selectableItemBackgroundBorderless"
 			android:orientation="vertical"
 			android:padding="8dp"
 			>
@@ -77,6 +77,6 @@
 				/>
 		
 		</LinearLayout>
-	</FrameLayout>
+	</com.google.android.material.card.MaterialCardView>
 	
 </layout>

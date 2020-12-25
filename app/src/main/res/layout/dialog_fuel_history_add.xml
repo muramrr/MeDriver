@@ -45,14 +45,15 @@
 			<View android:id="@+id/cvDistancePassed"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:layout_marginEnd="2dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginEnd="4dp"
 				
 				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
 				app:layout_constraintTop_toTopOf="@id/tvDistancePassedTitle"
 				app:layout_constraintBottom_toBottomOf="@id/tvDistancePassedSubtitle"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/cvConsumption"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
@@ -60,21 +61,22 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
 				android:text="@string/fg_fuel_history_add_distance_passed_title"
 				android:textAppearance="?textAppearanceCaption"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toTopOf="@id/tvDistancePassedValue"
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintStart_toStartOf="@id/cvDistancePassed"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvDistancePassedValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				
 				android:maxLines="1"
 				
@@ -85,25 +87,23 @@
 				app:autoSizeMinTextSize="14sp"
 				app:autoSizeMaxTextSize="28sp"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
 				app:layout_constraintTop_toBottomOf="@id/tvDistancePassedTitle"
-				
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintStart_toStartOf="@id/cvDistancePassed"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvDistancePassedSubtitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
 				android:text="@string/fg_fuel_history_add_distance_passed_subtitle_value_default"
 				android:textAppearance="?textAppearanceCaption"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
 				app:layout_constraintTop_toBottomOf="@id/tvDistancePassedValue"
-				
+				app:layout_constraintEnd_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintStart_toStartOf="@id/cvDistancePassed"
 				/>
 			
 			
@@ -111,14 +111,15 @@
 			<View android:id="@+id/cvConsumption"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:layout_marginStart="2dp"
+				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				app:layout_constraintTop_toTopOf="@id/tvConsumptionTitle"
 				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionPer100Subtitle"
+				app:layout_constraintStart_toEndOf="@id/cvDistancePassed"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
@@ -126,23 +127,23 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
 				android:text="@string/fg_fuel_history_add_consumption_title"
 				android:textAppearance="?textAppearanceCaption"
 				
-				app:layout_constraintStart_toStartOf="@id/cvConsumption"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toTopOf="@id/tvConsumptionValue"
+				app:layout_constraintStart_toStartOf="@id/cvConsumption"
+				app:layout_constraintEnd_toEndOf="@id/cvConsumption"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvConsumptionValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
+				android:drawableEnd="@{viewModel.fuelConsumptionDrawable}"
 				
 				android:maxLines="1"
 				
@@ -158,29 +159,14 @@
 				app:autoSizeMaxTextSize="28sp"
 				
 				app:layout_constraintStart_toStartOf="@id/cvConsumption"
-				app:layout_constraintEnd_toStartOf="@id/ivFuelConsumptionChangesIcon"
+				app:layout_constraintEnd_toEndOf="@id/cvConsumption"
 				app:layout_constraintTop_toBottomOf="@id/tvConsumptionTitle"
 				/>
-			
-			<ImageView
-				android:id="@+id/ivFuelConsumptionChangesIcon"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				
-				android:src="@{viewModel.fuelConsumptionDrawable}"
-				
-				app:layout_constraintTop_toTopOf="@id/tvConsumptionValue"
-				app:layout_constraintBottom_toBottomOf="@id/tvConsumptionValue"
-				app:layout_constraintStart_toEndOf="@id/tvConsumptionValue"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
-				android:contentDescription="@null"
-				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvConsumptionPer100Subtitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
 				android:text="@string/fg_fuel_history_add_consumption_100km"
@@ -189,9 +175,9 @@
 				app:kilometers="@{@string/fg_fuel_history_add_consumption_100km}"
 				app:miles="@{@string/fg_fuel_history_add_consumption_100mi}"
 				
-				app:layout_constraintStart_toStartOf="@id/cvConsumption"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toBottomOf="@id/tvConsumptionValue"
+				app:layout_constraintStart_toStartOf="@id/cvConsumption"
+				app:layout_constraintEnd_toEndOf="@id/cvConsumption"
 				/>
 			
 			
@@ -200,36 +186,38 @@
 			<View android:id="@+id/cvTotalCost"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:layout_marginEnd="2dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginEnd="4dp"
 				
 				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-				app:layout_constraintTop_toTopOf="@id/tvTotalCostTitle"
+				app:layout_constraintTop_toBottomOf="@id/cvDistancePassed"
 				app:layout_constraintBottom_toBottomOf="@id/tvTotalCostLiters"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/cvEstimateDistance"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvTotalCostTitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
 				android:text="@string/fg_fuel_history_add_estimate_cost_title"
 				android:textAppearance="?textAppearanceCaption"
 				
-				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
-				app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
+				app:layout_constraintTop_toTopOf="@id/cvTotalCost"
 				app:layout_constraintBottom_toTopOf="@id/tvTotalCostValue"
+				app:layout_constraintStart_toStartOf="@id/cvTotalCost"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvTotalCostValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:gravity="center_vertical"
 				
 				android:maxLines="1"
@@ -241,15 +229,15 @@
 				app:autoSizeMinTextSize="14sp"
 				app:autoSizeMaxTextSize="28sp"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				app:layout_constraintTop_toBottomOf="@id/tvTotalCostTitle"
+				app:layout_constraintStart_toStartOf="@id/cvTotalCost"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvTotalCostLiters"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
 				android:maxLines="1"
@@ -257,10 +245,9 @@
 				android:text="@{String.format(@string/fg_fuel_history_add_estimate_cost_subtitle_value, viewModel.litersInputValue), default = @string/fg_fuel_history_add_estimate_cost_subtitle_value_default}"
 				android:textAppearance="?textAppearanceCaption"
 				
-				
-				app:layout_constraintStart_toStartOf="@id/guidelineInnerStart"
-				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				app:layout_constraintTop_toBottomOf="@id/tvTotalCostValue"
+				app:layout_constraintStart_toStartOf="@id/cvTotalCost"
+				app:layout_constraintEnd_toEndOf="@id/cvTotalCost"
 				/>
 			
 			
@@ -268,37 +255,38 @@
 			<View android:id="@+id/cvEstimateDistance"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:layout_marginStart="2dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				android:background="@drawable/view_bg_surface_6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toTopOf="@id/tvEstimateDistanceTitle"
+				app:layout_constraintTop_toBottomOf="@id/cvConsumption"
 				app:layout_constraintBottom_toBottomOf="@id/tvEstimateDistanceDate"
+				app:layout_constraintStart_toEndOf="@id/cvTotalCost"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvEstimateDistanceTitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
 				android:text="@string/fg_fuel_history_add_estimate_distance_title"
 				android:textAppearance="?textAppearanceCaption"
 				
-				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
-				app:layout_constraintTop_toBottomOf="@id/barrier1CardsHorizontal"
+				app:layout_constraintTop_toTopOf="@id/cvEstimateDistance"
 				app:layout_constraintBottom_toTopOf="@id/tvEstimateDistanceValue"
+				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
+				app:layout_constraintEnd_toEndOf="@id/cvEstimateDistance"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvEstimateDistanceValue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
 				
 				android:text="@{String.format(@string/fg_fuel_history_add_estimate_distance_value_km, viewModel.estimateDistance), default = @string/fg_fuel_history_add_estimate_distance_value_default_km}"
 				android:textAppearance="?textAppearanceHeadline5"
@@ -308,35 +296,34 @@
 				app:autoSizeMaxTextSize="28sp"
 				
 				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
+				app:layout_constraintEnd_toEndOf="@id/cvEstimateDistance"
 				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceTitle"
 				/>
-			
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvEstimateDistanceDate"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
 				android:text="@string/fg_fuel_history_add_estimate_distance_date"
 				android:textAppearance="?textAppearanceCaption"
 				
-				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
-				app:layout_constraintEnd_toEndOf="@id/guidelineInnerEnd"
 				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceValue"
-				
+				app:layout_constraintStart_toStartOf="@id/cvEstimateDistance"
+				app:layout_constraintEnd_toEndOf="@id/cvEstimateDistance"
 				/>
 			
 			
 			<include android:id="@+id/btnDatePickerFuelHistory"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
 				layout="@layout/btn_date"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/barrier2CardsHorizontal"
+				app:layout_constraintTop_toBottomOf="@id/cvEstimateDistance"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- drop fuel station chooser-->
@@ -344,6 +331,7 @@
 				android:id="@+id/layoutInputFuelStation"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				android:focusable="false"
 				
@@ -352,8 +340,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 				
 				app:layout_constraintTop_toBottomOf="@id/btnDatePickerFuelHistory"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputPrice"
 				>
 				
 				<com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -379,6 +367,7 @@
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				android:focusable="false"
 				
 				android:hint="@string/price_input_hint"
@@ -387,8 +376,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintTop_toBottomOf="@id/btnDatePickerFuelHistory"
-				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toEndOf="@id/layoutInputFuelStation"
+				app:layout_constraintEnd_toEndOf="parent"
 				
 				>
 				
@@ -420,11 +409,10 @@
 				android:textAlignment="center"
 				android:textAppearance="?textAppearanceSubtitle2"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				app:layout_constraintTop_toBottomOf="@id/barrierFuelStationHorizontal"
 				app:layout_constraintBottom_toTopOf="@id/radioFuelTypes"
-				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.button.MaterialButtonToggleGroup
@@ -432,13 +420,14 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="4dp"
+				android:layout_marginHorizontal="8dp"
 				
 				app:singleSelection="true"
 				app:selectionRequired="true"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFuelTypeHint"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				>
 				
 				<!-- gas -->
@@ -554,6 +543,8 @@
 				android:id="@+id/layoutInputOdometer"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				android:focusable="false"
 				
@@ -564,10 +555,9 @@
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-				app:layout_constraintTop_toBottomOf="@id/barrierFuelTypesHorizontal"
-				
+				app:layout_constraintTop_toBottomOf="@id/radioFuelTypes"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputLiters"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -594,7 +584,9 @@
 				android:id="@+id/layoutInputLiters"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
+				android:layout_marginTop="8dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				android:focusable="false"
 				
 				android:hint="@string/fg_fuel_history_add_liters_input_hint"
@@ -602,10 +594,9 @@
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
-				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/barrierFuelTypesHorizontal"
-				
+				app:layout_constraintTop_toBottomOf="@id/radioFuelTypes"
+				app:layout_constraintStart_toEndOf="@id/layoutInputOdometer"
+				app:layout_constraintEnd_toEndOf="parent"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -632,6 +623,7 @@
 				android:id="@+id/layoutInputCommentary"
 				android:layout_height="wrap_content"
 				android:layout_width="0dp"
+				android:layout_marginHorizontal="8dp"
 				android:focusable="false"
 				
 				android:hint="@string/commentary_input_hint"
@@ -641,10 +633,9 @@
 				
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 				app:layout_constraintTop_toBottomOf="@id/barrierOdometerLiters"
-				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -666,53 +657,35 @@
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
-			
-			
 			<!-- button cancel -->
-			<include
-				android:id="@+id/btnCancel"
+			<include android:id="@+id/btnCancel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
 				layout="@layout/btn_cancel"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-				app:layout_constraintTop_toBottomOf="@id/barrierCommentaryHorizontal"
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCommentary"
 				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/btnDone"
 				/>
 			
 			<!-- button add -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btnDone"
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnDone"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
 				android:text="@string/btn_add"
 				
-				app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				app:layout_constraintTop_toBottomOf="@id/barrierCommentaryHorizontal"
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCommentary"
 				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toEndOf="@id/btnCancel"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
-			<androidx.constraintlayout.widget.Barrier
-				android:id="@+id/barrier1CardsHorizontal"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				app:barrierMargin="8dp"
-				app:barrierDirection="bottom"
-				app:constraint_referenced_ids="cvConsumption, cvDistancePassed"
-				/>
 			
-			<androidx.constraintlayout.widget.Barrier
-				android:id="@+id/barrier2CardsHorizontal"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				app:barrierMargin="8dp"
-				app:barrierDirection="bottom"
-				app:constraint_referenced_ids="cvEstimateDistance, cvTotalCost"
-				/>
+			
+			
 			
 			<androidx.constraintlayout.widget.Barrier
 				android:id="@+id/barrierFuelStationHorizontal"
@@ -724,74 +697,12 @@
 				/>
 			
 			<androidx.constraintlayout.widget.Barrier
-				android:id="@+id/barrierFuelTypesHorizontal"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				app:barrierMargin="8dp"
-				app:barrierDirection="bottom"
-				app:constraint_referenced_ids="radioFuelTypes"
-				/>
-			
-			<androidx.constraintlayout.widget.Barrier
 				android:id="@+id/barrierOdometerLiters"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				app:barrierMargin="8dp"
 				app:barrierDirection="bottom"
 				app:constraint_referenced_ids="layoutInputOdometer, layoutInputLiters"
-				/>
-			
-			<androidx.constraintlayout.widget.Barrier
-				android:id="@+id/barrierCommentaryHorizontal"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				app:barrierMargin="8dp"
-				app:barrierDirection="bottom"
-				app:constraint_referenced_ids="layoutInputCommentary"/>
-			
-			<!-- center -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineCenter"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.5"
-				/>
-			
-			<!-- start -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineStart"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="8dp"
-				/>
-			
-			<!-- end -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineEnd"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="8dp"
-				/>
-			
-			<!-- start inner cards -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineInnerStart"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="16dp"
-				/>
-			
-			<!-- end inner cards -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineInnerEnd"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="16dp"
 				/>
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>

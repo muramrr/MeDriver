@@ -26,17 +26,23 @@
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="@drawable/view_bg_surface_6"
-		android:padding="16dp"
+		
 		>
 	
 		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvRegulationTitle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:paddingBottom="8dp"
+			android:padding="8dp"
 			
+			android:ellipsize="end"
+			android:maxLines="1"
 			android:text=""
 			android:textAppearance="?textAppearanceHeadline6"
 			android:textAlignment="center"
+			
+			app:autoSizeTextType="uniform"
+			app:autoSizeMinTextSize="14sp"
+			app:autoSizeMaxTextSize="20sp"
 			
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +52,7 @@
 		<com.google.android.material.textfield.TextInputLayout android:id="@+id/layoutInputRegulationDistanceValue"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="16dp"
+			android:layout_marginHorizontal="24dp"
 			
 			app:suffixKM="@{@string/kilometers}"
 			app:suffixMI="@{@string/miles}"
@@ -55,7 +61,7 @@
 			
 			app:layout_constraintTop_toBottomOf="@id/tvRegulationTitle"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toStartOf="@id/btnRegulationTimeDecrease"
+			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText android:id="@+id/etRegulationDistanceValue"
@@ -78,28 +84,29 @@
 		<com.google.android.material.button.MaterialButton android:id="@+id/btnRegulationTimeDecrease"
 			android:layout_width="48dp"
 			android:layout_height="48dp"
-			android:layout_marginHorizontal="4dp"
+			android:layout_margin="16dp"
 			
 			app:icon="@drawable/ic_minus_24"
 			style="@style/My.Widget.Button.IconOnly.Rounded.Outlined"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvRegulationTitle"
-			app:layout_constraintBottom_toBottomOf="@id/layoutInputRegulationDistanceValue"
-			app:layout_constraintStart_toEndOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toStartOf="@id/tvRegulationTimeValue"
 			/>
 		
 		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvRegulationTimeValue"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginHorizontal="16dp"
+			android:gravity="center_vertical"
+			android:padding="8dp"
 			
 			android:text=""
 			android:textAppearance="?textAppearanceOverline"
 			android:textSize="14sp"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvRegulationTitle"
-			app:layout_constraintBottom_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toEndOf="@id/btnRegulationTimeDecrease"
 			app:layout_constraintEnd_toStartOf="@id/btnRegulationTimeIncrease"
 			/>
@@ -107,13 +114,13 @@
 		<com.google.android.material.button.MaterialButton android:id="@+id/btnRegulationTimeIncrease"
 			android:layout_width="48dp"
 			android:layout_height="48dp"
-			android:layout_marginStart="4dp"
+			android:layout_margin="16dp"
 			
 			app:icon="@drawable/ic_plus_24"
 			style="@style/My.Widget.Button.IconOnly.Rounded.Outlined"
 			
-			app:layout_constraintTop_toBottomOf="@id/tvRegulationTitle"
-			app:layout_constraintBottom_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toEndOf="@id/tvRegulationTimeValue"
 			app:layout_constraintEnd_toEndOf="parent"
 			/>

@@ -261,42 +261,37 @@
 				
 			</androidx.constraintlayout.widget.ConstraintLayout>
 			
-			<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/layoutControls"
+			<LinearLayout android:id="@+id/layoutControls"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:background="#CD000000"
+				android:gravity="center"
 				android:visibility="invisible"
 				>
 				
 				<ImageView android:id="@+id/btnReturn"
-					android:layout_width="48dp"
+					android:layout_width="0dp"
 					android:layout_height="48dp"
+					android:layout_weight="1"
 					
-					android:background="?selectableItemBackground"
+					android:background="?selectableItemBackgroundBorderless"
 					android:src="@drawable/ic_return_24"
 					
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@id/btnDelete"
 					android:contentDescription="@null"
 					/>
 				
 				<ImageView android:id="@+id/btnDelete"
-					android:layout_width="48dp"
+					android:layout_width="0dp"
 					android:layout_height="48dp"
+					android:layout_weight="1"
 					
-					android:background="?selectableItemBackground"
+					android:background="?selectableItemBackgroundBorderless"
 					android:src="@drawable/ic_delete_24"
 					
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintStart_toEndOf="@id/btnReturn"
-					app:layout_constraintEnd_toEndOf="parent"
 					android:contentDescription="@null"
 					/>
 				
-			</androidx.constraintlayout.widget.ConstraintLayout>
+			</LinearLayout>
 			
 		</com.google.android.material.card.MaterialCardView>
 		

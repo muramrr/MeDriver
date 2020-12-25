@@ -21,6 +21,7 @@ package com.mmdev.me.driver.presentation.ui.fuel.history
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.databinding.FragmentFuelHistoryBinding
@@ -55,9 +56,9 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 	
 	override fun setupViews() = binding.run {
 		
-		binding.fabAddHistoryEntry.isEnabled = MainActivity.currentVehicle != null
+		fabAddHistoryEntry.isEnabled = MainActivity.currentVehicle != null
 		
-		binding.rvFuelHistory.run {
+		rvFuelHistory.run {
 			setHasFixedSize(true)
 			//register data observer to automatically scroll to top when new history record added
 			adapter = mAdapter
@@ -70,12 +71,12 @@ class FuelHistoryFragment: BaseFragment<FuelHistoryViewModel, FragmentFuelHistor
 		}
 		
 		
-		binding.fabAddHistoryEntry.setDebounceOnClick {
+		fabAddHistoryEntry.setDebounceOnClick {
 			
 			FuelHistoryAddDialog().show(childFragmentManager, FuelHistoryAddDialog::class.java.canonicalName)
 		}
 		
-		binding.fabAddHistoryEntry.setOnLongClickListener {
+		if (MedriverApp.debug.isEnabled) fabAddHistoryEntry.setOnLongClickListener {
 			mViewModel.generateFuelHistoryData()
 			true
 		}

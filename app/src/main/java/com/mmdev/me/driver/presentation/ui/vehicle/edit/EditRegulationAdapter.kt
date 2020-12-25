@@ -60,6 +60,8 @@ class EditRegulationAdapter(
 	
 	override fun getItemCount(): Int = data.size
 	
+	override fun getItemViewType(position: Int): Int = position
+	
 	fun setNewData(newData: List<RegulationUi>) {
 		data = newData
 		notifyDataSetChanged()
@@ -72,6 +74,7 @@ class EditRegulationAdapter(
 			
 			binding.run {
 				layoutInputRegulationDistanceValue.isEnabled = item.part != INSURANCE
+				
 				
 				tvRegulationTitle.text = root.context.getString(
 					VehicleSystemNodeConstants.plannedComponents[item.part.getSparePartOrdinal()]

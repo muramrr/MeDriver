@@ -64,14 +64,6 @@
 				/>
 			
 		</LinearLayout>
-		
-		<include android:id="@+id/viewLoading"
-			layout="@layout/loading"
-			android:layout_height="match_parent"
-			android:layout_width="match_parent"
-			
-			android:visibility="invisible"
-			/>
 	
 	</FrameLayout>
 	

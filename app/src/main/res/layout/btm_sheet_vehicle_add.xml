@@ -40,6 +40,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="8dp"
 			
 			android:hint="@string/btm_sheet_vehicle_add_enter_vin_hint"
 			
@@ -53,8 +54,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText
@@ -83,6 +84,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
+			android:layout_marginStart="8dp"
 			android:layout_marginEnd="4dp"
 			
 			android:hint="@string/btm_sheet_vehicle_add_enter_brand_hint"
@@ -94,8 +96,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputVin"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/layoutInputModel"
 			>
 			
 			<com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -123,6 +125,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
+			android:layout_marginEnd="8dp"
 			
 			android:hint="@string/btm_sheet_vehicle_add_enter_model_hint"
 			app:counterEnabled="true"
@@ -133,8 +136,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputVin"
-			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintStart_toEndOf="@id/layoutInputBrand"
+			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText
@@ -160,6 +163,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
+			android:layout_marginStart="8dp"
 			android:layout_marginEnd="4dp"
 			
 			android:hint="@string/btm_sheet_vehicle_add_enter_year_hint"
@@ -169,8 +173,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputBrand"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/layoutInputEngineCap"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText
@@ -196,6 +200,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
+			android:layout_marginEnd="8dp"
 			android:layout_marginStart="4dp"
 			
 			android:hint="@string/btm_sheet_vehicle_add_enter_engine_cap_hint"
@@ -207,8 +212,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputModel"
-			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintStart_toEndOf="@id/layoutInputYear"
+			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText
@@ -234,6 +239,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="8dp"
 			
 			android:hint="@string/odometer_input_hint"
 			
@@ -245,8 +251,8 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputYear"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			>
 			
 			<com.google.android.material.textfield.TextInputEditText
@@ -278,8 +284,8 @@
 			
 			app:layout_constraintTop_toBottomOf="@id/layoutInputOdometer"
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/btnAdd"
 			/>
 		
 		<!-- button add -->
@@ -293,10 +299,10 @@
 			
 			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
 			
-			app:layout_constraintStart_toEndOf="@id/guidelineCenter"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			app:layout_constraintTop_toBottomOf="@id/layoutInputOdometer"
 			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="parent"
 			/>
 		
 		<include android:id="@+id/viewLoading"
@@ -309,33 +315,6 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
-			/>
-		
-		<!-- center -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineCenter"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			app:layout_constraintGuide_percent="0.5"
-			/>
-		
-		<!-- guideline start -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineStart"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_begin="8dp"
-			/>
-		
-		<!-- guideline end -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineEnd"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_end="8dp"
 			/>
 		
 	</androidx.constraintlayout.widget.ConstraintLayout>

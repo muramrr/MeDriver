@@ -46,6 +46,6 @@ fun VehicleSparePart.getRelatedString(context: Context): String {
 
 
 fun VehicleSparePart.getVendorAndArticulus(context: Context): String {
-	return if (vendor.isNotEmpty() && articulus.isNotEmpty()) "$vendor $articulus"
+	return if (vendor.isNotEmpty() || articulus.isNotEmpty()) "$vendor $articulus"
 	else context.getString(R.string.undefined)
 }

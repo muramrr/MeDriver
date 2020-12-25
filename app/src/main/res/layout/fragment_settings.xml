@@ -38,15 +38,16 @@
 				android:id="@+id/tvYourAccountHeader"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="16dp"
 				
 				android:text="@string/fg_settings_header_account"
 				android:textAppearance="?textAppearanceHeadline6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintBottom_toTopOf="@id/cvAccountContainer"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- account premium indicator -->
@@ -67,9 +68,9 @@
 				app:icon="@drawable/ic_subscription_premium_24"
 				app:iconTintMode="multiply"
 				
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toTopOf="@id/tvYourAccountHeader"
 				app:layout_constraintBottom_toBottomOf="@id/tvYourAccountHeader"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.button.MaterialButton
@@ -90,9 +91,9 @@
 				app:iconTintMode="multiply"
 				app:iconTint="?colorSurface"
 				
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toTopOf="@id/tvYourAccountHeader"
 				app:layout_constraintBottom_toBottomOf="@id/tvYourAccountHeader"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- account card container imitation -->
@@ -100,12 +101,12 @@
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:background="@drawable/view_bg_surface_16"
+				android:layout_marginHorizontal="8dp"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toBottomOf="@id/tvYourAccountHeader"
 				app:layout_constraintBottom_toBottomOf="@id/btnMoreFeatures"
-				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- not verified label -->
@@ -114,6 +115,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="16dp"
 				
 				android:text="@string/fg_settings_tv_not_verified"
 				android:textAppearance="?textAppearanceCaption"
@@ -122,8 +124,8 @@
 				
 				app:layout_constraintTop_toTopOf="@id/cvAccountContainer"
 				app:layout_constraintBottom_toTopOf="@id/tvEmailAddressConfirmed"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				/>
 			<!-- send verification -->
 			<com.google.android.material.button.MaterialButton
@@ -157,6 +159,7 @@
 				android:id="@+id/tvEmailAddressConfirmed"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginStart="16dp"
 				android:layout_marginEnd="16dp"
 				android:clickable="false"
 				
@@ -178,7 +181,7 @@
 				app:iconTintMode="multiply"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvYourAccountVerificationHint"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
 				app:layout_constraintEnd_toStartOf="@id/barrierSignInOut"
 				/>
 			<!-- tap to verify label -->
@@ -186,6 +189,7 @@
 				android:id="@+id/tvTapToVerifyHint"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="16dp"
 				
 				android:text="@string/fg_settings_tv_tap_to_verify"
 				android:textAppearance="?textAppearanceCaption"
@@ -193,8 +197,8 @@
 				android:visibility="invisible"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				
 				/>
 			
@@ -202,23 +206,23 @@
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnSignInPopUp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
+				android:layout_marginEnd="8dp"
 				android:text="@string/fg_settings_btn_sign_in"
 				
 				android:visibility="visible"
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				app:layout_constraintTop_toTopOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				/>
 			
 			<!-- button sign out -->
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnSignOut"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
+				android:layout_marginEnd="8dp"
 				android:text="@string/fg_settings_btn_sign_out"
 				android:textColor="#d62828"
 				
@@ -226,9 +230,9 @@
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
 				app:layout_constraintTop_toTopOf="@id/tvEmailAddressConfirmed"
 				app:layout_constraintBottom_toBottomOf="@id/tvEmailAddressConfirmed"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				/>
 			
 			<!-- sync -->
@@ -236,22 +240,23 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
+				android:layout_marginStart="16dp"
 				
 				android:text="@string/fg_settings_sync_title"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEmailAddressConfirmed"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
 				/>
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSyncSubtitle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				
+				android:layout_marginStart="16dp"
 				android:maxLines="1"
 				android:text="Last synced: 01.01.1970"
 				android:textAppearance="?textAppearanceCaption"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvSyncTitle"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
 				/>
 			<ImageView android:id="@+id/ivSyncIcon"
 				android:layout_width="0dp"
@@ -262,7 +267,7 @@
 				app:layout_constraintTop_toTopOf="@id/tvSyncTitle"
 				app:layout_constraintBottom_toBottomOf="@id/tvSyncSubtitle"
 				app:layout_constraintStart_toStartOf="@id/barrierSignInOut"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				
 				android:contentDescription="@null"
 				/>
@@ -273,17 +278,19 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
+				android:layout_marginStart="16dp"
 				
 				android:text="@string/fg_settings_tv_subscription_expires"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvSyncSubtitle"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
 				/>
 			<!-- subscription expires value -->
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvSubscriptionExpiresValue"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginEnd="16dp"
 				
 				android:maxLines="1"
 				
@@ -294,7 +301,7 @@
 				
 				app:layout_constraintTop_toTopOf="@id/tvSubscriptionExpiresLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvSubscriptionExpiresLabel"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				/>
 			
 			<!-- button get more features -->
@@ -302,7 +309,7 @@
 				android:id="@+id/btnMoreFeatures"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="16dp"
 				
 				android:text="@string/fg_settings_btn_get_subscription_not_active"
 				android:textAllCaps="false"
@@ -310,8 +317,8 @@
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvSubscriptionExpiresLabel"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintStart_toStartOf="@id/cvAccountContainer"
+				app:layout_constraintEnd_toEndOf="@id/cvAccountContainer"
 				/>
 			
 			
@@ -323,28 +330,29 @@
 				android:id="@+id/tvGeneralCardHeader"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="16dp"
 				
 				android:text="@string/fg_settings_header_general"
 				android:textAppearance="?textAppearanceHeadline6"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toBottomOf="@id/cvAccountContainer"
 				app:layout_constraintBottom_toTopOf="@id/cvGeneralContainer"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- general card container imitation -->
 			<View android:id="@+id/cvGeneralContainer"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
+				android:layout_marginHorizontal="8dp"
 				android:background="@drawable/view_bg_surface_16"
 				
-				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot"
 				app:layout_constraintTop_toBottomOf="@id/tvGeneralCardHeader"
 				app:layout_constraintBottom_toBottomOf="@id/btnUsefulTips"
-				
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- theme switch -->
@@ -353,14 +361,15 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="24dp"
+				android:layout_marginHorizontal="16dp"
 				
 				app:title="@string/fg_settings_switcher_dark_theme_title"
 				app:subtitle="@string/fg_settings_switcher_dark_theme_subtitle"
 				
 				app:layout_constraintTop_toTopOf="@id/cvGeneralContainer"
 				app:layout_constraintBottom_toTopOf="@id/tvMetricSystemLabel"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintStart_toStartOf="@id/cvGeneralContainer"
+				app:layout_constraintEnd_toEndOf="@id/cvGeneralContainer"
 				/>
 			
 			<!-- metric system label -->
@@ -369,6 +378,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
+				android:layout_marginStart="16dp"
 				android:labelFor="@id/switchTheme"
 				
 				android:text="@string/fg_settings_switcher_metric_system"
@@ -376,7 +386,7 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/switchTheme"
 				app:layout_constraintBottom_toTopOf="@id/tvLanguageLabel"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvGeneralContainer"
 				app:layout_constraintEnd_toStartOf="@id/radioMetricSystem"
 				
 				/>
@@ -385,6 +395,7 @@
 				android:id="@+id/radioMetricSystem"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginEnd="16dp"
 				
 				app:selectionRequired="true"
 				app:singleSelection="true"
@@ -392,7 +403,7 @@
 				app:layout_constraintStart_toEndOf="@id/tvMetricSystemLabel"
 				app:layout_constraintTop_toTopOf="@id/tvMetricSystemLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvMetricSystemLabel"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintEnd_toEndOf="@id/cvGeneralContainer"
 				
 				>
 				
@@ -426,13 +437,14 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="32dp"
+				android:layout_marginStart="16dp"
 				android:labelFor="@id/layoutLanguageChoose"
 				
 				android:text="@string/fg_settings_switcher_language"
 				
 				
 				app:layout_constraintTop_toBottomOf="@id/tvMetricSystemLabel"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
+				app:layout_constraintStart_toStartOf="@id/cvGeneralContainer"
 				app:layout_constraintEnd_toStartOf="@id/layoutLanguageChoose"
 				
 				/>
@@ -440,6 +452,7 @@
 				android:id="@+id/layoutLanguageChoose"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
+				android:layout_marginEnd="16dp"
 				android:focusable="false"
 				
 				app:hintEnabled="false"
@@ -449,7 +462,7 @@
 				app:layout_constraintStart_toEndOf="@id/tvLanguageLabel"
 				app:layout_constraintTop_toTopOf="@id/tvLanguageLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvLanguageLabel"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintEnd_toEndOf="@id/cvGeneralContainer"
 				>
 				
 				<com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -473,31 +486,32 @@
 				android:id="@+id/btnUsefulTips"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
 				
 				android:text="Useful tips"
 				android:textAllCaps="false"
+				android:visibility="invisible"
 				
 				style="@style/Widget.MaterialComponents.Button.TextButton"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutLanguageChoose"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartInner"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndInner"
+				app:layout_constraintStart_toStartOf="@id/cvGeneralContainer"
+				app:layout_constraintEnd_toEndOf="@id/cvGeneralContainer"
 				/>
 			
 			<com.google.android.material.card.MaterialCardView android:id="@+id/cvFAQ"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginVertical="8dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				
 				app:cardElevation="1dp"
 				app:cardCornerRadius="16dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/cvGeneralContainer"
-				app:layout_constraintStart_toStartOf="@id/guidelineStartRoot"
-				app:layout_constraintEnd_toStartOf="@id/cvAbout"
 				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/cvAbout"
 				>
 				
 				<LinearLayout
@@ -538,6 +552,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginVertical="8dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				app:cardElevation="1dp"
 				app:cardCornerRadius="16dp"
@@ -545,7 +560,7 @@
 				app:layout_constraintTop_toBottomOf="@id/cvGeneralContainer"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toEndOf="@id/cvFAQ"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEndRoot">
+				app:layout_constraintEnd_toEndOf="parent">
 				
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -580,39 +595,6 @@
 			
 			</com.google.android.material.card.MaterialCardView>
 			
-			
-			<!-- guideline start root -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineStartRoot"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="8dp"
-				/>
-			<!-- guideline end root -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineEndRoot"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="8dp"
-				/>
-			<!-- guideline start inner -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineStartInner"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="24dp"
-				/>
-			<!-- guideline end inner -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineEndInner"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="24dp"
-				/>
 			
 			<androidx.constraintlayout.widget.Barrier
 				android:id="@+id/barrierSignInOut"

@@ -41,7 +41,7 @@
 			android:layout_width="match_parent"
 			>
 			
-			<View android:id="@+id/viewBackgroundLastReplaced"
+			<View android:id="@+id/cvLastReplaced"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginHorizontal="8dp"
@@ -56,6 +56,7 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedLabel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
 				android:padding="8dp"
 				android:maxLines="1"
 				
@@ -64,7 +65,7 @@
 				
 				app:layout_constraintHorizontal_chainStyle="spread_inside"
 				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintStart_toStartOf="@id/cvLastReplaced"
 				app:layout_constraintEnd_toStartOf="@id/tvLastReplacedDate"
 				/>
 			
@@ -91,6 +92,7 @@
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedOdometer"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
+				android:layout_marginEnd="8dp"
 				android:padding="8dp"
 				android:maxLines="1"
 				
@@ -103,7 +105,7 @@
 				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
 				app:layout_constraintBottom_toBottomOf="@id/tvLastReplacedLabel"
 				app:layout_constraintStart_toEndOf="@id/tvLastReplacedDate"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintEnd_toEndOf="@id/cvLastReplaced"
 				
 				/>
 			
@@ -115,14 +117,14 @@
 				android:text="@string/not_found"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvLastReplacedLabel"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="@id/cvLastReplaced"
+				app:layout_constraintEnd_toEndOf="@id/cvLastReplaced"
 				/>
 			
 			
 			
 			
-			<View android:id="@+id/viewBackgroundInput"
+			<View android:id="@+id/cvInput"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginHorizontal="8dp"
@@ -142,8 +144,8 @@
 				
 				android:textAppearance="?textAppearanceSubtitle2"
 				
-				app:layout_constraintTop_toBottomOf="@id/viewBackgroundLastReplaced"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintTop_toBottomOf="@id/cvLastReplaced"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
 				app:layout_constraintEnd_toStartOf="@id/btnChildDatePicker"
 				
 				/>
@@ -152,13 +154,14 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
+				android:layout_marginEnd="8dp"
 				
 				layout="@layout/btn_date"
 				
 				app:layout_constraintTop_toTopOf="@id/tvComponentTitle"
 				app:layout_constraintBottom_toBottomOf="@id/tvComponentTitle"
 				app:layout_constraintStart_toEndOf="@id/tvComponentTitle"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				/>
 			
 			<!-- input component -->
@@ -167,6 +170,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="8dp"
 				
 				android:hint="@string/item_maintenance_child_edit_component_hint"
 				app:counterEnabled="true"
@@ -177,8 +181,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintTop_toBottomOf="@id/btnChildDatePicker"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -203,6 +207,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				
 				android:hint="@string/item_maintenance_child_edit_vendor_hint"
@@ -213,8 +218,8 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
 				app:layout_constraintBottom_toTopOf="@id/layoutInputPrice"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputArticulus"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -240,6 +245,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				android:hint="@string/item_maintenance_child_edit_articulus_hint"
 				
@@ -249,8 +255,8 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
 				app:layout_constraintBottom_toTopOf="@id/layoutInputOdometer"
-				app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toEndOf="@id/layoutInputVendor"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -275,6 +281,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				
 				android:hint="@string/price_input_hint"
@@ -285,8 +292,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputVendor"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toStartOf="@id/guidelineCenterVertical"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputOdometer"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -312,6 +319,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				android:hint="@string/odometer_input_hint"
 				
@@ -323,8 +331,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputArticulus"
-				app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toEndOf="@id/layoutInputPrice"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -349,7 +357,7 @@
 				android:id="@+id/layoutInputCommentary"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				
+				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
 				android:hint="@string/commentary_input_hint"
@@ -361,8 +369,8 @@
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputPrice"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
@@ -386,40 +394,14 @@
 				android:id="@+id/fabChildAdd"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				android:layout_marginBottom="16dp"
+				android:layout_marginVertical="16dp"
 				
-				android:text="Add"
+				android:text="@string/btn_add"
 				android:textAlignment="center"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutInputCommentary"
 				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-				/>
-			
-			
-			<!-- center vertical -->
-			<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineCenterVertical"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.5"
-				/>
-			
-			<!-- guideline start -->
-			<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineStart"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="16dp"
-				/>
-			
-			<!-- guideline end -->
-			<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineEnd"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="16dp"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
 				/>
 		
 		</androidx.constraintlayout.widget.ConstraintLayout>

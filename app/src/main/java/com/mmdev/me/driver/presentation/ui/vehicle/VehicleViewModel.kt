@@ -20,8 +20,7 @@ package com.mmdev.me.driver.presentation.ui.vehicle
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.R.drawable
-import com.mmdev.me.driver.R.string
+import com.mmdev.me.driver.R.*
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
@@ -157,7 +156,8 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 		if (vehicle == null) fuelConsumptionData.value = emptyList()
 		else viewModelScope.launch {
 			repository.getFuelConsumption(vehicle.vin).fold(
-				success = { fuelConsumptionData.postValue(it) },
+				// drop the first entry because its consumption always = 0
+				success = { fuelConsumptionData.postValue(it.drop(1)) },
 				failure = { logError(TAG, "${it.message}") }
 			)
 		}

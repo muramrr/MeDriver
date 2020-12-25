@@ -117,7 +117,6 @@
 			
 		</com.google.android.material.chip.ChipGroup>
 		
-		
 		<com.google.android.material.card.MaterialCardView android:id="@+id/frontContentContainer"
 			android:layout_height="0dp"
 			android:layout_width="0dp"
@@ -155,6 +154,18 @@
 			
 		</com.google.android.material.card.MaterialCardView>
 		
+		<include android:id="@+id/viewLoading"
+			layout="@layout/loading"
+			android:layout_height="0dp"
+			android:layout_width="0dp"
+			
+			android:visibility="invisible"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
 	
 	</androidx.constraintlayout.widget.ConstraintLayout>
+	
 </layout>

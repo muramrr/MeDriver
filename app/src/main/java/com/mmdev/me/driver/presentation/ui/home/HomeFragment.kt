@@ -35,7 +35,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
@@ -70,6 +69,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	private val checkedExpensesPositions = mutableListOf(0, 1, 2, 3, 4)
 	
 	private var priceFormatter = ""
+	private var hryvnia = ""
 	
 	private var colorPaletteValues = listOf<Int>()
 	
@@ -123,17 +123,18 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 
 	private fun initStringRes() {
 		priceFormatter = getString(R.string.price_formatter_right)
+		hryvnia = getString(R.string.hryvnia_symbol)
 	}
 	
 	private fun setupMyGarage() = binding.rvMyGarage.run {
+		setHasFixedSize(true)
+		
 		adapter = myGarageAdapter
 		layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 		
 		//adjust auto swipe to item center
 		val snapHelper: SnapHelper = LinearSnapHelper()
 		snapHelper.attachToRecyclerView(this)
-		
-		setHasFixedSize(true)
 	}
 	
 	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) = binding.run {
@@ -148,12 +149,10 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		pieChartExpenses.run {
 			data = setupPieChartExpensesData(stats)
 			
-			isRotationEnabled = false
-			
 			description.apply {
 				text = getString(R.string.fg_home_pie_chart_expenses_description)
 				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-				textSize = 14f
+				textSize = 16f
 				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
 			}
 			legend.apply {
@@ -184,16 +183,14 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		val dataSet = PieDataSet(entries, "").apply {
 			colors = colorPaletteValues.shuffled()
 			valueFormatter = object : ValueFormatter() {
-				override fun getFormattedValue(value: Float): String {
-					return String.format(priceFormatter, value)
-				}
+				override fun getFormattedValue(value: Float): String =
+					if (value < 100000) String.format(priceFormatter, value)
+					else MyLargeValueFormatter(hryvnia).getFormattedValue(value)
 			}
-			valueLinePart1OffsetPercentage = 80f
-			valueLinePart1Length = 0.2f
-			valueLinePart2Length = 0.8f
+			
 			valueLineColor = requireContext().getColorValue(R.color.colorOnBackground)
 			valueTextColor = requireContext().getColorValue(R.color.colorOnBackground)
-			valueTextSize = 12f
+			valueTextSize = 14f
 			valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
 			yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
 		}
@@ -229,9 +226,9 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	private fun setupBarChartExpenses() = binding.barChartExpenses.run {
 		extraBottomOffset = 10f
 		
-		description.apply {
-			text = getString(R.string.hryvnia_symbol)
-			textSize = 14f
+		description.run {
+			text = hryvnia
+			textSize = 20f
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_light)
 		}
 		legend.isEnabled = false
@@ -260,7 +257,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			textColor = requireContext().getColorValue(R.color.colorOnBackground)
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			
-			valueFormatter = LargeValueFormatter()
+			valueFormatter = MyLargeValueFormatter()
 		}
 		
 		axisRight.run {
@@ -271,7 +268,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
 			textColor = requireContext().getColorValue(R.color.colorOnBackground)
 			
-			valueFormatter = LargeValueFormatter()
+			valueFormatter = MyLargeValueFormatter()
 		}
 		
 		animateY(1500)
@@ -302,7 +299,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			val data = BarData(dataSet).apply {
 				barWidth = 0.9f
 				setValueTextSize(10f)
-				setValueFormatter(LargeValueFormatter())
+				setValueFormatter(MyLargeValueFormatter())
 				setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
 				setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_regular))
 			}

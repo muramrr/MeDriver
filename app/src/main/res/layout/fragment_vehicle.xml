@@ -81,14 +81,15 @@
 				android:layout_width="0dp"
 				android:layout_height="0dp"
 				android:layout_marginTop="8dp"
+				android:layout_marginStart="8dp"
 				android:layout_marginEnd="4dp"
 				
 				app:cardCornerRadius="6dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
 				app:layout_constraintBottom_toBottomOf="@id/cvExpenses"
-				app:layout_constraintEnd_toEndOf="@id/guidelineCenterVertical"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/cvExpenses"
 				>
 				
 				<LinearLayout
@@ -159,12 +160,13 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
 				
 				app:cardCornerRadius="6dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/layoutMyCarChooseCar"
-				app:layout_constraintStart_toStartOf="@id/guidelineCenterVertical"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toEndOf="@id/cvMileage"
+				app:layout_constraintEnd_toEndOf="parent"
 				>
 				
 				<LinearLayout
@@ -285,22 +287,23 @@
 				app:iconPadding="24dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/cvMileage"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- vehicle specs card header -->
 			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvConsumablesHeader"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:padding="16dp"
 				
 				android:text="@string/fg_vehicle_consumable_reminders_header"
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintTop_toBottomOf="@id/btnCopyVin"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnEditRegulations"
 				android:layout_width="48dp"
@@ -324,6 +327,7 @@
 			<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvFrequentlyConsumables"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				android:overScrollMode="never"
 				
 				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -332,21 +336,22 @@
 				tools:listitem="@layout/item_consumable_reminder"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvConsumablesHeader"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<!-- cv Insurance -->
 			<com.google.android.material.card.MaterialCardView android:id="@+id/cvInsurance"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
 				
 				app:cardBackgroundColor="@android:color/transparent"
 				app:cardCornerRadius="6dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/rvFrequentlyConsumables"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				>
 				
 				<LinearLayout
@@ -424,23 +429,25 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:labelFor="@id/lineChartFuelConsumption"
+				android:layout_marginHorizontal="8dp"
 				android:padding="16dp"
 				
 				android:text="@string/fg_vehicle_fuel_consumption_history_header"
 				android:textAppearance="?textAppearanceHeadline6"
 				
 				app:layout_constraintTop_toBottomOf="@id/cvInsurance"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 		
 			<com.github.mikephil.charting.charts.LineChart android:id="@+id/lineChartFuelConsumption"
 				android:layout_width="0dp"
 				android:layout_height="300dp"
+				android:layout_marginHorizontal="8dp"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvFuelConsumptionHeader"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 				
 			
@@ -546,8 +553,8 @@
 			<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvLessFrequentlyConsumables"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
 				android:layout_marginTop="16dp"
+				android:layout_marginHorizontal="8dp"
 				android:overScrollMode="never"
 				
 				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -556,8 +563,8 @@
 				tools:listitem="@layout/item_consumable_reminder"
 				
 				app:layout_constraintTop_toBottomOf="@id/lineChartFuelConsumption"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
 			
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnDeleteVehicle"
@@ -565,6 +572,7 @@
 				android:layout_height="wrap_content"
 				android:padding="16dp"
 				android:layout_marginBottom="8dp"
+				android:layout_marginHorizontal="8dp"
 				android:enabled="@{viewModel.chosenVehicle != null}"
 				
 				android:text="@string/fg_vehicle_delete_btn"
@@ -573,38 +581,9 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/rvLessFrequentlyConsumables"
 				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintStart_toStartOf="@id/guidelineStart"
-				app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				/>
-			
-			
-			
-			
-			<!-- guideline start -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineStart"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="8dp"
-				/>
-			<!-- guideline end -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineEnd"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_end="8dp"
-				/>
-			<!-- guideline center vertical -->
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guidelineCenterVertical"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.5"
-				/>
-			
 			
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		

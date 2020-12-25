@@ -18,20 +18,18 @@
 
 package com.mmdev.me.driver.presentation.ui.fuel
 
-import android.view.View
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.databinding.FragmentFuelBinding
-import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryFragment
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesFragment
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
-import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewState
-import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -44,9 +42,12 @@ class FuelFragment: BaseFlowFragment<Nothing, FragmentFuelBinding>(
 	
 	private val fuelPrices: FuelPricesViewModel by sharedViewModel()
 	
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		fuelPrices.getFuelPrices(MedriverApp.pricesRegion)
+	}
 	
 	override fun setupViews() {
-		fuelPrices.viewState.observe(this, { renderState(it) })
 		
 		binding.viewPagerContainer.apply {
 			adapter = FuelPagerAdapter(this@FuelFragment)
@@ -63,14 +64,9 @@ class FuelFragment: BaseFlowFragment<Nothing, FragmentFuelBinding>(
 		}.attach()
 	}
 	
-	override fun renderState(state: ViewState) {
-		binding.viewLoading.visibleIf(otherwise = View.GONE) {
-			state == FuelPricesViewState.Loading
-		}
-	}
+	
 	
 	private class FuelPagerAdapter (fragment: Fragment): FragmentStateAdapter(fragment) {
-		
 		
 		override fun createFragment(position: Int): Fragment =
 			if (position == 0) FuelHistoryFragment()

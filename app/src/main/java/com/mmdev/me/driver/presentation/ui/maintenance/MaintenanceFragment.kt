@@ -24,6 +24,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.core.utils.log.logWtf
@@ -61,12 +62,11 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		mViewModel.viewState.observe(this, { renderState(it) })
 		mViewModel.updateTrigger.observe(this, {})
 	}
 	
 	override fun setupViews() {
-		mViewModel.viewState.observe(this, { renderState(it) })
-		
 		setupSearch()
 		
 		binding.apply {
@@ -98,6 +98,11 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 			fabAddMaintenance.setDebounceOnClick {
 				MaintenanceAddBottomSheet()
 					.show(childFragmentManager, MaintenanceAddBottomSheet::class.java.canonicalName)
+			}
+			
+			if (MedriverApp.debug.isEnabled) fabAddMaintenance.setOnLongClickListener {
+				mViewModel.generateMaintenanceData(requireContext())
+				true
 			}
 			
 		}

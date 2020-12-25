@@ -39,10 +39,8 @@ import kotlinx.datetime.todayAt
 
 class FuelPricesViewModel (private val repository: IFuelPricesRepository): BaseViewModel() {
 	
-	val viewState : MutableLiveData<FuelPricesViewState> = MutableLiveData()
+	val viewState: MutableLiveData<FuelPricesViewState> = MutableLiveData()
 	val fuelPrices: MutableLiveData<List<FuelStationWithPrices>> = MutableLiveData()
-	
-	init { getFuelPrices(MedriverApp.pricesRegion) }
 	
 	fun getFuelPrices(region: Region) {
 		

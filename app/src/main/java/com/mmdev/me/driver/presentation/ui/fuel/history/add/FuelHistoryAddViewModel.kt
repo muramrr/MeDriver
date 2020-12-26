@@ -28,7 +28,7 @@ import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.core.utils.log.logDebug
-import com.mmdev.me.driver.core.utils.log.logWtf
+import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -55,13 +55,13 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	
 	val viewState: MutableLiveData<FuelHistoryAddViewState> = MutableLiveData()
 	
-	val lastAddedEntry: MutableLiveData<FuelHistory?> = MutableLiveData(null)
+	val lastAddedEntry = MutableLiveData<FuelHistory?>(null)
 	
 	init {
 		viewModelScope.launch {
 			repository.loadFirstFuelHistoryEntry(MedriverApp.currentVehicleVinCode).fold(
 				success = { lastAddedEntry.value = it },
-				failure = { logWtf(TAG, "$it") }
+				failure = { logError(TAG, "$it") }
 			)
 		}
 	}
@@ -157,6 +157,15 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 			else 0
 		}
 	
+	val expectedRefuel: LiveData<Int> = estimateDistance.combineWith(distancePassed) { estimate, passed ->
+		val lastKnownOdometer = lastAddedEntry.value?.odometerValueBound?.getValue()
+		                        ?: MainActivity.currentVehicle!!.odometerValueBound.getValue()
+		if (estimate != null && passed != null && passed > 0) {
+			lastKnownOdometer + estimate + passed
+		}
+		else lastKnownOdometer
+	}
+	
 	
 	
 	fun selectFuelType(fuelType: FuelType) {
@@ -240,19 +249,18 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	 * combines all calculated values into final [FuelHistory] data class
 	 * used in [addHistoryRecord]
 	 */
-	private fun buildFuelHistoryRecord(): FuelHistory =
-		FuelHistory(
-			commentary = commentValue.value ?: "",
-			date = pickedDate,
-			dateAdded = currentEpochTime(),
-			distancePassedBound = buildDistanceBound(distancePassed.value!!),
-			filledLiters = litersInputValue.value!!.toDouble(),
-			fuelConsumptionBound = buildFuelConsumptionBound(),
-			fuelPrice = buildFuelPrice(),
-			fuelStation = buildFuelStation(),
-			odometerValueBound = buildDistanceBound(odometerInputValue.value!!.toInt()),
-			vehicleVinCode = MainActivity.currentVehicle!!.vin
-		)
+	private fun buildFuelHistoryRecord(): FuelHistory = FuelHistory(
+		commentary = commentValue.value ?: "",
+		date = pickedDate,
+		dateAdded = currentEpochTime(),
+		distancePassedBound = buildDistanceBound(distancePassed.value!!),
+		filledLiters = litersInputValue.value!!.toDouble(),
+		fuelConsumptionBound = buildFuelConsumptionBound(),
+		fuelPrice = buildFuelPrice(),
+		fuelStation = buildFuelStation(),
+		odometerValueBound = buildDistanceBound(odometerInputValue.value!!.toInt()),
+		vehicleVinCode = MainActivity.currentVehicle!!.vin
+	)
 	
 	
 	/**

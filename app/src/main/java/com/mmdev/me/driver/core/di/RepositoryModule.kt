@@ -25,7 +25,7 @@ import com.mmdev.me.driver.data.repository.fetching.FetchingRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.history.FuelHistoryRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.FuelPricesRepositoryImpl
 import com.mmdev.me.driver.data.repository.fuel.prices.mappers.FuelPriceMappersFacade
-import com.mmdev.me.driver.data.repository.home.HomeRepositoryImpl
+import com.mmdev.me.driver.data.repository.garage.GarageRepositoryImpl
 import com.mmdev.me.driver.data.repository.maintenance.MaintenanceRepositoryImpl
 import com.mmdev.me.driver.data.repository.settings.SettingsRepositoryImpl
 import com.mmdev.me.driver.data.repository.vehicle.VehicleRepositoryImpl
@@ -33,7 +33,7 @@ import com.mmdev.me.driver.domain.billing.IBillingRepository
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.prices.IFuelPricesRepository
-import com.mmdev.me.driver.domain.home.IHomeRepository
+import com.mmdev.me.driver.domain.garage.IGarageRepository
 import com.mmdev.me.driver.domain.maintenance.IMaintenanceRepository
 import com.mmdev.me.driver.domain.user.IAuthFlowProvider
 import com.mmdev.me.driver.domain.user.ISettingsRepository
@@ -68,8 +68,8 @@ val RepositoryModule = module {
 	
 	single<IBillingRepository> { BillingRepository(app = androidApplication()) }
 	
-	factory<IHomeRepository> {
-		HomeRepositoryImpl(
+	factory<IGarageRepository> {
+		GarageRepositoryImpl(
 			localDataSource = get(),
 			mappers = get()
 		)

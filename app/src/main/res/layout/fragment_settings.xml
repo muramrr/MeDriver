@@ -498,7 +498,7 @@
 				app:layout_constraintEnd_toEndOf="@id/cvGeneralContainer"
 				/>
 			
-			<com.google.android.material.card.MaterialCardView android:id="@+id/cvFAQ"
+			<com.google.android.material.card.MaterialCardView android:id="@+id/cvRate"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginVertical="8dp"
@@ -521,17 +521,17 @@
 					android:paddingVertical="16dp"
 					>
 					
-					<ImageView android:id="@+id/ivFaqIcon"
+					<ImageView android:id="@+id/ivRateIcon"
 						android:layout_width="90dp"
 						android:layout_height="90dp"
 						android:layout_gravity="center"
 						
-						android:src="@drawable/ic_question_car"
+						android:src="@drawable/ic_rate_24"
 						android:contentDescription="@null"
 						/>
 					
 					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/tvFaqLabel"
+						android:id="@+id/tvRateLabel"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center"
@@ -539,7 +539,7 @@
 						android:padding="8dp"
 						
 						android:maxLines="1"
-						android:text="@string/fg_settings_faq_label"
+						android:text="@string/fg_settings_rate"
 						android:textAppearance="?textAppearanceHeadline6"
 						/>
 					
@@ -559,7 +559,7 @@
 				
 				app:layout_constraintTop_toBottomOf="@id/cvGeneralContainer"
 				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintStart_toEndOf="@id/cvFAQ"
+				app:layout_constraintStart_toEndOf="@id/cvRate"
 				app:layout_constraintEnd_toEndOf="parent">
 				
 				<LinearLayout

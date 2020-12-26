@@ -36,7 +36,7 @@
 
 	
 <!-- ************************************** activity_main ************************************** -->
-	<string name="bottom_nav_home">Головна</string>
+	<string name="bottom_nav_garage">Гараж</string>
 	<string name="bottom_nav_maintenance">ТО</string>
 	<string name="bottom_nav_vehicle">Моє авто</string>
 	<string name="bottom_nav_fuel">Пальне</string>
@@ -76,6 +76,7 @@
 	<string name="formatter_2_to_4_year">%s роки</string>
 	<string name="formatter_other_years">%s років</string>
 	
+	<string name="not_enough_data">Недостатньо даних для відображення</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -456,9 +457,11 @@
 	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 л заправлено</string>
 	
 	<string name="fg_fuel_history_add_estimate_distance_title">Очікуванння</string>
-	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %s км</string>
+	<string name="fg_fuel_history_add_estimate_distance_subtitle">Дозаправка на %s</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %d км</string>
 	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 км</string>
-	<string name="fg_fuel_history_add_estimate_distance_date">Дозаправка </string>
+	<string name="fg_fuel_history_add_estimate_distance_value_mi">~ %d ми</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_mi">~ 0 ми</string>
 	
 	<string name="fg_fuel_history_add_fuel_station_input_error">АЗС не вказана</string>
 	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
@@ -504,6 +507,14 @@
 	<string name="fg_settings_switcher_metric_system">Метрична система</string>
 	
 	<string name="fg_settings_switcher_language">Мова</string>
+	
+	<string name="fg_settings_rate">Оцінити</string>
+	<string name="fg_settings_dialog_rate_title">Оцінити додаток</string>
+	<string name="fg_settings_dialog_rate_message">Якщо вам сподобався додаток, будьте ласкаві, поставити 5 зірок в Play Market</string>
+	<string name="fg_settings_dialog_rate_btn_positive">Оцінити</string>
+	<string name="fg_settings_dialog_rate_btn_negative">Ні, дякую</string>
+	<string name="fg_settings_dialog_rate_btn_neutral">Не зараз</string>
+	<string name="fg_settings_dialog_rate_snack_text">Дякуємо за Ваш відгук!</string>
 	
 	<string name="fg_settings_faq_label">ЧаПи</string>
 	<string name="fg_settings_about_label">Про додаток</string>

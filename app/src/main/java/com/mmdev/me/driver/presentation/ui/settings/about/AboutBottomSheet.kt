@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mmdev.me.driver.BuildConfig
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BtmSheetAboutBinding
 import com.mmdev.me.driver.presentation.core.base.BaseBottomSheetFragment
@@ -68,7 +69,7 @@ class AboutBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetAboutBinding>(
 		emailIntent.data = Uri.parse("mailto:" + getString(R.string.about_email_address))
 		val chooserIntent = Intent.createChooser(emailIntent, "")
 		
-		binding.apply {
+		binding.run {
 			var clickCounter = 0
 			ivAppLogo.setOnClickListener {
 				if (clickCounter == 100) {
@@ -82,6 +83,8 @@ class AboutBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetAboutBinding>(
 				else clickCounter++
 			}
 			
+			tvAppVersion.text = BuildConfig.VERSION_NAME
+			
 			chipSendEmail.setDebounceOnClick {
 				try {
 					startActivity(chooserIntent)
@@ -91,11 +94,19 @@ class AboutBottomSheet: BaseBottomSheetFragment<Nothing, BtmSheetAboutBinding>(
 			}
 			
 			tvPrivacyPolicy.setDebounceOnClick {
-				//todo
+				val intent = Intent(
+					Intent.ACTION_VIEW,
+					Uri.parse("https://sites.google.com/view/medriver-privacypolicy")
+				)
+				startActivity(intent)
 			}
 			
 			tvTermsOfService.setDebounceOnClick {
-				//todo
+				val intent = Intent(
+					Intent.ACTION_VIEW,
+					Uri.parse("https://sites.google.com/view/medriver-termsconditions")
+				)
+				startActivity(intent)
 			}
 		}
 	}

@@ -18,10 +18,12 @@
 
 package com.mmdev.me.driver.data.repository.vehicle.mappers
 
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.MaintenanceRegulationsEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.RegulationEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
+import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts.*
 import com.mmdev.me.driver.domain.maintenance.data.components.base.SparePart
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
@@ -48,19 +50,19 @@ object DomainMappers {
 	
 	private fun maintenanceRegulationsMap(input: Map<SparePart, Regulation>): MaintenanceRegulationsEntity =
 		MaintenanceRegulationsEntity(
-			insurance = regulationsMap(input[INSURANCE] ?: error("No such element")),
-			airFilter = regulationsMap(input[FILTER_AIR] ?: error("No such element")),
-			engineFilterOil = regulationsMap(input[ENGINE_OIL_FILTER] ?: error("No such element")),
-			fuelFilter = regulationsMap(input[FILTER_FUEL] ?: error("No such element")),
-			cabinFilter = regulationsMap(input[FILTER_CABIN] ?: error("No such element")),
-			brakesFluid = regulationsMap(input[BRAKES_FLUID] ?: error("No such element")),
-			grmKit = regulationsMap(input[GRM_KIT] ?: error("No such element")),
-			plugs = regulationsMap(input[PLUGS] ?: error("No such element")),
-			transmissionFilterOil = regulationsMap(input[TRANSMISSION_OIL_FILTER] ?: error("No such element"))
+			insurance = regulationsMap(input[INSURANCE]),
+			airFilter = regulationsMap(input[FILTER_AIR]),
+			engineFilterOil = regulationsMap(input[ENGINE_OIL_FILTER]),
+			fuelFilter = regulationsMap(input[FILTER_FUEL]),
+			cabinFilter = regulationsMap(input[FILTER_CABIN]),
+			brakesFluid = regulationsMap(input[BRAKES_FLUID]),
+			grmKit = regulationsMap(input[GRM_KIT]),
+			plugs = regulationsMap(input[PLUGS]),
+			transmissionFilterOil = regulationsMap(input[TRANSMISSION_OIL_FILTER])
 		)
 	
-	private fun regulationsMap(input: Regulation): RegulationEntity =
-		RegulationEntity(input.distance, input.time)
+	private fun regulationsMap(input: Regulation?): RegulationEntity =
+		RegulationEntity(input?.distance ?: DistanceBound(), input?.time ?: DateHelper.YEAR_DURATION)
 	
 	/** Out: [VehicleDto] */
 	fun toDto(domain: Vehicle): VehicleDto = VehicleDto(

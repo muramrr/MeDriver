@@ -78,10 +78,14 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	private var mFuelStationWithPrices: List<FuelStationWithPrices> = emptyList()
 	
 	private val distancePassedAnimator = ValueAnimator.ofInt().apply { duration = 1200 }
+	private val estimateDistanceAnimator = ValueAnimator.ofInt().apply { duration = 1200 }
 	
+	private var distancePassedFormatter = ""
 	private var distancePassedValueDefault = ""
-	private var distancePassedSubtitleValueFormatter = ""
+	private var distancePassedSubtitleFormatter = ""
 	
+	private var estimateDistanceFormatter = ""
+	private var estimateDistanceValueDefault = ""
 	
 	private var inputFuelStationError = ""
 	private var inputPriceError = ""
@@ -113,12 +117,30 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		//setup observers
 		observeFuelHistory()
 		observeDistancePassed()
+		observeEstimateDistance()
+		observeEstimateRefueling()
 		
-		binding.apply {
+		binding.run {
 			//hide keyboard + clear focus while tapping somewhere on root view
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
 				rootView.hideKeyboard(rootView)
+			}
+			
+			distancePassedAnimator.run {
+				addUpdateListener {
+					binding.tvDistancePassedValue.text = distancePassedFormatter.format(
+						it.animatedValue.toString()
+					)
+				}
+			}
+			
+			estimateDistanceAnimator.run {
+				addUpdateListener {
+					binding.tvEstimateDistanceValue.text = estimateDistanceFormatter.format(
+						it.animatedValue
+					)
+				}
 			}
 			
 			btnCancel.setOnClickListener { dismiss() }
@@ -127,7 +149,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				if (checkAreInputCorrect()) mViewModel.addHistoryRecord(MainActivity.currentUser)
 			}
 			
-			tvDistancePassedSubtitle.text = distancePassedSubtitleValueFormatter.format(
+			tvDistancePassedSubtitle.text = distancePassedSubtitleFormatter.format(
 				mViewModel.lastAddedEntry.value?.odometerValueBound?.getValue()
 				?: MainActivity.currentVehicle!!.odometerValueBound.getValue()
 			)
@@ -168,79 +190,55 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	}
 	
 	private fun initStringRes() {
-		//Show strings according to current metric system
-		when (MedriverApp.metricSystem) {
-			MetricSystem.KILOMETERS -> {
-				
-				//todo: strange crash, needs fix
-				distancePassedAnimator.apply {
-					addUpdateListener {
-						binding.tvDistancePassedValue.text = String.format(
-							getString(R.string.fg_fuel_history_add_distance_passed_value_km),
-							it.animatedValue.toString()
-						)
-					}
-				}
-				
-				distancePassedValueDefault =
-					getString(R.string.fg_fuel_history_add_distance_passed_value_default_km)
-				
-				distancePassedSubtitleValueFormatter =
-					getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
-				
-			}
-			
-			MetricSystem.MILES -> {
-				
-				//todo: strange crash, needs fix
-				distancePassedAnimator.apply {
-					addUpdateListener {
-						binding.tvDistancePassedValue.text = String.format(
-							getString(R.string.fg_fuel_history_add_distance_passed_value_mi),
-							it.animatedValue.toString()
-						)
-					}
-				}
-				
-				distancePassedValueDefault =
-					getString(R.string.fg_fuel_history_add_distance_passed_value_default_mi)
-				
-				distancePassedSubtitleValueFormatter =
-					getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_mi)
-				
-			}
-		}
-		
 		inputFuelStationError = getString(R.string.fg_fuel_history_add_fuel_station_input_error)
 		inputPriceError = getString(R.string.fg_fuel_history_add_fuel_price_input_error)
 		inputOdometerError = getString(R.string.odometer_input_error)
+		
+		//Show strings according to current metric system
+		when (MedriverApp.metricSystem) {
+			MetricSystem.KILOMETERS -> {
+				distancePassedFormatter = getString(R.string.fg_fuel_history_add_distance_passed_value_km)
+				distancePassedValueDefault = getString(R.string.fg_fuel_history_add_distance_passed_value_default_km)
+				distancePassedSubtitleFormatter = getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_km)
+				
+				estimateDistanceFormatter = getString(R.string.fg_fuel_history_add_estimate_distance_value_km)
+				estimateDistanceValueDefault = getString(R.string.fg_fuel_history_add_estimate_distance_value_default_km)
+			}
+			MetricSystem.MILES -> {
+				distancePassedFormatter = getString(R.string.fg_fuel_history_add_distance_passed_value_mi)
+				distancePassedValueDefault = getString(R.string.fg_fuel_history_add_distance_passed_value_default_mi)
+				distancePassedSubtitleFormatter = getString(R.string.fg_fuel_history_add_distance_passed_subtitle_value_mi)
+				
+				estimateDistanceFormatter = getString(R.string.fg_fuel_history_add_estimate_distance_value_mi)
+				estimateDistanceValueDefault = getString(R.string.fg_fuel_history_add_estimate_distance_value_default_mi)
+			}
+		}
+		
 	}
 	
 	private fun setupDatePicker(lastEntry: FuelHistory?) {
 		val lastHistoryEntryDate =
 			lastEntry?.date?.toInstant(currentSystemDefault())?.toEpochMilliseconds() ?: 0
 		
-		binding.btnDatePickerFuelHistory.btnDatePicker.setupDatePicker(
-			minDate = lastHistoryEntryDate
-		) {
+		binding.btnDatePickerFuelHistory.btnDatePicker.setupDatePicker(minDate = lastHistoryEntryDate) {
 			mViewModel.pickedDate = convertToLocalDateTime(this.timeInMillis)
 		}
 		
 	}
 	
-	private fun setupFuelButtons() {
-		binding.radioFuelTypes.addOnButtonCheckedListener { group, checkedId, isChecked ->
-			when (checkedId) {
-				binding.btnFuelTypeGas.id -> mViewModel.selectFuelType(GAS)
-				binding.btnFuelTypeDT.id -> mViewModel.selectFuelType(DT)
-				binding.btnFuelType92.id -> mViewModel.selectFuelType(A92)
-				binding.btnFuelType95.id -> mViewModel.selectFuelType(A95)
-				binding.btnFuelType95PLUS.id -> mViewModel.selectFuelType(A95PLUS)
-				binding.btnFuelType98.id -> mViewModel.selectFuelType(A98)
-				binding.btnFuelType100.id -> mViewModel.selectFuelType(A100)
-			}
+	private fun setupFuelButtons() = binding.radioFuelTypes.addOnButtonCheckedListener {
+			group, checkedId, isChecked ->
+		when (checkedId) {
+			binding.btnFuelTypeGas.id -> mViewModel.selectFuelType(GAS)
+			binding.btnFuelTypeDT.id -> mViewModel.selectFuelType(DT)
+			binding.btnFuelType92.id -> mViewModel.selectFuelType(A92)
+			binding.btnFuelType95.id -> mViewModel.selectFuelType(A95)
+			binding.btnFuelType95PLUS.id -> mViewModel.selectFuelType(A95PLUS)
+			binding.btnFuelType98.id -> mViewModel.selectFuelType(A98)
+			binding.btnFuelType100.id -> mViewModel.selectFuelType(A100)
 		}
 	}
+	
 	
 	private fun setupInputStationDropList() {
 		val adapter = FuelStationDropAdapter(requireContext(), R.layout.item_drop_image_text,
@@ -261,19 +259,19 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		}
 	}
 	
-	private fun setupInputs() {
-		binding.etFuelStationDrop.doOnTextChanged { text, start, before, count ->
+	private fun setupInputs() = binding.run {
+		etFuelStationDrop.doOnTextChanged { text, start, before, count ->
 			mViewModel.handleTypedFuelStation(text.toString())
 			
-			if (text.isNullOrBlank()) binding.layoutInputFuelStation.error = inputFuelStationError
-			else binding.layoutInputFuelStation.isErrorEnabled = false
+			if (text.isNullOrBlank()) layoutInputFuelStation.error = inputFuelStationError
+			else layoutInputFuelStation.isErrorEnabled = false
 		}
 		
-		binding.etInputPrice.doOnTextChanged { text, start, before, count ->
-			if (text.isNullOrBlank()) binding.layoutInputPrice.error = getString(
+		etInputPrice.doOnTextChanged { text, start, before, count ->
+			if (text.isNullOrBlank()) layoutInputPrice.error = getString(
 				R.string.input_empty_error
 			)
-			else binding.layoutInputPrice.isErrorEnabled = false
+			else layoutInputPrice.isErrorEnabled = false
 		}
 	}
 	
@@ -303,28 +301,27 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		       mViewModel.selectedFuelType.value != null
 	}
 	
-	private fun observeFuelHistory() {
-		mViewModel.lastAddedEntry.observe(this, { lastEntry ->
-			setupDatePicker(lastEntry)
+	private fun observeFuelHistory() = mViewModel.lastAddedEntry.observe(this, { lastEntry ->
+		setupDatePicker(lastEntry)
+		
+		if (lastEntry != null) {
 			
-			if (lastEntry != null) {
-				
-				when (lastEntry.fuelPrice.type) {
-					GAS -> binding.radioFuelTypes.check(binding.btnFuelTypeGas.id)
-					DT -> binding.radioFuelTypes.check(binding.btnFuelTypeDT.id)
-					A92 -> binding.radioFuelTypes.check(binding.btnFuelType92.id)
-					A95 -> binding.radioFuelTypes.check(binding.btnFuelType95.id)
-					A95PLUS -> binding.radioFuelTypes.check(binding.btnFuelType95PLUS.id)
-					A98 -> binding.radioFuelTypes.check(binding.btnFuelType98.id)
-					A100 -> binding.radioFuelTypes.check(binding.btnFuelType100.id)
-				}
-				
-				mViewModel.findFuelStationBySlug(lastEntry.fuelStation.slug, mFuelStationWithPrices)
-				
+			when (lastEntry.fuelPrice.type) {
+				GAS -> binding.radioFuelTypes.check(binding.btnFuelTypeGas.id)
+				DT -> binding.radioFuelTypes.check(binding.btnFuelTypeDT.id)
+				A92 -> binding.radioFuelTypes.check(binding.btnFuelType92.id)
+				A95 -> binding.radioFuelTypes.check(binding.btnFuelType95.id)
+				A95PLUS -> binding.radioFuelTypes.check(binding.btnFuelType95PLUS.id)
+				A98 -> binding.radioFuelTypes.check(binding.btnFuelType98.id)
+				A100 -> binding.radioFuelTypes.check(binding.btnFuelType100.id)
 			}
 			
-		})
-	}
+			mViewModel.findFuelStationBySlug(lastEntry.fuelStation.slug, mFuelStationWithPrices)
+			
+		}
+		
+	})
+	
 	
 	private fun observeDistancePassed() {
 		var oldValue = 0
@@ -359,6 +356,38 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		})
 	}
 	
+	private fun observeEstimateDistance() {
+		var oldValue = 0
+		
+		mViewModel.estimateDistance.observe(this, { estimateDistance ->
+			//cancel existing animation if such exists
+			estimateDistanceAnimator.cancel()
+			oldValue = if (estimateDistance > 0) {
+				
+				/**
+				 * check if oldValue is same with given [distancePassed] if no ->
+				 * set oldValue as start
+				 */
+				if (estimateDistance != oldValue) estimateDistanceAnimator.setIntValues(
+					oldValue, estimateDistance
+				)
+				else estimateDistanceAnimator.setIntValues(0, estimateDistance)
+				
+				estimateDistanceAnimator.start()
+				estimateDistance
+			}
+			else {
+				binding.tvEstimateDistanceValue.text = estimateDistanceValueDefault
+				0
+			}
+			
+		})
+	}
+	
+	private fun observeEstimateRefueling() = mViewModel.expectedRefuel.observe(this, {
+		binding.tvEstimateDistanceSubtitle.text =
+			getString(R.string.fg_fuel_history_add_estimate_distance_subtitle).format(it.toString())
+	})
 	
 	private class FuelStationDropAdapter(
 		context: Context, @LayoutRes private val layoutId: Int, data: List<FuelStation>

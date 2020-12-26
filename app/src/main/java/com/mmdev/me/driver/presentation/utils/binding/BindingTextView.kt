@@ -33,7 +33,6 @@ import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfDoubleValues
-import com.mmdev.me.driver.presentation.utils.binding.BindingTextView.mapOfIntValues
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getOdometerFormatted
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getYearsFormatted
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
@@ -120,34 +119,7 @@ object BindingTextView {
 	}
 	
 	
-	private val mapOfIntValues = HashMap<Int, Int>()
 	private val mapOfDoubleValues = HashMap<Int, Double>()
-	
-	@JvmStatic
-	@BindingAdapter("app:animateInt", "app:textTemplate", "app:defaultText", requireAll = true)
-	fun setAnimatedValueInt(textView: TextView, value: Int, template: String, defaultText: String) {
-		val intAnimator = ValueAnimator.ofInt().apply {
-			duration = 1200
-			addUpdateListener { textView.text = template.format(it.animatedValue.toString()) }
-		}
-		
-		if (value > 0) {
-			//init start and end values
-			with(mapOfIntValues[textView.id] ?: 0) {
-				/** check if stored value is same with given [value] if so -> set 0 as start */
-				if (this == value) intAnimator.setIntValues(0, value)
-				else intAnimator.setIntValues(this, value)
-			}
-			intAnimator.start()
-			mapOfIntValues[textView.id] = value
-		}
-		else {
-			textView.text = defaultText
-			mapOfIntValues[textView.id] = 0
-		}
-	}
-	
-	
 	@JvmStatic
 	@BindingAdapter("app:animateDouble", "app:textTemplate", "app:defaultText", requireAll = true)
 	fun setAnimatedValueDouble(textView: TextView, value: Double, template: String, defaultText: String) {

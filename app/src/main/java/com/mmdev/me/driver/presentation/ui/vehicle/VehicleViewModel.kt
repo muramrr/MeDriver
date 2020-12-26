@@ -21,6 +21,7 @@ package com.mmdev.me.driver.presentation.ui.vehicle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.R.*
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.data.core.mappers.mapList
 import com.mmdev.me.driver.domain.maintenance.data.components.PlannedParts
@@ -33,6 +34,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Regulation
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.mmdev.me.driver.presentation.ui.garage.DataGenerator
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.data.ConsumablePartUi
 import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
@@ -50,7 +52,7 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 	val newWasAdded = MutableLiveData(false)
 	
 	//init current vehicle from static inside Application class
-	val chosenVehicle = MutableLiveData(MainActivity.currentVehicle)
+	val chosenVehicle = MutableLiveData<Vehicle?>()
 	
 	//init vehicle list
 	private val vehicleList = MutableLiveData<List<Vehicle>>(emptyList())
@@ -60,12 +62,13 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 	val fuelConsumptionData = MutableLiveData(emptyList<ConsumptionHistory>())
 	
 	init {
+		getSavedVehicle(MedriverApp.currentVehicleVinCode)
 		getSavedVehicles()
-		getReplacementsList(chosenVehicle.value)
-		getExpenses(chosenVehicle.value)
-		getConsumption(chosenVehicle.value)
 	}
 	
+	private fun getSavedVehicle(vin: String) {
+		viewModelScope.launch { setVehicle(repository.getSavedVehicle(vin)) }
+	}
 	
 	fun getSavedVehicles() {
 		viewModelScope.launch {
@@ -79,12 +82,12 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 		}
 	}
 	
-	fun setVehicle(position: Int) {
+	fun chooseVehicle(position: Int) {
 		if (position > vehicleList.value!!.size) return
-		refreshVehicle(vehicleList.value?.get(position))
+		setVehicle(vehicleList.value?.get(position))
 	}
 	
-	private fun refreshVehicle(vehicleToSet: Vehicle?) {
+	private fun setVehicle(vehicleToSet: Vehicle?) {
 		chosenVehicle.postValue(vehicleToSet)
 		getReplacementsList(vehicleToSet)
 		getExpenses(vehicleToSet)
@@ -96,7 +99,7 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 			repository.deleteVehicle(MainActivity.currentUser, it).collect { result ->
 				result.fold(
 					success = {
-						refreshVehicle(null)
+						setVehicle(null)
 						getSavedVehicles()
 					},
 					failure = { logError(TAG, "${it.message}") }
@@ -111,6 +114,10 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 		title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
 		vin = vehicle.vin
 	)
+	
+	fun generateVehicles() {
+		viewModelScope.launch { DataGenerator.fastGenerateVehicles() }
+	}
 	
 	private fun mapVehicles(input: List<Vehicle>): List<VehicleUi> = mapList(input) { vehicle ->
 		convertToUiVehicle(vehicle)

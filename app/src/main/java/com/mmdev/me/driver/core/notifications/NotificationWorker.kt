@@ -126,7 +126,7 @@ class NotificationWorker(
 		val pendingIntent = NavDeepLinkBuilder(context)
 			.setComponentName(MainActivity::class.java)
 			.setGraph(R.navigation.navigation_main)
-			.setDestination(R.id.homeFragment)
+			.setDestination(R.id.garageFragment)
 			.createPendingIntent()
 		
 		val channelId = context.getString(R.string.notification_channel_consumable_replace_id)

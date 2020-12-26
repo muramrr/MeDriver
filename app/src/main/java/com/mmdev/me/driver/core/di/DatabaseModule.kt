@@ -24,7 +24,7 @@ import com.mmdev.me.driver.data.cache.CacheDao
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
 import com.mmdev.me.driver.data.datasource.fuel.history.local.dao.FuelHistoryDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
-import com.mmdev.me.driver.data.datasource.home.dao.HomeDao
+import com.mmdev.me.driver.data.datasource.garage.dao.GarageDao
 import com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
 import org.koin.android.ext.koin.androidApplication
@@ -41,7 +41,7 @@ val DatabaseModule = module {
 	single { provideDatabase(androidApplication()) }
 	
 	factory { provideCacheDao(db = get()) }
-	factory { provideHomeDao(db = get()) }
+	factory { provideGarageDao(db = get()) }
 	factory { provideMaintenanceDao(db = get()) }
 	factory { provideVehicleDao(db = get()) }
 	factory { provideFuelPricesDao(db = get()) }
@@ -56,7 +56,7 @@ private fun provideDatabase(app: Application): MeDriverRoomDatabase {
 }
 
 private fun provideCacheDao(db: MeDriverRoomDatabase): CacheDao = db.getCacheDao()
-private fun provideHomeDao(db: MeDriverRoomDatabase): HomeDao = db.getHomeDao()
+private fun provideGarageDao(db: MeDriverRoomDatabase): GarageDao = db.getGarageDao()
 private fun provideMaintenanceDao(db: MeDriverRoomDatabase): MaintenanceDao = db.getMaintenanceDao()
 private fun provideVehicleDao(db: MeDriverRoomDatabase): VehicleDao = db.getVehicleDao()
 private fun provideFuelPricesDao(db: MeDriverRoomDatabase): FuelPricesDao = db.getFuelPricesDao()

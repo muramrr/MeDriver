@@ -24,6 +24,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.R.string
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
@@ -64,6 +65,34 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 		super.onCreate(savedInstanceState)
 		mViewModel.viewState.observe(this, { renderState(it) })
 		mViewModel.updateTrigger.observe(this, {})
+	}
+	
+	override fun renderState(state: ViewState) {
+		when (state) {
+			is MaintenanceHistoryViewState.Init -> {
+				logInfo(TAG, "init data size = ${state.data.size}")
+				mAdapter.setInitData(state.data)
+			}
+			is MaintenanceHistoryViewState.LoadNext -> {
+				logInfo(TAG, "load next = ${state.data.size}")
+				mAdapter.insertNextData(state.data)
+			}
+			is MaintenanceHistoryViewState.LoadPrevious -> {
+				logInfo(TAG, "load previous = ${state.data.size}")
+				mAdapter.insertPreviousData(state.data)
+			}
+			is MaintenanceHistoryViewState.Delete -> {
+				logInfo(TAG, "deleted at position ${state.position}")
+				mAdapter.delete(state.position)
+			}
+			is MaintenanceHistoryViewState.Filter -> {
+				logInfo(TAG, "showing filtered parts")
+				mAdapter.setInitData(state.data)
+			}
+			is MaintenanceHistoryViewState.Error -> {
+				logError(TAG, state.errorMessage ?: getString(string.default_error))
+			}
+		}
 	}
 	
 	override fun setupViews() {
@@ -130,34 +159,6 @@ class MaintenanceFragment : BaseFlowFragment<MaintenanceViewModel, FragmentMaint
 					hideKeyboard(this)
 				}
 				true
-			}
-		}
-	}
-
-	override fun renderState(state: ViewState) {
-		when (state) {
-			is MaintenanceHistoryViewState.Init -> {
-				logInfo(TAG, "init data size = ${state.data.size}")
-				mAdapter.setInitData(state.data)
-			}
-			is MaintenanceHistoryViewState.LoadNext -> {
-				logInfo(TAG, "load next = ${state.data.size}")
-				mAdapter.insertNextData(state.data)
-			}
-			is MaintenanceHistoryViewState.LoadPrevious -> {
-				logInfo(TAG, "load previous = ${state.data.size}")
-				mAdapter.insertPreviousData(state.data)
-			}
-			is MaintenanceHistoryViewState.Delete -> {
-				logInfo(TAG, "deleted at position ${state.position}")
-				mAdapter.delete(state.position)
-			}
-			is MaintenanceHistoryViewState.Filter -> {
-				logInfo(TAG, "showing filtered parts")
-				mAdapter.setInitData(state.data)
-			}
-			is MaintenanceHistoryViewState.Error -> {
-				logError(TAG, state.errorMessage ?: getString(R.string.default_error))
 			}
 		}
 	}

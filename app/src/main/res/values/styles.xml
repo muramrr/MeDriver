@@ -160,4 +160,10 @@
 		<item name="materialThemeOverlay">@style/My.Checkbox.Overlay</item>
 	</style>
 	
+	<style name="My.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.12dp</item>
+	
+	</style>
+	
 </resources>

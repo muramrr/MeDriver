@@ -22,8 +22,8 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.FuelHistoryLocalDa
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.FuelPricesLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.IFuelPricesLocalDataSource
-import com.mmdev.me.driver.data.datasource.home.HomeLocalDataSourceImpl
-import com.mmdev.me.driver.data.datasource.home.IHomeLocalDataSource
+import com.mmdev.me.driver.data.datasource.garage.GarageLocalDataSourceImpl
+import com.mmdev.me.driver.data.datasource.garage.IGarageLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.local.MaintenanceLocalDataSourceImpl
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
@@ -39,7 +39,7 @@ import org.koin.dsl.module
 
 val DataSourceLocalModule = module {
 	
-	factory<IHomeLocalDataSource> { HomeLocalDataSourceImpl(dao = get()) }
+	factory<IGarageLocalDataSource> { GarageLocalDataSourceImpl(dao = get()) }
 	
 	factory<IMaintenanceLocalDataSource> { MaintenanceLocalDataSourceImpl(dao = get(), cache = get()) }
 	

@@ -16,39 +16,29 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.repository.home
+package com.mmdev.me.driver.data.repository.garage
 
 import com.mmdev.me.driver.data.core.base.BaseRepository
-import com.mmdev.me.driver.data.datasource.home.IHomeLocalDataSource
+import com.mmdev.me.driver.data.datasource.garage.IGarageLocalDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
-import com.mmdev.me.driver.domain.core.ResultState
-import com.mmdev.me.driver.domain.core.SimpleResult
-import com.mmdev.me.driver.domain.home.IHomeRepository
+import com.mmdev.me.driver.domain.garage.IGarageRepository
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 
 /**
- * [IHomeRepository] implementation
+ * [IGarageRepository] implementation
  */
 
-class HomeRepositoryImpl(
-	private val localDataSource: IHomeLocalDataSource,
+class GarageRepositoryImpl(
+	private val localDataSource: IGarageLocalDataSource,
 	private val mappers: VehicleMappersFacade
-): BaseRepository(), IHomeRepository {
+): BaseRepository(), IGarageRepository {
 	
-	override suspend fun getGarage(): SimpleResult<List<Pair<Vehicle, Expenses>>> =
-		localDataSource.getMyGarage().fold(
-			success = { result ->
-				ResultState.success(
-					result.map {
-						Pair(mappers.entityToDomain(it.vehicle), it.expenses)
-					}
-				)
-			},
-			failure = {
-				ResultState.failure(it)
-			}
-		)
+	override suspend fun getGarage(): List<Pair<Vehicle, Expenses>> =
+		localDataSource.getMyGarage().map {
+			Pair(mappers.entityToDomain(it.vehicle), it.expenses)
+		}
+		
 	
 	override suspend fun getExpensesByTimeRange(
 		monthsRange: List<Pair<Long, Long>>

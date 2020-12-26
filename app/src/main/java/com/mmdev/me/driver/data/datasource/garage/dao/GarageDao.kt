@@ -16,13 +16,13 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.home.dao
+package com.mmdev.me.driver.data.datasource.garage.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.mmdev.me.driver.data.core.database.MeDriverRoomDatabase
-import com.mmdev.me.driver.data.datasource.home.entity.VehicleWithExpenses
+import com.mmdev.me.driver.data.datasource.garage.entity.VehicleWithExpenses
 import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
@@ -31,7 +31,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Expenses
  */
 
 @Dao
-interface HomeDao {
+interface GarageDao {
 	
 	@Transaction
 	suspend fun getAllVehiclesWithExpenses(): List<VehicleWithExpenses> {

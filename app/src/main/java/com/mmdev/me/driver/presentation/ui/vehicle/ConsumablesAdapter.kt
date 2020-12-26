@@ -34,7 +34,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
  *
  */
 
-class ConsumablesAdapter(private var data: List<ConsumablePartUi> = emptyList()):
+class ConsumablesAdapter(private var data: List<ConsumablePartUi> = List(4) { ConsumablePartUi() }):
 		RecyclerView.Adapter<ConsumablesAdapter.ConsumableViewHolder>() {
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -50,7 +50,7 @@ class ConsumablesAdapter(private var data: List<ConsumablePartUi> = emptyList())
 	
 	fun setNewData(newData: List<ConsumablePartUi>) {
 		data = newData
-		notifyDataSetChanged()
+		notifyItemRangeChanged(0, data.size)
 	}
 	
 	override fun getItemCount(): Int = data.size

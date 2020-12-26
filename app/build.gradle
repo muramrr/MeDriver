@@ -36,7 +36,7 @@ def versionPatch = 2
 android {
 
 	compileSdkVersion 30
-	buildToolsVersion "30.0.2"
+	buildToolsVersion "30.0.3"
 
 	defaultConfig {
 		applicationId "com.mmdev.me.driver"
@@ -165,5 +165,5 @@ dependencies {
 	androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0-alpha02"
 	androidTestImplementation "org.koin:koin-test:2.2.0"
 
-	debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
+	debugImplementation "com.squareup.leakcanary:leakcanary-android:2.6"
 }

@@ -64,6 +64,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_distance_passed_title"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -98,6 +99,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_distance_passed_subtitle_value_default"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -130,6 +132,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_consumption_title"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -169,6 +172,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_consumption_100km"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -205,6 +209,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_estimate_cost_title"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -262,7 +267,7 @@
 				android:background="@drawable/view_bg_surface_6"
 				
 				app:layout_constraintTop_toBottomOf="@id/cvConsumption"
-				app:layout_constraintBottom_toBottomOf="@id/tvEstimateDistanceDate"
+				app:layout_constraintBottom_toBottomOf="@id/tvEstimateDistanceSubtitle"
 				app:layout_constraintStart_toEndOf="@id/cvTotalCost"
 				app:layout_constraintEnd_toEndOf="parent"
 				/>
@@ -274,6 +279,7 @@
 				android:layout_marginHorizontal="8dp"
 				android:paddingTop="8dp"
 				
+				android:maxLines="1"
 				android:text="@string/fg_fuel_history_add_estimate_distance_title"
 				android:textAppearance="?textAppearanceCaption"
 				
@@ -288,7 +294,8 @@
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="8dp"
 				
-				android:text="@{String.format(@string/fg_fuel_history_add_estimate_distance_value_km, viewModel.estimateDistance), default = @string/fg_fuel_history_add_estimate_distance_value_default_km}"
+				android:maxLines="1"
+				android:text="@string/fg_fuel_history_add_estimate_distance_value_default_km"
 				android:textAppearance="?textAppearanceHeadline5"
 				
 				app:autoSizeTextType="uniform"
@@ -300,13 +307,14 @@
 				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceTitle"
 				/>
 			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/tvEstimateDistanceDate"
+				android:id="@+id/tvEstimateDistanceSubtitle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="8dp"
 				android:paddingBottom="8dp"
 				
-				android:text="@string/fg_fuel_history_add_estimate_distance_date"
+				android:maxLines="1"
+				android:text="@string/fg_fuel_history_add_estimate_distance_subtitle"
 				android:textAppearance="?textAppearanceCaption"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvEstimateDistanceValue"

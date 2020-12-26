@@ -122,6 +122,8 @@ class MainActivity: AppCompatActivity() {
 	
 	private fun setupBottomNavigation() {
 		val navController = findNavController(R.id.navHostMain)
+		//select start destination
+		binding.bottomNavMain.selectedItemId = R.id.bottomNavVehicle
 		binding.bottomNavMain.setOnNavigationItemSelectedListener {
 			val previousItem = binding.bottomNavMain.selectedItemId
 			val nextItem = it.itemId
@@ -129,9 +131,9 @@ class MainActivity: AppCompatActivity() {
 			if (previousItem != nextItem) {
 				
 				when (nextItem) {
-					R.id.bottomNavHome -> {
+					R.id.bottomNavGarage -> {
 						navController.popBackStack()
-						navController.navigate(R.id.actionBottomNavHome)
+						navController.navigate(R.id.actionBottomNavGarage)
 					}
 					R.id.bottomNavMaintenance -> {
 						navController.popBackStack()

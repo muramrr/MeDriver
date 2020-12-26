@@ -25,7 +25,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="com.mmdev.me.driver.presentation.ui.home.HomeViewModel" />
+			type="com.mmdev.me.driver.presentation.ui.garage.GarageViewModel" />
 	</data>
 
 	<androidx.core.widget.NestedScrollView

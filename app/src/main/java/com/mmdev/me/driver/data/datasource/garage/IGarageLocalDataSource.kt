@@ -16,25 +16,25 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.home
+package com.mmdev.me.driver.data.datasource.garage
 
-import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
-import com.mmdev.me.driver.data.datasource.home.dao.HomeDao
-import com.mmdev.me.driver.data.datasource.home.entity.VehicleWithExpenses
-import com.mmdev.me.driver.domain.core.SimpleResult
+import com.mmdev.me.driver.data.datasource.garage.entity.VehicleWithExpenses
+import com.mmdev.me.driver.domain.vehicle.data.Expenses
 
 /**
- * [IHomeLocalDataSource] implementation
+ * Wrapper for for [com.mmdev.me.driver.data.datasource.garage.dao.GarageDao]
  */
 
-class HomeLocalDataSourceImpl(private val dao: HomeDao): BaseDataSource(), IHomeLocalDataSource {
+interface IGarageLocalDataSource {
 	
-	override suspend fun getMyGarage(): SimpleResult<List<VehicleWithExpenses>> = safeCall(TAG) {
-		dao.getAllVehiclesWithExpenses()
-	}
+	/**
+	 * Return vehicles with their expenses (overall)
+	 */
+	suspend fun getMyGarage(): List<VehicleWithExpenses>
 	
-	override suspend fun getExpensesBetweenTimeRange(
-		start: Long, end: Long
-	) = dao.getExpensesBetweenTime(start, end)
+	/**
+	 * Return [Expenses] between [start] date and [end] date
+	 */
+	suspend fun getExpensesBetweenTimeRange(start: Long, end: Long): Expenses
 	
 }

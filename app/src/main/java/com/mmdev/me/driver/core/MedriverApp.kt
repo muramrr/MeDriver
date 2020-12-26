@@ -86,7 +86,7 @@ class MedriverApp: Application() {
 		private const val LAST_SYNCED_KEY = "last_synced"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
 		
-		//todo delete
+		//note: data generator
 		private const val GENERATED_DATA_KEY = "generated"
 		
 		private lateinit var appContext: Context
@@ -181,7 +181,7 @@ class MedriverApp: Application() {
 //			lastOperationSyncedId = 0
 //		}
 		
-		//todo delete
+		//note: data generator
 		var dataGenerated: Boolean = false
 			set(value) {
 				if (field != value) {
@@ -274,7 +274,7 @@ class MedriverApp: Application() {
 		/** if not exists - apply empty string as default */
 		currentVehicleVinCode = loadInitialPropertyOrPushDefault(key = VEHICLE_VIN_CODE_KEY, default = "")
 		
-		//todo delete
+		//note: data generator
 		dataGenerated = loadInitialPropertyOrPushDefault(key = GENERATED_DATA_KEY, default = false)
 	}
 	

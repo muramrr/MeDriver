@@ -16,11 +16,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,7 @@ import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.currentLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
-import com.mmdev.me.driver.databinding.FragmentHomeBinding
+import com.mmdev.me.driver.databinding.FragmentGarageBinding
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.ViewState
@@ -58,18 +59,21 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *
  */
 
-class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
-	layoutId = R.layout.fragment_home
+class GarageFragment : BaseFlowFragment<GarageViewModel, FragmentGarageBinding>(
+	layoutId = R.layout.fragment_garage
 ) {
 
-	override val mViewModel: HomeViewModel by viewModel()
+	override val mViewModel: GarageViewModel by viewModel()
 	
 	private val myGarageAdapter = MyGarageAdapter()
+	
+	private val currentYear = currentLocalDateTime().year
 	
 	private val checkedExpensesPositions = mutableListOf(0, 1, 2, 3, 4)
 	
 	private var priceFormatter = ""
 	private var hryvnia = ""
+	@ColorInt private var colorOnBackground = 0x000000
 	
 	private var colorPaletteValues = listOf<Int>()
 	
@@ -80,9 +84,9 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	
 	override fun renderState(state: ViewState) {
 		when(state) {
-			is HomeViewState.Error -> showActivitySnack(state.errorMessage ?: "Error")
-			is HomeViewState.GeneratingStarted -> binding.viewLoading.visibility = View.VISIBLE
-			is HomeViewState.GenerationCompleted -> {
+			is GarageViewState.Error -> showActivitySnack(state.errorMessage ?: "Error")
+			is GarageViewState.GeneratingStarted -> binding.viewLoading.visibility = View.VISIBLE
+			is GarageViewState.GenerationCompleted -> {
 				binding.viewLoading.visibility = View.INVISIBLE
 				showActivitySnack("Generating completed")
 			}
@@ -90,9 +94,9 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 	}
 	
 	override fun setupViews() {
-		colorPaletteValues = ChartsConstants.colorPalette.map { requireContext().getColorValue(it) }
-		initStringRes()
-		if (!MedriverApp.dataGenerated) {
+		initRes()
+		
+		if (!MedriverApp.dataGenerated && MedriverApp.debug.isEnabled) {
 			var count = 0
 			binding.tvMyGarageHeader.setOnClickListener {
 				if (count < 10) {
@@ -106,22 +110,36 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		}
 		
 		setupMyGarage()
+		setupPieChartExpenses()
 		setupBarChartExpenses()
 		
-		mViewModel.vehicles.observe(this, { vehiclesWithExpenses ->
-			myGarageAdapter.setNewData(vehiclesWithExpenses.map { it.first })
+		binding.btnPieChartExpensesSettings.setDebounceOnClick {
+			showDialogPieChartExpensesSettings()
+		}
+		
+		binding.tvBarChartDescription.text = getString(
+			R.string.fg_home_bar_char_expenses_title, currentYear
+		)
+		
+		mViewModel.vehicles.observe(this, {
+			if (!it.isNullOrEmpty()) myGarageAdapter.setNewData(it)
+		})
+		
+		mViewModel.vehiclesWithExpenses.observe(this, { vehiclesWithExpenses ->
 			// if vehicles < 5 -> leave only positions <= 5
 			checkedExpensesPositions.removeAll { it >= vehiclesWithExpenses.size }
-			setupPieChartExpenses(vehiclesWithExpenses)
+			setupPieChartExpensesData(vehiclesWithExpenses)
 		})
 		
 		mViewModel.expensesPerYear.observe(this, { expenses ->
-			setupBarChartExpensesData(expenses)
+			if (!expenses.isNullOrEmpty()) setupBarChartExpensesData(expenses)
 		})
 		
 	}
 
-	private fun initStringRes() {
+	private fun initRes() {
+		colorPaletteValues = ChartsConstants.colorPalette.map { requireContext().getColorValue(it) }
+		colorOnBackground = requireContext().getColorValue(R.color.colorOnBackground)
 		priceFormatter = getString(R.string.price_formatter_right)
 		hryvnia = getString(R.string.hryvnia_symbol)
 	}
@@ -130,106 +148,130 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		setHasFixedSize(true)
 		
 		adapter = myGarageAdapter
-		layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+		layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 		
 		//adjust auto swipe to item center
 		val snapHelper: SnapHelper = LinearSnapHelper()
 		snapHelper.attachToRecyclerView(this)
 	}
 	
-	private fun setupPieChartExpenses(stats: List<Pair<Vehicle, Expenses>>) = binding.run {
-		btnPieChartExpensesSettings.setDebounceOnClick {
-			showDialogPieChartExpensesSettings(
-				stats.map {
-					with(it.first) { "$brand $model ($year), $engineCapacity" }
-				}.toTypedArray()
-			)
+	private fun setupPieChartExpenses() = binding.pieChartExpenses.run {
+		setNoDataText(getString(R.string.not_enough_data))
+		setNoDataTextColor(context.getColorValue(R.color.colorPrimarySecondary))
+		setNoDataTextTypeface(context.getTypeface(R.font.m_plus_rounded1c_regular))
+		
+		centerText = hryvnia
+		setCenterTextTypeface(context.getTypeface(R.font.m_plus_rounded1c_medium))
+		setCenterTextColor(colorOnBackground)
+		setCenterTextSize(24f)
+		
+		description.apply {
+			text = getString(R.string.fg_home_pie_chart_expenses_description)
+			textColor = colorOnBackground
+			textSize = 16f
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_medium)
+		}
+		legend.apply {
+			form = CIRCLE
+			textColor = colorOnBackground
+			textSize = 12f
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
+			xEntrySpace = 24f
 		}
 		
-		pieChartExpenses.run {
-			data = setupPieChartExpensesData(stats)
-			
-			description.apply {
-				text = getString(R.string.fg_home_pie_chart_expenses_description)
-				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-				textSize = 16f
-				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
-			}
-			legend.apply {
-				form = CIRCLE
-				textColor = requireContext().getColorValue(R.color.colorOnBackground)
-				textSize = 12f
-				typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
-				xEntrySpace = 24f
-			}
-			
-			transparentCircleRadius = 0f
-			
-			setHoleColor(Color.TRANSPARENT)
-			holeRadius = 40f
-			
-			setEntryLabelColor(Color.BLACK)
-			setEntryLabelTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_medium))
-			
-			animateY(1500, Easing.EaseInOutQuad)
-			invalidate()
-		}
+		transparentCircleRadius = 0f
+		
+		setHoleColor(Color.TRANSPARENT)
+		holeRadius = 40f
+		
+		setEntryLabelColor(Color.BLACK)
+		setEntryLabelTypeface(context.getTypeface(R.font.m_plus_rounded1c_medium))
+		
+		animateY(1500, Easing.EaseInOutQuad)
+		invalidate()
 	}
-	private fun setupPieChartExpensesData(input: List<Pair<Vehicle, Expenses>>): PieData {
+	private fun setupPieChartExpensesData(input: List<Pair<Vehicle, Expenses>>) {
 		
 		val entries = input.take(if (input.size > 5) 5 else input.size).map {
 			PieEntry(it.second.getTotal().toFloat().roundTo(2), it.first.brand)
 		}
-		val dataSet = PieDataSet(entries, "").apply {
-			colors = colorPaletteValues.shuffled()
-			valueFormatter = object : ValueFormatter() {
-				override fun getFormattedValue(value: Float): String =
-					if (value < 100000) String.format(priceFormatter, value)
-					else MyLargeValueFormatter(hryvnia).getFormattedValue(value)
+		with(binding.pieChartExpenses) {
+			//update existing data set
+			if (data != null && data.dataSetCount > 0) {
+				val existingDataSet = (data.getDataSetByIndex(0) as PieDataSet)
+				existingDataSet.values = entries
+				existingDataSet.notifyDataSetChanged()
+				data.notifyDataChanged()
+				notifyDataSetChanged()
 			}
-			
-			valueLineColor = requireContext().getColorValue(R.color.colorOnBackground)
-			valueTextColor = requireContext().getColorValue(R.color.colorOnBackground)
-			valueTextSize = 14f
-			valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
-			yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+			//create new data set
+			else {
+				val dataSet = PieDataSet(entries, "").apply {
+					colors = colorPaletteValues.shuffled()
+					valueFormatter = object : ValueFormatter() {
+						override fun getFormattedValue(value: Float): String =
+							if (value < 100000) String.format(priceFormatter, value)
+							else MyLargeValueFormatter(hryvnia).getFormattedValue(value)
+					}
+					
+					valueLineColor = colorOnBackground
+					valueTextColor = colorOnBackground
+					valueTextSize = 14f
+					valueTypeface = requireContext().getTypeface(R.font.m_plus_rounded1c_medium)
+					yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+				}
+				val pieData = PieData(dataSet)
+				
+				// set data
+				data = pieData
+			}
+			animateY(1400, Easing.EaseOutCirc)
+		
 		}
 		
-		return PieData(dataSet)
 	}
 	private fun setNewPieChartExpensesData(positions: List<Int>) {
-		mViewModel.vehicles.value?.let { vehiclesWithExpenses ->
-			binding.pieChartExpenses.apply {
-				data = setupPieChartExpensesData(positions.map { vehiclesWithExpenses[it] })
-				animateY(1400, Easing.EaseOutCirc)
-			}
+		mViewModel.vehiclesWithExpenses.value?.let { vehiclesWithExpenses ->
+			setupPieChartExpensesData(positions.map { vehiclesWithExpenses[it] })
 		}
 	}
-	private fun showDialogPieChartExpensesSettings(items: Array<String>) {
-		val checkedItems = BooleanArray(items.size) {
-			checkedExpensesPositions.contains(it)
-		}
-		
-		MaterialAlertDialogBuilder(requireContext())
-			.setTitle(R.string.fg_home_dialog_pie_chart_expenses_settings_title)
-			.setMultiChoiceItems(items, checkedItems) { _, which, isChecked ->
-				if (isChecked) checkedExpensesPositions.add(which)
-				else checkedExpensesPositions.remove(which)
+	
+	private fun showDialogPieChartExpensesSettings() =
+		mViewModel.vehiclesWithExpenses.value?.map {
+			with(it.first) { "$brand $model ($year), $engineCapacity" }
+		}?.toTypedArray()?.let { items ->
+			
+			//pre-check initial items
+			val checkedItems = BooleanArray(items.size) {
+				checkedExpensesPositions.contains(it)
 			}
-			.setPositiveButton(R.string.dialog_btn_apply) { _, _ -> setNewPieChartExpensesData(checkedExpensesPositions) }
-			.setNegativeButton(R.string.dialog_btn_cancel, null)
-			.show()
-	}
+			
+			MaterialAlertDialogBuilder(requireContext())
+				.setTitle(R.string.fg_home_dialog_pie_chart_expenses_settings_title)
+				.setMultiChoiceItems(items, checkedItems) { _, which, isChecked ->
+					if (isChecked) checkedExpensesPositions.add(which)
+					else checkedExpensesPositions.remove(which)
+				}
+				.setPositiveButton(R.string.dialog_btn_apply) { _, _ -> setNewPieChartExpensesData(checkedExpensesPositions) }
+				.setNegativeButton(R.string.dialog_btn_cancel, null)
+				.create()
+				.show()
+		}
+	
 	
 
 	
 	private fun setupBarChartExpenses() = binding.barChartExpenses.run {
+		setNoDataText(getString(R.string.not_enough_data))
+		setNoDataTextColor(context.getColorValue(R.color.colorPrimarySecondary))
+		setNoDataTextTypeface(context.getTypeface(R.font.m_plus_rounded1c_regular))
+		
 		extraBottomOffset = 10f
 		
 		description.run {
 			text = hryvnia
 			textSize = 20f
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_light)
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_light)
 		}
 		legend.isEnabled = false
 		
@@ -238,8 +280,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			setDrawGridLines(false)
 			labelCount = 12
 			
-			textColor = requireContext().getColorValue(R.color.colorOnBackground)
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			textColor = colorOnBackground
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
 			
 			//get first 3 letters from full month name
 			valueFormatter = object : ValueFormatter() {
@@ -254,8 +296,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			setLabelCount(8, false)
 			spaceTop = 15f
 			
-			textColor = requireContext().getColorValue(R.color.colorOnBackground)
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			textColor = colorOnBackground
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
 			
 			valueFormatter = MyLargeValueFormatter()
 		}
@@ -265,8 +307,8 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 			setLabelCount(8, false)
 			spaceTop = 15f
 			
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
-			textColor = requireContext().getColorValue(R.color.colorOnBackground)
+			textColor = colorOnBackground
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
 			
 			valueFormatter = MyLargeValueFormatter()
 		}
@@ -275,10 +317,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 		invalidate()
 	}
 	private fun setupBarChartExpensesData(input: List<Expenses>) {
-		val currentYear = currentLocalDateTime().year
-		binding.tvBarChartDescription.text = getString(
-			R.string.fg_home_bar_char_expenses_title, currentYear
-		)
+		
 		val entries = input.mapIndexed { index, expenses ->
 			BarEntry(
 				(index + 1).toFloat(), // use index as month number, but months starts from 1
@@ -300,7 +339,7 @@ class HomeFragment : BaseFlowFragment<HomeViewModel, FragmentHomeBinding>(
 				barWidth = 0.9f
 				setValueTextSize(10f)
 				setValueFormatter(MyLargeValueFormatter())
-				setValueTextColor(requireContext().getColorValue(R.color.colorOnBackground))
+				setValueTextColor(colorOnBackground)
 				setValueTypeface(requireContext().getTypeface(R.font.m_plus_rounded1c_regular))
 			}
 			

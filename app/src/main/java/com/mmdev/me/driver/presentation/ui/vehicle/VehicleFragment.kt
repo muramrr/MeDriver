@@ -150,7 +150,12 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			emptyList()
 		)
 		
-		binding.dropMyCarChooseCar.apply {
+		binding.dropMyCarChooseCar.run {
+			//note: data generator
+			if (MedriverApp.debug.isEnabled) setOnLongClickListener {
+				mViewModel.generateVehicles()
+				true
+			}
 			setAdapter(mVehicleDropAdapter)
 			
 			setOnItemClickListener { _, view, position, _ ->
@@ -163,7 +168,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 						
 					}
 					else {
-						mViewModel.setVehicle(position)
+						mViewModel.chooseVehicle(position)
 						chosenVehicleUi = mViewModel.vehicleUiList.value?.get(position)
 					}
 				}
@@ -194,13 +199,13 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 //	}
 	
 	private fun setupReplacements() {
-		binding.rvFrequentlyConsumables.apply {
+		binding.rvFrequentlyConsumables.run {
 			adapter = mFrequentlyConsumablesAdapter
 			layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
 		}
 		
-		binding.rvLessFrequentlyConsumables.apply {
+		binding.rvLessFrequentlyConsumables.run {
 			adapter = mLessFrequentlyConsumablesAdapter
 			layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
@@ -324,7 +329,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	
 	
-	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext())
+	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.My_MaterialAlertDialog)
 		.setTitle(R.string.fg_vehicle_dialog_delete_title)
 		.setMessage(
 			getString(R.string.fg_vehicle_dialog_delete_message_formatter).format(
@@ -352,6 +357,10 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	})
 	
 	private fun setupLineChartConsumption() = binding.lineChartFuelConsumption.run {
+		setNoDataText(getString(R.string.not_enough_data))
+		setNoDataTextColor(context.getColorValue(R.color.colorPrimarySecondary))
+		setNoDataTextTypeface(context.getTypeface(R.font.m_plus_rounded1c_regular))
+		
 		extraBottomOffset = 10f
 		setDrawGridBackground(false)
 		// no description text
@@ -437,7 +446,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				// create a LineDataSet and customize it
 				val dataSet: LineDataSet = LineDataSet(entries, "Fuel Consumption").apply {
 					setDrawFilled(true)
-					fillDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.fade_primary)
+					fillDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.gradient_fade_primary_secondary)
 					mode = HORIZONTAL_BEZIER
 					setDrawCircles(true)
 					setCircleColor(Color.BLACK)

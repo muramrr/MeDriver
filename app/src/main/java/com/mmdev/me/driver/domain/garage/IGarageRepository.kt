@@ -16,20 +16,25 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.datasource.home
+package com.mmdev.me.driver.domain.garage
 
-import com.mmdev.me.driver.data.datasource.home.entity.VehicleWithExpenses
-import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
+import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 
 /**
- * Wrapper for for [com.mmdev.me.driver.data.datasource.home.dao.HomeDao]
+ * Repository to provide data for [com.mmdev.me.driver.presentation.ui.garage]
  */
 
-interface IHomeLocalDataSource {
+interface IGarageRepository {
 	
-	suspend fun getMyGarage(): SimpleResult<List<VehicleWithExpenses>>
+	/**
+	 * Get list of your vehicles paired with expenses
+	 */
+	suspend fun getGarage(): List<Pair<Vehicle, Expenses>>
 	
-	suspend fun getExpensesBetweenTimeRange(start: Long, end: Long): Expenses
+	/**
+	 * Get overall expenses for current year sliced by months
+	 */
+	suspend fun getExpensesByTimeRange(monthsRange: List<Pair<Long, Long>>): List<Expenses>
 	
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.DecimalFormat

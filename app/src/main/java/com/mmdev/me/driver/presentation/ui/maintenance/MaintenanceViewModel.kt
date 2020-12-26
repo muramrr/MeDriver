@@ -29,7 +29,7 @@ import com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart
 import com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.ui.MainActivity
-import com.mmdev.me.driver.presentation.ui.home.DataGenerator
+import com.mmdev.me.driver.presentation.ui.garage.DataGenerator
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceHistoryViewState.*
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
 import kotlinx.coroutines.delay

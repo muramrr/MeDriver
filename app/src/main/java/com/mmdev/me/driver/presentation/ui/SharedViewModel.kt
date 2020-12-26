@@ -22,7 +22,6 @@ import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
@@ -66,9 +65,6 @@ class SharedViewModel(
 	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
 	
 	val currentVehicle = MutableLiveData<Vehicle?>()
-	init {
-		getSavedVehicle(MedriverApp.currentVehicleVinCode)
-	}
 	
 	val userDataInfo = _userDataInfo.combineWith(purchases) { user, permissions ->
 		val subscription =

@@ -16,13 +16,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import android.content.Context
 import com.mmdev.me.driver.core.utils.extensions.convertToLocalDateTime
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.extensions.roundTo
 import com.mmdev.me.driver.core.utils.extensions.toEpochTime
+import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.core.utils.helpers.LocaleHelper
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logWtf
@@ -31,6 +32,10 @@ import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelHisto
 import com.mmdev.me.driver.data.datasource.fuel.history.local.entities.FuelPriceEmbedded
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
+import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.MaintenanceRegulationsEntity
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.RegulationEntity
+import com.mmdev.me.driver.data.datasource.vehicle.local.entities.VehicleEntity
 import com.mmdev.me.driver.domain.fuel.FuelType
 import com.mmdev.me.driver.domain.fuel.history.IFuelHistoryRepository
 import com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound
@@ -47,6 +52,7 @@ import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.fuel.FuelStationConstants
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
+import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import org.koin.core.component.KoinComponent
@@ -54,7 +60,7 @@ import org.koin.core.component.inject
 import kotlin.random.Random
 
 /**
- * todo: delete
+ * note: data generator
  */
 
 object DataGenerator: KoinComponent {
@@ -63,6 +69,7 @@ object DataGenerator: KoinComponent {
 	private val maintenanceRepo: IMaintenanceRepository by inject()
 	private val fuelHistoryRepo: IFuelHistoryRepository by inject()
 	
+	private val vehicleLocal: IVehicleLocalDataSource by inject()
 	private val maintenanceLocal: IMaintenanceLocalDataSource by inject()
 	private val fuelHistoryLocal: IFuelHistoryLocalDataSource by inject()
 	
@@ -99,8 +106,8 @@ object DataGenerator: KoinComponent {
 				"model",
 				Random.nextInt(2000, 2020),
 				generateRandomVinCode(),
-				DistanceBound(kilometers = Random.nextInt(1000, 200000), miles = null),
-				Random.nextDouble(1.0, 8.0).roundTo(1),
+				generateDistanceBound(100, 200000),
+				Random.nextDouble(1.0, 5.0).roundTo(1),
 				generateRandomDate(),
 				currentEpochTime()
 			)
@@ -142,10 +149,7 @@ object DataGenerator: KoinComponent {
 							).map { it.value }
 						else listOf(child.getSparePartName()),
 						moneySpent = Random.nextInt(100, 9999).toDouble(),
-						odometerValueBound = DistanceBound(
-							kilometers = Random.nextInt(100, 200000),
-							miles = null
-						),
+						odometerValueBound = generateDistanceBound(100, 200000),
 						vehicleVinCode = vin
 					)
 				}
@@ -174,10 +178,7 @@ object DataGenerator: KoinComponent {
 						commentary = "Random commentary looks like this",
 						date = convertToLocalDateTime(Random.nextLong(1577829600000, 1609451999000)),
 						dateAdded = currentEpochTime(),
-						distancePassedBound = DistanceBound(
-							kilometers = Random.nextInt(100, 500),
-							miles = null
-						),
+						distancePassedBound = generateDistanceBound(100, 500),
 						filledLiters = Random.nextDouble(1.0, 100.0).roundTo(1),
 						fuelConsumptionBound = ConsumptionBound(
 							consumptionKM = Random.nextDouble(15.0, 31.0).roundTo(1),
@@ -188,10 +189,7 @@ object DataGenerator: KoinComponent {
 							FuelType.values().random()
 						),
 						fuelStation = it,
-						odometerValueBound = DistanceBound(
-							kilometers = Random.nextInt(100, 200000),
-							miles = null
-						),
+						odometerValueBound = generateDistanceBound(100, 200000),
 						vehicleVinCode = vin
 					)
 			
@@ -227,6 +225,11 @@ object DataGenerator: KoinComponent {
 		return "${Random.nextInt(10, 30)}.0${Random.nextInt(3, 9)}.2020"
 	}
 	
+	private fun generateDistanceBound(start: Int, end: Int) = DistanceBound(
+		kilometers = Random.nextInt(start, end),
+		miles = null
+	)
+	
 	suspend fun fastGenerateFuelHistory(vin: String) = FuelStationConstants
 		.fuelStationList
 		.shuffled()
@@ -240,10 +243,7 @@ object DataGenerator: KoinComponent {
 							Random.nextLong(1577829600000, 1609451999000)
 						).toEpochTime(),
 						dateAdded = currentEpochTime() + Random.nextLong(0, 1609451999000),
-						distancePassedBound = DistanceBound(
-							kilometers = Random.nextInt(100, 500),
-							miles = null
-						),
+						distancePassedBound = generateDistanceBound(100, 500),
 						filledLiters = Random.nextDouble(1.0, 100.0).roundTo(1),
 						fuelConsumptionBound = ConsumptionBound(
 							consumptionKM = Random.nextDouble(15.0, 31.0).roundTo(1),
@@ -255,10 +255,7 @@ object DataGenerator: KoinComponent {
 						),
 						fuelStation = station,
 						moneySpent = Random.nextDouble(2000.0, 5000.0),
-						odometerValueBound = DistanceBound(
-							kilometers = Random.nextInt(100, 200000),
-							miles = null
-						),
+						odometerValueBound = generateDistanceBound(100, 200000),
 						vehicleVinCode = vin
 					)
 				}
@@ -293,10 +290,7 @@ object DataGenerator: KoinComponent {
 							).map { it.value }.joinToString()
 						else listOf(child.getSparePartName()).joinToString(),
 						moneySpent = Random.nextInt(100, 9999).toDouble(),
-						odometerValueBound = DistanceBound(
-							kilometers = Random.nextInt(100, 200000),
-							miles = null
-						),
+						odometerValueBound = generateDistanceBound(100, 200000),
 						vehicleVinCode = vin
 					)
 				}
@@ -311,5 +305,47 @@ object DataGenerator: KoinComponent {
 			
 			
 		}
+
+	suspend fun fastGenerateVehicles() = vehicleLocal.importVehicles(
+		VehicleConstants.vehicleBrands
+			.shuffled()
+			.take(Random.nextInt(2, 5))
+			.map {
+				VehicleEntity(
+					brand = it,
+					model = "model",
+					year = Random.nextInt(2000, 2020),
+					vin = generateRandomVinCode(),
+					odometerValueBound = generateDistanceBound(100, 200000),
+					engineCapacity = Random.nextDouble(1.0, 5.0).roundTo(1),
+					lastRefillDate = generateRandomDate(),
+					lastUpdatedDate = currentEpochTime() + Random.nextLong(0, 1000),
+					maintenanceRegulations = MaintenanceRegulationsEntity(
+						insurance = randomRegulationEntity(),
+						airFilter = randomRegulationEntity(),
+						engineFilterOil = randomRegulationEntity(),
+						fuelFilter = randomRegulationEntity(),
+						cabinFilter = randomRegulationEntity(),
+						brakesFluid = randomRegulationEntity(),
+						grmKit = randomRegulationEntity(),
+						plugs = randomRegulationEntity(),
+						transmissionFilterOil = randomRegulationEntity()
+					)
+				)
+			}
+	).fold(
+		success = {
+			logWtf(TAG, "Vehicles generated and imported")
+		},
+		failure = {
+			logError(TAG, "${it.message}")
+		}
+	)
+	
+	private fun randomRegulationEntity() = RegulationEntity(
+		generateDistanceBound(10000, 100000),
+		DateHelper.YEAR_DURATION * Random.nextInt(1, 10)
+	)
+	
 	
 }

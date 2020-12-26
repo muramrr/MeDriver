@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +25,7 @@ import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.ItemHomeGarageBinding
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
-import com.mmdev.me.driver.presentation.ui.home.MyGarageAdapter.MyGarageViewHolder
+import com.mmdev.me.driver.presentation.ui.garage.MyGarageAdapter.MyGarageViewHolder
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
 import com.mmdev.me.driver.presentation.utils.extensions.getStringRes
 import com.mmdev.me.driver.presentation.utils.extensions.showSnack

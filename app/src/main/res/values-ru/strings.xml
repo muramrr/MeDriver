@@ -36,7 +36,7 @@
 
 
 <!-- ************************************** activity_main ************************************** -->
-	<string name="bottom_nav_home">Главная</string>
+	<string name="bottom_nav_garage">Гараж</string>
 	<string name="bottom_nav_maintenance">ТО</string>
 	<string name="bottom_nav_vehicle">Мое авто</string>
 	<string name="bottom_nav_fuel">Заправка</string>
@@ -75,6 +75,8 @@
 	<string name="formatter_1_year">%s год</string>
 	<string name="formatter_2_to_4_year">%s года</string>
 	<string name="formatter_other_years">%s лет</string>
+	
+	<string name="not_enough_data">Недостаточно данных для отображения</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -453,9 +455,11 @@
 	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 л заправлено</string>
 	
 	<string name="fg_fuel_history_add_estimate_distance_title">Ожидания</string>
-	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %s км</string>
+	<string name="fg_fuel_history_add_estimate_distance_subtitle">Дозаправка на %s</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %d км</string>
 	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 км</string>
-	<string name="fg_fuel_history_add_estimate_distance_date">Дозаправка </string>
+	<string name="fg_fuel_history_add_estimate_distance_value_mi">~ %d ми</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_mi">~ 0 ми</string>
 	
 	<string name="fg_fuel_history_add_fuel_station_input_error">АЗС не указана</string>
 	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
@@ -501,6 +505,14 @@
 	<string name="fg_settings_switcher_metric_system">Метрическая система</string>
 	
 	<string name="fg_settings_switcher_language">Язык</string>
+	
+	<string name="fg_settings_rate">Оценить</string>
+	<string name="fg_settings_dialog_rate_title">Оценить приложение</string>
+	<string name="fg_settings_dialog_rate_message">Если Вам понравилось приложение, поставьте 5 звезд в Play Market</string>
+	<string name="fg_settings_dialog_rate_btn_positive">Оценить</string>
+	<string name="fg_settings_dialog_rate_btn_negative">Нет, спасибо</string>
+	<string name="fg_settings_dialog_rate_btn_neutral">Не сейчас</string>
+	<string name="fg_settings_dialog_rate_snack_text">Спасибо за Ваш отзыв!</string>
 	
 	<string name="fg_settings_faq_label">ЧаВо</string>
 	<string name="fg_settings_about_label">О приложении</string>

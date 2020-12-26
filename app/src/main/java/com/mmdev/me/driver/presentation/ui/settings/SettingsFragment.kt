@@ -40,7 +40,6 @@ import com.mmdev.me.driver.presentation.core.base.BaseFlowFragment
 import com.mmdev.me.driver.presentation.ui.common.BaseDropAdapter
 import com.mmdev.me.driver.presentation.ui.settings.about.AboutBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.auth.AuthBottomSheet
-import com.mmdev.me.driver.presentation.ui.settings.faq.FaqBottomSheet
 import com.mmdev.me.driver.presentation.ui.settings.subscription.SubscriptionBottomSheet
 import com.mmdev.me.driver.presentation.utils.extensions.domain.dateMonthText
 import com.mmdev.me.driver.presentation.utils.extensions.domain.humanDate
@@ -116,8 +115,8 @@ class SettingsFragment: BaseFlowFragment<SettingsViewModel, FragmentSettingsBind
 				SubscriptionBottomSheet().show(childFragmentManager, SubscriptionBottomSheet::class.java.canonicalName)
 			}
 			
-			cvFAQ.setDebounceOnClick {
-				FaqBottomSheet().show(childFragmentManager, FaqBottomSheet::class.java.canonicalName)
+			cvRate.setDebounceOnClick {
+				DialogRate().show(childFragmentManager, DialogRate::class.java.canonicalName)
 			}
 			
 			cvAbout.setDebounceOnClick {

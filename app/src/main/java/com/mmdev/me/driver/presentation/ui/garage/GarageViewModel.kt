@@ -16,14 +16,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
-import com.mmdev.me.driver.domain.home.IHomeRepository
+import com.mmdev.me.driver.domain.garage.IGarageRepository
 import com.mmdev.me.driver.domain.vehicle.data.Expenses
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
@@ -41,11 +41,12 @@ import kotlin.random.Random
  *
  */
 
-class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
+class GarageViewModel(private val repository: IGarageRepository): BaseViewModel() {
 	
-	val viewState: MutableLiveData<HomeViewState> = MutableLiveData()
+	val viewState: MutableLiveData<GarageViewState> = MutableLiveData()
 	
-	val vehicles: MutableLiveData<List<Pair<Vehicle, Expenses>>> = MutableLiveData()
+	val vehicles = MutableLiveData<List<Vehicle>>()
+	val vehiclesWithExpenses: MutableLiveData<List<Pair<Vehicle, Expenses>>> = MutableLiveData()
 	val isVehicleListEmpty: MutableLiveData<Boolean> = MutableLiveData()
 	
 	val expensesPerYear: MutableLiveData<List<Expenses>> = MutableLiveData()
@@ -57,23 +58,22 @@ class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
 	
 	fun getMyGarage() {
 		viewModelScope.launch {
-			repository.getGarage().fold(
-				success = {
-					vehicles.postValue(it)
-					
-					isVehicleListEmpty.value = it.isEmpty()
-					
-				},
-				failure = {
-					viewState.postValue(HomeViewState.Error(it.localizedMessage))
-				}
-			)
+			val result = repository.getGarage()
+			isVehicleListEmpty.value = result.isEmpty()
+			
+			vehicles.postValue(result.map { it.first })
+			if ((result.size == 1 && result.first().second.fuel == 0.0 && result.first().second.fuel == 0.0) || result.isEmpty())
+				return@launch
+			vehiclesWithExpenses.postValue(result)
 		}
 	}
 	
 	fun getExpensesPerYear() {
 		viewModelScope.launch {
-			expensesPerYear.postValue(repository.getExpensesByTimeRange(generateMonthsRange()))
+			val result = repository.getExpensesByTimeRange(generateMonthsRange())
+			if (result.find { it.fuel != 0.0 || it.maintenance != 0.0 } == null)
+				return@launch
+			expensesPerYear.postValue(result)
 		}
 	}
 	
@@ -103,16 +103,15 @@ class HomeViewModel(private val repository: IHomeRepository): BaseViewModel() {
 		}
 	}
 	
-	//todo: delete
+	//note: data generator
 	fun generateRandomData(context: Context) {
 		viewModelScope.launch {
-			viewState.postValue(HomeViewState.GeneratingStarted)
+			viewState.postValue(GarageViewState.GeneratingStarted)
 			VehicleConstants.vehicleBrands.shuffled().take(Random.nextInt(2, 5)).forEach {
-				
 					delay(100)
 					DataGenerator.generateVehicle(context, it)
 				}
-			viewState.postValue(HomeViewState.GenerationCompleted)
+			viewState.postValue(GarageViewState.GenerationCompleted)
 			MedriverApp.dataGenerated = true
 		}
 	}

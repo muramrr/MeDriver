@@ -75,7 +75,7 @@
 	
 	
 <!-- ************************************** activity_main ************************************** -->
-	<string name="bottom_nav_home">Home</string>
+	<string name="bottom_nav_garage">Garage</string>
 	<string name="bottom_nav_maintenance">Service</string>
 	<string name="bottom_nav_vehicle">Vehicle</string>
 	<string name="bottom_nav_fuel">Fuel</string>
@@ -114,6 +114,8 @@
 	<string name="formatter_1_year">%s year</string>
 	<string name="formatter_2_to_4_year">%s years</string>
 	<string name="formatter_other_years">%s years</string>
+	
+	<string name="not_enough_data">Not enough data to display</string>
 <!-- ******************************************************************************************* -->
 
 
@@ -490,9 +492,12 @@
 	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 liters filled</string>
 	
 	<string name="fg_fuel_history_add_estimate_distance_title">Expectation</string>
+	<string name="fg_fuel_history_add_estimate_distance_subtitle">Refueling on %s</string>
 	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %d km</string>
 	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 km</string>
-	<string name="fg_fuel_history_add_estimate_distance_date">Refueling on </string>
+	<string name="fg_fuel_history_add_estimate_distance_value_mi">~ %d mi</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_mi">~ 0 mi</string>
+	
 	
 	<string name="fg_fuel_history_add_fuel_station_input_error">Not specified</string>
 	<string name="fg_fuel_history_add_fuel_station_input_hint">Fuel Station</string>
@@ -539,6 +544,14 @@
 	<string name="fg_settings_switcher_metric_system">Metric system</string>
 	
 	<string name="fg_settings_switcher_language">Language</string>
+	
+	<string name="fg_settings_rate">Rate the app</string>
+	<string name="fg_settings_dialog_rate_title">Rate the application</string>
+	<string name="fg_settings_dialog_rate_message">Tap a star to rate this app on the PlayMarket</string>
+	<string name="fg_settings_dialog_rate_btn_positive">Rate</string>
+	<string name="fg_settings_dialog_rate_btn_negative">No, thanks</string>
+	<string name="fg_settings_dialog_rate_btn_neutral">Not now</string>
+	<string name="fg_settings_dialog_rate_snack_text">Thank you for your feedback!</string>
 	
 	<string name="fg_settings_faq_label">F.A.Q.</string>
 	<string name="fg_settings_about_label">About</string>

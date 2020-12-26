@@ -16,7 +16,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.presentation.ui.home
+package com.mmdev.me.driver.presentation.ui.garage
 
 import com.mmdev.me.driver.presentation.core.ViewState
 
@@ -24,9 +24,9 @@ import com.mmdev.me.driver.presentation.core.ViewState
  *
  */
 
-sealed class HomeViewState: ViewState {
-	object GeneratingStarted: HomeViewState() //todo: delete
-	object GenerationCompleted: HomeViewState() //todo: delete
-	data class Error(val errorMessage: String?): HomeViewState()
+sealed class GarageViewState: ViewState {
+	object GeneratingStarted: GarageViewState() //note: data generator
+	object GenerationCompleted: GarageViewState() //note: data generator
+	data class Error(val errorMessage: String?): GarageViewState()
 	
 }

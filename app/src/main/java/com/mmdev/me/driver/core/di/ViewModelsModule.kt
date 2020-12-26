@@ -22,7 +22,7 @@ import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.FuelHistoryViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.history.add.FuelHistoryAddViewModel
 import com.mmdev.me.driver.presentation.ui.fuel.prices.FuelPricesViewModel
-import com.mmdev.me.driver.presentation.ui.home.HomeViewModel
+import com.mmdev.me.driver.presentation.ui.garage.GarageViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.MaintenanceViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel
 import com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditViewModel
@@ -39,7 +39,7 @@ import org.koin.dsl.module
 
 val ViewModelsModule = module {
 	
-	viewModel { HomeViewModel(repository = get()) }
+	viewModel { GarageViewModel(repository = get()) }
 	
 	viewModel { MaintenanceViewModel(repository = get()) }
 	viewModel { MaintenanceAddViewModel() }

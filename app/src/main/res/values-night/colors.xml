@@ -49,6 +49,8 @@
 	<color name="colorSecondaryDark">#c48f00</color>
 
 	<color name="colorStatusBar">#000000</color>
+	
+	<color name="colorPrimarySecondary">@color/colorSecondary</color>
 
 	<color name="surface1dpImitation">#1E1E1E</color>
 	<color name="surface1dpElevation1">#26000000</color>

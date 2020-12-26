@@ -28,7 +28,7 @@ import com.mmdev.me.driver.data.datasource.fuel.prices.local.dao.FuelPricesDao
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelPriceEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelStationEntity
 import com.mmdev.me.driver.data.datasource.fuel.prices.local.entities.FuelSummaryEntity
-import com.mmdev.me.driver.data.datasource.home.dao.HomeDao
+import com.mmdev.me.driver.data.datasource.garage.dao.GarageDao
 import com.mmdev.me.driver.data.datasource.maintenance.local.dao.MaintenanceDao
 import com.mmdev.me.driver.data.datasource.maintenance.local.entity.MaintenanceEntity
 import com.mmdev.me.driver.data.datasource.vehicle.local.dao.VehicleDao
@@ -65,7 +65,7 @@ abstract class MeDriverRoomDatabase: RoomDatabase() {
 	
 	abstract fun getCacheDao(): CacheDao
 	
-	abstract fun getHomeDao(): HomeDao
+	abstract fun getGarageDao(): GarageDao
 	
 	abstract fun getMaintenanceDao(): MaintenanceDao
 	

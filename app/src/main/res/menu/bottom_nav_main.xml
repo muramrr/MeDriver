@@ -19,10 +19,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<item android:id="@+id/bottomNavHome"
-		android:icon="@drawable/ic_menu_home_24"
+	<item android:id="@+id/bottomNavGarage"
+		android:icon="@drawable/ic_menu_garage_24"
 		android:orderInCategory="0"
-		android:title="@string/bottom_nav_home"
+		android:title="@string/bottom_nav_garage"
 		/>
 
 	<item android:id="@+id/bottomNavMaintenance"

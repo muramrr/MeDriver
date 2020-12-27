@@ -20,16 +20,24 @@ package com.mmdev.me.driver.data.repository.billing
 
 import android.app.Activity
 import android.app.Application
-import com.mmdev.me.driver.core.utils.log.logError
+import com.android.billingclient.api.BillingFlowParams.ProrationMode
+import com.android.billingclient.api.BillingFlowParams.ProrationMode.IMMEDIATE_WITHOUT_PRORATION
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.core.utils.log.logWtf
 import com.mmdev.me.driver.domain.billing.IBillingRepository
-import com.qonversion.android.sdk.Qonversion
-import com.qonversion.android.sdk.QonversionError
-import com.qonversion.android.sdk.QonversionLaunchCallback
-import com.qonversion.android.sdk.QonversionPermissionsCallback
-import com.qonversion.android.sdk.dto.QLaunchResult
-import com.qonversion.android.sdk.dto.QPermission
+import com.mmdev.me.driver.domain.user.UserDataInfo
+import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.revenuecat.purchases.EntitlementInfo
+import com.revenuecat.purchases.Package
+import com.revenuecat.purchases.PeriodType.TRIAL
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.PurchasesError
+import com.revenuecat.purchases.PurchasesErrorCode.PurchaseNotAllowedError
+import com.revenuecat.purchases.UpgradeInfo
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.getPurchaserInfoWith
+import com.revenuecat.purchases.identifyWith
+import com.revenuecat.purchases.purchaseProductWith
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,64 +49,105 @@ import kotlinx.coroutines.flow.asStateFlow
 class BillingRepository(app: Application): IBillingRepository {
 	
 	private companion object {
-		private const val PROJECT_KEY = "25bLjKW-OkbhzZ9NSSmQgYZnzkqzu2_i"
+		private const val PROJECT_KEY = "SgtCVjFwRHKOtBRbhELBHxciRMpTsgcP"
 		private const val TAG = "mylogs_Billing"
 		
-		private const val PREMIUM_SKU = "premium_3_month"
-		private const val PRO_SKU = "pro_3_months"
+		private const val PREMIUM_SKU = "premium_annual"
+		private const val PRO_SKU = "pro_annual"
 		
 	}
 	
-	private val productIdentifiers = listOf(PREMIUM_SKU, PRO_SKU)
+	private lateinit var packages: List<Package>
 	
-	private val permissionsMutable: MutableStateFlow<List<QPermission>> = MutableStateFlow(emptyList())
-	override fun getPermissionsFlow(): StateFlow<List<QPermission>> = permissionsMutable.asStateFlow()
+	private val purchasesMutable: MutableStateFlow<List<EntitlementInfo>> = MutableStateFlow(emptyList())
+	override fun getPurchasesFlow(): StateFlow<List<EntitlementInfo>> = purchasesMutable.asStateFlow()
+	
+	private val purchaseError: MutableStateFlow<PurchasesError?> = MutableStateFlow(null)
+	override fun getPurchaseError(): StateFlow<PurchasesError?> = purchaseError.asStateFlow()
 	
 	init {
-		Qonversion.launch(app, PROJECT_KEY, false, object : QonversionLaunchCallback {
-			override fun onSuccess(launchResult: QLaunchResult) {
-				logWtf(TAG, "Qonversion launched, result = $launchResult")
-				getPermissions()
-			}
-			
-			override fun onError(error: QonversionError) {
-				logError(TAG, "Qonversion launch error: $error")
-			}
+		Purchases.debugLogsEnabled = MedriverApp.debug.isEnabled
+		Purchases.configure(app, PROJECT_KEY, MainActivity.currentUser?.id)
+		getProducts()
+		getPurchases()
+	}
+	
+	private fun getProducts() = Purchases.sharedInstance.getOfferingsWith(
+		onError = { error -> purchaseError.tryEmit(error) },
+		onSuccess = { offerings ->
+			packages = offerings.current!!.availablePackages.sortedBy { it.identifier }
 		})
-	}
 	
-	private val permissionsCallback = object: QonversionPermissionsCallback {
-		override fun onSuccess(permissions: Map<String, QPermission>) {
-			logWtf(TAG, "permissions = $permissions")
-			permissionsMutable.tryEmit(permissions.values.toList())
+	private fun getPurchases() = Purchases.sharedInstance.getPurchaserInfoWith(
+		onError = { error -> purchaseError.tryEmit(error) },
+		onSuccess = { purchaserInfo ->
+			purchasesMutable.tryEmit(purchaserInfo.entitlements.active.values.toList())
 		}
-		
-		override fun onError(error: QonversionError) {
-			logError(TAG, "check permissions error: $error")
-		}
-	}
-	
-	private fun getPermissions() = Qonversion.checkPermissions(permissionsCallback)
+	)
 	
 	
 	override fun launchPurchase(activity: Activity, skuPos: Int, accountId: String) {
-		val oldProduct = permissionsMutable.value.find { it.isActive() }?.productID
-		if (!oldProduct.isNullOrBlank()) {
-			/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
-			//purchaseFlowParams.setReplaceSkusProrationMode(
-			//	if (oldSku == PRO_SKU) ProrationMode.DEFERRED //downgrading
-			//	else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE //upgrading
-			//)
-			
-			logInfo(TAG, "Launching update purchase for old: $oldProduct")
-			Qonversion.updatePurchase(
-				context = activity,
-				productId = productIdentifiers[skuPos],
-				oldProductId = oldProduct,
-				callback = permissionsCallback
-			)
+		Purchases.isBillingSupported(activity) { isSupported ->
+			if (isSupported) {
+				val oldProduct = purchasesMutable.value.find { it.isActive }
+				if (oldProduct != null) {
+					val identifier = oldProduct.productIdentifier
+					val isTrial = oldProduct.periodType == TRIAL
+					logInfo(TAG, "Launching update purchase for old: $oldProduct")
+					
+					/* https://developer.android.com/google/play/billing/subscriptions#proration-recommendations */
+					Purchases.sharedInstance.purchaseProductWith(
+						activity = activity,
+						skuDetails = packages[skuPos].product,
+						upgradeInfo = UpgradeInfo(
+							identifier,
+							when (identifier) {
+								/* downgrading */
+								PRO_SKU -> if (isTrial) IMMEDIATE_WITHOUT_PRORATION
+								else ProrationMode.DEFERRED
+								/* upgrading */
+								PREMIUM_SKU -> if (isTrial) IMMEDIATE_WITHOUT_PRORATION
+								else ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE
+								else -> IMMEDIATE_WITHOUT_PRORATION
+							}
+						),
+						onError = { error, userCancelled -> purchaseError.tryEmit(error) },
+						onSuccess = { product, purchaserInfo ->
+							purchasesMutable.tryEmit(purchaserInfo.entitlements.active.values.toList())
+						}
+					)
+				}
+				else Purchases.sharedInstance.purchaseProductWith(
+					activity = activity,
+					skuDetails = packages[skuPos].product,
+					onError = { error, userCancelled -> purchaseError.tryEmit(error) },
+					onSuccess = { product, purchaserInfo ->
+						purchasesMutable.tryEmit(purchaserInfo.entitlements.active.values.toList())
+					}
+				)
+			}
+			else {
+				purchaseError.tryEmit(PurchasesError(PurchaseNotAllowedError))
+				return@isBillingSupported
+			}
 		}
-		else Qonversion.purchase(activity, productIdentifiers[skuPos], permissionsCallback)
+		
 	}
+	
+	override fun setUser(userDataInfo: UserDataInfo?) = if (userDataInfo == null) {
+		Purchases.sharedInstance.reset()
+	}
+	else {
+		// Later log in provided user Id
+		Purchases.sharedInstance.identifyWith(
+			userDataInfo.id,
+			onError = { error -> purchaseError.tryEmit(error) },
+			onSuccess = { purchaserInfo ->
+				Purchases.sharedInstance.setEmail(userDataInfo.email)
+				purchasesMutable.tryEmit(purchaserInfo.entitlements.active.values.toList())
+			}
+		)
+	}
+	
 	
 }

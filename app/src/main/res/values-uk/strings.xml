@@ -105,12 +105,12 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронізація</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ до всієї історії з будь-якого пристрою</string>
 	
-	<string name="btm_sheet_subscription_plan_per_month">/3 місяця</string>
+	<string name="btm_sheet_subscription_plan_duration">/1 рік</string>
 	
 	<string name="btm_sheet_subscription_policy">Купуючи підписку, Ви погоджуєтеся з нашими Умови обслуговування. Ми будемо стягувати з вас плату на початку кожного періоду на який була оформлена підписка, поки ви не скасуєте підписку. Ви можете скасувати її в будь-який час.</string>
 	
 	
-	<!-- ******************************************************************************************* -->
+<!-- ******************************************************************************************* -->
 
 
 

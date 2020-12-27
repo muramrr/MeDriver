@@ -89,7 +89,7 @@ class PlansAdapter(
 				)
 			),
 			MainActivity.currentUser?.isPremium() ?: false,
-			"₴29.99",
+			"₴99.99",
 			SubscriptionTypeUi(PREMIUM, string.btm_sheet_subscription_plan_type_premium)
 		),
 		PlanUi(
@@ -117,7 +117,7 @@ class PlansAdapter(
 				)
 			),
 			MainActivity.currentUser?.isPro() ?: false,
-			"₴49.99",
+			"₴199.99",
 			SubscriptionTypeUi(PRO, string.btm_sheet_subscription_plan_type_pro)
 		)
 	)

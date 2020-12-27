@@ -54,7 +54,7 @@ import kotlin.coroutines.CoroutineContext
  * but added coroutines and flow
  */
 
-@Deprecated("Migrated to qonversion")
+@Deprecated("Migrated to third-party purchases sdk")
 class BillingRepositoryOLD(
 	context: Context,
 	private val userRemoteDataSource: IUserRemoteDataSource

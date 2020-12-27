@@ -364,13 +364,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		extraBottomOffset = 10f
 		setDrawGridBackground(false)
 		// no description text
-		description.apply {
+		description.run {
 			text = when (MedriverApp.metricSystem) {
 				KILOMETERS -> getString(R.string.item_fuel_history_entry_consumption_km, "")
 				MILES -> getString(R.string.item_fuel_history_entry_consumption_mi, "")
 			}
+			textColor = context.getColorValue(R.color.colorOnBackground)
 			textSize = 14f
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_light)
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_light)
 		}
 		legend.isEnabled = false
 		
@@ -385,7 +386,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			position = BOTTOM
 			setDrawGridLines(false)
 			textColor = context.getColorValue(R.color.colorOnBackground)
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
 			
 			valueFormatter = object : ValueFormatter() {
 				override fun getFormattedValue(value: Float): String {
@@ -410,7 +411,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		axisRight.run {
 			setDrawGridLines(false)
 			textColor = context.getColorValue(R.color.colorOnBackground)
-			typeface = requireContext().getTypeface(R.font.m_plus_rounded1c_regular)
+			typeface = context.getTypeface(R.font.m_plus_rounded1c_regular)
 		}
 		axisLeft.isEnabled = false
 		

@@ -71,7 +71,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				
-				android:text="@{bindItem.pricePerMonth}"
+				android:text="@{bindItem.price}"
 				android:textAppearance="?textAppearanceHeadline5"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanType"
@@ -85,7 +85,7 @@
 				android:layout_height="wrap_content"
 				android:paddingVertical="8dp"
 				
-				android:text="@string/btm_sheet_subscription_plan_per_month"
+				android:text="@string/btm_sheet_subscription_plan_duration"
 				android:textAppearance="?textAppearanceOverline"
 				
 				app:layout_constraintTop_toBottomOf="@id/tvPlanPrice"

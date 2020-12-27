@@ -20,6 +20,7 @@ package com.mmdev.me.driver.presentation.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -48,7 +49,6 @@ import com.mmdev.me.driver.databinding.ActivityMainBinding
 import com.mmdev.me.driver.domain.user.AuthStatus.*
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
-import com.qonversion.android.sdk.Qonversion
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -56,7 +56,7 @@ class MainActivity: AppCompatActivity() {
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	companion object {
-		const val USER_KEY = "USER_KEY"
+		const val USER_KEY = "USER_KEY" // used in upload and download workers
 		@Volatile
 		var currentUser: UserDataInfo? = null
 			private set
@@ -105,6 +105,8 @@ class MainActivity: AppCompatActivity() {
 		
 		observeVehicle()
 		observeUserData()
+		observePurchases()
+		observePurchaseError()
 		
 	}
 	
@@ -238,20 +240,22 @@ class MainActivity: AppCompatActivity() {
 				startDownloadWorker(it)
 				startUploadWorker(it)
 				MedriverApp.savedUserEmail = it.email
-				
 			}
 			else {
 				logDebug(TAG, "authStatus = $UNAUTHENTICATED")
 			}
-			
 			currentUser = it
-			Qonversion.setUserID(it?.id ?: "")
 		})
 		
-		sharedViewModel.purchases.observe(this, {
-			logWtf(TAG, "$it")
-		})
 	}
+	
+	private fun observePurchases() = sharedViewModel.purchases.observe(this, {
+		logWtf(TAG, "$it")
+	})
+	
+	private fun observePurchaseError() = sharedViewModel.purchasesError.observe(this, {
+		if (it != null) Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+	})
 	
 	/**
 	 * Load saved vehicle from db by vin code which was saved before in sharedPrefs:

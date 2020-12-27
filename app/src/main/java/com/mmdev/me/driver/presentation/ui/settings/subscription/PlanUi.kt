@@ -28,6 +28,6 @@ data class PlanUi(
 	@ColorRes val backgroundColor: Int,
 	val features: List<FeatureUi>,
 	val isChosen: Boolean,
-	val pricePerMonth: String,
+	val price: String,
 	val subscription: SubscriptionTypeUi
 )

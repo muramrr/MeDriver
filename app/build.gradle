@@ -150,7 +150,7 @@ dependencies {
 	implementation 'com.cioccarellia:ksprefs:2.0.0'
 
 	//purchases
-	implementation "com.qonversion.android.sdk:sdk:2.2.0"
+	implementation 'com.revenuecat.purchases:purchases:4.0.1'
 
 	//WorkManager
 	implementation "androidx.work:work-runtime-ktx:2.5.0-beta02"

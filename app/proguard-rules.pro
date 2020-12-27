@@ -23,6 +23,7 @@
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.SerializationKt
 -keep,includedescriptorclasses class com.mmdev.me.driver.**$$serializer { *; }
+-keep class com.revenuecat.purchases.*
 -keep class com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound { *; }
 -keep class com.mmdev.me.driver.domain.fuel.history.data.DistanceBound { *; }
 -keep class com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice { *; }

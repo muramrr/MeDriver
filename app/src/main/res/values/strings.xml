@@ -144,7 +144,7 @@
 	<string name="btm_sheet_premium_feature_multiple_devices_title">Sync</string>
 	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Sync and access your data across any device</string>
 	
-	<string name="btm_sheet_subscription_plan_per_month">/3 months</string>
+	<string name="btm_sheet_subscription_plan_duration">/Yearly</string>
 	
 	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. We will charge you at start of each subscription period until you cancel your subscription. You may cancel it anytime.</string>
 	
@@ -551,7 +551,7 @@
 	<string name="fg_settings_dialog_rate_btn_positive">Rate</string>
 	<string name="fg_settings_dialog_rate_btn_negative">No, thanks</string>
 	<string name="fg_settings_dialog_rate_btn_neutral">Not now</string>
-	<string name="fg_settings_dialog_rate_snack_text">Thank you for your feedback!</string>
+	<string name="fg_settings_dialog_rate_snack_text">Thank you for feedback!</string>
 	
 	<string name="fg_settings_faq_label">F.A.Q.</string>
 	<string name="fg_settings_about_label">About</string>

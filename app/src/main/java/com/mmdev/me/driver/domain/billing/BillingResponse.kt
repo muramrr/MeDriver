@@ -22,7 +22,7 @@ package com.mmdev.me.driver.domain.billing
  * Human representation of [BillingResponseCode] codes
  */
 
-@Deprecated("Migrated to qonversion")
+@Deprecated("Migrated to third-party purchases sdk")
 enum class BillingResponse (val code: Int) {
 	SERVICE_TIMEOUT(-3),
 	FEATURE_NOT_SUPPORTED(-2),

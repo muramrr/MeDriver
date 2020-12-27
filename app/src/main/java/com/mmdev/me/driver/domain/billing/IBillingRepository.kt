@@ -19,20 +19,26 @@
 package com.mmdev.me.driver.domain.billing
 
 import android.app.Activity
-import com.qonversion.android.sdk.dto.QPermission
-import com.qonversion.android.sdk.entity.Purchase
+import com.mmdev.me.driver.domain.user.UserDataInfo
+import com.revenuecat.purchases.EntitlementInfo
+import com.revenuecat.purchases.PurchasesError
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- * Repository used to retrieve all billing info needed for app functionality
+ *
  */
 
 interface IBillingRepository {
 	
 	/**
-	 * Get list of [Purchase] as [StateFlow], that will be converted to LiveData in ViewModel
+	 * Get list of [EntitlementInfo] as [StateFlow], that will be converted to LiveData in ViewModel
 	 */
-	fun getPermissionsFlow(): StateFlow<List<QPermission>>
+	fun getPurchasesFlow(): StateFlow<List<EntitlementInfo>>
+	
+	/**
+	 * Get the last error emitted by repository, MainActivity will handle it
+	 */
+	fun getPurchaseError(): StateFlow<PurchasesError?>
 	
 	/**
 	 * Launch purchasing 'flow' for given
@@ -41,5 +47,7 @@ interface IBillingRepository {
 	 * @param accountId indicates current user unique id
 	 */
 	fun launchPurchase(activity: Activity, skuPos: Int, accountId: String)
+	
+	fun setUser(userDataInfo: UserDataInfo?)
 	
 }

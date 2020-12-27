@@ -35,7 +35,7 @@ import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
-import com.qonversion.android.sdk.dto.QPermission
+import com.revenuecat.purchases.EntitlementInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -57,16 +57,22 @@ class SharedViewModel(
 		var uploadWorkerExecuted = false
 		private const val PREMIUM_PERMISSION = "Premium"
 		private const val PRO_PERMISSION = "PRO"
+		
+		private const val PREMIUM_IDENTIFIER = "premium"
+		private const val PRO_IDENTIFIER = "pro"
 	}
 	
 	private var fetcherJob: Job? = null
 	
-	val purchases = billing.getPermissionsFlow().asLiveData()
+	val purchases = billing.getPurchasesFlow().asLiveData()
+	val purchasesError = billing.getPurchaseError().asLiveData()
 	private val _userDataInfo = authProvider.getUserFlow().asLiveData()
 	
 	val currentVehicle = MutableLiveData<Vehicle?>()
 	
 	val userDataInfo = _userDataInfo.combineWith(purchases) { user, permissions ->
+		billing.setUser(user)
+		
 		val subscription =
 			if (permissions.isNullOrEmpty()) SubscriptionData(null, SubscriptionType.FREE)
 			else parsePermissions(permissions)
@@ -108,23 +114,14 @@ class SharedViewModel(
 		billing.launchPurchase(activity, identifier, userDataInfo.value!!.id)
 	
 	
-	private fun parsePermissions(permissions: List<QPermission>): SubscriptionData {
-		val activePermission = permissions.find { it.isActive() }
-		return if (activePermission != null) {
-			val type = when (activePermission.permissionID) {
-				PREMIUM_PERMISSION -> SubscriptionType.PREMIUM
-				PRO_PERMISSION -> SubscriptionType.PRO
+	private fun parsePermissions(permissions: List<EntitlementInfo>): SubscriptionData =
+		SubscriptionData(
+			expires = permissions.first().expirationDate?.time?.let { convertToLocalDateTime(it) },
+			type = when (permissions.first().identifier) {
+				PREMIUM_IDENTIFIER -> SubscriptionType.PREMIUM
+				PRO_IDENTIFIER -> SubscriptionType.PRO
 				else -> SubscriptionType.FREE
 			}
-			if (activePermission.expirationDate != null) {
-				val dateTime = convertToLocalDateTime(activePermission.expirationDate!!.time)
-				SubscriptionData(dateTime, type)
-			}
-			else SubscriptionData(null, SubscriptionType.FREE)
-			
-		}
-		else SubscriptionData(null, SubscriptionType.FREE)
-		
-	}
+		)
 	
 }

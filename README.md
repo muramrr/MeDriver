@@ -21,7 +21,7 @@ Also, you will be notified when it is time to visit service station.
 * Firebase *(Auth, Firestore, Analytics)*;
 * Jetpack Navigation;
 * Jetpack WorkManager;
-* [Qonversion SDK](https://qonversion.io/) (for verifiying payments);
+* [RevenueCat SDK](https://revenuecat.com/) (for verifiying payments);
 * [KsPrefs](https://github.com/cioccarellia/ksprefs);
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart);
 * [Kotlinx DateTime](https://github.com/Kotlin/kotlinx-datetime);

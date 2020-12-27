@@ -66,6 +66,7 @@ val RepositoryModule = module {
 		)
 	}
 	
+	//single<IBillingRepository> { BillingRepositoryQonversion(app = androidApplication()) }
 	single<IBillingRepository> { BillingRepository(app = androidApplication()) }
 	
 	factory<IGarageRepository> {

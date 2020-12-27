@@ -21,6 +21,7 @@ package com.mmdev.me.driver.presentation.ui.vehicle.edit
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
+import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
 import com.mmdev.me.driver.core.utils.helpers.DateHelper
 import com.mmdev.me.driver.databinding.DialogVehicleRegulationsEditBinding
 import com.mmdev.me.driver.domain.vehicle.data.Regulation
@@ -68,7 +69,8 @@ class EditVehicleRegulationsDialog : BaseDialogFragment<Nothing, DialogVehicleRe
 			sharedViewModel.updateVehicle(
 				MainActivity.currentUser,
 				MainActivity.currentVehicle!!.copy(
-					maintenanceRegulations = convertRegulations(mAdapter.getOutput())
+					maintenanceRegulations = convertRegulations(mAdapter.getOutput()),
+					lastUpdatedDate = currentEpochTime()
 				)
 			)
 			dismiss()

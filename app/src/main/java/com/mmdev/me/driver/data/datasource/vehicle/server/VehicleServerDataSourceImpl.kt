@@ -31,7 +31,8 @@ import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.VEHICLE
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.ADDED
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.DELETED
 import com.mmdev.me.driver.data.datasource.vehicle.server.dto.VehicleDto
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
@@ -76,7 +77,7 @@ class VehicleServerDataSourceImpl(
 			.setAsFlow(vehicle)
 	
 	override fun addVehicle(email: String, vehicle: VehicleDto): Flow<SimpleResult<Unit>> =
-		add(email, vehicle).combine(addToJournal(email, toServerOperation(vehicle, ADDED))) { add, journal ->
+		add(email, vehicle).combine(addOperationToJournal(email, toServerOperation(vehicle, ADDED))) { add, journal ->
 			combineResultStates(add, journal).fold(
 				success = {
 					MedriverApp.lastOperationSyncedId = vehicle.dateUpdated
@@ -104,7 +105,7 @@ class VehicleServerDataSourceImpl(
 	
 	override fun deleteVehicle(email: String, dto: VehicleDto): Flow<SimpleResult<Unit>> =
 		delete(email, dto.vin)
-			.combine(addToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
+			.combine(addOperationToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
 				combineResultStates(delete, journal).fold(
 					success = {
 						MedriverApp.lastOperationSyncedId = dto.dateUpdated
@@ -189,6 +190,10 @@ class VehicleServerDataSourceImpl(
 				)
 			}
 	}
+	
+	
+	override fun deleteFromJournal(email: String, id: String): Flow<SimpleResult<Unit>> =
+		deleteOperationFromJournal(email, VEHICLE, id)
 	
 	
 }

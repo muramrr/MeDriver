@@ -102,6 +102,7 @@ interface VehicleDao {
 	suspend fun importVehicles(vehiclesToImport: List<VehicleEntity>)
 	
 	//cascade deleting
+	@Transaction
 	suspend fun deleteVehicle(vin: String) {
 		deleteVehicleByVin(vin)
 		deleteVehicleFuelHistory(vin)

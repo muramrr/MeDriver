@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmdev.me.driver.R
@@ -61,6 +62,7 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		//dismissWithAnimation = arguments?.getBoolean(ARG_DISMISS_WITH_ANIMATION) ?: true
 		(requireDialog() as BottomSheetDialog).apply {
 			dismissWithAnimation = true
+			behavior.state = BottomSheetBehavior.STATE_EXPANDED
 		}
 	}
 	

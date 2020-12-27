@@ -20,8 +20,14 @@ package com.mmdev.me.driver.data.core.base.datasource.server
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
+import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
+import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
+import com.mmdev.me.driver.domain.core.SimpleResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  *
@@ -36,11 +42,23 @@ abstract class BaseServerDataSource(
 		private const val FS_USER_ACTIONS_JOURNAL = "journal"
 	}
 	
-	protected fun addToJournal(email: String, serverOperation: ServerOperation) =
+	protected fun addOperationToJournal(email: String, serverOperation: ServerOperation) =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_USER_ACTIONS_JOURNAL)
 			.document("${serverOperation.documentType}_${serverOperation.dateAdded}")
 			.setAsFlow(serverOperation)
 	
+	protected fun deleteOperationFromJournal(
+		email: String,
+		type: ServerDocumentType,
+		id: String
+	): Flow<SimpleResult<Unit>> =
+		fs.collection(FS_USERS_COLLECTION)
+			.document(email)
+			.collection(FS_USER_ACTIONS_JOURNAL)
+			.document("${type}_${id}")
+			.delete()
+			.asFlow()
+			.map { it.toUnit() }
 }

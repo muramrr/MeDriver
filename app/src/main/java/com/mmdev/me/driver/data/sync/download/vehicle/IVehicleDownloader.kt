@@ -48,7 +48,7 @@ interface IVehicleDownloader {
 	 *
 	 * @param vin defines vehicle which we should download
 	 */
-	fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>>
+	fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
 	
 	/**
 	 * Clear all vehicles from device

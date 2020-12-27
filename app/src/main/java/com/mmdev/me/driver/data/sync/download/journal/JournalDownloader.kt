@@ -33,6 +33,7 @@ class JournalDownloader(private val fs: FirebaseFirestore): IJournalDownloader {
 	private companion object {
 		private const val FS_USERS_COLLECTION = "users"
 		private const val FS_USER_ACTIONS_JOURNAL = "journal"
+		private const val FS_JOURNAL_DATE_ADDED_FIELD = "dateAdded"
 	}
 	
 	override fun getOperations(
@@ -41,7 +42,7 @@ class JournalDownloader(private val fs: FirebaseFirestore): IJournalDownloader {
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_USER_ACTIONS_JOURNAL)
-			.whereGreaterThan("dateAdded", lastKnownOperationId)
+			.whereGreaterThan(FS_JOURNAL_DATE_ADDED_FIELD, lastKnownOperationId)
 			.executeAndDeserializeAsFlow(ServerOperation::class.java)
 	
 }

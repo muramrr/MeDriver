@@ -76,7 +76,7 @@ class FuelHistoryServerDataSourceImpl(
 	override fun addFuelHistory(
 		email: String, dto: FuelHistoryDto
 	): Flow<SimpleResult<Unit>> =
-		add(email, dto).combine(addToJournal(email, toServerOperation(dto, ADDED))) { add, journal ->
+		add(email, dto).combine(addOperationToJournal(email, toServerOperation(dto, ADDED))) { add, journal ->
 			combineResultStates(add, journal).fold(
 				success = {
 					MedriverApp.lastOperationSyncedId = dto.dateAdded
@@ -114,7 +114,7 @@ class FuelHistoryServerDataSourceImpl(
 		email: String, dto: FuelHistoryDto
 	): Flow<SimpleResult<Unit>> =
 		delete(email, dto)
-			.combine(addToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
+			.combine(addOperationToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
 		combineResultStates(delete, journal).fold(
 			success = {
 				MedriverApp.lastOperationSyncedId = dto.dateAdded
@@ -134,5 +134,8 @@ class FuelHistoryServerDataSourceImpl(
 			.delete()
 			.asFlow()
 			.map { it.toUnit() }
+	
+	override fun deleteFromJournal(email: String, id: String): Flow<SimpleResult<Unit>> =
+		deleteOperationFromJournal(email, FUEL_HISTORY, id)
 	
 }

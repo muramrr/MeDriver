@@ -67,4 +67,12 @@ interface IMaintenanceServerDataSource {
 	 */
 	fun deleteMaintenanceEntry(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>>
 	
+	
+	/**
+	 * Delete entry from journal
+	 * It is pretty useful when user trying to fetch data which is no longer available
+	 * Neither catching "No such document." exceptions - better to delete entry from journal
+	 */
+	fun deleteFromJournal(email: String, id: String): Flow<SimpleResult<Unit>>
+	
 }

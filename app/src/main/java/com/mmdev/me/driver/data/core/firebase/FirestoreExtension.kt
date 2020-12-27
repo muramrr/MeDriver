@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.flow
  */
 
 private const val TAG = "mylogs_FirestoreExtensions"
+const val FIRESTORE_NO_DOCUMENT_EXCEPTION = "No such document."
 
 fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleResult<T>> = flow {
 	logDebug(TAG, "Trying to retrieve document `$path` from backend...")
@@ -50,8 +51,8 @@ fun <T> DocumentReference.getAndDeserializeAsFlow(clazz: Class<T>): Flow<SimpleR
 					emit(ResultState.success(serializedDoc))
 				}
 				else {
-					logError(TAG, "No such document.")
-					emit(ResultState.failure(NoSuchElementException("No such document.")))
+					logError(TAG, FIRESTORE_NO_DOCUMENT_EXCEPTION)
+					emit(ResultState.failure(NoSuchElementException(FIRESTORE_NO_DOCUMENT_EXCEPTION)))
 				}
 				
 			},

@@ -334,6 +334,7 @@
 	<string name="fg_vehicle_insurance_subtitle">Действительна до %s</string>
 	
 	<string name="fg_vehicle_consumable_reminders_header">Плановое ТО</string>
+	<string name="fg_vehicle_edit_regulations_save">Сохранить</string>
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">Конечная дата</string>
 	<string name="fg_vehicle_card_replacements_value_change_distance">Осталось проехать</string>

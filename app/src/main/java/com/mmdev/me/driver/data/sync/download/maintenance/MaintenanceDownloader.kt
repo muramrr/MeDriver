@@ -20,12 +20,14 @@ package com.mmdev.me.driver.data.sync.download.maintenance
 
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.data.core.firebase.FIRESTORE_NO_DOCUMENT_EXCEPTION
 import com.mmdev.me.driver.data.datasource.maintenance.local.IMaintenanceLocalDataSource
 import com.mmdev.me.driver.data.datasource.maintenance.server.IMaintenanceServerDataSource
 import com.mmdev.me.driver.data.repository.maintenance.mappers.MaintenanceMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -59,9 +61,12 @@ class MaintenanceDownloader(
 		server.getMaintenanceHistoryById(email, vin, id).transform { resultServer ->
 			resultServer.fold(
 				success = { emit(local.importReplacedSpareParts(listOf(mappers.dtoToEntity(it)))) },
-				failure = {
-					logError(TAG, "${it.message}")
-					emit(ResultState.failure(it))
+				failure = { error ->
+					logError(TAG, "${error.message}")
+					if (error.message == FIRESTORE_NO_DOCUMENT_EXCEPTION) {
+						server.deleteFromJournal(email, id).collect { emit(it) }
+					}
+					else emit(ResultState.failure(error))
 				}
 			)
 		}

@@ -22,9 +22,12 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.FUEL_HISTORY
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.MAINTENANCE
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.VEHICLE
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.ADDED
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.DELETED
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.UNKNOWN
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -164,10 +167,10 @@ class DataDownloader(
 					}
 					VEHICLE -> {
 						when (operation.operationType) {
-							ADDED -> vehicles.downloadSingle(email, operation.vin)
+							ADDED -> vehicles.downloadSingle(email, operation.vin, operation.dateAdded.toString())
 							DELETED -> flowOf(vehicles.deleteSingle(email, operation.vin))
 							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
-							else -> vehicles.downloadSingle(email, operation.vin)
+							else -> vehicles.downloadSingle(email, operation.vin, operation.dateAdded.toString())
 						}
 						
 					}

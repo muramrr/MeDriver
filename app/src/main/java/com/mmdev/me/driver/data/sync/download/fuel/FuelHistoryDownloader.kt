@@ -20,12 +20,14 @@ package com.mmdev.me.driver.data.sync.download.fuel
 
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.data.core.firebase.FIRESTORE_NO_DOCUMENT_EXCEPTION
 import com.mmdev.me.driver.data.datasource.fuel.history.local.IFuelHistoryLocalDataSource
 import com.mmdev.me.driver.data.datasource.fuel.history.server.IFuelHistoryServerDataSource
 import com.mmdev.me.driver.data.repository.fuel.history.mappers.FuelHistoryMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -60,9 +62,12 @@ class FuelHistoryDownloader(
 	): Flow<SimpleResult<Unit>> = server.getFuelHistoryById(email, vin, id).transform { resultServer ->
 		resultServer.fold(
 			success = { emit(local.importFuelHistory(listOf(mappers.dtoToEntity(it)))) },
-			failure = {
-				logError(TAG, "${it.message}")
-				emit(ResultState.failure(it))
+			failure = { error ->
+				logError(TAG, "${error.message}")
+				if (error.message == FIRESTORE_NO_DOCUMENT_EXCEPTION) {
+					server.deleteFromJournal(email, id).collect { emit(it) }
+				}
+				else emit(ResultState.failure(error))
 			}
 		)
 	}

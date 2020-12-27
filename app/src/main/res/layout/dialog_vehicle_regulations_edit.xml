@@ -59,7 +59,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginVertical="16dp"
 			
-			android:text="Save"
+			android:text="@string/fg_vehicle_edit_regulations_save"
 			
 			app:layout_constraintTop_toBottomOf="@id/rvVehicleMaintenanceEdit"
 			app:layout_constraintBottom_toBottomOf="parent"

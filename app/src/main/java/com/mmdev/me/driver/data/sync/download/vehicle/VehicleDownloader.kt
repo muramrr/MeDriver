@@ -20,12 +20,14 @@ package com.mmdev.me.driver.data.sync.download.vehicle
 
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
+import com.mmdev.me.driver.data.core.firebase.FIRESTORE_NO_DOCUMENT_EXCEPTION
 import com.mmdev.me.driver.data.datasource.vehicle.local.IVehicleLocalDataSource
 import com.mmdev.me.driver.data.datasource.vehicle.server.IVehicleServerDataSource
 import com.mmdev.me.driver.data.repository.vehicle.mappers.VehicleMappersFacade
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -63,13 +65,16 @@ class VehicleDownloader(
 		}
 	
 	
-	override fun downloadSingle(email: String, vin: String): Flow<SimpleResult<Unit>> =
+	override fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>> =
 		server.getVehicle(email, vin).transform { resultServer ->
 			resultServer.fold(
 				success = { emit(local.importVehicles(listOf(mappers.dtoToEntity(it)))) },
-				failure = {
-					logError(TAG, "$it")
-					emit(ResultState.failure(it))
+				failure = {error ->
+					logError(TAG, "${error.message}")
+					if (error.message == FIRESTORE_NO_DOCUMENT_EXCEPTION) {
+						server.deleteFromJournal(email, id).collect { emit(it) }
+					}
+					else emit(ResultState.failure(error))
 				}
 			)
 		}

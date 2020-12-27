@@ -29,7 +29,8 @@ import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.MAINTENANCE
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.ADDED
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.DELETED
 import com.mmdev.me.driver.data.datasource.maintenance.server.dto.VehicleSparePartDto
 import com.mmdev.me.driver.domain.core.ResultState
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
@@ -77,7 +78,7 @@ class MaintenanceServerDataSourceImpl (private val fs: FirebaseFirestore) :
 		email: String, vin: String, items: List<VehicleSparePartDto>
 	): Flow<SimpleResult<Unit>> =
 		items.asFlow().flatMapMerge(5) { dto ->
-			add(email, dto).combine(addToJournal(email, toServerOperation(dto, ADDED))) { add, journal ->
+			add(email, dto).combine(addOperationToJournal(email, toServerOperation(dto, ADDED))) { add, journal ->
 				combineResultStates(add, journal).fold(
 					success = {
 						MedriverApp.lastOperationSyncedId = dto.dateAdded
@@ -118,7 +119,7 @@ class MaintenanceServerDataSourceImpl (private val fs: FirebaseFirestore) :
 		email: String, dto: VehicleSparePartDto
 	): Flow<SimpleResult<Unit>> =
 		delete(email, dto)
-			.combine(addToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
+			.combine(addOperationToJournal(email, toServerOperation(dto, DELETED))) { delete, journal ->
 				combineResultStates(delete, journal).fold(
 					success = {
 						MedriverApp.lastOperationSyncedId = dto.dateAdded
@@ -128,7 +129,7 @@ class MaintenanceServerDataSourceImpl (private val fs: FirebaseFirestore) :
 				)
 			}
 	
-	private fun delete(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>>  =
+	private fun delete(email: String, dto: VehicleSparePartDto): Flow<SimpleResult<Unit>> =
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_VEHICLES_COLLECTION)
@@ -138,4 +139,8 @@ class MaintenanceServerDataSourceImpl (private val fs: FirebaseFirestore) :
 			.delete()
 			.asFlow()
 			.map { it.toUnit() }
+	
+	override fun deleteFromJournal(email: String, id: String): Flow<SimpleResult<Unit>> =
+		deleteOperationFromJournal(email, MAINTENANCE, id)
+	
 }

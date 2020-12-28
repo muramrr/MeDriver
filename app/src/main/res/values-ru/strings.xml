@@ -174,14 +174,14 @@
 	<string name="maintenance_parent_node_other">Другое</string>
 	<string name="maintenance_parent_node_planned">Плановое</string>
 	
-	<string name="maintenance_parent_node_engine_components">&#8226; ГБЦ\n&#8226; Поршни\n&#8226; Гофра\n&#8226; Топливная система\n…</string>
-	<string name="maintenance_parent_node_transmission_components">&#8226; Датчик скорости\n&#8226; Сцепление\n&#8226; Полуось\n&#8226; ШРУС ("граната")\n…</string>
+	<string name="maintenance_parent_node_engine_components">&#8226; ГБЦ\n&#8226; Поршни\n&#8226; Гофра\n&#8226; Валы\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Сцепление\n&#8226; Крестовины\n&#8226; Полуось\n&#8226; ШРУС\n…</string>
 	<string name="maintenance_parent_node_electrics_components">&#8226; Аккумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Катушки\n…</string>
-	<string name="maintenance_parent_node_suspension_components">&#8226; Амортизация\n&#8226; Пружина\n&#8226; Ступица колеса\n&#8226; Втулки, рычаги\n…</string>
-	<string name="maintenance_parent_node_brakes_components">&#8226; Диски, колодки, барабан\n&#8226; Суппорт\n&#8226; Датчики\n&#8226; Трос ручника\n…</string>
-	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Дворники\n&#8226; Фары, фонари\n&#8226; Стекло\n&#8226; Бампера\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Амортизация\n&#8226; Пружины\n&#8226; Ступицы\n&#8226; Втулки\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Колодки\n&#8226; Суппорта\n&#8226; Датчики\n&#8226; Ручник\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Дворники\n&#8226; Фары\n&#8226; Стекло\n&#8226; Бампера\n…</string>
 	<string name="maintenance_parent_node_other_components">Не знаете к какой категории отнести замененную деталь?</string>
-	<string name="maintenance_parent_node_planned_components">&#8226; Масло, фильтры\n&#8226; ГРМ\n&#8226; Жидкости\n&#8226; Свечи</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Масло\n&#8226; Фильтры\n&#8226; Жидкости\n&#8226; ГРМ\n…</string>
 	
 	
 	<string name="maintenance_other_component">Другое</string>
@@ -355,17 +355,25 @@
 
 
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_error_same_vin">Авто с таким VIN уже добавлен</string>
+	<string name="btm_sheet_vehicle_add_error_unexpected">Неизвестная ошибка</string>
+	
 	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_error">Неверный формат VIN</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автоматически заполнит данные об авто</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_helper">Audi, BMW …</string>
+	
 	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
+	<string name="btm_sheet_vehicle_add_enter_model_helper">A4, 328 …</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_year_hint">Год выпуска</string>
+	<string name="btm_sheet_vehicle_add_enter_year_helper">Например: 2010</string>
 	<string name="btm_sheet_vehicle_add_enter_year_error">Неправильное значение</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Объем двигателя</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_helper">Например: 3.5</string>
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Неправильное значение</string>
 	
 <!-- ******************************************************************************************* -->
@@ -550,12 +558,15 @@
 	<string name="fg_settings_auth_sign_up_error_message">Неизвестная ошибка при регистрации</string>
 	<string name="fg_settings_auth_email_sent_error_message">Ошибка. Письмо не отправлено</string>
 	<string name="fg_settings_auth_email_sent_success">Письмо успешно отправлено</string>
+	
+	<string name="fg_settings_auth_confirmation_dialog_title">Вы пытаетесь зайти в другой аккаунт?</string>
+	<string name="fg_settings_auth_confirmation_dialog_message">Если Вы войдете в другой аккаунт, все Ваши данные будут удалены. Продолжить?</string>
+	<string name="fg_settings_auth_confirmation_dialog_btn_pos">Подтвердить</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- *********************************** bottom_sheet_about ************************************ -->
-	<string name="about_created_by">Разработка\nАндрей Ковальчук</string>
 	<string name="about_email_me">Предложения или вопросы?</string>
 	
 	<string name="about_privacy_policy">Политика конфиденциальности</string>

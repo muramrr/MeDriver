@@ -22,7 +22,7 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.serialization.asConverterFactory
 import com.mmdev.me.driver.data.datasource.fuel.prices.api.retrofit.FuelApi
 import com.mmdev.me.driver.data.datasource.vin.api.retrofit.VinCodeApi
-import com.mmdev.me.driver.data.sync.download.DataDownloader
+import com.mmdev.me.driver.data.sync.download.Downloader
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Companion.invoke
@@ -38,7 +38,7 @@ private val contentType = "application/json".toMediaType()
 
 val NetworkModule = module {
 	
-	single { DataDownloader(vehicles = get(), maintenance = get(), fuelHistory = get(), journal = get()) }
+	single { Downloader(vehicles = get(), maintenance = get(), fuelHistory = get(), journal = get()) }
 
 	single { provideRetrofit() }
 	

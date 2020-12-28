@@ -46,10 +46,10 @@ class GarageViewModel(private val repository: IGarageRepository): BaseViewModel(
 	val viewState: MutableLiveData<GarageViewState> = MutableLiveData()
 	
 	val vehicles = MutableLiveData<List<Vehicle>>()
-	val vehiclesWithExpenses: MutableLiveData<List<Pair<Vehicle, Expenses>>> = MutableLiveData()
-	val isVehicleListEmpty: MutableLiveData<Boolean> = MutableLiveData()
+	val vehiclesWithExpenses = MutableLiveData<List<Pair<Vehicle, Expenses>>>()
+	val isVehicleListEmpty = MutableLiveData<Boolean>()
 	
-	val expensesPerYear: MutableLiveData<List<Expenses>> = MutableLiveData()
+	val expensesPerYear = MutableLiveData<List<Expenses>>()
 	
 	init {
 		getMyGarage()
@@ -62,18 +62,15 @@ class GarageViewModel(private val repository: IGarageRepository): BaseViewModel(
 			isVehicleListEmpty.value = result.isEmpty()
 			
 			vehicles.postValue(result.map { it.first })
-			if ((result.size == 1 && result.first().second.fuel == 0.0 && result.first().second.fuel == 0.0) || result.isEmpty())
-				return@launch
-			vehiclesWithExpenses.postValue(result)
+			if (result.any { it.second.maintenance != 0.0 || it.second.fuel != 0.0 })
+				vehiclesWithExpenses.postValue(result)
 		}
 	}
 	
 	fun getExpensesPerYear() {
 		viewModelScope.launch {
 			val result = repository.getExpensesByTimeRange(generateMonthsRange())
-			if (result.find { it.fuel != 0.0 || it.maintenance != 0.0 } == null)
-				return@launch
-			expensesPerYear.postValue(result)
+			if (result.any { it.fuel != 0.0 || it.maintenance != 0.0 }) expensesPerYear.postValue(result)
 		}
 	}
 	

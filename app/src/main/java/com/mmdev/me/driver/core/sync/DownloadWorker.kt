@@ -26,8 +26,7 @@ import com.mmdev.me.driver.core.utils.MyDispatchers
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.sync.download.IDataDownloader
-import com.mmdev.me.driver.presentation.ui.MainActivity
+import com.mmdev.me.driver.data.sync.download.IDownloader
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinApiExtension
@@ -43,22 +42,39 @@ class DownloadWorker(appContext: Context, workerParams: WorkerParameters):
 		CoroutineWorker(appContext, workerParams), KoinComponent {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
+	private companion object {
+		private const val USER_KEY = "USER_KEY"
+		private const val DATA_IMPORTED_KEY = "IS_DATA_IMPORTED"
+	}
 	
-	private val downloader: IDataDownloader by inject()
+	private val downloader: IDownloader by inject()
 	
 	
 	override suspend fun doWork(): Result = withContext(MyDispatchers.io()) {
 		if (MedriverApp.isInternetWorking()) {
 			logDebug(TAG, "Doing work...")
-			val email = inputData.getString(MainActivity.USER_KEY)
+			val email = inputData.getString(USER_KEY)
+			val isImported = inputData.getBoolean(DATA_IMPORTED_KEY, false)
 			if (!email.isNullOrBlank()) {
-				
-				downloader.fetchNewFromServer(email).collect { result ->
-					result.fold(
-						success = { logInfo(TAG, "Successfully downloaded new data") },
-						failure = { logError(TAG, "Error downloading new data: ${it.message}") }
-					)
+				//if whole data was already imported, user session was not resetted
+				if (isImported) {
+					downloader.fetchNewFromServer(email).collect { result ->
+						result.fold(
+							success = { logInfo(TAG, "Successfully downloaded new data") },
+							failure = { logError(TAG, "Error downloading new data: ${it.message}") }
+						)
+					}
 				}
+				//import data directly, called when user signs in for the first time on device
+				else {
+					downloader.importData(email).collect { result ->
+						result.fold(
+							success = { logInfo(TAG, "Successfully imported data") },
+							failure = { logError(TAG, "Error imported data: ${it.message}") }
+						)
+					}
+				}
+				
 				logInfo(TAG, "Downloading worker job result is SUCCESS")
 				Result.success()
 			}

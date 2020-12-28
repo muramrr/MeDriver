@@ -31,6 +31,7 @@
 	<com.google.android.material.card.MaterialCardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		app:contentPadding="8dp"
 		app:cardBackgroundColor="@color/surface1dpImitation"
 		app:cardCornerRadius="6dp"
 		app:cardElevation="1dp"
@@ -39,9 +40,8 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			
 			android:orientation="vertical"
-			android:padding="8dp"
+			
 			>
 			
 			<com.google.android.material.textview.MaterialTextView
@@ -61,10 +61,9 @@
 				android:id="@+id/tvNodeComponents"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
-				android:paddingVertical="8dp"
 				
 				android:drawableEnd="@{bindItem.icon}"
-				android:gravity="center_vertical"
+				android:gravity="@{bindItem.icon == 0 ? 0x11 : 0x10}"
 				android:ellipsize="end"
 				android:maxLines="6"
 				

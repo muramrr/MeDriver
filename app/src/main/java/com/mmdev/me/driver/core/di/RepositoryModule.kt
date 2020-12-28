@@ -66,7 +66,6 @@ val RepositoryModule = module {
 		)
 	}
 	
-	//single<IBillingRepository> { BillingRepositoryQonversion(app = androidApplication()) }
 	single<IBillingRepository> { BillingRepository(app = androidApplication()) }
 	
 	factory<IGarageRepository> {
@@ -112,7 +111,7 @@ val RepositoryModule = module {
 	factory<ISettingsRepository> {
 		SettingsRepositoryImpl(
 			authDataSource = get(),
-			dataDownloader = get()
+			downloader = get()
 		)
 	}
 

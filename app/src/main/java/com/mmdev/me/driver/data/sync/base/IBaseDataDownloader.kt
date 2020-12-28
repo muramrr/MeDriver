@@ -16,23 +16,37 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.sync.download.fuel
+package com.mmdev.me.driver.data.sync.base
 
-import com.mmdev.me.driver.data.sync.base.IBaseDataDownloader
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Downloader used only to fetch fuel history related data
+ * Base behaviour for all separated downloaders, except journal
+ *
  */
 
-interface IFuelHistoryDownloader: IBaseDataDownloader {
+interface IBaseDataDownloader {
 	
 	/**
-	 * Download whole fuel history collection from server and import it directly to local database
+	 * If maintenance history entry was deleted on server from one device, we should delete it
+	 * from current device also
 	 *
-	 * @param vin - for which vehicle we should download history
+	 * @param id defines documentId which comes from server
 	 */
-	fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
+	suspend fun deleteSingle(email: String, id: String): SimpleResult<Unit>
+	
+	/**
+	 * Download only one entry from maintenance history collection from server and import it
+	 * directly to local database
+	 *
+	 * @param id defines documentId which we should download
+	 */
+	fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
+	
+	/**
+	 * Clear whole fuel history data from local database
+	 */
+	suspend fun clear(): SimpleResult<Unit>
 	
 }

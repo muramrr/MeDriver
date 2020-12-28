@@ -56,7 +56,8 @@ class MainActivity: AppCompatActivity() {
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	companion object {
-		const val USER_KEY = "USER_KEY" // used in upload and download workers
+		private const val USER_KEY = "USER_KEY" // used in upload and download workers
+		private const val DATA_IMPORTED_KEY = "IS_DATA_IMPORTED"
 		@Volatile
 		var currentUser: UserDataInfo? = null
 			private set
@@ -164,7 +165,7 @@ class MainActivity: AppCompatActivity() {
 	fun navigateTo(destination: Int) { binding.bottomNavMain.selectedItemId = destination }
 	
 	private fun startUploadWorker(user: UserDataInfo) {
-		if (user.isPro() && !SharedViewModel.uploadWorkerExecuted) {
+		if (user.isPro()) {
 			val constraints = Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.build()
@@ -192,7 +193,10 @@ class MainActivity: AppCompatActivity() {
 			val downloadWorkRequest: WorkRequest =
 				OneTimeWorkRequestBuilder<DownloadWorker>()
 					.setConstraints(constraints)
-					.setInputData(workDataOf(USER_KEY to user.email))
+					.setInputData(workDataOf(
+						USER_KEY to user.email,
+						DATA_IMPORTED_KEY to MedriverApp.isDataImported
+					))
 					.build()
 			
 			

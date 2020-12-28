@@ -30,6 +30,7 @@ sealed class AuthViewState: ViewState {
 	sealed class SignIn: AuthViewState() {
 		data class Error(val errorMsg: String?): SignIn()
 		object Success: SignIn()
+		object NeedConfirmation: SignIn()
 	}
 	
 	sealed class ResetPassword: AuthViewState() {

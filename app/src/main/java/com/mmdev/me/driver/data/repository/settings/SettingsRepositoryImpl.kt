@@ -21,7 +21,7 @@ package com.mmdev.me.driver.data.repository.settings
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.user.auth.IFirebaseAuthDataSource
-import com.mmdev.me.driver.data.sync.download.IDataDownloader
+import com.mmdev.me.driver.data.sync.download.IDownloader
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.user.ISettingsRepository
@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.map
 
 class SettingsRepositoryImpl(
 	private val authDataSource: IFirebaseAuthDataSource,
-	private val dataDownloader: IDataDownloader
+	private val downloader: IDownloader
 ): BaseRepository(), ISettingsRepository {
 	
 	
@@ -49,17 +49,13 @@ class SettingsRepositoryImpl(
 	override fun signIn(email: String, password: String): Flow<SimpleResult<Unit>> =
 		authDataSource.signIn(email, password).map {
 			if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email)
-				dataDownloader.deleteAll()
+				downloader.deleteAll()
 			it.toUnit()
 		}
 	
 	override fun signOut() = authDataSource.signOut()
 	
 	override fun signUp(email: String, password: String): Flow<SimpleResult<Unit>> =
-		authDataSource.signUp(email, password).map {
-			if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != email)
-				dataDownloader.deleteAll()
-			it.toUnit()
-		}
+		authDataSource.signUp(email, password).map { it.toUnit() }
 
 }

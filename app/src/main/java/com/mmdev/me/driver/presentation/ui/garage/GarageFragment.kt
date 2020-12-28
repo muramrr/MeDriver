@@ -128,7 +128,7 @@ class GarageFragment : BaseFlowFragment<GarageViewModel, FragmentGarageBinding>(
 		mViewModel.vehiclesWithExpenses.observe(this, { vehiclesWithExpenses ->
 			// if vehicles < 5 -> leave only positions <= 5
 			checkedExpensesPositions.removeAll { it >= vehiclesWithExpenses.size }
-			setupPieChartExpensesData(vehiclesWithExpenses)
+			if (!vehiclesWithExpenses.isNullOrEmpty()) setupPieChartExpensesData(vehiclesWithExpenses)
 		})
 		
 		mViewModel.expensesPerYear.observe(this, { expenses ->

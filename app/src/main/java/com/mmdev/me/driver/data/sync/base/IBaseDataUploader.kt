@@ -16,23 +16,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses
  */
 
-package com.mmdev.me.driver.data.sync.download.fuel
-
-import com.mmdev.me.driver.data.sync.base.IBaseDataDownloader
-import com.mmdev.me.driver.domain.core.SimpleResult
-import kotlinx.coroutines.flow.Flow
+package com.mmdev.me.driver.data.sync.base
 
 /**
- * Downloader used only to fetch fuel history related data
+ * Base behaviour for all uploaders
  */
 
-interface IFuelHistoryDownloader: IBaseDataDownloader {
+interface IBaseDataUploader {
 	
-	/**
-	 * Download whole fuel history collection from server and import it directly to local database
-	 *
-	 * @param vin - for which vehicle we should download history
-	 */
-	fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
+	suspend fun upload(email: String)
 	
 }

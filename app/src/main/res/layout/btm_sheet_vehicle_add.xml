@@ -92,6 +92,7 @@
 			app:errorEnabled="true"
 			app:counterEnabled="true"
 			app:counterMaxLength="20"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_brand_helper"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 			
@@ -131,6 +132,7 @@
 			app:counterEnabled="true"
 			app:counterMaxLength="20"
 			
+			app:helperText="@string/btm_sheet_vehicle_add_enter_model_helper"
 			app:errorEnabled="true"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -169,6 +171,7 @@
 			android:hint="@string/btm_sheet_vehicle_add_enter_year_hint"
 			
 			app:errorEnabled="true"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_year_helper"
 			
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
 			
@@ -206,6 +209,7 @@
 			android:hint="@string/btm_sheet_vehicle_add_enter_engine_cap_hint"
 			
 			app:errorEnabled="true"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_engine_cap_helper"
 			
 			app:suffixText="L"
 			

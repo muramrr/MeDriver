@@ -119,7 +119,8 @@
 						/>
 					<com.google.android.material.textview.MaterialTextView android:id="@+id/tvMileageValue"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
+						android:layout_height="0dp"
+						android:layout_weight="1"
 						android:layout_marginTop="4dp"
 						android:layout_marginHorizontal="16dp"
 						

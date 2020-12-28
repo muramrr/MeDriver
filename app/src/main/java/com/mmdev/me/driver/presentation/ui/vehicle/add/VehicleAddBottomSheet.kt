@@ -78,13 +78,16 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		
 		when (state) {
 			is VehicleAddViewState.Success -> {
-				parentViewModel.newWasAdded.postValue(true)
+				parentViewModel.needsUpdate.postValue(true)
 				dismiss()
 			}
-			is VehicleAddViewState.Error -> showInnerSnack(state.errorMessage ?: "Unexpected error")
+			is VehicleAddViewState.Error -> showInnerSnack(
+				state.errorMessage ?:
+				getString(R.string.btm_sheet_vehicle_add_error_unexpected)
+			)
 			
+			is VehicleAddViewState.ErrorSameVehicle -> showInnerSnack(state.errorRes)
 		}
-		
 	}
 	
 	override fun setupViews() {
@@ -92,14 +95,15 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		setupInputBrandDropList()
 		setupInputFields()
 		
-		binding.apply {
+		binding.run {
 			root.setOnTouchListener { rootView, _ ->
 				rootView.performClick()
 				rootView.hideKeyboard(rootView)
 			}
 			
 			btnAdd.setDebounceOnClick {
-				if (checkAreInputCorrect()) mViewModel.checkAndAdd(MainActivity.currentUser)
+				if (checkAreInputCorrect())
+					mViewModel.checkAndAdd(MainActivity.currentUser, parentViewModel.vehicleUiList.value)
 			}
 			
 			btnCancel.setOnClickListener { dismiss() }
@@ -158,7 +162,7 @@ class VehicleAddBottomSheet: BaseBottomSheetFragment<VehicleAddViewModel, BtmShe
 		binding.etInputYear.doOnTextChanged { text, start, before, count ->
 			if (!text.isNullOrBlank() &&
 			    text.toString().toInt() > 1885 &&
-			    text.toString().toInt() < currentLocalDateTime().date.year)
+			    text.toString().toInt() <= currentLocalDateTime().date.year)
 				binding.layoutInputYear.error = null
 			else binding.layoutInputYear.error = yearInputError
 		}

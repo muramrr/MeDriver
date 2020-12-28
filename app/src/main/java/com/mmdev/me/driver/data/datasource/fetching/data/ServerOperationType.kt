@@ -19,9 +19,9 @@
 package com.mmdev.me.driver.data.datasource.fetching.data
 
 /**
- *
+ * Represents server operations type
  */
 
 enum class ServerOperationType {
-	ADDED, DELETED, UPDATED, UNKNOWN
+	ADDED, DELETED, UNKNOWN
 }

@@ -18,6 +18,7 @@
 
 package com.mmdev.me.driver.presentation.ui.vehicle.add
 
+import androidx.annotation.StringRes
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddViewState.*
 
@@ -34,5 +35,5 @@ sealed class VehicleAddViewState: ViewState {
 	object Loading: VehicleAddViewState()
 	object Success: VehicleAddViewState()
 	data class Error(val errorMessage: String?): VehicleAddViewState()
-	
+	data class ErrorSameVehicle(@StringRes val errorRes: Int): VehicleAddViewState()
 }

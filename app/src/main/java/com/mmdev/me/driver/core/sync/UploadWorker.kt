@@ -30,7 +30,6 @@ import com.mmdev.me.driver.data.sync.upload.fuel.IFuelHistoryUploader
 import com.mmdev.me.driver.data.sync.upload.maintenance.IMaintenanceUploader
 import com.mmdev.me.driver.data.sync.upload.vehicle.IVehicleUploader
 import com.mmdev.me.driver.presentation.ui.MainActivity
-import com.mmdev.me.driver.presentation.ui.SharedViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -63,6 +62,9 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 		CoroutineWorker(appContext, workerParams), KoinComponent {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
+	private companion object {
+		private const val USER_KEY = "USER_KEY"
+	}
 	
 	private val fuelHistoryUploader: IFuelHistoryUploader by inject()
 	private val maintenanceUploader: IMaintenanceUploader by inject()
@@ -72,7 +74,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 	override suspend fun doWork(): Result = withContext(MyDispatchers.io()) {
 		if (MedriverApp.isInternetWorking()) {
 			logDebug(TAG, "Doing work...")
-			val email = inputData.getString(MainActivity.USER_KEY)
+			val email = inputData.getString(USER_KEY)
 			if (!email.isNullOrBlank()) {
 				val syncOperations = listOf(
 					async { fuelHistoryUploader.upload(email) },
@@ -82,12 +84,10 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 				logDebug(TAG, "Uploading in progress")
 				syncOperations.awaitAll()
 				logInfo(TAG, "Uploading worker job result is SUCCESS")
-				SharedViewModel.uploadWorkerExecuted = true
 				Result.success()
 			}
 			else {
 				logError(TAG, "Uploading worker job result is FAILURE, email is not valid")
-				SharedViewModel.uploadWorkerExecuted = false
 				Result.failure()
 			}
 			
@@ -101,7 +101,6 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 //			} else {
 //
 //			}
-			SharedViewModel.uploadWorkerExecuted = false
 			Result.failure()
 		}
 		

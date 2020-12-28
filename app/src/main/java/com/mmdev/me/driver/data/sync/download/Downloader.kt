@@ -22,12 +22,9 @@ import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.FUEL_HISTORY
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.MAINTENANCE
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.VEHICLE
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.*
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.ADDED
-import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.DELETED
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.*
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.UNKNOWN
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -46,28 +43,29 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.transform
 
 /**
- * [IDataDownloader] implementation
+ * [IDownloader] implementation
  */
 
-class DataDownloader(
+class Downloader(
 	private val vehicles: IVehicleDownloader,
 	private val maintenance: IMaintenanceDownloader,
 	private val fuelHistory: IFuelHistoryDownloader,
 	private val journal: IJournalDownloader
-): IDataDownloader {
+): IDownloader {
 	
 	private val TAG = "mylogs_${javaClass.simpleName}"
 	
 	override suspend fun deleteAll() {
+		MedriverApp.isDataImported = false // indicates that need a whole data import again
 		logDebug(TAG, "Clearing data")
 		vehicles.clear()
 		maintenance.clear()
 		fuelHistory.clear()
-		//MedriverApp.newUserSigned()
 	}
 	
 	override fun importData(email: String): Flow<SimpleResult<Unit>> =
 		vehicles.download(email).transform { result ->
+			logInfo(TAG, "Running full data import")
 			result.fold(
 				success = { vinList ->
 					if (vinList.isNullOrEmpty()) emit(ResultState.Success(Unit))
@@ -75,7 +73,11 @@ class DataDownloader(
 						vinList.asFlow().flatMapMerge { vin ->
 							logDebug(TAG, "Downloading all info affiliated with vehicle $vin")
 							importCombination(email, vin)
-						}.collect { emit(it) }
+						}.collect {
+							// data was imported successfully
+							if (it is ResultState.Success) MedriverApp.isDataImported = true
+							emit(it)
+						}
 					}
 				},
 				failure = {
@@ -104,6 +106,7 @@ class DataDownloader(
 					}
 					else {
 						logDebug(TAG, "Server journal is empty...")
+						
 						emit(ResultState.success(Unit))
 					}
 				},
@@ -120,41 +123,13 @@ class DataDownloader(
 		email: String
 	): Flow<SimpleResult<Unit>> = flow {
 		if (operations.isNotEmpty()) {
-			val groupedOperations = operations.groupBy { it.documentType }
-			
-			//logWtf(TAG, "Grouped: $groupedOperations")
-			
-			/**
-			 *  list of last vehicle updates, linked to each vehicle separately
-			 *  eg: server journal contains a list of vehicle update operations, but we want to get only
-			 *  last one update to being retrieved and inserted, here comes a problem that a journal may
-			 *  contains a list of operations for different vehicles, and for each vehicle need to
-			 *  retrieve only the last update operation
-			 *
-			 *  result will contain map "VIN" to {list of one operation, only last one}
-			 *  we need only values from that result
-			 */
-			val vehiclesOperations =
-				groupedOperations[VEHICLE]?.groupBy { vehicleOperation -> vehicleOperation.vin } //group by vin
-					?.mapValues { entry -> entry.value.maxByOrNull { it.dateAdded }!! } //filter each group
-					?.values ?: emptyList() //if no vehicle operations at all - return emptyList
-			
-			//logWtf(TAG, "Vehicles Grouped and filtered: $vehiclesOperations")
-			
-			val filteredOperations = listOf(
-				vehiclesOperations, groupedOperations.getOrDefault(MAINTENANCE, emptyList()),
-				groupedOperations.getOrDefault(FUEL_HISTORY, emptyList())
-			).flatten()
-			
-		
-			filteredOperations.asFlow().flatMapMerge { operation ->
+			operations.asFlow().flatMapMerge { operation ->
 				when (operation.documentType) {
 					MAINTENANCE -> {
 						when (operation.operationType) {
 							ADDED -> maintenance.downloadSingle(email, operation.vin, operation.documentId)
 							DELETED -> flowOf(maintenance.deleteSingle(email, operation.documentId))
 							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
-							else -> maintenance.downloadSingle(email, operation.vin, operation.documentId)
 						}
 					}
 					FUEL_HISTORY -> {
@@ -162,7 +137,6 @@ class DataDownloader(
 							ADDED -> fuelHistory.downloadSingle(email, operation.vin, operation.documentId)
 							DELETED -> flowOf(fuelHistory.deleteSingle(email, operation.documentId))
 							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
-							else -> fuelHistory.downloadSingle(email, operation.vin, operation.documentId)
 						}
 					}
 					VEHICLE -> {
@@ -170,7 +144,6 @@ class DataDownloader(
 							ADDED -> vehicles.downloadSingle(email, operation.vin, operation.dateAdded.toString())
 							DELETED -> flowOf(vehicles.deleteSingle(email, operation.vin))
 							UNKNOWN -> flowOf(ResultState.failure(Exception("Unsupported server operation type")))
-							else -> vehicles.downloadSingle(email, operation.vin, operation.dateAdded.toString())
 						}
 						
 					}

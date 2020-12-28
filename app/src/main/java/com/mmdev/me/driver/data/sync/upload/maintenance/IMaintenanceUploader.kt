@@ -18,17 +18,12 @@
 
 package com.mmdev.me.driver.data.sync.upload.maintenance
 
+import com.mmdev.me.driver.data.sync.base.IBaseDataUploader
+
 /**
- * Uploader for maintenance history entries
+ * Get all cached operations for VehicleSparePart entries
+ * Concurrently retrieve entity from database and write to server
+ * If entry with such id doesn't exists it will be delete from cached operations
  */
 
-interface IMaintenanceUploader {
-	
-	/**
-	 * Get all cached operations for VehicleSparePart entries
-	 * Concurrently retrieve entity from database and write to server
-	 * If entry with such id doesn't exists it will be delete from cached operations
-	 */
-	suspend fun upload(email: String)
-	
-}
+interface IMaintenanceUploader: IBaseDataUploader

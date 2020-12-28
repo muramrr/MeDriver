@@ -23,6 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.databinding.BtmSheetAuthBinding
 import com.mmdev.me.driver.presentation.core.ViewState
@@ -132,13 +133,13 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BtmSheetAuthBindin
 			}
 			is ResetPassword.Error -> showInnerSnack(state.errorMsg ?: emailResetNotSent)
 			
+			// sign in cases
+			is SignIn.NeedConfirmation -> showAccountDiffersDialog()
 			is SignIn.Success -> dismiss()
-			
-			// sign in error
 			is SignIn.Error -> showInnerSnack(state.errorMsg ?: signInError)
-			// sign up error
-			is SignUp.Error -> showInnerSnack(state.errorMsg ?: signUpError)
 			
+			// sign up cases
+			is SignUp.Error -> showInnerSnack(state.errorMsg ?: signUpError)
 			is SignUp.Success -> dismiss()
 		}
 	}
@@ -200,8 +201,20 @@ class AuthBottomSheet: BaseBottomSheetFragment<AuthViewModel, BtmSheetAuthBindin
 					binding.layoutInputPassword.error = null
 				binding.layoutInputPasswordConfirm.error = null
 			}
-			
 		})
 	}
+	
+	private fun showAccountDiffersDialog() = MaterialAlertDialogBuilder(
+		requireContext(), R.style.My_MaterialAlertDialog
+	)
+		.setTitle(R.string.fg_settings_auth_confirmation_dialog_title)
+		.setMessage(R.string.fg_settings_auth_confirmation_dialog_message)
+		.setNegativeButton(R.string.btn_cancel, null)
+		.setPositiveButton(R.string.fg_settings_auth_confirmation_dialog_btn_pos) { _, _ ->
+			mViewModel.signIn(isConfirmed = true)
+		}
+		.create()
+		.show()
+		
 	
 }

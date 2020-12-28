@@ -29,6 +29,7 @@ import com.mmdev.me.driver.databinding.FragmentFuelPricesBinding
 import com.mmdev.me.driver.domain.fuel.prices.data.Region
 import com.mmdev.me.driver.presentation.core.ViewState
 import com.mmdev.me.driver.presentation.core.base.BaseFragment
+import com.mmdev.me.driver.presentation.ui.common.custom.decorators.LinearItemDecoration
 import com.mmdev.me.driver.presentation.utils.extensions.visibleIf
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -55,6 +56,7 @@ class FuelPricesFragment : BaseFragment<FuelPricesViewModel, FragmentFuelPricesB
 			setHasFixedSize(true)
 			adapter = mPricesAdapter
 			layoutManager = LinearLayoutManager(requireContext())
+			addItemDecoration(LinearItemDecoration())
 		}
 		
 		

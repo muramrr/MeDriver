@@ -27,10 +27,11 @@ import kotlinx.coroutines.flow.Flow
  * Base actions related to downloading data from server
  */
 
-interface IDataDownloader {
+interface IDownloader {
 	
 	/**
 	 * Completely delete all data stored in local Room database
+	 * This will be executed when user
 	 */
 	suspend fun deleteAll()
 	
@@ -41,7 +42,7 @@ interface IDataDownloader {
 	
 	/**
 	 * Get all operations that are not synced from server journal and execute [downloadNewFromServer]
-	 * Used in [com.mmdev.me.driver.core.sync.download.DownloadWorker]
+	 * Used in [com.mmdev.me.driver.core.sync.DownloadWorker]
 	 */
 	fun fetchNewFromServer(email: String): Flow<SimpleResult<Unit>>
 	

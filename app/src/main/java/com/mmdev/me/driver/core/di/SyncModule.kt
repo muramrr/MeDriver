@@ -18,8 +18,8 @@
 
 package com.mmdev.me.driver.core.di
 
-import com.mmdev.me.driver.data.sync.download.DataDownloader
-import com.mmdev.me.driver.data.sync.download.IDataDownloader
+import com.mmdev.me.driver.data.sync.download.Downloader
+import com.mmdev.me.driver.data.sync.download.IDownloader
 import com.mmdev.me.driver.data.sync.download.fuel.FuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.fuel.IFuelHistoryDownloader
 import com.mmdev.me.driver.data.sync.download.journal.IJournalDownloader
@@ -46,7 +46,7 @@ val SyncModule = module {
 	factory<IFuelHistoryDownloader> { FuelHistoryDownloader(local = get(), server = get(), mappers = get()) }
 	factory<IMaintenanceDownloader> { MaintenanceDownloader(local = get(), server = get(), mappers = get()) }
 	factory<IVehicleDownloader> { VehicleDownloader(local = get(), server = get(), mappers = get()) }
-	factory<IDataDownloader> { DataDownloader(get(), get(), get(), get()) }
+	factory<IDownloader> { Downloader(get(), get(), get(), get()) }
 	
 	factory<IFuelHistoryUploader> { FuelHistoryUploader(local = get(), server = get(), mappers = get()) }
 	factory<IMaintenanceUploader> { MaintenanceUploader(local = get(), server = get(), mappers = get()) }

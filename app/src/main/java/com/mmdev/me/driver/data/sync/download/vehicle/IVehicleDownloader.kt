@@ -18,6 +18,7 @@
 
 package com.mmdev.me.driver.data.sync.download.vehicle
 
+import com.mmdev.me.driver.data.sync.base.IBaseDataDownloader
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
@@ -25,15 +26,7 @@ import kotlinx.coroutines.flow.Flow
  * Downloader used only to fetch vehicles details data
  */
 
-interface IVehicleDownloader {
-	
-	/**
-	 * If vehicle was deleted on server from one device, we should delete it
-	 * from current device also
-	 *
-	 * @param vin defines vehicle which comes from server and should be deleted
-	 */
-	suspend fun deleteSingle(email: String, vin: String): SimpleResult<Unit>
+interface IVehicleDownloader: IBaseDataDownloader {
 	
 	/**
 	 * Download all vehicles from server
@@ -41,19 +34,5 @@ interface IVehicleDownloader {
 	 * relates on VINs to know which documents to download
 	 */
 	fun download(email: String): Flow<SimpleResult<List<String>>>
-	
-	/**
-	 * Download only one entry from vehicles collection from server and import it
-	 * directly to local database
-	 *
-	 * @param vin defines vehicle which we should download
-	 */
-	fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
-	
-	/**
-	 * Clear all vehicles from device
-	 * This method will delete only vehicle info, no cascade deleting in this case
-	 */
-	suspend fun clear(): SimpleResult<Unit>
 	
 }

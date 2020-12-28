@@ -20,13 +20,14 @@ package com.mmdev.me.driver.presentation.ui.vehicle.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
-import com.mmdev.me.driver.core.utils.log.logError
 import com.mmdev.me.driver.core.utils.log.logInfo
 import com.mmdev.me.driver.domain.user.UserDataInfo
 import com.mmdev.me.driver.domain.vehicle.IVehicleRepository
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
+import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleUi
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,33 +41,24 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 	
 	val viewState: MutableLiveData<VehicleAddViewState> = MutableLiveData()
 	
-	val vinCodeInput: MutableLiveData<String?> = MutableLiveData()
-	val brandInput: MutableLiveData<String?> = MutableLiveData()
-	val modelInput: MutableLiveData<String?> = MutableLiveData()
-	val yearInput: MutableLiveData<String?> = MutableLiveData()
-	val odometerInput: MutableLiveData<String?> = MutableLiveData()
-	val engineCapacityInput: MutableLiveData<String?> = MutableLiveData()
+	val vinCodeInput = MutableLiveData<String?>()
+	val brandInput = MutableLiveData<String?>()
+	val modelInput = MutableLiveData<String?>()
+	val yearInput = MutableLiveData<String?>()
+	val odometerInput = MutableLiveData<String?>()
+	val engineCapacityInput = MutableLiveData<String?>()
 	
 	//viewModel.getVehicleByVIN("WF0FXXWPDF3K73412")
 	
-	val vehicleList: MutableLiveData<List<Vehicle>> = MutableLiveData(emptyList())
-	init {
-		viewModelScope.launch {
-			repository.getAllSavedVehicles().fold(
-				success = { vehicleList.value = it },
-				failure = { logError(TAG, "${it.message}") }
-			)
-			
-		}
-	}
 	
 	// check null or empty vehicle list (no vehicles have been added yet)
 	// or vehicle with same vin doesn't exists
-	fun checkAndAdd(user: UserDataInfo?) {
+	fun checkAndAdd(user: UserDataInfo?, vehicles: List<VehicleUi>?) {
 		with(buildVehicle()) {
-			if (vehicleList.value.isNullOrEmpty() || !vehicleList.value!!.any { it.vin == this.vin }) {
+			if (vehicles?.any { it.vin == this.vin } == false) {
 				addVehicle(user, this)
 			}
+			else viewState.postValue(VehicleAddViewState.ErrorSameVehicle(R.string.btm_sheet_vehicle_add_error_same_vin))
 		}
 		
 	}
@@ -109,11 +101,12 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 						logInfo(TAG, "Found by VIN: $it")
 						
 						//autocomplete ui
-						brandInput.postValue(it.brand)
-						modelInput.postValue(it.model)
-						yearInput.postValue(it.year.toString())
-						engineCapacityInput.postValue(it.engineCapacity.toString())
-						odometerInput.postValue("")
+						if (brandInput.value.isNullOrBlank()) brandInput.postValue(it.brand)
+						if (modelInput.value.isNullOrBlank()) modelInput.postValue(it.model)
+						if (yearInput.value.isNullOrBlank()) yearInput.postValue(it.year.toString())
+						if (engineCapacityInput.value.isNullOrBlank())
+							engineCapacityInput.postValue(it.engineCapacity.toString())
+						if (odometerInput.value.isNullOrBlank()) odometerInput.postValue("")
 					},
 					failure = {
 						viewState.postValue(VehicleAddViewState.Error(it.localizedMessage))

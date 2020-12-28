@@ -80,17 +80,16 @@ class FetchingDataSource(private val fs: FirebaseFirestore) {
 			if (!snapshot?.documents.isNullOrEmpty() && source == SOURCE_SERVER) {
 				
 				snapshot!!.documentChanges.forEach { documentChange ->
-					when (documentChange.type) {
-						DocumentChange.Type.ADDED -> {
-							val document = snapshot.documents.first()
-							if (document.getField<String>(DEVICE_ID_FIELD) != MedriverApp.androidId) {
-								logInfo(TAG, "$source data is not from this device")
-								
-								if (isSnapshotInitiated)
-									safeOffer(snapshot.toObjects(ServerOperation::class.java))
-							}
+					// ADDED case is obvious, MODIFIED case appears only when we update vehicle document
+					if (documentChange.type in arrayOf(DocumentChange.Type.ADDED, DocumentChange.Type.MODIFIED)) {
+						
+						val document = snapshot.documents.first()
+						if (document.getField<String>(DEVICE_ID_FIELD) != MedriverApp.androidId) {
+							logInfo(TAG, "$source data is not from this device")
+							
+							if (isSnapshotInitiated) safeOffer(snapshot.toObjects(ServerOperation::class.java))
 						}
-						else -> {}
+						
 					}
 				}
 			}

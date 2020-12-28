@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewModel() {
 	
 	//called when new entry was added
-	val newWasAdded = MutableLiveData(false)
+	val needsUpdate = MutableLiveData(false)
 	
 	//init current vehicle from static inside Application class
 	val chosenVehicle = MutableLiveData<Vehicle?>()
@@ -100,7 +100,7 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 				result.fold(
 					success = {
 						setVehicle(null)
-						getSavedVehicles()
+						needsUpdate.postValue(true)
 					},
 					failure = { logError(TAG, "${it.message}") }
 				)

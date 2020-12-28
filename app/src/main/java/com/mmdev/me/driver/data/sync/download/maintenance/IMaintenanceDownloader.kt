@@ -18,6 +18,7 @@
 
 package com.mmdev.me.driver.data.sync.download.maintenance
 
+import com.mmdev.me.driver.data.sync.base.IBaseDataDownloader
 import com.mmdev.me.driver.domain.core.SimpleResult
 import kotlinx.coroutines.flow.Flow
 
@@ -25,15 +26,7 @@ import kotlinx.coroutines.flow.Flow
  * Downloader used only to fetch maintenance history related data
  */
 
-interface IMaintenanceDownloader {
-	
-	/**
-	 * If maintenance history entry was deleted on server from one device, we should delete it
-	 * from current device also
-	 *
-	 * @param id defines documentId which comes from server
-	 */
-	suspend fun deleteSingle(email: String, id: String): SimpleResult<Unit>
+interface IMaintenanceDownloader: IBaseDataDownloader {
 	
 	/**
 	 * Download whole maintenance history collection from server and import it directly to local
@@ -42,18 +35,5 @@ interface IMaintenanceDownloader {
 	 * @param vin - for which vehicle we should download entry
 	 */
 	fun download(email: String, vin: String): Flow<SimpleResult<Unit>>
-	
-	/**
-	 * Download only one entry from maintenance history collection from server and import it
-	 * directly to local database
-	 *
-	 * @param id defines documentId which we should download
-	 */
-	fun downloadSingle(email: String, vin: String, id: String): Flow<SimpleResult<Unit>>
-	
-	/**
-	 * Clear whole fuel history data from local database
-	 */
-	suspend fun clear(): SimpleResult<Unit>
 	
 }

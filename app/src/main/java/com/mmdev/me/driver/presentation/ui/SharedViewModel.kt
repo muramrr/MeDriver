@@ -54,7 +54,6 @@ class SharedViewModel(
 ) : BaseViewModel() {
 	
 	companion object {
-		var uploadWorkerExecuted = false
 		private const val PREMIUM_PERMISSION = "Premium"
 		private const val PRO_PERMISSION = "PRO"
 		

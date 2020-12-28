@@ -95,7 +95,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		mViewModel.newWasAdded.observe(this, {
+		mViewModel.needsUpdate.observe(this, {
 			if (it) mViewModel.getSavedVehicles()
 		})
 	}

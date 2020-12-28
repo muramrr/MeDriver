@@ -21,6 +21,7 @@ package com.mmdev.me.driver.presentation.ui.settings.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.domain.user.ISettingsRepository
 import com.mmdev.me.driver.presentation.core.base.BaseViewModel
 import com.mmdev.me.driver.presentation.utils.extensions.combineWith
@@ -65,14 +66,16 @@ class AuthViewModel(private val repository: ISettingsRepository): BaseViewModel(
 	}
 	
 	
-	fun signIn() {
+	fun signIn(isConfirmed: Boolean = false) {
 		//check both input fields are not null or blank
 		if (!inputEmail.value.isNullOrBlank() && !inputPassword.value.isNullOrBlank()) {
 			
 			viewState.postValue(AuthViewState.Loading)
 			
 			viewModelScope.launch {
-				repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
+				if (MedriverApp.savedUserEmail.isNotBlank() && MedriverApp.savedUserEmail != inputEmail.value!! && !isConfirmed)
+					viewState.postValue(AuthViewState.SignIn.NeedConfirmation)
+				else repository.signIn(inputEmail.value!!, inputPassword.value!!).collect { result ->
 					result.fold(
 						success = {
 							delay(500)

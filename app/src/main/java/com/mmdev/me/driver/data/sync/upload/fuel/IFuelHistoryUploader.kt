@@ -18,17 +18,12 @@
 
 package com.mmdev.me.driver.data.sync.upload.fuel
 
+import com.mmdev.me.driver.data.sync.base.IBaseDataUploader
+
 /**
- * Uploader for fuel history entries
+ * Get all cached operations for FuelHistory entries
+ * Concurrently retrieve entity from database and write to server
+ * If entry with such id doesn't exists it will be delete from cached operations
  */
 
-interface IFuelHistoryUploader {
-	
-	/**
-	 * Get all cached operations for FuelHistory entries
-	 * Concurrently retrieve entity from database and write to server
-	 * If entry with such id doesn't exists it will be delete from cached operations
-	 */
-	suspend fun upload(email: String)
-	
-}
+interface IFuelHistoryUploader: IBaseDataUploader

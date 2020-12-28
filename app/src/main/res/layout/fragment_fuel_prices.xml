@@ -122,7 +122,6 @@
 			android:layout_width="0dp"
 			
 			app:cardElevation="1dp"
-			app:contentPadding="8dp"
 			app:shapeAppearanceOverlay="@style/My.ShapeAppearanceOverlay.Card.TopCorners"
 			
 			app:cardPreventCornerOverlap="false"

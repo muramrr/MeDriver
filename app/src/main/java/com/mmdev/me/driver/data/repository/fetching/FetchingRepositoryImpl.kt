@@ -21,7 +21,7 @@ package com.mmdev.me.driver.data.repository.fetching
 import com.mmdev.me.driver.core.utils.log.logDebug
 import com.mmdev.me.driver.data.core.base.BaseRepository
 import com.mmdev.me.driver.data.datasource.fetching.FetchingDataSource
-import com.mmdev.me.driver.data.sync.download.IDataDownloader
+import com.mmdev.me.driver.data.sync.download.IDownloader
 import com.mmdev.me.driver.domain.core.SimpleResult
 import com.mmdev.me.driver.domain.fetching.IFetchingRepository
 import com.mmdev.me.driver.domain.user.UserDataInfo
@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.collect
 class FetchingRepositoryImpl(
 	private val fetchingDataSource: FetchingDataSource,
 	private val vehicleRepository: IVehicleRepository,
-	private val downloader: IDataDownloader
+	private val downloader: IDownloader
 ): BaseRepository(), IFetchingRepository {
 	
 	//called only on app startup

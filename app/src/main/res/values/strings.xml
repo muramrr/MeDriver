@@ -18,14 +18,6 @@
 
 <resources>
 	
-	<string name="app_name" translatable="false">medriver</string>
-	
-	<string-array name="languages">
-		<item>Українська</item>
-		<item>Русский</item>
-		<item>English</item>
-	</string-array>
-	
 	<string-array name="maintenance_dialog_filter_node_list">
 		<item>@string/maintenance_parent_node_engine</item>
 		<item>@string/maintenance_parent_node_transmission</item>
@@ -42,23 +34,6 @@
 	
 	<string name="btn_fuel_type_gas">GAS</string>
 	<string name="btn_fuel_type_dt">DF</string>
-	<string name="btn_fuel_type_92" translatable="false">92</string>
-	<string name="btn_fuel_type_95" translatable="false">95</string>
-	<string name="btn_fuel_type_95plus" translatable="false">95+</string>
-	<string name="btn_fuel_type_98" translatable="false">98</string>
-	<string name="btn_fuel_type_100" translatable="false">100</string>
-	
-	<string name="price_formatter_left" translatable="false">₴%s</string>
-	<string name="price_formatter_right" translatable="false">%s ₴</string>
-	<string name="two_strings_whitespace_formatter" translatable="false">%1$s %2$s</string>
-	
-	<string name="default_FuelStation" translatable="false">StationDef</string>
-	<string name="default_OdometerValue" translatable="false">000000</string>
-	<string name="default_date" translatable="false">01.01.1970</string>
-	<string name="default_price_unavailable" translatable="false">₴--.--</string>
-	<string name="default_error" translatable="false">Unknown error</string>
-	<string name="default_vin" translatable="false">00000000000000000</string>
-	<string name="hryvnia_symbol" translatable="false">₴</string>
 	
 	
 <!-- ************************************** notifications ************************************** -->
@@ -67,8 +42,6 @@
 	<string name="notification_channel_consumable_replace_description">Remind about consumable replacement</string>
 	<string name="notification_consumable_replace_title">It\'s time to visit the service station</string>
 	<string name="notification_consumable_replace_text">The lifetime for component \'<b>%1$s</b>\' is about to end</string>
-	
-	
 	
 <!-- ******************************************************************************************* -->
 	
@@ -211,14 +184,14 @@
 	<string name="maintenance_parent_node_other">Other</string>
 	<string name="maintenance_parent_node_planned">Planned</string>
 	
-	<string name="maintenance_parent_node_engine_components">&#8226; Cylinder head\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
-	<string name="maintenance_parent_node_transmission_components">&#8226; Speed sensor\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
+	<string name="maintenance_parent_node_engine_components">&#8226; Cylinders\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Clutch\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
 	<string name="maintenance_parent_node_electrics_components">&#8226; Battery\n&#8226; Generator\n&#8226; Starter\n&#8226; Coils\n…</string>
-	<string name="maintenance_parent_node_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeve, arms\n…</string>
-	<string name="maintenance_parent_node_brakes_components">&#8226; Pads, discs, drums\n&#8226; Caliper\n&#8226; Sensors\n&#8226; Parking cable\n…</string>
-	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers, fenders\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeves\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Pads\n&#8226; Calipers\n&#8226; Sensors\n&#8226; Pipes\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers\n…</string>
 	<string name="maintenance_parent_node_other_components">Not sure what category the replaced part belongs to?</string>
-	<string name="maintenance_parent_node_planned_components">&#8226; Oil, filters\n&#8226; Timing kit\n&#8226; Fluids\n&#8226; Plugs (spark, glow)</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Fluids\n&#8226; Timing kit\n…</string>
 	
 	<string name="maintenance_other_component">Other</string>
 	
@@ -392,17 +365,25 @@
 
 
 <!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_error_same_vin">Vehicle with same VIN already exists</string>
+	<string name="btm_sheet_vehicle_add_error_unexpected">Unexpected error</string>
+	
 	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
 	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_helper">E.g: Audi</string>
+	
 	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
+	<string name="btm_sheet_vehicle_add_enter_model_helper">E.g: A4</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
+	<string name="btm_sheet_vehicle_add_enter_year_helper">E.g: 2010</string>
 	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
 	
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_helper">E.g: 3.5</string>
 	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Wrong value</string>
 	
 <!-- ******************************************************************************************* -->
@@ -589,16 +570,15 @@
 	<string name="fg_settings_auth_sign_up_error_message">Unknown sign up error</string>
 	<string name="fg_settings_auth_email_sent_error_message">Failure. Email not sent</string>
 	<string name="fg_settings_auth_email_sent_success">Email sent</string>
+	
+	<string name="fg_settings_auth_confirmation_dialog_title">Are you trying to sign into another account?</string>
+	<string name="fg_settings_auth_confirmation_dialog_message">If you sign in to a different account, all your data will be deleted. Continue?</string>
+	<string name="fg_settings_auth_confirmation_dialog_btn_pos">Confirm</string>
 <!-- ******************************************************************************************* -->
 
 
 
 <!-- *********************************** bottom_sheet_about ************************************ -->
-	<string name="about_version" translatable="false">1.0.0</string>
-	<string name="about_year" translatable="false">2020</string>
-	<string name="about_email_address" translatable="false">andrii.muramrr@gmail.com</string>
-	
-	<string name="about_created_by">Created by\nAndrii Kovalchuk</string>
 	<string name="about_email_me">Any questions or proposals?</string>
 	
 	<string name="about_privacy_policy">Privacy policy</string>

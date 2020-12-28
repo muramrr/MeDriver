@@ -23,6 +23,7 @@ import com.mmdev.me.driver.data.core.base.datasource.BaseDataSource
 import com.mmdev.me.driver.data.core.firebase.asFlow
 import com.mmdev.me.driver.data.core.firebase.setAsFlow
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType
+import com.mmdev.me.driver.data.datasource.fetching.data.ServerDocumentType.VEHICLE
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperation
 import com.mmdev.me.driver.domain.core.ResultState.Companion.toUnit
 import com.mmdev.me.driver.domain.core.SimpleResult
@@ -46,7 +47,12 @@ abstract class BaseServerDataSource(
 		fs.collection(FS_USERS_COLLECTION)
 			.document(email)
 			.collection(FS_USER_ACTIONS_JOURNAL)
-			.document("${serverOperation.documentType}_${serverOperation.dateAdded}")
+			.document(
+				"${serverOperation.documentType}_${
+					if (serverOperation.documentType == VEHICLE) serverOperation.vin
+					else serverOperation.dateAdded
+				}"
+			)
 			.setAsFlow(serverOperation)
 	
 	protected fun deleteOperationFromJournal(

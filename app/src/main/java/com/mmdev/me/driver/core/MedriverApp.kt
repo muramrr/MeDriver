@@ -70,6 +70,7 @@ import java.util.concurrent.TimeUnit
 
 class MedriverApp: Application() {
 	
+	/** todo: find a way to move this shit into separate class/object. is it necessary at all? */
 	companion object {
 		private const val TAG = "mylogs_MEDRIVERAPP"
 		private const val JOB_TAG = "notification_Worker"
@@ -81,6 +82,7 @@ class MedriverApp: Application() {
 		private const val LANGUAGE_KEY = "language"
 		private const val PRICES_REGION_KEY = "prices_region"
 		private const val USER_EMAIL_KEY = "saved_user_email"
+		private const val DATA_IMPORTED_KEY = "is_data_imported"
 		private const val LAST_OPERATION_KEY = "last_operation"
 		private const val LAST_SYNCED_KEY = "last_synced"
 		private const val VEHICLE_VIN_CODE_KEY = "vehicle_vin"
@@ -133,6 +135,10 @@ class MedriverApp: Application() {
 				}
 			}
 		
+		/**
+		 * used in various parts of app, simplifies a lot of expressions free of a null check
+		 * retrieve a vehicle on app startup by this value
+		 */
 		var currentVehicleVinCode: String = ""
 			set (value) {
 				if (field != value) {
@@ -151,6 +157,16 @@ class MedriverApp: Application() {
 				}
 			}
 		
+		/** responsible to import data when a user sign in, skips a stage fetching from journal */
+		var isDataImported: Boolean = false
+			set(value) {
+				if (field != value) {
+					field = value
+					prefs.push(DATA_IMPORTED_KEY, value)
+					logDebug(TAG, "Data imported: $value")
+				}
+			}
+		
 		var lastOperationSyncedId: Long = 0
 			set (value) {
 				if (value > field) {
@@ -160,6 +176,7 @@ class MedriverApp: Application() {
 				}
 			}
 		
+		/** used to display in SettingsFragment when the last sync was run */
 		var lastSyncedDate: Long = 0
 			set (value) {
 				if (value > field) {
@@ -192,8 +209,6 @@ class MedriverApp: Application() {
 		
 		@Volatile
 		var isNetworkAvailable: Boolean = true
-		
-		
 		fun isInternetWorking(): Boolean = if (isNetworkAvailable) {
 			runBlocking {
 				withContext(MyDispatchers.io()) {
@@ -263,6 +278,8 @@ class MedriverApp: Application() {
 		pricesRegion = loadInitialPropertyOrPushDefault(key = PRICES_REGION_KEY, default = KYIV)
 		
 		savedUserEmail = loadInitialPropertyOrPushDefault(key = USER_EMAIL_KEY, default = "")
+		
+		isDataImported = loadInitialPropertyOrPushDefault(key = DATA_IMPORTED_KEY, default = false)
 		
 		/** if not exists - apply 0 id as default */
 		lastOperationSyncedId = loadInitialPropertyOrPushDefault(key = LAST_OPERATION_KEY, default = 0)

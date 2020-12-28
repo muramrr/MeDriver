@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.R
-import com.mmdev.me.driver.databinding.ItemHomeGarageBinding
+import com.mmdev.me.driver.databinding.ItemGarageVehicleBinding
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.ui.garage.MyGarageAdapter.MyGarageViewHolder
 import com.mmdev.me.driver.presentation.utils.extensions.attachClickToCopyText
@@ -41,7 +41,7 @@ class MyGarageAdapter(
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyGarageViewHolder =
 		MyGarageViewHolder(
-			ItemHomeGarageBinding.inflate(
+			ItemGarageVehicleBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false
@@ -57,7 +57,7 @@ class MyGarageAdapter(
 		notifyDataSetChanged()
 	}
 	
-	inner class MyGarageViewHolder(private val binding: ItemHomeGarageBinding):
+	inner class MyGarageViewHolder(private val binding: ItemGarageVehicleBinding):
 			RecyclerView.ViewHolder(binding.root) {
 		
 		fun bind(item: Vehicle) {

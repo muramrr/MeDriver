@@ -37,8 +37,8 @@ import com.mmdev.me.driver.presentation.ui.MainActivity
 import com.mmdev.me.driver.presentation.ui.garage.DataGenerator
 import com.mmdev.me.driver.presentation.ui.maintenance.VehicleSystemNodeConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.data.ConsumablePartUi
-import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
 import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleUi
+import com.mmdev.me.driver.presentation.utils.extensions.domain.brandIcon
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -110,7 +110,7 @@ class VehicleViewModel(private val repository: IVehicleRepository) : BaseViewMod
 	
 	
 	fun convertToUiVehicle(vehicle: Vehicle): VehicleUi = VehicleUi(
-		icon = VehicleConstants.vehicleBrandIconMap.getOrDefault(vehicle.brand, 0),
+		icon = vehicle.brandIcon(),
 		title = "${vehicle.brand} ${vehicle.model} (${vehicle.year}), ${vehicle.engineCapacity}",
 		vin = vehicle.vin
 	)

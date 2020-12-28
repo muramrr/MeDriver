@@ -493,8 +493,8 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				setImageResource(vehicle.icon)
 				isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			}
-			//if no premium, only first position will be available//todo: uncomment for release
-//			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
+			//if no premium, only first position will be available
+			childView.isEnabled = (position == 0) || ((position != 0) && MainActivity.currentUser?.isSubscribed() ?: false)
 			childView.findViewById<TextView>(R.id.tvDropCarItemPremiumLabel).visibleIf(View.INVISIBLE, 0) {
 				!childView.isEnabled
 			}

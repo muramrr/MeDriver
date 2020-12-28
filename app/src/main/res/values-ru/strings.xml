@@ -283,7 +283,7 @@
 	
 	<string name="maintenance_planned_insurance">ОСАГО</string>
 	<string name="maintenance_planned_air_filter">Фильтр воздушный</string>
-	<string name="maintenance_planned_engine_oil_filter">Моторное масло и Фильтр</string>
+	<string name="maintenance_planned_engine_oil_filter">Моторное масло и фильтр</string>
 	<string name="maintenance_planned_fuel_filter">Фильтр топливный</string>
 	<string name="maintenance_planned_cabin_filter">Фильтр салона</string>
 	<string name="maintenance_planned_brakes_fluid">Тормозная жидкость</string>

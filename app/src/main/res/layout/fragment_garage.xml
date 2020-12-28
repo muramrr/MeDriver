@@ -61,7 +61,7 @@
 				
 				android:orientation="horizontal"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				tools:listitem="@layout/item_home_garage"
+				tools:listitem="@layout/item_garage_vehicle"
 				
 				android:fadeScrollbars="false"
 				android:scrollbars="horizontal"

@@ -42,9 +42,8 @@ import kotlinx.datetime.LocalDateTime
 
 class ChildEditViewModel(private val repository: IMaintenanceRepository): BaseViewModel() {
 	
-	val viewState = MutableLiveData<ChildEditViewState>()
-	
 	val lastReplacedChild = MutableLiveData<VehicleSparePart?>()
+	val viewState = MutableLiveData<ChildEditViewState>()
 	
 	fun loadLastTimeSparePartReplaced(parent: VehicleSystemNodeType, child: Child) {
 		if (child.sparePart.getSparePartName() != SparePart.OTHER) {

@@ -32,6 +32,7 @@ import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBou
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import java.util.*
 
 /**
  *
@@ -76,7 +77,12 @@ class VehicleAddViewModel(private val repository: IVehicleRepository): BaseViewM
 	
 	private fun buildVehicle(): Vehicle =
 		Vehicle(
-			brand = brandInput.value!!,
+			brand = brandInput.value!!
+				.replace('_', ' ')
+				.toLowerCase(Locale.ENGLISH)
+				.split(" ")
+				.joinToString(" ") { it.capitalize(Locale.ENGLISH) }
+				.trim(),
 			model = modelInput.value!!,
 			year = yearInput.value!!.toInt(),
 			vin = vinCodeInput.value!!,

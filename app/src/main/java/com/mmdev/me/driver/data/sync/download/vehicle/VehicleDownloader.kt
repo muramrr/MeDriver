@@ -72,7 +72,7 @@ class VehicleDownloader(
 				failure = {error ->
 					logError(TAG, "${error.message}")
 					if (error.message == FIRESTORE_NO_DOCUMENT_EXCEPTION) {
-						server.deleteFromJournal(email, id).collect { emit(it) }
+						server.deleteFromJournal(email, vin).collect { emit(it) }
 					}
 					else emit(ResultState.failure(error))
 				}

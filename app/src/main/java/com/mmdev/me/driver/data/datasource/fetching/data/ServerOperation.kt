@@ -19,7 +19,7 @@
 package com.mmdev.me.driver.data.datasource.fetching.data
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.PropertyName
 import com.google.firebase.firestore.ServerTimestamp
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.UNKNOWN
@@ -29,11 +29,11 @@ import com.mmdev.me.driver.data.datasource.fetching.data.ServerOperationType.UNK
  */
 
 data class ServerOperation(
-	val operationType: ServerOperationType = UNKNOWN,
-	val vin: String = "",
-	val dateAdded: Long = 0,
-	val documentId: String = "",
-	val documentType: ServerDocumentType = ServerDocumentType.UNKNOWN,
-	@Exclude val deviceId: String = MedriverApp.androidId,
-	@Exclude @ServerTimestamp val timestamp: Timestamp? = null
+	@PropertyName("operationType") val operationType: ServerOperationType = UNKNOWN,
+	@PropertyName("vin") val vin: String = "",
+	@PropertyName("dateAdded") val dateAdded: Long = 0,
+	@PropertyName("documentId") val documentId: String = "",
+	@PropertyName("documentType") val documentType: ServerDocumentType = ServerDocumentType.UNKNOWN,
+	@PropertyName("deviceId") val deviceId: String = MedriverApp.androidId,
+	@PropertyName("timestamp") @ServerTimestamp val timestamp: Timestamp? = null
 )

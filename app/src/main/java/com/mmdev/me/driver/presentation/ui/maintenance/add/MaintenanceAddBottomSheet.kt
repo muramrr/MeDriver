@@ -173,7 +173,7 @@ class MaintenanceAddBottomSheet: BaseBottomSheetFragment<MaintenanceAddViewModel
 		
 		binding.rvParentNode.apply {
 			adapter = mParentNodesAdapter
-			addItemDecoration(GridItemDecoration())
+			addItemDecoration(GridItemDecoration(true))
 			layoutManager = GridLayoutManager(context, 2)
 			setHasFixedSize(true)
 		}
@@ -239,18 +239,18 @@ class MaintenanceAddBottomSheet: BaseBottomSheetFragment<MaintenanceAddViewModel
 	/** setup final fill in form set (step 3 in motion scene) */
 	private fun setupFormSet() {
 		mChildEditAdapter = ChildEditAdapter(emptyList(), this)
-
+		
 		binding.vpNodeEditChild.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
 			@SuppressLint("SetTextI18n")
 			override fun onPageSelected(position: Int) {
 				binding.tvSelectedChildrenCount.text = "${position + 1}/${mChildEditAdapter.itemCount}"
 			}
 		})
-
+		
 		binding.vpNodeEditChild.apply {
 			adapter = mChildEditAdapter
 		}
-
+		
 	}
 	
 	private fun observeShouldBeUpdated() {

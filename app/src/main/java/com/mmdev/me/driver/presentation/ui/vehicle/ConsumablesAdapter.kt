@@ -57,15 +57,27 @@ class ConsumablesAdapter(private var data: List<ConsumablePartUi> = List(4) { Co
 	
 	override fun getItemViewType(position: Int): Int = position
 	
+	private var longClickListener: ((View, Int, ConsumablePartUi) -> Unit)? = null
+	
+	fun setOnLongClickListener(listener: (View, Int, ConsumablePartUi) -> Unit){
+		longClickListener = listener
+	}
+	
 	inner class ConsumableViewHolder(private val binding: ItemConsumableReminderBinding):
 			RecyclerView.ViewHolder(binding.root) {
 		
 		
 		fun bind(item: ConsumablePartUi) {
-			binding.apply {
-				cvConsumablePart.setOnClickListener {
-					radioChangeCalculation.run {
-						visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
+			binding.run {
+				cvConsumablePart.apply {
+					setOnClickListener { radioChangeCalculation.run {
+							visibleIf(otherwise = View.INVISIBLE) { this.visibility == View.INVISIBLE }
+						}
+					}
+					
+					setOnLongClickListener {
+						longClickListener?.invoke(cvConsumablePart, adapterPosition, item)
+						true
 					}
 				}
 				

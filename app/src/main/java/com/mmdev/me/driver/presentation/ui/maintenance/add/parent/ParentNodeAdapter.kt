@@ -92,7 +92,7 @@ class ParentNodeAdapter (
 			false
 		)
 		binding.root.post {
-			binding.root.layoutParams.height = parent.height / 4 - 30
+			binding.root.layoutParams.height = parent.height / 4 - 20
 			binding.root.requestLayout()
 		}
 		return BaseViewHolder(binding)

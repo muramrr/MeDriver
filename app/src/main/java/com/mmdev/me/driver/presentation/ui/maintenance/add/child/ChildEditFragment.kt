@@ -199,7 +199,6 @@ class ChildEditFragment: BaseFragment<ChildEditViewModel, ItemMaintenanceChildEd
 	}
  
 	private fun setupFillForm(child: Child) {
-		binding.tvComponentTitle.text = getString(child.title)
 		binding.etInputCustomComponent.setText(child.title)
 		
 		binding.layoutInputCustomComponent.isEnabled = child.sparePart.getSparePartName() == SparePart.OTHER

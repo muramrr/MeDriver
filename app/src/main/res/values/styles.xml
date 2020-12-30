@@ -1,10 +1,169 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
 <resources>
-	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-		<!-- Customize your theme here. -->
-		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
+	<style name="My.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.BottomSheet</item>
 	</style>
 
+	<style name="My.Widget.TextView" parent="@style/Widget.MaterialComponents.TextView">
+		<item name="android:textAppearance">@style/My.TA.Body1</item>
+	</style>
+
+	<style name="BaseSwitcher">
+		<item name="switcher_off_color">#d62828</item>
+		<item name="switcher_on_color">#1FF678</item>
+		<item name="switcher_disabled_icon_color">@color/disabled_foreground</item>
+		<item name="switcher_disabled_background_color">@color/disabled_background</item>
+		<item name="switcher_width">50dp</item>
+		<item name="switcher_height">30dp</item>
+		<item name="elevation">2dp</item>
+	</style>
+
+	<style name="Switcher" parent="BaseSwitcher"/>
+
+	<style name="BaseProgress">
+		<item name="barBackgroundColor">#4D434141</item>
+		<item name="barForegroundColor">?colorSecondary</item>
+		<item name="android:textColor">?attr/colorOnBackground</item>
+
+	</style>
+
+	<style name="CircularProgress" parent="BaseProgress"/>
+	
+	<style name="LoadingView">
+		<item name="loadStrokeColor">@android:color/white</item>
+		<item name="loadStrokeWidth">4dp</item>
+	</style>
+	
+	<!-- button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Text" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	
+	</style>
+	
+	<!-- button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
+	
+	</style>
+	
+	<!-- circle button with letter at center -->
+	<style name="My.Widget.Button.LetterOnly.Rounded.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="android:padding">1dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded.Text" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Unelevated" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+		
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Cut.8dp</item>
+	
+	</style>
+	
+	<!-- circle button with icon at center -->
+	<style name="My.Widget.Button.IconOnly.Rounded" parent="Widget.MaterialComponents.Button.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.50percent</item>
+	
+	</style>
+	
+	<!-- circle button with letter at center -->
+	<style name="My.Widget.Button.LetterOnly.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+		
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">4dp</item>
+		<item name="android:paddingRight">4dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	
+	</style>
+	
+	<style name="My.Widget.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+		<item name="materialThemeOverlay">@style/My.Checkbox.Overlay</item>
+	</style>
+	
+	<style name="My.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+		
+		<item name="shapeAppearanceOverlay">@style/My.ShapeAppearanceOverlay.Rounded.12dp</item>
+	
+	</style>
+	
 </resources>

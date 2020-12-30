@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	android:background="?selectableItemBackground"
+	
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+		android:id="@+id/ivDropCarItemIcon"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_margin="4dp"
+		android:layout_gravity="center"
+		app:imgCornerRadius="4dp"
+		
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toStartOf="@id/tvDropCarItemText"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvDropCarItemText"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+		
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toEndOf="@id/ivDropCarItemIcon"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+	
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/tvDropCarItemPremiumLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="4dp"
+		android:background="@color/subscription_premium"
+		android:gravity="center"
+		android:padding="12dp"
+		android:maxLines="1"
+		
+		android:text="@string/fg_settings_btn_subscription_premium"
+		android:textAppearance="?textAppearanceOverline"
+		
+		android:visibility="invisible"
+		
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

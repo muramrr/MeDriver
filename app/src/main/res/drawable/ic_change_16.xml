@@ -1,0 +1,25 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="16dp"
+    android:width="16dp"
+    android:viewportHeight="254"
+    android:viewportWidth="254" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?colorOnBackground" android:pathData="M251.513,97.962L211.18,57.629c-3.516,-3.515 -9.213,-3.515 -12.729,0c-3.515,3.515 -3.515,9.213 0,12.728l24.97,24.969H101.374c-4.971,0 -9,4.029 -9,9s4.029,9 9,9h122.047l-24.97,24.97c-3.515,3.515 -3.515,9.213 0,12.728c1.758,1.758 4.061,2.636 6.364,2.636s4.606,-0.879 6.364,-2.636l40.333,-40.333C255.028,107.174 255.028,101.476 251.513,97.962z"/>
+    <path android:fillColor="?colorOnBackground" android:pathData="M152.775,140.823H30.728l24.97,-24.97c3.515,-3.515 3.515,-9.213 0,-12.728c-3.516,-3.516 -9.213,-3.515 -12.729,0L2.636,143.46c-3.515,3.515 -3.515,9.213 0,12.728l40.333,40.333c1.758,1.757 4.061,2.636 6.364,2.636s4.606,-0.879 6.364,-2.636c3.515,-3.515 3.515,-9.213 0,-12.728l-24.97,-24.969h122.047c4.971,0 9,-4.029 9,-9S157.745,140.823 152.775,140.823z"/>
+</vector>

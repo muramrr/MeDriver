@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="Integer"
+			/>
+		<variable
+			name="multiSelect"
+			type="Boolean"
+			/>
+	</data>
+	
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		>
+		
+		<com.google.android.material.checkbox.MaterialCheckBox
+			android:id="@+id/tvChildComponentTitleCheckable"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="16dp"
+			android:padding="16dp"
+			
+			android:checked="false"
+			android:ellipsize="end"
+			android:maxLines="1"
+			
+			android:text="@{bindItem}"
+			android:textAppearance="?textAppearanceBody1"
+			app:visibilityInvisible="@{multiSelect}"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvChildComponentTitle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?selectableItemBackground"
+			
+			android:padding="16dp"
+			android:ellipsize="end"
+			android:maxLines="1"
+			
+			android:text="@{bindItem}"
+			app:visibilityInvisible="@{!multiSelect}"
+			/>
+		
+	</FrameLayout>
+	
+	
+
+</layout>

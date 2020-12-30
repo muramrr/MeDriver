@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	<data>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.presentation.ui.vehicle.data.ConsumablePartUi"
+			/>
+	</data>
+	
+	<com.google.android.material.card.MaterialCardView android:id="@+id/cvConsumablePart"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="6dp"
+		>
+		
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvConsumableTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:drawableEnd="@drawable/ic_change_16"
+				android:drawablePadding="8dp"
+				
+				android:maxLines="2"
+				
+				android:text="@{bindItem.title}"
+				android:textAppearance="?textAppearanceOverline"
+				
+				app:layout_constraintVertical_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/tvConsumableDistanceLeft"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvConsumableFinalDate"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:gravity="center_vertical"
+				
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				android:visibility="invisible"
+				
+				app:dateUntil="@{bindItem.replacement.finalDate}"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvConsumableTitle"
+				app:layout_constraintBottom_toTopOf="@id/tvConsumableSubtitle"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvConsumableDistanceLeft"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:gravity="center_vertical"
+				
+				android:textAppearance="?textAppearanceHeadline6"
+				
+				app:distanceRemain="@{bindItem.replacement.distanceRemain}"
+				app:layout_constraintVertical_chainStyle="spread"
+				app:layout_constraintTop_toBottomOf="@id/tvConsumableTitle"
+				app:layout_constraintBottom_toTopOf="@id/tvConsumableSubtitle"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvConsumableSubtitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				
+				android:textAppearance="?textAppearanceCaption"
+				app:regulation="@{bindItem.regulation}"
+				
+				app:layout_constraintVertical_chainStyle="spread"
+				app:layout_constraintTop_toBottomOf="@id/tvConsumableDistanceLeft"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<RadioGroup android:id="@+id/radioChangeCalculation"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:gravity="center_vertical"
+				
+				android:background="?colorSurface"
+				android:checkedButton="@id/btnDistance"
+				
+				android:visibility="invisible"
+				
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				>
+				
+				<com.google.android.material.radiobutton.MaterialRadioButton
+					android:id="@+id/btnTime"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/fg_vehicle_card_replacements_value_change_date"
+					android:textAppearance="?textAppearanceBody2"
+					/>
+				
+				<com.google.android.material.radiobutton.MaterialRadioButton
+					android:id="@+id/btnDistance"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					
+					android:text="@string/fg_vehicle_card_replacements_value_change_distance"
+					android:textAppearance="?textAppearanceBody2"
+					/>
+			
+			</RadioGroup>
+		
+		</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		
+	</com.google.android.material.card.MaterialCardView>
+	
+</layout>

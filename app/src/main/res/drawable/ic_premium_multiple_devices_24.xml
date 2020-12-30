@@ -1,0 +1,33 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="24dp" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#718799" android:pathData="m144,488h328a16,16 0,0 0,16 -16v-432a16,16 0,0 0,-16 -16h-312a16,16 0,0 0,-16 16z"/>
+    <path android:fillColor="#548aff" android:pathData="M96,96L360,96A16,16 0,0 1,376 112L376,472A16,16 0,0 1,360 488L96,488A16,16 0,0 1,80 472L80,112A16,16 0,0 1,96 96z"/>
+    <path android:fillColor="#7dafff" android:pathData="M48,168L224,168A16,16 0,0 1,240 184L240,472A16,16 0,0 1,224 488L48,488A16,16 0,0 1,32 472L32,184A16,16 0,0 1,48 168z"/>
+    <path android:fillColor="#7dafff" android:pathData="M440,72m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"/>
+    <path android:fillColor="#FF000000" android:pathData="m24,184v288a24.027,24.027 0,0 0,24 24h176a24.027,24.027 0,0 0,24 -24v-288a24.027,24.027 0,0 0,-24 -24h-176a24.027,24.027 0,0 0,-24 24zM232,184v288a8.009,8.009 0,0 1,-8 8h-176a8.009,8.009 0,0 1,-8 -8v-288a8.009,8.009 0,0 1,8 -8h36.686l13.657,13.657a8.001,8.001 0,0 0,5.657 2.343h64a8.001,8.001 0,0 0,5.657 -2.343l13.657,-13.657h36.686a8.009,8.009 0,0 1,8 8z"/>
+    <path android:fillColor="#FF000000" android:pathData="m64,440h24v16h-24z"/>
+    <path android:fillColor="#FF000000" android:pathData="m184,440h24v16h-24z"/>
+    <path android:fillColor="#FF000000" android:pathData="m320,448h24v16h-24z"/>
+    <path android:fillColor="#FF000000" android:pathData="m360,88h-264a24.027,24.027 0,0 0,-24 24v32h16v-32a8.009,8.009 0,0 1,8 -8h264a8.009,8.009 0,0 1,8 8v360a8.009,8.009 0,0 1,-8 8h-96v16h96a24.027,24.027 0,0 0,24 -24v-360a24.027,24.027 0,0 0,-24 -24z"/>
+    <path android:fillColor="#FF000000" android:pathData="m472,16h-312a24.028,24.028 0,0 0,-24 24v32h16v-32a8.009,8.009 0,0 1,8 -8h312a8.009,8.009 0,0 1,8 8v432a8.009,8.009 0,0 1,-8 8h-72v16h72a24.028,24.028 0,0 0,24 -24v-432a24.028,24.028 0,0 0,-24 -24z"/>
+    <path android:fillColor="#FF000000" android:pathData="m464,72a24,24 0,1 0,-24 24,24.027 24.027,0 0,0 24,-24zM440,80a8,8 0,1 1,8 -8,8.009 8.009,0 0,1 -8,8z"/>
+    <path android:fillColor="#FF000000" android:pathData="M440,120m-8,0a8,8 0,1 1,16 0a8,8 0,1 1,-16 0"/>
+</vector>

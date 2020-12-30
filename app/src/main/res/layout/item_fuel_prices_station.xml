@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout
+
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+
+	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.FuelStationExtKt"/>
+		
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.fuel.prices.data.FuelStationWithPrices"
+			/>
+	</data>
+
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		
+		android:background="@drawable/view_bg_surface_8"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		
+		>
+		
+		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+			android:id="@+id/ivFuelStationImg"
+			android:layout_width="75dp"
+			android:layout_height="75dp"
+			android:layout_margin="8dp"
+			
+			android:src="@{FuelStationExtKt.brandIcon(bindItem.fuelStation), default = `?colorPrimaryVariant`}"
+			
+			app:imgCornerRadius="8dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvFuelStationTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:text="@{bindItem.fuelStation.brandTitle, default = @string/default_FuelStation}"
+			
+			app:layout_constraintStart_toEndOf="@id/ivFuelStationImg"
+			app:layout_constraintEnd_toStartOf="@id/tvFuelPrice"
+			app:layout_constraintTop_toTopOf="@id/ivFuelStationImg"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/tvFuelPrice"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:text="@string/default_price_unavailable"
+			android:textAppearance="?textAppearanceSubtitle2"
+			android:textAlignment="textEnd"
+			
+			app:layout_constraintStart_toEndOf="@id/tvFuelStationTitle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="@id/tvFuelStationTitle"
+			app:layout_constraintBottom_toBottomOf="@id/tvFuelStationTitle"
+			/>
+		
+		<com.google.android.material.button.MaterialButtonToggleGroup
+			android:id="@+id/radioFuelTypes"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_margin="8dp"
+			
+			app:singleSelection="true"
+			app:selectionRequired="true"
+			
+			app:layout_constraintTop_toBottomOf="@id/ivFuelStationImg"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<!-- gas -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeGas"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_gas"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- dt -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelTypeDT"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_dt"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- 92 -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelType92"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_92"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- 95 -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelType95"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_95"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- 95plus -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelType95PLUS"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_95plus"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- 98 -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelType98"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_98"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+			<!-- 100 -->
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btnFuelType100"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				
+				android:text="@string/btn_fuel_type_100"
+				android:textSize="12sp"
+				
+				app:backgroundTint="@color/checkable_button_secondary"
+				
+				style="@style/My.Widget.Button.LetterOnly.Outlined"
+				/>
+			
+		</com.google.android.material.button.MaterialButtonToggleGroup>
+		
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

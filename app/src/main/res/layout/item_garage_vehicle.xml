@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.VehicleExtKt"/>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.vehicle.data.Vehicle"
+			/>
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_marginHorizontal="8dp"
+		android:layout_marginBottom="8dp"
+		android:background="@drawable/view_bg_surface_8"
+		android:padding="8dp"
+		
+		>
+	
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvVehicleIdentifier"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:ellipsize="end"
+			android:maxLines="2"
+			android:text="@{bindItem.model +`, `+ bindItem.engineCapacity + `\n(` + bindItem.year + `)`, default = `Range Rover Sport, 5.0\n(2013)`}"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/ivVehicleLogo"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvVehicleOdometer"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:paddingHorizontal="8dp"
+			
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text="@{String.format(@string/garage_odometer_formatter, DistanceBoundExtKt.getOdometerFormatted(bindItem.odometerValueBound, context)), default = `Odometer: 000000`}"
+			android:textAppearance="?textAppearanceSubtitle2"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvVehicleIdentifier"
+			app:layout_constraintBottom_toTopOf="@id/tvVehicleLastRefill"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/ivVehicleLogo"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvVehicleLastRefill"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:paddingHorizontal="8dp"
+			
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text="@{String.format(@string/garage_last_refill_formatter, bindItem.lastRefillDate), default = `Last refill: 01.01.1970`}"
+			android:textAppearance="?textAppearanceCaption"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvVehicleOdometer"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/ivVehicleLogo"
+			/>
+		
+		<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+			android:id="@+id/ivVehicleLogo"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:layout_margin="8dp"
+			
+			app:imgCornerRadius="8dp"
+			android:src="@{VehicleExtKt.brandIcon(bindItem), default = @color/colorPrimaryDark}"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnCopyVehicleVin"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			
+			android:maxLength="17"
+			android:singleLine="true"
+			android:text="@{bindItem.vin, default = @string/default_vin}"
+			
+			style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+			
+			app:icon="@drawable/ic_copy_24"
+			app:iconGravity="end"
+			app:iconPadding="24dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvVehicleLastRefill"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

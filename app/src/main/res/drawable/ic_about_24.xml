@@ -1,0 +1,26 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#B2D7FA"  android:pathData="m26,32h-20c-3.314,0 -6,-2.686 -6,-6v-20c0,-3.314 2.686,-6 6,-6h20c3.314,0 6,2.686 6,6v20c0,3.314 -2.686,6 -6,6z"/>
+    <path android:fillColor="?colorPrimary"  android:pathData="m22.833,13.333h-13.666c-0.64,0 -1.167,0.527 -1.167,1.167v8.333c0,0.64 0.527,1.167 1.167,1.167h13.667c0.639,0 1.166,-0.527 1.166,-1.167v-8.333c0,-0.64 -0.527,-1.167 -1.167,-1.167zM21.5,22.333h-11c-0.273,0 -0.5,-0.227 -0.5,-0.5s0.227,-0.5 0.5,-0.5h11c0.273,0 0.5,0.227 0.5,0.5 0,0.274 -0.227,0.5 -0.5,0.5zM21.5,20.333h-11c-0.273,0 -0.5,-0.227 -0.5,-0.5s0.227,-0.5 0.5,-0.5h11c0.273,0 0.5,0.227 0.5,0.5 0,0.274 -0.227,0.5 -0.5,0.5zM21.5,18.333h-11c-0.273,0 -0.5,-0.227 -0.5,-0.5s0.227,-0.5 0.5,-0.5h11c0.273,0 0.5,0.227 0.5,0.5 0,0.274 -0.227,0.5 -0.5,0.5zM21.5,16.333h-11c-0.273,0 -0.5,-0.227 -0.5,-0.5s0.227,-0.5 0.5,-0.5h11c0.273,0 0.5,0.227 0.5,0.5 0,0.274 -0.227,0.5 -0.5,0.5z"/>
+    <path android:fillColor="#4CA2F3" android:pathData="m22.833,8h-13.666c-0.64,0 -1.167,0.527 -1.167,1.167v1.667c0,0.639 0.527,1.166 1.167,1.166h13.667c0.639,0 1.166,-0.527 1.166,-1.167v-1.666c0,-0.64 -0.527,-1.167 -1.167,-1.167z"/>
+</vector>

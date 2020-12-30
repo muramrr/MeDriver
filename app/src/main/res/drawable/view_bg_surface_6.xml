@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<!-- margin bottom +2 -->
+	<!-- Drop Shadow Stack -->
+	
+	<item>
+		<shape>
+			<padding android:top="1dp"
+				android:right="1dp"
+				android:bottom="1dp"
+				android:left="1dp" />
+			<solid android:color="@color/surface1dpElevation1" />
+			<corners android:radius="6dp" />
+		</shape>
+	</item>
+	<item>
+		<shape>
+			<padding android:bottom="0.5dp" />
+			<solid android:color="@color/surface1dpElevation2" />
+			<corners android:radius="6dp" />
+		</shape>
+	</item>
+	
+	<!-- Background -->
+	<item>
+		<shape>
+			<solid android:color="@color/surface1dpImitation" />
+			<corners android:radius="6dp" />
+		</shape>
+	</item>
+</layer-list>

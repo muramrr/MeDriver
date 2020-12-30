@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.MaintenanceExtKt"/>
+		
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.domain.maintenance.data.VehicleSparePart"
+			/>
+	
+	</data>
+
+	<com.google.android.material.card.MaterialCardView android:id="@+id/cvMaintenanceItem"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="8dp"
+		app:cardElevation="1dp"
+		>
+	
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			>
+			
+			<!-- vehicle part type -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvPartTypeTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="12dp"
+				
+				android:maxLines="1"
+				
+				android:text="@{MaintenanceExtKt.getRelatedString(bindItem, context)}"
+				
+				android:textAppearance="?textAppearanceSubtitle2"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/tvVendorAndArticulus"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/tvMaintenanceEntryPrice"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvVendorAndArticulus"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginStart="20dp"
+				android:text="@{MaintenanceExtKt.getVendorAndArticulus(bindItem, context)}"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvPartTypeTitle"
+				app:layout_constraintBottom_toTopOf="@id/tvCommentary"
+				app:layout_constraintStart_toStartOf="parent"
+				/>
+			
+			<!-- commentary -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvCommentary"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				
+				android:maxLines="1"
+				android:ellipsize="end"
+				
+				android:text="@{bindItem.commentary}"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvVendorAndArticulus"
+				app:layout_constraintBottom_toTopOf="@id/tvMaintenanceEntryOdometer"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/barrierMaintenanceLeftColumnStart"
+				/>
+			
+			<!-- odometer value -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvMaintenanceEntryOdometer"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:padding="12dp"
+				android:maxLines="1"
+				
+				android:text="@{DistanceBoundExtKt.getOdometerFormatted(bindItem.odometerValueBound, context)}"
+				android:textAppearance="?textAppearanceOverline"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toBottomOf="@id/tvCommentary"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/tvMaintenanceEntryDate"
+				/>
+			
+			<!-- price -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvMaintenanceEntryPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="12dp"
+				
+				android:text="@{`₴` + bindItem.moneySpent, default = `@string/default_price_unavailable`}"
+				android:textAppearance="?textAppearanceSubtitle1"
+				android:textStyle="bold"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="@id/tvPartTypeTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvPartTypeTitle"
+				app:layout_constraintStart_toEndOf="@id/tvPartTypeTitle"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<!-- tag -->
+			<com.mmdev.me.driver.presentation.ui.common.custom.components.RoundedImageView
+				android:id="@+id/ivTagIndicator"
+				android:layout_width="16dp"
+				android:layout_height="16dp"
+				android:layout_marginEnd="12dp"
+				
+				app:layout_constraintTop_toTopOf="@id/tvVendorAndArticulus"
+				app:layout_constraintBottom_toBottomOf="@id/tvCommentary"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<!-- date -->
+			<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/tvMaintenanceEntryDate"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="12dp"
+				android:maxLines="1"
+				
+				android:text="@{DateTimeExtKt.humanDate(bindItem.date.date, @string/default_date), default = `@string/default_date`}"
+				android:textAppearance="?textAppearanceCaption"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="@id/tvMaintenanceEntryOdometer"
+				app:layout_constraintBottom_toBottomOf="@id/tvMaintenanceEntryOdometer"
+				app:layout_constraintStart_toEndOf="@id/tvMaintenanceEntryOdometer"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<!-- left column barrier -->
+			<androidx.constraintlayout.widget.Barrier
+				android:id="@+id/barrierMaintenanceLeftColumnStart"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				app:barrierDirection="start"
+				app:constraint_referenced_ids="tvMaintenanceEntryPrice, ivTagIndicator, tvMaintenanceEntryDate"
+				/>
+			
+		</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		<LinearLayout android:id="@+id/layoutControls"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#CD000000"
+			android:gravity="center"
+			android:visibility="invisible"
+			>
+			
+			<ImageView android:id="@+id/btnReturn"
+				android:layout_width="0dp"
+				android:layout_height="48dp"
+				android:layout_weight="1"
+				
+				android:background="?selectableItemBackgroundBorderless"
+				android:src="@drawable/ic_return_24"
+				
+				android:contentDescription="@null"
+				/>
+			
+			<ImageView android:id="@+id/btnDelete"
+				android:layout_width="0dp"
+				android:layout_height="48dp"
+				android:layout_weight="1"
+				
+				android:background="?selectableItemBackgroundBorderless"
+				android:src="@drawable/ic_delete_24"
+				
+				android:contentDescription="@null"
+				/>
+		
+		</LinearLayout>
+		
+	</com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<resources>
+	
+	
+	
+	<string name="btn_fuel_type_gas">Газ</string>
+	<string name="btn_fuel_type_dt">ДП</string>
+	
+	
+<!-- ************************************** notifications ************************************** -->
+	<string name="notification_channel_consumable_replace_name">Заміна компонентів</string>
+	<string name="notification_channel_consumable_replace_description">Нагадувати про заміну витратних компонентів</string>
+	<string name="notification_consumable_replace_title">Саме час навідатись до СТО</string>
+	<string name="notification_consumable_replace_text">Строк служби для компонента \'<b>%1$s</b>\' закінчується</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+	
+<!-- ************************************** activity_main ************************************** -->
+	<string name="bottom_nav_garage">Гараж</string>
+	<string name="bottom_nav_maintenance">ТО</string>
+	<string name="bottom_nav_vehicle">Моє авто</string>
+	<string name="bottom_nav_fuel">Пальне</string>
+	<string name="bottom_nav_settings">Опції</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* reusable strings ************************************ -->
+	<string name="liters">л</string>
+	<string name="kilometers">км</string>
+	<string name="miles">ми</string>
+	
+	<string name="formatter_odometer_km">%s км</string>
+	<string name="formatter_odometer_mi">%s миль</string>
+	
+	<string name="btn_cancel">Відмінити</string>
+	<string name="btn_add">Додати</string>
+	
+	<string name="odometer_input_error">Неправильне значення одометра</string>
+	<string name="odometer_input_hint">Одометр</string>
+	
+	<string name="price_input_hint">Ціна</string>
+	<string name="commentary_input_hint">Коментар (необов’язково)</string>
+	
+	<string name="input_empty_error">Поле порожнє</string>
+	
+	<string name="never">Ніколи</string>
+	<string name="not_found">Не знайдено</string>
+	<string name="undefined">Не вказано</string>
+	<string name="unknown">Невідомо</string>
+	
+	<string name="dialog_btn_apply">Застосувати</string>
+	<string name="dialog_btn_cancel">Відмінити</string>
+	
+	<string name="formatter_1_year">%s рік</string>
+	<string name="formatter_2_to_4_year">%s роки</string>
+	<string name="formatter_other_years">%s років</string>
+	
+	<string name="not_enough_data">Недостатньо даних для відображення</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************** bottom_sheet_subscription ******************************** -->
+	<string name="btm_sheet_subscription_choose_plan_label">Доступні підписки</string>
+	<string name="btm_sheet_subscription_plan_type_free">Безкоштовна</string>
+	<string name="btm_sheet_subscription_plan_type_premium">Преміальна</string>
+	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
+	
+	<string name="btm_sheet_subscription_choose_plan">Обрати</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Поточна</string>
+	
+	<string name="btm_sheet_subscription_feature1">Нагадування про ТО</string>
+	<string name="btm_sheet_subscription_feature2">Більше авто</string>
+	<string name="btm_sheet_subscription_feature3">Більше статистики</string>
+	<string name="btm_sheet_subscription_feature4">Підтримка декількох пристроїв</string>
+	<string name="btm_sheet_subscription_feature5">Резервна копія даних</string>
+	
+	<string name="btm_sheet_premium_feature_sync_title">Резервна копія</string>
+	<string name="btm_sheet_premium_feature_sync_subtitle">Збереже історію всіх витрат на сервері</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_vehicles_title">Декілька авто</string>
+	<string name="btm_sheet_premium_feature_multiple_vehicles_subtitle">Ведіть облік для декількох транспортних засобів</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_devices_title">Синхронізація</string>
+	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Доступ до всієї історії з будь-якого пристрою</string>
+	
+	<string name="btm_sheet_subscription_plan_duration">/1 рік</string>
+	
+	<string name="btm_sheet_subscription_policy">Купуючи підписку, Ви погоджуєтеся з нашими Умови обслуговування. Ми будемо стягувати з вас плату на початку кожного періоду на який була оформлена підписка, поки ви не скасуєте підписку. Ви можете скасувати її в будь-який час.</string>
+	
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************** fragment_home ************************************** -->
+	<string name="fg_home_my_garage_header">Мій гараж</string>
+	<string name="fg_home_empty_garage_title">Ваш гараж порожній :(</string>
+	<string name="fg_home_empty_garage_subtitle">Перейдіть до екрану \'Моє авто\', щоб додати новий транспорт!</string>
+	
+	<string name="fg_home_pie_chart_expenses_description">Загальні витрати</string>
+	<string name="fg_home_dialog_pie_chart_expenses_settings_title">Оберіть до 5 авто</string>
+	
+	<string name="fg_home_bar_char_expenses_title">Витрати за %d</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************ item_home_garage ************************************* -->
+	<string name="garage_odometer_formatter">Пробіг: %s</string>
+	<string name="garage_last_refill_formatter">Заправлено: %s</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_maintenance ********************************** -->
+	<string name="fg_maintenance_search_hint">Пошук (колодки, шланг тощо)</string>
+	
+	
+	
+	<string name="fg_maintenance_history_empty_hint_title">Записів не знайдено :(</string>
+	<string name="fg_maintenance_history_empty_hint_subtitle">Натисніть \'+\' щоб додати новий запис</string>
+	
+	<string name="maintenance_dialog_filter_node_no_filter_item">Без фильтру</string>
+	<string name="maintenance_dialog_filter_title">Оберіть системний вузол автомобіля</string>
+	<string name="maintenance_dialog_filter_message">Відфільтрує деталі за обраним вузлом</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* item_maintenance ************************************ -->
+
+	
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_btn_multi_select_choose">Вибрати</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_clear">Очистити</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_error">Потрібно обрати хоча б 1 деталь</string>
+	
+	<string name="btm_sheet_maintenance_btn_add">Додати все</string>
+	
+	
+	<string name="maintenance_parent_node_engine">Двигун</string>
+	<string name="maintenance_parent_node_transmission">Трансмісія</string>
+	<string name="maintenance_parent_node_electrics">Електрика</string>
+	<string name="maintenance_parent_node_suspension">Підвіска</string>
+	<string name="maintenance_parent_node_brakes">Гальма</string>
+	<string name="maintenance_parent_node_body">Кузов</string>
+	<string name="maintenance_parent_node_other">Інше</string>
+	<string name="maintenance_parent_node_planned">Планове</string>
+	
+	<string name="maintenance_parent_node_engine_components">&#8226; ГБЦ\n&#8226; Поршні\n&#8226; Гофра\n&#8226; Вали\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Зчеплення\n&#8226; Хрестовини\n&#8226; Напіввісь\n&#8226; РШ\n…</string>
+	<string name="maintenance_parent_node_electrics_components">&#8226; Акумулятор\n&#8226; Генератор\n&#8226; Стартер\n&#8226; Котушки\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Амортизація\n&#8226; Пружини\n&#8226; Маточини\n&#8226; Втулки\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Колодки\n&#8226; Супорт\n&#8226; Ручник\n&#8226; Датчики\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Щітки\n&#8226; Фари\n&#8226; Скло\n&#8226; Бампери\n…</string>
+	<string name="maintenance_parent_node_other_components">Не впевнені до якої категорії віднести замінену деталь?</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Мастило\n&#8226; Фільтри\n&#8226; Рідина\n&#8226; ГРМ\n…</string>
+	
+	
+	<string name="maintenance_other_component">Інше</string>
+	
+	<string name="maintenance_engine_antifreeze">Антифріз</string>
+	<string name="maintenance_engine_mount">Подушка</string>
+	<string name="maintenance_engine_silencer_corrugation">Гофра глушника</string>
+	<string name="maintenance_engine_timing_chain_kit">Ланцюг ГРМ (з натягувачем)</string>
+	<string name="maintenance_engine_cylinder_unit_heads">ГБЦ</string>
+	<string name="maintenance_engine_cylinder_unit_heads_gasket">Прокладка ГБЦ</string>
+	<string name="maintenance_engine_cylinder_head_bolts">Болти ГБЦ</string>
+	<string name="maintenance_engine_cylinder">Циліндр</string>
+	<string name="maintenance_engine_cylinder_shell">Гільза циліндра</string>
+	<string name="maintenance_engine_cylinder_unit_liner">Вкладиші блоку циліндрів</string>
+	<string name="maintenance_engine_cylinder_unit">Блок циліндрів</string>
+	<string name="maintenance_engine_belt_generator">Ремінь генератора</string>
+	<string name="maintenance_engine_belt_air_conditioner">Ремінь кондиціонера</string>
+	<string name="maintenance_engine_turbo">Турбіна</string>
+	<string name="maintenance_engine_intercooler">Інтеркулер</string>
+	<string name="maintenance_engine_compressor">Компресор</string>
+	<string name="maintenance_engine_belt_compressor">Ремінь компресора</string>
+	<string name="maintenance_engine_piston_rings">Комплект поршневих кілець</string>
+	<string name="maintenance_engine_piston">Поршень</string>
+	<string name="maintenance_engine_pump_fuel">Паливний насос</string>
+	<string name="maintenance_engine_fuel_burner">Паливна форсунка</string>
+	<string name="maintenance_engine_belt_pump_fuel">Паливний ремінь</string>
+	<string name="maintenance_engine_pipe_fuel">Паливний шланг</string>
+	<string name="maintenance_engine_radiator">Радіатор (двигун)</string>
+	<string name="maintenance_engine_pump_water">Помпа (вода)</string>
+	<string name="maintenance_engine_damper">Демпфер</string>
+	<string name="maintenance_engine_valve">Клапан</string>
+	<string name="maintenance_engine_roller">Ролик натягувача ременя</string>
+	<string name="maintenance_engine_connecting_rod">Шатун</string>
+	<string name="maintenance_engine_camshaft">Розподільний вал</string>
+	<string name="maintenance_engine_crankshaft">Колінчатий вал</string>
+	
+	<string name="maintenance_transmission_speed_sensor">Датчик швидкості</string>
+	<string name="maintenance_transmission_clutch_kit">Комплект зчеплення (диск, корзинка)</string>
+	<string name="maintenance_transmission_clutch_bearing">Підшипник зчеплення</string>
+	<string name="maintenance_transmission_clutch_flywheel">Маховик</string>
+	<string name="maintenance_transmission_homokinetic_joint">РШ шарнір</string>
+	<string name="maintenance_transmission_homokinetic_joint_duster">Пильовик РШ шарніру</string>
+	<string name="maintenance_transmission_cross_steering">Хрестовина (рульове)</string>
+	<string name="maintenance_transmission_cross_gear">Хрестовина (привід)</string>
+	<string name="maintenance_transmission_semiaxis">Напіввісь</string>
+	
+	<string name="maintenance_electrics_battery">Акумулятор</string>
+	<string name="maintenance_electrics_generator">Генератор</string>
+	<string name="maintenance_electrics_ignition_coil">Котушка запалювання</string>
+	<string name="maintenance_electrics_starter">Стартер</string>
+	<string name="maintenance_electrics_lambda_probe">Лямбда-зонд</string>
+	<string name="maintenance_electrics_high_voltage_wire">Високовольтний провід</string>
+	
+	<string name="maintenance_suspension_shock_absorbers_front">Амортизатори (передні)</string>
+	<string name="maintenance_suspension_shock_absorbers_back">Амортизатори (задні)</string>
+	<string name="maintenance_suspension_shock_absorber_support">Опора амортизатора</string>
+	<string name="maintenance_suspension_spring">Пружина</string>
+	<string name="maintenance_suspension_silentblock">Сайлентблок</string>
+	<string name="maintenance_suspension_spherical_bearing">Кульова опора</string>
+	<string name="maintenance_suspension_wheel_hub">Маточина колеса</string>
+	<string name="maintenance_suspension_wheel_hub_bearing">Підшипник маточини колеса</string>
+	<string name="maintenance_suspension_sleeve">Втулка</string>
+	<string name="maintenance_suspension_arm">Важіль</string>
+	<string name="maintenance_suspension_rack_stabilizer">Стійка стабілізатора</string>
+	
+	<string name="maintenance_brakes_pads_discs_drums_front">Колодки + диски або барабан (передні)</string>
+	<string name="maintenance_brakes_pads_discs_drums_back">Колодки + диски або барабан (задні)</string>
+	<string name="maintenance_brakes_caliper">Супорт</string>
+	<string name="maintenance_brakes_pipe">Шланг</string>
+	<string name="maintenance_brakes_cylinder">Циліндр</string>
+	<string name="maintenance_brakes_sensor_abs">Датчик ABS</string>
+	<string name="maintenance_brakes_sensor_deterioration">Датчик зносу</string>
+	<string name="maintenance_brakes_parking_cable">Трос ручника</string>
+	
+	<string name="maintenance_body_wiper_front">Щітки склоочисника (передні)</string>
+	<string name="maintenance_body_wiper_back">Щітки склоочисника (задні)</string>
+	<string name="maintenance_body_windshield_front">Вітрове скло</string>
+	<string name="maintenance_body_windshield_back">Заднє скло</string>
+	<string name="maintenance_body_hood">Капот</string>
+	<string name="maintenance_body_hood_damper">Амортизатор капота</string>
+	<string name="maintenance_body_trunk_damper">Амортизатор багажника</string>
+	<string name="maintenance_body_headlight_left">Фара (ліва)</string>
+	<string name="maintenance_body_headlight_right">Фара (права)</string>
+	<string name="maintenance_body_taillight_left">Ліхтар (лівий)</string>
+	<string name="maintenance_body_taillight_right">Ліхтар (правий)</string>
+	<string name="maintenance_body_foglight_left">Протитуманна фара (ліва)</string>
+	<string name="maintenance_body_foglight_right">Протитуманна фара (права)</string>
+	<string name="maintenance_body_radiator_grill">Решітка радіатору</string>
+	<string name="maintenance_body_front_bumper_grill">Решітка бамперу</string>
+	<string name="maintenance_body_front_bumper">Передній бампер</string>
+	<string name="maintenance_body_back_bumper">Задній бампер</string>
+	<string name="maintenance_body_front_left_fender">Переднє крило (ліве)</string>
+	<string name="maintenance_body_front_right_fender">Переднє крило (праве)</string>
+	<string name="maintenance_body_back_left_fender">Заднє крило (ліве)</string>
+	<string name="maintenance_body_back_right_fender">Заднє крило (праве)</string>
+	<string name="maintenance_body_sill_left">Поріг зліва</string>
+	<string name="maintenance_body_sill_right">Поріг зправа</string>
+	<string name="maintenance_body_washer_reservoir">Бачок омивача</string>
+	
+	<string name="maintenance_planned_insurance">Автоцивілка</string>
+	<string name="maintenance_planned_air_filter">Фільтр повітря</string>
+	<string name="maintenance_planned_engine_oil_filter">Моторне мастило та фільтр</string>
+	<string name="maintenance_planned_fuel_filter">Паливний фільтр</string>
+	<string name="maintenance_planned_cabin_filter">Фільтр салону</string>
+	<string name="maintenance_planned_brakes_fluid">Гальмівна рідина</string>
+	<string name="maintenance_planned_grm_kit">Комплект ГРМ (ремінь та ролики)</string>
+	<string name="maintenance_planned_plugs">Свічки (запалювання або розжарювання)</string>
+	<string name="maintenance_planned_transmission_oil_filter">Мастило та фільтр для КПП</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ***************************** item_maintenance_child_edit ***************************** -->
+	<string name="item_maintenance_child_edit_last_replaced_label">Остання заміна</string>
+	
+	
+	<string name="item_maintenance_child_edit_component_hint">Деталь</string>
+	
+	<string name="item_maintenance_child_edit_vendor_hint">Виробник</string>
+	<string name="item_maintenance_child_edit_vendor_helper">Наприклад: Bosch</string>
+	
+	<string name="item_maintenance_child_edit_articulus_hint">Артикул</string>
+	<string name="item_maintenance_child_edit_articulus_helper">Наприклад: LP676</string>
+	
+	<string name="item_maintenance_add_operation_successful">Успішно додано</string>
+	<string name="item_maintenance_add_operation_error">Помилка</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_vehicle ************************************** -->
+	<string name="fg_vehicle_add_new_vehicle">Додати новий транспорт</string>
+	<string name="fg_vehicle_choose_vehicle">Оберіть транспорт</string>
+	
+	<string name="fg_vehicle_card_mileage_title">Пробіг</string>
+	<string name="fg_vehicle_card_mileage_subtitle">Історія</string>
+	
+	<string name="fg_vehicle_card_expenses_title">Витрати</string>
+	<string name="fg_vehicle_card_expenses_type_total">Всього:</string>
+	<string name="fg_vehicle_card_expenses_type_maintenance">ТО:</string>
+	<string name="fg_vehicle_card_expenses_type_fuel">Пальне:</string>
+	<string name="fg_vehicle_card_expenses_subtitle">Змінити тип витрат</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Загальні</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Витрати на ТО</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Витрати на пальне</string>
+	
+	<string name="fg_vehicle_copy_vin">VIN скопійовано: %s</string>
+	
+	<string name="fg_vehicle_insurance_title">Автоцивілка</string>
+	<string name="fg_vehicle_insurance_subtitle">Дійсна до %s</string>
+	
+	<string name="fg_vehicle_consumable_reminders_header">Планове ТО</string>
+	<string name="fg_vehicle_edit_regulations_save">Зберегти</string>
+	
+	<string name="fg_vehicle_card_replacements_value_change_date">Кінцева дата</string>
+	<string name="fg_vehicle_card_replacements_value_change_distance">Залишилось проїхати</string>
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Ще не замінено</string>
+	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">Авто не вибрано</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter">%1$s або %2$s</string>
+	
+	<string name="fg_vehicle_fuel_consumption_history_header">Витрати палива</string>
+	
+	<string name="fg_vehicle_delete_btn">Видалити авто</string>
+	<string name="fg_vehicle_dialog_delete_btn_positive">Видалити</string>
+	<string name="fg_vehicle_dialog_delete_btn_neutral">Скасувати</string>
+	<string name="fg_vehicle_dialog_delete_title">Ви впевнені що хочете видалити дане авто?</string>
+	<string name="fg_vehicle_dialog_delete_message_formatter">Це повністю видале всі дані про авто\n%1$s\nVIN: %2$s</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_error_same_vin">Авто с таким VIN вже додано</string>
+	<string name="btm_sheet_vehicle_add_error_unexpected">Невідома помилка</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Неправильний формат VIN</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Автозаповнення інформації про авто</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Бренд</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_helper">Наприклад: BMW</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Модель</string>
+	<string name="btm_sheet_vehicle_add_enter_model_helper">Наприклад: 328</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Рік випуску</string>
+	<string name="btm_sheet_vehicle_add_enter_year_helper">Наприклад: 2010</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Некоректне значення</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Об’єм двигуна</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_helper">Наприклад: 3.5</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Некоректне значення</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* fragment_fuel *************************************** -->
+	<string name="fg_fuel_tab_prices">Ціни</string>
+	<string name="fg_fuel_tab_history">Історія</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************** fragment_fuel_prices *********************************** -->
+	<string name="fg_fuel_prices_empty_list">Не вдалося отримати актуальні ціни :(</string>
+	
+	<string-array name="fg_fuel_prices_regions">
+		<item>Вінницька обл.</item>
+		<item>Волинська обл.</item>
+		<item>Дніпропетровська обл.</item>
+		<item>Донецька обл.</item>
+		<item>Житомирська обл.</item>
+		<item>Закарпатська обл.</item>
+		<item>Запорізька обл.</item>
+		<item>Івано-Франківська обл.</item>
+		<item>місто Київ</item>
+		<item>Київська обл.</item>
+		<item>Кіровоградська обл.</item>
+		<item>Луганська обл.</item>
+		<item>Львівська обл.</item>
+		<item>Миколаївська обл.</item>
+		<item>Одеська обл.</item>
+		<item>Полтавська обл.</item>
+		<item>Рівненська обл.</item>
+		<item>Сумська обл.</item>
+		<item>Тернопільська обл.</item>
+		<item>Харківська обл.</item>
+		<item>Херсонська обл.</item>
+		<item>Хмельницька обл.</item>
+		<item>Черкаська обл.</item>
+		<item>Чернівецька обл.</item>
+		<item>Чернігівська обл.</item>
+	</string-array>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************** fragment_fuel_history ********************************** -->
+	<string name="fg_fuel_history_empty_hint_subtitle">Натисніть \'+\' щоб додати новий запис</string>
+	<string name="fg_fuel_history_empty_hint_title">Ваша історія порожня :(</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/Л</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_km">+%s км</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s миль</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sЛ/100км</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sЛ/100ми</string>
+	
+	<string name="item_fuel_history_entry_filled_liters">+%s Л</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************** dialog_fuel_history_add ******************************** -->
+	<string name="fg_fuel_history_add_distance_passed_title">Пройдена відстань</string>
+	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s км</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_km">Всього: %s км</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">Всього: 000000</string>
+	
+	<string name="fg_fuel_history_add_distance_passed_value_mi">+ %s ми</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_mi">0 ми</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_mi">Всього: %s ми</string>
+	
+	<string name="fg_fuel_history_add_consumption_title">Витрата палива</string>
+	<string name="fg_fuel_history_add_consumption_value">%s л</string>
+	<string name="fg_fuel_history_add_consumption_value_default">0.0 л</string>
+	<string name="fg_fuel_history_add_consumption_100km">/100 км</string>
+	<string name="fg_fuel_history_add_consumption_100mi">/100 миль</string>
+	
+	<string name="fg_fuel_history_add_estimate_cost_title">Вартість</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value">%s л заправлено</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 л заправлено</string>
+	
+	<string name="fg_fuel_history_add_estimate_distance_title">Очікуванння</string>
+	<string name="fg_fuel_history_add_estimate_distance_subtitle">Дозаправка на %s</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %d км</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 км</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_mi">~ %d ми</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_mi">~ 0 ми</string>
+	
+	<string name="fg_fuel_history_add_fuel_station_input_error">АЗС не вказана</string>
+	<string name="fg_fuel_history_add_fuel_station_input_hint">АЗС</string>
+	
+	<string name="fg_fuel_history_add_fuel_price_input_error">Ціна не вказана</string>
+	
+	<string name="fg_fuel_history_add_fuel_type_error">Тип пального не вказано</string>
+	<string name="fg_fuel_history_add_fuel_type_hint">Оберіть тип пального</string>
+	
+	<string name="fg_fuel_history_add_liters_input_hint">Заправлено</string>
+	
+	<string name="fg_fuel_history_add_adding_error">Помилка при додаванні нового запису</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_settings ************************************* -->
+	<string name="fg_settings_not_signed_in">Вхід не виконано</string>
+	
+	<string name="fg_settings_header_account">Аккаунт</string>
+	<string name="fg_settings_header_general">Загальні</string>
+	
+	<string name="fg_settings_tv_not_verified">Ваш аккаунт не активовано</string>
+	<string name="fg_settings_tv_verified">Ваш аккаунт активовано!</string>
+	<string name="fg_settings_tv_tap_to_verify">Натисніть, щоб надіслати лист з підтвердженням</string>
+	
+	<string name="fg_settings_tv_subscription_expires">Підписка діє до</string>
+	<string name="fg_settings_tv_subscription_expires_value">Безкоштовна</string>
+	
+	<string name="fg_settings_btn_subscription_premium">Премуім</string>
+	<string name="fg_settings_btn_sign_in">Увійти</string>
+	<string name="fg_settings_btn_sign_out">Вийти</string>
+	<string name="fg_settings_btn_get_subscription_not_active">Отримати більше функцій!</string>
+	
+	<string name="fg_settings_sync_title">Синхронізація</string>
+	<string name="fg_settings_sync_subtitle_never">Ніколи</string>
+	<string name="fg_settings_sync_subtitle_just_now">Щойно</string>
+	<string name="fg_settings_sync_subtitle_formatter">Останній раз: %s</string>
+	
+	<string name="fg_settings_switcher_dark_theme_title">Темна тема</string>
+	<string name="fg_settings_switcher_dark_theme_subtitle">Увімкнути темну тему</string>
+	<string name="fg_settings_switcher_metric_system">Метрична система</string>
+	
+	<string name="fg_settings_switcher_language">Мова</string>
+	
+	<string name="fg_settings_rate">Оцінити</string>
+	<string name="fg_settings_dialog_rate_title">Оцінити додаток</string>
+	<string name="fg_settings_dialog_rate_message">Якщо вам сподобався додаток, будьте ласкаві, поставити 5 зірок в Play Market</string>
+	<string name="fg_settings_dialog_rate_btn_positive">Оцінити</string>
+	<string name="fg_settings_dialog_rate_btn_negative">Ні, дякую</string>
+	<string name="fg_settings_dialog_rate_btn_neutral">Не зараз</string>
+	<string name="fg_settings_dialog_rate_snack_text">Дякуємо за Ваш відгук!</string>
+	
+	<string name="fg_settings_faq_label">ЧаПи</string>
+	<string name="fg_settings_about_label">Про додаток</string>
+	
+	<string name="fg_settings_email_confirm_sent_success">Лист для підтвердження відправлено</string>
+	<string name="fg_settings_email_confirm_sent_error_message">Помилка. Лист не відправлено</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** bottom_sheet_auth ************************************* -->
+	<string name="fg_settings_auth_header_sign_in">Увійти</string>
+	<string name="fg_settings_auth_header_sign_up">Створити аккаунт</string>
+	<string name="fg_settings_auth_header_reset_password">Скинути пароль</string>
+	
+	<string name="fg_settings_auth_email_input_error">Неправильний формат адреси</string>
+	<string name="fg_settings_auth_email_input_hint">Ваш Email</string>
+	
+	<string name="fg_settings_auth_password_input_error">Пароль мусить бути не коротший 6 символів</string>
+	<string name="fg_settings_auth_password_mismatch_error">Паролі не співпадають</string>
+	<string name="fg_settings_auth_password_input_hint">Пароль</string>
+	<string name="fg_settings_auth_password_confirm_input_hint">Повторіть пароль</string>
+	
+	<string name="fg_settings_auth_btn_forgot_password">Забули пароль?</string>
+	<string name="fg_settings_auth_btn_sign_in">Увійти</string>
+	<string name="fg_settings_auth_btn_create">Створити</string>
+	<string name="fg_settings_auth_btn_reset">Скинути</string>
+	<string name="fg_settings_auth_btn_sign_up">Реєстрація</string>
+	
+	<string name="fg_settings_auth_tv_check_mail">Перейдіть за посиланням в отриманому листі.</string>
+	<string name="fg_settings_auth_tv_dont_have_account">Немає аккаунта?</string>
+	
+	<string name="fg_settings_auth_sign_in_error_message">Невідома помилка під час входу</string>
+	<string name="fg_settings_auth_sign_up_error_message">Невідома помилка під час регистрації</string>
+	<string name="fg_settings_auth_email_sent_error_message">Помилка. Лист не відправлено</string>
+	<string name="fg_settings_auth_email_sent_success">Лист було успішно надіслано</string>
+	
+	<string name="fg_settings_auth_confirmation_dialog_title">Ви намагаєтеся зайти в інший обліковий запис?</string>
+	<string name="fg_settings_auth_confirmation_dialog_message">Якщо Ви ввійдете в інший обліковий запис, всі Ваші дані будуть видалені. Продовжити?</string>
+	<string name="fg_settings_auth_confirmation_dialog_btn_pos">Підтвердити</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** bottom_sheet_about ************************************ -->
+	<string name="about_email_me">Пропозиції або запитання</string>
+	
+	<string name="about_privacy_policy">Політика конфіденційності</string>
+	<string name="about_terms_of_service">Умови використання додатку</string>
+	
+<!-- ******************************************************************************************* -->
+
+	
+	
+</resources>

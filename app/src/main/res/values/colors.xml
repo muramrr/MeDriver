@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
 <resources>
-	<color name="colorPrimary">#6200EE</color>
-	<color name="colorPrimaryDark">#3700B3</color>
-	<color name="colorAccent">#03DAC5</color>
+	
+	<color name="ic_launcher_background">#000000</color>
+	
+	<color name="colorPrimary">#084177</color>
+	<color name="colorPrimaryVariant">@color/colorPrimaryDark</color>
+	<color name="colorOnPrimary">#ffffff</color>
+
+	<color name="colorSecondary">#fcbf1e</color>
+	<color name="colorSecondaryVariant">@color/colorSecondaryDark</color>
+	<color name="colorOnSecondary">#000000</color>
+
+	<color name="colorError">#7D1900</color>
+	<color name="colorOnError">#ffffff</color>
+
+	<color name="colorSurface">#ffffff</color>
+	<color name="colorOnSurface">#000000</color>
+
+	<color name="colorBackground">#F0F0F0</color>
+	<color name="colorOnBackground">#000000</color>
+	
+	<color name="colorPrimaryBackground">#084177</color>
+	<color name="colorOnBackgroundPrimary">#ffffff</color>
+
+	<color name="colorPrimaryLight">#476ba6</color>
+	<color name="colorPrimaryDark">#001b4b</color>
+	<color name="colorSecondaryLight">#fff159</color>
+	<color name="colorSecondaryDark">#c48f00</color>
+
+	<color name="colorStatusBar">@color/colorPrimaryDark</color>
+	
+	<color name="colorPrimarySecondary">@color/colorPrimary</color>
+
+	<color name="surface1dpImitation">@color/colorSurface</color>
+	<color name="surface1dpElevation1">#26868686</color>
+	<color name="surface1dpElevation2">#22000000</color>
+	
+	<color name="colorIncreasing">@color/maximum_red</color>
+	<color name="colorDecreasing">@color/colorSuccess</color>
+	
+	<color name="colorSuccess">#4BB543</color>
+	<color name="colorWarning">#FFCC00</color>
+	
+	<color name="maximum_red">#d62828</color>
+	<color name="spring_green">#1FF678</color>
+	
+	<color name="disabled_foreground">#EBEBE4</color>
+	<color name="disabled_background">#C6C6C6</color>
+	
+	<color name="selected_subscription_mask">#A6000000</color>
+	
+	<color name="loading_background">#D9000000</color>
+	
+	<color name="tag1">#74A6FB</color>
+	<color name="tag2">#7579e7</color>
+	<color name="tag3">#A31DE6</color>
+	<color name="tag4">#3e978b</color>
+	<color name="tag5">#fb7813</color>
+	<color name="tag6">#CB9800</color>
+	<color name="tag7">#9c5518</color>
+	<color name="tag8">#ce0f3d</color>
+	
+	<color name="data1">#8dd3c7</color>
+	<color name="data2">#ffffb3</color>
+	<color name="data3">#bebada</color>
+	<color name="data4">#fb8072</color>
+	<color name="data5">#80b1d3</color>
+	<color name="data6">#fdb462</color>
+	<color name="data7">#b3de69</color>
+	<color name="data8">#fccde5</color>
+	<color name="data9">#d9d9d9</color>
+	<color name="data10">#bc80bd</color>
+	<color name="data11">#ccebc5</color>
+	<color name="data12">#ffed6f</color>
+	
+	<color name="subscription_premium">#FBC974</color>
+	<color name="subscription_pro">#74A6FB</color>
+	
 </resources>

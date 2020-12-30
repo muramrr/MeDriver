@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class com.mmdev.me.driver.**$$serializer { *; }
+-keep class com.revenuecat.purchases.*
+-keep class com.mmdev.me.driver.domain.fuel.history.data.ConsumptionBound { *; }
+-keep class com.mmdev.me.driver.domain.fuel.history.data.DistanceBound { *; }
+-keep class com.mmdev.me.driver.domain.fuel.prices.data.FuelPrice { *; }
+-keep class com.mmdev.me.driver.domain.fuel.prices.data.FuelStation { *; }
+-keep class com.mmdev.me.driver.domain.vehicle.data.Regulation { *; }

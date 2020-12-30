@@ -1,0 +1,22 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="19dp" android:viewportHeight="400"
+    android:viewportWidth="500" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?colorOnBackground" android:pathData="M421.031,214.406L277.453,205.281L339.758,162.59C340.605,161.996 341.152,161.023 341.152,159.922C341.152,158.121 339.699,156.66 337.91,156.66L83.801,156.66C103.324,83.309 170.938,28.234 249.895,28.234C343.785,28.234 421.656,106.113 421.656,200.004C421.656,204.848 421.445,209.652 421.031,214.406M249.895,371.766C156.008,371.766 78.133,293.891 78.133,200.004C78.133,195.121 78.359,190.281 78.77,185.496L222.488,194.465L160.328,237.41C159.484,238.004 158.93,238.977 158.93,240.078C158.93,241.879 160.391,243.336 162.188,243.336L415.992,243.336C396.477,316.691 328.852,371.766 249.895,371.766M496.234,219.188L449.242,216.199C449.672,210.855 449.898,205.453 449.898,200.004C449.898,89.543 360.355,0 249.895,0C154.324,0 74.418,67.043 54.621,156.66L17.719,156.66C15.305,156.66 13.141,157.809 11.773,159.594L0.789,174.758C0.297,175.395 0,176.191 0,177.059C0,179.137 1.676,180.813 3.754,180.813L50.563,183.73C50.129,189.098 49.898,194.523 49.898,200.004C49.898,310.457 139.441,400 249.895,400C345.469,400 425.371,332.957 445.176,243.336L482.266,243.336C484.688,243.336 486.84,242.188 488.211,240.406L499.199,225.242C499.691,224.605 499.988,223.809 499.988,222.941C499.988,220.863 498.305,219.188 496.234,219.188"/>
+</vector>

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DateTimeExtKt"/>
+		<import type="com.mmdev.me.driver.presentation.utils.extensions.domain.DistanceBoundExtKt"/>
+		<variable
+			name="viewModel"
+			type="com.mmdev.me.driver.presentation.ui.maintenance.add.child.ChildEditViewModel"
+			/>
+	</data>
+	
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		
+		<androidx.constraintlayout.widget.ConstraintLayout
+			
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			>
+			
+			<View android:id="@+id/cvLastReplaced"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginHorizontal="8dp"
+				android:background="@drawable/view_bg_surface_6"
+				
+				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvLastReplacedDetail"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="8dp"
+				android:padding="8dp"
+				android:maxLines="1"
+				
+				android:text="@string/item_maintenance_child_edit_last_replaced_label"
+				android:textAppearance="?textAppearanceSubtitle2"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintStart_toStartOf="@id/cvLastReplaced"
+				app:layout_constraintEnd_toStartOf="@id/tvLastReplacedDate"
+				/>
+			
+			<!-- date -->
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedDate"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:padding="8dp"
+				android:maxLines="1"
+				
+				android:text="@{DateTimeExtKt.humanDate(viewModel.lastReplacedChild.date.date, @string/never), default = `@string/never`}"
+				android:textAppearance="?textAppearanceCaption"
+				android:textAlignment="center"
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvLastReplacedLabel"
+				app:layout_constraintStart_toEndOf="@id/tvLastReplacedLabel"
+				app:layout_constraintEnd_toStartOf="@id/tvLastReplacedOdometer"
+				
+				/>
+			
+			<!-- odometer -->
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedOdometer"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				android:layout_marginEnd="8dp"
+				android:padding="8dp"
+				android:maxLines="1"
+				
+				android:text="@{DistanceBoundExtKt.getOdometerFormatted(viewModel.lastReplacedChild.odometerValueBound, context), default = `@string/default_OdometerValue`}"
+				android:textAppearance="?textAppearanceOverline"
+				android:textAlignment="center"
+				
+				
+				app:layout_constraintHorizontal_chainStyle="spread_inside"
+				app:layout_constraintTop_toTopOf="@id/tvLastReplacedLabel"
+				app:layout_constraintBottom_toBottomOf="@id/tvLastReplacedLabel"
+				app:layout_constraintStart_toEndOf="@id/tvLastReplacedDate"
+				app:layout_constraintEnd_toEndOf="@id/cvLastReplaced"
+				
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvLastReplacedDetail"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:padding="16dp"
+				
+				android:text="@string/not_found"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvLastReplacedLabel"
+				app:layout_constraintStart_toStartOf="@id/cvLastReplaced"
+				app:layout_constraintEnd_toEndOf="@id/cvLastReplaced"
+				/>
+			
+			
+			
+			
+			<View android:id="@+id/cvInput"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginHorizontal="8dp"
+				android:background="@drawable/view_bg_surface_6"
+				
+				app:layout_constraintTop_toTopOf="@id/tvComponentTitle"
+				app:layout_constraintBottom_toBottomOf="@id/layoutInputCommentary"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvComponentTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:padding="16dp"
+				
+				android:textAppearance="?textAppearanceSubtitle2"
+				
+				app:layout_constraintTop_toBottomOf="@id/cvLastReplaced"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toStartOf="@id/btnChildDatePicker"
+				
+				/>
+			
+			<include android:id="@+id/btnChildDatePicker"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginEnd="8dp"
+				
+				layout="@layout/btn_date"
+				
+				app:layout_constraintTop_toTopOf="@id/tvComponentTitle"
+				app:layout_constraintBottom_toBottomOf="@id/tvComponentTitle"
+				app:layout_constraintStart_toEndOf="@id/tvComponentTitle"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				/>
+			
+			<!-- input component -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputCustomComponent"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginHorizontal="8dp"
+				
+				android:hint="@string/item_maintenance_child_edit_component_hint"
+				app:counterEnabled="true"
+				app:counterMaxLength="30"
+				
+				app:errorEnabled="true"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/btnChildDatePicker"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputCustomComponent"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="text"
+					android:imeOptions="actionNext"
+					android:gravity="center"
+					
+					android:maxLines="1"
+					android:maxLength="30"
+					
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<!-- input vendor -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputVendor"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginEnd="4dp"
+				
+				android:hint="@string/item_maintenance_child_edit_vendor_hint"
+				
+				app:helperText="@string/item_maintenance_child_edit_vendor_helper"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
+				app:layout_constraintBottom_toTopOf="@id/layoutInputPrice"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputArticulus"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputVendor"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="textNoSuggestions"
+					android:imeOptions="actionNext"
+					android:gravity="center"
+					
+					android:maxLines="1"
+					android:maxLength="20"
+					
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<!-- input articulus -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputArticulus"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
+				
+				android:hint="@string/item_maintenance_child_edit_articulus_hint"
+				
+				app:helperText="@string/item_maintenance_child_edit_articulus_helper"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCustomComponent"
+				app:layout_constraintBottom_toTopOf="@id/layoutInputOdometer"
+				app:layout_constraintStart_toEndOf="@id/layoutInputVendor"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputArticulus"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="textNoSuggestions"
+					android:imeOptions="actionNext"
+					android:gravity="center"
+					
+					android:maxLines="1"
+					android:maxLength="20"
+					
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<!-- input vendor -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputPrice"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginEnd="4dp"
+				
+				android:hint="@string/price_input_hint"
+				
+				app:errorEnabled="true"
+				app:suffixText="@string/hryvnia_symbol"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputVendor"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toStartOf="@id/layoutInputOdometer"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputPrice"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="numberDecimal"
+					android:imeOptions="actionNext"
+					android:gravity="center"
+					
+					android:maxLines="1"
+					android:maxLength="10"
+					
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<!-- input odometer -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputOdometer"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:layout_marginStart="4dp"
+				android:layout_marginEnd="8dp"
+				
+				android:hint="@string/odometer_input_hint"
+				
+				app:errorEnabled="true"
+				
+				app:suffixKM="@{@string/kilometers}"
+				app:suffixMI="@{@string/miles}"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputArticulus"
+				app:layout_constraintStart_toEndOf="@id/layoutInputPrice"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputOdometer"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="number"
+					android:imeOptions="actionNext"
+					android:gravity="center"
+					
+					android:maxLines="1"
+					android:maxLength="6"
+					
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			
+			<!-- input commentary -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/layoutInputCommentary"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:paddingBottom="8dp"
+				
+				android:hint="@string/commentary_input_hint"
+				app:counterEnabled="true"
+				app:counterMaxLength="30"
+				
+				app:errorEnabled="true"
+				
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputPrice"
+				app:layout_constraintStart_toStartOf="@id/cvInput"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/etInputCommentary"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					
+					android:inputType="text"
+					android:imeOptions="actionDone"
+					android:gravity="center"
+					
+					android:singleLine="true"
+					android:maxLength="30"
+					
+					app:hideKeyboardOnInputDone="@{true}"
+					/>
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+				android:id="@+id/fabChildAdd"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginVertical="16dp"
+				
+				android:text="@string/btn_add"
+				android:textAlignment="center"
+				
+				app:layout_constraintTop_toBottomOf="@id/layoutInputCommentary"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="@id/cvInput"
+				/>
+		
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	
+	</androidx.core.widget.NestedScrollView>
+	
+</layout>

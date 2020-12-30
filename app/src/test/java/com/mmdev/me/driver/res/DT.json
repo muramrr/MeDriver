@@ -1,0 +1,93 @@
+{
+  "result": {
+    "data": [
+      {
+        "value": 25.49,
+        "marka": "SOCAR",
+        "slug": "socar"
+      },
+      {
+        "value": 24.99,
+        "marka": "OKKO",
+        "slug": "okko"
+      },
+      {
+        "value": 24.99,
+        "marka": "WOG",
+        "slug": "wog"
+      },
+      {
+        "value": 24.59,
+        "marka": "Shell",
+        "slug": "shell"
+      },
+      {
+        "value": 23.45,
+        "marka": "GLUSCO",
+        "slug": "glusco"
+      },
+      {
+        "value": 22.99,
+        "marka": "AMIC ",
+        "slug": "amic"
+      },
+      {
+        "value": 22.49,
+        "marka": "KLO",
+        "slug": "klo"
+      },
+      {
+        "value": 21,
+        "marka": "Укрнафта",
+        "slug": "ukrnafta"
+      },
+      {
+        "value": 21,
+        "marka": "ANP",
+        "slug": "anp"
+      },
+      {
+        "value": 20.29,
+        "marka": "БРСМ-Нафта",
+        "slug": "brsm-nafta"
+      }
+    ],
+    "date": "2020-08-13",
+    "type": [
+      {
+        "name": " 95+",
+        "id": 2
+      },
+      {
+        "name": " 95",
+        "id": 3
+      },
+      {
+        "name": " 92",
+        "id": 4
+      },
+      {
+        "name": "ДТ",
+        "id": 5
+      },
+      {
+        "name": "ГАЗ",
+        "id": 6
+      },
+      {
+        "name": "100",
+        "id": 1
+      }
+    ]
+  },
+  "total": [
+    {
+      "minval": "20.29",
+      "maxval": "25.49",
+      "avgval": "23.128"
+    }
+  ],
+  "old": [
+
+  ]
+}

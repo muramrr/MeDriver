@@ -1,0 +1,24 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="24dp" android:viewportHeight="425.43"
+    android:viewportWidth="425.43" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#FFFFFF" android:pathData="M216.859,84.3c2.849,1.304 4.658,4.167 4.612,7.3v30.113h31V91.595c-0.001,-3.15 1.846,-6.008 4.719,-7.3c4.863,-2.195 9.321,-5.195 13.185,-8.874c17.946,-18.061 18.027,-48.472 0.014,-66.485c-3.786,-3.655 -8.151,-6.657 -12.918,-8.887v26.4c0,11.046 -8.954,20 -20,20c-11.046,0 -20,-8.954 -20,-20V0c-5.079,1.925 -9.651,4.983 -13.369,8.942c-18.049,18.046 -18.21,48.541 -0.162,66.587C207.638,79.261 212.026,82.239 216.859,84.3z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M257.131,341.126c-2.859,-1.299 -4.685,-4.16 -4.66,-7.3v-17.113h-31v17.118c0.067,3.123 -1.722,5.989 -4.558,7.3c-4.813,2.199 -9.216,5.2 -13.024,8.874c-17.945,18.06 -17.8,48.472 0.213,66.484c3.773,3.88 8.331,6.911 13.369,8.888v-26.4c0,-11.046 8.954,-20 20,-20c11.046,0 20,8.954 20,20v26.453c4.813,-2.181 9.194,-5.21 12.934,-8.942c18.045,-18.046 17.826,-48.541 -0.221,-66.588C266.435,346.167 262.004,343.188 257.131,341.126z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M295.548,165.713h12.412c7.732,0 14,-6.268 14,-14s-6.268,-14 -14,-14H176.999c-4.418,0 -8,-3.582 -8,-8s3.582,-8 8,-8h28.472v-14h-52.2c-27.525,0.021 -49.822,22.352 -49.801,49.877c0,0.092 0,0.184 0.001,0.276v92.147c0,27.707 22.089,50.7 49.8,50.7h132.25c2.8,0 9.665,-6.248 9.665,-14.167c-0.085,-7.71 -6.254,-13.97 -13.962,-14.168c-1.338,0.016 -2.658,-0.307 -3.837,-0.938c-4.341,-0.191 -7.706,-3.864 -7.515,-8.205c0.187,-4.265 3.741,-7.602 8.009,-7.522h16.711c2.41,0 9.666,-5.751 9.666,-14.076c-0.092,-7.691 -6.273,-13.921 -13.963,-14.074c-1.372,0 -2.663,-0.85 -3.791,-0.85h-0.028c-4.418,0 -8,-3.582 -8,-8s3.582,-8 8,-8h12.413c7.823,-0.093 14.09,-6.51 13.997,-14.333c-0.091,-7.692 -6.305,-13.905 -13.997,-13.997c-0.949,0 -1.856,0.33 -2.7,-0.67h-0.641c-4.418,0 -8,-3.582 -8,-8S291.13,165.713 295.548,165.713z"/>
+</vector>

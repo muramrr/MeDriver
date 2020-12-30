@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<!-- ShapeAppearance -->
+
+<resources>
+	
+	<style name="My.ShapeAppearanceOverlay.Cut.8dp" parent="">
+		<item name="cornerFamily">cut</item>
+		<item name="cornerSize">8dp</item>
+	</style>
+
+	<style name="My.ShapeAppearanceOverlay.Rounded.50percent" parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">50%</item>
+	</style>
+
+
+	<style name="My.ShapeAppearanceOverlay.Rounded.12dp" parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">12dp</item>
+	</style>
+	
+	<style name="My.ShapeAppearanceOverlay.BottomSheet" parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSizeTopRight">8dp</item>
+		<item name="cornerSizeTopLeft">8dp</item>
+	</style>
+	
+	<style name="My.ShapeAppearanceOverlay.Card.TopCorners" parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSizeTopRight">24dp</item>
+		<item name="cornerSizeTopLeft">24dp</item>
+		<item name="cornerSizeBottomRight">0dp</item>
+		<item name="cornerSizeBottomLeft">0dp</item>
+	</style>
+	
+</resources>

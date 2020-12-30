@@ -1,0 +1,23 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<vector android:height="24dp" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#f44336" android:pathData="m453.332,0h-394.664c-32.363,0 -58.668,26.305 -58.668,58.668v394.664c0,32.363 26.305,58.668 58.668,58.668h394.664c32.363,0 58.668,-26.305 58.668,-58.668v-394.664c0,-32.363 -26.305,-58.668 -58.668,-58.668zM453.332,0"/>
+    <path android:fillColor="#fafafa" android:pathData="m350.273,320.105c8.34,8.344 8.34,21.848 0,30.168 -4.16,4.16 -9.621,6.25 -15.086,6.25 -5.461,0 -10.922,-2.09 -15.082,-6.25l-64.105,-64.109 -64.105,64.109c-4.16,4.16 -9.621,6.25 -15.082,6.25 -5.465,0 -10.926,-2.09 -15.086,-6.25 -8.34,-8.32 -8.34,-21.824 0,-30.168l64.109,-64.105 -64.109,-64.105c-8.34,-8.344 -8.34,-21.848 0,-30.168 8.344,-8.34 21.824,-8.34 30.168,0l64.105,64.109 64.105,-64.109c8.344,-8.34 21.824,-8.34 30.168,0 8.34,8.32 8.34,21.824 0,30.168l-64.109,64.105zM350.273,320.105"/>
+</vector>

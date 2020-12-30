@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<MotionScene
+	
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<Transition android:id="@+id/translateSignInToSignOut"
+		app:constraintSetStart="@id/signInSet"
+		app:constraintSetEnd="@id/signUpSet"
+		app:motionInterpolator="easeInOut"
+		>
+		
+		<KeyFrameSet>
+			<KeyAttribute app:framePosition="30"
+				android:scaleX="0.5"
+				android:scaleY="0.5"
+				app:motionTarget="@id/tvAuthHeaderSignIn"/>
+		</KeyFrameSet>
+		
+		<OnClick app:targetId="@id/btnSignUp"
+			app:clickAction="transitionToEnd"
+			/>
+		
+	</Transition>
+	
+	<Transition android:id="@+id/translateSignInToForgotPassword"
+		app:constraintSetStart="@id/signInSet"
+		app:constraintSetEnd="@id/forgotPasswordSet"
+		app:motionInterpolator="easeInOut"
+		>
+		
+		<KeyFrameSet>
+			<KeyAttribute app:framePosition="30"
+				android:scaleX="0.5"
+				android:scaleY="0.5"
+				app:motionTarget="@id/tvAuthHeaderSignIn"/>
+		</KeyFrameSet>
+		
+		<OnClick app:targetId="@id/btnForgotPassword"
+			app:clickAction="transitionToEnd"
+			/>
+	
+	</Transition>
+	
+	
+	
+	<ConstraintSet android:id="@+id/signInSet"/>
+	
+	<ConstraintSet android:id="@+id/signUpSet">
+		
+		<Constraint android:id="@+id/tvAuthHeaderSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="-400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- sign up -->
+		<Constraint android:id="@+id/tvAuthHeaderSignUp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- password repeat -->
+		<Constraint android:id="@+id/layoutInputPasswordConfirm"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginTop="16dp"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/layoutInputPassword"
+			/>
+		
+		<!-- password forgot -->
+		<Constraint android:id="@+id/btnForgotPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="-500dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputPassword"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- cancel -->
+		<Constraint android:id="@+id/btnCancel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/btnSignIn"
+			/>
+		
+		<!-- sign in -->
+		<Constraint android:id="@+id/btnSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationY="300dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- create -->
+		<Constraint android:id="@+id/btnCreateAccount"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvNotRegistered"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:translationX="-400dp"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/btnCancel"
+			app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+			
+			/>
+		
+		<!-- sign up -->
+		<Constraint android:id="@+id/btnSignUp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="-400dp"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintTop_toBottomOf="@id/tvNotRegistered"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+	
+	
+	</ConstraintSet>
+	
+	<ConstraintSet android:id="@+id/forgotPasswordSet">
+		
+		<Constraint android:id="@+id/tvAuthHeaderSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="400dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvAuthHeaderResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvAuthHeaderResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="0dp"
+			
+			app:layout_constraintTop_toTopOf="@id/cvAuth"
+			app:layout_constraintBottom_toTopOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- password input -->
+		<Constraint android:id="@+id/layoutInputPassword"
+			android:layout_height="wrap_content"
+			android:layout_width="0dp"
+			android:layout_marginTop="16dp"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/layoutInputEmail"
+			app:layout_constraintBottom_toTopOf="@id/btnForgotPassword"
+			/>
+		
+		<!-- password forgot -->
+		<Constraint android:id="@+id/btnForgotPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputPassword"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- sign in -->
+		<Constraint android:id="@+id/btnSignIn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/barrierForgotPassword"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<!-- cancel -->
+		<Constraint android:id="@+id/btnCancel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toStartOf="@id/btnSignIn"
+			/>
+		<!-- reset -->
+		<Constraint android:id="@+id/btnResetPassword"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			
+			android:translationY="0dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputEmail"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+		
+		<Constraint android:id="@+id/tvNotRegistered"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintTop_toBottomOf="@id/btnSignIn"
+			app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+			
+			/>
+		
+		<!-- sign up -->
+		<Constraint android:id="@+id/btnSignUp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationX="500dp"
+			
+			app:layout_constraintVertical_chainStyle="packed"
+			app:layout_constraintTop_toBottomOf="@id/tvNotRegistered"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			
+			/>
+		
+		<Constraint android:id="@+id/ivCheckMail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:translationY="0dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/btnResetPassword"
+			app:layout_constraintBottom_toTopOf="@id/tvCheckMail"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			android:contentDescription="@null"
+			/>
+		
+		<Constraint android:id="@+id/tvCheckMail"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			
+			android:translationY="0dp"
+			
+			app:layout_constraintTop_toBottomOf="@id/ivCheckMail"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="@id/guidelineStart"
+			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			/>
+	
+	</ConstraintSet>
+
+</MotionScene>

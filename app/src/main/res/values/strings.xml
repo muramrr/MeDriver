@@ -1,3 +1,592 @@
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
 <resources>
-	<string name="app_name">MeDriver</string>
+	
+	<string-array name="maintenance_dialog_filter_node_list">
+		<item>@string/maintenance_parent_node_engine</item>
+		<item>@string/maintenance_parent_node_transmission</item>
+		<item>@string/maintenance_parent_node_electrics</item>
+		<item>@string/maintenance_parent_node_suspension</item>
+		<item>@string/maintenance_parent_node_brakes</item>
+		<item>@string/maintenance_parent_node_body</item>
+		<item>@string/maintenance_parent_node_other</item>
+		<item>@string/maintenance_parent_node_planned</item>
+		<item>@string/maintenance_dialog_filter_node_no_filter_item</item>
+	</string-array>
+	
+	
+	
+	<string name="btn_fuel_type_gas">GAS</string>
+	<string name="btn_fuel_type_dt">DF</string>
+	
+	
+<!-- ************************************** notifications ************************************** -->
+	<string name="notification_channel_consumable_replace_id" translatable="false">consumable_replacement</string>
+	<string name="notification_channel_consumable_replace_name">Consumable replacement</string>
+	<string name="notification_channel_consumable_replace_description">Remind about consumable replacement</string>
+	<string name="notification_consumable_replace_title">It\'s time to visit the service station</string>
+	<string name="notification_consumable_replace_text">The lifetime for component \'<b>%1$s</b>\' is about to end</string>
+	
+<!-- ******************************************************************************************* -->
+	
+	
+	
+<!-- ************************************** activity_main ************************************** -->
+	<string name="bottom_nav_garage">Garage</string>
+	<string name="bottom_nav_maintenance">Service</string>
+	<string name="bottom_nav_vehicle">Vehicle</string>
+	<string name="bottom_nav_fuel">Fuel</string>
+	<string name="bottom_nav_settings">Settings</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* reusable strings ************************************ -->
+	<string name="liters">L</string>
+	<string name="kilometers">km</string>
+	<string name="miles">mi</string>
+	
+	<string name="formatter_odometer_km">%s km</string>
+	<string name="formatter_odometer_mi">%s miles</string>
+	
+	<string name="btn_cancel">Cancel</string>
+	<string name="btn_add">Add</string>
+	
+	<string name="odometer_input_error">Wrong odometer value</string>
+	<string name="odometer_input_hint">Odometer</string>
+	
+	<string name="commentary_input_hint">Comment (optional)</string>
+	<string name="price_input_hint">Price</string>
+	
+	<string name="input_empty_error">Empty field</string>
+	
+	<string name="never">Never</string>
+	<string name="not_found">Not found</string>
+	<string name="undefined">Undefined</string>
+	<string name="unknown">Unknown</string>
+	
+	<string name="dialog_btn_apply">Apply</string>
+	<string name="dialog_btn_cancel">Cancel</string>
+	
+	<string name="formatter_1_year">%s year</string>
+	<string name="formatter_2_to_4_year">%s years</string>
+	<string name="formatter_other_years">%s years</string>
+	
+	<string name="not_enough_data">Not enough data to display</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************** bottom_sheet_subscription ******************************** -->
+	<string name="btm_sheet_subscription_choose_plan_label">Choose your plan</string>
+	<string name="btm_sheet_subscription_plan_type_free">Free</string>
+	<string name="btm_sheet_subscription_plan_type_premium">Premium</string>
+	<string name="btm_sheet_subscription_plan_type_pro">PRO</string>
+	
+	<string name="btm_sheet_subscription_choose_plan">Choose</string>
+	<string name="btm_sheet_subscription_already_chosen_plan">Current</string>
+	
+	<string name="btm_sheet_subscription_feature1">Notifications about coming maintenance</string>
+	<string name="btm_sheet_subscription_feature2">Unlimited vehicles</string>
+	<string name="btm_sheet_subscription_feature3">More useful stats</string>
+	<string name="btm_sheet_subscription_feature4">Multiple devices support</string>
+	<string name="btm_sheet_subscription_feature5">Data backup</string>
+	
+	<string name="btm_sheet_premium_feature_sync_title">Backup</string>
+	<string name="btm_sheet_premium_feature_sync_subtitle">Backup all of your history and expenses</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_vehicles_title">Multiple vehicles</string>
+	<string name="btm_sheet_premium_feature_multiple_vehicles_subtitle">Keep records for multiple vehicles</string>
+	
+	<string name="btm_sheet_premium_feature_multiple_devices_title">Sync</string>
+	<string name="btm_sheet_premium_feature_multiple_devices_subtitle">Sync and access your data across any device</string>
+	
+	<string name="btm_sheet_subscription_plan_duration">/Yearly</string>
+	
+	<string name="btm_sheet_subscription_policy">Hey, by purchasing subscription, you agree with our Terms of Service. We will charge you at start of each subscription period until you cancel your subscription. You may cancel it anytime.</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************** fragment_home ************************************** -->
+	<string name="fg_home_my_garage_header">My garage</string>
+	<string name="fg_home_empty_garage_title">Your garage is empty :(</string>
+	<string name="fg_home_empty_garage_subtitle">Go to \'My vehicle\' tab to add some new vehicles!</string>
+	
+	<string name="fg_home_pie_chart_expenses_description">Overall expenses</string>
+	<string name="fg_home_dialog_pie_chart_expenses_settings_title">Choose up to 5 vehicles to show</string>
+	
+	<string name="fg_home_bar_char_expenses_title">Expenses for %d</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************ item_home_garage ************************************* -->
+	<string name="garage_odometer_formatter">Mileage: %s</string>
+	<string name="garage_last_refill_formatter">Last refueling: %s</string>
+
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_maintenance ********************************** -->
+	<string name="fg_maintenance_search_hint">Search (pads, camshaft etc)</string>
+	
+	<string name="fg_maintenance_history_empty_hint_title">There is nothing to display :(</string>
+	<string name="fg_maintenance_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
+	
+	<string name="maintenance_dialog_filter_node_no_filter_item">All</string>
+	<string name="maintenance_dialog_filter_title">Choose vehicle system node</string>
+	<string name="maintenance_dialog_filter_message">Filters parts by selected node</string>
+	
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* item_maintenance ************************************ -->
+	
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_maintenance_add ****************************** -->
+	<string name="btm_sheet_maintenance_btn_multi_select_choose">Choose</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_clear">Clear</string>
+	<string name="btm_sheet_maintenance_btn_multi_select_error">Choose at least 1 component</string>
+	
+	<string name="btm_sheet_maintenance_btn_add">Add all</string>
+	
+	<string name="maintenance_parent_node_engine">Engine</string>
+	<string name="maintenance_parent_node_transmission">Transmission</string>
+	<string name="maintenance_parent_node_electrics">Electrics</string>
+	<string name="maintenance_parent_node_suspension">Suspension</string>
+	<string name="maintenance_parent_node_brakes">Brakes</string>
+	<string name="maintenance_parent_node_body">Body</string>
+	<string name="maintenance_parent_node_other">Other</string>
+	<string name="maintenance_parent_node_planned">Planned</string>
+	
+	<string name="maintenance_parent_node_engine_components">&#8226; Cylinders\n&#8226; Mount\n&#8226; Corrugation\n&#8226; Fuel system\n…</string>
+	<string name="maintenance_parent_node_transmission_components">&#8226; Clutch\n&#8226; Clutch\n&#8226; Semiaxis\n&#8226; CV joints\n…</string>
+	<string name="maintenance_parent_node_electrics_components">&#8226; Battery\n&#8226; Generator\n&#8226; Starter\n&#8226; Coils\n…</string>
+	<string name="maintenance_parent_node_suspension_components">&#8226; Damping\n&#8226; Spring\n&#8226; Wheel hub\n&#8226; Sleeves\n…</string>
+	<string name="maintenance_parent_node_brakes_components">&#8226; Pads\n&#8226; Calipers\n&#8226; Sensors\n&#8226; Pipes\n…</string>
+	<string name="maintenance_parent_node_vehicle_body_components">&#8226; Wipers\n&#8226; Lights\n&#8226; Windshields\n&#8226; Bumpers\n…</string>
+	<string name="maintenance_parent_node_other_components">Not sure what category the replaced part belongs to?</string>
+	<string name="maintenance_parent_node_planned_components">&#8226; Oil\n&#8226; Filters\n&#8226; Fluids\n&#8226; Timing kit\n…</string>
+	
+	<string name="maintenance_other_component">Other</string>
+	
+	<string name="maintenance_engine_antifreeze">Antifreeze</string>
+	<string name="maintenance_engine_mount">Mount</string>
+	<string name="maintenance_engine_silencer_corrugation">Silencer corrugation</string>
+	<string name="maintenance_engine_timing_chain_kit">Timing chain kit</string>
+	<string name="maintenance_engine_cylinder_unit_heads">Cylinder unit heads</string>
+	<string name="maintenance_engine_cylinder_unit_heads_gasket">Cylinder unit heads gasket</string>
+	<string name="maintenance_engine_cylinder_head_bolts">Cylinder head bolts</string>
+	<string name="maintenance_engine_cylinder">Cylinder</string>
+	<string name="maintenance_engine_cylinder_shell">Cylinder shell</string>
+	<string name="maintenance_engine_cylinder_unit_liner">Cylinder unit liner</string>
+	<string name="maintenance_engine_cylinder_unit">Cylinder unit</string>
+	<string name="maintenance_engine_belt_generator">Belt generator</string>
+	<string name="maintenance_engine_belt_air_conditioner">Belt air conditioner</string>
+	<string name="maintenance_engine_turbo">Turbo</string>
+	<string name="maintenance_engine_intercooler">Intercooler</string>
+	<string name="maintenance_engine_compressor">Compressor</string>
+	<string name="maintenance_engine_belt_compressor">Belt compressor</string>
+	<string name="maintenance_engine_piston_rings">Piston rings</string>
+	<string name="maintenance_engine_piston">Piston</string>
+	<string name="maintenance_engine_pump_fuel">Pump fuel</string>
+	<string name="maintenance_engine_fuel_burner">Fuel burner</string>
+	<string name="maintenance_engine_belt_pump_fuel">Belt pump fuel</string>
+	<string name="maintenance_engine_pipe_fuel">Pipe fuel</string>
+	<string name="maintenance_engine_radiator">Radiator</string>
+	<string name="maintenance_engine_pump_water">Pump water</string>
+	<string name="maintenance_engine_damper">Damper</string>
+	<string name="maintenance_engine_valve">Valve</string>
+	<string name="maintenance_engine_roller">Roller</string>
+	<string name="maintenance_engine_connecting_rod">Connecting rod</string>
+	<string name="maintenance_engine_camshaft">Camshaft</string>
+	<string name="maintenance_engine_crankshaft">Crankshaft</string>
+	
+	<string name="maintenance_transmission_speed_sensor">Speed sensor</string>
+	<string name="maintenance_transmission_clutch_kit">Clutch kit (disk, basket)</string>
+	<string name="maintenance_transmission_clutch_bearing">Clutch bearing</string>
+	<string name="maintenance_transmission_clutch_flywheel">Clutch Flywheel</string>
+	<string name="maintenance_transmission_homokinetic_joint">Homokinetic joint</string>
+	<string name="maintenance_transmission_homokinetic_joint_duster">Homokinetic joint duster</string>
+	<string name="maintenance_transmission_cross_steering">Cross steering</string>
+	<string name="maintenance_transmission_cross_gear">Cross gear</string>
+	<string name="maintenance_transmission_semiaxis">Semiaxis</string>
+	
+	<string name="maintenance_electrics_battery">Battery</string>
+	<string name="maintenance_electrics_generator">Generator</string>
+	<string name="maintenance_electrics_ignition_coil">Ignition coil</string>
+	<string name="maintenance_electrics_starter">Starter</string>
+	<string name="maintenance_electrics_lambda_probe">Lambda probe</string>
+	<string name="maintenance_electrics_high_voltage_wire">High voltage wire</string>
+	
+	<string name="maintenance_suspension_shock_absorbers_front">Shock absorbers (front)</string>
+	<string name="maintenance_suspension_shock_absorbers_back">Shock absorbers (back)</string>
+	<string name="maintenance_suspension_shock_absorber_support">Shock absorber support</string>
+	<string name="maintenance_suspension_spring">Spring</string>
+	<string name="maintenance_suspension_silentblock">Silentblock</string>
+	<string name="maintenance_suspension_spherical_bearing">Spherical bearing</string>
+	<string name="maintenance_suspension_wheel_hub">Wheel hub</string>
+	<string name="maintenance_suspension_wheel_hub_bearing">Wheel hub bearing</string>
+	<string name="maintenance_suspension_sleeve">Sleeve</string>
+	<string name="maintenance_suspension_arm">Arm</string>
+	<string name="maintenance_suspension_rack_stabilizer">Rack stabilizer</string>
+	
+	<string name="maintenance_brakes_pads_discs_drums_front">Pads + discs or drums (front)</string>
+	<string name="maintenance_brakes_pads_discs_drums_back">Pads + discs or drums (back)</string>
+	<string name="maintenance_brakes_caliper">Caliper</string>
+	<string name="maintenance_brakes_pipe">Pipe</string>
+	<string name="maintenance_brakes_cylinder">Cylinder</string>
+	<string name="maintenance_brakes_sensor_abs">Sensor abs</string>
+	<string name="maintenance_brakes_sensor_deterioration">Sensor deterioration</string>
+	<string name="maintenance_brakes_parking_cable">Parking cable</string>
+	
+	<string name="maintenance_body_wiper_front">Wiper front</string>
+	<string name="maintenance_body_wiper_back">Wiper back</string>
+	<string name="maintenance_body_windshield_front">Windshield front</string>
+	<string name="maintenance_body_windshield_back">Windshield back</string>
+	<string name="maintenance_body_hood">Hood</string>
+	<string name="maintenance_body_hood_damper">Hood damper</string>
+	<string name="maintenance_body_trunk_damper">Trunk damper</string>
+	<string name="maintenance_body_headlight_left">Headlight left</string>
+	<string name="maintenance_body_headlight_right">Headlight right</string>
+	<string name="maintenance_body_taillight_left">Taillight left</string>
+	<string name="maintenance_body_taillight_right">Taillight right</string>
+	<string name="maintenance_body_foglight_left">Foglight left</string>
+	<string name="maintenance_body_foglight_right">Foglight right</string>
+	<string name="maintenance_body_radiator_grill">Radiator grill</string>
+	<string name="maintenance_body_front_bumper_grill">Front bumper grill</string>
+	<string name="maintenance_body_front_bumper">Front bumper</string>
+	<string name="maintenance_body_back_bumper">Back bumper</string>
+	<string name="maintenance_body_front_left_fender">Front left fender</string>
+	<string name="maintenance_body_front_right_fender">Front right fender</string>
+	<string name="maintenance_body_back_left_fender">Back left fender</string>
+	<string name="maintenance_body_back_right_fender">Back right fender</string>
+	<string name="maintenance_body_sill_left">Sill left</string>
+	<string name="maintenance_body_sill_right">Sill right</string>
+	<string name="maintenance_body_washer_reservoir">Washer reservoir</string>
+	
+	<string name="maintenance_planned_insurance">Compulsory insurance</string>
+	<string name="maintenance_planned_air_filter">Air filter</string>
+	<string name="maintenance_planned_engine_oil_filter">Engine oil and filter</string>
+	<string name="maintenance_planned_fuel_filter">Fuel filter</string>
+	<string name="maintenance_planned_cabin_filter">Cabin filter</string>
+	<string name="maintenance_planned_brakes_fluid">Brakes fluid</string>
+	<string name="maintenance_planned_grm_kit">Grm kit (belt and roller)</string>
+	<string name="maintenance_planned_plugs">Plugs (glow or spark)</string>
+	<string name="maintenance_planned_transmission_oil_filter">Transmission oil and filter</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ***************************** item_maintenance_child_edit ***************************** -->
+	<string name="item_maintenance_child_edit_last_replaced_label">Last replaced</string>
+	
+	<string name="item_maintenance_child_edit_component_hint">Component</string>
+	
+	<string name="item_maintenance_child_edit_vendor_hint">Vendor</string>
+	<string name="item_maintenance_child_edit_vendor_helper">Eg: Bosch</string>
+	
+	<string name="item_maintenance_child_edit_articulus_hint">Articulus</string>
+	<string name="item_maintenance_child_edit_articulus_helper">Eg: GDB1010</string>
+	
+	<string name="item_maintenance_add_operation_successful">Successfully added</string>
+	<string name="item_maintenance_add_operation_error">Error, while adding</string>
+
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_vehicle ************************************** -->
+	<string name="fg_vehicle_add_new_vehicle">Add new vehicle</string>
+	<string name="fg_vehicle_choose_vehicle">Choose vehicle</string>
+	
+	<string name="fg_vehicle_card_mileage_title">Mileage</string>
+	<string name="fg_vehicle_card_mileage_subtitle">History</string>
+	
+	<string name="fg_vehicle_card_expenses_title">Expenses</string>
+	<string name="fg_vehicle_card_expenses_type_total">Total:</string>
+	<string name="fg_vehicle_card_expenses_type_maintenance">Maintenance:</string>
+	<string name="fg_vehicle_card_expenses_type_fuel">Fuel:</string>
+	<string name="fg_vehicle_card_expenses_subtitle">Change expenses type</string>
+	<string name="fg_vehicle_card_expenses_radio_total">Total</string>
+	<string name="fg_vehicle_card_expenses_radio_maintenance">Maintenance</string>
+	<string name="fg_vehicle_card_expenses_radio_fuel">Fuel</string>
+	
+	<string name="fg_vehicle_copy_vin">VIN copied: %s</string>
+	
+	<string name="fg_vehicle_insurance_title">Compulsory insurance</string>
+	<string name="fg_vehicle_insurance_subtitle">Valid until %s</string>
+	
+	<string name="fg_vehicle_consumable_reminders_header">Maintenance reminders</string>
+	<string name="fg_vehicle_edit_regulations_save">Save</string>
+	
+	<string name="fg_vehicle_card_replacements_value_change_date">End date</string>
+	<string name="fg_vehicle_card_replacements_value_change_distance">Distance remain</string>
+	<string name="fg_vehicle_card_replacements_value_not_replaced">Not replaced yet</string>
+	<string name="fg_vehicle_card_replacements_subtitle_no_vehicle">No vehicle chosen</string>
+	<string name="fg_vehicle_card_replacements_subtitle_formatter">%1$s or %2$s</string>
+	
+	<string name="fg_vehicle_fuel_consumption_history_header">Fuel consumption</string>
+	
+	<string name="fg_vehicle_delete_btn">Delete vehicle</string>
+	<string name="fg_vehicle_dialog_delete_btn_positive">Delete</string>
+	<string name="fg_vehicle_dialog_delete_btn_neutral">Cancel</string>
+	<string name="fg_vehicle_dialog_delete_title">Are you sure you want to delete this vehicle?</string>
+	<string name="fg_vehicle_dialog_delete_message_formatter">This will completely delete all data about vehicle\n%1$s\nVIN: %2$s</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************* bottom_sheet_vehicle_add ********************************** -->
+	<string name="btm_sheet_vehicle_add_error_same_vin">Vehicle with same VIN already exists</string>
+	<string name="btm_sheet_vehicle_add_error_unexpected">Unexpected error</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_vin_hint">VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_error">Wrong VIN code</string>
+	<string name="btm_sheet_vehicle_add_enter_vin_helper">Autocomplete vehicle info</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_brand_hint">Vehicle brand</string>
+	<string name="btm_sheet_vehicle_add_enter_brand_helper">E.g: Audi</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_model_hint">Vehicle model</string>
+	<string name="btm_sheet_vehicle_add_enter_model_helper">E.g: A4</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_year_hint">Year produced</string>
+	<string name="btm_sheet_vehicle_add_enter_year_helper">E.g: 2010</string>
+	<string name="btm_sheet_vehicle_add_enter_year_error">Wrong value</string>
+	
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_hint">Engine capacity</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_helper">E.g: 3.5</string>
+	<string name="btm_sheet_vehicle_add_enter_engine_cap_error">Wrong value</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ************************************* fragment_fuel *************************************** -->
+	<string name="fg_fuel_tab_prices">Prices</string>
+	<string name="fg_fuel_tab_history">History</string>
+<!-- ******************************************************************************************* -->
+
+
+	
+<!-- ********************************** fragment_fuel_prices *********************************** -->
+	<string name="fg_fuel_prices_empty_list">Cannot get current prices</string>
+	
+	<string-array name="fg_fuel_prices_regions">
+		<item>Vinnytsia obl.</item>
+		<item>Volyn obl.</item>
+		<item>Dnipropetrovsk obl.</item>
+		<item>Donetsk obl.</item>
+		<item>Zhytomyr obl.</item>
+		<item>Zakarpattia obl.</item>
+		<item>Zaporizska obl.</item>
+		<item>Ivano-Franksivska obl.</item>
+		<item>Kyiv city</item>
+		<item>Kyiv obl.</item>
+		<item>Kirovohrad obl.</item>
+		<item>Luhansk obl.</item>
+		<item>Lviv obl.</item>
+		<item>Mykolaiv obl.</item>
+		<item>Odesa obl.</item>
+		<item>Poltava obl.</item>
+		<item>Rivne obl.</item>
+		<item>Sumy obl.</item>
+		<item>Ternopil obl.</item>
+		<item>Kharkiv obl.</item>
+		<item>Kherson obl.</item>
+		<item>Khmelnytskyi obl.</item>
+		<item>Cherkasy obl.</item>
+		<item>Chernivtsi obl.</item>
+		<item>Chernihiv obl.</item>
+	</string-array>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************** fragment_fuel_history ********************************** -->
+	<string name="fg_fuel_history_empty_hint_subtitle">Tap \'+\' button to add new records</string>
+	<string name="fg_fuel_history_empty_hint_title">Your history is empty :(</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ********************************* item_fuel_history_entry ********************************* -->
+	<string name="item_fuel_history_entry_price_per_liter">₴%s/L</string>
+	
+	<string name="item_fuel_history_entry_distance_passed_km">+%s km</string>
+	<string name="item_fuel_history_entry_distance_passed_mi">+%s miles</string>
+	
+	<string name="item_fuel_history_entry_consumption_km">%sL/100km</string>
+	<string name="item_fuel_history_entry_consumption_mi">%sL/100mi</string>
+	
+	<string name="item_fuel_history_entry_filled_liters">+%s L</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- ******************************** dialog_fuel_history_add ******************************** -->
+	<string name="fg_fuel_history_add_distance_passed_title">Passed</string>
+	<string name="fg_fuel_history_add_distance_passed_value_km">+ %s km</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_km">0 km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_km">Total: %s km</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_default">Total: 000000</string>
+	
+	<string name="fg_fuel_history_add_distance_passed_value_mi">+ %s mi</string>
+	<string name="fg_fuel_history_add_distance_passed_value_default_mi">0 mi</string>
+	<string name="fg_fuel_history_add_distance_passed_subtitle_value_mi">Total: %s mi</string>
+	
+	<string name="fg_fuel_history_add_consumption_title">Consumption</string>
+	<string name="fg_fuel_history_add_consumption_value">%s L</string>
+	<string name="fg_fuel_history_add_consumption_value_default">0.0 L</string>
+	<string name="fg_fuel_history_add_consumption_100km">/100 km</string>
+	<string name="fg_fuel_history_add_consumption_100mi">/100 mi</string>
+	
+	<string name="fg_fuel_history_add_estimate_cost_title">Total cost</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value">%s liters filled</string>
+	<string name="fg_fuel_history_add_estimate_cost_subtitle_value_default">1.0 liters filled</string>
+	
+	<string name="fg_fuel_history_add_estimate_distance_title">Expectation</string>
+	<string name="fg_fuel_history_add_estimate_distance_subtitle">Refueling on %s</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_km">~ %d km</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_km">~ 0 km</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_mi">~ %d mi</string>
+	<string name="fg_fuel_history_add_estimate_distance_value_default_mi">~ 0 mi</string>
+	
+	
+	<string name="fg_fuel_history_add_fuel_station_input_error">Not specified</string>
+	<string name="fg_fuel_history_add_fuel_station_input_hint">Fuel Station</string>
+	
+	<string name="fg_fuel_history_add_fuel_price_input_error">Not specified</string>
+	
+	<string name="fg_fuel_history_add_fuel_type_error">Fuel type is not selected</string>
+	<string name="fg_fuel_history_add_fuel_type_hint">Select fuel type</string>
+	
+	<string name="fg_fuel_history_add_liters_input_hint">Filled in</string>
+	
+	<string name="fg_fuel_history_add_adding_error">Adding history entry error</string>
+	
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** fragment_settings ************************************* -->
+	<string name="fg_settings_not_signed_in">Not signed in</string>
+	
+	<string name="fg_settings_header_account">Account</string>
+	<string name="fg_settings_header_general">General</string>
+	
+	<string name="fg_settings_tv_not_verified">Your account is not verified</string>
+	<string name="fg_settings_tv_verified">Your account is verified!</string>
+	<string name="fg_settings_tv_tap_to_verify">Tap to send confirmation email</string>
+	
+	<string name="fg_settings_tv_subscription_expires">Subscription expires</string>
+	<string name="fg_settings_tv_subscription_expires_value">Free</string>
+	
+	<string name="fg_settings_btn_subscription_premium">Premium</string>
+	<string name="fg_settings_btn_subscription_pro" translatable="false">PRO</string>
+	<string name="fg_settings_btn_sign_in">Sign In</string>
+	<string name="fg_settings_btn_sign_out">Sign Out</string>
+	<string name="fg_settings_btn_get_subscription_not_active">Unlock new features!</string>
+	
+	<string name="fg_settings_sync_title">Synchronization</string>
+	<string name="fg_settings_sync_subtitle_never">Never</string>
+	<string name="fg_settings_sync_subtitle_just_now">Just now</string>
+	<string name="fg_settings_sync_subtitle_formatter">Last sync: %s</string>
+	
+	<string name="fg_settings_switcher_dark_theme_title">Dark theme</string>
+	<string name="fg_settings_switcher_dark_theme_subtitle">Enable dark theme</string>
+	<string name="fg_settings_switcher_metric_system">Metric system</string>
+	
+	<string name="fg_settings_switcher_language">Language</string>
+	
+	<string name="fg_settings_rate">Rate the app</string>
+	<string name="fg_settings_dialog_rate_title">Rate the application</string>
+	<string name="fg_settings_dialog_rate_message">Tap a star to rate this app on the PlayMarket</string>
+	<string name="fg_settings_dialog_rate_btn_positive">Rate</string>
+	<string name="fg_settings_dialog_rate_btn_negative">No, thanks</string>
+	<string name="fg_settings_dialog_rate_btn_neutral">Not now</string>
+	<string name="fg_settings_dialog_rate_snack_text">Thank you for feedback!</string>
+	
+	<string name="fg_settings_faq_label">F.A.Q.</string>
+	<string name="fg_settings_about_label">About</string>
+	
+	<string name="fg_settings_email_confirm_sent_success">Email with confirm link sent</string>
+	<string name="fg_settings_email_confirm_sent_error_message">Failure. Email not sent</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** bottom_sheet_auth ************************************* -->
+	<string name="fg_settings_auth_header_sign_in">Sign in</string>
+	<string name="fg_settings_auth_header_sign_up">Sign up</string>
+	<string name="fg_settings_auth_header_reset_password">Reset password</string>
+	
+	<string name="fg_settings_auth_email_input_error">Invalid email address</string>
+	<string name="fg_settings_auth_email_input_hint">Email</string>
+	
+	<string name="fg_settings_auth_password_input_error">Password should be at least 6 characters</string>
+	<string name="fg_settings_auth_password_mismatch_error">Password mismatch</string>
+	<string name="fg_settings_auth_password_input_hint">Password</string>
+	<string name="fg_settings_auth_password_confirm_input_hint">Confirm password</string>
+	
+	<string name="fg_settings_auth_btn_forgot_password">Forgot password?</string>
+	<string name="fg_settings_auth_btn_sign_in">Sign In</string>
+	<string name="fg_settings_auth_btn_create">Create</string>
+	<string name="fg_settings_auth_btn_reset">Reset</string>
+	<string name="fg_settings_auth_btn_sign_up">Sign up</string>
+	
+	<string name="fg_settings_auth_tv_check_mail">Follow link from mail we will send.</string>
+	<string name="fg_settings_auth_tv_dont_have_account">Don\'t have account yet?</string>
+	
+	<string name="fg_settings_auth_sign_in_error_message">Unknown sign in error</string>
+	<string name="fg_settings_auth_sign_up_error_message">Unknown sign up error</string>
+	<string name="fg_settings_auth_email_sent_error_message">Failure. Email not sent</string>
+	<string name="fg_settings_auth_email_sent_success">Email sent</string>
+	
+	<string name="fg_settings_auth_confirmation_dialog_title">Are you trying to sign into another account?</string>
+	<string name="fg_settings_auth_confirmation_dialog_message">If you sign in to a different account, all your data will be deleted. Continue?</string>
+	<string name="fg_settings_auth_confirmation_dialog_btn_pos">Confirm</string>
+<!-- ******************************************************************************************* -->
+
+
+
+<!-- *********************************** bottom_sheet_about ************************************ -->
+	<string name="about_email_me">Any questions or proposals?</string>
+	
+	<string name="about_privacy_policy">Privacy policy</string>
+	<string name="about_terms_of_service">Terms of service</string>
+	
+<!-- ******************************************************************************************* -->
+
+	
+
+	
 </resources>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	
+	<data>
+		<variable
+			name="bindItem"
+			type="com.mmdev.me.driver.presentation.ui.settings.subscription.PlanUi"
+			/>
+	</data>
+	
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginVertical="8dp"
+		app:cardCornerRadius="16dp"
+		app:cardElevation="0dp"
+		app:cardBackgroundColor="@android:color/transparent"
+		>
+	
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@drawable/view_bg_surface_16"
+			>
+			
+			<View android:id="@+id/bgPlan"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:backgroundColor="@{bindItem.backgroundColor}"
+				
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="@id/tvPlanDuration"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+		
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanType"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				
+				android:text="@{bindItem.subscription.title}"
+				
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@id/tvPlanPrice"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				
+				android:text="@{bindItem.price}"
+				android:textAppearance="?textAppearanceHeadline5"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvPlanType"
+				app:layout_constraintBottom_toTopOf="@id/tvPlanDuration"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvPlanDuration"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingVertical="8dp"
+				
+				android:text="@string/btm_sheet_subscription_plan_duration"
+				android:textAppearance="?textAppearanceOverline"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvPlanPrice"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			
+			
+			
+			
+			<!-- features -->
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature1"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:padding="8dp"
+				
+				android:text="@{bindItem.features[0].feature, default = `Feature 1`}"
+				
+				android:drawableStart="@{bindItem.features[0].availability}"
+				android:drawablePadding="8dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvPlanDuration"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature2"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature2"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:padding="8dp"
+				
+				android:text="@{bindItem.features[1].feature, default = `Feature 2`}"
+				
+				android:drawableStart="@{bindItem.features[1].availability}"
+				android:drawablePadding="8dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature1"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature3"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature3"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:padding="8dp"
+				
+				android:text="@{bindItem.features[2].feature, default = `Feature 3`}"
+				
+				android:drawableStart="@{bindItem.features[2].availability}"
+				android:drawablePadding="8dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature2"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature4"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature4"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:padding="8dp"
+				
+				android:text="@{bindItem.features[3].feature, default = `Feature 4`}"
+				
+				android:drawableStart="@{bindItem.features[3].availability}"
+				android:drawablePadding="8dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature3"
+				app:layout_constraintBottom_toTopOf="@id/tvFeature5"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			<com.google.android.material.textview.MaterialTextView android:id="@+id/tvFeature5"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="8dp"
+				android:padding="8dp"
+				
+				android:text="@{bindItem.features[4].feature, default = `Feature 5`}"
+				
+				android:drawableStart="@{bindItem.features[4].availability}"
+				android:drawablePadding="8dp"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature4"
+				app:layout_constraintBottom_toTopOf="@id/btnSelectPlan"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				/>
+			
+			
+			
+			<com.google.android.material.button.MaterialButton android:id="@+id/btnSelectPlan"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:clickable="false"
+				
+				android:text="@{!bindItem.isChosen ? @string/btm_sheet_subscription_choose_plan : @string/btm_sheet_subscription_already_chosen_plan}"
+				
+				app:strokeColor="@android:color/black"
+				
+				app:icon="@{bindItem.isChosen ? @drawable/ic_check_mark_24 : @drawable/ic_arrow_right_24}"
+				app:iconGravity="@{bindItem.isChosen ? 0x1 : 0x3}"
+				
+				style="@style/Widget.MaterialComponents.Button.TextButton"
+				
+				app:layout_constraintTop_toBottomOf="@id/tvFeature5"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				/>
+			
+			
+		</androidx.constraintlayout.widget.ConstraintLayout>
+		
+	</com.google.android.material.card.MaterialCardView>
+
+</layout>

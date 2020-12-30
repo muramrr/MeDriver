@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<!-- Themes & ThemeOverlays -->
+
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+		<!-- The color displayed most frequently across your app’s screens and components. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<!-- A tonal variation of the primary color. -->
+		<item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+		<item name="colorOnPrimary">@color/colorOnPrimary</item>
+
+		<!-- The secondary branding color, usually an accented complement to the primary branding color. -->
+		<item name="colorSecondary">@color/colorSecondary</item>
+		<!-- A tonal variation of the secondary color. -->
+		<item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+		<item name="colorOnSecondary">@color/colorOnSecondary</item>
+
+		<!-- Color affect surfaces of components, such as cards, sheets, and menus. -->
+		<item name="colorSurface">@color/colorSurface</item>
+		<item name="colorOnSurface">@color/colorOnSurface</item>
+
+		<!-- Error color indicates errors states, for components such as text fields -->
+		<item name="colorError">@color/colorError</item>
+		<item name="colorOnError">@color/colorOnError</item>
+
+		<!-- The background color appears behind scrollable content. -->
+		<item name="android:colorBackground">@color/colorBackground</item>
+		<item name="colorOnBackground">@color/colorOnBackground</item>
+
+		<!-- system colors -->
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<!-- or it can be set by providing <item name="colorPrimaryDark">@color/colorPrimaryDark</item> -->
+		<item name="android:statusBarColor">@color/colorStatusBar</item>
+
+		<!-- widgets styles -->
+		<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+		<item name="bottomSheetDialogTheme">@style/My.BottomSheet.Overlay</item>
+		
+		<item name="checkboxStyle">@style/My.Widget.CheckBox</item>
+
+		<!-- text appearances -->
+		<item name="android:textViewStyle">@style/My.Widget.TextView</item>
+		<item name="textAppearanceHeadline1">@style/My.TA.Headline1</item>
+		<item name="textAppearanceHeadline2">@style/My.TA.Headline2</item>
+		<item name="textAppearanceHeadline3">@style/My.TA.Headline3</item>
+		<item name="textAppearanceHeadline4">@style/My.TA.Headline4</item>
+		<item name="textAppearanceHeadline5">@style/My.TA.Headline5</item>
+		<item name="textAppearanceHeadline6">@style/My.TA.Headline6</item>
+		<item name="textAppearanceSubtitle1">@style/My.TA.Subtitle1</item>
+		<item name="textAppearanceSubtitle2">@style/My.TA.Subtitle2</item>
+		<item name="textAppearanceBody1">@style/My.TA.Body1</item>
+		<item name="textAppearanceBody2">@style/My.TA.Body2</item>
+		<item name="textAppearanceCaption">@style/My.TA.Caption</item>
+		<item name="textAppearanceButton">@style/My.TA.Button</item>
+		<item name="textAppearanceOverline">@style/My.TA.Overline</item>
+
+	</style>
+	
+	
+	
+	<style name="My.BottomSheet.Overlay" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+		<item name="bottomSheetStyle">@style/My.BottomSheet</item>
+		<item name="android:windowSoftInputMode">adjustPan</item>
+	</style>
+	
+	<style name="My.Checkbox.Overlay" parent="">
+		<item name="colorOnSurface">@color/colorOnSurface</item>
+		<item name="colorSecondary">@color/colorSecondaryDark</item>
+	</style>
+	
+	
+	
+	<style name="My.Dialog.FullScreen" parent="AppTheme">
+		<!-- Set this to true if you want Full Screen without status bar -->
+		<item name="android:windowFullscreen">false</item>
+		
+		<item name="android:windowIsFloating">false</item>
+		
+		<item name="android:windowNoTitle">true</item>
+		<!-- This is important! Don't forget to set window background -->
+		<item name="android:windowBackground">@color/colorBackground</item>
+<!--		<item name="android:windowAnimationStyle">@style/AppTheme.AnimFade</item>-->
+	</style>
+	
+	<style name="AppTheme.AnimFade">
+		<item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+		<item name="android:windowExitAnimation">@android:anim/fade_out</item>
+	</style>
+	
+	<style name="AppTheme.AppearingFromFab">
+		<item name="android:windowEnterAnimation">@anim/scale_in</item>
+		<item name="android:windowExitAnimation">@anim/scale_out</item>
+	</style>
+	
+	<style name="AnimSlideFromTopToTop">
+		<item name="android:windowEnterAnimation">@anim/slide_in_top</item>
+		<item name="android:windowExitAnimation">@anim/slide_out_top</item>
+	</style>
+
+</resources>

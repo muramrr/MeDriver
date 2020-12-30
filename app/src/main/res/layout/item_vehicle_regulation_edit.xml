@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+
+<layout
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/view_bg_surface_6"
+		
+		>
+	
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvRegulationTitle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text=""
+			android:textAppearance="?textAppearanceHeadline6"
+			android:textAlignment="center"
+			
+			app:autoSizeTextType="uniform"
+			app:autoSizeMinTextSize="14sp"
+			app:autoSizeMaxTextSize="20sp"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<com.google.android.material.textfield.TextInputLayout android:id="@+id/layoutInputRegulationDistanceValue"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="24dp"
+			
+			app:suffixKM="@{@string/kilometers}"
+			app:suffixMI="@{@string/miles}"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/tvRegulationTitle"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText android:id="@+id/etRegulationDistanceValue"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:imeOptions="actionDone"
+				android:inputType="number"
+				android:maxLength="6"
+				android:maxLines="1"
+				
+				android:text=""
+				android:textAlignment="center"
+				
+				app:hideKeyboardOnInputDone="@{true}"
+				/>
+			
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnRegulationTimeDecrease"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_margin="16dp"
+			
+			app:icon="@drawable/ic_minus_24"
+			style="@style/My.Widget.Button.IconOnly.Rounded.Outlined"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/tvRegulationTimeValue"
+			/>
+		
+		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvRegulationTimeValue"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="8dp"
+			
+			android:text=""
+			android:textAppearance="?textAppearanceOverline"
+			android:textSize="14sp"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toEndOf="@id/btnRegulationTimeDecrease"
+			app:layout_constraintEnd_toStartOf="@id/btnRegulationTimeIncrease"
+			/>
+		
+		<com.google.android.material.button.MaterialButton android:id="@+id/btnRegulationTimeIncrease"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_margin="16dp"
+			
+			app:icon="@drawable/ic_plus_24"
+			style="@style/My.Widget.Button.IconOnly.Rounded.Outlined"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputRegulationDistanceValue"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toEndOf="@id/tvRegulationTimeValue"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+</layout>

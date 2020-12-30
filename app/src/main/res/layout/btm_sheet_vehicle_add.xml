@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Andrii Kovalchuk
+  ~ Copyright (C) 2020. medriver
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see https://www.gnu.org/licenses
+  -->
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	<data>
+		<variable
+			name="viewModel"
+			type="com.mmdev.me.driver.presentation.ui.vehicle.add.VehicleAddViewModel"
+			/>
+	</data>
+	
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		
+		>
+		
+		<!-- input vin -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputVin"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="8dp"
+			
+			android:hint="@string/btm_sheet_vehicle_add_enter_vin_hint"
+			
+			app:counterEnabled="true"
+			app:counterMaxLength="17"
+			
+			
+			app:errorEnabled="true"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_vin_helper"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputVin"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:digits="ABCDEFGHJKLMNPRSTUVWXYZ1234567890"
+				android:inputType="textFilter"
+				android:imeOptions="actionDone"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="17"
+				
+				android:text="@={viewModel.vinCodeInput}"
+				
+				app:hideKeyboardOnInputDone="@{true}"
+				/>
+			
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input brand -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputBrand"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="4dp"
+			
+			android:hint="@string/btm_sheet_vehicle_add_enter_brand_hint"
+			
+			app:errorEnabled="true"
+			app:counterEnabled="true"
+			app:counterMaxLength="20"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_brand_helper"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputVin"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/layoutInputModel"
+			>
+			
+			<com.google.android.material.textfield.MaterialAutoCompleteTextView
+				android:id="@+id/etInputBrand"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				
+				android:inputType="text"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="20"
+				
+				android:text="@={viewModel.brandInput}"
+				
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input model -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputModel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="8dp"
+			
+			android:hint="@string/btm_sheet_vehicle_add_enter_model_hint"
+			app:counterEnabled="true"
+			app:counterMaxLength="20"
+			
+			app:helperText="@string/btm_sheet_vehicle_add_enter_model_helper"
+			app:errorEnabled="true"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputVin"
+			app:layout_constraintStart_toEndOf="@id/layoutInputBrand"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputModel"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="textNoSuggestions"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="20"
+				
+				android:text="@={viewModel.modelInput}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input year -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputYear"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="4dp"
+			
+			android:hint="@string/btm_sheet_vehicle_add_enter_year_hint"
+			
+			app:errorEnabled="true"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_year_helper"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputBrand"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/layoutInputEngineCap"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputYear"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+			
+				android:inputType="number"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="4"
+				
+				android:text="@={viewModel.yearInput}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input engine capacity -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputEngineCap"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginEnd="8dp"
+			android:layout_marginStart="4dp"
+			
+			android:hint="@string/btm_sheet_vehicle_add_enter_engine_cap_hint"
+			
+			app:errorEnabled="true"
+			app:helperText="@string/btm_sheet_vehicle_add_enter_engine_cap_helper"
+			
+			app:suffixText="L"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputModel"
+			app:layout_constraintStart_toEndOf="@id/layoutInputYear"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputEngineCap"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="numberDecimal"
+				android:imeOptions="actionNext"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="5"
+				
+				android:text="@={viewModel.engineCapacityInput}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- input odometer -->
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/layoutInputOdometer"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="8dp"
+			
+			android:hint="@string/odometer_input_hint"
+			
+			app:errorEnabled="true"
+			
+			app:suffixKM="@{@string/kilometers}"
+			app:suffixMI="@{@string/miles}"
+			
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputYear"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			>
+			
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/etInputOdometer"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				
+				android:inputType="number"
+				android:imeOptions="actionDone"
+				android:gravity="center"
+				
+				android:maxLines="1"
+				android:maxLength="6"
+				
+				android:text="@={viewModel.odometerInput}"
+				
+				app:hideKeyboardOnInputDone="@{true}"
+				/>
+		
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<!-- button cancel -->
+		<include android:id="@+id/btnCancel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			
+			layout="@layout/btn_cancel"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputOdometer"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/btnAdd"
+			/>
+		
+		<!-- button add -->
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btnAdd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			
+			android:text="@string/btn_add"
+			
+			style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+			
+			app:layout_constraintTop_toBottomOf="@id/layoutInputOdometer"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toEndOf="@id/btnCancel"
+			app:layout_constraintEnd_toEndOf="parent"
+			/>
+		
+		<include android:id="@+id/viewLoading"
+			layout="@layout/loading"
+			android:layout_height="0dp"
+			android:layout_width="0dp"
+			
+			android:visibility="invisible"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			/>
+		
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+</layout>

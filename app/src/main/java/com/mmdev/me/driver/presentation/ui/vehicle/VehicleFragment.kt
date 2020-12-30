@@ -128,11 +128,7 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 				}
 			}
 			
-			btnEditRegulations.setDebounceOnClick {
-				EditVehicleRegulationsDialog().show(
-					childFragmentManager, EditVehicleRegulationsDialog::class.java.canonicalName
-				)
-			}
+			btnEditRegulations.setDebounceOnClick { showEditRegulationsDialog() }
 			
 			btnDeleteVehicle.setDebounceOnClick { showDeleteVehicleConfirmationDialog() }
 		}
@@ -179,24 +175,24 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 	}
 	
-//	private fun setupTiresWear() {
-//		binding.apply {
-//			radioTiresType.addOnButtonCheckedListener { _, checkedId, isChecked ->
-//				// redundant if (value != field) check because toggling checks this by itself
-//				when {
-//					checkedId == btnTiresSummer.id && isChecked -> {
-//						pgTiresWear.updateProgress(20)
-//					}
-//
-//					checkedId == btnTiresWinter.id && isChecked -> {
-//						pgTiresWear.updateProgress(70)
-//					}
-//				}
-//			}
-//
-//			radioTiresType.check(btnTiresSummer.id)
-//		}
-//	}
+	//	private fun setupTiresWear() {
+	//		binding.apply {
+	//			radioTiresType.addOnButtonCheckedListener { _, checkedId, isChecked ->
+	//				// redundant if (value != field) check because toggling checks this by itself
+	//				when {
+	//					checkedId == btnTiresSummer.id && isChecked -> {
+	//						pgTiresWear.updateProgress(20)
+	//					}
+	//
+	//					checkedId == btnTiresWinter.id && isChecked -> {
+	//						pgTiresWear.updateProgress(70)
+	//					}
+	//				}
+	//			}
+	//
+	//			radioTiresType.check(btnTiresSummer.id)
+	//		}
+	//	}
 	
 	private fun setupReplacements() {
 		binding.rvFrequentlyConsumables.run {
@@ -209,6 +205,14 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			adapter = mLessFrequentlyConsumablesAdapter
 			layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 			addItemDecoration(GridItemDecoration(true))
+		}
+		
+		mFrequentlyConsumablesAdapter.setOnLongClickListener { view, position, item ->
+			showEditRegulationsDialog(position + 1)
+		}
+		
+		mLessFrequentlyConsumablesAdapter.setOnLongClickListener { view, position, item ->
+			showEditRegulationsDialog(position + 5)
 		}
 	}
 	
@@ -265,6 +269,9 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		currentTextOnDropDownList = binding.dropMyCarChooseCar.text()
 	})
 	
+	private fun showAddVehicleBottomSheet() = VehicleAddBottomSheet().show(
+		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
+	)
 	
 	private fun observeExpenses() = mViewModel.expensesData.observe(this, {
 		setExpensesCard(it)
@@ -302,53 +309,6 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 			group.invisible()
 		}
 	}
-	
-	
-	
-	private fun observeReplacements() = mViewModel.replacements.observe(this, {
-		setInsuranceCard(it.first().replacement)
-		//first is insurance, we have separate card for it, so drop it
-		mFrequentlyConsumablesAdapter.setNewData(it.drop(1).take(4))
-		mLessFrequentlyConsumablesAdapter.setNewData(it.drop(5))
-	
-	})
-	private fun setInsuranceCard(pendingReplacement: PendingReplacement?) = binding.run {
-		if (pendingReplacement != null) {
-			tvInsuranceSubtitle.text = getString(
-				R.string.fg_vehicle_insurance_subtitle,
-				pendingReplacement.finalDate.humanDate()
-			)
-			tvInsuranceValue.text = pendingReplacement.componentSpecs
-		}
-		else {
-			tvInsuranceSubtitle.text = getString(R.string.fg_vehicle_card_replacements_value_not_replaced)
-			tvInsuranceValue.text = getString(R.string.undefined)
-		}
-		
-	}
-	
-	
-	
-	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.My_MaterialAlertDialog)
-		.setTitle(R.string.fg_vehicle_dialog_delete_title)
-		.setMessage(
-			getString(R.string.fg_vehicle_dialog_delete_message_formatter).format(
-				MainActivity.currentVehicle?.getVehicleUiName(),
-				MainActivity.currentVehicle?.vin
-			)
-		)
-		.setIcon(chosenVehicleUi?.icon ?: 0)
-		.setNeutralButton(R.string.fg_vehicle_dialog_delete_btn_neutral, null)
-		.setPositiveButton(R.string.fg_vehicle_dialog_delete_btn_positive) { _, _ ->
-			mViewModel.deleteVehicle()
-		}
-		.create()
-		.show()
-	
-	private fun showAddVehicleBottomSheet() = VehicleAddBottomSheet().show(
-		childFragmentManager, VehicleAddBottomSheet::class.java.canonicalName
-	)
-	
 	
 	
 	
@@ -473,6 +433,52 @@ class VehicleFragment : BaseFlowFragment<VehicleViewModel, FragmentVehicleBindin
 		}
 		
 	}
+	
+	private fun observeReplacements() = mViewModel.replacements.observe(this, {
+		setInsuranceCard(it.first().replacement)
+		//first is insurance, we have separate card for it, so drop it
+		mFrequentlyConsumablesAdapter.setNewData(it.drop(1).take(4))
+		mLessFrequentlyConsumablesAdapter.setNewData(it.drop(5))
+		
+	})
+	private fun setInsuranceCard(pendingReplacement: PendingReplacement?) = binding.run {
+		if (pendingReplacement != null) {
+			tvInsuranceSubtitle.text = getString(
+				R.string.fg_vehicle_insurance_subtitle,
+				pendingReplacement.finalDate.humanDate()
+			)
+			tvInsuranceValue.text = pendingReplacement.componentSpecs
+		}
+		else {
+			tvInsuranceSubtitle.text = getString(R.string.fg_vehicle_card_replacements_value_not_replaced)
+			tvInsuranceValue.text = getString(R.string.undefined)
+		}
+		
+	}
+	
+	private fun showEditRegulationsDialog(position: Int = 0) = EditVehicleRegulationsDialog
+		.newInstance(position)
+		.show(childFragmentManager, EditVehicleRegulationsDialog::class.java.canonicalName)
+	
+	private fun showDeleteVehicleConfirmationDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.My_MaterialAlertDialog)
+		.setTitle(R.string.fg_vehicle_dialog_delete_title)
+		.setMessage(
+			getString(R.string.fg_vehicle_dialog_delete_message_formatter).format(
+				MainActivity.currentVehicle?.getVehicleUiName(),
+				MainActivity.currentVehicle?.vin
+			)
+		)
+		.setIcon(chosenVehicleUi?.icon ?: 0)
+		.setNeutralButton(R.string.fg_vehicle_dialog_delete_btn_neutral, null)
+		.setPositiveButton(R.string.fg_vehicle_dialog_delete_btn_positive) { _, _ ->
+			mViewModel.deleteVehicle()
+		}
+		.create()
+		.show()
+	
+	
+	
+	
 	
 	
 	private class VehicleDropAdapter(

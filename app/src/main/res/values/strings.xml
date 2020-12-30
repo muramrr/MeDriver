@@ -343,7 +343,7 @@
 	<string name="fg_vehicle_insurance_title">Compulsory insurance</string>
 	<string name="fg_vehicle_insurance_subtitle">Valid until %s</string>
 	
-	<string name="fg_vehicle_consumable_reminders_header">Maintenance reminders</string>
+	<string name="fg_vehicle_consumable_reminders_header">Maintenance</string>
 	<string name="fg_vehicle_edit_regulations_save">Save</string>
 	
 	<string name="fg_vehicle_card_replacements_value_change_date">End date</string>

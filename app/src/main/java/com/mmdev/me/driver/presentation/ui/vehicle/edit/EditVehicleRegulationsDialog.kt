@@ -19,6 +19,7 @@
 package com.mmdev.me.driver.presentation.ui.vehicle.edit
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.utils.extensions.currentEpochTime
@@ -42,11 +43,22 @@ class EditVehicleRegulationsDialog : BaseDialogFragment<Nothing, DialogVehicleRe
 	private val sharedViewModel: SharedViewModel by sharedViewModel()
 	
 	private val mAdapter = EditRegulationAdapter(emptyList())
+	private var positionToEdit = 0
+	
+	companion object {
+		private const val POSITION_TO_EDIT = "position"
+		fun newInstance(position: Int) = EditVehicleRegulationsDialog().apply {
+			arguments = bundleOf(POSITION_TO_EDIT to position)
+		}
+	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setStyle(STYLE_NORMAL, R.style.My_Dialog_FullScreen)
 		mAdapter.setNewData(getRegulations())
+		arguments?.let {
+			positionToEdit = it.getInt(POSITION_TO_EDIT, 0)
+		}
 	}
 	
 	override fun onStart() {
@@ -61,6 +73,7 @@ class EditVehicleRegulationsDialog : BaseDialogFragment<Nothing, DialogVehicleRe
 			adapter = mAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(LinearItemDecoration())
+			smoothScrollToPosition(positionToEdit)
 		}
 		
 		btnCancel.setOnClickListener { dismiss() }

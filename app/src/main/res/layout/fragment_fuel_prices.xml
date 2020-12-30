@@ -45,7 +45,7 @@
 			
 			app:iconTint="@color/colorOnBackgroundPrimary"
 			app:icon="@drawable/ic_menu_24"
-			
+			android:visibility="gone"
 			style="@style/My.Widget.Button.IconOnly.Text"
 			
 			app:layout_constraintTop_toTopOf="parent"

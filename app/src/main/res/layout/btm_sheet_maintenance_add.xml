@@ -22,7 +22,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	>
-	
+
 	<data>
 		<import type="com.mmdev.me.driver.domain.maintenance.data.components.base.VehicleSystemNodeType"/>
 		<variable
@@ -30,77 +30,79 @@
 			type="com.mmdev.me.driver.presentation.ui.maintenance.add.MaintenanceAddViewModel"
 			/>
 	</data>
-	
+
 	<androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/motionMaintenance"
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		android:background="@color/colorBackground"
-		
+
 		app:layoutDescription="@xml/maintenance_scene"
 		>
-		
+
 		<!-- drag indicator -->
 		<ImageView android:id="@+id/ivTopIndicator"
 			android:layout_width="0dp"
 			android:layout_height="2dp"
 			android:layout_marginTop="6dp"
-			
+
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_horizontal_line"
-			
+
 			app:layout_constraintWidth_percent="0.1"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			android:contentDescription="@null"
 			/>
-		
+
 		<!-- system node parent -->
 		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvParentNode"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			android:layout_marginTop="8dp"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
 			android:overScrollMode="never"
-			
+
 			android:translationX="-500dp"
 			android:nestedScrollingEnabled="false"
-			
+
 			tools:itemCount="8"
 			app:spanCount="2"
 			app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 			tools:listitem="@layout/item_maintenance_parent_node"
-			
+
 			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
 			/>
-		
-		
-		
-		
+
+
+
+
 		<!-- toolbar imitation-->
 		<LinearLayout android:id="@+id/layoutTopNavigation"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			
+
 			android:translationX="500dp"
-			
+
 			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toStartOf="@id/btnMultiSelect"
 			>
-			
+
 			<com.google.android.material.button.MaterialButton android:id="@+id/btnBack"
 				android:layout_width="48dp"
 				android:layout_height="48dp"
-				
+
 				style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-				
+
 				app:icon="@drawable/ic_arrow_left_24"
 				/>
-			
+
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/tvToolbarTitle"
 				android:layout_width="0dp"
@@ -108,140 +110,113 @@
 				android:layout_weight="1"
 				android:layout_marginStart="16dp"
 				android:gravity="center_vertical"
-				
+
 				android:text=""
 				android:textAppearance="?textAppearanceHeadline6"
-				
+
 				/>
-		
+
 		</LinearLayout>
-		
+
 		<!-- multiSelect button-->
 		<com.google.android.material.button.MaterialButton android:id="@+id/btnMultiSelect"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			
+
 			android:translationX="500dp"
-			
+
 			android:text="@string/btm_sheet_maintenance_btn_multi_select_choose"
-			
+
 			style="@style/Widget.MaterialComponents.Button.TextButton"
-			
+
 			app:layout_constraintTop_toBottomOf="@id/ivTopIndicator"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
-		
+
 		<!-- system node children -->
 		<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvNodeChildren"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			android:overScrollMode="never"
-			
+
 			android:translationX="500dp"
-			
+
 			tools:listitem="@layout/item_maintenance_child"
-			
+
 			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="@id/guidelineStart"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
-		
+
 		<com.google.android.material.button.MaterialButton android:id="@+id/btnNextFromMultiSelect"
 			android:layout_width="48dp"
 			android:layout_height="48dp"
 			android:layout_margin="16dp"
-			
+
 			android:translationY="100dp"
-			
+
 			style="@style/My.Widget.Button.IconOnly.Rounded"
-			
+
 			app:icon="@drawable/ic_arrow_right_24"
-			
+
 			app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
 			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
 			/>
-		
-		
-		
+
+
+
 		<!-- list of final step items, edit it -->
 		<androidx.viewpager2.widget.ViewPager2 android:id="@+id/vpNodeEditChild"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			android:clipToPadding="false"
-			
+
 			android:translationX="500dp"
-			
+
 			app:layout_constraintTop_toBottomOf="@id/layoutTopNavigation"
 			app:layout_constraintBottom_toTopOf="@id/tvSelectedChildrenCount"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			/>
-		
+
 		<com.google.android.material.textview.MaterialTextView android:id="@+id/tvSelectedChildrenCount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			
-			android:translationX="500dp"
-			
+			android:layout_marginBottom="4dp"
+
+			android:translationY="100dp"
+			android:textAppearance="?textAppearanceOverline"
+
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="@id/guidelineStart"
-			app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			/>
-		
-		
-		
-		
-		
-		
-		
-		<!-- center vertical -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineCenterVertical"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			app:layout_constraintGuide_percent="0.5"
-			/>
-		
-		<!-- center horizontal -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineCenterHorizontal"
-			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:orientation="horizontal"
-			app:layout_constraintGuide_percent="0.5"
-			/>
-		
-		
+
 		<!-- guideline bottom -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineBottom"
+		<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineBottom"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
 			app:layout_constraintGuide_end="16dp"
 			/>
-		
+
 		<!-- guideline start -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineStart"
+		<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineStart"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			app:layout_constraintGuide_begin="8dp"
 			/>
-		
+
 		<!-- guideline end -->
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/guidelineEnd"
+		<androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineEnd"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			app:layout_constraintGuide_end="8dp"
 			/>
-	
+
 	</androidx.constraintlayout.motion.widget.MotionLayout>
 
 </layout>

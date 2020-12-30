@@ -29,6 +29,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.textfield.TextInputEditText
 import com.mmdev.me.driver.R
 import com.mmdev.me.driver.core.MedriverApp
 import com.mmdev.me.driver.core.utils.MetricSystem
@@ -115,8 +116,9 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		setupInputs()
 		
 		//setup observers
-		observeFuelHistory()
+		observeLastAdded()
 		observeDistancePassed()
+		observeFilledLiters()
 		observeEstimateDistance()
 		observeEstimateRefueling()
 		
@@ -153,7 +155,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 				mViewModel.lastAddedEntry.value?.odometerValueBound?.getValue()
 				?: MainActivity.currentVehicle!!.odometerValueBound.getValue()
 			)
-		
+			
 		}
 	}
 	
@@ -273,6 +275,17 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 			)
 			else layoutInputPrice.isErrorEnabled = false
 		}
+		
+		etInputLiters.run {
+			setOnFocusChangeListener { view, hasFocus ->
+				(view as TextInputEditText).run {
+					if (hasFocus) view.setText("")
+					else {
+						if (view.text.isNullOrBlank()) view.setText("1")
+					}
+				}
+			}
+		}
 	}
 	
 	/** return true if all required fields have been inputted correctly  */
@@ -301,7 +314,7 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		       mViewModel.selectedFuelType.value != null
 	}
 	
-	private fun observeFuelHistory() = mViewModel.lastAddedEntry.observe(this, { lastEntry ->
+	private fun observeLastAdded() = mViewModel.lastAddedEntry.observe(this, { lastEntry ->
 		setupDatePicker(lastEntry)
 		
 		if (lastEntry != null) {
@@ -321,7 +334,6 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 		}
 		
 	})
-	
 	
 	private fun observeDistancePassed() {
 		var oldValue = 0
@@ -386,8 +398,18 @@ class FuelHistoryAddDialog: BaseDialogFragment<FuelHistoryAddViewModel, DialogFu
 	
 	private fun observeEstimateRefueling() = mViewModel.expectedRefuel.observe(this, {
 		binding.tvEstimateDistanceSubtitle.text =
-			getString(R.string.fg_fuel_history_add_estimate_distance_subtitle).format(it.toString())
+			getString(R.string.fg_fuel_history_add_estimate_distance_subtitle).format(it)
 	})
+	
+	private fun observeFilledLiters() = mViewModel.litersInputValue.observe(this, {
+		binding.tvTotalCostLiters.text = getString(
+			R.string.fg_fuel_history_add_estimate_cost_subtitle_value
+		).format(
+			if (it.isNullOrBlank()) 0.0
+			else it.toDouble()
+		)
+	})
+	
 	
 	private class FuelStationDropAdapter(
 		context: Context, @LayoutRes private val layoutId: Int, data: List<FuelStation>

@@ -72,7 +72,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	val priceInputValue: MutableLiveData<String?> = MutableLiveData()
 	val selectedFuelType: MutableLiveData<FuelType?> = MutableLiveData()
 	val odometerInputValue: MutableLiveData<String?> = MutableLiveData()
-	val litersInputValue: MutableLiveData<String?> = MutableLiveData("1.0")
+	val litersInputValue: MutableLiveData<String?> = MutableLiveData()
 	val commentValue: MutableLiveData<String?> = MutableLiveData()
 	
 	
@@ -128,7 +128,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	 */
 	val fuelConsumptionDrawable: LiveData<Int> =
 		fuelConsumptionValue.combineWith(lastAddedEntry) { calculatedConsumption,
-		                                            lastAddedEntry ->
+		                                                   lastAddedEntry ->
 			if (calculatedConsumption != null
 			    && calculatedConsumption > 0.0
 			    && lastAddedEntry != null) {
@@ -144,7 +144,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	/** immutable value computed from ([priceInputValue] * [litersInputValue]) inputs */
 	val totalCostValue: LiveData<Double> =
 		priceInputValue.combineWith(litersInputValue) { price, liters ->
-			if (!price.isNullOrBlank() && liters != null)
+			if (!price.isNullOrBlank() && !liters.isNullOrBlank())
 				(price.toDouble() * liters.toDouble()).roundTo(2)
 			else 0.0
 		}
@@ -152,7 +152,7 @@ class FuelHistoryAddViewModel(private val repository: IFuelHistoryRepository): B
 	/** immutable value computed from ([litersInputValue] / [fuelConsumptionValue] * 100) inputs */
 	val estimateDistance: LiveData<Int> =
 		litersInputValue.combineWith(fuelConsumptionValue) { liters, consumption ->
-			if (liters != null && consumption != null && consumption > 0)
+			if (!liters.isNullOrBlank() && consumption != null && consumption > 0)
 				(liters.toDouble() / consumption * 100).roundToInt()
 			else 0
 		}

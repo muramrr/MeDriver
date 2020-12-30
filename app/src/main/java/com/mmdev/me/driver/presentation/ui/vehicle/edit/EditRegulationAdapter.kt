@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import com.mmdev.me.driver.BR
 import com.mmdev.me.driver.databinding.ItemVehicleRegulationEditBinding
 import com.mmdev.me.driver.domain.fuel.history.data.DistanceBound
@@ -33,6 +34,7 @@ import com.mmdev.me.driver.presentation.ui.vehicle.edit.EditRegulationAdapter.Ed
 import com.mmdev.me.driver.presentation.utils.extensions.domain.buildDistanceBound
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getValue
 import com.mmdev.me.driver.presentation.utils.extensions.domain.getYearsFormatted
+import com.mmdev.me.driver.presentation.utils.extensions.hideKeyboard
 
 /**
  *
@@ -73,17 +75,39 @@ class EditRegulationAdapter(
 		fun bind(item: RegulationUi) {
 			
 			binding.run {
+				//hide keyboard + clear focus while tapping somewhere on root view
+				root.setOnTouchListener { rootView, _ ->
+					rootView.performClick()
+					rootView.hideKeyboard(rootView)
+				}
+				
+				//disable distance input for insurance
 				layoutInputRegulationDistanceValue.isEnabled = item.part != INSURANCE
 				
-				
+				//init titles
 				tvRegulationTitle.text = root.context.getString(
 					VehicleSystemNodeConstants.plannedComponents[item.part.getSparePartOrdinal()]
 				)
+				//set initial text
 				etRegulationDistanceValue.setText(item.distance.getValue().toString())
+				//set initial years
 				tvRegulationTimeValue.text = getYearsFormatted(item.yearsCount, root.context)
 				
-				etRegulationDistanceValue.doAfterTextChanged {
-					if (!it.isNullOrBlank()) item.distance = buildDistanceBound(it.toString().toInt())
+				//apply listeners for distance input
+				etRegulationDistanceValue.run {
+					doAfterTextChanged {
+						if (!it.isNullOrBlank()) item.distance = buildDistanceBound(it.toString().toInt())
+					}
+					setOnFocusChangeListener { view, hasFocus ->
+						(view as TextInputEditText).run {
+							//clear previous value when user taps on input
+							if (hasFocus) view.setText("")
+							else {
+								//if field is empty after input finished -> set last satisfied value
+								if (view.text.isNullOrBlank()) view.setText(item.distance.getValue().toString())
+							}
+						}
+					}
 				}
 				
 				btnRegulationTimeDecrease.setOnClickListener {

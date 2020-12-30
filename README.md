@@ -10,7 +10,11 @@ Add all of this stuff to app and it will show you fancy information and stats ab
 
 Also, you will be notified when it is time to visit service station.
 
+[![](https://github.com/muramrr/MeDriver/blob/master/media/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.mmdev.me.driver)
+
 ## Stack
+
+<img src="/media/preview.png" alt="preview" title="preview" align="right" vspace="50" height="450"/>
 
 **MMVM**
 

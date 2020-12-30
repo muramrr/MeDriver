@@ -18,7 +18,6 @@
 
 package com.mmdev.me.driver.presentation.utils.extensions.domain
 
-import com.mmdev.me.driver.R
 import com.mmdev.me.driver.domain.vehicle.data.Vehicle
 import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
 
@@ -26,4 +25,4 @@ import com.mmdev.me.driver.presentation.ui.vehicle.data.VehicleConstants
  * Extension to get vehicle brand icon based on its brand
  */
 
-fun Vehicle.brandIcon(): Int = VehicleConstants.vehicleBrandIconMap[brand] ?: R.drawable.car_logo_unknown
+fun Vehicle.brandIcon(): Int = VehicleConstants.vehicleBrandIconMap.getValue(brand)

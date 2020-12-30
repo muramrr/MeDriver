@@ -124,5 +124,5 @@ object VehicleConstants {
 	
 	
 	val vehicleBrandIconMap: Map<String, Int> =
-		vehicleBrands.zip(vehicleIconList).toMap().withDefault { 0 }
+		vehicleBrands.zip(vehicleIconList).toMap().withDefault { R.drawable.car_logo_unknown }
 }

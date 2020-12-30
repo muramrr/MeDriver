@@ -38,7 +38,7 @@ fun LocalDate?.humanDate(default: String = ""): String = this?.let {
 
 
 fun humanDay(dayNumber: Int) = if (dayNumber < 10) "0$dayNumber" else "$dayNumber"
-fun humanMonth(monthNumber: Int) = (if (monthNumber < 10) "0$monthNumber" else "$monthNumber")
+fun humanMonth(monthNumber: Int) = if (monthNumber < 10) "0$monthNumber" else "$monthNumber"
 
 fun getYearsFormatted(yearsCount: Int, context: Context) = with(yearsCount.toString()) {
 	when {
